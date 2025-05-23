@@ -19,7 +19,11 @@ import { eq, desc, and, count } from "drizzle-orm";
 export interface IStorage {
   // User operations (mandatory for Replit Auth)
   getUser(id: string): Promise<User | undefined>;
+  getUserById(id: string): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
+  createLocalUser(user: any): Promise<User>;
   
   // Card operations
   getCardsByUserId(userId: string): Promise<Card[]>;
@@ -51,6 +55,26 @@ export class DatabaseStorage implements IStorage {
   // User operations (mandatory for Replit Auth)
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserById(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+
+  async createLocalUser(userData: any): Promise<User> {
+    const [user] = await db.insert(users).values(userData).returning();
     return user;
   }
 

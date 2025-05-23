@@ -1,31 +1,19 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupLocalAuth, requireAuth } from "./auth";
 import { lithicService } from "./lithic";
 import { insertCardSchema, insertSupportTicketSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
-  await setupAuth(app);
-
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
+  setupLocalAuth(app);
 
   // Cards routes
-  app.get("/api/cards", isAuthenticated, async (req: any, res) => {
+  app.get("/api/cards", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const cards = await storage.getCardsByUserId(userId);
       res.json(cards);
     } catch (error) {
@@ -34,9 +22,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/cards", isAuthenticated, async (req: any, res) => {
+  app.post("/api/cards", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const cardData = insertCardSchema.parse({
         ...req.body,
         userId,

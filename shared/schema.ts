@@ -26,14 +26,17 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
-// User storage table for Replit Auth
+// User storage table for Replit Auth and local auth
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().notNull(),
   email: varchar("email").unique(),
+  username: varchar("username").unique(),
+  password: varchar("password"), // for local auth
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
   role: varchar("role").notNull().default("user"), // user, admin
+  authType: varchar("auth_type").notNull().default("local"), // replit, local
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -118,6 +121,19 @@ export const supportTicketsRelations = relations(supportTickets, ({ one }) => ({
 export const insertUserSchema = createInsertSchema(users).omit({
   createdAt: true,
   updatedAt: true,
+});
+
+export const loginSchema = z.object({
+  username: z.string().min(1, "اسم المستخدم مطلوب"),
+  password: z.string().min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
+});
+
+export const registerSchema = z.object({
+  username: z.string().min(3, "اسم المستخدم يجب أن يكون 3 أحرف على الأقل"),
+  email: z.string().email("البريد الإلكتروني غير صحيح"),
+  password: z.string().min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
+  firstName: z.string().min(1, "الاسم الأول مطلوب"),
+  lastName: z.string().min(1, "الاسم الأخير مطلوب"),
 });
 
 export const insertCardSchema = createInsertSchema(cards).omit({
