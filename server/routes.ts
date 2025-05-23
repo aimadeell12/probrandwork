@@ -5,15 +5,42 @@ import { setupLocalAuth, requireAuth } from "./auth";
 import { lithicService } from "./lithic";
 import { insertCardSchema, insertSupportTicketSchema } from "@shared/schema";
 import { z } from "zod";
+import session from "express-session";
+import connectPg from "connect-pg-simple";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup session middleware first
+  const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
+  const pgStore = connectPg(session);
+  const sessionStore = new pgStore({
+    conString: process.env.DATABASE_URL,
+    createTableIfMissing: true,
+    ttl: sessionTtl,
+    tableName: "sessions",
+  });
+  
+  app.use(session({
+    secret: process.env.SESSION_SECRET || "fallback-secret-key-for-development",
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false, // Set to true in production with HTTPS
+      maxAge: sessionTtl,
+    },
+  }));
+
   // Auth middleware
   setupLocalAuth(app);
 
   // Cards routes
   app.get("/api/cards", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.id;
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const cards = await storage.getCardsByUserId(userId);
       res.json(cards);
     } catch (error) {

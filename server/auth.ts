@@ -3,6 +3,13 @@ import { storage } from "./storage";
 import { loginSchema, registerSchema } from "@shared/schema";
 import type { Express, RequestHandler } from "express";
 
+// Extend session data type
+declare module "express-session" {
+  interface SessionData {
+    userId: string;
+  }
+}
+
 // Middleware to check if user is authenticated (local auth)
 export const requireAuth: RequestHandler = async (req, res, next) => {
   if (!req.session?.userId) {
