@@ -74,7 +74,7 @@ export function setupSimpleAuth(app: Express) {
       });
 
       req.session.userId = user.id;
-      res.json({ message: "Registration successful", user: { id: user.id, username: user.username } });
+      res.status(200).json({ message: "Registration successful", user: { id: user.id, username: user.username } });
     } catch (error) {
       console.error("Registration error:", error);
       res.status(500).json({ message: "Registration failed" });
