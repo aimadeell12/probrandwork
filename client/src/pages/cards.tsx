@@ -7,7 +7,7 @@ import Navigation from "@/components/navigation";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Smartphone, CheckCircle, Home, MapPin, Gift, Grid3x3 } from "lucide-react";
+import { CreditCard, Smartphone, CheckCircle, Home, Gift, Grid3x3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Cards() {
@@ -70,135 +70,136 @@ export default function Cards() {
 
           {/* Card Type Selector */}
           <div className="flex mb-8 bg-gray-900 rounded-full p-1">
-          <button
-            onClick={() => setSelectedCardType("virtual")}
-            className={cn(
-              "flex-1 py-3 px-4 rounded-full text-sm font-medium transition-all",
-              selectedCardType === "virtual"
-                ? "bg-white text-black"
-                : "text-gray-400 hover:text-white"
-            )}
-          >
-            Virtual Card
-          </button>
-          <button
-            onClick={() => setSelectedCardType("physical")}
-            className={cn(
-              "flex-1 py-3 px-4 rounded-full text-sm font-medium transition-all",
-              selectedCardType === "physical"
-                ? "bg-white text-black"
-                : "text-gray-400 hover:text-white"
-            )}
-          >
-            Physical Card
-          </button>
+            <button
+              onClick={() => setSelectedCardType("virtual")}
+              className={cn(
+                "flex-1 py-3 px-4 rounded-full text-sm font-medium transition-all",
+                selectedCardType === "virtual"
+                  ? "bg-white text-black"
+                  : "text-gray-400 hover:text-white"
+              )}
+            >
+              Virtual Card
+            </button>
+            <button
+              onClick={() => setSelectedCardType("physical")}
+              className={cn(
+                "flex-1 py-3 px-4 rounded-full text-sm font-medium transition-all",
+                selectedCardType === "physical"
+                  ? "bg-white text-black"
+                  : "text-gray-400 hover:text-white"
+              )}
+            >
+              Physical Card
+            </button>
           </div>
 
           {/* Card Preview */}
           <div className="relative mb-8">
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 aspect-[1.6/1] relative overflow-hidden">
-            {/* Card Brand */}
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 rotate-90">
-              <div className="text-white font-bold text-lg tracking-wider opacity-80">
-                predoPay
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 aspect-[1.6/1] relative overflow-hidden">
+              {/* Card Brand */}
+              <div className="absolute right-6 top-1/2 -translate-y-1/2 rotate-90">
+                <div className="text-white font-bold text-lg tracking-wider opacity-80">
+                  predoPay
+                </div>
               </div>
-            </div>
-            
-            {/* Visa Logo */}
-            <div className="absolute bottom-6 left-6">
-              <div className="text-white font-bold text-2xl tracking-wider">
-                VISA
+              
+              {/* Visa Logo */}
+              <div className="absolute bottom-6 left-6">
+                <div className="text-white font-bold text-2xl tracking-wider">
+                  VISA
+                </div>
               </div>
+              
+              {/* Chip simulation */}
+              <div className="absolute top-6 left-6 w-8 h-6 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded opacity-80"></div>
             </div>
-            
-            {/* Chip simulation */}
-            <div className="absolute top-6 left-6 w-8 h-6 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded opacity-80"></div>
-          </div>
 
-          {/* Customizable Badge */}
-          <div className="flex items-center justify-center mt-4 gap-2">
-            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-            <span className="text-gray-400 text-sm">Customizable</span>
-          </div>
+            {/* Customizable Badge */}
+            <div className="flex items-center justify-center mt-4 gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span className="text-gray-400 text-sm">Customizable</span>
+            </div>
           </div>
 
           {/* Card Info */}
           <div className="text-center mb-8">
-          <h2 className="text-xl font-bold mb-2">
-            {selectedCardType === "virtual" ? "Virtual Card" : "Physical Card"}
-          </h2>
-          <p className="text-gray-400 text-sm">
-            {selectedCardType === "virtual" 
-              ? "Pay contactless online or in-store"
-              : "Physical card for ATM and in-store purchases"
-            }
-          </p>
+            <h2 className="text-xl font-bold mb-2">
+              {selectedCardType === "virtual" ? "Virtual Card" : "Physical Card"}
+            </h2>
+            <p className="text-gray-400 text-sm">
+              {selectedCardType === "virtual" 
+                ? "Pay contactless online or in-store"
+                : "Physical card for ATM and in-store purchases"
+              }
+            </p>
           </div>
 
           {/* Apply Button */}
           <Button 
-          onClick={handleCreateCard}
-          disabled={createCardMutation.isPending}
-          className="w-full bg-white text-black hover:bg-gray-100 font-medium py-4 rounded-full text-lg mb-8"
-        >
-          {createCardMutation.isPending ? "Creating..." : "Apply Card • 10 USD"}
+            onClick={handleCreateCard}
+            disabled={createCardMutation.isPending}
+            className="w-full bg-white text-black hover:bg-gray-100 font-medium py-4 rounded-full text-lg mb-8"
+          >
+            {createCardMutation.isPending ? "Creating..." : "Apply Card • 10 USD"}
           </Button>
 
           {/* Existing Cards */}
-          {cards && cards.length > 0 && (
+          {cards && Array.isArray(cards) && cards.length > 0 && (
             <div className="mt-12">
-            <h3 className="text-lg font-semibold mb-4">Your Cards</h3>
-            <div className="space-y-4">
-              {cards.map((card: any) => (
-                <Card key={card.id} className="bg-gray-900 border-gray-800">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        {card.type === "virtual" ? (
-                          <Smartphone className="w-5 h-5 text-blue-500" />
-                        ) : (
-                          <CreditCard className="w-5 h-5 text-green-500" />
-                        )}
-                        <div>
-                          <p className="font-medium text-white">
-                            {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
-                          </p>
-                          <p className="text-sm text-gray-400">**** {card.lastFour}</p>
+              <h3 className="text-lg font-semibold mb-4">Your Cards</h3>
+              <div className="space-y-4">
+                {cards.map((card: any) => (
+                  <Card key={card.id} className="bg-gray-900 border-gray-800">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          {card.type === "virtual" ? (
+                            <Smartphone className="w-5 h-5 text-blue-500" />
+                          ) : (
+                            <CreditCard className="w-5 h-5 text-green-500" />
+                          )}
+                          <div>
+                            <p className="font-medium text-white">
+                              {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
+                            </p>
+                            <p className="text-sm text-gray-400">**** {card.lastFour}</p>
+                          </div>
                         </div>
+                        <Badge variant={card.status === 'active' ? 'default' : 'secondary'}>
+                          {card.status === 'active' ? <CheckCircle className="w-3 h-3 mr-1" /> : null}
+                          {card.status === 'active' ? 'Active' : 'Pending'}
+                        </Badge>
                       </div>
-                      <Badge variant={card.status === 'active' ? 'default' : 'secondary'}>
-                        {card.status === 'active' ? <CheckCircle className="w-3 h-3 mr-1" /> : null}
-                        {card.status === 'active' ? 'Active' : 'Pending'}
-                      </Badge>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </div>
           )}
 
           {/* Bottom Navigation */}
           <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800">
-          <div className="flex justify-around py-3">
-            <a href="/" className="flex flex-col items-center gap-1">
-              <Home className="w-5 h-5 text-gray-500" />
-              <span className="text-xs text-gray-500">Home</span>
-            </a>
-            <a href="/cards" className="flex flex-col items-center gap-1">
-              <CreditCard className="w-5 h-5 text-red-500" />
-              <span className="text-xs text-red-500">Card</span>
-            </a>
-            <a href="/dashboard" className="flex flex-col items-center gap-1">
-              <Gift className="w-5 h-5 text-gray-500" />
-              <span className="text-xs text-gray-500">Benefits</span>
-            </a>
-            <a href="/support" className="flex flex-col items-center gap-1">
-              <Grid3x3 className="w-5 h-5 text-gray-500" />
-              <span className="text-xs text-gray-500">Hub</span>
-            </a>
+            <div className="flex justify-around py-3">
+              <a href="/" className="flex flex-col items-center gap-1">
+                <Home className="w-5 h-5 text-gray-500" />
+                <span className="text-xs text-gray-500">Home</span>
+              </a>
+              <a href="/cards" className="flex flex-col items-center gap-1">
+                <CreditCard className="w-5 h-5 text-red-500" />
+                <span className="text-xs text-red-500">Card</span>
+              </a>
+              <a href="/dashboard" className="flex flex-col items-center gap-1">
+                <Gift className="w-5 h-5 text-gray-500" />
+                <span className="text-xs text-gray-500">Benefits</span>
+              </a>
+              <a href="/support" className="flex flex-col items-center gap-1">
+                <Grid3x3 className="w-5 h-5 text-gray-500" />
+                <span className="text-xs text-gray-500">Hub</span>
+              </a>
             </div>
           </div>
+        </div>
       </div>
     </div>
   );
