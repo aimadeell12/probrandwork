@@ -51,7 +51,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/cards", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.id;
+      const userId = req.session?.userId;
       const cardData = insertCardSchema.parse({
         ...req.body,
         userId,
@@ -161,7 +161,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Support routes
   app.post("/api/support/tickets", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.id;
+      const userId = req.session?.userId;
       const ticketData = insertSupportTicketSchema.parse({
         ...req.body,
         userId,
@@ -177,7 +177,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/support/tickets", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.id;
+      const userId = req.session?.userId;
       const tickets = await storage.getSupportTicketsByUserId(userId);
       res.json(tickets);
     } catch (error) {
@@ -189,7 +189,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Admin routes
   app.get("/api/admin/users", requireAuth, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.id);
+      const user = await storage.getUser(req.session?.userId!);
       if (!user || user.role !== "admin") {
         return res.status(403).json({ message: "Admin access required" });
       }
@@ -204,7 +204,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/admin/stats", requireAuth, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.id);
+      const user = await storage.getUser(req.session?.userId!);
       if (!user || user.role !== "admin") {
         return res.status(403).json({ message: "Admin access required" });
       }
