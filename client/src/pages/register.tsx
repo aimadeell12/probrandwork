@@ -6,9 +6,10 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreditCard, UserPlus } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 export default function Register() {
+  const [, setLocation] = useLocation();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
