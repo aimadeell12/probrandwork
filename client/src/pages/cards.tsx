@@ -7,7 +7,7 @@ import Navigation from "@/components/navigation";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Smartphone, CheckCircle, Home, Gift, Grid3x3 } from "lucide-react";
+import { CreditCard, Smartphone, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Cards() {
@@ -39,7 +39,7 @@ export default function Cards() {
   const handleCreateCard = () => {
     const cardData = {
       holderName: "Card Holder",
-      type: selectedCardType === "virtual" ? "virtual" : "physical",
+      type: selectedCardType,
       design: "black",
       currency: "USD",
       expiryMonth: 12,
@@ -52,8 +52,11 @@ export default function Cards() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
       </div>
     );
   }
@@ -61,7 +64,9 @@ export default function Cards() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="min-h-screen bg-black text-white">
+      
+      {/* Cards Page Content */}
+      <div className="bg-black text-white min-h-screen pt-16">
         <div className="container mx-auto px-4 py-8 max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
@@ -177,28 +182,6 @@ export default function Cards() {
               </div>
             </div>
           )}
-
-          {/* Bottom Navigation */}
-          <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800">
-            <div className="flex justify-around py-3">
-              <a href="/" className="flex flex-col items-center gap-1">
-                <Home className="w-5 h-5 text-gray-500" />
-                <span className="text-xs text-gray-500">Home</span>
-              </a>
-              <a href="/cards" className="flex flex-col items-center gap-1">
-                <CreditCard className="w-5 h-5 text-red-500" />
-                <span className="text-xs text-red-500">Card</span>
-              </a>
-              <a href="/dashboard" className="flex flex-col items-center gap-1">
-                <Gift className="w-5 h-5 text-gray-500" />
-                <span className="text-xs text-gray-500">Benefits</span>
-              </a>
-              <a href="/support" className="flex flex-col items-center gap-1">
-                <Grid3x3 className="w-5 h-5 text-gray-500" />
-                <span className="text-xs text-gray-500">Hub</span>
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </div>
