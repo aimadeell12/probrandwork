@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Landing from "@/pages/landing";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
+import Wallet from "@/pages/wallet";
 import Admin from "@/pages/admin";
 import Cards from "@/pages/cards";
 import Support from "@/pages/support";
@@ -29,7 +30,8 @@ function Router() {
         <Route path="/" component={Landing} />
       ) : (
         <>
-          <Route path="/" component={Home} />
+          <Route path="/" component={Wallet} />
+          <Route path="/home" component={Home} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/admin" component={Admin} />
           <Route path="/cards" component={Cards} />

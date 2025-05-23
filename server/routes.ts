@@ -55,7 +55,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/cards/:id/suspend", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/cards/:id/suspend", requireAuth, async (req: any, res) => {
     try {
       const cardId = req.params.id;
       const card = await storage.getCard(cardId);
@@ -64,7 +64,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Card not found" });
       }
 
-      if (card.userId !== req.user.claims.sub) {
+      if (card.userId !== req.user.id) {
         return res.status(403).json({ message: "Access denied" });
       }
 
@@ -82,7 +82,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/cards/:id/activate", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/cards/:id/activate", requireAuth, async (req: any, res) => {
     try {
       const cardId = req.params.id;
       const card = await storage.getCard(cardId);
@@ -91,7 +91,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Card not found" });
       }
 
-      if (card.userId !== req.user.claims.sub) {
+      if (card.userId !== req.user.id) {
         return res.status(403).json({ message: "Access denied" });
       }
 
@@ -110,7 +110,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Transactions routes
-  app.get("/api/cards/:id/transactions", isAuthenticated, async (req: any, res) => {
+  app.get("/api/cards/:id/transactions", requireAuth, async (req: any, res) => {
     try {
       const cardId = req.params.id;
       const card = await storage.getCard(cardId);
@@ -119,7 +119,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Card not found" });
       }
 
-      if (card.userId !== req.user.claims.sub) {
+      if (card.userId !== req.user.id) {
         return res.status(403).json({ message: "Access denied" });
       }
 
@@ -132,9 +132,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Support routes
-  app.post("/api/support/tickets", isAuthenticated, async (req: any, res) => {
+  app.post("/api/support/tickets", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const ticketData = insertSupportTicketSchema.parse({
         ...req.body,
         userId,
@@ -148,9 +148,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/support/tickets", isAuthenticated, async (req: any, res) => {
+  app.get("/api/support/tickets", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const tickets = await storage.getSupportTicketsByUserId(userId);
       res.json(tickets);
     } catch (error) {
@@ -160,9 +160,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin routes
-  app.get("/api/admin/users", isAuthenticated, async (req: any, res) => {
+  app.get("/api/admin/users", requireAuth, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
+      const user = await storage.getUser(req.user.id);
       if (!user || user.role !== "admin") {
         return res.status(403).json({ message: "Admin access required" });
       }
@@ -175,9 +175,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/admin/stats", isAuthenticated, async (req: any, res) => {
+  app.get("/api/admin/stats", requireAuth, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
+      const user = await storage.getUser(req.user.id);
       if (!user || user.role !== "admin") {
         return res.status(403).json({ message: "Admin access required" });
       }
