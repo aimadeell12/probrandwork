@@ -52,6 +52,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/cards", requireAuth, async (req: any, res) => {
     try {
       const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
       const cardData = insertCardSchema.parse({
         ...req.body,
         userId,
@@ -59,7 +62,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Create card with Lithic
       const lithicCard = await lithicService.createCard({
-        holderName: cardData.holderName,
+        holderName: cardData.holderName || "Card Holder",
         type: cardData.type,
         creditLimit: Number(cardData.creditLimit) || 5000,
         currency: cardData.currency,
