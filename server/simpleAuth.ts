@@ -19,7 +19,7 @@ export const requireAuth: RequestHandler = async (req, res, next) => {
 
 export function setupSimpleAuth(app: Express) {
   // Login route
-  app.post("/api/login", async (req, res) => {
+  app.post("/api/auth/login", async (req, res) => {
     try {
       const { username, password } = req.body;
       
@@ -52,7 +52,7 @@ export function setupSimpleAuth(app: Express) {
   });
 
   // Register route
-  app.post("/api/register", async (req, res) => {
+  app.post("/api/auth/register", async (req, res) => {
     try {
       const { username, password, email } = req.body;
       
@@ -112,7 +112,7 @@ export function setupSimpleAuth(app: Express) {
   });
 
   // Logout route
-  app.post("/api/logout", (req, res) => {
+  app.post("/api/auth/logout", (req, res) => {
     req.session.destroy((err) => {
       if (err) {
         return res.status(500).json({ message: "Logout failed" });

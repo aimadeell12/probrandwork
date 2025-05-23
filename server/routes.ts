@@ -24,10 +24,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
+    name: 'sessionId',
     cookie: {
       httpOnly: true,
       secure: false, // Set to true in production with HTTPS
       maxAge: sessionTtl,
+      sameSite: 'lax',
     },
   }));
 
