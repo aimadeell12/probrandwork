@@ -1,293 +1,202 @@
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Navigation from "@/components/navigation";
-import CardVisual from "@/components/card-visual";
-import CreateCardModal from "@/components/create-card-modal";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { CreditCard, CheckCircle, Pause, Ban, Settings, Snowflake, Play } from "lucide-react";
+import { queryClient } from "@/lib/queryClient";
+import { CreditCard, Smartphone, CheckCircle, Home, MapPin, Gift, Grid3x3 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function Cards() {
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
   const { data: cards, isLoading } = useQuery({
     queryKey: ["/api/cards"],
   });
 
-  const suspendCardMutation = useMutation({
-    mutationFn: (cardId: string) => cardApi.suspendCard(cardId),
+  const createCardMutation = useMutation({
+    mutationFn: (cardData: any) => cardApi.createCard(cardData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       toast({
-        title: "تم تجميد البطاقة",
-        description: "تم تجميد البطاقة بنجاح",
+        title: "تم إنشاء البطاقة بنجاح",
+        description: "تم إنشاء بطاقتك الجديدة",
       });
     },
     onError: () => {
       toast({
         title: "خطأ",
-        description: "فشل في تجميد البطاقة",
+        description: "فشل في إنشاء البطاقة",
         variant: "destructive",
       });
     },
   });
 
-  const activateCardMutation = useMutation({
-    mutationFn: (cardId: string) => cardApi.activateCard(cardId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
-      toast({
-        title: "تم تفعيل البطاقة",
-        description: "تم تفعيل البطاقة بنجاح",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "خطأ",
-        description: "فشل في تفعيل البطاقة",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const cardStats = {
-    active: cards?.filter((card: any) => card.status === "active").length || 0,
-    pending: cards?.filter((card: any) => card.status === "pending").length || 0,
-    suspended: cards?.filter((card: any) => card.status === "suspended").length || 0,
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "active":
-        return <Badge className="status-active">نشطة</Badge>;
-      case "pending":
-        return <Badge className="status-pending">معلقة</Badge>;
-      case "suspended":
-        return <Badge className="status-suspended">مجمدة</Badge>;
-      default:
-        return <Badge variant="secondary">{status}</Badge>;
-    }
-  };
-
-  const getCardTypeLabel = (type: string) => {
-    switch (type) {
-      case "credit":
-        return "بطاقة ائتمان";
-      case "debit":
-        return "بطاقة خصم";
-      case "prepaid":
-        return "بطاقة مسبقة الدفع";
-      default:
-        return type;
-    }
+  const handleCreateCard = () => {
+    const cardData = {
+      holderName: "Card Holder",
+      type: selectedCardType === "virtual" ? "virtual" : "physical",
+      design: "black",
+      currency: "USD",
+      expiryMonth: 12,
+      expiryYear: 2027,
+      lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
+    };
+    
+    createCardMutation.mutate(cardData);
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Card key={i} className="banking-shadow">
-                <CardContent className="p-6">
-                  <div className="loading-skeleton h-32 rounded-xl mb-4"></div>
-                  <div className="space-y-2">
-                    <div className="loading-skeleton h-4 w-3/4"></div>
-                    <div className="loading-skeleton h-4 w-1/2"></div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-black text-white">
+      <div className="container mx-auto px-4 py-8 max-w-md">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">إدارة البطاقات</h1>
-            <p className="text-muted-foreground">عرض وإدارة جميع بطاقاتك المصرفية</p>
-          </div>
-          <Button onClick={() => setShowCreateModal(true)} size="lg">
-            <CreditCard className="ml-2 h-5 w-5" />
-            إنشاء بطاقة جديدة
-          </Button>
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-white">Choose Card</h1>
         </div>
 
-        {/* Stats */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Card className="banking-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-muted-foreground text-sm mb-1">البطاقات النشطة</p>
-                  <p className="text-2xl font-bold text-foreground">{cardStats.active}</p>
-                </div>
-                <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
-                  <CheckCircle className="text-secondary h-6 w-6" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="banking-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-muted-foreground text-sm mb-1">البطاقات المعلقة</p>
-                  <p className="text-2xl font-bold text-foreground">{cardStats.pending}</p>
-                </div>
-                <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                  <Pause className="text-yellow-600 h-6 w-6" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="banking-shadow">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-muted-foreground text-sm mb-1">البطاقات المجمدة</p>
-                  <p className="text-2xl font-bold text-foreground">{cardStats.suspended}</p>
-                </div>
-                <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
-                  <Ban className="text-accent h-6 w-6" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Card Type Selector */}
+        <div className="flex mb-8 bg-gray-900 rounded-full p-1">
+          <button
+            onClick={() => setSelectedCardType("virtual")}
+            className={cn(
+              "flex-1 py-3 px-4 rounded-full text-sm font-medium transition-all",
+              selectedCardType === "virtual"
+                ? "bg-white text-black"
+                : "text-gray-400 hover:text-white"
+            )}
+          >
+            Virtual Card
+          </button>
+          <button
+            onClick={() => setSelectedCardType("physical")}
+            className={cn(
+              "flex-1 py-3 px-4 rounded-full text-sm font-medium transition-all",
+              selectedCardType === "physical"
+                ? "bg-white text-black"
+                : "text-gray-400 hover:text-white"
+            )}
+          >
+            Physical Card
+          </button>
         </div>
 
-        {/* Cards Grid */}
-        {cards && cards.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cards.map((card: any) => (
-              <Card key={card.id} className="banking-shadow hover:banking-shadow-lg transition-all">
-                <CardContent className="p-6">
-                  {/* Card Visual */}
-                  <div className={`card-gradient-${card.design} rounded-xl p-6 text-white mb-4`}>
-                    <div className="flex justify-between items-center mb-4">
-                      <CreditCard className="h-8 w-8" />
-                      <div className="text-right">
-                        <div className="text-sm opacity-75">**** ****</div>
-                        <div className="font-mono text-lg">{card.lastFour}</div>
-                      </div>
-                    </div>
-                    <div className="mb-4">
-                      <div className="text-sm opacity-75 mb-1">اسم حامل البطاقة</div>
-                      <div className="font-semibold">{card.holderName}</div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <div className="text-sm opacity-75">الرصيد</div>
-                        <div className="font-bold text-lg">${card.balance}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-sm opacity-75">تاريخ الانتهاء</div>
-                        <div className="font-mono">{card.expiryMonth}/{card.expiryYear}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card Info */}
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">نوع البطاقة</span>
-                      <span className="text-sm font-medium text-foreground">{getCardTypeLabel(card.type)}</span>
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">الحالة</span>
-                      {getStatusBadge(card.status)}
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">آخر معاملة</span>
-                      <span className="text-sm text-muted-foreground">منذ ساعتين</span>
-                    </div>
-                  </div>
-
-                  {/* Card Actions */}
-                  <div className="flex space-x-2 space-x-reverse mt-6">
-                    <Button size="sm" className="flex-1">
-                      التفاصيل
-                    </Button>
-                    
-                    {card.status === "active" ? (
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        className="flex-1"
-                        onClick={() => suspendCardMutation.mutate(card.id)}
-                        disabled={suspendCardMutation.isPending}
-                      >
-                        <Snowflake className="ml-1 h-4 w-4" />
-                        تجميد
-                      </Button>
-                    ) : card.status === "suspended" ? (
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        className="flex-1"
-                        onClick={() => activateCardMutation.mutate(card.id)}
-                        disabled={activateCardMutation.isPending}
-                      >
-                        <Play className="ml-1 h-4 w-4" />
-                        تفعيل
-                      </Button>
-                    ) : (
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        className="flex-1"
-                        onClick={() => activateCardMutation.mutate(card.id)}
-                        disabled={activateCardMutation.isPending}
-                      >
-                        <Play className="ml-1 h-4 w-4" />
-                        تفعيل
-                      </Button>
-                    )}
-                    
-                    <Button size="sm" variant="outline" className="px-3">
-                      <Settings className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+        {/* Card Preview */}
+        <div className="relative mb-8">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 aspect-[1.6/1] relative overflow-hidden">
+            {/* Card Brand */}
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 rotate-90">
+              <div className="text-white font-bold text-lg tracking-wider opacity-80">
+                predoPay
+              </div>
+            </div>
+            
+            {/* Visa Logo */}
+            <div className="absolute bottom-6 left-6">
+              <div className="text-white font-bold text-2xl tracking-wider">
+                VISA
+              </div>
+            </div>
+            
+            {/* Chip simulation */}
+            <div className="absolute top-6 left-6 w-8 h-6 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded opacity-80"></div>
           </div>
-        ) : (
-          <Card className="banking-shadow">
-            <CardContent className="p-12 text-center">
-              <CreditCard className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">لا توجد بطاقات</h3>
-              <p className="text-muted-foreground mb-6">ابدأ بإنشاء أول بطاقة لك</p>
-              <Button onClick={() => setShowCreateModal(true)}>
-                إنشاء بطاقة جديدة
-              </Button>
-            </CardContent>
-          </Card>
+
+          {/* Customizable Badge */}
+          <div className="flex items-center justify-center mt-4 gap-2">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            <span className="text-gray-400 text-sm">Customizable</span>
+          </div>
+        </div>
+
+        {/* Card Info */}
+        <div className="text-center mb-8">
+          <h2 className="text-xl font-bold mb-2">
+            {selectedCardType === "virtual" ? "Virtual Card" : "Physical Card"}
+          </h2>
+          <p className="text-gray-400 text-sm">
+            {selectedCardType === "virtual" 
+              ? "Pay contactless online or in-store"
+              : "Physical card for ATM and in-store purchases"
+            }
+          </p>
+        </div>
+
+        {/* Apply Button */}
+        <Button 
+          onClick={handleCreateCard}
+          disabled={createCardMutation.isPending}
+          className="w-full bg-white text-black hover:bg-gray-100 font-medium py-4 rounded-full text-lg mb-8"
+        >
+          {createCardMutation.isPending ? "Creating..." : "Apply Card • 10 USD"}
+        </Button>
+
+        {/* Existing Cards */}
+        {cards && cards.length > 0 && (
+          <div className="mt-12">
+            <h3 className="text-lg font-semibold mb-4">Your Cards</h3>
+            <div className="space-y-4">
+              {cards.map((card: any) => (
+                <Card key={card.id} className="bg-gray-900 border-gray-800">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        {card.type === "virtual" ? (
+                          <Smartphone className="w-5 h-5 text-blue-500" />
+                        ) : (
+                          <CreditCard className="w-5 h-5 text-green-500" />
+                        )}
+                        <div>
+                          <p className="font-medium text-white">
+                            {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
+                          </p>
+                          <p className="text-sm text-gray-400">**** {card.lastFour}</p>
+                        </div>
+                      </div>
+                      <Badge variant={card.status === 'active' ? 'default' : 'secondary'}>
+                        {card.status === 'active' ? <CheckCircle className="w-3 h-3 mr-1" /> : null}
+                        {card.status === 'active' ? 'Active' : 'Pending'}
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
         )}
-      </div>
 
-      <CreateCardModal 
-        open={showCreateModal} 
-        onOpenChange={setShowCreateModal}
-      />
+        {/* Bottom Navigation */}
+        <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800">
+          <div className="flex justify-around py-3">
+            <div className="flex flex-col items-center gap-1">
+              <Home className="w-5 h-5 text-gray-500" />
+              <span className="text-xs text-gray-500">Home</span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <CreditCard className="w-5 h-5 text-red-500" />
+              <span className="text-xs text-red-500">Card</span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <Gift className="w-5 h-5 text-gray-500" />
+              <span className="text-xs text-gray-500">Benefits</span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <Grid3x3 className="w-5 h-5 text-gray-500" />
+              <span className="text-xs text-gray-500">Hub</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
