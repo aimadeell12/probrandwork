@@ -1,44 +1,46 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { CreditCard, LogIn } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CreditCard, UserPlus } from "lucide-react";
 import { Link } from "wouter";
 
-export default function Login() {
-  const [location] = useLocation();
-  const [isRegistering, setIsRegistering] = useState(false);
+export default function Register() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
     email: "",
   });
-
-  useEffect(() => {
-    setIsRegistering(location === "/register");
-  }, [location]);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const loginMutation = useMutation({
-    mutationFn: (data: typeof formData) => apiRequest("POST", "/api/auth/login", data),
-    onSuccess: (response) => {
+  const registerMutation = useMutation({
+    mutationFn: async (data: { username: string; password: string; email?: string }) => {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "فشل في إنشاء الحساب");
+      }
+      return response.json();
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       toast({
-        title: "مرحباً بك",
-        description: response.message || "تم تسجيل الدخول بنجاح",
+        title: "تم إنشاء الحساب بنجاح",
+        description: "مرحباً بك في منصة البطاقات المصرفية",
       });
-      window.location.href = "/";
     },
     onError: (error: any) => {
       toast({
-        title: "خطأ في تسجيل الدخول",
-        description: error.message || "تحقق من بياناتك وحاول مرة أخرى",
+        title: "خطأ في إنشاء الحساب",
+        description: error.message || "حاول مرة أخرى",
         variant: "destructive",
       });
     },
@@ -49,12 +51,12 @@ export default function Login() {
     if (!formData.username.trim() || !formData.password.trim()) {
       toast({
         title: "بيانات ناقصة",
-        description: "يرجى إدخال جميع البيانات المطلوبة",
+        description: "يرجى إدخال اسم المستخدم وكلمة المرور",
         variant: "destructive",
       });
       return;
     }
-    loginMutation.mutate(formData);
+    registerMutation.mutate(formData);
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -73,12 +75,12 @@ export default function Login() {
             <CreditCard className="h-12 w-12 text-primary" />
           </div>
           <h1 className="text-2xl font-bold text-foreground">منصة البطاقات المصرفية</h1>
-          <p className="text-muted-foreground">سجل دخولك للوصول إلى حسابك</p>
+          <p className="text-muted-foreground">أنشئ حساباً جديداً للانضمام إلينا</p>
         </div>
 
         <Card className="banking-shadow">
           <CardHeader>
-            <CardTitle className="text-center text-xl">تسجيل الدخول</CardTitle>
+            <CardTitle className="text-center text-xl">إنشاء حساب جديد</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -92,7 +94,20 @@ export default function Login() {
                   placeholder="أدخل اسم المستخدم"
                   required
                   className="form-input"
-                  disabled={loginMutation.isPending}
+                  disabled={registerMutation.isPending}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="email">البريد الإلكتروني (اختياري)</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  placeholder="أدخل البريد الإلكتروني"
+                  className="form-input"
+                  disabled={registerMutation.isPending}
                 />
               </div>
 
@@ -106,33 +121,35 @@ export default function Login() {
                   placeholder="أدخل كلمة المرور"
                   required
                   className="form-input"
-                  disabled={loginMutation.isPending}
+                  disabled={registerMutation.isPending}
                 />
               </div>
 
               <Button 
                 type="submit" 
                 className="w-full"
-                disabled={loginMutation.isPending}
+                disabled={registerMutation.isPending}
               >
-                <LogIn className="ml-2 h-4 w-4" />
-                {loginMutation.isPending ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
+                <UserPlus className="ml-2 h-4 w-4" />
+                {registerMutation.isPending ? "جاري إنشاء الحساب..." : "إنشاء حساب جديد"}
               </Button>
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-muted-foreground text-sm">
-                ليس لديك حساب؟{" "}
-                <Link href="/register" className="text-primary hover:underline font-medium">
-                  إنشاء حساب جديد
+              <p className="text-sm text-muted-foreground mb-2">
+                لديك حساب بالفعل؟ 
+                <Link href="/login" className="text-primary hover:underline mr-1">
+                  سجل الدخول
                 </Link>
               </p>
             </div>
           </CardContent>
         </Card>
 
-        <div className="mt-6 text-center text-xs text-muted-foreground">
-          <p>© 2024 منصة البطاقات المصرفية. جميع الحقوق محفوظة.</p>
+        <div className="text-center mt-8">
+          <p className="text-xs text-muted-foreground">
+            © 2024 منصة البطاقات المصرفية. جميع الحقوق محفوظة.
+          </p>
         </div>
       </div>
     </div>
