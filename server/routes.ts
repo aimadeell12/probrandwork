@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupLocalAuth, requireAuth } from "./auth";
+import { setupSimpleAuth, requireAuth } from "./simpleAuth";
 import { lithicService } from "./lithic";
 import { insertCardSchema, insertSupportTicketSchema } from "@shared/schema";
 import { z } from "zod";
@@ -32,7 +32,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   }));
 
   // Auth middleware
-  setupLocalAuth(app);
+  setupSimpleAuth(app);
 
   // Cards routes
   app.get("/api/cards", requireAuth, async (req: any, res) => {
