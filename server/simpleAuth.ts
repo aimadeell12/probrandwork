@@ -38,6 +38,12 @@ export function setupSimpleAuth(app: Express) {
       }
 
       req.session.userId = user.id;
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
       res.json({ message: "Login successful", user: { id: user.id, username: user.username } });
     } catch (error) {
       console.error("Login error:", error);
@@ -74,6 +80,12 @@ export function setupSimpleAuth(app: Express) {
       });
 
       req.session.userId = user.id;
+      await new Promise<void>((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
       res.status(200).json({ message: "Registration successful", user: { id: user.id, username: user.username } });
     } catch (error) {
       console.error("Registration error:", error);
