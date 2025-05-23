@@ -151,7 +151,7 @@ export default function Cards() {
 
           {/* Existing Cards */}
           {cards && Array.isArray(cards) && cards.length > 0 && (
-            <div className="mt-12">
+            <div className="mt-12 mb-20">
               <h3 className="text-lg font-semibold mb-4">Your Cards</h3>
               <div className="space-y-4">
                 {cards.map((card: any) => (
@@ -182,6 +182,28 @@ export default function Cards() {
               </div>
             </div>
           )}
+
+          {/* Bottom Navigation */}
+          <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50">
+            <div className="flex justify-around py-3">
+              <a href="/" className="flex flex-col items-center gap-1 cursor-pointer">
+                <CreditCard className="w-5 h-5 text-gray-500" />
+                <span className="text-xs text-gray-500">Home</span>
+              </a>
+              <a href="/cards" className="flex flex-col items-center gap-1 cursor-pointer">
+                <CreditCard className="w-5 h-5 text-red-500" />
+                <span className="text-xs text-red-500">Card</span>
+              </a>
+              <a href="/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
+                <CreditCard className="w-5 h-5 text-gray-500" />
+                <span className="text-xs text-gray-500">Benefits</span>
+              </a>
+              <a href="/support" className="flex flex-col items-center gap-1 cursor-pointer">
+                <CreditCard className="w-5 h-5 text-gray-500" />
+                <span className="text-xs text-gray-500">Hub</span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
