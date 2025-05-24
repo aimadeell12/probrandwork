@@ -74,19 +74,19 @@ export default function Deposit() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-800">
+      <div className="flex items-center justify-between p-4 border-b border-border">
         <Button
           variant="ghost"
           size="sm"
           onClick={() => setLocation("/")}
-          className="text-white p-2"
+          className="p-2"
         >
           <ArrowLeft className="h-6 w-6" />
         </Button>
 
-        <h1 className="text-xl font-semibold">{t("selectCurrency")}</h1>
+        <h1 className="text-xl font-semibold text-foreground">{t("selectCurrency")}</h1>
 
         <div className="w-10"></div> {/* فراغ للحفاظ على التوازن */}
       </div>
@@ -96,7 +96,7 @@ export default function Deposit() {
         {currencies.map((currency) => (
           <Card 
             key={currency.id}
-            className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer"
+            className="bg-card border-border hover:bg-accent transition-colors cursor-pointer"
             onClick={() => handleCurrencySelect(currency)}
           >
             <CardContent className="p-4">
@@ -106,14 +106,14 @@ export default function Deposit() {
                     {currency.icon}
                   </div>
                   <div>
-                    <h3 className="text-white font-semibold text-lg">{currency.symbol}</h3>
-                    <p className="text-gray-400 text-sm">{currency.name}</p>
+                    <h3 className="text-foreground font-semibold text-lg">{currency.symbol}</h3>
+                    <p className="text-muted-foreground text-sm">{currency.name}</p>
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <p className="text-white font-semibold text-lg">{currency.balance.toFixed(2)}</p>
-                  <p className="text-gray-400 text-sm">≈${currency.usdValue.toFixed(2)}</p>
+                  <p className="text-foreground font-semibold text-lg">{currency.balance.toFixed(2)}</p>
+                  <p className="text-muted-foreground text-sm">≈${currency.usdValue.toFixed(2)}</p>
                 </div>
               </div>
             </CardContent>
@@ -123,15 +123,15 @@ export default function Deposit() {
 
       {/* Info Section */}
       <div className="p-4 mt-8">
-        <div className="bg-gray-900 rounded-lg p-4 border border-gray-800">
-          <h3 className="text-white font-semibold mb-2">{t("depositInformation")}</h3>
-          <p className="text-gray-400 text-sm mb-2">
+        <div className="bg-card rounded-lg p-4 border border-border">
+          <h3 className="text-foreground font-semibold mb-2">{t("depositInformation")}</h3>
+          <p className="text-muted-foreground text-sm mb-2">
             {t("selectCurrencyToView")}
           </p>
-          <p className="text-gray-400 text-sm mb-2">
+          <p className="text-muted-foreground text-sm mb-2">
             {t("minimumDepositApply")}
           </p>
-          <p className="text-gray-400 text-sm">
+          <p className="text-muted-foreground text-sm">
             {t("processingTimesVary")}
           </p>
         </div>
