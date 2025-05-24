@@ -95,7 +95,7 @@ const translations = {
 export function useLanguageHook() {
   const [language, setLanguageState] = useState<Language>(() => {
     const saved = localStorage.getItem("language");
-    return (saved as Language) || "ar";
+    return (saved as Language) || "en";
   });
 
   const setLanguage = (lang: Language) => {
