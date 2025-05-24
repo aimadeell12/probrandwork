@@ -6,7 +6,6 @@ export default function BottomNavigation() {
 
   const navItems = [
     { path: "/", label: "الرئيسية", icon: Home },
-    { path: "/dashboard", label: "لوحة التحكم", icon: BarChart3 },
     { path: "/cards", label: "البطاقات", icon: CreditCard },
     { path: "/support", label: "الدعم", icon: Headphones },
   ];
