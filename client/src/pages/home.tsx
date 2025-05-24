@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { X, Gift, QrCode, CreditCard, ChevronDown } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   const { user } = useAuth();
@@ -17,16 +18,17 @@ export default function Home() {
   const cards = Array.isArray(data) ? data : [];
 
   return (
-    <div className="min-h-screen bg-white pb-20">
+    <div className="min-h-screen bg-white dark:bg-gray-900 pb-20">
       <div className="max-w-lg mx-auto px-5 pt-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold">المحفظة</h1>
+          <h1 className="text-2xl font-bold dark:text-white">المحفظة</h1>
           <div className="flex gap-4">
-            <button className="text-black">
+            <ThemeToggle className="text-black dark:text-white" />
+            <button className="text-black dark:text-white">
               <Gift size={22} />
             </button>
-            <button className="text-black">
+            <button className="text-black dark:text-white">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
             </button>
           </div>
@@ -34,7 +36,7 @@ export default function Home() {
 
         {/* Currency Selector */}
         <div className="mb-6">
-          <button className="flex items-center gap-2 bg-gray-100 py-1.5 px-3 rounded-full">
+          <button className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 py-1.5 px-3 rounded-full dark:text-white">
             <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
               <span className="text-white text-xs">$</span>
             </div>
@@ -45,54 +47,54 @@ export default function Home() {
 
         {/* Balance Section */}
         <div className="mb-8">
-          <p className="text-gray-500 mb-1 flex items-center">
+          <p className="text-gray-500 dark:text-gray-400 mb-1 flex items-center">
             الرصيد الإجمالي
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
           </p>
-          <h2 className="text-5xl font-bold">$ 5<span className="text-3xl">.00</span></h2>
+          <h2 className="text-5xl font-bold dark:text-white">$ 5<span className="text-3xl">.00</span></h2>
         </div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-4 gap-4 mb-10">
           <div className="flex flex-col items-center">
-            <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center mb-2">
+            <div className="w-14 h-14 bg-black dark:bg-blue-600 rounded-full flex items-center justify-center mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white"><path d="M12 5v14M5 12h14"/></svg>
             </div>
-            <span className="text-sm">إيداع</span>
+            <span className="text-sm dark:text-white">إيداع</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path d="M5 12h14"/></svg>
+            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14"/></svg>
             </div>
-            <span className="text-sm">سحب</span>
+            <span className="text-sm dark:text-white">سحب</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
-            <span className="text-sm">إرسال</span>
+            <span className="text-sm dark:text-white">إرسال</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-2">
-              <QrCode size={24} />
+            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2">
+              <QrCode size={24} className="dark:text-white" />
             </div>
-            <span className="text-sm">مسح</span>
+            <span className="text-sm dark:text-white">مسح</span>
           </div>
         </div>
 
         {/* Beginner Guidance */}
-        <div className="bg-gray-50 p-4 rounded-xl mb-8 relative">
-          <button className="absolute top-3 right-3">
+        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl mb-8 relative">
+          <button className="absolute top-3 right-3 dark:text-white">
             <X size={18} />
           </button>
-          <h3 className="font-bold mb-2">إرشادات للمبتدئين</h3>
+          <h3 className="font-bold mb-2 dark:text-white">إرشادات للمبتدئين</h3>
           <div className="flex gap-3">
-            <div className="w-12 h-12 bg-gray-200 rounded-md flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="5" rx="2"/><path d="M3 7h18"/><path d="M7 11h2"/><path d="M7 15h8"/></svg>
+            <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="dark:text-white"><rect width="18" height="11" x="3" y="5" rx="2"/><path d="M3 7h18"/><path d="M7 11h2"/><path d="M7 15h8"/></svg>
             </div>
             <div>
-              <p className="font-medium">يرجى التحقق من هويتك</p>
-              <a href="#" className="text-red-500 text-sm">انتقل للتحقق</a>
+              <p className="font-medium dark:text-white">يرجى التحقق من هويتك</p>
+              <a href="#" className="text-red-500 dark:text-red-400 text-sm">انتقل للتحقق</a>
             </div>
           </div>
         </div>
@@ -115,20 +117,20 @@ export default function Home() {
 
         {/* Assets */}
         <div className="mb-8">
-          <h3 className="text-xl font-bold mb-4">الأصول</h3>
-          <div className="bg-white border border-gray-100 rounded-xl p-4 flex items-center justify-between">
+          <h3 className="text-xl font-bold mb-4 dark:text-white">الأصول</h3>
+          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold">$</span>
               </div>
               <div>
-                <p className="font-medium">USD</p>
-                <p className="text-gray-500 text-sm">USD</p>
+                <p className="font-medium dark:text-white">USD</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">USD</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="font-bold">5.00</p>
-              <p className="text-gray-500 text-sm">≈5.00 USD</p>
+              <p className="font-bold dark:text-white">5.00</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm">≈5.00 USD</p>
             </div>
           </div>
         </div>
