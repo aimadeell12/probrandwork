@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Copy } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -85,12 +85,10 @@ export default function Deposit() {
         >
           <ArrowLeft className="h-6 w-6" />
         </Button>
-        
+
         <h1 className="text-xl font-semibold">{t("selectCurrency")}</h1>
-        
-        <Button variant="ghost" size="sm" className="text-white p-2">
-          <Copy className="h-6 w-6" />
-        </Button>
+
+        <div className="w-10"></div> {/* فراغ للحفاظ على التوازن */}
       </div>
 
       {/* Currency List */}
@@ -112,7 +110,7 @@ export default function Deposit() {
                     <p className="text-gray-400 text-sm">{currency.name}</p>
                   </div>
                 </div>
-                
+
                 <div className="text-right">
                   <p className="text-white font-semibold text-lg">{currency.balance.toFixed(2)}</p>
                   <p className="text-gray-400 text-sm">≈${currency.usdValue.toFixed(2)}</p>
