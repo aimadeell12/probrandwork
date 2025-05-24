@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import Navigation from "@/components/navigation";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Smartphone, CheckCircle, Home, TrendingUp, Headphones } from "lucide-react";
+import { CreditCard, Home, TrendingUp, Headphones } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "wouter";
 
@@ -24,14 +21,14 @@ export default function Cards() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       toast({
-        title: "تم إنشاء البطاقة بنجاح",
-        description: "تم إنشاء بطاقتك الجديدة",
+        title: "Card created successfully",
+        description: "Your new card has been created",
       });
     },
     onError: () => {
       toast({
-        title: "خطأ",
-        description: "فشل في إنشاء البطاقة",
+        title: "Error",
+        description: "Failed to create card",
         variant: "destructive",
       });
     },
@@ -51,159 +48,116 @@ export default function Cards() {
     createCardMutation.mutate(cardData);
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-background">
-      
-      {/* Cards Page Content */}
-      <div className="bg-black text-white min-h-screen pt-16">
-        <div className="container mx-auto px-4 py-8 max-w-md">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-white">Choose Card</h1>
-          </div>
+    <div className="min-h-screen bg-black text-white">
+      <div className="container mx-auto px-6 py-8 max-w-md">
+        
+        {/* Header */}
+        <div className="text-center mb-8 pt-12">
+          <h1 className="text-3xl font-bold text-white">Choose Card</h1>
+        </div>
 
-          {/* Card Type Selector */}
-          <div className="flex mb-8 bg-gray-900 rounded-full p-1">
-            <button
-              onClick={() => setSelectedCardType("virtual")}
-              className={cn(
-                "flex-1 py-3 px-4 rounded-full text-sm font-medium transition-all",
-                selectedCardType === "virtual"
-                  ? "bg-white text-black"
-                  : "text-gray-400 hover:text-white"
-              )}
-            >
-              Virtual Card
-            </button>
-            <button
-              onClick={() => setSelectedCardType("physical")}
-              className={cn(
-                "flex-1 py-3 px-4 rounded-full text-sm font-medium transition-all",
-                selectedCardType === "physical"
-                  ? "bg-white text-black"
-                  : "text-gray-400 hover:text-white"
-              )}
-            >
-              Physical Card
-            </button>
-          </div>
+        {/* Card Type Selector */}
+        <div className="flex bg-gray-800/50 rounded-full p-1 mb-12">
+          <button
+            onClick={() => setSelectedCardType("virtual")}
+            className={cn(
+              "flex-1 py-3 px-6 rounded-full text-sm font-medium transition-all",
+              selectedCardType === "virtual"
+                ? "bg-white text-black"
+                : "text-gray-400"
+            )}
+          >
+            Virtual Card
+          </button>
+          <button
+            onClick={() => setSelectedCardType("physical")}
+            className={cn(
+              "flex-1 py-3 px-6 rounded-full text-sm font-medium transition-all",
+              selectedCardType === "physical"
+                ? "bg-white text-black"
+                : "text-gray-400"
+            )}
+          >
+            Physical Card
+          </button>
+        </div>
 
-          {/* Card Preview */}
-          <div className="relative mb-8">
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 aspect-[1.6/1] relative overflow-hidden">
-              {/* Card Brand */}
-              <div className="absolute right-6 top-1/2 -translate-y-1/2 rotate-90">
-                <div className="text-white font-bold text-lg tracking-wider opacity-80">
-                  predoPay
-                </div>
+        {/* Card Preview */}
+        <div className="flex justify-center mb-8">
+          <div className="w-48 h-72 bg-gray-800 rounded-2xl relative overflow-hidden shadow-xl">
+            {/* Card Brand - Vertical Text on Right */}
+            <div className="absolute right-4 top-8 bottom-20 flex items-center justify-center">
+              <div className="text-white font-bold text-lg tracking-wider transform rotate-90 origin-center whitespace-nowrap">
+                prsdoPay
               </div>
-              
-              {/* Visa Logo */}
-              <div className="absolute bottom-6 left-6">
-                <div className="text-white font-bold text-2xl tracking-wider">
-                  VISA
-                </div>
-              </div>
-              
-              {/* Chip simulation */}
-              <div className="absolute top-6 left-6 w-8 h-6 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded opacity-80"></div>
             </div>
-
-            {/* Customizable Badge */}
-            <div className="flex items-center justify-center mt-4 gap-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-              <span className="text-gray-400 text-sm">Customizable</span>
+            
+            {/* VISA Logo */}
+            <div className="absolute bottom-8 left-6">
+              <div className="text-white font-bold text-2xl italic">
+                VISA
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Card Info */}
-          <div className="text-center mb-8">
-            <h2 className="text-xl font-bold mb-2">
-              {selectedCardType === "virtual" ? "Virtual Card" : "Physical Card"}
-            </h2>
-            <p className="text-gray-400 text-sm">
-              {selectedCardType === "virtual" 
-                ? "Pay contactless online or in-store"
-                : "Physical card for ATM and in-store purchases"
-              }
-            </p>
+        {/* Customizable Badge */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 text-sm text-gray-400">
+            <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-green-500"></div>
+            Customizable
           </div>
+        </div>
 
-          {/* Apply Button */}
+        {/* Card Type Info */}
+        <div className="text-center mb-12">
+          <h2 className="text-xl font-bold text-white mb-2">Virtual Card</h2>
+          <p className="text-gray-400 text-sm">Pay contactless online or in-store 📱</p>
+        </div>
+
+        {/* Apply Button */}
+        <div className="px-4 mb-8">
           <Button 
             onClick={handleCreateCard}
             disabled={createCardMutation.isPending}
-            className="w-full bg-white text-black hover:bg-gray-100 font-medium py-4 rounded-full text-lg mb-8"
+            className="w-full bg-white text-black hover:bg-gray-100 font-medium py-4 rounded-full text-lg"
           >
-            {createCardMutation.isPending ? "Creating..." : "Apply Card • 10 USD"}
+            {createCardMutation.isPending ? "Creating..." : "Apply Card · 10 USD"}
           </Button>
+        </div>
 
-          {/* Existing Cards */}
-          {cards && Array.isArray(cards) && cards.length > 0 && (
-            <div className="mt-12 mb-20">
-              <h3 className="text-lg font-semibold mb-4">Your Cards</h3>
-              <div className="space-y-4">
-                {cards.map((card: any) => (
-                  <Card key={card.id} className="bg-gray-900 border-gray-800">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          {card.type === "virtual" ? (
-                            <Smartphone className="w-5 h-5 text-blue-500" />
-                          ) : (
-                            <CreditCard className="w-5 h-5 text-green-500" />
-                          )}
-                          <div>
-                            <p className="font-medium text-white">
-                              {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
-                            </p>
-                            <p className="text-sm text-gray-400">**** {card.lastFour}</p>
-                          </div>
-                        </div>
-                        <Badge variant={card.status === 'active' ? 'default' : 'secondary'}>
-                          {card.status === 'active' ? <CheckCircle className="w-3 h-3 mr-1" /> : null}
-                          {card.status === 'active' ? 'Active' : 'Pending'}
-                        </Badge>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
+        {/* Bottom spacing for navigation */}
+        <div className="h-20"></div>
+      </div>
 
-          {/* Bottom Navigation */}
-          <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50">
-            <div className="flex justify-around py-3">
-              <Link href="/" className="flex flex-col items-center gap-1 cursor-pointer">
-                <Home className="w-5 h-5 text-gray-500" />
-                <span className="text-xs text-gray-500">الرئيسية</span>
-              </Link>
-              <Link href="/cards" className="flex flex-col items-center gap-1 cursor-pointer">
-                <CreditCard className="w-5 h-5 text-red-500" />
-                <span className="text-xs text-red-500">البطاقات</span>
-              </Link>
-              <Link href="/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
-                <TrendingUp className="w-5 h-5 text-gray-500" />
-                <span className="text-xs text-gray-500">لوحة التحكم</span>
-              </Link>
-              <Link href="/support" className="flex flex-col items-center gap-1 cursor-pointer">
-                <Headphones className="w-5 h-5 text-gray-500" />
-                <span className="text-xs text-gray-500">الدعم</span>
-              </Link>
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50">
+        <div className="flex justify-around py-3">
+          <Link href="/" className="flex flex-col items-center gap-1 cursor-pointer">
+            <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
+              <Home className="w-4 h-4 text-gray-400" />
             </div>
-          </div>
+            <span className="text-xs text-gray-400">Home</span>
+          </Link>
+          <Link href="/cards" className="flex flex-col items-center gap-1 cursor-pointer">
+            <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+              <CreditCard className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-xs text-red-400">Card</span>
+          </Link>
+          <Link href="/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
+            <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
+              <TrendingUp className="w-4 h-4 text-gray-400" />
+            </div>
+            <span className="text-xs text-gray-400">Benefits</span>
+          </Link>
+          <Link href="/support" className="flex flex-col items-center gap-1 cursor-pointer">
+            <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
+              <Headphones className="w-4 h-4 text-gray-400" />
+            </div>
+            <span className="text-xs text-gray-400">Hub</span>
+          </Link>
         </div>
       </div>
     </div>
