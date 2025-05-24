@@ -20,3 +20,18 @@ export const adminApi = {
   getUsers: () => apiRequest("GET", "/api/admin/users"),
   getStats: () => apiRequest("GET", "/api/admin/stats"),
 };
+
+// User Profile and Settings operations
+export const userApi = {
+  // Get user profile data
+  getProfile: () => apiRequest("GET", "/api/user/profile"),
+  
+  // Update account settings
+  updateProfile: (data: any) => apiRequest("PATCH", "/api/user/profile", data),
+  
+  // Update security settings
+  updateSecurity: (data: any) => apiRequest("PATCH", "/api/user/security", data),
+  
+  // Update notification preferences
+  updateNotifications: (data: any) => apiRequest("PATCH", "/api/user/notifications", data),
+};

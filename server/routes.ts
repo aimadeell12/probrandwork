@@ -312,8 +312,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Don't return sensitive information
-      const { password, ...userProfile } = user;
-      res.json(userProfile);
+      // Handle case where password might be undefined
+      const userObj = {...user};
+      delete userObj.password;
+      
+      res.json(userObj);
     } catch (error) {
       console.error("Error fetching user profile:", error);
       res.status(500).json({ message: "Failed to fetch user profile" });

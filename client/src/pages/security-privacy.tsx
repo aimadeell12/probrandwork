@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Shield, Key, Smartphone, Eye, EyeOff } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
@@ -8,10 +8,13 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { userApi } from "@/lib/api";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function SecurityPrivacy() {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [, setLocation] = useLocation();
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -22,40 +25,108 @@ export default function SecurityPrivacy() {
     confirmPassword: ""
   });
 
+  // Fetch user profile data
+  const { data: profile, isLoading } = useQuery({
+    queryKey: ['/api/user/profile'],
+    queryFn: userApi.getProfile
+  });
+
   const [securitySettings, setSecuritySettings] = useState({
     twoFactorEnabled: false,
-    biometricEnabled: true,
+    biometricEnabled: false,
     loginNotifications: true,
-    deviceTracking: true
+    deviceTracking: false
+  });
+
+  // Update security settings from profile data when loaded
+  useEffect(() => {
+    if (profile) {
+      setSecuritySettings({
+        twoFactorEnabled: profile.twoFactorEnabled || false,
+        biometricEnabled: profile.biometricEnabled || false,
+        loginNotifications: profile.loginNotifications !== false, // default to true
+        deviceTracking: profile.deviceTracking || false,
+      });
+    }
+  }, [profile]);
+
+  // Mutation for password change
+  const passwordMutation = useMutation({
+    mutationFn: (data: any) => userApi.updateProfile(data),
+    onSuccess: () => {
+      toast({
+        title: t("success"),
+        description: t("passwordUpdateSuccess"),
+      });
+      setPasswordForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: ""
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: t("error"),
+        description: error.message || t("passwordUpdateError"),
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Mutation for security settings
+  const securityMutation = useMutation({
+    mutationFn: (data: any) => userApi.updateSecurity(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/user/profile'] });
+      toast({
+        title: t("success"),
+        description: t("securitySettingsUpdated"),
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: t("error"),
+        description: error.message || t("securityUpdateError"),
+        variant: "destructive",
+      });
+    }
   });
 
   const handlePasswordChange = () => {
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
       toast({
-        title: "Error",
-        description: "New passwords do not match",
+        title: t("error"),
+        description: t("passwordsDontMatch"),
         variant: "destructive",
       });
       return;
     }
 
-    toast({
-      title: "Success",
-      description: "Password updated successfully",
-    });
+    if (!passwordForm.currentPassword || !passwordForm.newPassword) {
+      toast({
+        title: t("error"),
+        description: t("allFieldsRequired"),
+        variant: "destructive",
+      });
+      return;
+    }
 
-    setPasswordForm({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: ""
+    passwordMutation.mutate({
+      currentPassword: passwordForm.currentPassword,
+      password: passwordForm.newPassword
     });
   };
 
   const handleSettingToggle = (setting: keyof typeof securitySettings) => {
-    setSecuritySettings(prev => ({
-      ...prev,
-      [setting]: !prev[setting]
-    }));
+    const newSettings = {
+      ...securitySettings,
+      [setting]: !securitySettings[setting]
+    };
+    
+    setSecuritySettings(newSettings);
+    
+    // Save to database
+    securityMutation.mutate(newSettings);
   };
 
   return (
