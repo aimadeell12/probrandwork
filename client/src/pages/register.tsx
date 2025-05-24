@@ -70,8 +70,6 @@ const countryCodes = [
   { code: "+351", country: "البرتغال 🇵🇹" },
   { code: "+61", country: "أستراليا 🇦🇺" },
   { code: "+64", country: "نيوزيلندا 🇳🇿" },
-  { code: "+27", country: "جنوب أفريقيا 🇿🇦" },
-  { code: "+971", country: "الإمارات العربية المتحدة 🇦🇪" },
 ];
 
 export default function Register() {
@@ -119,7 +117,7 @@ export default function Register() {
         title: "تم إنشاء الحساب بنجاح",
         description: "مرحباً بك في منصة البطاقات المصرفية",
       });
-      setLocation("/login");
+      setLocation("/dashboard");
     },
     onError: (error: any) => {
       toast({
