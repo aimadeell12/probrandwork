@@ -58,11 +58,11 @@ export default function Cards() {
         </div>
 
         {/* Card Type Selector */}
-        <div className="flex bg-gray-800/50 rounded-full p-1 mb-12">
+        <div className="flex bg-gray-800/30 rounded-full p-0.5 mb-12 max-w-xs mx-auto">
           <button
             onClick={() => setSelectedCardType("virtual")}
             className={cn(
-              "flex-1 py-3 px-6 rounded-full text-sm font-medium transition-all",
+              "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
               selectedCardType === "virtual"
                 ? "bg-white text-black"
                 : "text-gray-400"
@@ -73,7 +73,7 @@ export default function Cards() {
           <button
             onClick={() => setSelectedCardType("physical")}
             className={cn(
-              "flex-1 py-3 px-6 rounded-full text-sm font-medium transition-all",
+              "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
               selectedCardType === "physical"
                 ? "bg-white text-black"
                 : "text-gray-400"
