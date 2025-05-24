@@ -10,6 +10,7 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { userApi } from "@/lib/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function AccountSettings() {
   const { t } = useLanguage();
@@ -54,15 +55,7 @@ export default function AccountSettings() {
 
   // Mutation for profile updates
   const profileMutation = useMutation({
-    mutationFn: async (data: any) => {
-      try {
-        const response = await apiRequest("PATCH", "/api/user/profile", data);
-        return true;
-      } catch (error) {
-        console.error("Error updating profile:", error);
-        throw error;
-      }
-    },
+    mutationFn: (data: any) => userApi.updateProfile(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/user/profile'] });
       toast({
@@ -81,15 +74,7 @@ export default function AccountSettings() {
 
   // Mutation for notification settings
   const notificationsMutation = useMutation({
-    mutationFn: async (data: any) => {
-      try {
-        const response = await apiRequest("PATCH", "/api/user/notifications", data);
-        return true;
-      } catch (error) {
-        console.error("Error updating notifications:", error);
-        throw error;
-      }
-    },
+    mutationFn: (data: any) => userApi.updateNotifications(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/user/profile'] });
       toast({
