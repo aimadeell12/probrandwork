@@ -132,29 +132,34 @@ export default function Cards() {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50">
-        <div className="flex justify-around py-3">
+      <div className="fixed bottom-0 left-0 right-0 bg-black z-50">
+        <div className="flex justify-around py-4 px-6">
           <Link href="/" className="flex flex-col items-center gap-1 cursor-pointer">
-            <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
-              <Home className="w-4 h-4 text-gray-400" />
+            <div className="w-6 h-6 bg-gray-700 rounded-md flex items-center justify-center">
+              <span className="text-white text-sm font-bold">P</span>
             </div>
             <span className="text-xs text-gray-400">Home</span>
           </Link>
           <Link href="/cards" className="flex flex-col items-center gap-1 cursor-pointer">
-            <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+            <div className="w-6 h-6 bg-red-500 rounded-md flex items-center justify-center">
               <CreditCard className="w-4 h-4 text-white" />
             </div>
             <span className="text-xs text-red-400">Card</span>
           </Link>
           <Link href="/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
-            <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
-              <TrendingUp className="w-4 h-4 text-gray-400" />
+            <div className="w-6 h-6 bg-gray-700 rounded-md flex items-center justify-center">
+              <span className="text-white text-xs">✦</span>
             </div>
             <span className="text-xs text-gray-400">Benefits</span>
           </Link>
           <Link href="/support" className="flex flex-col items-center gap-1 cursor-pointer">
-            <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
-              <Headphones className="w-4 h-4 text-gray-400" />
+            <div className="w-6 h-6 bg-gray-700 rounded-md flex items-center justify-center">
+              <div className="grid grid-cols-2 gap-0.5">
+                <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="w-1 h-1 bg-white rounded-full"></div>
+              </div>
             </div>
             <span className="text-xs text-gray-400">Hub</span>
           </Link>
