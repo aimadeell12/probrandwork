@@ -46,10 +46,10 @@ export default function AccountSettings() {
           email: profile.email || "",
           phone: profile.phone || "",
           address: profile.address || "",
-          firstName: profile.first_name || "", // Updated to match DB column name
-          lastName: profile.last_name || "",   // Updated to match DB column name
-          emailNotifications: profile.email_notifications !== false, // Updated to match DB column name
-          smsNotifications: profile.sms_notifications || false // Updated to match DB column name
+          firstName: profile.firstName || "", 
+          lastName: profile.lastName || "",   
+          emailNotifications: profile.emailNotifications !== false,
+          smsNotifications: profile.smsNotifications || false
         });
       } catch (error) {
         console.error("Error setting form data:", error);
@@ -97,18 +97,18 @@ export default function AccountSettings() {
 
   const handleSave = () => {
     try {
-      // Send profile updates to the API - using column names matching the database
+      // Send profile updates to the API with correct database field names
       const profileData = {
-        first_name: formData.firstName || "",
-        last_name: formData.lastName || "",
+        firstName: formData.firstName || "",
+        lastName: formData.lastName || "",
         phone: formData.phone || "",
         address: formData.address || ""
       };
 
-      // Send notification settings to the API - using column names matching the database
+      // Send notification settings to the API with correct database field names
       const notificationData = {
-        email_notifications: formData.emailNotifications === true,
-        sms_notifications: formData.smsNotifications === true
+        emailNotifications: formData.emailNotifications === true,
+        smsNotifications: formData.smsNotifications === true
       };
 
       console.log("Saving profile data:", profileData);
