@@ -7,8 +7,9 @@ import Navigation from "@/components/navigation";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Smartphone, CheckCircle } from "lucide-react";
+import { CreditCard, Smartphone, CheckCircle, Home, TrendingUp, Headphones } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link } from "wouter";
 
 export default function Cards() {
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
@@ -184,24 +185,24 @@ export default function Cards() {
           )}
 
           {/* Bottom Navigation */}
-          <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50">
+          <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50">
             <div className="flex justify-around py-3">
-              <a href="/" className="flex flex-col items-center gap-1 cursor-pointer">
-                <CreditCard className="w-5 h-5 text-gray-500" />
-                <span className="text-xs text-gray-500">Home</span>
-              </a>
-              <a href="/cards" className="flex flex-col items-center gap-1 cursor-pointer">
+              <Link href="/" className="flex flex-col items-center gap-1 cursor-pointer">
+                <Home className="w-5 h-5 text-gray-500" />
+                <span className="text-xs text-gray-500">الرئيسية</span>
+              </Link>
+              <Link href="/cards" className="flex flex-col items-center gap-1 cursor-pointer">
                 <CreditCard className="w-5 h-5 text-red-500" />
-                <span className="text-xs text-red-500">Card</span>
-              </a>
-              <a href="/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
-                <CreditCard className="w-5 h-5 text-gray-500" />
-                <span className="text-xs text-gray-500">Benefits</span>
-              </a>
-              <a href="/support" className="flex flex-col items-center gap-1 cursor-pointer">
-                <CreditCard className="w-5 h-5 text-gray-500" />
-                <span className="text-xs text-gray-500">Hub</span>
-              </a>
+                <span className="text-xs text-red-500">البطاقات</span>
+              </Link>
+              <Link href="/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
+                <TrendingUp className="w-5 h-5 text-gray-500" />
+                <span className="text-xs text-gray-500">لوحة التحكم</span>
+              </Link>
+              <Link href="/support" className="flex flex-col items-center gap-1 cursor-pointer">
+                <Headphones className="w-5 h-5 text-gray-500" />
+                <span className="text-xs text-gray-500">الدعم</span>
+              </Link>
             </div>
           </div>
         </div>
