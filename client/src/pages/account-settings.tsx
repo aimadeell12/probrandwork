@@ -135,84 +135,6 @@ export default function AccountSettings() {
       </div>
 
       <div className="p-4 space-y-6">
-        {/* Profile Information */}
-        <Card className="border-0 shadow-sm bg-white dark:bg-gray-900">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center space-x-2 space-x-reverse">
-              <User className="h-5 w-5" />
-              <span>Personal Information</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="firstName">First Name</Label>
-                <Input
-                  id="firstName"
-                  value={formData.firstName}
-                  onChange={(e) => handleInputChange("firstName", e.target.value)}
-                />
-              </div>
-              <div>
-                <Label htmlFor="lastName">Last Name</Label>
-                <Input
-                  id="lastName"
-                  value={formData.lastName}
-                  onChange={(e) => handleInputChange("lastName", e.target.value)}
-                />
-              </div>
-            </div>
-            
-            <div>
-              <Label htmlFor="username">Username</Label>
-              <Input
-                id="username"
-                value={formData.username}
-                onChange={(e) => handleInputChange("username", e.target.value)}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Contact Information */}
-        <Card className="border-0 shadow-sm bg-white dark:bg-gray-900">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center space-x-2 space-x-reverse">
-              <Mail className="h-5 w-5" />
-              <span>Contact Information</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <Label htmlFor="email">Email Address</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input
-                id="phone"
-                value={formData.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="address">Address</Label>
-              <Input
-                id="address"
-                value={formData.address}
-                onChange={(e) => handleInputChange("address", e.target.value)}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Success message when settings are saved */}
         {(profileMutation.isSuccess || notificationsMutation.isSuccess) && (
           <div className="rounded-lg bg-white dark:bg-gray-900 border-0 shadow-sm p-4 mb-4">
@@ -223,12 +145,93 @@ export default function AccountSettings() {
           </div>
         )}
 
+        {/* Personal Information */}
+        <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-sm">
+          <h2 className="text-lg font-medium mb-4 flex items-center">
+            <User className="w-5 h-5 mr-2" />
+            Personal Information
+          </h2>
+          
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="firstName">First Name</Label>
+                <Input
+                  id="firstName"
+                  className="mt-1"
+                  value={formData.firstName}
+                  onChange={(e) => handleInputChange("firstName", e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input
+                  id="lastName"
+                  className="mt-1"
+                  value={formData.lastName}
+                  onChange={(e) => handleInputChange("lastName", e.target.value)}
+                />
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
+                className="mt-1"
+                value={formData.username}
+                onChange={(e) => handleInputChange("username", e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Information */}
+        <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-sm">
+          <h2 className="text-lg font-medium mb-4 flex items-center">
+            <Mail className="w-5 h-5 mr-2" />
+            Contact Information
+          </h2>
+          
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                type="email"
+                className="mt-1"
+                value={formData.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input
+                id="phone"
+                className="mt-1"
+                value={formData.phone}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="address">Address</Label>
+              <Input
+                id="address"
+                className="mt-1"
+                value={formData.address}
+                onChange={(e) => handleInputChange("address", e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Preferences */}
-        <Card className="border-0 shadow-sm bg-white dark:bg-gray-900">
-          <CardHeader>
-            <CardTitle className="text-base">Preferences</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-sm">
+          <h2 className="text-lg font-medium mb-4">Preferences</h2>
+          
+          <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">Email Notifications</p>
@@ -258,8 +261,8 @@ export default function AccountSettings() {
                 {formData.smsNotifications ? "Enabled" : "Disabled"}
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Save Button */}
         <Button 
