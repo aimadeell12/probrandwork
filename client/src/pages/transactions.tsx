@@ -84,7 +84,7 @@ export default function Transactions() {
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">المعاملات</h1>
+          <h1 className="text-2xl font-bold">{t("transactions")}</h1>
           <Button variant="outline" size="icon">
             <Filter className="h-4 w-4" />
           </Button>
@@ -94,7 +94,7 @@ export default function Transactions() {
         <div className="relative mb-6">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="البحث في المعاملات..."
+            placeholder={t("searchTransactions")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -104,11 +104,11 @@ export default function Transactions() {
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6 overflow-x-auto">
           {[
-            { key: "all", label: "الكل" },
-            { key: "send", label: "إرسال" },
-            { key: "receive", label: "استلام" },
-            { key: "deposit", label: "إيداع" },
-            { key: "withdraw", label: "سحب" },
+            { key: "all", label: t("all") },
+            { key: "send", label: t("sendTransaction") },
+            { key: "receive", label: t("receiveTransaction") },
+            { key: "deposit", label: t("depositTransaction") },
+            { key: "withdraw", label: t("withdrawTransaction") },
           ].map((filter) => (
             <Button
               key={filter.key}
@@ -128,7 +128,7 @@ export default function Transactions() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <ArrowDownLeft className="h-4 w-4 text-green-500" />
-                <span className="text-sm text-muted-foreground">إجمالي الواردات</span>
+                <span className="text-sm text-muted-foreground">{t("totalIncome")}</span>
               </div>
               <p className="text-lg font-semibold text-green-600">$1,250.00</p>
             </CardContent>
@@ -137,7 +137,7 @@ export default function Transactions() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <ArrowUpRight className="h-4 w-4 text-red-500" />
-                <span className="text-sm text-muted-foreground">إجمالي الصادرات</span>
+                <span className="text-sm text-muted-foreground">{t("totalExpense")}</span>
               </div>
               <p className="text-lg font-semibold text-red-600">$750.00</p>
             </CardContent>
