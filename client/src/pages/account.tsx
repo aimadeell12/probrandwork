@@ -40,25 +40,25 @@ export default function Account() {
     {
       icon: Settings,
       title: t("accountSettings"),
-      description: t("accountSettingsDesc"),
+      description: t("editPreferences"),
       path: "/account/settings"
     },
     {
       icon: Shield,
       title: t("securityPrivacy"),
-      description: t("securityPrivacyDesc"),
+      description: t("managePasswords"),
       path: "/account/security"
     },
     {
       icon: CreditCard,
       title: t("cardManagement"),
-      description: t("cardManagementDesc"),
+      description: t("manageCards"),
       path: "/cards"
     },
     {
       icon: Bell,
       title: t("notifications"),
-      description: t("notificationsDesc"),
+      description: t("customizeAlerts"),
       path: "/account/notifications"
     },
     {
