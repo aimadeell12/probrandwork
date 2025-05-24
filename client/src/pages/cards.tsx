@@ -54,18 +54,18 @@ export default function Cards() {
         
         {/* Header */}
         <div className="text-center mb-8 pt-12">
-          <h1 className="text-xl font-bold text-white">Choose Card</h1>
+          <h1 className="text-xl font-bold text-foreground">Choose Card</h1>
         </div>
 
         {/* Card Type Selector */}
-        <div className="flex bg-gray-800/30 rounded-full p-0.5 mb-12 max-w-xs mx-auto">
+        <div className="flex bg-muted rounded-full p-0.5 mb-12 max-w-xs mx-auto">
           <button
             onClick={() => setSelectedCardType("virtual")}
             className={cn(
               "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
               selectedCardType === "virtual"
-                ? "bg-white text-black"
-                : "text-gray-400"
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground"
             )}
           >
             Virtual Card
@@ -75,8 +75,8 @@ export default function Cards() {
             className={cn(
               "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
               selectedCardType === "physical"
-                ? "bg-white text-black"
-                : "text-gray-400"
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground"
             )}
           >
             Physical Card
@@ -104,7 +104,7 @@ export default function Cards() {
 
         {/* Customizable Badge */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 text-sm text-gray-400">
+          <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
             <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-green-500"></div>
             Customizable
           </div>
@@ -112,8 +112,8 @@ export default function Cards() {
 
         {/* Card Type Info */}
         <div className="text-center mb-12">
-          <h2 className="text-xl font-bold text-white mb-2">Virtual Card</h2>
-          <p className="text-gray-400 text-sm">Pay contactless online or in-store</p>
+          <h2 className="text-xl font-bold text-foreground mb-2">Virtual Card</h2>
+          <p className="text-muted-foreground text-sm">Pay contactless online or in-store</p>
         </div>
 
         {/* Apply Button */}
@@ -121,7 +121,7 @@ export default function Cards() {
           <Button 
             onClick={handleCreateCard}
             disabled={createCardMutation.isPending}
-            className="w-full bg-white text-black hover:bg-gray-100 font-medium py-4 rounded-full text-lg"
+            className="w-full bg-foreground text-background hover:bg-foreground/90 font-medium py-4 rounded-full text-lg"
           >
             {createCardMutation.isPending ? "Creating..." : "Apply Card · 10 USD"}
           </Button>
