@@ -3,13 +3,23 @@ import { Card, CardContent } from "@/components/ui/card";
 import { X, Gift, QrCode, CreditCard, ChevronDown } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Home() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { toast } = useToast();
+  const [amount, setAmount] = useState("");
+  const [isDepositOpen, setIsDepositOpen] = useState(false);
+  const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
   
   // Fetch user cards
   const { data } = useQuery({
@@ -19,6 +29,79 @@ export default function Home() {
   
   // Safely access data with fallback
   const cards = Array.isArray(data) ? data : [];
+  const primaryCard = cards[0]; // Use first card as primary
+
+  // Fetch balance for primary card
+  const { data: balanceData } = useQuery({
+    queryKey: ['/api/wallet/balance', primaryCard?.id],
+    enabled: !!primaryCard,
+  });
+
+  // Deposit mutation
+  const depositMutation = useMutation({
+    mutationFn: async (depositAmount: number) => {
+      return apiRequest("/api/wallet/deposit", "POST", {
+        cardId: primaryCard?.id,
+        amount: depositAmount
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Deposit completed successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/wallet/balance'] });
+      setIsDepositOpen(false);
+      setAmount("");
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to process deposit",
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Withdrawal mutation
+  const withdrawMutation = useMutation({
+    mutationFn: async (withdrawAmount: number) => {
+      return apiRequest("/api/wallet/withdraw", "POST", {
+        cardId: primaryCard?.id,
+        amount: withdrawAmount
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Withdrawal completed successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/wallet/balance'] });
+      setIsWithdrawOpen(false);
+      setAmount("");
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to process withdrawal",
+        variant: "destructive",
+      });
+    }
+  });
+
+  const handleDeposit = () => {
+    const depositAmount = parseFloat(amount);
+    if (depositAmount > 0) {
+      depositMutation.mutate(depositAmount);
+    }
+  };
+
+  const handleWithdraw = () => {
+    const withdrawAmount = parseFloat(amount);
+    if (withdrawAmount > 0) {
+      withdrawMutation.mutate(withdrawAmount);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-black pb-20">
@@ -55,30 +138,81 @@ export default function Home() {
             {t("totalBalance")}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
           </p>
-          <h2 className="text-5xl font-bold dark:text-white">$ 5<span className="text-3xl">.00</span></h2>
+          <h2 className="text-5xl font-bold dark:text-white">$ {(balanceData as any)?.balance?.toFixed(2) || "5.00"}</h2>
         </div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-4 gap-4 mb-10">
-          <div className="flex flex-col items-center">
-            <div className="w-14 h-14 bg-black dark:bg-blue-600 rounded-full flex items-center justify-center mb-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white"><path d="M12 5v14M5 12h14"/></svg>
-            </div>
-            <span className="text-sm dark:text-white">{t("deposit")}</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14"/></svg>
-            </div>
-            <span className="text-sm dark:text-white">{t("withdraw")}</span>
-          </div>
-          <div className="flex flex-col items-center">
+          <Dialog open={isDepositOpen} onOpenChange={setIsDepositOpen}>
+            <DialogTrigger asChild>
+              <div className="flex flex-col items-center cursor-pointer">
+                <div className="w-14 h-14 bg-black dark:bg-blue-600 rounded-full flex items-center justify-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white"><path d="M12 5v14M5 12h14"/></svg>
+                </div>
+                <span className="text-sm dark:text-white">{t("deposit")}</span>
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("deposit")}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Input
+                  type="number"
+                  placeholder="Enter amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+                <Button 
+                  onClick={handleDeposit} 
+                  disabled={depositMutation.isPending}
+                  className="w-full"
+                >
+                  {depositMutation.isPending ? "Processing..." : "Deposit"}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={isWithdrawOpen} onOpenChange={setIsWithdrawOpen}>
+            <DialogTrigger asChild>
+              <div className="flex flex-col items-center cursor-pointer">
+                <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14"/></svg>
+                </div>
+                <span className="text-sm dark:text-white">{t("withdraw")}</span>
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("withdraw")}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Input
+                  type="number"
+                  placeholder="Enter amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+                <Button 
+                  onClick={handleWithdraw} 
+                  disabled={withdrawMutation.isPending}
+                  className="w-full"
+                >
+                  {withdrawMutation.isPending ? "Processing..." : "Withdraw"}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <div className="flex flex-col items-center cursor-pointer" onClick={() => toast({ title: "Coming Soon", description: "Send feature will be available soon" })}>
             <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
             <span className="text-sm dark:text-white">{t("send")}</span>
           </div>
-          <div className="flex flex-col items-center">
+
+          <div className="flex flex-col items-center cursor-pointer" onClick={() => toast({ title: "Coming Soon", description: "QR scan feature will be available soon" })}>
             <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
               <QrCode size={24} className="dark:text-white" />
             </div>
