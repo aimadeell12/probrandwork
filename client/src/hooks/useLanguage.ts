@@ -142,7 +142,7 @@ export function useLanguageHook() {
   };
 
   const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations.ar] || key;
+    return translations[language][key as keyof typeof translations.ar] || "";
   };
 
   useEffect(() => {
