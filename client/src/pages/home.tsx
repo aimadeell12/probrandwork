@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { X, Gift, QrCode, CreditCard, ChevronDown } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -152,43 +152,23 @@ export default function Home() {
             </div>
           </Link>
 
-          <Dialog open={isWithdrawOpen} onOpenChange={setIsWithdrawOpen}>
-            <DialogTrigger asChild>
-              <div className="flex flex-col items-center cursor-pointer">
-                <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14"/></svg>
-                </div>
-                <span className="text-sm dark:text-white">{t("withdraw")}</span>
+          <Link href="/withdraw">
+            <div className="flex flex-col items-center cursor-pointer">
+              <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14"/></svg>
               </div>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{t("withdraw")}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <Input
-                  type="number"
-                  placeholder="Enter amount"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-                <Button 
-                  onClick={handleWithdraw} 
-                  disabled={withdrawMutation.isPending}
-                  className="w-full"
-                >
-                  {withdrawMutation.isPending ? "Processing..." : "Withdraw"}
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-
-          <div className="flex flex-col items-center cursor-pointer" onClick={() => toast({ title: "Coming Soon", description: "Send feature will be available soon" })}>
-            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <span className="text-sm dark:text-white">{t("withdraw")}</span>
             </div>
-            <span className="text-sm dark:text-white">{t("send")}</span>
-          </div>
+          </Link>
+
+          <Link href="/send">
+            <div className="flex flex-col items-center cursor-pointer">
+              <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+              <span className="text-sm dark:text-white">{t("send")}</span>
+            </div>
+          </Link>
 
           <div className="flex flex-col items-center cursor-pointer" onClick={() => toast({ title: "Coming Soon", description: "QR scan feature will be available soon" })}>
             <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
