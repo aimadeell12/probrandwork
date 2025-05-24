@@ -113,7 +113,7 @@ export default function Cards() {
         {/* Card Type Info */}
         <div className="text-center mb-12">
           <h2 className="text-xl font-bold text-white mb-2">Virtual Card</h2>
-          <p className="text-gray-400 text-sm">Pay contactless online or in-store 📱</p>
+          <p className="text-gray-400 text-sm">Pay contactless online or in-store</p>
         </div>
 
         {/* Apply Button */}
