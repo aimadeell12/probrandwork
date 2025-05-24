@@ -34,7 +34,7 @@ export default function Navigation() {
     <nav className="bg-card shadow-sm border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-4 space-x-reverse">
+          <div className="flex items-center space-x-4">
             <Link href="/">
               <div className="flex items-center cursor-pointer">
                 <CreditCard className="h-8 w-8 text-primary ml-3" />
@@ -42,12 +42,12 @@ export default function Navigation() {
               </div>
             </Link>
           </div>
-          
+
           <div className="hidden md:flex items-center space-x-6 space-x-reverse">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location === item.path;
-              
+
               return (
                 <Link key={item.path} href={item.path}>
                   <div className={`flex items-center space-x-2 space-x-reverse px-3 py-2 rounded-lg transition-colors cursor-pointer ${
@@ -70,7 +70,7 @@ export default function Navigation() {
                 3
               </span>
             </Button>
-            
+
             <div className="flex items-center space-x-2 space-x-reverse">
               <img 
                 src={user?.profileImageUrl || "/placeholder-avatar.png"} 

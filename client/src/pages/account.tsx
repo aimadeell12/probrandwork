@@ -92,18 +92,18 @@ export default function Account() {
             <CardContent className="p-0">
               <Button
                 variant="ghost"
-                className="w-full justify-between p-4 h-auto"
+                className="w-full justify-between p-5 h-auto"
                 onClick={() => handleSettingClick(item.path)}
               >
-                <div className="flex items-center space-x-4 space-x-reverse">
+                <div className="flex items-center space-x-5">
                   <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-2">
                     <item.icon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {item.title}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
                       {item.description}
                     </p>
                   </div>

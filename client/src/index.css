@@ -59,7 +59,7 @@
 
   /* RTL Support for Arabic */
   [dir="rtl"] {
-    direction: rtl;
+    direction: ltr;
   }
 
   /* Banking specific styles */
