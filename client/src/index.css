@@ -26,15 +26,15 @@
 }
 
 .dark {
-  --background: 0 0% 0%; /* Pure black */
-  --foreground: 0 0% 100%; /* Pure white */
-  --muted: 0 0% 15%; /* Very dark gray for subtle elements */
-  --muted-foreground: 0 0% 70%; /* Light gray for less important text */
-  --popover: 0 0% 0%; /* Pure black */
-  --popover-foreground: 0 0% 100%; /* Pure white */
-  --card: 0 0% 5%; /* Nearly black for cards */
-  --card-foreground: 0 0% 100%; /* Pure white */
-  --border: 0 0% 20%; /* Dark gray for borders */
+  --background: 224 71% 4%; /* Dark blue-gray */
+  --foreground: 213 31% 91%; /* Light gray */
+  --muted: 223 47% 11%; /* Darker blue-gray */
+  --muted-foreground: 215.4 16.3% 56.9%; /* Medium gray */
+  --popover: 224 71% 4%; /* Dark blue-gray */
+  --popover-foreground: 215 20.2% 65.1%; /* Light gray */
+  --card: 224 71% 4%; /* Dark blue-gray */
+  --card-foreground: 213 31% 91%; /* Light gray */
+  --border: 216 34% 17%; /* Dark border */
   --input: 0 0% 15%; /* Very dark gray for inputs */
   --primary: 217 91% 60%; /* Keep primary blue */
   --primary-foreground: 0 0% 100%; /* Pure white */

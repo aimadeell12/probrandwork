@@ -49,7 +49,7 @@ export default function Cards() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto px-6 py-8 max-w-md">
         
         {/* Header */}
