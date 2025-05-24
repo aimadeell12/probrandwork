@@ -24,8 +24,11 @@ export default function Account() {
 
   const handleLogout = async () => {
     try {
-      await apiRequest("/api/auth/logout", "POST");
-      window.location.reload();
+      await fetch('/api/auth/logout', { 
+        method: 'POST',
+        credentials: 'include'
+      });
+      window.location.href = "/login";
     } catch (error) {
       toast({
         title: t("error"),
