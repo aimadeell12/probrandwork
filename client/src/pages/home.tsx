@@ -18,7 +18,7 @@ export default function Home() {
   const cards = Array.isArray(data) ? data : [];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 pb-20">
+    <div className="min-h-screen bg-white dark:bg-black pb-20">
       <div className="max-w-lg mx-auto px-5 pt-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
@@ -36,7 +36,7 @@ export default function Home() {
 
         {/* Currency Selector */}
         <div className="mb-6">
-          <button className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 py-1.5 px-3 rounded-full dark:text-white">
+          <button className="flex items-center gap-2 bg-gray-100 dark:bg-gray-900 py-1.5 px-3 rounded-full dark:text-white">
             <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
               <span className="text-white text-xs">$</span>
             </div>
@@ -63,19 +63,19 @@ export default function Home() {
             <span className="text-sm dark:text-white">إيداع</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2">
+            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14"/></svg>
             </div>
             <span className="text-sm dark:text-white">سحب</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2">
+            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
             <span className="text-sm dark:text-white">إرسال</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-2">
+            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
               <QrCode size={24} className="dark:text-white" />
             </div>
             <span className="text-sm dark:text-white">مسح</span>
@@ -83,7 +83,7 @@ export default function Home() {
         </div>
 
         {/* Beginner Guidance */}
-        <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl mb-8 relative">
+        <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl mb-8 relative">
           <button className="absolute top-3 right-3 dark:text-white">
             <X size={18} />
           </button>
@@ -118,7 +118,7 @@ export default function Home() {
         {/* Assets */}
         <div className="mb-8">
           <h3 className="text-xl font-bold mb-4 dark:text-white">الأصول</h3>
-          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-4 flex items-center justify-between">
+          <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold">$</span>
