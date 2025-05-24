@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, CreditCard, BarChart3, Headphones, User } from "lucide-react";
+import { Home, CreditCard, BarChart3, Receipt, User } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export default function BottomNavigation() {
@@ -9,7 +9,7 @@ export default function BottomNavigation() {
   const navItems = [
     { path: "/", label: t("home"), icon: Home },
     { path: "/cards", label: t("cards"), icon: CreditCard },
-    { path: "/support", label: t("support"), icon: Headphones },
+    { path: "/transactions", label: "المعاملات", icon: Receipt },
     { path: "/account", label: t("account"), icon: User },
   ];
 
