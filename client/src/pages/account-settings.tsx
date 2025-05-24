@@ -40,16 +40,20 @@ export default function AccountSettings() {
   useEffect(() => {
     if (profile) {
       console.log("Profile loaded:", profile); // Debug log
-      setFormData({
-        username: profile.username || "",
-        email: profile.email || "",
-        phone: profile.phone || "",
-        address: profile.address || "",
-        firstName: profile.first_name || "", // Updated to match DB column name
-        lastName: profile.last_name || "",   // Updated to match DB column name
-        emailNotifications: profile.email_notifications !== false, // Updated to match DB column name
-        smsNotifications: profile.sms_notifications || false // Updated to match DB column name
-      });
+      try {
+        setFormData({
+          username: profile.username || "",
+          email: profile.email || "",
+          phone: profile.phone || "",
+          address: profile.address || "",
+          firstName: profile.first_name || "", // Updated to match DB column name
+          lastName: profile.last_name || "",   // Updated to match DB column name
+          emailNotifications: profile.email_notifications !== false, // Updated to match DB column name
+          smsNotifications: profile.sms_notifications || false // Updated to match DB column name
+        });
+      } catch (error) {
+        console.error("Error setting form data:", error);
+      }
     }
   }, [profile]);
 
@@ -92,22 +96,40 @@ export default function AccountSettings() {
   });
 
   const handleSave = () => {
-    // Send profile updates to the API - using column names matching the database
-    const profileData = {
-      first_name: formData.firstName,
-      last_name: formData.lastName,
-      phone: formData.phone,
-      address: formData.address
-    };
+    try {
+      // Send profile updates to the API - using column names matching the database
+      const profileData = {
+        first_name: formData.firstName || "",
+        last_name: formData.lastName || "",
+        phone: formData.phone || "",
+        address: formData.address || ""
+      };
 
-    // Send notification settings to the API - using column names matching the database
-    const notificationData = {
-      email_notifications: formData.emailNotifications,
-      sms_notifications: formData.smsNotifications
-    };
+      // Send notification settings to the API - using column names matching the database
+      const notificationData = {
+        email_notifications: formData.emailNotifications === true,
+        sms_notifications: formData.smsNotifications === true
+      };
 
-    profileMutation.mutate(profileData);
-    notificationsMutation.mutate(notificationData);
+      console.log("Saving profile data:", profileData);
+      console.log("Saving notification data:", notificationData);
+
+      profileMutation.mutate(profileData);
+      notificationsMutation.mutate(notificationData);
+      
+      // Display a success message immediately for better user feedback
+      toast({
+        title: "Saving changes...",
+        description: "Your settings are being updated.",
+      });
+    } catch (error) {
+      console.error("Error in handleSave:", error);
+      toast({
+        title: "Error",
+        description: "There was a problem saving your settings. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleInputChange = (field: string, value: string | boolean) => {
