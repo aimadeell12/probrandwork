@@ -25,25 +25,45 @@ export const adminApi = {
 export const userApi = {
   // Get user profile data
   getProfile: async () => {
-    const res = await apiRequest("GET", "/api/user/profile");
-    return res.json();
+    try {
+      const res = await apiRequest("GET", "/api/user/profile");
+      return await res.json();
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      return {}; // Return empty object to prevent rendering errors
+    }
   },
   
   // Update account settings
   updateProfile: async (data: any) => {
-    const res = await apiRequest("PATCH", "/api/user/profile", data);
-    return res.json();
+    try {
+      const res = await apiRequest("PATCH", "/api/user/profile", data);
+      return await res.json();
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      throw error;
+    }
   },
   
   // Update security settings
   updateSecurity: async (data: any) => {
-    const res = await apiRequest("PATCH", "/api/user/security", data);
-    return res.json();
+    try {
+      const res = await apiRequest("PATCH", "/api/user/security", data);
+      return await res.json();
+    } catch (error) {
+      console.error("Error updating security settings:", error);
+      throw error;
+    }
   },
   
   // Update notification preferences
   updateNotifications: async (data: any) => {
-    const res = await apiRequest("PATCH", "/api/user/notifications", data);
-    return res.json();
+    try {
+      const res = await apiRequest("PATCH", "/api/user/notifications", data);
+      return await res.json();
+    } catch (error) {
+      console.error("Error updating notifications:", error);
+      throw error;
+    }
   },
 };

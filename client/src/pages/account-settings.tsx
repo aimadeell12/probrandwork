@@ -54,7 +54,15 @@ export default function AccountSettings() {
 
   // Mutation for profile updates
   const profileMutation = useMutation({
-    mutationFn: (data: any) => userApi.updateProfile(data),
+    mutationFn: async (data: any) => {
+      try {
+        const response = await apiRequest("PATCH", "/api/user/profile", data);
+        return true;
+      } catch (error) {
+        console.error("Error updating profile:", error);
+        throw error;
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/user/profile'] });
       toast({
@@ -73,7 +81,15 @@ export default function AccountSettings() {
 
   // Mutation for notification settings
   const notificationsMutation = useMutation({
-    mutationFn: (data: any) => userApi.updateNotifications(data),
+    mutationFn: async (data: any) => {
+      try {
+        const response = await apiRequest("PATCH", "/api/user/notifications", data);
+        return true;
+      } catch (error) {
+        console.error("Error updating notifications:", error);
+        throw error;
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/user/profile'] });
       toast({
