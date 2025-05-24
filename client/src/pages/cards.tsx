@@ -85,7 +85,7 @@ export default function Cards() {
 
         {/* Card Preview */}
         <div className="flex justify-center mb-8">
-          <div className="w-48 h-72 bg-gray-800 rounded-2xl relative overflow-hidden shadow-xl">
+          <div className="w-48 h-72 card-gradient-blue rounded-2xl relative overflow-hidden shadow-xl">
             {/* Card Brand - Vertical Text on Right */}
             <div className="absolute right-4 top-8 bottom-20 flex items-center justify-center">
               <div className="text-white font-bold text-lg tracking-wider transform rotate-90 origin-center whitespace-nowrap">
@@ -165,7 +165,7 @@ export default function Cards() {
           </Link>
         </div>
         {/* Bottom indicator bar */}
-        <div className="h-1 bg-white mx-auto w-32 rounded-full mb-1"></div>
+        <div className="h-1 bg-gray-600 mx-auto w-32 rounded-full mb-1"></div>
       </div>
     </div>
   );
