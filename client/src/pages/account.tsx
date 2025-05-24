@@ -43,32 +43,32 @@ export default function Account() {
   const menuItems = [
     {
       icon: Settings,
-      title: "إعدادات الحساب",
-      description: "تعديل المعلومات الشخصية والتفضيلات",
-      action: () => toast({ title: "قريباً", description: "هذه الميزة ستكون متاحة قريباً" })
+      title: t("accountSettings"),
+      description: t("accountSettingsDesc"),
+      action: () => toast({ title: t("comingSoon"), description: t("comingSoonDesc") })
     },
     {
       icon: Shield,
-      title: "الأمان والخصوصية",
-      description: "إدارة كلمات المرور والحماية",
-      action: () => toast({ title: "قريباً", description: "هذه الميزة ستكون متاحة قريباً" })
+      title: t("securityPrivacy"),
+      description: t("securityPrivacyDesc"),
+      action: () => toast({ title: t("comingSoon"), description: t("comingSoonDesc") })
     },
     {
       icon: CreditCard,
-      title: "إدارة البطاقات",
-      description: "عرض وإدارة جميع البطاقات",
+      title: t("cardManagement"),
+      description: t("cardManagementDesc"),
       action: () => window.location.href = "/cards"
     },
     {
       icon: Bell,
-      title: "الإشعارات",
-      description: "تخصيص الإشعارات والتنبيهات",
-      action: () => toast({ title: "قريباً", description: "هذه الميزة ستكون متاحة قريباً" })
+      title: t("notifications"),
+      description: t("notificationsDesc"),
+      action: () => toast({ title: t("comingSoon"), description: t("comingSoonDesc") })
     },
     {
       icon: HelpCircle,
-      title: "المساعدة والدعم",
-      description: "الحصول على المساعدة والدعم الفني",
+      title: t("helpSupport"),
+      description: t("helpSupportDesc"),
       action: () => window.location.href = "/support"
     }
   ];
@@ -77,9 +77,12 @@ export default function Account() {
     <div className="min-h-screen bg-gray-50 dark:bg-black pb-20">
       {/* Header */}
       <div className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 p-4">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white text-center">
-          حسابي
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white flex-1 text-center">
+            {t("myAccount")}
+          </h1>
+          <LanguageToggle className="absolute right-4" />
+        </div>
       </div>
 
       <div className="p-4 space-y-6">
@@ -94,13 +97,13 @@ export default function Account() {
               </Avatar>
               <div className="flex-1">
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  {(user as any)?.username || "مستخدم"}
+                  {(user as any)?.username || t("user")}
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   {(user as any)?.email || "user@example.com"}
                 </p>
                 <Badge variant="secondary" className="mt-2">
-                  حساب مفعل
+                  {t("activeAccount")}
                 </Badge>
               </div>
             </div>
@@ -110,13 +113,13 @@ export default function Account() {
         {/* Quick Info */}
         <Card className="border-0 shadow-sm bg-white dark:bg-gray-900">
           <CardHeader>
-            <CardTitle className="text-base">معلومات سريعة</CardTitle>
+            <CardTitle className="text-base">{t("quickInfo")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center space-x-3 space-x-reverse">
               <Phone className="h-5 w-5 text-gray-400" />
               <div>
-                <p className="text-sm font-medium text-gray-900 dark:text-white">رقم الهاتف</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">{t("phoneNumber")}</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">+966 50 123 4567</p>
               </div>
             </div>
@@ -124,7 +127,7 @@ export default function Account() {
             <div className="flex items-center space-x-3 space-x-reverse">
               <Mail className="h-5 w-5 text-gray-400" />
               <div>
-                <p className="text-sm font-medium text-gray-900 dark:text-white">البريد الإلكتروني</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">{t("email")}</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">{(user as any)?.email || "user@example.com"}</p>
               </div>
             </div>
@@ -132,8 +135,8 @@ export default function Account() {
             <div className="flex items-center space-x-3 space-x-reverse">
               <MapPin className="h-5 w-5 text-gray-400" />
               <div>
-                <p className="text-sm font-medium text-gray-900 dark:text-white">العنوان</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">الرياض، المملكة العربية السعودية</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">{t("address")}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{t("riyadhSA")}</p>
               </div>
             </div>
           </CardContent>
@@ -180,7 +183,7 @@ export default function Account() {
               onClick={handleLogout}
             >
               <LogOut className="h-4 w-4 ml-2" />
-              تسجيل الخروج
+              {t("logout")}
             </Button>
           </CardContent>
         </Card>
