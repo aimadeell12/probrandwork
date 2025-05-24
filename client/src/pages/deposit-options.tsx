@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ArrowLeft, Copy, ExternalLink, CreditCard, Building2, Zap } from "lucide-react";
+import { ArrowLeft, ExternalLink, CreditCard, Building2, Zap } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
