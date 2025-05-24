@@ -99,7 +99,7 @@ export default function Register() {
     }) => {
       const phone = data.phone ? `${formData.countryCode}${data.phone}` : undefined;
       
-      const response = await fetch("/api/register", {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
         body: JSON.stringify({
           ...data,
