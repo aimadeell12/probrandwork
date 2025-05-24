@@ -20,6 +20,8 @@ import DepositOptions from "@/pages/deposit-options";
 import AccountSettings from "@/pages/account-settings";
 import SecurityPrivacy from "@/pages/security-privacy";
 import Notifications from "@/pages/notifications";
+import Send from "@/pages/send";
+import Withdraw from "@/pages/withdraw";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -57,6 +59,8 @@ function Router() {
             <Route path="/account/settings" component={AccountSettings} />
             <Route path="/account/security" component={SecurityPrivacy} />
             <Route path="/account/notifications" component={Notifications} />
+            <Route path="/send" component={Send} />
+            <Route path="/withdraw" component={Withdraw} />
           </>
         )}
         <Route component={NotFound} />
