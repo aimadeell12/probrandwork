@@ -13,38 +13,38 @@
   --card-foreground: 222 84% 4.9%;
   --border: 214 32% 91%; /* #E2E8F0 */
   --input: 214 32% 91%;
-  --primary: 350 100% 40%; /* Deep red */
-  --primary-foreground: 0 0% 100%;
+  --primary: 217 91% 60%; /* #1E3A8A */
+  --primary-foreground: 210 40% 98%;
   --secondary: 160 84% 39%; /* #059669 */
   --secondary-foreground: 0 0% 98%;
-  --accent: 350 100% 50%; /* Bright red */
+  --accent: 0 84% 60%; /* #DC2626 */
   --accent-foreground: 0 0% 98%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 350 100% 40%;
+  --ring: 217 91% 60%;
   --radius: 0.75rem;
 }
 
 .dark {
-  --background: 188 90% 10%; /* Dark teal like in the image */
+  --background: 0 0% 0%; /* Pure black */
   --foreground: 0 0% 100%; /* Pure white */
-  --muted: 188 70% 15%; /* Slightly lighter teal */
+  --muted: 0 0% 15%; /* Very dark gray for subtle elements */
   --muted-foreground: 0 0% 70%; /* Light gray for less important text */
-  --popover: 188 90% 10%; /* Same as background */
+  --popover: 0 0% 0%; /* Pure black */
   --popover-foreground: 0 0% 100%; /* Pure white */
-  --card: 188 80% 15%; /* Slightly lighter teal for cards */
+  --card: 0 0% 5%; /* Nearly black for cards */
   --card-foreground: 0 0% 100%; /* Pure white */
-  --border: 188 50% 20%; /* Teal-tinted border */
-  --input: 188 50% 20%; /* Teal-tinted input */
-  --primary: 350 100% 50%; /* Vibrant red like the flower */
+  --border: 0 0% 20%; /* Dark gray for borders */
+  --input: 0 0% 15%; /* Very dark gray for inputs */
+  --primary: 217 91% 60%; /* Keep primary blue */
   --primary-foreground: 0 0% 100%; /* Pure white */
   --secondary: 160 84% 39%; /* Keep secondary green */
   --secondary-foreground: 0 0% 100%; /* Pure white */
-  --accent: 350 100% 60%; /* Brighter red accent */
+  --accent: 0 84% 60%; /* Keep accent red */
   --accent-foreground: 0 0% 100%; /* Pure white */
-  --destructive: 0 84% 60%; /* Keep destructive red */
+  --destructive: 0 62.8% 30.6%; /* Keep destructive red */
   --destructive-foreground: 0 0% 100%; /* Pure white */
-  --ring: 350 100% 50%; /* Vibrant red for focus rings */
+  --ring: 217 91% 60%; /* Keep ring blue */
 }
 
 @layer base {

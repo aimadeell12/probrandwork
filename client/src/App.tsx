@@ -13,6 +13,7 @@ import Wallet from "@/pages/wallet";
 import Admin from "@/pages/admin";
 import Cards from "@/pages/cards";
 import Support from "@/pages/support";
+import Account from "@/pages/account";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -44,6 +45,7 @@ function Router() {
             <Route path="/admin" component={Admin} />
             <Route path="/cards" component={Cards} />
             <Route path="/support" component={Support} />
+            <Route path="/account" component={Account} />
           </>
         )}
         <Route component={NotFound} />

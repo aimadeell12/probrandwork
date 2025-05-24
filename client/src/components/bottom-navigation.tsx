@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, CreditCard, BarChart3, Headphones } from "lucide-react";
+import { Home, CreditCard, BarChart3, Headphones, User } from "lucide-react";
 
 export default function BottomNavigation() {
   const [location] = useLocation();
@@ -8,6 +8,7 @@ export default function BottomNavigation() {
     { path: "/", label: "الرئيسية", icon: Home },
     { path: "/cards", label: "البطاقات", icon: CreditCard },
     { path: "/support", label: "الدعم", icon: Headphones },
+    { path: "/account", label: "حسابي", icon: User },
   ];
 
   return (
