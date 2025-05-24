@@ -24,6 +24,7 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
   createLocalUser(user: any): Promise<User>;
+  updateUserProfile(userId: string, updates: Partial<User>): Promise<User>;
   
   // Card operations
   getCardsByUserId(userId: string): Promise<Card[]>;
@@ -91,6 +92,22 @@ export class DatabaseStorage implements IStorage {
       })
       .returning();
     return user;
+  }
+  
+  async updateUserProfile(userId: string, updates: Partial<User>): Promise<User> {
+    // Ensure we're not updating sensitive fields unexpectedly
+    const { id, password, authType, role, createdAt, ...safeUpdates } = updates;
+    
+    const [updatedUser] = await db
+      .update(users)
+      .set({
+        ...safeUpdates,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    
+    return updatedUser;
   }
 
   // Card operations

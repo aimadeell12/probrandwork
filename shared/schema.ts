@@ -35,8 +35,21 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  phone: varchar("phone"),
+  address: varchar("address"),
   role: varchar("role").notNull().default("user"), // user, admin
   authType: varchar("auth_type").notNull().default("local"), // replit, local
+  // Security settings
+  twoFactorEnabled: boolean("two_factor_enabled").default(false),
+  biometricEnabled: boolean("biometric_enabled").default(false),
+  loginNotifications: boolean("login_notifications").default(true),
+  deviceTracking: boolean("device_tracking").default(false),
+  // Notification settings
+  emailNotifications: boolean("email_notifications").default(true),
+  smsNotifications: boolean("sms_notifications").default(false),
+  pushNotifications: boolean("push_notifications").default(true),
+  transactionAlerts: boolean("transaction_alerts").default(true),
+  marketingEmails: boolean("marketing_emails").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

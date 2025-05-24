@@ -301,6 +301,99 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to fetch support tickets" });
     }
   });
+  
+  // User profile and settings routes
+  app.get("/api/user/profile", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Don't return sensitive information
+      const { password, ...userProfile } = user;
+      res.json(userProfile);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      res.status(500).json({ message: "Failed to fetch user profile" });
+    }
+  });
+  
+  app.patch("/api/user/profile", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Update user profile
+      const updatedUser = await storage.updateUserProfile(userId, req.body);
+      
+      // Don't return sensitive information
+      const { password, ...userProfile } = updatedUser;
+      res.json(userProfile);
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      res.status(500).json({ message: "Failed to update user profile" });
+    }
+  });
+  
+  app.patch("/api/user/security", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Update security settings
+      const securitySettings = {
+        twoFactorEnabled: req.body.twoFactorEnabled,
+        biometricEnabled: req.body.biometricEnabled,
+        loginNotifications: req.body.loginNotifications,
+        deviceTracking: req.body.deviceTracking
+      };
+      
+      const updatedUser = await storage.updateUserProfile(userId, securitySettings);
+      
+      // Don't return sensitive information
+      const { password, ...userProfile } = updatedUser;
+      res.json(userProfile);
+    } catch (error) {
+      console.error("Error updating security settings:", error);
+      res.status(500).json({ message: "Failed to update security settings" });
+    }
+  });
+  
+  app.patch("/api/user/notifications", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Update notification settings
+      const notificationSettings = {
+        emailNotifications: req.body.emailNotifications,
+        smsNotifications: req.body.smsNotifications,
+        pushNotifications: req.body.pushNotifications,
+        transactionAlerts: req.body.transactionAlerts,
+        marketingEmails: req.body.marketingEmails
+      };
+      
+      const updatedUser = await storage.updateUserProfile(userId, notificationSettings);
+      
+      // Don't return sensitive information
+      const { password, ...userProfile } = updatedUser;
+      res.json(userProfile);
+    } catch (error) {
+      console.error("Error updating notification settings:", error);
+      res.status(500).json({ message: "Failed to update notification settings" });
+    }
+  });
 
   // Admin routes
   app.get("/api/admin/users", requireAuth, async (req: any, res) => {
