@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import Navigation from "@/components/navigation";
 import { supportApi } from "@/lib/api";
+import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { 
   MessageCircle, 
@@ -20,7 +20,10 @@ import {
   Shield,
   Clock,
   Headphones,
-  CheckCircle
+  CheckCircle,
+  Home,
+  CreditCard,
+  TrendingUp
 } from "lucide-react";
 
 export default function Support() {
@@ -95,7 +98,6 @@ export default function Support() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
@@ -336,6 +338,28 @@ export default function Support() {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </div>
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50">
+        <div className="flex justify-around py-3">
+          <Link href="/" className="flex flex-col items-center gap-1 cursor-pointer">
+            <Home className="w-5 h-5 text-gray-500" />
+            <span className="text-xs text-gray-500">الرئيسية</span>
+          </Link>
+          <Link href="/cards" className="flex flex-col items-center gap-1 cursor-pointer">
+            <CreditCard className="w-5 h-5 text-gray-500" />
+            <span className="text-xs text-gray-500">البطاقات</span>
+          </Link>
+          <Link href="/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
+            <TrendingUp className="w-5 h-5 text-gray-500" />
+            <span className="text-xs text-gray-500">لوحة التحكم</span>
+          </Link>
+          <Link href="/support" className="flex flex-col items-center gap-1 cursor-pointer">
+            <Headphones className="w-5 h-5 text-red-500" />
+            <span className="text-xs text-red-500">الدعم</span>
+          </Link>
         </div>
       </div>
     </div>

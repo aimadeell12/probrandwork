@@ -64,7 +64,6 @@ export default function Cards() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
       
       {/* Cards Page Content */}
       <div className="bg-black text-white min-h-screen pt-16">
