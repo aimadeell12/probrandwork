@@ -38,15 +38,16 @@ export default function AccountSettings() {
   // Update form data when profile is loaded
   useEffect(() => {
     if (profile) {
+      console.log("Profile loaded:", profile); // Debug log
       setFormData({
         username: profile.username || "",
         email: profile.email || "",
         phone: profile.phone || "",
         address: profile.address || "",
-        firstName: profile.firstName || "",
-        lastName: profile.lastName || "",
-        emailNotifications: profile.emailNotifications !== false,
-        smsNotifications: profile.smsNotifications || false
+        firstName: profile.first_name || "", // Updated to match DB column name
+        lastName: profile.last_name || "",   // Updated to match DB column name
+        emailNotifications: profile.email_notifications !== false, // Updated to match DB column name
+        smsNotifications: profile.sms_notifications || false // Updated to match DB column name
       });
     }
   }, [profile]);
@@ -90,18 +91,18 @@ export default function AccountSettings() {
   });
 
   const handleSave = () => {
-    // Send profile updates to the API
+    // Send profile updates to the API - using column names matching the database
     const profileData = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
       phone: formData.phone,
       address: formData.address
     };
 
-    // Send notification settings to the API
+    // Send notification settings to the API - using column names matching the database
     const notificationData = {
-      emailNotifications: formData.emailNotifications,
-      smsNotifications: formData.smsNotifications
+      email_notifications: formData.emailNotifications,
+      sms_notifications: formData.smsNotifications
     };
 
     profileMutation.mutate(profileData);

@@ -24,14 +24,26 @@ export const adminApi = {
 // User Profile and Settings operations
 export const userApi = {
   // Get user profile data
-  getProfile: () => apiRequest("GET", "/api/user/profile"),
+  getProfile: async () => {
+    const res = await apiRequest("GET", "/api/user/profile");
+    return res.json();
+  },
   
   // Update account settings
-  updateProfile: (data: any) => apiRequest("PATCH", "/api/user/profile", data),
+  updateProfile: async (data: any) => {
+    const res = await apiRequest("PATCH", "/api/user/profile", data);
+    return res.json();
+  },
   
   // Update security settings
-  updateSecurity: (data: any) => apiRequest("PATCH", "/api/user/security", data),
+  updateSecurity: async (data: any) => {
+    const res = await apiRequest("PATCH", "/api/user/security", data);
+    return res.json();
+  },
   
   // Update notification preferences
-  updateNotifications: (data: any) => apiRequest("PATCH", "/api/user/notifications", data),
+  updateNotifications: async (data: any) => {
+    const res = await apiRequest("PATCH", "/api/user/notifications", data);
+    return res.json();
+  },
 };
