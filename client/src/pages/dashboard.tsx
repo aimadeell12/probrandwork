@@ -21,7 +21,7 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {Array.from({ length: 4 }).map((_, i) => (
               <Card key={i} className="banking-shadow">
@@ -42,7 +42,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
         {/* Dashboard Stats */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="banking-shadow">
@@ -194,6 +194,28 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </div>
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 z-50">
+        <div className="flex justify-around py-3">
+          <a href="/" className="flex flex-col items-center gap-1 cursor-pointer">
+            <CreditCard className="w-5 h-5 text-gray-500" />
+            <span className="text-xs text-gray-500">الرئيسية</span>
+          </a>
+          <a href="/cards" className="flex flex-col items-center gap-1 cursor-pointer">
+            <CreditCard className="w-5 h-5 text-gray-500" />
+            <span className="text-xs text-gray-500">البطاقات</span>
+          </a>
+          <a href="/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
+            <TrendingUp className="w-5 h-5 text-red-500" />
+            <span className="text-xs text-red-500">لوحة التحكم</span>
+          </a>
+          <a href="/support" className="flex flex-col items-center gap-1 cursor-pointer">
+            <CreditCard className="w-5 h-5 text-gray-500" />
+            <span className="text-xs text-gray-500">الدعم</span>
+          </a>
         </div>
       </div>
     </div>
