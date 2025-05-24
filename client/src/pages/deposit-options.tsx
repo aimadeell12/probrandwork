@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { ArrowLeft, Copy, ExternalLink, CreditCard, Building2, Zap } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface DepositOption {
   id: string;
@@ -81,35 +83,35 @@ export default function DepositOptions() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white dark:bg-background text-black dark:text-foreground">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-800">
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-border">
         <Button
           variant="ghost"
           size="sm"
           onClick={() => setLocation("/deposit")}
-          className="text-white p-2"
+          className="p-2"
         >
           <ArrowLeft className="h-6 w-6" />
         </Button>
         
         <div className="text-center">
           <h1 className="text-xl font-semibold">Deposit {selectedCurrency.symbol}</h1>
-          <p className="text-sm text-gray-400">Choose deposit method</p>
+          <p className="text-sm text-gray-500 dark:text-muted-foreground">Choose deposit method</p>
         </div>
         
-        <div className="w-10" /> {/* Spacer */}
+        <ThemeToggle className="text-black dark:text-foreground" />
       </div>
 
       {/* Currency Info */}
-      <div className="p-4 border-b border-gray-800">
+      <div className="p-4 border-b border-gray-200 dark:border-border">
         <div className="flex items-center space-x-3">
           <div className={`w-12 h-12 ${selectedCurrency.color} rounded-full flex items-center justify-center text-white font-bold text-lg`}>
             {selectedCurrency.icon}
           </div>
           <div>
-            <h2 className="text-white font-semibold text-lg">{selectedCurrency.symbol}</h2>
-            <p className="text-gray-400 text-sm">{selectedCurrency.name}</p>
+            <h2 className="font-semibold text-lg">{selectedCurrency.symbol}</h2>
+            <p className="text-gray-500 dark:text-muted-foreground text-sm">{selectedCurrency.name}</p>
           </div>
           <div className="ml-auto">
             <Badge variant="secondary" className="bg-green-600 text-white">
@@ -121,17 +123,17 @@ export default function DepositOptions() {
 
       {/* Deposit Options */}
       <div className="p-4 space-y-3">
-        <h3 className="text-white font-semibold mb-4">Available Deposit Methods</h3>
+        <h3 className="font-semibold mb-4">Available Deposit Methods</h3>
         
         {depositOptions.map((option) => {
           const Icon = option.icon;
           return (
             <Card 
               key={option.id}
-              className={`border-gray-800 transition-colors cursor-pointer ${
+              className={`border-gray-200 dark:border-border transition-colors cursor-pointer ${
                 option.available 
-                  ? 'bg-gray-900 hover:bg-gray-800' 
-                  : 'bg-gray-950 opacity-50 cursor-not-allowed'
+                  ? 'bg-white dark:bg-card hover:bg-gray-50 dark:hover:bg-muted' 
+                  : 'bg-gray-100 dark:bg-muted opacity-50 cursor-not-allowed'
               }`}
               onClick={() => option.available && handleOptionSelect(option)}
             >
@@ -143,22 +145,22 @@ export default function DepositOptions() {
                   
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
-                      <h4 className="text-white font-semibold">{option.title}</h4>
+                      <h4 className="font-semibold text-black dark:text-white">{option.title}</h4>
                       <div className="text-right">
-                        <p className="text-green-400 text-sm font-semibold">{option.fee}</p>
+                        <p className="text-green-600 dark:text-green-400 text-sm font-semibold">{option.fee}</p>
                       </div>
                     </div>
                     
-                    <p className="text-gray-400 text-sm mb-2">{option.description}</p>
+                    <p className="text-gray-500 dark:text-muted-foreground text-sm mb-2">{option.description}</p>
                     
-                    <div className="flex items-center justify-between text-xs text-gray-500">
+                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-muted-foreground">
                       <span>⏱️ {option.processingTime}</span>
                       <span>{option.minAmount} - {option.maxAmount}</span>
                     </div>
                   </div>
                   
                   <div className="flex items-center">
-                    <ExternalLink className="h-4 w-4 text-gray-400" />
+                    <ExternalLink className="h-4 w-4 text-gray-400 dark:text-muted-foreground" />
                   </div>
                 </div>
               </CardContent>
@@ -169,11 +171,11 @@ export default function DepositOptions() {
 
       {/* Security Info */}
       <div className="p-4 mt-6">
-        <div className="bg-gray-900 rounded-lg p-4 border border-gray-800">
-          <h3 className="text-white font-semibold mb-2 flex items-center">
+        <div className="bg-gray-50 dark:bg-card rounded-lg p-4 border border-gray-200 dark:border-border">
+          <h3 className="font-semibold mb-2 flex items-center text-black dark:text-white">
             🔒 Security Information
           </h3>
-          <div className="space-y-2 text-sm text-gray-400">
+          <div className="space-y-2 text-sm text-gray-600 dark:text-muted-foreground">
             <p>• All deposits are secured with bank-level encryption</p>
             <p>• Your funds are protected by insurance coverage</p>
             <p>• We never store your banking credentials</p>
@@ -185,8 +187,8 @@ export default function DepositOptions() {
       {/* Support */}
       <div className="p-4">
         <div className="text-center">
-          <p className="text-gray-400 text-sm mb-2">Need help with deposits?</p>
-          <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
+          <p className="text-gray-500 dark:text-muted-foreground text-sm mb-2">Need help with deposits?</p>
+          <Button variant="outline" size="sm">
             Contact Support
           </Button>
         </div>
