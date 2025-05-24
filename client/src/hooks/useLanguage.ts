@@ -26,6 +26,7 @@ const translations = {
     cards: "البطاقات",
     support: "الدعم",
     account: "حسابي",
+    transactions: "المعاملات",
     
     // Home page
     wallet: "المحفظة",
@@ -36,6 +37,30 @@ const translations = {
     send: "إرسال",
     scan: "مسح",
     guidanceForBeginnersTitle: "إرشادات للمبتدئين",
+    
+    // Transactions page
+    transactionsTitle: "المعاملات",
+    searchTransactions: "البحث في المعاملات...",
+    all: "الكل",
+    sendTransaction: "إرسال",
+    receiveTransaction: "استلام", 
+    depositTransaction: "إيداع",
+    withdrawTransaction: "سحب",
+    totalIncome: "إجمالي الواردات",
+    totalExpense: "إجمالي الصادرات",
+    loadingTransactions: "جارٍ تحميل المعاملات...",
+    noTransactions: "لا توجد معاملات",
+    noTransactionsDesc: "لم تقم بأي معاملات بعد",
+    noSearchResults: "لم يتم العثور على معاملات تطابق البحث",
+    quickStats: "إحصائيات سريعة",
+    thisMonth: "معاملات هذا الشهر",
+    averageTransaction: "متوسط قيمة المعاملة", 
+    largestTransaction: "أكبر معاملة",
+    completed: "مكتملة",
+    pending: "معلقة",
+    failed: "فاشلة",
+    unknown: "غير معروف",
+    noDescription: "لا يوجد وصف",
     
     // Deposit page
     selectCurrency: "اختر العملة",
@@ -78,6 +103,7 @@ const translations = {
     cards: "Cards",
     support: "Support",
     account: "Account",
+    transactions: "Transactions",
     
     // Home page
     wallet: "Wallet",
