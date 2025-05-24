@@ -99,13 +99,31 @@ export default function Account() {
                 onClick={() => handleSettingClick(item.path)}
               >
                 <div className="flex items-center space-x-5">
-                  <div className={`rounded-full p-2 ${item.title === t("notifications") 
-                    ? "bg-blue-100 dark:bg-blue-900" 
-                    : "bg-gray-100 dark:bg-gray-800"
+                  <div className={`rounded-full p-2 ${
+                    item.title === t("accountSettings") 
+                      ? "bg-purple-100 dark:bg-purple-900" 
+                      : item.title === t("securityPrivacy")
+                      ? "bg-green-100 dark:bg-green-900"
+                      : item.title === t("cardManagement")
+                      ? "bg-orange-100 dark:bg-orange-900"
+                      : item.title === t("notifications") 
+                      ? "bg-blue-100 dark:bg-blue-900" 
+                      : item.title === t("helpSupport")
+                      ? "bg-pink-100 dark:bg-pink-900"
+                      : "bg-gray-100 dark:bg-gray-800"
                   }`}>
-                    <item.icon className={`h-5 w-5 ${item.title === t("notifications") 
-                      ? "text-blue-600 dark:text-blue-300" 
-                      : "text-gray-600 dark:text-gray-300"
+                    <item.icon className={`h-5 w-5 ${
+                      item.title === t("accountSettings") 
+                        ? "text-purple-600 dark:text-purple-300" 
+                        : item.title === t("securityPrivacy")
+                        ? "text-green-600 dark:text-green-300"
+                        : item.title === t("cardManagement")
+                        ? "text-orange-600 dark:text-orange-300"
+                        : item.title === t("notifications") 
+                        ? "text-blue-600 dark:text-blue-300" 
+                        : item.title === t("helpSupport")
+                        ? "text-pink-600 dark:text-pink-300"
+                        : "text-gray-600 dark:text-gray-300"
                     }`} />
                   </div>
                   <div>
