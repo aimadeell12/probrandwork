@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/navigation";
+import { Link } from "wouter";
 import { 
   Plus, 
   Minus, 
@@ -29,10 +30,10 @@ export default function Wallet() {
   const totalBalance = Array.isArray(cards) ? cards.reduce((sum: number, card: any) => sum + parseFloat(card.balance || "0"), 0) : 5.00;
 
   const quickActions = [
-    { icon: Plus, label: "إيداع", color: "bg-black text-white" },
-    { icon: Minus, label: "سحب", color: "bg-gray-100 text-gray-700" },
-    { icon: Send, label: "إرسال", color: "bg-gray-100 text-gray-700" },
-    { icon: ScanLine, label: "مسح", color: "bg-gray-100 text-gray-700" },
+    { icon: Plus, label: "إيداع", color: "bg-black text-white", href: "/deposit" },
+    { icon: Minus, label: "سحب", color: "bg-gray-100 text-gray-700", href: "/withdraw" },
+    { icon: Send, label: "إرسال", color: "bg-gray-100 text-gray-700", href: "/send" },
+    { icon: ScanLine, label: "مسح", color: "bg-gray-100 text-gray-700", href: "#" },
   ];
 
   const assets = [
@@ -103,12 +104,23 @@ export default function Wallet() {
         <div className="flex justify-between space-x-4 space-x-reverse">
           {quickActions.map((action, index) => (
             <div key={index} className="flex flex-col items-center space-y-2">
-              <Button
-                size="lg"
-                className={`w-16 h-16 rounded-full ${action.color} hover:opacity-90`}
-              >
-                <action.icon className="h-6 w-6" />
-              </Button>
+              {action.href === "#" ? (
+                <Button
+                  size="lg"
+                  className={`w-16 h-16 rounded-full ${action.color} hover:opacity-90`}
+                >
+                  <action.icon className="h-6 w-6" />
+                </Button>
+              ) : (
+                <Link href={action.href}>
+                  <Button
+                    size="lg"
+                    className={`w-16 h-16 rounded-full ${action.color} hover:opacity-90`}
+                  >
+                    <action.icon className="h-6 w-6" />
+                  </Button>
+                </Link>
+              )}
               <span className="text-sm text-gray-600">{action.label}</span>
             </div>
           ))}
