@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
-import { CreditCard, TrendingUp, Wallet } from "lucide-react";
+import { X, Gift, QrCode, CreditCard, ChevronDown } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 
@@ -15,63 +15,120 @@ export default function Home() {
   
   // Safely access data with fallback
   const cards = Array.isArray(data) ? data : [];
-  const cardCount = cards.length;
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      <div className="max-w-xl mx-auto px-4 pt-6 pb-10">
-        <div className="space-y-4">
-          {/* Total Cards */}
-          <div className="bg-white border border-border rounded-lg overflow-hidden">
-            <div className="p-4 flex items-start gap-4">
-              <div className="bg-blue-50 p-3 rounded-full">
-                <CreditCard className="h-6 w-6 text-blue-500" />
-              </div>
-              <div className="flex-grow text-right">
-                <h3 className="text-gray-600 text-sm font-medium">إجمالي البطاقات</h3>
-                <p className="text-4xl font-bold mt-1">{cardCount}</p>
-              </div>
-            </div>
+    <div className="min-h-screen bg-white pb-20">
+      <div className="max-w-lg mx-auto px-5 pt-8">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">المحفظة</h1>
+          <div className="flex gap-4">
+            <button className="text-black">
+              <Gift size={22} />
+            </button>
+            <button className="text-black">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            </button>
           </div>
+        </div>
 
-          {/* Total Balance */}
-          <div className="bg-white border border-border rounded-lg overflow-hidden">
-            <div className="p-4 flex items-start gap-4">
-              <div className="bg-green-50 p-3 rounded-full">
-                <Wallet className="h-6 w-6 text-green-500" />
-              </div>
-              <div className="flex-grow text-right">
-                <h3 className="text-gray-600 text-sm font-medium">الرصيد الإجمالي</h3>
-                <p className="text-4xl font-bold mt-1">$0.00</p>
-              </div>
+        {/* Currency Selector */}
+        <div className="mb-6">
+          <button className="flex items-center gap-2 bg-gray-100 py-1.5 px-3 rounded-full">
+            <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-xs">$</span>
             </div>
-          </div>
+            <span className="font-medium">USD</span>
+            <ChevronDown size={16} />
+          </button>
+        </div>
 
-          {/* Today's Transactions */}
-          <div className="bg-white border border-border rounded-lg overflow-hidden">
-            <div className="p-4 flex items-start gap-4">
-              <div className="bg-red-50 p-3 rounded-full">
-                <TrendingUp className="h-6 w-6 text-red-500" />
-              </div>
-              <div className="flex-grow text-right">
-                <h3 className="text-gray-600 text-sm font-medium">المعاملات اليوم</h3>
-                <p className="text-4xl font-bold mt-1">12</p>
-              </div>
+        {/* Balance Section */}
+        <div className="mb-8">
+          <p className="text-gray-500 mb-1 flex items-center">
+            الرصيد الإجمالي
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+          </p>
+          <h2 className="text-5xl font-bold">$ 5<span className="text-3xl">.00</span></h2>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="grid grid-cols-4 gap-4 mb-10">
+          <div className="flex flex-col items-center">
+            <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white"><path d="M12 5v14M5 12h14"/></svg>
+            </div>
+            <span className="text-sm">إيداع</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path d="M5 12h14"/></svg>
+            </div>
+            <span className="text-sm">سحب</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+            <span className="text-sm">إرسال</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+              <QrCode size={24} />
+            </div>
+            <span className="text-sm">مسح</span>
+          </div>
+        </div>
+
+        {/* Beginner Guidance */}
+        <div className="bg-gray-50 p-4 rounded-xl mb-8 relative">
+          <button className="absolute top-3 right-3">
+            <X size={18} />
+          </button>
+          <h3 className="font-bold mb-2">إرشادات للمبتدئين</h3>
+          <div className="flex gap-3">
+            <div className="w-12 h-12 bg-gray-200 rounded-md flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="5" rx="2"/><path d="M3 7h18"/><path d="M7 11h2"/><path d="M7 15h8"/></svg>
+            </div>
+            <div>
+              <p className="font-medium">يرجى التحقق من هويتك</p>
+              <a href="#" className="text-red-500 text-sm">انتقل للتحقق</a>
             </div>
           </div>
-          
-          {/* View All Cards Link */}
-          <div className="bg-white border border-border rounded-lg overflow-hidden">
-            <div className="p-4">
-              <div className="flex items-center justify-center py-3">
-                <Link 
-                  href="/cards" 
-                  className="text-primary font-medium flex items-center justify-center gap-2"
-                >
-                  <CreditCard className="h-5 w-5" />
-                  عرض جميع البطاقات
-                </Link>
+        </div>
+
+        {/* Promotion Banner */}
+        <div className="bg-red-600 text-white p-4 rounded-xl mb-8 relative overflow-hidden">
+          <div className="relative z-10">
+            <h3 className="text-xl font-bold mb-1">عرض 11.11</h3>
+            <div className="inline-block bg-black text-white text-xs px-3 py-1 rounded-full mb-3">
+              خصم حتى 60%
+            </div>
+          </div>
+          <div className="absolute bottom-0 right-0">
+            <div className="relative w-32 h-20">
+              <div className="absolute bottom-0 right-0 w-24 h-16 bg-purple-600 rounded-tl-xl"></div>
+              <div className="absolute bottom-4 right-6 w-24 h-16 bg-black rounded-tl-xl"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Assets */}
+        <div className="mb-8">
+          <h3 className="text-xl font-bold mb-4">الأصول</h3>
+          <div className="bg-white border border-gray-100 rounded-xl p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold">$</span>
               </div>
+              <div>
+                <p className="font-medium">USD</p>
+                <p className="text-gray-500 text-sm">USD</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="font-bold">5.00</p>
+              <p className="text-gray-500 text-sm">≈5.00 USD</p>
             </div>
           </div>
         </div>
