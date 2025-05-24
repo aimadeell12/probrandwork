@@ -37,7 +37,7 @@ function Router() {
           </>
         ) : (
           <>
-            <Route path="/" component={Dashboard} />
+            <Route path="/" component={Home} />
             <Route path="/home" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/wallet" component={Wallet} />
