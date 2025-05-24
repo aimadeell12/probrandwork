@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/navigation";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { 
   Plus, 
   Minus, 
@@ -22,12 +22,19 @@ import {
 export default function Wallet() {
   const [showBalance, setShowBalance] = useState(true);
   const [showGuidance, setShowGuidance] = useState(true);
+  const [, setLocation] = useLocation();
 
   const { data: cards, isLoading: cardsLoading } = useQuery({
     queryKey: ["/api/cards"],
   });
 
   const totalBalance = Array.isArray(cards) ? cards.reduce((sum: number, card: any) => sum + parseFloat(card.balance || "0"), 0) : 5.00;
+
+  const handleActionClick = (href: string) => {
+    if (href !== "#") {
+      setLocation(href);
+    }
+  };
 
   const quickActions = [
     { icon: Plus, label: "إيداع", color: "bg-black text-white", href: "/deposit" },
@@ -103,24 +110,17 @@ export default function Wallet() {
         {/* Quick Actions */}
         <div className="flex justify-between space-x-4 space-x-reverse">
           {quickActions.map((action, index) => (
-            <div key={index} className="flex flex-col items-center space-y-2">
-              {action.href === "#" ? (
-                <Button
-                  size="lg"
-                  className={`w-16 h-16 rounded-full ${action.color} hover:opacity-90`}
-                >
-                  <action.icon className="h-6 w-6" />
-                </Button>
-              ) : (
-                <Link href={action.href}>
-                  <Button
-                    size="lg"
-                    className={`w-16 h-16 rounded-full ${action.color} hover:opacity-90`}
-                  >
-                    <action.icon className="h-6 w-6" />
-                  </Button>
-                </Link>
-              )}
+            <div 
+              key={index} 
+              className="flex flex-col items-center space-y-2 cursor-pointer"
+              onClick={() => handleActionClick(action.href)}
+            >
+              <Button
+                size="lg"
+                className={`w-16 h-16 rounded-full ${action.color} hover:opacity-90`}
+              >
+                <action.icon className="h-6 w-6" />
+              </Button>
               <span className="text-sm text-gray-600">{action.label}</span>
             </div>
           ))}
