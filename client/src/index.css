@@ -26,25 +26,25 @@
 }
 
 .dark {
-  --background: 222 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --muted: 217 32% 17.5%;
-  --muted-foreground: 215 20% 65%;
-  --popover: 222 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --card: 222 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --border: 217 32% 17.5%;
-  --input: 217 32% 17.5%;
-  --primary: 217 91% 60%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 160 84% 39%;
-  --secondary-foreground: 0 0% 98%;
-  --accent: 0 84% 60%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --ring: 217 91% 60%;
+  --background: 0 0% 0%; /* Pure black */
+  --foreground: 0 0% 100%; /* Pure white */
+  --muted: 0 0% 15%; /* Very dark gray for subtle elements */
+  --muted-foreground: 0 0% 70%; /* Light gray for less important text */
+  --popover: 0 0% 0%; /* Pure black */
+  --popover-foreground: 0 0% 100%; /* Pure white */
+  --card: 0 0% 5%; /* Nearly black for cards */
+  --card-foreground: 0 0% 100%; /* Pure white */
+  --border: 0 0% 20%; /* Dark gray for borders */
+  --input: 0 0% 15%; /* Very dark gray for inputs */
+  --primary: 217 91% 60%; /* Keep primary blue */
+  --primary-foreground: 0 0% 100%; /* Pure white */
+  --secondary: 160 84% 39%; /* Keep secondary green */
+  --secondary-foreground: 0 0% 100%; /* Pure white */
+  --accent: 0 84% 60%; /* Keep accent red */
+  --accent-foreground: 0 0% 100%; /* Pure white */
+  --destructive: 0 62.8% 30.6%; /* Keep destructive red */
+  --destructive-foreground: 0 0% 100%; /* Pure white */
+  --ring: 217 91% 60%; /* Keep ring blue */
 }
 
 @layer base {
