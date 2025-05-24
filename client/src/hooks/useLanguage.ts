@@ -27,6 +27,16 @@ const translations = {
     support: "الدعم",
     account: "حسابي",
     
+    // Home page
+    wallet: "المحفظة",
+    totalBalance: "الرصيد الإجمالي",
+    usd: "دولار أمريكي",
+    deposit: "إيداع",
+    withdraw: "سحب",
+    send: "إرسال",
+    scan: "مسح",
+    guidanceForBeginnersTitle: "إرشادات للمبتدئين",
+    
     // Account page
     myAccount: "حسابي",
     accountSettings: "إعدادات الحساب",
@@ -61,6 +71,16 @@ const translations = {
     cards: "Cards",
     support: "Support",
     account: "Account",
+    
+    // Home page
+    wallet: "Wallet",
+    totalBalance: "Total Balance",
+    usd: "USD",
+    deposit: "Deposit",
+    withdraw: "Withdraw",
+    send: "Send",
+    scan: "Scan",
+    guidanceForBeginnersTitle: "Guidance for Beginners",
     
     // Account page
     myAccount: "My Account",

@@ -2,11 +2,14 @@ import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { X, Gift, QrCode, CreditCard, ChevronDown } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguage";
 import { useQuery } from "@tanstack/react-query";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
 
 export default function Home() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   
   // Fetch user cards
   const { data } = useQuery({
@@ -22,8 +25,9 @@ export default function Home() {
       <div className="max-w-lg mx-auto px-5 pt-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold dark:text-white">المحفظة</h1>
+          <h1 className="text-2xl font-bold dark:text-white">{t("wallet")}</h1>
           <div className="flex gap-4">
+            <LanguageToggle />
             <ThemeToggle className="text-black dark:text-white" />
             <button className="text-black dark:text-white">
               <Gift size={22} />
@@ -40,7 +44,7 @@ export default function Home() {
             <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
               <span className="text-white text-xs">$</span>
             </div>
-            <span className="font-medium">USD</span>
+            <span className="font-medium">{t("usd")}</span>
             <ChevronDown size={16} />
           </button>
         </div>
@@ -48,7 +52,7 @@ export default function Home() {
         {/* Balance Section */}
         <div className="mb-8">
           <p className="text-gray-500 dark:text-gray-400 mb-1 flex items-center">
-            الرصيد الإجمالي
+            {t("totalBalance")}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
           </p>
           <h2 className="text-5xl font-bold dark:text-white">$ 5<span className="text-3xl">.00</span></h2>
@@ -60,25 +64,25 @@ export default function Home() {
             <div className="w-14 h-14 bg-black dark:bg-blue-600 rounded-full flex items-center justify-center mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white"><path d="M12 5v14M5 12h14"/></svg>
             </div>
-            <span className="text-sm dark:text-white">إيداع</span>
+            <span className="text-sm dark:text-white">{t("deposit")}</span>
           </div>
           <div className="flex flex-col items-center">
             <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14"/></svg>
             </div>
-            <span className="text-sm dark:text-white">سحب</span>
+            <span className="text-sm dark:text-white">{t("withdraw")}</span>
           </div>
           <div className="flex flex-col items-center">
             <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="dark:text-white"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
-            <span className="text-sm dark:text-white">إرسال</span>
+            <span className="text-sm dark:text-white">{t("send")}</span>
           </div>
           <div className="flex flex-col items-center">
             <div className="w-14 h-14 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-2">
               <QrCode size={24} className="dark:text-white" />
             </div>
-            <span className="text-sm dark:text-white">مسح</span>
+            <span className="text-sm dark:text-white">{t("scan")}</span>
           </div>
         </div>
 
@@ -87,7 +91,7 @@ export default function Home() {
           <button className="absolute top-3 right-3 dark:text-white">
             <X size={18} />
           </button>
-          <h3 className="font-bold mb-2 dark:text-white">إرشادات للمبتدئين</h3>
+          <h3 className="font-bold mb-2 dark:text-white">{t("guidanceForBeginnersTitle")}</h3>
           <div className="flex gap-3">
             <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="dark:text-white"><rect width="18" height="11" x="3" y="5" rx="2"/><path d="M3 7h18"/><path d="M7 11h2"/><path d="M7 15h8"/></svg>
