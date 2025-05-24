@@ -78,7 +78,7 @@ export default function Account() {
       {/* Header */}
       <div className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 p-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white flex-1 text-center">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white flex-1 text-left">
             {t("accountSettings")}
           </h1>
           <LanguageToggle className="absolute right-4" />
