@@ -143,36 +143,14 @@ export default function Home() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-4 gap-4 mb-10">
-          <Dialog open={isDepositOpen} onOpenChange={setIsDepositOpen}>
-            <DialogTrigger asChild>
-              <div className="flex flex-col items-center cursor-pointer">
-                <div className="w-14 h-14 bg-black dark:bg-blue-600 rounded-full flex items-center justify-center mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white"><path d="M12 5v14M5 12h14"/></svg>
-                </div>
-                <span className="text-sm dark:text-white">{t("deposit")}</span>
+          <Link href="/deposit">
+            <div className="flex flex-col items-center cursor-pointer">
+              <div className="w-14 h-14 bg-black dark:bg-blue-600 rounded-full flex items-center justify-center mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white"><path d="M12 5v14M5 12h14"/></svg>
               </div>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{t("deposit")}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <Input
-                  type="number"
-                  placeholder="Enter amount"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-                <Button 
-                  onClick={handleDeposit} 
-                  disabled={depositMutation.isPending}
-                  className="w-full"
-                >
-                  {depositMutation.isPending ? "Processing..." : "Deposit"}
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
+              <span className="text-sm dark:text-white">{t("deposit")}</span>
+            </div>
+          </Link>
 
           <Dialog open={isWithdrawOpen} onOpenChange={setIsWithdrawOpen}>
             <DialogTrigger asChild>

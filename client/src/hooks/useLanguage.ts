@@ -37,6 +37,13 @@ const translations = {
     scan: "مسح",
     guidanceForBeginnersTitle: "إرشادات للمبتدئين",
     
+    // Deposit page
+    selectCurrency: "اختر العملة",
+    depositInformation: "معلومات الإيداع",
+    selectCurrencyToView: "• اختر عملة لعرض خيارات الإيداع",
+    minimumDepositApply: "• قد تنطبق حدود دنيا للإيداع",
+    processingTimesVary: "• أوقات المعالجة تختلف حسب العملة والشبكة",
+    
     // Account page
     myAccount: "حسابي",
     accountSettings: "إعدادات الحساب",
@@ -81,6 +88,13 @@ const translations = {
     send: "Send",
     scan: "Scan",
     guidanceForBeginnersTitle: "Guidance for Beginners",
+    
+    // Deposit page
+    selectCurrency: "Select Currency",
+    depositInformation: "Deposit Information",
+    selectCurrencyToView: "• Select a currency to view deposit options",
+    minimumDepositApply: "• Minimum deposit amounts may apply",
+    processingTimesVary: "• Processing times vary by currency and network",
     
     // Account page
     myAccount: "My Account",
