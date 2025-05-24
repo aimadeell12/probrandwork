@@ -99,8 +99,14 @@ export default function Account() {
                 onClick={() => handleSettingClick(item.path)}
               >
                 <div className="flex items-center space-x-5">
-                  <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-2">
-                    <item.icon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                  <div className={`rounded-full p-2 ${item.title === t("notifications") 
+                    ? "bg-blue-100 dark:bg-blue-900" 
+                    : "bg-gray-100 dark:bg-gray-800"
+                  }`}>
+                    <item.icon className={`h-5 w-5 ${item.title === t("notifications") 
+                      ? "text-blue-600 dark:text-blue-300" 
+                      : "text-gray-600 dark:text-gray-300"
+                    }`} />
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-gray-900 dark:text-white">
