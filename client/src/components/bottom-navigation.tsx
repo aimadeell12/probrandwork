@@ -1,14 +1,16 @@
 import { Link, useLocation } from "wouter";
 import { Home, CreditCard, BarChart3, Headphones, User } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function BottomNavigation() {
   const [location] = useLocation();
+  const { t } = useLanguage();
 
   const navItems = [
-    { path: "/", label: "الرئيسية", icon: Home },
-    { path: "/cards", label: "البطاقات", icon: CreditCard },
-    { path: "/support", label: "الدعم", icon: Headphones },
-    { path: "/account", label: "حسابي", icon: User },
+    { path: "/", label: t("home"), icon: Home },
+    { path: "/cards", label: t("cards"), icon: CreditCard },
+    { path: "/support", label: t("support"), icon: Headphones },
+    { path: "/account", label: t("account"), icon: User },
   ];
 
   return (

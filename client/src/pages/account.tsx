@@ -17,11 +17,14 @@ import {
   MapPin
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguage";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { LanguageToggle } from "@/components/language-toggle";
 
 export default function Account() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const { toast } = useToast();
 
   const handleLogout = async () => {
@@ -30,8 +33,8 @@ export default function Account() {
       window.location.reload();
     } catch (error) {
       toast({
-        title: "خطأ",
-        description: "حدث خطأ أثناء تسجيل الخروج",
+        title: t("error"),
+        description: t("logoutError"),
         variant: "destructive",
       });
     }
