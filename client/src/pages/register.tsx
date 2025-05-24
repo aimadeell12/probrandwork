@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +8,72 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreditCard, UserPlus } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const countryCodes = [
+  { code: "+966", country: "السعودية 🇸🇦" },
+  { code: "+971", country: "الإمارات 🇦🇪" },
+  { code: "+974", country: "قطر 🇶🇦" },
+  { code: "+973", country: "البحرين 🇧🇭" },
+  { code: "+965", country: "الكويت 🇰🇼" },
+  { code: "+968", country: "عمان 🇴🇲" },
+  { code: "+20", country: "مصر 🇪🇬" },
+  { code: "+962", country: "الأردن 🇯🇴" },
+  { code: "+961", country: "لبنان 🇱🇧" },
+  { code: "+963", country: "سوريا 🇸🇾" },
+  { code: "+967", country: "اليمن 🇾🇪" },
+  { code: "+964", country: "العراق 🇮🇶" },
+  { code: "+213", country: "الجزائر 🇩🇿" },
+  { code: "+216", country: "تونس 🇹🇳" },
+  { code: "+212", country: "المغرب 🇲🇦" },
+  { code: "+218", country: "ليبيا 🇱🇾" },
+  { code: "+249", country: "السودان 🇸🇩" },
+  { code: "+970", country: "فلسطين 🇵🇸" },
+  { code: "+972", country: "إسرائيل 🇮🇱" },
+  { code: "+251", country: "إثيوبيا 🇪🇹" },
+  { code: "+254", country: "كينيا 🇰🇪" },
+  { code: "+234", country: "نيجيريا 🇳🇬" },
+  { code: "+27", country: "جنوب أفريقيا 🇿🇦" },
+  { code: "+91", country: "الهند 🇮🇳" },
+  { code: "+92", country: "باكستان 🇵🇰" },
+  { code: "+98", country: "إيران 🇮🇷" },
+  { code: "+90", country: "تركيا 🇹🇷" },
+  { code: "+60", country: "ماليزيا 🇲🇾" },
+  { code: "+62", country: "إندونيسيا 🇮🇩" },
+  { code: "+63", country: "الفلبين 🇵🇭" },
+  { code: "+66", country: "تايلاند 🇹🇭" },
+  { code: "+86", country: "الصين 🇨🇳" },
+  { code: "+81", country: "اليابان 🇯🇵" },
+  { code: "+82", country: "كوريا الجنوبية 🇰🇷" },
+  { code: "+1", country: "الولايات المتحدة 🇺🇸" },
+  { code: "+1", country: "كندا 🇨🇦" },
+  { code: "+52", country: "المكسيك 🇲🇽" },
+  { code: "+55", country: "البرازيل 🇧🇷" },
+  { code: "+54", country: "الأرجنتين 🇦🇷" },
+  { code: "+44", country: "المملكة المتحدة 🇬🇧" },
+  { code: "+33", country: "فرنسا 🇫🇷" },
+  { code: "+49", country: "ألمانيا 🇩🇪" },
+  { code: "+39", country: "إيطاليا 🇮🇹" },
+  { code: "+34", country: "إسبانيا 🇪🇸" },
+  { code: "+31", country: "هولندا 🇳🇱" },
+  { code: "+32", country: "بلجيكا 🇧🇪" },
+  { code: "+41", country: "سويسرا 🇨🇭" },
+  { code: "+46", country: "السويد 🇸🇪" },
+  { code: "+47", country: "النرويج 🇳🇴" },
+  { code: "+45", country: "الدنمارك 🇩🇰" },
+  { code: "+358", country: "فنلندا 🇫🇮" },
+  { code: "+7", country: "روسيا 🇷🇺" },
+  { code: "+380", country: "أوكرانيا 🇺🇦" },
+  { code: "+48", country: "بولندا 🇵🇱" },
+  { code: "+36", country: "المجر 🇭🇺" },
+  { code: "+43", country: "النمسا 🇦🇹" },
+  { code: "+30", country: "اليونان 🇬🇷" },
+  { code: "+351", country: "البرتغال 🇵🇹" },
+  { code: "+61", country: "أستراليا 🇦🇺" },
+  { code: "+64", country: "نيوزيلندا 🇳🇿" },
+  { code: "+27", country: "جنوب أفريقيا 🇿🇦" },
+  { code: "+971", country: "الإمارات العربية المتحدة 🇦🇪" },
+];
 
 export default function Register() {
   const [, setLocation] = useLocation();
@@ -14,15 +81,31 @@ export default function Register() {
     username: "",
     password: "",
     email: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    countryCode: "+966",
   });
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const registerMutation = useMutation({
-    mutationFn: async (data: { username: string; password: string; email?: string }) => {
+    mutationFn: async (data: { 
+      username: string;
+      password: string;
+      email?: string;
+      firstName?: string;
+      lastName?: string;
+      phone?: string;
+    }) => {
+      const phone = data.phone ? `${formData.countryCode}${data.phone}` : undefined;
+      
       const response = await fetch("/api/register", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          phone
+        }),
         headers: { "Content-Type": "application/json" },
       });
       if (!response.ok) {
@@ -37,6 +120,7 @@ export default function Register() {
         title: "تم إنشاء الحساب بنجاح",
         description: "مرحباً بك في منصة البطاقات المصرفية",
       });
+      setLocation("/login");
     },
     onError: (error: any) => {
       toast({
@@ -57,7 +141,17 @@ export default function Register() {
       });
       return;
     }
-    registerMutation.mutate(formData);
+    
+    const registerData = {
+      username: formData.username,
+      password: formData.password,
+      email: formData.email || undefined,
+      firstName: formData.firstName || undefined,
+      lastName: formData.lastName || undefined,
+      phone: formData.phoneNumber || undefined,
+    };
+    
+    registerMutation.mutate(registerData);
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -85,6 +179,34 @@ export default function Register() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* الاسم الشخصي والعائلي */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName">الاسم الأول</Label>
+                  <Input
+                    id="firstName"
+                    type="text"
+                    value={formData.firstName}
+                    onChange={(e) => handleInputChange("firstName", e.target.value)}
+                    placeholder="الاسم الأول"
+                    className="form-input"
+                    disabled={registerMutation.isPending}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastName">الاسم العائلي</Label>
+                  <Input
+                    id="lastName"
+                    type="text"
+                    value={formData.lastName}
+                    onChange={(e) => handleInputChange("lastName", e.target.value)}
+                    placeholder="الاسم العائلي"
+                    className="form-input"
+                    disabled={registerMutation.isPending}
+                  />
+                </div>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="username">اسم المستخدم</Label>
                 <Input
@@ -110,6 +232,37 @@ export default function Register() {
                   className="form-input"
                   disabled={registerMutation.isPending}
                 />
+              </div>
+
+              {/* رقم الهاتف مع رمز الدولة */}
+              <div className="space-y-2">
+                <Label htmlFor="phone">رقم الهاتف</Label>
+                <div className="flex gap-2">
+                  <Select
+                    value={formData.countryCode}
+                    onValueChange={(value) => handleInputChange("countryCode", value)}
+                  >
+                    <SelectTrigger className="w-[110px] flex-shrink-0">
+                      <SelectValue placeholder="+966" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {countryCodes.map((country) => (
+                        <SelectItem key={country.code} value={country.code}>
+                          {country.code} {country.country}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Input
+                    id="phoneNumber"
+                    type="tel"
+                    value={formData.phoneNumber}
+                    onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+                    placeholder="رقم الهاتف"
+                    className="form-input"
+                    disabled={registerMutation.isPending}
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">
