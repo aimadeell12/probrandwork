@@ -16,6 +16,7 @@ import Cards from "@/pages/cards";
 import Support from "@/pages/support";
 import Account from "@/pages/account";
 import Deposit from "@/pages/deposit";
+import DepositOptions from "@/pages/deposit-options";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -49,6 +50,7 @@ function Router() {
             <Route path="/support" component={Support} />
             <Route path="/account" component={Account} />
             <Route path="/deposit" component={Deposit} />
+            <Route path="/deposit/options" component={DepositOptions} />
           </>
         )}
         <Route component={NotFound} />

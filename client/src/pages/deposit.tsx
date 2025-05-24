@@ -68,9 +68,9 @@ export default function Deposit() {
   ];
 
   const handleCurrencySelect = (currency: Currency) => {
-    // Navigate to deposit amount page or show deposit options
-    console.log("Selected currency:", currency);
-    // You can implement the next step here
+    // Store selected currency in localStorage and navigate to options
+    localStorage.setItem("selectedCurrency", JSON.stringify(currency));
+    setLocation("/deposit/options");
   };
 
   return (
