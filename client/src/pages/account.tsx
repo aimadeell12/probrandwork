@@ -45,13 +45,13 @@ export default function Account() {
       icon: Settings,
       title: t("accountSettings"),
       description: t("accountSettingsDesc"),
-      action: () => toast({ title: t("comingSoon"), description: t("comingSoonDesc") })
+      action: () => window.location.href = "/account/settings"
     },
     {
       icon: Shield,
       title: t("securityPrivacy"),
       description: t("securityPrivacyDesc"),
-      action: () => toast({ title: t("comingSoon"), description: t("comingSoonDesc") })
+      action: () => window.location.href = "/account/security"
     },
     {
       icon: CreditCard,
@@ -63,7 +63,7 @@ export default function Account() {
       icon: Bell,
       title: t("notifications"),
       description: t("notificationsDesc"),
-      action: () => toast({ title: t("comingSoon"), description: t("comingSoonDesc") })
+      action: () => window.location.href = "/account/notifications"
     },
     {
       icon: HelpCircle,
