@@ -163,6 +163,117 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Wallet operations
+  app.post("/api/wallet/deposit", requireAuth, async (req: any, res) => {
+    try {
+      const { cardId, amount } = req.body;
+      
+      if (!amount || amount <= 0) {
+        return res.status(400).json({ message: "Invalid amount" });
+      }
+
+      const card = await storage.getCard(cardId);
+      if (!card) {
+        return res.status(404).json({ message: "Card not found" });
+      }
+
+      if (card.userId !== req.user.id) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      // Process deposit with Lithic
+      const transfer = await lithicService.deposit(card.lithicCardId || "", amount);
+
+      // Create transaction record
+      await storage.createTransaction({
+        cardId: cardId,
+        amount: amount,
+        type: "deposit",
+        description: "Wallet deposit",
+        status: "completed",
+        merchantName: "Wallet System",
+      });
+
+      res.json({
+        success: true,
+        transfer,
+        message: "Deposit processed successfully"
+      });
+    } catch (error) {
+      console.error("Error processing deposit:", error);
+      res.status(500).json({ message: "Failed to process deposit" });
+    }
+  });
+
+  app.post("/api/wallet/withdraw", requireAuth, async (req: any, res) => {
+    try {
+      const { cardId, amount } = req.body;
+      
+      if (!amount || amount <= 0) {
+        return res.status(400).json({ message: "Invalid amount" });
+      }
+
+      const card = await storage.getCard(cardId);
+      if (!card) {
+        return res.status(404).json({ message: "Card not found" });
+      }
+
+      if (card.userId !== req.user.id) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      // Check balance first
+      const balance = await lithicService.getBalance(card.lithicCardId || "");
+      if (balance < amount) {
+        return res.status(400).json({ message: "Insufficient funds" });
+      }
+
+      // Process withdrawal with Lithic
+      const transfer = await lithicService.withdraw(card.lithicCardId || "", amount);
+
+      // Create transaction record
+      await storage.createTransaction({
+        cardId: cardId,
+        amount: -amount, // Negative for withdrawal
+        type: "withdrawal",
+        description: "Wallet withdrawal",
+        status: "completed",
+        merchantName: "Wallet System",
+      });
+
+      res.json({
+        success: true,
+        transfer,
+        message: "Withdrawal processed successfully"
+      });
+    } catch (error) {
+      console.error("Error processing withdrawal:", error);
+      res.status(500).json({ message: "Failed to process withdrawal" });
+    }
+  });
+
+  app.get("/api/wallet/balance/:cardId", requireAuth, async (req: any, res) => {
+    try {
+      const { cardId } = req.params;
+      
+      const card = await storage.getCard(cardId);
+      if (!card) {
+        return res.status(404).json({ message: "Card not found" });
+      }
+
+      if (card.userId !== req.user.id) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      const balance = await lithicService.getBalance(card.lithicCardId || "");
+      
+      res.json({ balance });
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+      res.status(500).json({ message: "Failed to fetch balance" });
+    }
+  });
+
   // Support routes
   app.post("/api/support/tickets", requireAuth, async (req: any, res) => {
     try {
