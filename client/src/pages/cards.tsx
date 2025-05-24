@@ -127,45 +127,6 @@ export default function Cards() {
           </Button>
         </div>
 
-        {/* Bottom spacing for navigation */}
-        <div className="h-20"></div>
-      </div>
-
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-black z-50">
-        <div className="flex justify-around py-3 px-4">
-          <Link href="/" className="flex flex-col items-center gap-1 cursor-pointer">
-            <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
-              <span className="text-white text-xs font-bold">P</span>
-            </div>
-            <span className="text-xs text-gray-400">Home</span>
-          </Link>
-          <Link href="/cards" className="flex flex-col items-center gap-1 cursor-pointer">
-            <div className="w-6 h-6 bg-red-600 rounded flex items-center justify-center">
-              <div className="w-3 h-2 bg-white rounded-sm"></div>
-            </div>
-            <span className="text-xs text-red-400">Card</span>
-          </Link>
-          <Link href="/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
-            <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
-              <span className="text-white text-xs">✧</span>
-            </div>
-            <span className="text-xs text-gray-400">Benefits</span>
-          </Link>
-          <Link href="/support" className="flex flex-col items-center gap-1 cursor-pointer">
-            <div className="w-6 h-6 bg-gray-600 rounded flex items-center justify-center">
-              <div className="grid grid-cols-2 gap-px">
-                <div className="w-1.5 h-1.5 bg-white"></div>
-                <div className="w-1.5 h-1.5 bg-white"></div>
-                <div className="w-1.5 h-1.5 bg-white"></div>
-                <div className="w-1.5 h-1.5 bg-white"></div>
-              </div>
-            </div>
-            <span className="text-xs text-gray-400">Hub</span>
-          </Link>
-        </div>
-        {/* Bottom indicator bar */}
-        <div className="h-1 bg-gray-600 mx-auto w-32 rounded-full mb-1"></div>
       </div>
     </div>
   );
