@@ -111,7 +111,7 @@ export default function Cards() {
         </div>
 
         {/* Card Type Info */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-4">
           <h2 className="text-xl font-bold text-foreground mb-2">Virtual Card</h2>
           <p className="text-muted-foreground text-sm">Pay contactless online or in-store</p>
         </div>
