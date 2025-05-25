@@ -211,6 +211,15 @@ const translations = {
     cardCreated: "تم إنشاء البطاقة بنجاح",
     cardCreationError: "خطأ في إنشاء البطاقة",
     
+    // Transactions translations
+    allTransactions: "جميع المعاملات",
+    searchTransactions: "البحث في المعاملات",
+    filterTransactions: "تصفية المعاملات",
+    noTransactions: "لا توجد معاملات",
+    completed: "مكتمل",
+    pending: "معلق",
+    failed: "فشل",
+    
 
   },
   en: {
@@ -404,6 +413,15 @@ const translations = {
     physicalCard: "Physical Card",
     cardCreated: "Card Created Successfully",
     cardCreationError: "Card Creation Error",
+    
+    // Transactions translations
+    allTransactions: "All Transactions",
+    searchTransactions: "Search Transactions",
+    filterTransactions: "Filter Transactions",
+    noTransactions: "No Transactions",
+    completed: "Completed",
+    pending: "Pending",
+    failed: "Failed",
     
 
   }

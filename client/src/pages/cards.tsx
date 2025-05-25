@@ -75,7 +75,7 @@ export default function Cards() {
                 : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             )}
           >
-            بطاقة رقمية
+            {t("virtualCard")}
           </button>
           <button
             onClick={() => setSelectedCardType("physical")}
@@ -86,7 +86,7 @@ export default function Cards() {
                 : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             )}
           >
-            بطاقة فيزيائية
+            {t("physicalCard")}
           </button>
         </div>
 
@@ -144,10 +144,10 @@ export default function Cards() {
         {/* Card Type Info */}
         <div className="text-center mb-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            {selectedCardType === "virtual" ? "بطاقة رقمية" : "بطاقة فيزيائية"}
+            {selectedCardType === "virtual" ? t("virtualCard") : t("physicalCard")}
           </h2>
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            {selectedCardType === "virtual" ? "ادفع بدون تلامس عبر الإنترنت أو في المتجر" : "بطاقة مادية للاستخدام في أي مكان"}
+            {selectedCardType === "virtual" ? t("virtualCard") : t("physicalCard")}
           </p>
         </div>
 
@@ -158,7 +158,7 @@ export default function Cards() {
             disabled={createCardMutation.isPending}
             className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
           >
-            {createCardMutation.isPending ? "جاري الإنشاء..." : "طلب البطاقة · 10 دولار"}
+            {createCardMutation.isPending ? t("processingWithdraw") : t("createCard")}
           </Button>
         </div>
 

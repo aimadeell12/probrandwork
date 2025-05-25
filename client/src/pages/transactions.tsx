@@ -89,7 +89,7 @@ export default function Transactions() {
       <div className="max-w-md mx-auto relative z-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-6 pt-8">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">المعاملات</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("transactions")}</h1>
           <Button variant="outline" size="icon" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 hover:bg-purple-50">
             <Filter className="h-4 w-4" />
           </Button>
@@ -99,7 +99,7 @@ export default function Transactions() {
         <div className="relative mb-6">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
           <Input
-            placeholder="البحث في المعاملات..."
+            placeholder={t("searchTransactions")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 focus:border-purple-500 rounded-2xl"
@@ -109,11 +109,11 @@ export default function Transactions() {
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6 overflow-x-auto">
           {[
-            { key: "all", label: "الكل" },
-            { key: "send", label: "إرسال" },
-            { key: "receive", label: "استلام" },
-            { key: "deposit", label: "إيداع" },
-            { key: "withdraw", label: "سحب" },
+            { key: "all", label: t("allTransactions") },
+            { key: "send", label: t("send") },
+            { key: "receive", label: t("scan") },
+            { key: "deposit", label: t("deposit") },
+            { key: "withdraw", label: t("withdraw") },
           ].map((filter) => (
             <Button
               key={filter.key}
