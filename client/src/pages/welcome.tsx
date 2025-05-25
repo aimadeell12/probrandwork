@@ -11,15 +11,6 @@ export default function Welcome() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900">
       <div className="px-6 pt-12">
-        {/* Logo */}
-        <div className="mb-12">
-          <div className="bg-black dark:bg-white rounded-xl p-4 w-fit">
-            <div className="flex items-center">
-              <span className="text-white dark:text-black text-xl font-bold">Digital</span>
-              <div className="w-2 h-2 bg-red-500 rounded-full ml-2"></div>
-            </div>
-          </div>
-        </div>
 
         {/* Main Content */}
         <div className="mb-12">
