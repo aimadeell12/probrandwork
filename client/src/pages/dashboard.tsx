@@ -39,61 +39,66 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 relative z-10">
         {/* Dashboard Stats */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="banking-shadow">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm mb-1">إجمالي البطاقات</p>
-                  <p className="text-2xl font-bold text-foreground">{stats.totalCards}</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">إجمالي البطاقات</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalCards}</p>
                 </div>
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <CreditCard className="text-primary h-6 w-6" />
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-600/20 to-purple-700/20 rounded-xl flex items-center justify-center">
+                  <CreditCard className="text-purple-600 h-6 w-6" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="banking-shadow">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm mb-1">الرصيد الإجمالي</p>
-                  <p className="text-2xl font-bold text-foreground">${stats.totalBalance.toFixed(2)}</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">الرصيد الإجمالي</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">${stats.totalBalance.toFixed(2)}</p>
                 </div>
-                <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
-                  <Wallet className="text-secondary h-6 w-6" />
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-600/20 to-blue-700/20 rounded-xl flex items-center justify-center">
+                  <Wallet className="text-blue-600 h-6 w-6" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="banking-shadow">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm mb-1">المعاملات اليوم</p>
-                  <p className="text-2xl font-bold text-foreground">{stats.todayTransactions}</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">المعاملات اليوم</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.todayTransactions}</p>
                 </div>
-                <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
-                  <TrendingUp className="text-accent h-6 w-6" />
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-600/20 to-pink-700/20 rounded-xl flex items-center justify-center">
+                  <TrendingUp className="text-pink-600 h-6 w-6" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="banking-shadow">
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm mb-1">البطاقات النشطة</p>
-                  <p className="text-2xl font-bold text-foreground">{stats.activeCards}</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">البطاقات النشطة</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.activeCards}</p>
                 </div>
-                <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center">
-                  <CheckCircle className="text-green-500 h-6 w-6" />
+                <div className="w-12 h-12 bg-gradient-to-br from-green-600/20 to-green-700/20 rounded-xl flex items-center justify-center">
+                  <CheckCircle className="text-green-600 h-6 w-6" />
                 </div>
               </div>
             </CardContent>
@@ -103,9 +108,9 @@ export default function Dashboard() {
         {/* Main Content */}
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <Card className="banking-shadow">
+            <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl">
               <CardHeader>
-                <CardTitle>البطاقات الأخيرة</CardTitle>
+                <CardTitle className="text-gray-900 dark:text-white">البطاقات الأخيرة</CardTitle>
               </CardHeader>
               <CardContent>
                 {cards && cards.length > 0 ? (
@@ -150,43 +155,43 @@ export default function Dashboard() {
           </div>
 
           <div className="space-y-6">
-            <Card className="banking-shadow">
+            <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl">
               <CardHeader>
-                <CardTitle>إجراءات سريعة</CardTitle>
+                <CardTitle className="text-gray-900 dark:text-white">إجراءات سريعة</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button className="w-full">
+                <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-xl shadow-xl">
                   إنشاء بطاقة جديدة
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full border-2 border-purple-300/60 text-purple-700 dark:text-purple-300 rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95">
                   عرض المعاملات
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full border-2 border-purple-300/60 text-purple-700 dark:text-purple-300 rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95">
                   إضافة رصيد
                 </Button>
               </CardContent>
             </Card>
 
-            <Card className="banking-shadow">
+            <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Bell className="h-5 w-5" />
+                <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+                  <Bell className="h-5 w-5 text-purple-600" />
                   الإشعارات
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-start space-x-3 space-x-reverse">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2"></div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">معاملة جديدة</p>
-                    <p className="text-xs text-muted-foreground">تم خصم $25.99 من البطاقة</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">معاملة جديدة</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">تم خصم $25.99 من البطاقة</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3 space-x-reverse">
-                  <div className="w-2 h-2 bg-secondary rounded-full mt-2"></div>
+                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">بطاقة مُفعلة</p>
-                    <p className="text-xs text-muted-foreground">تم تفعيل البطاقة بنجاح</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">بطاقة مُفعلة</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">تم تفعيل البطاقة بنجاح</p>
                   </div>
                 </div>
               </CardContent>
