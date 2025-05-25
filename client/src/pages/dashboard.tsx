@@ -114,8 +114,8 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900 dark:text-white">{t('guidanceForBeginnersTitle')}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">يرجى التحقق من هويتك</p>
-                  <p className="text-sm text-red-500 dark:text-red-400">انقل للتحقق</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{t('verifyIdentity')}</p>
+                  <p className="text-sm text-red-500 dark:text-red-400">{t('clickToVerify')}</p>
                 </div>
               </div>
               <Button variant="ghost" size="icon" className="text-gray-400">

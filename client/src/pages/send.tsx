@@ -8,8 +8,10 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function SendMoney() {
+  const { t } = useLanguage();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -110,7 +112,7 @@ export default function SendMoney() {
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            إرسال أموال
+            {t('sendMoney')}
           </h1>
         </div>
       </div>
@@ -120,7 +122,7 @@ export default function SendMoney() {
         {/* Balance Display */}
         <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardContent className="p-4 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">الرصيد المتاح</p>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">{t('availableBalance')}</p>
             <p className="text-2xl font-bold text-gray-900 dark:text-white">
               ${((balance as any)?.balance || 0).toFixed(2)}
             </p>
@@ -134,7 +136,7 @@ export default function SendMoney() {
               <div className="p-1 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
                 <User className="h-5 w-5 text-blue-600" />
               </div>
-              إرسال إلى
+              {t('sendTo')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -149,7 +151,7 @@ export default function SendMoney() {
                 }`}
               >
                 <Mail className="h-4 w-4" />
-                بريد إلكتروني
+                {t('emailAddress')}
               </button>
               <button
                 onClick={() => setRecipientType("phone")}
@@ -160,13 +162,13 @@ export default function SendMoney() {
                 }`}
               >
                 <Phone className="h-4 w-4" />
-                رقم هاتف
+                {t('phoneNumber')}
               </button>
             </div>
 
             <div>
               <Label htmlFor="recipient" className="text-gray-700 dark:text-gray-300">
-                {recipientType === "email" ? "البريد الإلكتروني" : "رقم الهاتف"}
+                {recipientType === "email" ? t('emailAddress') : t('phoneNumber')}
               </Label>
               <Input
                 id="recipient"
@@ -187,12 +189,12 @@ export default function SendMoney() {
               <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
                 <DollarSign className="h-5 w-5 text-green-600" />
               </div>
-              المبلغ
+              {t('amount')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">المبلغ بالدولار</Label>
+              <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">{t('amountInDollars')}</Label>
               <Input
                 id="amount"
                 type="number"
@@ -222,10 +224,10 @@ export default function SendMoney() {
         {/* Note (Optional) */}
         <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardContent className="p-4">
-            <Label htmlFor="note" className="text-gray-700 dark:text-gray-300">ملاحظة (اختيارية)</Label>
+            <Label htmlFor="note" className="text-gray-700 dark:text-gray-300">{t('optionalNote')}</Label>
             <Input
               id="note"
-              placeholder="إضافة ملاحظة..."
+              placeholder={t('addNote')}
               value={note}
               onChange={(e) => setNote(e.target.value)}
               className="mt-2 bg-white/80 dark:bg-gray-700/80 border-purple-200/30 focus:border-purple-500 rounded-2xl"

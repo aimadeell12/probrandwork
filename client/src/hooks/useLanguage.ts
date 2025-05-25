@@ -181,6 +181,10 @@ const translations = {
     error: "خطأ",
     logoutError: "حدث خطأ أثناء تسجيل الخروج",
     language: "اللغة",
+    totalBalance: "الرصيد الإجمالي",
+    selectAppLanguage: "اختر لغة التطبيق المفضلة",
+    verifyIdentity: "يرجى التحقق من هويتك",
+    clickToVerify: "انقل للتحقق",
   },
   en: {
     // Navigation
@@ -344,6 +348,10 @@ const translations = {
     error: "Error",
     logoutError: "An error occurred while logging out",
     language: "Language",
+    totalBalance: "Total Balance",
+    selectAppLanguage: "Choose your preferred app language",
+    verifyIdentity: "Please verify your identity",
+    clickToVerify: "Click to verify",
   }
 };
 

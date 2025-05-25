@@ -165,7 +165,7 @@ export default function Account() {
                     {t('language')}
                   </p>
                   <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                    اختر لغة التطبيق المفضلة
+                    {t('selectAppLanguage')}
                   </p>
                 </div>
               </div>
