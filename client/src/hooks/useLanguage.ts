@@ -214,6 +214,7 @@ const translations = {
     cardCreated: "تم إنشاء البطاقة بنجاح",
     cardCreationError: "خطأ في إنشاء البطاقة",
     customizable: "قابلة للتخصيص",
+    chooseCard: "اختر البطاقة",
     
     // Transactions translations
     allTransactions: "جميع المعاملات",

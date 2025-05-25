@@ -61,7 +61,7 @@ export default function Cards() {
         
         {/* Header */}
         <div className="text-center mb-8 pt-12">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">اختر البطاقة</h1>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">{t("chooseCard")}</h1>
         </div>
 
         {/* Card Type Selector */}
