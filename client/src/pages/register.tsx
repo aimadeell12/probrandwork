@@ -7,10 +7,13 @@ import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
+import { useLanguage } from '@/hooks/useLanguage';
+import { LanguageToggle } from '@/components/language-toggle';
 
 export default function Register() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -25,20 +28,20 @@ export default function Register() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error('فشل في إنشاء الحساب');
+      if (!response.ok) throw new Error(t('accountCreationFailed'));
       return response.json();
     },
     onSuccess: () => {
       toast({
-        title: "مرحباً بك!",
-        description: "تم إنشاء حسابك بنجاح",
+        title: t('welcome'),
+        description: t('accountCreated'),
       });
       setLocation('/dashboard');
     },
     onError: (error: any) => {
       toast({
-        title: "خطأ في إنشاء الحساب",
-        description: error.message || "يرجى المحاولة مرة أخرى",
+        title: t('accountCreationError'),
+        description: error.message || t('tryAgain'),
         variant: "destructive",
       });
     },
@@ -49,8 +52,8 @@ export default function Register() {
     
     if (!formData.fullName || !formData.email || !formData.password || !formData.confirmPassword) {
       toast({
-        title: "بيانات ناقصة",
-        description: "يرجى ملء جميع الحقول",
+        title: t('incompleteData'),
+        description: t('fillAllFields'),
         variant: "destructive",
       });
       return;
@@ -58,8 +61,8 @@ export default function Register() {
 
     if (formData.password !== formData.confirmPassword) {
       toast({
-        title: "كلمات المرور غير متطابقة",
-        description: "يرجى التأكد من تطابق كلمة المرور",
+        title: t('passwordMismatch'),
+        description: t('checkPasswordMatch'),
         variant: "destructive",
       });
       return;
@@ -67,8 +70,8 @@ export default function Register() {
 
     if (formData.password.length < 6) {
       toast({
-        title: "كلمة مرور ضعيفة",
-        description: "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+        title: t('weakPassword'),
+        description: t('passwordMinLength'),
         variant: "destructive",
       });
       return;

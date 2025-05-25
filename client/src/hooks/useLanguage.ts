@@ -267,6 +267,36 @@ const translations = {
     selectCountryDesc: "اختر الدولة التي تحمل جنسيتها لمتابعة عملية التحقق",
     selectedCountry: "الدولة المختارة",
     
+    // Registration page translations
+    joinUs: "انضم إلينا",
+    createNewAccount: "إنشاء حساب جديد",
+    fullName: "الاسم الكامل",
+    email: "البريد الإلكتروني",
+    password: "كلمة المرور",
+    confirmPassword: "تأكيد كلمة المرور",
+    enterFullName: "أدخل اسمك الكامل",
+    enterEmail: "أدخل بريدك الإلكتروني",
+    enterPassword: "أدخل كلمة المرور",
+    reenterPassword: "أعد إدخال كلمة المرور",
+    creatingAccount: "جاري إنشاء الحساب...",
+    createAccount: "إنشاء حساب جديد",
+    alreadyHaveAccount: "لديك حساب بالفعل؟",
+    signIn: "تسجيل الدخول",
+    backToHome: "العودة للصفحة الرئيسية",
+    
+    // Registration validation messages
+    incompleteData: "بيانات ناقصة",
+    fillAllFields: "يرجى ملء جميع الحقول",
+    passwordMismatch: "كلمات المرور غير متطابقة",
+    checkPasswordMatch: "يرجى التأكد من تطابق كلمة المرور",
+    weakPassword: "كلمة مرور ضعيفة",
+    passwordMinLength: "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+    welcome: "مرحباً بك!",
+    accountCreated: "تم إنشاء حسابك بنجاح",
+    accountCreationError: "خطأ في إنشاء الحساب",
+    tryAgain: "يرجى المحاولة مرة أخرى",
+    accountCreationFailed: "فشل في إنشاء الحساب",
+    
     // Transactions translations
     allTransactions: "جميع المعاملات",
     searchTransactions: "البحث في المعاملات",
@@ -434,6 +464,36 @@ const translations = {
     riyadhSA: "Riyadh, Saudi Arabia",
     user: "User",
     
+    // Registration page translations
+    joinUs: "Join Us",
+    createNewAccount: "Create New Account",
+    fullName: "Full Name",
+    email: "Email",
+    password: "Password",
+    confirmPassword: "Confirm Password",
+    enterFullName: "Enter your full name",
+    enterEmail: "Enter your email address",
+    enterPassword: "Enter your password",
+    reenterPassword: "Re-enter your password",
+    creatingAccount: "Creating account...",
+    createAccount: "Create New Account",
+    alreadyHaveAccount: "Already have an account?",
+    signIn: "Sign In",
+    backToHome: "Back to Home",
+    
+    // Registration validation messages
+    incompleteData: "Incomplete Data",
+    fillAllFields: "Please fill in all fields",
+    passwordMismatch: "Passwords Don't Match",
+    checkPasswordMatch: "Please make sure passwords match",
+    weakPassword: "Weak Password",
+    passwordMinLength: "Password must be at least 6 characters long",
+    welcome: "Welcome!",
+    accountCreated: "Your account has been created successfully",
+    accountCreationError: "Account Creation Error",
+    tryAgain: "Please try again",
+    accountCreationFailed: "Failed to create account",
+
     // Common
     comingSoon: "Coming Soon",
     comingSoonDesc: "This feature will be available soon",
