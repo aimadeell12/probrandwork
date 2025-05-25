@@ -8,8 +8,10 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function Deposit() {
+  const { t } = useLanguage();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -26,16 +28,16 @@ export default function Deposit() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] });
       toast({
-        title: "تم الإيداع بنجاح",
-        description: `تم إيداع $${amount} في محفظتك`,
+        title: t('depositSuccess'),
+        description: `$${amount} deposited successfully`,
       });
       setAmount("");
       setLocation("/dashboard");
     },
     onError: () => {
       toast({
-        title: "خطأ في الإيداع",
-        description: "حدث خطأ أثناء عملية الإيداع",
+        title: t('depositError'),
+        description: "An error occurred during deposit",
         variant: "destructive",
       });
     },
@@ -45,8 +47,8 @@ export default function Deposit() {
     const depositAmount = parseFloat(amount);
     if (!depositAmount || depositAmount <= 0) {
       toast({
-        title: "مبلغ غير صحيح",
-        description: "يرجى إدخال مبلغ صحيح",
+        title: "Invalid Amount",
+        description: "Please enter a valid amount",
         variant: "destructive",
       });
       return;
@@ -54,8 +56,8 @@ export default function Deposit() {
 
     if (depositAmount < 1) {
       toast({
-        title: "مبلغ صغير جداً",
-        description: "الحد الأدنى للإيداع هو $1",
+        title: "Amount Too Small",
+        description: "Minimum deposit is $1",
         variant: "destructive",
       });
       return;
@@ -99,7 +101,7 @@ export default function Deposit() {
               <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
                 <DollarSign className="h-5 w-5 text-green-600" />
               </div>
-              المبلغ المراد إيداعه
+              {t('depositAmount')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -134,7 +136,7 @@ export default function Deposit() {
         {/* Payment Methods */}
         <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-lg text-gray-900 dark:text-white">طريقة الدفع</CardTitle>
+            <CardTitle className="text-lg text-gray-900 dark:text-white">{t('paymentMethod')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div 
@@ -150,7 +152,7 @@ export default function Deposit() {
                   <CreditCard className="h-5 w-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">بطاقة ائتمان</p>
+                  <p className="font-medium text-gray-900 dark:text-white">{t('creditCard')}</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">Visa, Mastercard</p>
                 </div>
               </div>
@@ -169,7 +171,7 @@ export default function Deposit() {
                   <Building className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">تحويل بنكي</p>
+                  <p className="font-medium text-gray-900 dark:text-white">{t('bankTransfer')}</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">ACH, Wire Transfer</p>
                 </div>
               </div>
@@ -184,7 +186,7 @@ export default function Deposit() {
           className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
         >
           <Plus className="h-5 w-5 mr-2" />
-          {depositMutation.isPending ? "جاري الإيداع..." : `إيداع $${amount || "0.00"}`}
+          {depositMutation.isPending ? t('processingDeposit') : `${t('depositButton')} $${amount || "0.00"}`}
         </Button>
       </div>
     </div>
