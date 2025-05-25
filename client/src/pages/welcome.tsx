@@ -27,7 +27,7 @@ export default function Welcome() {
         </div>
 
         {/* Center Visual Content - مضغوط ومتوازن */}
-        <div className="flex-1 flex items-center justify-center py-2 sm:py-4 relative">
+        <div className="flex-1 flex items-center justify-center py-1 sm:py-2 relative">
           {/* Credit Card positioned responsively */}
           <div className="absolute top-8 right-2 sm:top-12 sm:right-4 md:top-16 md:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
             <div className="w-40 h-24 sm:w-48 sm:h-30 md:w-56 md:h-36 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-lg sm:rounded-xl shadow-2xl p-2 sm:p-3 md:p-4 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
@@ -117,7 +117,7 @@ export default function Welcome() {
         </div>
 
         {/* أزرار مضغوطة - تناسب الشاشة بدون تمرير */}
-        <div className="w-full max-w-sm mx-auto pb-2">
+        <div className="w-full max-w-sm mx-auto pb-1">
           <Link href="/login">
             <Button className="w-full h-10 sm:h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-sm sm:text-base font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 mb-3 sm:mb-4 border border-purple-500/20">
               LOG IN
