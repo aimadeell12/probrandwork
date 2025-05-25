@@ -13,15 +13,15 @@
   --card-foreground: 222 84% 4.9%;
   --border: 214 32% 91%; /* #E2E8F0 */
   --input: 214 32% 91%;
-  --primary: 217 91% 60%; /* #1E3A8A */
-  --primary-foreground: 210 40% 98%;
-  --secondary: 160 84% 39%; /* #059669 */
+  --primary: 265 85% 60%; /* Purple primary */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 160 84% 39%; /* Keep secondary green */
   --secondary-foreground: 0 0% 98%;
-  --accent: 217 91% 70%; /* Blue accent */
+  --accent: 265 85% 70%; /* Purple accent */
   --accent-foreground: 0 0% 98%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 217 91% 60%;
+  --ring: 265 85% 60%; /* Purple ring */
   --radius: 0.75rem;
 }
 
@@ -36,15 +36,15 @@
   --card-foreground: 213 31% 91%; /* Light gray */
   --border: 216 34% 17%; /* Dark border */
   --input: 0 0% 15%; /* Very dark gray for inputs */
-  --primary: 217 91% 60%; /* Keep primary blue */
+  --primary: 265 85% 60%; /* Purple primary for dark mode */
   --primary-foreground: 0 0% 100%; /* Pure white */
   --secondary: 160 84% 39%; /* Keep secondary green */
   --secondary-foreground: 0 0% 100%; /* Pure white */
-  --accent: 217 91% 70%; /* Blue accent for dark mode */
+  --accent: 265 85% 70%; /* Purple accent for dark mode */
   --accent-foreground: 0 0% 100%; /* Pure white */
   --destructive: 0 62.8% 30.6%; /* Keep destructive red */
   --destructive-foreground: 0 0% 100%; /* Pure white */
-  --ring: 217 91% 60%; /* Keep ring blue */
+  --ring: 265 85% 60%; /* Purple ring for dark mode */
 }
 
 @layer base {
