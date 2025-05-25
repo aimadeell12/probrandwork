@@ -14,20 +14,20 @@ export default function Welcome() {
       <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
       
-      <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col justify-between min-h-screen relative z-10 max-w-7xl mx-auto">
+      <div className="px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
         
-        {/* Header Content - Improved */}
-        <div className="pt-4 sm:pt-6 text-center sm:text-left">
-          <h1 className="text-gray-700 dark:text-gray-300 text-xl sm:text-2xl lg:text-3xl mb-3 font-medium tracking-wide">
+        {/* Header Content - مضغوط */}
+        <div className="pt-2 sm:pt-3 text-center sm:text-left">
+          <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide">
             Digital account
           </h1>
-          <h2 className="text-gray-900 dark:text-white text-4xl sm:text-5xl lg:text-7xl font-bold mb-8 sm:mb-12 tracking-tight">
+          <h2 className="text-gray-900 dark:text-white text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 tracking-tight">
             fully online
           </h2>
         </div>
 
-        {/* Center Visual Content - Responsive & Stable */}
-        <div className="flex-1 flex items-center justify-center py-4 sm:py-8 md:py-12 relative min-h-[400px] sm:min-h-[500px]">
+        {/* Center Visual Content - مضغوط ومتوازن */}
+        <div className="flex-1 flex items-center justify-center py-2 sm:py-4 relative">
           {/* Credit Card positioned responsively */}
           <div className="absolute top-2 right-2 sm:top-4 sm:right-4 md:top-8 md:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
             <div className="w-40 h-24 sm:w-48 sm:h-30 md:w-56 md:h-36 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-lg sm:rounded-xl shadow-2xl p-2 sm:p-3 md:p-4 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
@@ -116,10 +116,10 @@ export default function Welcome() {
           </div>
         </div>
 
-        {/* Enhanced Action Buttons - Responsive */}
-        <div className="w-full max-w-md mx-auto lg:max-w-lg">
+        {/* أزرار مضغوطة - تناسب الشاشة بدون تمرير */}
+        <div className="w-full max-w-sm mx-auto pb-2">
           <Link href="/login">
-            <Button className="w-full h-12 sm:h-14 lg:h-16 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-base sm:text-lg lg:text-xl font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 mb-6 sm:mb-8 mt-6 sm:mt-8 border border-purple-500/20">
+            <Button className="w-full h-10 sm:h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-sm sm:text-base font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 mb-3 sm:mb-4 border border-purple-500/20">
               LOG IN
             </Button>
           </Link>
@@ -127,15 +127,15 @@ export default function Welcome() {
           <Link href="/register">
             <Button 
               variant="outline" 
-              className="w-full h-12 sm:h-14 lg:h-16 border-2 border-purple-300/60 dark:border-purple-400/60 text-purple-700 dark:text-purple-300 text-base sm:text-lg lg:text-xl font-semibold rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 backdrop-blur-sm"
+              className="w-full h-10 sm:h-12 border-2 border-purple-300/60 dark:border-purple-400/60 text-purple-700 dark:text-purple-300 text-sm sm:text-base font-semibold rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 backdrop-blur-sm"
             >
               OPEN A DIGITAL ACCOUNT
             </Button>
           </Link>
           
-          {/* Enhanced Bottom indicator - Responsive */}
-          <div className="flex justify-center pt-4 sm:pt-6">
-            <div className="w-16 sm:w-20 lg:w-24 h-1 bg-gradient-to-r from-purple-400/40 to-pink-400/40 dark:from-white/20 dark:to-purple-300/20 rounded-full shadow-sm"></div>
+          {/* مؤشر سفلي مضغوط */}
+          <div className="flex justify-center pt-2 sm:pt-3">
+            <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-purple-400/40 to-pink-400/40 dark:from-white/20 dark:to-purple-300/20 rounded-full shadow-sm"></div>
           </div>
         </div>
       </div>
