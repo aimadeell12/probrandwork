@@ -163,7 +163,7 @@ export default function Withdraw() {
         {/* Withdrawal Methods */}
         <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-lg text-gray-900 dark:text-white">طريقة السحب</CardTitle>
+            <CardTitle className="text-lg text-gray-900 dark:text-white">{t("withdrawMethod")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div 
@@ -180,7 +180,7 @@ export default function Withdraw() {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">{t("creditCard")}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">1-3 أيام عمل</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{t("workingDays13")}</p>
                 </div>
               </div>
             </div>
@@ -199,7 +199,7 @@ export default function Withdraw() {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">{t("bankTransfer")}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">3-5 أيام عمل</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{t("workingDays35")}</p>
                 </div>
               </div>
             </div>

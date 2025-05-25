@@ -202,6 +202,9 @@ const translations = {
     withdrawError: "خطأ في السحب",
     insufficientFunds: "رصيد غير كافي",
     amountTooSmall: "مبلغ صغير جداً",
+    withdrawMethod: "طريقة السحب",
+    workingDays13: "1-3 أيام عمل",
+    workingDays35: "3-5 أيام عمل",
     
     // Cards translations
     myCards: "بطاقاتي",
@@ -405,6 +408,9 @@ const translations = {
     withdrawError: "Withdrawal Error",
     insufficientFunds: "Insufficient Funds",
     amountTooSmall: "Amount Too Small",
+    withdrawMethod: "Withdrawal Method",
+    workingDays13: "1-3 business days",
+    workingDays35: "3-5 business days",
     
     // Cards translations
     myCards: "My Cards",
