@@ -44,7 +44,7 @@ export default function NationalitySelection() {
   const handleNext = () => {
     if (selectedNationality) {
       // يمكن إرسال البيانات إلى الخطوة التالية أو حفظها
-      setLocation("/kyc-verification");
+      setLocation("/personal-information");
     }
   };
 
