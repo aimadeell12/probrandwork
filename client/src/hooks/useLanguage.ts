@@ -216,6 +216,11 @@ const translations = {
     customizable: "قابلة للتخصيص",
     chooseCard: "اختر البطاقة",
     
+    // Dashboard guidance section
+    guidanceForBeginnersTitle: "إرشادات للمبتدئين",
+    pleaseVerifyIdentity: "يرجى التحقق من هويتك",
+    clickToVerify: "انقر للتحقق",
+    
     // Transactions translations
     allTransactions: "جميع المعاملات",
     searchTransactions: "البحث في المعاملات",
@@ -423,6 +428,11 @@ const translations = {
     cardCreationError: "Card Creation Error",
     customizable: "Customizable",
     chooseCard: "Choose Card",
+    
+    // Dashboard guidance section
+    guidanceForBeginnersTitle: "Guidance for Beginners",
+    pleaseVerifyIdentity: "Please verify your identity",
+    clickToVerify: "Click to verify",
     
     // Transactions translations
     allTransactions: "All Transactions",
