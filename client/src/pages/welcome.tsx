@@ -43,41 +43,41 @@ export default function Welcome() {
         </div>
 
         {/* Center Visual Content - Responsive */}
-        <div className="flex-1 flex items-center justify-center lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
+        <div className="flex-1 flex items-center justify-center lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center py-4">
           <div className="relative transform hover:scale-105 transition-transform duration-300">
             {/* Phone Frame with responsive sizing */}
-            <div className="relative mx-auto w-48 h-72 sm:w-56 sm:h-80 lg:w-64 lg:h-96 bg-white/90 dark:bg-gray-800/90 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-white/20">
+            <div className="relative mx-auto w-40 h-60 sm:w-48 sm:h-72 lg:w-64 lg:h-96 bg-white/90 dark:bg-gray-800/90 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-white/20">
               {/* Phone Screen */}
-              <div className="p-4 h-full bg-gradient-to-br from-purple-100/80 to-pink-100/80 dark:from-gray-700/80 dark:to-purple-800/80">
+              <div className="p-2 sm:p-4 h-full bg-gradient-to-br from-purple-100/80 to-pink-100/80 dark:from-gray-700/80 dark:to-purple-800/80">
                 {/* Mock App Interface with dollar transactions */}
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {/* Header balance */}
-                  <div className="bg-white/60 rounded-lg shadow-sm p-2 text-center">
-                    <div className="text-lg font-bold text-gray-800">$12,450.00</div>
+                  <div className="bg-white/60 rounded-lg shadow-sm p-1.5 sm:p-2 text-center">
+                    <div className="text-sm sm:text-lg font-bold text-gray-800">$12,450</div>
                   </div>
                   
                   {/* Transaction list */}
-                  <div className="space-y-2">
-                    <div className="bg-white/50 rounded-lg shadow-sm p-2 flex justify-between items-center">
-                      <div className="text-xs text-gray-700 font-medium">Amazon Purchase</div>
+                  <div className="space-y-1 sm:space-y-2">
+                    <div className="bg-white/50 rounded-lg shadow-sm p-1.5 sm:p-2 flex justify-between items-center">
+                      <div className="text-xs text-gray-700 font-medium">Amazon</div>
                       <div className="text-xs font-bold text-red-600">-$89.99</div>
                     </div>
-                    <div className="bg-white/50 rounded-lg shadow-sm p-2 flex justify-between items-center">
+                    <div className="bg-white/50 rounded-lg shadow-sm p-1.5 sm:p-2 flex justify-between items-center">
                       <div className="text-xs text-gray-700 font-medium">Facebook Ads</div>
-                      <div className="text-xs font-bold text-red-600">-$2,500.00</div>
+                      <div className="text-xs font-bold text-red-600">-$2,500</div>
                     </div>
-                    <div className="bg-white/50 rounded-lg shadow-sm p-2 flex justify-between items-center">
-                      <div className="text-xs text-gray-700 font-medium">Coffee Shop</div>
+                    <div className="bg-white/50 rounded-lg shadow-sm p-1.5 sm:p-2 flex justify-between items-center">
+                      <div className="text-xs text-gray-700 font-medium">Coffee</div>
                       <div className="text-xs font-bold text-red-600">-$12.50</div>
                     </div>
                   </div>
                   
                   {/* Quick actions */}
-                  <div className="space-y-2 mt-4">
-                    <div className="h-8 bg-white/40 rounded-lg shadow-sm backdrop-blur-sm flex items-center justify-center">
+                  <div className="space-y-1 sm:space-y-2 mt-2 sm:mt-4">
+                    <div className="h-6 sm:h-8 bg-white/40 rounded-lg shadow-sm backdrop-blur-sm flex items-center justify-center">
                       <span className="text-xs font-medium text-gray-700">Send Money</span>
                     </div>
-                    <div className="h-8 bg-white/30 rounded-lg shadow-sm backdrop-blur-sm flex items-center justify-center">
+                    <div className="h-6 sm:h-8 bg-white/30 rounded-lg shadow-sm backdrop-blur-sm flex items-center justify-center">
                       <span className="text-xs font-medium text-gray-700">Pay Bills</span>
                     </div>
                   </div>
@@ -85,20 +85,20 @@ export default function Welcome() {
               </div>
             </div>
 
-            {/* Enhanced Floating Cards - Responsive */}
-            <div className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 transform rotate-12 z-10 hover:rotate-6 transition-transform duration-300">
-              <div className="w-32 h-20 sm:w-40 sm:h-28 lg:w-44 lg:h-32 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-600 dark:to-gray-700 rounded-xl shadow-2xl p-2 sm:p-3 backdrop-blur-sm border border-white/30">
-                <div className="flex justify-between items-start mb-2 sm:mb-3">
+            {/* Enhanced Floating Cards - Better positioning for small screens */}
+            <div className="absolute -top-3 -right-3 sm:-top-6 sm:-right-6 transform rotate-12 z-10 hover:rotate-6 transition-transform duration-300">
+              <div className="w-28 h-18 sm:w-40 sm:h-28 lg:w-44 lg:h-32 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-600 dark:to-gray-700 rounded-lg sm:rounded-xl shadow-2xl p-1.5 sm:p-3 backdrop-blur-sm border border-white/30">
+                <div className="flex justify-between items-start mb-1 sm:mb-3">
                   <div className="text-xs text-gray-600 dark:text-gray-300 font-semibold">Digital</div>
-                  <div className="w-4 h-3 sm:w-6 sm:h-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded shadow-sm"></div>
+                  <div className="w-3 h-2 sm:w-6 sm:h-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded shadow-sm"></div>
                 </div>
                 <div className="text-xs sm:text-sm font-mono text-gray-800 dark:text-gray-200 mb-1 font-medium">
-                  1234 5678 9987
+                  1234 5678
                 </div>
                 <div className="text-xs text-gray-600 dark:text-gray-300">
                   12/32
                 </div>
-                <div className="text-xs text-gray-800 dark:text-gray-200 mt-1 font-medium">
+                <div className="text-xs text-gray-800 dark:text-gray-200 mt-1 font-medium hidden sm:block">
                   MOHAMED BENNANI
                 </div>
               </div>
