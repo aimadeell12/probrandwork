@@ -142,10 +142,10 @@ export default function Login() {
                 {/* Sign Up Link */}
                 <div className="text-center pt-2">
                   <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    ليس لديك حساب؟{' '}
+                    {t('dontHaveAccount')}{' '}
                     <Link href="/register">
                       <span className="text-purple-600 dark:text-purple-400 font-medium hover:underline cursor-pointer">
-                        إنشاء حساب جديد
+                        {t('createNewAccount')}
                       </span>
                     </Link>
                   </p>
@@ -163,7 +163,7 @@ export default function Login() {
               variant="outline" 
               className="w-full h-10 sm:h-12 border-2 border-purple-300/60 dark:border-purple-400/60 text-purple-700 dark:text-purple-300 text-sm sm:text-base font-semibold rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 backdrop-blur-sm"
             >
-              العودة للصفحة الرئيسية
+              {t('backToHome')}
             </Button>
           </Link>
         </div>
