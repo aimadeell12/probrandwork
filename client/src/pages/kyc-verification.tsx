@@ -1,0 +1,476 @@
+import { useState, useRef } from "react";
+import { Link } from "wouter";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/hooks/useLanguage";
+import { 
+  ArrowLeft, 
+  Camera, 
+  Upload, 
+  CheckCircle2, 
+  AlertCircle, 
+  Clock,
+  User,
+  CreditCard,
+  Phone,
+  Mail
+} from "lucide-react";
+
+type KYCStep = "personal" | "documents" | "phone" | "review";
+type DocumentType = "id-front" | "id-back" | "selfie";
+type VerificationStatus = "pending" | "verified" | "rejected" | "in-review";
+
+interface DocumentCapture {
+  type: DocumentType;
+  image: string | null;
+  captured: boolean;
+}
+
+export default function KYCVerification() {
+  const { t } = useLanguage();
+  const [currentStep, setCurrentStep] = useState<KYCStep>("personal");
+  const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>("pending");
+  const [documents, setDocuments] = useState<DocumentCapture[]>([
+    { type: "id-front", image: null, captured: false },
+    { type: "id-back", image: null, captured: false },
+    { type: "selfie", image: null, captured: false }
+  ]);
+  const [personalInfo, setPersonalInfo] = useState({
+    fullName: "",
+    dateOfBirth: "",
+    idNumber: "",
+    nationality: "",
+    phoneNumber: "",
+    email: ""
+  });
+  const [activeCamera, setActiveCamera] = useState<DocumentType | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
+
+  const startCamera = async (documentType: DocumentType) => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: documentType === "selfie" ? "user" : "environment",
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        } 
+      });
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
+        setStream(mediaStream);
+        setActiveCamera(documentType);
+      }
+    } catch (error) {
+      console.error("Error accessing camera:", error);
+      alert("Unable to access camera. Please check permissions.");
+    }
+  };
+
+  const capturePhoto = () => {
+    if (!videoRef.current || !canvasRef.current || !activeCamera) return;
+
+    const canvas = canvasRef.current;
+    const video = videoRef.current;
+    const context = canvas.getContext("2d");
+
+    if (context) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0);
+      
+      const imageData = canvas.toDataURL("image/jpeg", 0.8);
+      
+      setDocuments(prev => prev.map(doc => 
+        doc.type === activeCamera 
+          ? { ...doc, image: imageData, captured: true }
+          : doc
+      ));
+      
+      stopCamera();
+    }
+  };
+
+  const stopCamera = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+    setActiveCamera(null);
+  };
+
+  const retakePhoto = (documentType: DocumentType) => {
+    setDocuments(prev => prev.map(doc => 
+      doc.type === documentType 
+        ? { ...doc, image: null, captured: false }
+        : doc
+    ));
+  };
+
+  const handleFileUpload = (documentType: DocumentType, file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const imageData = e.target?.result as string;
+      setDocuments(prev => prev.map(doc => 
+        doc.type === documentType 
+          ? { ...doc, image: imageData, captured: true }
+          : doc
+      ));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const submitVerification = async () => {
+    setVerificationStatus("in-review");
+    
+    // Simulate API call
+    setTimeout(() => {
+      setVerificationStatus("verified");
+    }, 3000);
+  };
+
+  const getStepStatus = (step: KYCStep) => {
+    if (step === "personal" && personalInfo.fullName && personalInfo.idNumber) return "completed";
+    if (step === "documents" && documents.every(doc => doc.captured)) return "completed";
+    if (step === "phone" && personalInfo.phoneNumber) return "completed";
+    if (step === "review" && verificationStatus === "verified") return "completed";
+    return currentStep === step ? "active" : "pending";
+  };
+
+  const renderPersonalInfoStep = () => (
+    <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
+      <CardHeader>
+        <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <User className="h-6 w-6 text-purple-600" />
+          {t("personalInformation")}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-1 gap-4">
+          <div>
+            <Label htmlFor="fullName">{t("fullName")}</Label>
+            <Input
+              id="fullName"
+              value={personalInfo.fullName}
+              onChange={(e) => setPersonalInfo(prev => ({...prev, fullName: e.target.value}))}
+              placeholder={t("enterFullName")}
+              className="bg-white/80 dark:bg-gray-700/80"
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="dateOfBirth">{t("dateOfBirth")}</Label>
+            <Input
+              id="dateOfBirth"
+              type="date"
+              value={personalInfo.dateOfBirth}
+              onChange={(e) => setPersonalInfo(prev => ({...prev, dateOfBirth: e.target.value}))}
+              className="bg-white/80 dark:bg-gray-700/80"
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="idNumber">{t("idNumber")}</Label>
+            <Input
+              id="idNumber"
+              value={personalInfo.idNumber}
+              onChange={(e) => setPersonalInfo(prev => ({...prev, idNumber: e.target.value}))}
+              placeholder={t("enterIdNumber")}
+              className="bg-white/80 dark:bg-gray-700/80"
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="phoneNumber">{t("phoneNumber")}</Label>
+            <Input
+              id="phoneNumber"
+              value={personalInfo.phoneNumber}
+              onChange={(e) => setPersonalInfo(prev => ({...prev, phoneNumber: e.target.value}))}
+              placeholder={t("enterPhoneNumber")}
+              className="bg-white/80 dark:bg-gray-700/80"
+            />
+          </div>
+          
+          <div>
+            <Label htmlFor="email">{t("email")}</Label>
+            <Input
+              id="email"
+              type="email"
+              value={personalInfo.email}
+              onChange={(e) => setPersonalInfo(prev => ({...prev, email: e.target.value}))}
+              placeholder={t("enterEmail")}
+              className="bg-white/80 dark:bg-gray-700/80"
+            />
+          </div>
+        </div>
+        
+        <Button 
+          onClick={() => setCurrentStep("documents")} 
+          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+          disabled={!personalInfo.fullName || !personalInfo.idNumber}
+        >
+          {t("continue")}
+        </Button>
+      </CardContent>
+    </Card>
+  );
+
+  const renderDocumentStep = () => (
+    <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
+      <CardHeader>
+        <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <CreditCard className="h-6 w-6 text-purple-600" />
+          {t("documentVerification")}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Camera View */}
+        {activeCamera && (
+          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 m-4 max-w-md w-full">
+              <div className="relative mb-4">
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  className="w-full rounded-xl"
+                />
+                <canvas ref={canvasRef} className="hidden" />
+              </div>
+              
+              <div className="flex gap-4 justify-center">
+                <Button onClick={capturePhoto} className="bg-purple-600 hover:bg-purple-700">
+                  <Camera className="h-5 w-5 mr-2" />
+                  {t("capture")}
+                </Button>
+                <Button onClick={stopCamera} variant="outline">
+                  {t("cancel")}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Document Capture Cards */}
+        <div className="space-y-4">
+          {[
+            { type: "id-front" as DocumentType, title: t("idFront"), icon: CreditCard },
+            { type: "id-back" as DocumentType, title: t("idBack"), icon: CreditCard },
+            { type: "selfie" as DocumentType, title: t("selfiePhoto"), icon: User }
+          ].map(({ type, title, icon: Icon }) => {
+            const document = documents.find(doc => doc.type === type);
+            return (
+              <div key={type} className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Icon className="h-5 w-5 text-purple-600" />
+                    <span className="font-medium text-gray-900 dark:text-white">{title}</span>
+                  </div>
+                  {document?.captured && (
+                    <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                      <CheckCircle2 className="h-4 w-4 mr-1" />
+                      {t("captured")}
+                    </Badge>
+                  )}
+                </div>
+                
+                {document?.image ? (
+                  <div className="space-y-3">
+                    <img
+                      src={document.image}
+                      alt={title}
+                      className="w-full h-32 object-cover rounded-lg border"
+                    />
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={() => retakePhoto(type)}
+                        variant="outline" 
+                        size="sm"
+                        className="flex-1"
+                      >
+                        {t("retake")}
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => startCamera(type)}
+                      className="flex-1 bg-purple-600 hover:bg-purple-700"
+                    >
+                      <Camera className="h-4 w-4 mr-2" />
+                      {t("takePhoto")}
+                    </Button>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleFileUpload(type, file);
+                        }}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      />
+                      <Button variant="outline">
+                        <Upload className="h-4 w-4 mr-2" />
+                        {t("upload")}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        
+        <Button 
+          onClick={() => setCurrentStep("review")} 
+          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+          disabled={!documents.every(doc => doc.captured)}
+        >
+          {t("continue")}
+        </Button>
+      </CardContent>
+    </Card>
+  );
+
+  const renderReviewStep = () => (
+    <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
+      <CardHeader>
+        <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <CheckCircle2 className="h-6 w-6 text-purple-600" />
+          {t("reviewInformation")}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Verification Status */}
+        <div className="text-center p-6 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl">
+          {verificationStatus === "pending" && (
+            <div className="flex flex-col items-center gap-3">
+              <Clock className="h-12 w-12 text-yellow-500" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{t("verificationPending")}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t("verificationPendingDesc")}</p>
+            </div>
+          )}
+          
+          {verificationStatus === "in-review" && (
+            <div className="flex flex-col items-center gap-3">
+              <div className="animate-spin">
+                <Clock className="h-12 w-12 text-blue-500" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{t("verificationInReview")}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t("verificationInReviewDesc")}</p>
+            </div>
+          )}
+          
+          {verificationStatus === "verified" && (
+            <div className="flex flex-col items-center gap-3">
+              <CheckCircle2 className="h-12 w-12 text-green-500" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{t("verificationComplete")}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t("verificationCompleteDesc")}</p>
+            </div>
+          )}
+          
+          {verificationStatus === "rejected" && (
+            <div className="flex flex-col items-center gap-3">
+              <AlertCircle className="h-12 w-12 text-red-500" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{t("verificationRejected")}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t("verificationRejectedDesc")}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Summary */}
+        <div className="space-y-4">
+          <h4 className="font-semibold text-gray-900 dark:text-white">{t("submittedInformation")}</h4>
+          <div className="grid gap-3 text-sm">
+            <div className="flex justify-between">
+              <span className="text-gray-600 dark:text-gray-400">{t("fullName")}:</span>
+              <span className="text-gray-900 dark:text-white">{personalInfo.fullName}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600 dark:text-gray-400">{t("idNumber")}:</span>
+              <span className="text-gray-900 dark:text-white">{personalInfo.idNumber}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600 dark:text-gray-400">{t("documentsSubmitted")}:</span>
+              <span className="text-gray-900 dark:text-white">{documents.filter(doc => doc.captured).length}/3</span>
+            </div>
+          </div>
+        </div>
+        
+        {verificationStatus === "pending" && (
+          <Button 
+            onClick={submitVerification}
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+          >
+            {t("submitVerification")}
+          </Button>
+        )}
+        
+        {verificationStatus === "verified" && (
+          <Link href="/dashboard">
+            <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800">
+              {t("continueToDashboard")}
+            </Button>
+          </Link>
+        )}
+      </CardContent>
+    </Card>
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 p-4">
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/dashboard">
+            <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400">
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("identityVerification")}</h1>
+          <div></div>
+        </div>
+
+        {/* Progress Steps */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between relative">
+            <div className="absolute top-4 left-0 right-0 h-0.5 bg-gray-200 dark:bg-gray-700 -z-10"></div>
+            {[
+              { step: "personal" as KYCStep, icon: User, label: t("personal") },
+              { step: "documents" as KYCStep, icon: CreditCard, label: t("documents") },
+              { step: "review" as KYCStep, icon: CheckCircle2, label: t("review") }
+            ].map(({ step, icon: Icon, label }, index) => {
+              const status = getStepStatus(step);
+              return (
+                <div key={step} className="flex flex-col items-center">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 ${
+                    status === "completed" 
+                      ? "bg-green-500 text-white" 
+                      : status === "active"
+                      ? "bg-purple-600 text-white"
+                      : "bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400"
+                  }`}>
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <span className="text-xs text-gray-600 dark:text-gray-400">{label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Step Content */}
+        {currentStep === "personal" && renderPersonalInfoStep()}
+        {currentStep === "documents" && renderDocumentStep()}
+        {currentStep === "review" && renderReviewStep()}
+      </div>
+    </div>
+  );
+}
