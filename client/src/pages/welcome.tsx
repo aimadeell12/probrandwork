@@ -63,8 +63,8 @@ export default function Welcome() {
                       <div className="text-xs font-bold text-red-600">-$89.99</div>
                     </div>
                     <div className="bg-white/50 rounded-lg shadow-sm p-2 flex justify-between items-center">
-                      <div className="text-xs text-gray-700 font-medium">Salary Deposit</div>
-                      <div className="text-xs font-bold text-green-600">+$2,500.00</div>
+                      <div className="text-xs text-gray-700 font-medium">Facebook Ads</div>
+                      <div className="text-xs font-bold text-red-600">-$2,500.00</div>
                     </div>
                     <div className="bg-white/50 rounded-lg shadow-sm p-2 flex justify-between items-center">
                       <div className="text-xs text-gray-700 font-medium">Coffee Shop</div>
