@@ -607,6 +607,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // KYC routes
+  app.get("/api/kyc/verification", requireAuth, async (req: any, res) => {
+    try {
+      const kyc = await storage.getKycVerificationByUserId(req.session?.userId!);
+      res.json(kyc || null);
+    } catch (error) {
+      console.error("Error fetching KYC verification:", error);
+      res.status(500).json({ error: "Failed to fetch KYC verification" });
+    }
+  });
+
+  app.post("/api/kyc/verification", requireAuth, async (req: any, res) => {
+    try {
+      const kycData = {
+        ...req.body,
+        userId: req.session?.userId!,
+      };
+      
+      const kyc = await storage.createKycVerification(kycData);
+      res.json(kyc);
+    } catch (error) {
+      console.error("Error creating KYC verification:", error);
+      res.status(400).json({ error: "Failed to create KYC verification" });
+    }
+  });
+
+  app.post("/api/kyc/documents", requireAuth, async (req: any, res) => {
+    try {
+      const { kycId, documentType, fileName, fileUrl, fileSize, mimeType } = req.body;
+      
+      const document = await storage.createKycDocument({
+        kycId,
+        documentType,
+        fileName,
+        fileUrl,
+        fileSize,
+        mimeType,
+      });
+      
+      res.json(document);
+    } catch (error) {
+      console.error("Error uploading KYC document:", error);
+      res.status(400).json({ error: "Failed to upload document" });
+    }
+  });
+
+  app.get("/api/kyc/documents/:kycId", requireAuth, async (req: any, res) => {
+    try {
+      const { kycId } = req.params;
+      const documents = await storage.getKycDocumentsByKycId(kycId);
+      res.json(documents);
+    } catch (error) {
+      console.error("Error fetching KYC documents:", error);
+      res.status(500).json({ error: "Failed to fetch documents" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

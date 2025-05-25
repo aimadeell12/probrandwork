@@ -3,6 +3,8 @@ import {
   cards,
   transactions,
   supportTickets,
+  kycVerifications,
+  kycDocuments,
   type User,
   type UpsertUser,
   type Card,
@@ -11,6 +13,10 @@ import {
   type InsertTransaction,
   type SupportTicket,
   type InsertSupportTicket,
+  type KycVerification,
+  type InsertKycVerification,
+  type KycDocument,
+  type InsertKycDocument,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, count } from "drizzle-orm";
@@ -40,6 +46,13 @@ export interface IStorage {
   // Support ticket operations
   getSupportTicketsByUserId(userId: string): Promise<SupportTicket[]>;
   createSupportTicket(ticket: InsertSupportTicket): Promise<SupportTicket>;
+  
+  // KYC operations
+  getKycVerificationByUserId(userId: string): Promise<KycVerification | undefined>;
+  createKycVerification(kyc: InsertKycVerification): Promise<KycVerification>;
+  updateKycVerification(id: string, updates: Partial<KycVerification>): Promise<KycVerification>;
+  createKycDocument(document: InsertKycDocument): Promise<KycDocument>;
+  getKycDocumentsByKycId(kycId: string): Promise<KycDocument[]>;
   
   // Admin operations
   getAllUsers(): Promise<User[]>;
@@ -207,6 +220,43 @@ export class DatabaseStorage implements IStorage {
       totalTransactions: transactionCount.count,
       totalVolume: "0", // TODO: Calculate actual volume
     };
+  }
+
+  // KYC operations
+  async getKycVerificationByUserId(userId: string): Promise<KycVerification | undefined> {
+    const [kyc] = await db.select()
+      .from(kycVerifications)
+      .where(eq(kycVerifications.userId, userId))
+      .limit(1);
+    return kyc;
+  }
+
+  async createKycVerification(kycData: InsertKycVerification): Promise<KycVerification> {
+    const [kyc] = await db.insert(kycVerifications)
+      .values(kycData)
+      .returning();
+    return kyc;
+  }
+
+  async updateKycVerification(id: string, updates: Partial<KycVerification>): Promise<KycVerification> {
+    const [kyc] = await db.update(kycVerifications)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(kycVerifications.id, id))
+      .returning();
+    return kyc;
+  }
+
+  async createKycDocument(documentData: InsertKycDocument): Promise<KycDocument> {
+    const [document] = await db.insert(kycDocuments)
+      .values(documentData)
+      .returning();
+    return document;
+  }
+
+  async getKycDocumentsByKycId(kycId: string): Promise<KycDocument[]> {
+    return await db.select()
+      .from(kycDocuments)
+      .where(eq(kycDocuments.kycId, kycId));
   }
 }
 
