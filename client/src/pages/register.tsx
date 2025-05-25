@@ -107,47 +107,6 @@ export default function Register() {
         {/* Register Form */}
         <div className="flex-1 flex items-center justify-center py-1 sm:py-2 relative">
           
-          {/* Credit Card positioned responsively */}
-          <div className="absolute top-8 right-2 sm:top-12 sm:right-4 md:top-16 md:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
-            <div className="w-52 h-32 sm:w-60 sm:h-36 md:w-68 md:h-40 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-xl shadow-2xl p-3 sm:p-4 md:p-5 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
-              
-              {/* Card background pattern */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-slate-900/80 rounded-xl"></div>
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-2xl"></div>
-              
-              <div className="relative z-10">
-                {/* Card header */}
-                <div className="flex justify-between items-start mb-3 sm:mb-4">
-                  <div className="text-white font-bold text-base sm:text-lg">DIGITAL</div>
-                  {/* Mastercard-style logo */}
-                  <div className="flex space-x-1">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-500 rounded-full opacity-90"></div>
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-yellow-400 rounded-full opacity-90 -ml-1"></div>
-                  </div>
-                </div>
-                
-                {/* EMV chip simulation */}
-                <div className="w-8 h-6 sm:w-9 sm:h-6 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-md mb-3 sm:mb-4 shadow-inner"></div>
-                
-                {/* Card number */}
-                <div className="text-white font-mono text-sm sm:text-base font-semibold tracking-widest mb-2 sm:mb-3">
-                  4532 1234 5678
-                </div>
-                
-                {/* Card details */}
-                <div className="flex justify-between items-end text-sm">
-                  <div>
-                    <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                    <div className="text-white font-semibold">12/28</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-white font-semibold">YOUR NAME</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Register Form Card */}
           <div className="w-full max-w-sm mx-auto">
             <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 sm:p-8">
