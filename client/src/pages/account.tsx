@@ -7,7 +7,8 @@ import {
   Bell, 
   HelpCircle, 
   LogOut,
-  ChevronRight
+  ChevronRight,
+  Globe
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -42,36 +43,36 @@ export default function Account() {
   const settingsItems = [
     {
       icon: Settings,
-      title: "إعدادات الحساب",
-      description: "تحرير التفضيلات والإعدادات",
+      title: t("accountSettings"),
+      description: t("editPreferences"),
       path: "/account/settings",
       color: "purple"
     },
     {
       icon: Shield,
-      title: "الأمان والخصوصية",
-      description: "إدارة كلمات المرور والأمان",
+      title: t("securityPrivacy"),
+      description: t("managePasswords"),
       path: "/account/security",
       color: "green"
     },
     {
       icon: CreditCard,
-      title: "إدارة البطاقات",
-      description: "إدارة وعرض بطاقاتك",
+      title: t("cardManagement"),
+      description: t("manageCards"),
       path: "/cards",
       color: "blue"
     },
     {
       icon: Bell,
-      title: "الإشعارات",
-      description: "تخصيص التنبيهات والإشعارات",
+      title: t("notifications"),
+      description: t("customizeAlerts"),
       path: "/account/notifications",
       color: "orange"
     },
     {
       icon: HelpCircle,
-      title: "المساعدة والدعم",
-      description: "الحصول على المساعدة والدعم",
+      title: t("helpSupport"),
+      description: t("helpSupportDesc"),
       path: "/support",
       color: "pink"
     }
@@ -92,7 +93,7 @@ export default function Account() {
       <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-gray-900 dark:text-white flex-1 text-left">
-            حسابي
+            {t('myAccount')}
           </h1>
           <LanguageToggle className="absolute right-4" />
         </div>
@@ -151,6 +152,28 @@ export default function Account() {
           </Card>
         ))}
 
+        {/* Language Settings */}
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+          <CardContent className="p-5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-5">
+                <div className="rounded-xl p-3 bg-gradient-to-br from-indigo-100 to-indigo-200 dark:from-indigo-900/40 dark:to-indigo-800/40">
+                  <Globe className="h-5 w-5 text-indigo-600 dark:text-indigo-300" />
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                    {t('language')}
+                  </p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                    اختر لغة التطبيق المفضلة
+                  </p>
+                </div>
+              </div>
+              <LanguageToggle />
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Logout Button */}
         <Button
           variant="destructive"
@@ -158,7 +181,7 @@ export default function Account() {
           onClick={handleLogout}
         >
           <LogOut className="h-4 w-4 ml-2" />
-          تسجيل الخروج
+          {t('logout')}
         </Button>
       </div>
     </div>
