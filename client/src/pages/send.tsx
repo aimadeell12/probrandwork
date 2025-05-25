@@ -136,7 +136,7 @@ export default function Send() {
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
-          <h1 className="text-xl font-semibold mr-4">إرسال مبلغ</h1>
+          <h1 className="text-xl font-semibold mr-4">{t("sendPageTitle")}</h1>
         </div>
 
         <Card className="banking-shadow">
