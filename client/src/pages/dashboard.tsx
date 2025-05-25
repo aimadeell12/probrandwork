@@ -57,7 +57,7 @@ export default function Dashboard() {
         {/* Balance Section */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-gray-600 dark:text-gray-400 text-sm">الرصيد الإجمالي</span>
+            <span className="text-gray-600 dark:text-gray-400 text-sm">{t("totalBalance")}</span>
             <Info className="h-4 w-4 text-gray-400" />
           </div>
           <div className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-8">
