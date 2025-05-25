@@ -21,9 +21,25 @@ export default function Welcome() {
           <h1 className="text-gray-700 dark:text-gray-300 text-xl mb-2 font-medium tracking-wide">
             Digital account
           </h1>
-          <h2 className="text-gray-900 dark:text-white text-5xl font-bold mb-12 tracking-tight">
+          <h2 className="text-gray-900 dark:text-white text-5xl font-bold mb-4 tracking-tight">
             fully online
           </h2>
+          
+          {/* Dollar Statistics */}
+          <div className="flex justify-between items-center bg-white/30 dark:bg-gray-800/30 rounded-2xl p-4 mb-8 backdrop-blur-sm border border-white/20">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400">$12,450</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">Available Balance</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-blue-600 dark:text-blue-400">$2,340</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">This Month</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-purple-600 dark:text-purple-400">$895</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">Last Transaction</div>
+            </div>
+          </div>
         </div>
 
         {/* Center Visual Content */}
@@ -33,19 +49,37 @@ export default function Welcome() {
             <div className="relative mx-auto w-56 h-80 bg-white/90 dark:bg-gray-800/90 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-white/20">
               {/* Phone Screen */}
               <div className="p-4 h-full bg-gradient-to-br from-purple-100/80 to-pink-100/80 dark:from-gray-700/80 dark:to-purple-800/80">
-                {/* Mock App Interface with improved visuals */}
+                {/* Mock App Interface with dollar transactions */}
                 <div className="space-y-3">
-                  <div className="h-5 bg-white/60 rounded-lg shadow-sm"></div>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-white/50 rounded w-3/4 shadow-sm"></div>
-                    <div className="h-3 bg-white/50 rounded w-1/2 shadow-sm"></div>
+                  {/* Header balance */}
+                  <div className="bg-white/60 rounded-lg shadow-sm p-2 text-center">
+                    <div className="text-lg font-bold text-gray-800">$12,450.00</div>
                   </div>
                   
-                  {/* Mock Content Areas with better styling */}
-                  <div className="space-y-2 mt-6">
-                    <div className="h-10 bg-white/40 rounded-lg shadow-sm backdrop-blur-sm"></div>
-                    <div className="h-10 bg-white/30 rounded-lg shadow-sm backdrop-blur-sm"></div>
-                    <div className="h-6 bg-white/35 rounded shadow-sm backdrop-blur-sm"></div>
+                  {/* Transaction list */}
+                  <div className="space-y-2">
+                    <div className="bg-white/50 rounded-lg shadow-sm p-2 flex justify-between items-center">
+                      <div className="text-xs text-gray-700 font-medium">Amazon Purchase</div>
+                      <div className="text-xs font-bold text-red-600">-$89.99</div>
+                    </div>
+                    <div className="bg-white/50 rounded-lg shadow-sm p-2 flex justify-between items-center">
+                      <div className="text-xs text-gray-700 font-medium">Salary Deposit</div>
+                      <div className="text-xs font-bold text-green-600">+$2,500.00</div>
+                    </div>
+                    <div className="bg-white/50 rounded-lg shadow-sm p-2 flex justify-between items-center">
+                      <div className="text-xs text-gray-700 font-medium">Coffee Shop</div>
+                      <div className="text-xs font-bold text-red-600">-$12.50</div>
+                    </div>
+                  </div>
+                  
+                  {/* Quick actions */}
+                  <div className="space-y-2 mt-4">
+                    <div className="h-8 bg-white/40 rounded-lg shadow-sm backdrop-blur-sm flex items-center justify-center">
+                      <span className="text-xs font-medium text-gray-700">Send Money</span>
+                    </div>
+                    <div className="h-8 bg-white/30 rounded-lg shadow-sm backdrop-blur-sm flex items-center justify-center">
+                      <span className="text-xs font-medium text-gray-700">Pay Bills</span>
+                    </div>
                   </div>
                 </div>
               </div>
