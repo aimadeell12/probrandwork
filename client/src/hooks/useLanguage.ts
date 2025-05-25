@@ -220,6 +220,8 @@ const translations = {
     guidanceForBeginnersTitle: "إرشادات للمبتدئين",
     pleaseVerifyIdentity: "يرجى التحقق من هويتك",
     clickToVerify: "انقر للتحقق",
+    wallet: "المحفظة",
+    usd: "دولار أمريكي",
     
     // Transactions translations
     allTransactions: "جميع المعاملات",
