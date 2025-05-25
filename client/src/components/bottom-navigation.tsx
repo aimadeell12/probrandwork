@@ -7,24 +7,26 @@ export default function BottomNavigation() {
   const { t } = useLanguage();
 
   const navItems = [
-    { path: "/", label: t("home"), icon: Home },
-    { path: "/cards", label: t("cards"), icon: CreditCard },
-    { path: "/transactions", label: t("transactions"), icon: Receipt },
-    { path: "/account", label: t("account"), icon: User },
+    { path: "/dashboard", label: "الرئيسية", icon: Home },
+    { path: "/cards", label: "البطاقات", icon: CreditCard },
+    { path: "/transactions", label: "المعاملات", icon: BarChart3 },
+    { path: "/account", label: "حسابي", icon: User },
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 z-50">
-      <div className="flex justify-around py-3">
+    <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-purple-200/30 dark:border-purple-700/30 z-50 shadow-2xl">
+      <div className="flex justify-around py-4">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = location === item.path;
+          const isActive = location === item.path || (item.path === "/dashboard" && location === "/");
           
           return (
             <Link key={item.path} href={item.path}>
-              <div className="flex flex-col items-center gap-1 cursor-pointer">
-                <Icon className={`w-5 h-5 ${isActive ? 'text-primary dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'}`} />
-                <span className={`text-xs ${isActive ? 'text-primary dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'}`}>{item.label}</span>
+              <div className="flex flex-col items-center gap-1 cursor-pointer transform hover:scale-105 transition-all duration-200">
+                <div className={`p-2 rounded-xl ${isActive ? 'bg-gradient-to-br from-purple-600 to-purple-700 shadow-lg' : 'bg-gray-100/50 dark:bg-gray-800/50'}`}>
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-500 dark:text-gray-400'}`} />
+                </div>
+                <span className={`text-xs font-medium ${isActive ? 'text-purple-600 dark:text-purple-400' : 'text-gray-500 dark:text-gray-400'}`}>{item.label}</span>
               </div>
             </Link>
           );
