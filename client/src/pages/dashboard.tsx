@@ -120,12 +120,7 @@ export default function Dashboard() {
                       <p className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700">{t('clickToVerify')}</p>
                     </div>
                   </Link>
-                  <Link href="/nationality-selection">
-                    <div className="cursor-pointer pt-2 border-t border-gray-200 dark:border-gray-700">
-                      <h3 className="font-medium text-gray-900 dark:text-white">اختيار الجنسية / Nationality Selection</h3>
-                      <p className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700">صفحة اختيار الجنسية الجديدة</p>
-                    </div>
-                  </Link>
+
                 </div>
               </div>
               <Button variant="ghost" size="icon" className="text-gray-400">
