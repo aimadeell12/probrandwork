@@ -262,6 +262,10 @@ const translations = {
     personal: "شخصي",
     documents: "الوثائق",
     review: "مراجعة",
+    country: "الدولة",
+    selectCountry: "اختر دولتك",
+    selectCountryDesc: "اختر الدولة التي تحمل جنسيتها لمتابعة عملية التحقق",
+    selectedCountry: "الدولة المختارة",
     
     // Transactions translations
     allTransactions: "جميع المعاملات",

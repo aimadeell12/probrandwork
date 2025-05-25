@@ -19,7 +19,7 @@ import {
   Mail
 } from "lucide-react";
 
-type KYCStep = "personal" | "documents" | "phone" | "review";
+type KYCStep = "country" | "personal" | "documents" | "phone" | "review";
 type DocumentType = "id-front" | "id-back" | "selfie";
 type VerificationStatus = "pending" | "verified" | "rejected" | "in-review";
 
@@ -31,7 +31,7 @@ interface DocumentCapture {
 
 export default function KYCVerification() {
   const { t } = useLanguage();
-  const [currentStep, setCurrentStep] = useState<KYCStep>("personal");
+  const [currentStep, setCurrentStep] = useState<KYCStep>("country");
   const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>("pending");
   const [documents, setDocuments] = useState<DocumentCapture[]>([
     { type: "id-front", image: null, captured: false },
@@ -44,7 +44,8 @@ export default function KYCVerification() {
     idNumber: "",
     nationality: "",
     phoneNumber: "",
-    email: ""
+    email: "",
+    country: ""
   });
   const [activeCamera, setActiveCamera] = useState<DocumentType | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -135,11 +136,91 @@ export default function KYCVerification() {
   };
 
   const getStepStatus = (step: KYCStep) => {
+    if (step === "country" && personalInfo.country) return "completed";
     if (step === "personal" && personalInfo.fullName && personalInfo.idNumber) return "completed";
     if (step === "documents" && documents.every(doc => doc.captured)) return "completed";
     if (step === "phone" && personalInfo.phoneNumber) return "completed";
     if (step === "review" && verificationStatus === "verified") return "completed";
     return currentStep === step ? "active" : "pending";
+  };
+
+  const renderCountryStep = () => {
+    const countries = [
+      { code: "SA", name: "السعودية", nameEn: "Saudi Arabia" },
+      { code: "AE", name: "الإمارات", nameEn: "United Arab Emirates" },
+      { code: "EG", name: "مصر", nameEn: "Egypt" },
+      { code: "JO", name: "الأردن", nameEn: "Jordan" },
+      { code: "LB", name: "لبنان", nameEn: "Lebanon" },
+      { code: "MA", name: "المغرب", nameEn: "Morocco" },
+      { code: "TN", name: "تونس", nameEn: "Tunisia" },
+      { code: "DZ", name: "الجزائر", nameEn: "Algeria" },
+      { code: "IQ", name: "العراق", nameEn: "Iraq" },
+      { code: "SY", name: "سوريا", nameEn: "Syria" },
+      { code: "KW", name: "الكويت", nameEn: "Kuwait" },
+      { code: "QA", name: "قطر", nameEn: "Qatar" },
+      { code: "BH", name: "البحرين", nameEn: "Bahrain" },
+      { code: "OM", name: "عمان", nameEn: "Oman" },
+      { code: "YE", name: "اليمن", nameEn: "Yemen" },
+      { code: "LY", name: "ليبيا", nameEn: "Libya" },
+      { code: "SD", name: "السودان", nameEn: "Sudan" },
+      { code: "PS", name: "فلسطين", nameEn: "Palestine" },
+      { code: "US", name: "الولايات المتحدة", nameEn: "United States" },
+      { code: "GB", name: "المملكة المتحدة", nameEn: "United Kingdom" },
+      { code: "FR", name: "فرنسا", nameEn: "France" },
+      { code: "DE", name: "ألمانيا", nameEn: "Germany" },
+      { code: "CA", name: "كندا", nameEn: "Canada" },
+      { code: "AU", name: "أستراليا", nameEn: "Australia" }
+    ];
+
+    const { language } = useLanguage();
+
+    return (
+      <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            <svg className="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {t("selectCountry")}
+          </CardTitle>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
+            {t("selectCountryDesc")}
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 gap-3 max-h-96 overflow-y-auto">
+            {countries.map((country) => (
+              <div
+                key={country.code}
+                onClick={() => {
+                  setPersonalInfo(prev => ({...prev, country: country.code, nationality: language === "ar" ? country.name : country.nameEn}));
+                  setCurrentStep("personal");
+                }}
+                className={`p-4 border rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${
+                  personalInfo.country === country.code
+                    ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
+                    : "border-gray-200 dark:border-gray-700 hover:border-purple-300"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-6 bg-gray-200 dark:bg-gray-600 rounded flex items-center justify-center text-xs font-semibold">
+                      {country.code}
+                    </div>
+                    <span className="font-medium text-gray-900 dark:text-white">
+                      {language === "ar" ? country.name : country.nameEn}
+                    </span>
+                  </div>
+                  {personalInfo.country === country.code && (
+                    <CheckCircle2 className="h-5 w-5 text-purple-600" />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
   };
 
   const renderPersonalInfoStep = () => (
@@ -443,6 +524,7 @@ export default function KYCVerification() {
           <div className="flex items-center justify-between relative">
             <div className="absolute top-4 left-0 right-0 h-0.5 bg-gray-200 dark:bg-gray-700 -z-10"></div>
             {[
+              { step: "country" as KYCStep, icon: (props: any) => <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, label: t("country") },
               { step: "personal" as KYCStep, icon: User, label: t("personal") },
               { step: "documents" as KYCStep, icon: CreditCard, label: t("documents") },
               { step: "review" as KYCStep, icon: CheckCircle2, label: t("review") }
@@ -467,6 +549,7 @@ export default function KYCVerification() {
         </div>
 
         {/* Step Content */}
+        {currentStep === "country" && renderCountryStep()}
         {currentStep === "personal" && renderPersonalInfoStep()}
         {currentStep === "documents" && renderDocumentStep()}
         {currentStep === "review" && renderReviewStep()}
