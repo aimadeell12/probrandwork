@@ -185,6 +185,8 @@ const translations = {
     selectAppLanguage: "اختر لغة التطبيق المفضلة",
     verifyIdentity: "يرجى التحقق من هويتك",
     clickToVerify: "انقل للتحقق",
+    
+
   },
   en: {
     // Navigation
@@ -352,6 +354,8 @@ const translations = {
     selectAppLanguage: "Choose your preferred app language",
     verifyIdentity: "Please verify your identity",
     clickToVerify: "Click to verify",
+    
+
   }
 };
 
