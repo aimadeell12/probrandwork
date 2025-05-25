@@ -28,7 +28,7 @@ export default function PersonalInformation() {
   const handleNext = () => {
     if (formData.firstName && formData.lastName && formData.dateOfBirth && formData.documentType) {
       // يمكن إرسال البيانات إلى الخطوة التالية أو حفظها
-      setLocation("/kyc-verification");
+      setLocation("/document-capture");
     }
   };
 

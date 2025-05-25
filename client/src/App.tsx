@@ -28,6 +28,7 @@ import Transactions from "@/pages/transactions";
 import KYCVerification from "@/pages/kyc-verification";
 import NationalitySelection from "@/pages/nationality-selection";
 import PersonalInformation from "@/pages/personal-information";
+import DocumentCapture from "@/pages/document-capture";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -73,6 +74,7 @@ function Router() {
             <Route path="/kyc-verification" component={KYCVerification} />
             <Route path="/nationality-selection" component={NationalitySelection} />
             <Route path="/personal-information" component={PersonalInformation} />
+            <Route path="/document-capture" component={DocumentCapture} />
           </>
         )}
         <Route component={NotFound} />
