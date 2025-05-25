@@ -12,12 +12,12 @@ export default function Login() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: ''
   });
 
   const loginMutation = useMutation({
-    mutationFn: async (data: { email: string; password: string }) => {
+    mutationFn: async (data: { username: string; password: string }) => {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -44,7 +44,7 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
+    if (!formData.username || !formData.password) {
       toast({
         title: "بيانات ناقصة",
         description: "يرجى ملء جميع الحقول",
@@ -88,16 +88,16 @@ export default function Login() {
                 
                 {/* Email Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-gray-700 dark:text-gray-300 font-medium">
-                    البريد الإلكتروني
+                  <Label htmlFor="username" className="text-gray-700 dark:text-gray-300 font-medium">
+                    اسم المستخدم
                   </Label>
                   <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    id="username"
+                    type="text"
+                    value={formData.username}
+                    onChange={(e) => handleInputChange('username', e.target.value)}
                     className="w-full h-12 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
-                    placeholder="أدخل بريدك الإلكتروني"
+                    placeholder="أدخل اسم المستخدم"
                     required
                   />
                 </div>
