@@ -52,8 +52,8 @@ export default function Withdraw() {
     const withdrawAmount = parseFloat(amount);
     if (!withdrawAmount || withdrawAmount <= 0) {
       toast({
-        title: "مبلغ غير صحيح",
-        description: "يرجى إدخال مبلغ صحيح",
+        title: t("error"),
+        description: t("error"),
         variant: "destructive",
       });
       return;
@@ -61,8 +61,8 @@ export default function Withdraw() {
 
     if (withdrawAmount > (balance?.balance || 0)) {
       toast({
-        title: "رصيد غير كافي",
-        description: "الرصيد المتاح غير كافي لهذه العملية",
+        title: t("insufficientFunds"),
+        description: t("insufficientFunds"),
         variant: "destructive",
       });
       return;
@@ -70,8 +70,8 @@ export default function Withdraw() {
 
     if (withdrawAmount < 1) {
       toast({
-        title: "مبلغ صغير جداً",
-        description: "الحد الأدنى للسحب هو $1",
+        title: t("amountTooSmall"),
+        description: t("amountTooSmall"),
         variant: "destructive",
       });
       return;
@@ -101,7 +101,7 @@ export default function Withdraw() {
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            سحب أموال
+            {t("withdrawMoney")}
           </h1>
         </div>
       </div>
@@ -111,7 +111,7 @@ export default function Withdraw() {
         {/* Balance Display */}
         <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardContent className="p-4 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">الرصيد المتاح</p>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">{t("totalBalance")}</p>
             <p className="text-2xl font-bold text-gray-900 dark:text-white">
               ${balance?.balance?.toFixed(2) || "0.00"}
             </p>
@@ -125,12 +125,12 @@ export default function Withdraw() {
               <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded-lg">
                 <DollarSign className="h-5 w-5 text-red-600" />
               </div>
-              المبلغ المراد سحبه
+              {t("withdrawAmount")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">المبلغ بالدولار</Label>
+              <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">{t("withdrawAmount")}</Label>
               <Input
                 id="amount"
                 type="number"
@@ -179,7 +179,7 @@ export default function Withdraw() {
                   <CreditCard className="h-5 w-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">بطاقة مصرفية</p>
+                  <p className="font-medium text-gray-900 dark:text-white">{t("creditCard")}</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">1-3 أيام عمل</p>
                 </div>
               </div>
@@ -198,7 +198,7 @@ export default function Withdraw() {
                   <Building className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">حساب بنكي</p>
+                  <p className="font-medium text-gray-900 dark:text-white">{t("bankTransfer")}</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">3-5 أيام عمل</p>
                 </div>
               </div>
@@ -213,7 +213,7 @@ export default function Withdraw() {
           className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
         >
           <Minus className="h-5 w-5 mr-2" />
-          {withdrawMutation.isPending ? "جاري السحب..." : `سحب $${amount || "0.00"}`}
+          {withdrawMutation.isPending ? t("processingWithdraw") : `${t("withdrawButton")} $${amount || "0.00"}`}
         </Button>
       </div>
     </div>
