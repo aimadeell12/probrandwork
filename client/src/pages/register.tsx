@@ -98,12 +98,16 @@ export default function Register() {
       <div className="px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
         
         {/* Header */}
-        <div className="pt-2 sm:pt-3 text-center">
+        <div className="pt-2 sm:pt-3 text-center relative">
+          {/* Language Toggle */}
+          <div className="absolute top-0 right-0">
+            <LanguageToggle />
+          </div>
           <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide">
-            انضم إلينا
+            {t('joinUs')}
           </h1>
           <h2 className="text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">
-            إنشاء حساب جديد
+            {t('createNewAccount')}
           </h2>
         </div>
 
@@ -118,7 +122,7 @@ export default function Register() {
                 {/* Full Name Field */}
                 <div className="space-y-2">
                   <Label htmlFor="fullName" className="text-gray-700 dark:text-gray-300 font-medium">
-                    الاسم الكامل
+                    {t('fullName')}
                   </Label>
                   <Input
                     id="fullName"
@@ -126,7 +130,7 @@ export default function Register() {
                     value={formData.fullName}
                     onChange={(e) => handleInputChange('fullName', e.target.value)}
                     className="w-full h-10 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
-                    placeholder="أدخل اسمك الكامل"
+                    placeholder={t('enterFullName')}
                     required
                   />
                 </div>
@@ -134,7 +138,7 @@ export default function Register() {
                 {/* Email Field */}
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-gray-700 dark:text-gray-300 font-medium">
-                    البريد الإلكتروني
+                    {t('email')}
                   </Label>
                   <Input
                     id="email"
@@ -142,7 +146,7 @@ export default function Register() {
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
                     className="w-full h-10 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
-                    placeholder="أدخل بريدك الإلكتروني"
+                    placeholder={t('enterEmail')}
                     required
                   />
                 </div>
@@ -150,7 +154,7 @@ export default function Register() {
                 {/* Password Field */}
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-gray-700 dark:text-gray-300 font-medium">
-                    كلمة المرور
+                    {t('password')}
                   </Label>
                   <Input
                     id="password"
@@ -158,7 +162,7 @@ export default function Register() {
                     value={formData.password}
                     onChange={(e) => handleInputChange('password', e.target.value)}
                     className="w-full h-10 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
-                    placeholder="أدخل كلمة المرور"
+                    placeholder={t('enterPassword')}
                     required
                   />
                 </div>
@@ -166,7 +170,7 @@ export default function Register() {
                 {/* Confirm Password Field */}
                 <div className="space-y-2">
                   <Label htmlFor="confirmPassword" className="text-gray-700 dark:text-gray-300 font-medium">
-                    تأكيد كلمة المرور
+                    {t('confirmPassword')}
                   </Label>
                   <Input
                     id="confirmPassword"
@@ -174,7 +178,7 @@ export default function Register() {
                     value={formData.confirmPassword}
                     onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
                     className="w-full h-10 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
-                    placeholder="أعد إدخال كلمة المرور"
+                    placeholder={t('reenterPassword')}
                     required
                   />
                 </div>
@@ -185,7 +189,7 @@ export default function Register() {
                   disabled={registerMutation.isPending}
                   className="w-full h-10 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 border border-purple-500/20"
                 >
-                  {registerMutation.isPending ? 'جاري إنشاء الحساب...' : 'إنشاء حساب جديد'}
+                  {registerMutation.isPending ? t('creatingAccount') : t('createAccount')}
                 </Button>
 
                 {/* Divider */}
@@ -196,10 +200,10 @@ export default function Register() {
                 {/* Login Link */}
                 <div className="text-center pt-2">
                   <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    لديك حساب بالفعل؟{' '}
+                    {t('alreadyHaveAccount')}{' '}
                     <Link href="/login">
                       <span className="text-purple-600 dark:text-purple-400 font-medium hover:underline cursor-pointer">
-                        تسجيل الدخول
+                        {t('signIn')}
                       </span>
                     </Link>
                   </p>
@@ -217,7 +221,7 @@ export default function Register() {
               variant="outline" 
               className="w-full h-10 sm:h-12 border-2 border-purple-300/60 dark:border-purple-400/60 text-purple-700 dark:text-purple-300 text-sm sm:text-base font-semibold rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 backdrop-blur-sm"
             >
-              العودة للصفحة الرئيسية
+              {t('backToHome')}
             </Button>
           </Link>
         </div>
