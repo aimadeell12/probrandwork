@@ -26,8 +26,48 @@ export default function Welcome() {
           </h2>
         </div>
 
-        {/* Center Visual Content - Enhanced */}
-        <div className="flex-1 flex items-center justify-center py-8 sm:py-12">
+        {/* Center Visual Content - Fixed Layout */}
+        <div className="flex-1 flex items-center justify-center py-8 sm:py-12 relative">
+          {/* Credit Card positioned independently */}
+          <div className="absolute top-4 right-4 sm:top-8 sm:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
+            <div className="w-48 h-30 sm:w-56 sm:h-36 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-xl shadow-2xl p-3 sm:p-4 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
+              
+              {/* Card background pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-slate-900/80 rounded-xl"></div>
+              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-2xl"></div>
+              
+              <div className="relative z-10">
+                {/* Card header */}
+                <div className="flex justify-between items-start mb-2 sm:mb-3">
+                  <div className="text-white font-bold text-sm sm:text-base">DIGITAL</div>
+                  {/* Mastercard-style logo */}
+                  <div className="flex space-x-1">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 bg-red-500 rounded-full opacity-90"></div>
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 bg-yellow-400 rounded-full opacity-90 -ml-1"></div>
+                  </div>
+                </div>
+                
+                {/* EMV chip simulation */}
+                <div className="w-6 h-4 sm:w-7 sm:h-5 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-sm mb-2 sm:mb-3 shadow-inner"></div>
+                
+                {/* Card number */}
+                <div className="text-white font-mono text-xs sm:text-sm font-semibold tracking-wider mb-1 sm:mb-2">
+                  4532 1234 5678
+                </div>
+                
+                {/* Card details */}
+                <div className="flex justify-between items-end text-xs">
+                  <div>
+                    <div className="text-gray-300 text-xs uppercase tracking-wide">12/28</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-white font-semibold">M.BENNANI</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="relative transform hover:scale-105 transition-transform duration-300">
             {/* Phone Frame with better sizing and positioning */}
             <div className="relative mx-auto w-64 h-96 sm:w-72 sm:h-[450px] lg:w-80 lg:h-[500px] bg-white/95 dark:bg-gray-800/95 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-white/30">
@@ -68,48 +108,6 @@ export default function Welcome() {
                     </div>
                   </div>
                   
-                </div>
-              </div>
-            </div>
-
-            {/* Realistic Credit Card */}
-            <div className="absolute -top-8 -right-8 sm:-top-12 sm:-right-12 transform rotate-12 z-10 hover:rotate-6 transition-transform duration-300">
-              <div className="w-56 h-36 sm:w-64 sm:h-40 lg:w-72 lg:h-44 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-2xl shadow-2xl p-5 sm:p-6 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
-                
-                {/* Card background pattern */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-slate-900/80 rounded-2xl"></div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-2xl"></div>
-                
-                <div className="relative z-10">
-                  {/* Card header */}
-                  <div className="flex justify-between items-start mb-4 sm:mb-6">
-                    <div className="text-white font-bold text-lg">DIGITAL</div>
-                    {/* Mastercard-style logo */}
-                    <div className="flex space-x-1">
-                      <div className="w-6 h-6 bg-red-500 rounded-full opacity-90"></div>
-                      <div className="w-6 h-6 bg-yellow-400 rounded-full opacity-90 -ml-2"></div>
-                    </div>
-                  </div>
-                  
-                  {/* EMV chip simulation */}
-                  <div className="w-8 h-6 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-md mb-4 shadow-inner"></div>
-                  
-                  {/* Card number */}
-                  <div className="text-white font-mono text-lg sm:text-xl font-semibold tracking-widest mb-3 sm:mb-4">
-                    4532 1234 5678 9012
-                  </div>
-                  
-                  {/* Card details */}
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                      <div className="text-white font-semibold">12/28</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Cardholder</div>
-                      <div className="text-white font-semibold text-sm">MOHAMED BENNANI</div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
