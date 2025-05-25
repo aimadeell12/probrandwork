@@ -67,8 +67,8 @@ export default function Dashboard() {
         <div className="grid grid-cols-4 gap-4 mb-12">
           <Link href="/deposit">
             <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center mb-2 shadow-lg">
-                <Plus className="h-6 w-6 text-white" />
+              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                <Plus className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
               <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">إيداع</span>
             </div>
@@ -76,8 +76,8 @@ export default function Dashboard() {
           
           <Link href="/withdraw">
             <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center mb-2 shadow-lg">
-                <Minus className="h-6 w-6 text-white" />
+              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                <Minus className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
               <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">سحب</span>
             </div>
@@ -85,8 +85,8 @@ export default function Dashboard() {
           
           <Link href="/send">
             <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center mb-2 shadow-lg">
-                <ArrowRight className="h-6 w-6 text-white" />
+              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                <ArrowRight className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
               <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">إرسال</span>
             </div>
@@ -94,8 +94,8 @@ export default function Dashboard() {
           
           <Link href="/scan">
             <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full flex items-center justify-center mb-2 shadow-lg">
-                <QrCode className="h-6 w-6 text-white" />
+              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                <QrCode className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
               <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">مسح</span>
             </div>
