@@ -41,10 +41,10 @@ export default function Welcome() {
         {/* Main Content */}
         <div className="mb-12">
           <h1 className="text-gray-800 dark:text-gray-200 text-lg mb-2">
-            {language === 'ar' ? 'حساب مصرفي' : 'Bank account'}
+            Bank account
           </h1>
           <h2 className="text-gray-900 dark:text-white text-3xl font-bold mb-8">
-            {language === 'ar' ? 'متاح بالكامل عبر الإنترنت' : 'fully online'}
+            fully online
           </h2>
 
           {/* Phone and Cards Mockup */}
@@ -114,7 +114,7 @@ export default function Welcome() {
         <div className="space-y-4 mb-8">
           <Link href="/login">
             <Button className="w-full h-14 bg-purple-600 hover:bg-purple-700 text-white text-lg font-medium rounded-xl">
-              {language === 'ar' ? 'تسجيل الدخول' : 'LOG IN'}
+              LOG IN
             </Button>
           </Link>
 
@@ -123,7 +123,7 @@ export default function Welcome() {
               variant="outline" 
               className="w-full h-14 border-2 border-purple-200 dark:border-purple-400 text-purple-700 dark:text-purple-300 text-lg font-medium rounded-xl bg-white/60 dark:bg-gray-800/60 hover:bg-white/80 dark:hover:bg-gray-700/80"
             >
-              {language === 'ar' ? 'فتح حساب SoGe' : 'OPEN A SOGE ACCOUNT'}
+              OPEN A SOGE ACCOUNT
             </Button>
           </Link>
         </div>
