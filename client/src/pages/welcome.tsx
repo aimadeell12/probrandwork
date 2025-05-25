@@ -86,7 +86,7 @@ export default function Welcome() {
         {/* Bottom Action Buttons */}
         <div>
           <Link href="/login">
-            <Button className="w-full h-14 bg-purple-600 hover:bg-purple-700 text-white text-lg font-medium rounded-xl shadow-lg mb-8">
+            <Button className="w-full h-14 bg-purple-600 hover:bg-purple-700 text-white text-lg font-medium rounded-xl shadow-lg mb-8 mt-8">
               LOG IN
             </Button>
           </Link>
