@@ -84,7 +84,7 @@ export default function Welcome() {
         </div>
 
         {/* Bottom Action Buttons */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           <Link href="/login">
             <Button className="w-full h-14 bg-purple-600 hover:bg-purple-700 text-white text-lg font-medium rounded-xl shadow-lg">
               LOG IN
