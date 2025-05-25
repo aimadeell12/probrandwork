@@ -25,7 +25,7 @@ import Send from "@/pages/send";
 import Withdraw from "@/pages/withdraw";
 import Scan from "@/pages/scan";
 import Transactions from "@/pages/transactions";
-import KYCVerification from "@/pages/kyc-verification";
+
 import NationalitySelection from "@/pages/nationality-selection";
 import PersonalInformation from "@/pages/personal-information";
 import DocumentCapture from "@/pages/document-capture";
@@ -37,7 +37,6 @@ function Router() {
 
   // صفحات التحقق من الهوية التي يجب إخفاء الشريط السفلي منها
   const kycPages = [
-    '/kyc-verification',
     '/nationality-selection', 
     '/personal-information',
     '/document-capture'
@@ -82,7 +81,6 @@ function Router() {
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/scan" component={Scan} />
             <Route path="/transactions" component={Transactions} />
-            <Route path="/kyc-verification" component={KYCVerification} />
             <Route path="/nationality-selection" component={NationalitySelection} />
             <Route path="/personal-information" component={PersonalInformation} />
             <Route path="/document-capture" component={DocumentCapture} />
