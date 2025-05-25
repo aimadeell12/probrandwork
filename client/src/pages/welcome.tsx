@@ -10,24 +10,7 @@ export default function Welcome() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900">
-      {/* Status Bar */}
-      <div className="flex justify-between items-center px-6 py-3 text-sm text-gray-800 dark:text-gray-200">
-        <div className="flex items-center space-x-2">
-          <span>21:54</span>
-          <div className="w-4 h-4 rounded-full bg-gray-400"></div>
-        </div>
-        <div className="flex items-center space-x-2">
-          <div className="flex space-x-1">
-            <div className="w-1 h-3 bg-gray-400 rounded"></div>
-            <div className="w-1 h-3 bg-gray-400 rounded"></div>
-            <div className="w-1 h-3 bg-gray-800 dark:bg-gray-200 rounded"></div>
-            <div className="w-1 h-3 bg-gray-800 dark:bg-gray-200 rounded"></div>
-          </div>
-          <div className="text-xs bg-green-500 text-white px-1 rounded">71%</div>
-        </div>
-      </div>
-
-      <div className="px-6 pt-8">
+      <div className="px-6 pt-12">
         {/* Logo */}
         <div className="mb-12">
           <div className="bg-black dark:bg-white rounded-xl p-4 w-fit">
