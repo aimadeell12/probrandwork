@@ -80,42 +80,50 @@ export default function Transactions() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 pb-20">
-      <div className="max-w-md mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden p-4 pb-20">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      
+      <div className="max-w-md mx-auto relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">{t("transactions")}</h1>
-          <Button variant="outline" size="icon">
+        <div className="flex items-center justify-between mb-6 pt-8">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">المعاملات</h1>
+          <Button variant="outline" size="icon" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 hover:bg-purple-50">
             <Filter className="h-4 w-4" />
           </Button>
         </div>
 
         {/* Search */}
         <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
           <Input
-            placeholder={t("searchTransactions")}
+            placeholder="البحث في المعاملات..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 focus:border-purple-500 rounded-2xl"
           />
         </div>
 
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6 overflow-x-auto">
           {[
-            { key: "all", label: t("all") },
-            { key: "send", label: t("sendTransaction") },
-            { key: "receive", label: t("receiveTransaction") },
-            { key: "deposit", label: t("depositTransaction") },
-            { key: "withdraw", label: t("withdrawTransaction") },
+            { key: "all", label: "الكل" },
+            { key: "send", label: "إرسال" },
+            { key: "receive", label: "استلام" },
+            { key: "deposit", label: "إيداع" },
+            { key: "withdraw", label: "سحب" },
           ].map((filter) => (
             <Button
               key={filter.key}
               variant={selectedFilter === filter.key ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedFilter(filter.key)}
-              className="whitespace-nowrap"
+              className={selectedFilter === filter.key 
+                ? "whitespace-nowrap bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
+                : "whitespace-nowrap bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 hover:bg-purple-50"
+              }
             >
               {filter.label}
             </Button>
@@ -124,22 +132,36 @@ export default function Transactions() {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <Card>
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-2">
-                <ArrowDownLeft className="h-4 w-4 text-green-500" />
-                <span className="text-sm text-muted-foreground">{t("totalIncome")}</span>
+                <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                  <ArrowDownLeft className="h-4 w-4 text-green-600" />
+                </div>
+                <span className="text-sm text-gray-600 dark:text-gray-300">إجمالي الدخل</span>
               </div>
-              <p className="text-lg font-semibold text-green-600">$1,250.00</p>
+              <p className="text-lg font-semibold text-green-600">
+                ${filteredTransactions
+                  .filter(t => t.type === 'deposit' || t.type === 'receive')
+                  .reduce((sum, t) => sum + (t.amount || 0), 0)
+                  .toFixed(2)}
+              </p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-2">
-                <ArrowUpRight className="h-4 w-4 text-red-500" />
-                <span className="text-sm text-muted-foreground">{t("totalExpense")}</span>
+                <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                  <ArrowUpRight className="h-4 w-4 text-red-600" />
+                </div>
+                <span className="text-sm text-gray-600 dark:text-gray-300">إجمالي المصروف</span>
               </div>
-              <p className="text-lg font-semibold text-red-600">$750.00</p>
+              <p className="text-lg font-semibold text-red-600">
+                ${filteredTransactions
+                  .filter(t => t.type === 'send' || t.type === 'withdraw')
+                  .reduce((sum, t) => sum + (t.amount || 0), 0)
+                  .toFixed(2)}
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -148,24 +170,30 @@ export default function Transactions() {
         <div className="space-y-4">
           {isLoading ? (
             <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-              <p className="text-muted-foreground mt-2">جارٍ تحميل المعاملات...</p>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto"></div>
+              <p className="text-gray-600 dark:text-gray-300 mt-2">جارٍ تحميل المعاملات...</p>
             </div>
           ) : filteredTransactions.length > 0 ? (
             filteredTransactions.map((transaction: any) => (
-              <Card key={transaction.id} className="banking-shadow">
+              <Card key={transaction.id} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl hover:shadow-2xl transition-all duration-200">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      {getTransactionIcon(transaction.type)}
+                      <div className={`p-2 rounded-xl ${
+                        transaction.type === 'deposit' || transaction.type === 'receive'
+                          ? 'bg-green-100 dark:bg-green-900/30'
+                          : 'bg-red-100 dark:bg-red-900/30'
+                      }`}>
+                        {getTransactionIcon(transaction.type)}
+                      </div>
                       <div>
-                        <p className="font-medium">
+                        <p className="font-medium text-gray-900 dark:text-white">
                           {getTransactionTypeLabel(transaction.type)}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">
                           {transaction.description || "لا يوجد وصف"}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
                           {new Date(transaction.createdAt).toLocaleDateString('ar-SA')}
                         </p>
                       </div>
@@ -186,17 +214,17 @@ export default function Transactions() {
               </Card>
             ))
           ) : (
-            <Card>
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
               <CardContent className="p-8 text-center">
-                <Receipt className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
-                <h3 className="font-semibold mb-2">لا توجد معاملات</h3>
-                <p className="text-sm text-muted-foreground mb-4">
+                <Receipt className="h-12 w-12 mx-auto mb-4 text-gray-400 opacity-50" />
+                <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">لا توجد معاملات</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                   {searchTerm ? "لم يتم العثور على معاملات تطابق البحث" : "لم تقم بأي معاملات بعد"}
                 </p>
                 {!searchTerm && (
                   <div className="flex gap-2 justify-center">
-                    <Button size="sm" variant="outline">إيداع</Button>
-                    <Button size="sm" variant="outline">إرسال</Button>
+                    <Button size="sm" variant="outline" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 hover:bg-purple-50">إيداع</Button>
+                    <Button size="sm" variant="outline" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 hover:bg-purple-50">إرسال</Button>
                   </div>
                 )}
               </CardContent>
@@ -205,21 +233,23 @@ export default function Transactions() {
         </div>
 
         {/* Quick Stats */}
-        <Card className="mt-6">
+        <Card className="mt-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <DollarSign className="h-5 w-5" />
+            <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
+              <div className="p-1 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <DollarSign className="h-5 w-5 text-purple-600" />
+              </div>
               إحصائيات سريعة
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">معاملات هذا الشهر</span>
-              <span className="font-semibold">{filteredTransactions.length}</span>
+              <span className="text-gray-600 dark:text-gray-300">معاملات هذا الشهر</span>
+              <span className="font-semibold text-gray-900 dark:text-white">{filteredTransactions.length}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">متوسط قيمة المعاملة</span>
-              <span className="font-semibold">
+              <span className="text-gray-600 dark:text-gray-300">متوسط قيمة المعاملة</span>
+              <span className="font-semibold text-gray-900 dark:text-white">
                 $
                 {filteredTransactions.length > 0 
                   ? (filteredTransactions.reduce((sum: number, t: any) => sum + (t.amount || 0), 0) / filteredTransactions.length).toFixed(2)
@@ -228,8 +258,8 @@ export default function Transactions() {
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">أكبر معاملة</span>
-              <span className="font-semibold">
+              <span className="text-gray-600 dark:text-gray-300">أكبر معاملة</span>
+              <span className="font-semibold text-gray-900 dark:text-white">
                 $
                 {filteredTransactions.length > 0 
                   ? Math.max(...filteredTransactions.map((t: any) => t.amount || 0)).toFixed(2)
