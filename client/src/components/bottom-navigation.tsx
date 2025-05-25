@@ -7,10 +7,10 @@ export default function BottomNavigation() {
   const { t } = useLanguage();
 
   const navItems = [
-    { path: "/dashboard", label: "الرئيسية", icon: Home },
-    { path: "/cards", label: "البطاقات", icon: CreditCard },
-    { path: "/transactions", label: "المعاملات", icon: BarChart3 },
-    { path: "/account", label: "حسابي", icon: User },
+    { path: "/dashboard", label: t("home"), icon: Home },
+    { path: "/cards", label: t("cards"), icon: CreditCard },
+    { path: "/transactions", label: t("transactions"), icon: BarChart3 },
+    { path: "/account", label: t("account"), icon: User },
   ];
 
   return (
