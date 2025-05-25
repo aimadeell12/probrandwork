@@ -16,12 +16,12 @@ export default function Welcome() {
       
       <div className="px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
         
-        {/* Header Content - مضغوط */}
-        <div className="pt-2 sm:pt-3 text-center sm:text-left">
-          <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide">
+        {/* Header Content - محسن للهواتف */}
+        <div className="pt-1 sm:pt-2 text-center">
+          <h1 className="text-gray-700 dark:text-gray-300 text-base sm:text-lg lg:text-xl mb-1 font-medium tracking-wide">
             Digital account
           </h1>
-          <h2 className="text-gray-900 dark:text-white text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 tracking-tight">
+          <h2 className="text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">
             fully online
           </h2>
         </div>
