@@ -98,12 +98,12 @@ export default function Register() {
       <div className="px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
         
         {/* Header */}
-        <div className="pt-2 sm:pt-3 text-center relative">
+        <div className="pt-4 sm:pt-6 text-center relative">
           {/* Language Toggle */}
-          <div className="absolute top-0 right-0">
-            <LanguageToggle />
+          <div className="absolute top-2 right-2 z-20">
+            <LanguageToggle className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-lg border-purple-200/30" />
           </div>
-          <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide">
+          <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide pt-8">
             {t('joinUs')}
           </h1>
           <h2 className="text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">
