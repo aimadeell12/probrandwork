@@ -10,11 +10,19 @@ import NotificationCenter from "@/components/notification-center";
 
 export default function Dashboard() {
   const { t } = useLanguage();
+  const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState(false);
+  
   const { data: walletData } = useQuery({
     queryKey: ["/api/wallet/balance"],
   });
 
+  // Fetch unread notifications count
+  const { data: unreadData } = useQuery({
+    queryKey: ["/api/notifications/unread-count"],
+  });
+
   const balance = walletData?.balance || 5.00;
+  const unreadCount = unreadData?.count || 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
@@ -37,8 +45,21 @@ export default function Dashboard() {
             <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400">
               <Gift className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-gray-600 dark:text-gray-400 relative"
+              onClick={() => setIsNotificationCenterOpen(true)}
+            >
               <Bell className="h-5 w-5" />
+              {unreadCount > 0 && (
+                <Badge 
+                  variant="destructive" 
+                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs"
+                >
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </Badge>
+              )}
             </Button>
           </div>
         </div>
@@ -129,6 +150,12 @@ export default function Dashboard() {
         </Card>
 
       </div>
+
+      {/* Notification Center */}
+      <NotificationCenter 
+        isOpen={isNotificationCenterOpen}
+        onClose={() => setIsNotificationCenterOpen(false)}
+      />
     </div>
   );
 }
