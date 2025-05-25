@@ -25,21 +25,7 @@ export default function Welcome() {
             fully online
           </h2>
           
-          {/* Dollar Statistics - Responsive */}
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-2 bg-white/30 dark:bg-gray-800/30 rounded-2xl p-3 sm:p-4 lg:p-6 mb-6 sm:mb-8 backdrop-blur-sm border border-white/20">
-            <div className="text-center">
-              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600 dark:text-green-400">$12,450</div>
-              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">Available Balance</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400">$2,340</div>
-              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">This Month</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg sm:text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-400">$895</div>
-              <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">Last Transaction</div>
-            </div>
-          </div>
+
         </div>
 
         {/* Center Visual Content - Responsive */}
