@@ -70,20 +70,7 @@ export default function Welcome() {
               </div>
             </div>
 
-            <div className="absolute -top-2 -left-6 transform -rotate-6 z-10 hover:rotate-0 transition-transform duration-300">
-              <div className="w-40 h-28 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-2xl p-3 text-white backdrop-blur-sm border border-white/20">
-                <div className="flex justify-between items-start mb-3">
-                  <div className="text-xs opacity-90 font-semibold">Digital</div>
-                  <div className="w-6 h-4 bg-gradient-to-r from-yellow-300 to-yellow-400 rounded shadow-sm"></div>
-                </div>
-                <div className="text-sm font-mono mb-1 font-medium">
-                  •••• •••• ••••
-                </div>
-                <div className="text-xs opacity-90 font-medium">
-                  PREMIUM CARD
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
 
