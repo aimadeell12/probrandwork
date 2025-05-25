@@ -29,7 +29,7 @@ export default function Welcome() {
         {/* Center Visual Content - مضغوط ومتوازن */}
         <div className="flex-1 flex items-center justify-center py-2 sm:py-4 relative">
           {/* Credit Card positioned responsively */}
-          <div className="absolute top-2 right-2 sm:top-4 sm:right-4 md:top-8 md:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
+          <div className="absolute top-8 right-2 sm:top-12 sm:right-4 md:top-16 md:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
             <div className="w-40 h-24 sm:w-48 sm:h-30 md:w-56 md:h-36 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-lg sm:rounded-xl shadow-2xl p-2 sm:p-3 md:p-4 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
               
               {/* Card background pattern */}
