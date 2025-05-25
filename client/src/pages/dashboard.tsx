@@ -27,7 +27,7 @@ export default function Dashboard() {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <Badge variant="secondary" className="bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full">
-              المحفظة
+              {t("wallet")}
             </Badge>
             <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400">
               <Globe className="h-5 w-5" />
@@ -49,7 +49,7 @@ export default function Dashboard() {
         <div className="mb-6">
           <Button variant="outline" className="bg-blue-100 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 rounded-2xl px-4 py-2">
             <span className="text-blue-600 mr-2">$</span>
-            دولار أمريكي
+            {t("usd")}
             <ChevronDown className="h-4 w-4 ml-2" />
           </Button>
         </div>
