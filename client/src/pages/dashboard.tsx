@@ -65,33 +65,41 @@ export default function Dashboard() {
 
         {/* Action Buttons */}
         <div className="grid grid-cols-4 gap-4 mb-12">
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 bg-black dark:bg-white rounded-full flex items-center justify-center mb-2 shadow-lg">
-              <Plus className="h-6 w-6 text-white dark:text-black" />
+          <Link href="/deposit">
+            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center mb-2 shadow-lg">
+                <Plus className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">إيداع</span>
             </div>
-            <span className="text-sm text-gray-700 dark:text-gray-300">إيداع</span>
-          </div>
+          </Link>
           
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-2">
-              <Minus className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+          <Link href="/withdraw">
+            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center mb-2 shadow-lg">
+                <Minus className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">سحب</span>
             </div>
-            <span className="text-sm text-gray-700 dark:text-gray-300">سحب</span>
-          </div>
+          </Link>
           
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-2">
-              <ArrowRight className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+          <Link href="/send">
+            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center mb-2 shadow-lg">
+                <ArrowRight className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">إرسال</span>
             </div>
-            <span className="text-sm text-gray-700 dark:text-gray-300">إرسال</span>
-          </div>
+          </Link>
           
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-2">
-              <QrCode className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+          <Link href="/scan">
+            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full flex items-center justify-center mb-2 shadow-lg">
+                <QrCode className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">مسح</span>
             </div>
-            <span className="text-sm text-gray-700 dark:text-gray-300">مسح</span>
-          </div>
+          </Link>
         </div>
 
         {/* Notifications Card */}

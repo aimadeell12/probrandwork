@@ -65,6 +65,7 @@ function Router() {
             <Route path="/account/notifications" component={Notifications} />
             <Route path="/send" component={Send} />
             <Route path="/withdraw" component={Withdraw} />
+            <Route path="/scan" component={Scan} />
             <Route path="/transactions" component={Transactions} />
           </>
         )}
