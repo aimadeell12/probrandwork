@@ -29,10 +29,6 @@ export default function Dashboard() {
             <Badge variant="secondary" className="bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full">
               {t("wallet")}
             </Badge>
-            <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400">
-              <Globe className="h-5 w-5" />
-            </Button>
-            <span className="text-gray-600 dark:text-gray-400 text-sm">English</span>
           </div>
           
           <div className="flex items-center gap-2">
