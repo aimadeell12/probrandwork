@@ -26,11 +26,11 @@ export default function Welcome() {
           </h2>
         </div>
 
-        {/* Center Visual Content - Fixed Layout */}
-        <div className="flex-1 flex items-center justify-center py-8 sm:py-12 relative">
-          {/* Credit Card positioned independently */}
-          <div className="absolute top-4 right-4 sm:top-8 sm:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
-            <div className="w-48 h-30 sm:w-56 sm:h-36 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-xl shadow-2xl p-3 sm:p-4 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
+        {/* Center Visual Content - Responsive & Stable */}
+        <div className="flex-1 flex items-center justify-center py-4 sm:py-8 md:py-12 relative min-h-[400px] sm:min-h-[500px]">
+          {/* Credit Card positioned responsively */}
+          <div className="absolute top-2 right-2 sm:top-4 sm:right-4 md:top-8 md:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
+            <div className="w-40 h-24 sm:w-48 sm:h-30 md:w-56 md:h-36 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-lg sm:rounded-xl shadow-2xl p-2 sm:p-3 md:p-4 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
               
               {/* Card background pattern */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-slate-900/80 rounded-xl"></div>
@@ -69,42 +69,42 @@ export default function Welcome() {
           </div>
 
           <div className="relative transform hover:scale-105 transition-transform duration-300">
-            {/* Phone Frame with better sizing and positioning */}
-            <div className="relative mx-auto w-64 h-96 sm:w-72 sm:h-[450px] lg:w-80 lg:h-[500px] bg-white/95 dark:bg-gray-800/95 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-white/30">
+            {/* Phone Frame with stable responsive sizing */}
+            <div className="relative mx-auto w-56 h-80 sm:w-64 sm:h-96 md:w-72 md:h-[450px] lg:w-80 lg:h-[500px] bg-white/95 dark:bg-gray-800/95 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-white/30">
               {/* Phone Screen */}
               <div className="p-4 sm:p-6 h-full bg-gradient-to-br from-purple-100/90 to-pink-100/90 dark:from-gray-700/90 dark:to-purple-800/90">
-                {/* Mock App Interface with avatar */}
-                <div className="space-y-4 sm:space-y-6 flex flex-col items-center justify-center h-full">
+                {/* Stable App Interface with avatar */}
+                <div className="space-y-3 sm:space-y-4 md:space-y-6 flex flex-col items-center justify-center h-full">
                   
-                  {/* Premium Avatar */}
+                  {/* Responsive Premium Avatar */}
                   <div className="relative">
-                    <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-2xl flex items-center justify-center border-4 border-white/30">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-                        <span className="text-2xl sm:text-3xl font-bold text-white">M</span>
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-2xl flex items-center justify-center border-3 sm:border-4 border-white/30">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
+                        <span className="text-xl sm:text-2xl md:text-3xl font-bold text-white">M</span>
                       </div>
                     </div>
                     {/* Online indicator */}
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-3 border-white shadow-lg"></div>
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full border-2 sm:border-3 border-white shadow-lg"></div>
                   </div>
                   
-                  {/* User info */}
+                  {/* Responsive User info */}
                   <div className="text-center">
-                    <div className="bg-white/70 rounded-xl shadow-lg p-3 sm:p-4 border border-white/50">
-                      <div className="text-lg sm:text-xl font-bold text-gray-800">Mohamed</div>
-                      <div className="text-sm text-gray-600 mt-1">Digital Account Holder</div>
+                    <div className="bg-white/70 rounded-xl shadow-lg p-2 sm:p-3 md:p-4 border border-white/50 min-w-[120px] sm:min-w-[140px]">
+                      <div className="text-base sm:text-lg md:text-xl font-bold text-gray-800">Mohamed</div>
+                      <div className="text-xs sm:text-sm text-gray-600 mt-1">Digital Account Holder</div>
                     </div>
                   </div>
                   
-                  {/* Status indicators */}
-                  <div className="flex space-x-3">
-                    <div className="bg-white/60 rounded-full p-3 shadow-md border border-white/40">
-                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  {/* Responsive Status indicators */}
+                  <div className="flex space-x-2 sm:space-x-3">
+                    <div className="bg-white/60 rounded-full p-2 sm:p-3 shadow-md border border-white/40">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse"></div>
                     </div>
-                    <div className="bg-white/60 rounded-full p-3 shadow-md border border-white/40">
-                      <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                    <div className="bg-white/60 rounded-full p-2 sm:p-3 shadow-md border border-white/40">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse"></div>
                     </div>
-                    <div className="bg-white/60 rounded-full p-3 shadow-md border border-white/40">
-                      <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                    <div className="bg-white/60 rounded-full p-2 sm:p-3 shadow-md border border-white/40">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse"></div>
                     </div>
                   </div>
                   
