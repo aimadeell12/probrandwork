@@ -186,6 +186,31 @@ const translations = {
     verifyIdentity: "يرجى التحقق من هويتك",
     clickToVerify: "انقل للتحقق",
     
+    // Deposit translations
+    depositAmount: "المبلغ المراد إيداعه",
+    paymentMethod: "طريقة الدفع",
+    creditCard: "بطاقة ائتمان",
+    bankTransfer: "تحويل بنكي",
+    depositButton: "إيداع",
+    
+    // Withdraw translations
+    withdrawMoney: "سحب أموال",
+    withdrawAmount: "المبلغ المراد سحبه",
+    withdrawButton: "سحب",
+    processingWithdraw: "جاري السحب...",
+    withdrawSuccess: "تم السحب بنجاح",
+    withdrawError: "خطأ في السحب",
+    insufficientFunds: "رصيد غير كافي",
+    amountTooSmall: "مبلغ صغير جداً",
+    
+    // Cards translations
+    myCards: "بطاقاتي",
+    createCard: "إنشاء بطاقة",
+    virtualCard: "بطاقة افتراضية",
+    physicalCard: "بطاقة فيزيائية",
+    cardCreated: "تم إنشاء البطاقة بنجاح",
+    cardCreationError: "خطأ في إنشاء البطاقة",
+    
 
   },
   en: {
@@ -354,6 +379,31 @@ const translations = {
     selectAppLanguage: "Choose your preferred app language",
     verifyIdentity: "Please verify your identity",
     clickToVerify: "Click to verify",
+    
+    // Deposit translations
+    depositAmount: "Amount to Deposit",
+    paymentMethod: "Payment Method",
+    creditCard: "Credit Card",
+    bankTransfer: "Bank Transfer",
+    depositButton: "Deposit",
+    
+    // Withdraw translations
+    withdrawMoney: "Withdraw Money",
+    withdrawAmount: "Amount to Withdraw",
+    withdrawButton: "Withdraw",
+    processingWithdraw: "Processing...",
+    withdrawSuccess: "Withdrawal Successful",
+    withdrawError: "Withdrawal Error",
+    insufficientFunds: "Insufficient Funds",
+    amountTooSmall: "Amount Too Small",
+    
+    // Cards translations
+    myCards: "My Cards",
+    createCard: "Create Card",
+    virtualCard: "Virtual Card",
+    physicalCard: "Physical Card",
+    cardCreated: "Card Created Successfully",
+    cardCreationError: "Card Creation Error",
     
 
   }

@@ -7,8 +7,10 @@ import { queryClient } from "@/lib/queryClient";
 import { CreditCard, Home, TrendingUp, Headphones } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "wouter";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function Cards() {
+  const { t } = useLanguage();
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const { toast } = useToast();
 
@@ -21,14 +23,14 @@ export default function Cards() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       toast({
-        title: "Card created successfully",
-        description: "Your new card has been created",
+        title: t("cardCreated"),
+        description: t("cardCreated"),
       });
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to create card",
+        title: t("error"),
+        description: t("cardCreationError"),
         variant: "destructive",
       });
     },

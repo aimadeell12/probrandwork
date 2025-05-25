@@ -8,8 +8,10 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function Withdraw() {
+  const { t } = useLanguage();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -31,16 +33,16 @@ export default function Withdraw() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] });
       toast({
-        title: "تم السحب بنجاح",
-        description: `تم سحب $${amount} من محفظتك`,
+        title: t("withdrawSuccess"),
+        description: `${t("withdrawSuccess")} $${amount}`,
       });
       setAmount("");
       setLocation("/dashboard");
     },
     onError: () => {
       toast({
-        title: "خطأ في السحب",
-        description: "حدث خطأ أثناء عملية السحب",
+        title: t("withdrawError"),
+        description: t("withdrawError"),
         variant: "destructive",
       });
     },
