@@ -26,6 +26,7 @@ import Withdraw from "@/pages/withdraw";
 import Scan from "@/pages/scan";
 import Transactions from "@/pages/transactions";
 import KYCVerification from "@/pages/kyc-verification";
+import NationalitySelection from "@/pages/nationality-selection";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -69,6 +70,7 @@ function Router() {
             <Route path="/scan" component={Scan} />
             <Route path="/transactions" component={Transactions} />
             <Route path="/kyc-verification" component={KYCVerification} />
+            <Route path="/nationality-selection" component={NationalitySelection} />
           </>
         )}
         <Route component={NotFound} />
