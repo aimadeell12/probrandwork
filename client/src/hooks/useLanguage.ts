@@ -421,6 +421,8 @@ const translations = {
     physicalCard: "Physical Card",
     cardCreated: "Card Created Successfully",
     cardCreationError: "Card Creation Error",
+    customizable: "Customizable",
+    chooseCard: "Choose Card",
     
     // Transactions translations
     allTransactions: "All Transactions",
