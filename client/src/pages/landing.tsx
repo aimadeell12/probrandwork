@@ -84,7 +84,7 @@ export default function Landing() {
               {/* Card Visual */}
               <Card className="transform rotate-3 banking-shadow-lg">
                 <CardContent className="p-6">
-                  <div className="card-gradient-blue rounded-xl p-6 text-white mb-4">
+                  <div className="bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl p-6 text-white mb-4">
                     <div className="flex justify-between items-center mb-4">
                       <CreditCard className="h-8 w-8" />
                       <span className="text-sm">**** 4532</span>
@@ -164,8 +164,8 @@ export default function Landing() {
 
             <Card className="banking-shadow hover:banking-shadow-lg transition-shadow">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6">
-                  <Smartphone className="h-8 w-8 text-blue-500" />
+                <div className="w-16 h-16 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6">
+                  <Smartphone className="h-8 w-8 text-purple-500" />
                 </div>
                 <h3 className="text-xl font-semibold mb-4">تطبيق محمول</h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -202,24 +202,24 @@ export default function Landing() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-primary py-20">
+      <section className="bg-gradient-to-r from-purple-600 to-purple-700 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 text-center text-white">
             <div>
               <div className="text-4xl font-bold mb-2">50,000+</div>
-              <div className="text-blue-200">بطاقة مُصدرة</div>
+              <div className="text-purple-200">بطاقة مُصدرة</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">99.9%</div>
-              <div className="text-blue-200">وقت التشغيل</div>
+              <div className="text-purple-200">وقت التشغيل</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">500+</div>
-              <div className="text-blue-200">عميل راضٍ</div>
+              <div className="text-purple-200">عميل راضٍ</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">24/7</div>
-              <div className="text-blue-200">دعم فني</div>
+              <div className="text-purple-200">دعم فني</div>
             </div>
           </div>
         </div>
