@@ -57,9 +57,6 @@ export default function NationalitySelection() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
         </Link>
-        <div className="text-sm opacity-70">
-          23:59
-        </div>
       </div>
 
       {/* Main Content */}

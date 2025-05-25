@@ -156,9 +156,6 @@ export default function DocumentCapture() {
         <Button variant="ghost" size="sm" className="text-white hover:bg-white/10" onClick={handleBack}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
-        <div className="text-sm opacity-70">
-          23:59
-        </div>
       </div>
 
       {/* Camera Modal */}
