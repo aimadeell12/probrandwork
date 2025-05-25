@@ -35,14 +35,11 @@ export default function Welcome() {
                     <div className="h-4 bg-white/40 rounded w-1/2"></div>
                   </div>
                   
-                  {/* Mock Buttons */}
+                  {/* Mock Content Areas */}
                   <div className="space-y-3 mt-8">
-                    <div className="h-12 bg-purple-600 rounded-xl flex items-center justify-center">
-                      <span className="text-white text-sm font-medium">SE CONNECTER</span>
-                    </div>
-                    <div className="h-12 bg-white/80 rounded-xl flex items-center justify-center">
-                      <span className="text-gray-700 text-sm">OUVRIR UN COMPTE</span>
-                    </div>
+                    <div className="h-12 bg-white/30 rounded-xl"></div>
+                    <div className="h-12 bg-white/20 rounded-xl"></div>
+                    <div className="h-8 bg-white/25 rounded-lg"></div>
                   </div>
                 </div>
               </div>
