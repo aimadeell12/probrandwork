@@ -33,39 +33,41 @@ export default function Welcome() {
             <div className="relative mx-auto w-64 h-96 sm:w-72 sm:h-[450px] lg:w-80 lg:h-[500px] bg-white/95 dark:bg-gray-800/95 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-white/30">
               {/* Phone Screen */}
               <div className="p-4 sm:p-6 h-full bg-gradient-to-br from-purple-100/90 to-pink-100/90 dark:from-gray-700/90 dark:to-purple-800/90">
-                {/* Mock App Interface with enhanced layout */}
-                <div className="space-y-4 sm:space-y-6">
-                  {/* Header balance */}
-                  <div className="bg-white/70 rounded-xl shadow-lg p-3 sm:p-4 text-center border border-white/50">
-                    <div className="text-lg sm:text-2xl font-bold text-gray-800">$12,450</div>
-                    <div className="text-xs sm:text-sm text-gray-600 mt-1">Available Balance</div>
+                {/* Mock App Interface with avatar */}
+                <div className="space-y-4 sm:space-y-6 flex flex-col items-center justify-center h-full">
+                  
+                  {/* Premium Avatar */}
+                  <div className="relative">
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-2xl flex items-center justify-center border-4 border-white/30">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
+                        <span className="text-2xl sm:text-3xl font-bold text-white">M</span>
+                      </div>
+                    </div>
+                    {/* Online indicator */}
+                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-3 border-white shadow-lg"></div>
                   </div>
                   
-                  {/* Transaction list */}
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="bg-white/60 rounded-xl shadow-md p-3 sm:p-4 flex justify-between items-center border border-white/40">
-                      <div className="text-sm font-medium text-gray-700">Amazon</div>
-                      <div className="text-sm font-bold text-red-600">-$89.99</div>
-                    </div>
-                    <div className="bg-white/60 rounded-xl shadow-md p-3 sm:p-4 flex justify-between items-center border border-white/40">
-                      <div className="text-sm font-medium text-gray-700">Facebook Ads</div>
-                      <div className="text-sm font-bold text-red-600">-$2,500</div>
-                    </div>
-                    <div className="bg-white/60 rounded-xl shadow-md p-3 sm:p-4 flex justify-between items-center border border-white/40">
-                      <div className="text-sm font-medium text-gray-700">Coffee</div>
-                      <div className="text-sm font-bold text-red-600">-$12.50</div>
+                  {/* User info */}
+                  <div className="text-center">
+                    <div className="bg-white/70 rounded-xl shadow-lg p-3 sm:p-4 border border-white/50">
+                      <div className="text-lg sm:text-xl font-bold text-gray-800">Mohamed</div>
+                      <div className="text-sm text-gray-600 mt-1">Digital Account Holder</div>
                     </div>
                   </div>
                   
-                  {/* Quick actions */}
-                  <div className="space-y-2 sm:space-y-3 mt-6">
-                    <div className="h-10 sm:h-12 bg-white/50 rounded-xl shadow-md backdrop-blur-sm flex items-center justify-center border border-white/40">
-                      <span className="text-sm font-semibold text-gray-700">Send Money</span>
+                  {/* Status indicators */}
+                  <div className="flex space-x-3">
+                    <div className="bg-white/60 rounded-full p-3 shadow-md border border-white/40">
+                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                     </div>
-                    <div className="h-10 sm:h-12 bg-white/50 rounded-xl shadow-md backdrop-blur-sm flex items-center justify-center border border-white/40">
-                      <span className="text-sm font-semibold text-gray-700">Pay Bills</span>
+                    <div className="bg-white/60 rounded-full p-3 shadow-md border border-white/40">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div className="bg-white/60 rounded-full p-3 shadow-md border border-white/40">
+                      <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
                     </div>
                   </div>
+                  
                 </div>
               </div>
             </div>
