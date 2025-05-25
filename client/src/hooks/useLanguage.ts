@@ -297,6 +297,19 @@ const translations = {
     tryAgain: "يرجى المحاولة مرة أخرى",
     accountCreationFailed: "فشل في إنشاء الحساب",
     
+    // Login page translations
+    welcomeBack: "مرحباً بعودتك",
+    signInTitle: "تسجيل الدخول",
+    username: "اسم المستخدم",
+    enterUsername: "أدخل اسم المستخدم",
+    signingIn: "جاري تسجيل الدخول...",
+    loginFailed: "فشل في تسجيل الدخول",
+    welcomeBackSuccess: "مرحباً بعودتك!",
+    loginSuccessful: "تم تسجيل الدخول بنجاح",
+    loginError: "خطأ في تسجيل الدخول",
+    checkCredentials: "يرجى التحقق من البيانات المدخلة",
+    dontHaveAccount: "ليس لديك حساب؟",
+    
     // Transactions translations
     allTransactions: "جميع المعاملات",
     searchTransactions: "البحث في المعاملات",
@@ -493,6 +506,19 @@ const translations = {
     accountCreationError: "Account Creation Error",
     tryAgain: "Please try again",
     accountCreationFailed: "Failed to create account",
+
+    // Login page translations
+    welcomeBack: "Welcome Back",
+    signInTitle: "Sign In",
+    username: "Username",
+    enterUsername: "Enter your username",
+    signingIn: "Signing in...",
+    loginFailed: "Login failed",
+    welcomeBackSuccess: "Welcome back!",
+    loginSuccessful: "Login successful",
+    loginError: "Login Error",
+    checkCredentials: "Please check your credentials",
+    dontHaveAccount: "Don't have an account?",
 
     // Common
     comingSoon: "Coming Soon",

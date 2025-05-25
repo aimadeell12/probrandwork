@@ -7,10 +7,13 @@ import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
+import { useLanguage } from '@/hooks/useLanguage';
+import { LanguageToggle } from '@/components/language-toggle';
 
 export default function Login() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -23,20 +26,20 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error('فشل في تسجيل الدخول');
+      if (!response.ok) throw new Error(t('loginFailed'));
       return response.json();
     },
     onSuccess: () => {
       toast({
-        title: "مرحباً بعودتك!",
-        description: "تم تسجيل الدخول بنجاح",
+        title: t('welcomeBackSuccess'),
+        description: t('loginSuccessful'),
       });
       setLocation('/dashboard');
     },
     onError: (error: any) => {
       toast({
-        title: "خطأ في تسجيل الدخول",
-        description: error.message || "يرجى التحقق من البيانات المدخلة",
+        title: t('loginError'),
+        description: error.message || t('checkCredentials'),
         variant: "destructive",
       });
     },
@@ -46,8 +49,8 @@ export default function Login() {
     e.preventDefault();
     if (!formData.username || !formData.password) {
       toast({
-        title: "بيانات ناقصة",
-        description: "يرجى ملء جميع الحقول",
+        title: t('missingData'),
+        description: t('fillAllFields'),
         variant: "destructive",
       });
       return;
@@ -69,12 +72,16 @@ export default function Login() {
       <div className="px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
         
         {/* Header */}
-        <div className="pt-2 sm:pt-3 text-center">
-          <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide">
-            مرحباً بعودتك
+        <div className="pt-4 sm:pt-6 text-center relative">
+          {/* Language Toggle */}
+          <div className="absolute top-2 right-2 z-20">
+            <LanguageToggle className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-lg border-purple-200/30" />
+          </div>
+          <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide pt-8">
+            {t('welcomeBack')}
           </h1>
           <h2 className="text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">
-            تسجيل الدخول
+            {t('signInTitle')}
           </h2>
         </div>
 
@@ -86,10 +93,10 @@ export default function Login() {
             <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 sm:p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
-                {/* Email Field */}
+                {/* Username Field */}
                 <div className="space-y-2">
                   <Label htmlFor="username" className="text-gray-700 dark:text-gray-300 font-medium">
-                    اسم المستخدم
+                    {t('username')}
                   </Label>
                   <Input
                     id="username"
@@ -97,7 +104,7 @@ export default function Login() {
                     value={formData.username}
                     onChange={(e) => handleInputChange('username', e.target.value)}
                     className="w-full h-12 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
-                    placeholder="أدخل اسم المستخدم"
+                    placeholder={t('enterUsername')}
                     required
                   />
                 </div>
@@ -105,7 +112,7 @@ export default function Login() {
                 {/* Password Field */}
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-gray-700 dark:text-gray-300 font-medium">
-                    كلمة المرور
+                    {t('password')}
                   </Label>
                   <Input
                     id="password"
@@ -113,7 +120,7 @@ export default function Login() {
                     value={formData.password}
                     onChange={(e) => handleInputChange('password', e.target.value)}
                     className="w-full h-12 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
-                    placeholder="أدخل كلمة المرور"
+                    placeholder={t('enterPassword')}
                     required
                   />
                 </div>
@@ -124,7 +131,7 @@ export default function Login() {
                   disabled={loginMutation.isPending}
                   className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 border border-purple-500/20"
                 >
-                  {loginMutation.isPending ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+                  {loginMutation.isPending ? t('signingIn') : t('signInTitle')}
                 </Button>
 
                 {/* Divider */}
