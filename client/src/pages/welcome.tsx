@@ -32,7 +32,7 @@ export default function Welcome() {
         <div className="mb-12">
           <div className="bg-black dark:bg-white rounded-xl p-4 w-fit">
             <div className="flex items-center">
-              <span className="text-white dark:text-black text-xl font-bold">SoGe</span>
+              <span className="text-white dark:text-black text-xl font-bold">Digital</span>
               <div className="w-2 h-2 bg-red-500 rounded-full ml-2"></div>
             </div>
           </div>
@@ -41,7 +41,7 @@ export default function Welcome() {
         {/* Main Content */}
         <div className="mb-12">
           <h1 className="text-gray-800 dark:text-gray-200 text-lg mb-2">
-            Bank account
+            Digital account
           </h1>
           <h2 className="text-gray-900 dark:text-white text-3xl font-bold mb-8">
             fully online
@@ -78,7 +78,7 @@ export default function Welcome() {
             <div className="absolute -top-8 -right-4 transform rotate-12">
               <div className="w-48 h-32 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 rounded-xl shadow-lg p-4">
                 <div className="flex justify-between items-start mb-4">
-                  <div className="text-xs text-gray-600 dark:text-gray-300">SoGe</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-300">Digital</div>
                   <div className="w-8 h-6 bg-yellow-400 rounded"></div>
                 </div>
                 <div className="text-lg font-mono text-gray-800 dark:text-gray-200 mb-2">
@@ -96,7 +96,7 @@ export default function Welcome() {
             <div className="absolute -top-4 -left-8 transform -rotate-6">
               <div className="w-48 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl shadow-lg p-4 text-white">
                 <div className="flex justify-between items-start mb-4">
-                  <div className="text-xs opacity-80">SoGe</div>
+                  <div className="text-xs opacity-80">Digital</div>
                   <div className="w-8 h-6 bg-yellow-300 rounded"></div>
                 </div>
                 <div className="text-lg font-mono mb-2">
@@ -123,7 +123,7 @@ export default function Welcome() {
               variant="outline" 
               className="w-full h-14 border-2 border-purple-200 dark:border-purple-400 text-purple-700 dark:text-purple-300 text-lg font-medium rounded-xl bg-white/60 dark:bg-gray-800/60 hover:bg-white/80 dark:hover:bg-gray-700/80"
             >
-              OPEN A SOGE ACCOUNT
+              OPEN A DIGITAL ACCOUNT
             </Button>
           </Link>
         </div>
