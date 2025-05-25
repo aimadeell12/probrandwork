@@ -137,7 +137,7 @@ export default function Cards() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
-            قابلة للتخصيص
+            {t("customizable")}
           </div>
         </div>
 
@@ -147,7 +147,7 @@ export default function Cards() {
             {selectedCardType === "virtual" ? t("virtualCard") : t("physicalCard")}
           </h2>
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            {selectedCardType === "virtual" ? t("virtualCard") : t("physicalCard")}
+            {t("customizable")}
           </p>
         </div>
 

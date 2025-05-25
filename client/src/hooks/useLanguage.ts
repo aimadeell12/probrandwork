@@ -213,6 +213,7 @@ const translations = {
     physicalCard: "بطاقة فيزيائية",
     cardCreated: "تم إنشاء البطاقة بنجاح",
     cardCreationError: "خطأ في إنشاء البطاقة",
+    customizable: "قابلة للتخصيص",
     
     // Transactions translations
     allTransactions: "جميع المعاملات",
