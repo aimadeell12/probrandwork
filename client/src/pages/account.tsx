@@ -38,37 +38,42 @@ export default function Account() {
     }
   };
 
-  // Define the settings menu items based on the screenshot
+  // Define the settings menu items
   const settingsItems = [
     {
       icon: Settings,
-      title: t("accountSettings"),
-      description: t("editPreferences"),
-      path: "/account/settings"
+      title: "إعدادات الحساب",
+      description: "تحرير التفضيلات والإعدادات",
+      path: "/account/settings",
+      color: "purple"
     },
     {
       icon: Shield,
-      title: t("securityPrivacy"),
-      description: t("managePasswords"),
-      path: "/account/security"
+      title: "الأمان والخصوصية",
+      description: "إدارة كلمات المرور والأمان",
+      path: "/account/security",
+      color: "green"
     },
     {
       icon: CreditCard,
-      title: t("cardManagement"),
-      description: t("manageCards"),
-      path: "/cards"
+      title: "إدارة البطاقات",
+      description: "إدارة وعرض بطاقاتك",
+      path: "/cards",
+      color: "blue"
     },
     {
       icon: Bell,
-      title: t("notifications"),
-      description: t("customizeAlerts"),
-      path: "/account/notifications"
+      title: "الإشعارات",
+      description: "تخصيص التنبيهات والإشعارات",
+      path: "/account/notifications",
+      color: "orange"
     },
     {
       icon: HelpCircle,
-      title: t("helpSupport"),
-      description: t("helpSupportDesc"),
-      path: "/support"
+      title: "المساعدة والدعم",
+      description: "الحصول على المساعدة والدعم",
+      path: "/support",
+      color: "pink"
     }
   ];
 
@@ -77,60 +82,65 @@ export default function Account() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden pb-20">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      
       {/* Header */}
-      <div className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 p-4">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-gray-900 dark:text-white flex-1 text-left">
-            {t("accountSettings")}
+            حسابي
           </h1>
           <LanguageToggle className="absolute right-4" />
         </div>
       </div>
 
-      <div className="p-4 space-y-6">
-        {/* Settings Items based on the screenshot */}
+      <div className="p-4 space-y-6 relative z-10">
+        {/* Settings Items */}
         {settingsItems.map((item, index) => (
-          <Card key={index} className="border-0 shadow-sm bg-white dark:bg-gray-900">
+          <Card key={index} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl hover:shadow-2xl transition-all duration-200">
             <CardContent className="p-0">
               <Button
                 variant="ghost"
-                className="w-full justify-between p-5 h-auto"
+                className="w-full justify-between p-5 h-auto hover:bg-purple-50/50 dark:hover:bg-purple-900/20"
                 onClick={() => handleSettingClick(item.path)}
               >
                 <div className="flex items-center space-x-5">
-                  <div className={`rounded-full p-2 ${
-                    item.title === t("accountSettings") 
-                      ? "bg-purple-100 dark:bg-purple-900" 
-                      : item.title === t("securityPrivacy")
-                      ? "bg-green-100 dark:bg-green-900"
-                      : item.title === t("cardManagement")
-                      ? "bg-orange-100 dark:bg-orange-900"
-                      : item.title === t("notifications") 
-                      ? "bg-blue-100 dark:bg-blue-900" 
-                      : item.title === t("helpSupport")
-                      ? "bg-pink-100 dark:bg-pink-900"
+                  <div className={`rounded-xl p-3 ${
+                    item.color === "purple" 
+                      ? "bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900/40 dark:to-purple-800/40" 
+                      : item.color === "green"
+                      ? "bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/40 dark:to-green-800/40"
+                      : item.color === "blue"
+                      ? "bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/40 dark:to-blue-800/40"
+                      : item.color === "orange" 
+                      ? "bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/40 dark:to-orange-800/40" 
+                      : item.color === "pink"
+                      ? "bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-900/40 dark:to-pink-800/40"
                       : "bg-gray-100 dark:bg-gray-800"
                   }`}>
                     <item.icon className={`h-5 w-5 ${
-                      item.title === t("accountSettings") 
+                      item.color === "purple" 
                         ? "text-purple-600 dark:text-purple-300" 
-                        : item.title === t("securityPrivacy")
+                        : item.color === "green"
                         ? "text-green-600 dark:text-green-300"
-                        : item.title === t("cardManagement")
-                        ? "text-orange-600 dark:text-orange-300"
-                        : item.title === t("notifications") 
-                        ? "text-blue-600 dark:text-blue-300" 
-                        : item.title === t("helpSupport")
+                        : item.color === "blue"
+                        ? "text-blue-600 dark:text-blue-300"
+                        : item.color === "orange" 
+                        ? "text-orange-600 dark:text-orange-300" 
+                        : item.color === "pink"
                         ? "text-pink-600 dark:text-pink-300"
                         : "text-gray-600 dark:text-gray-300"
                     }`} />
                   </div>
-                  <div>
+                  <div className="text-right">
                     <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {item.title}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                    <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -144,11 +154,11 @@ export default function Account() {
         {/* Logout Button */}
         <Button
           variant="destructive"
-          className="w-full mt-4"
+          className="w-full mt-8 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
           onClick={handleLogout}
         >
           <LogOut className="h-4 w-4 ml-2" />
-          {t("logout")}
+          تسجيل الخروج
         </Button>
       </div>
     </div>
