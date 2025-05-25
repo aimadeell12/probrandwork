@@ -3,122 +3,52 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ArrowLeft, CreditCard, DollarSign, Minus, Building } from "lucide-react";
+import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowDown, Building2, CreditCard, Landmark, Wallet } from "lucide-react";
-import { Link } from "wouter";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useLanguage } from "@/hooks/useLanguage";
-
-const withdrawalMethods = [
-  {
-    id: "bank_transfer",
-    name: "تحويل بنكي",
-    icon: Landmark,
-    description: "تحويل إلى حساب بنكي",
-    fee: "2.99",
-    processingTime: "1-3 أيام عمل",
-  },
-  {
-    id: "instant_transfer",
-    name: "تحويل فوري",
-    icon: ArrowDown,
-    description: "تحويل فوري إلى البنك",
-    fee: "4.99",
-    processingTime: "خلال دقائق",
-  },
-  {
-    id: "atm_withdrawal",
-    name: "سحب من الصراف",
-    icon: Building2,
-    description: "سحب نقدي من أي صراف آلي",
-    fee: "1.50",
-    processingTime: "فوري",
-  },
-];
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Withdraw() {
-  const [formData, setFormData] = useState({
-    selectedCard: "",
-    amount: "",
-    withdrawalMethod: "",
-    bankAccount: "",
-    description: "",
-  });
-  const [selectedMethod, setSelectedMethod] = useState<any>(null);
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { t } = useLanguage();
+  const [amount, setAmount] = useState("");
+  const [selectedMethod, setSelectedMethod] = useState("card");
 
-  // Get user's cards
-  const { data: cards = [], isLoading: cardsLoading } = useQuery({
-    queryKey: ["/api/cards"],
+  // Get current balance
+  const { data: balance } = useQuery({
+    queryKey: ["/api/wallet/balance"],
   });
-
-  const typedCards = cards as Array<{
-    id: string;
-    lastFour: string;
-    balance: number;
-    [key: string]: any;
-  }>;
 
   const withdrawMutation = useMutation({
-    mutationFn: async (data: typeof formData) => {
-      const response = await fetch("/api/transactions/withdraw", {
+    mutationFn: async (data: { amount: number; method: string }) => {
+      return apiRequest(`/api/wallet/withdraw`, {
         method: "POST",
-        body: JSON.stringify({
-          cardId: data.selectedCard,
-          amount: parseFloat(data.amount),
-          withdrawalMethod: data.withdrawalMethod,
-          bankAccount: data.bankAccount,
-          description: data.description,
-        }),
-        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "فشل في سحب المبلغ");
-      }
-      return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] });
       toast({
-        title: "تم طلب السحب بنجاح",
-        description: "سيتم معالجة طلب السحب وفقاً للطريقة المختارة",
+        title: "تم السحب بنجاح",
+        description: `تم سحب $${amount} من محفظتك`,
       });
-      setFormData({
-        selectedCard: "",
-        amount: "",
-        withdrawalMethod: "",
-        bankAccount: "",
-        description: "",
-      });
-      setSelectedMethod(null);
+      setAmount("");
+      setLocation("/dashboard");
     },
-    onError: (error: any) => {
+    onError: () => {
       toast({
-        title: "خطأ في سحب المبلغ",
-        description: error.message || "حاول مرة أخرى",
+        title: "خطأ في السحب",
+        description: "حدث خطأ أثناء عملية السحب",
         variant: "destructive",
       });
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.selectedCard || !formData.amount || !formData.withdrawalMethod) {
-      toast({
-        title: "بيانات ناقصة",
-        description: "يرجى إدخال جميع البيانات المطلوبة",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const amount = parseFloat(formData.amount);
-    if (isNaN(amount) || amount <= 0) {
+  const handleWithdraw = () => {
+    const withdrawAmount = parseFloat(amount);
+    if (!withdrawAmount || withdrawAmount <= 0) {
       toast({
         title: "مبلغ غير صحيح",
         description: "يرجى إدخال مبلغ صحيح",
@@ -127,236 +57,162 @@ export default function Withdraw() {
       return;
     }
 
-    // Check if bank account is required for bank transfers
-    if ((formData.withdrawalMethod === "bank_transfer" || formData.withdrawalMethod === "instant_transfer") && !formData.bankAccount) {
+    if (withdrawAmount > (balance?.balance || 0)) {
       toast({
-        title: "رقم الحساب مطلوب",
-        description: "يرجى إدخال رقم الحساب البنكي",
+        title: "رصيد غير كافي",
+        description: "الرصيد المتاح غير كافي لهذه العملية",
         variant: "destructive",
       });
       return;
     }
 
-    withdrawMutation.mutate(formData);
+    if (withdrawAmount < 1) {
+      toast({
+        title: "مبلغ صغير جداً",
+        description: "الحد الأدنى للسحب هو $1",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    withdrawMutation.mutate({ amount: withdrawAmount, method: selectedMethod });
   };
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const handleMethodSelect = (methodId: string) => {
-    const method = withdrawalMethods.find(m => m.id === methodId);
-    setSelectedMethod(method);
-    handleInputChange("withdrawalMethod", methodId);
-  };
-
-  const calculateFee = () => {
-    if (!selectedMethod || !formData.amount) return 0;
-    const amount = parseFloat(formData.amount);
-    const fee = parseFloat(selectedMethod.fee);
-    return isNaN(amount) ? 0 : fee;
-  };
-
-  const calculateTotal = () => {
-    const amount = parseFloat(formData.amount) || 0;
-    const fee = calculateFee();
-    return amount - fee; // Total received after fee deduction
-  };
+  const quickAmounts = [10, 25, 50, 100, 250, Math.min(500, balance?.balance || 0)].filter(amount => amount <= (balance?.balance || 0));
 
   return (
-    <div className="min-h-screen bg-background p-4 pb-20">
-      <div className="max-w-md mx-auto">
-        {/* Header */}
-        <div className="flex items-center mb-6">
-          <Link href="/wallet">
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-          </Link>
-          <h1 className="text-xl font-semibold mr-4">سحب مبلغ</h1>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      
+      {/* Header */}
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
+        <div className="flex items-center space-x-4 space-x-reverse">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setLocation("/dashboard")}
+            className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+          >
+            <ArrowLeft className="h-6 w-6" />
+          </Button>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+            سحب أموال
+          </h1>
         </div>
+      </div>
 
-        <Card className="banking-shadow">
+      <div className="p-4 space-y-6 relative z-10 max-w-md mx-auto">
+        
+        {/* Balance Display */}
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+          <CardContent className="p-4 text-center">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">الرصيد المتاح</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              ${balance?.balance?.toFixed(2) || "0.00"}
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Amount Input */}
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Wallet className="h-5 w-5 text-primary" />
-              سحب أموال
+            <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
+              <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                <DollarSign className="h-5 w-5 text-red-600" />
+              </div>
+              المبلغ المراد سحبه
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Select Card */}
-              <div className="space-y-2">
-                <Label>البطاقة المسحوب منها</Label>
-                <Select 
-                  value={formData.selectedCard} 
-                  onValueChange={(value) => handleInputChange("selectedCard", value)}
-                  disabled={cardsLoading || withdrawMutation.isPending}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="اختر البطاقة" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {typedCards.map((card) => (
-                      <SelectItem key={card.id} value={card.id}>
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-5 bg-gradient-to-r from-blue-500 to-purple-600 rounded"></div>
-                          <span>**** {card.lastFour}</span>
-                          <span className="text-sm text-muted-foreground">
-                            ${card.balance?.toFixed(2) || "0.00"}
-                          </span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">المبلغ بالدولار</Label>
+              <Input
+                id="amount"
+                type="number"
+                placeholder="0.00"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                max={balance?.balance || 0}
+                className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-purple-200/30 focus:border-purple-500 rounded-2xl"
+              />
+            </div>
+
+            {/* Quick Amount Buttons */}
+            {quickAmounts.length > 0 && (
+              <div className="grid grid-cols-3 gap-2">
+                {quickAmounts.map((quickAmount) => (
+                  <Button
+                    key={quickAmount}
+                    variant="outline"
+                    onClick={() => setAmount(quickAmount.toString())}
+                    className="bg-white/80 dark:bg-gray-700/80 border-purple-200/30 hover:bg-purple-50 hover:border-purple-400"
+                  >
+                    ${quickAmount}
+                  </Button>
+                ))}
               </div>
-
-              {/* Amount */}
-              <div className="space-y-2">
-                <Label htmlFor="amount">المبلغ (USD)</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  step="0.01"
-                  min="0.01"
-                  value={formData.amount}
-                  onChange={(e) => handleInputChange("amount", e.target.value)}
-                  placeholder="0.00"
-                  className="form-input text-lg font-semibold"
-                  disabled={withdrawMutation.isPending}
-                  required
-                />
-              </div>
-
-              {/* Withdrawal Method */}
-              <div className="space-y-3">
-                <Label>طريقة السحب</Label>
-                <div className="space-y-2">
-                  {withdrawalMethods.map((method) => {
-                    const IconComponent = method.icon;
-                    const isSelected = formData.withdrawalMethod === method.id;
-                    return (
-                      <div
-                        key={method.id}
-                        className={`p-4 rounded-lg border cursor-pointer transition-all ${
-                          isSelected 
-                            ? "border-primary bg-primary/5" 
-                            : "border-border hover:border-primary/50"
-                        }`}
-                        onClick={() => handleMethodSelect(method.id)}
-                      >
-                        <div className="flex items-start gap-3">
-                          <IconComponent className={`h-5 w-5 mt-1 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                              <h3 className="font-medium">{method.name}</h3>
-                              <span className="text-sm text-muted-foreground">${method.fee}</span>
-                            </div>
-                            <p className="text-sm text-muted-foreground mt-1">{method.description}</p>
-                            <p className="text-xs text-primary mt-1">{method.processingTime}</p>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Bank Account (if bank transfer selected) */}
-              {(formData.withdrawalMethod === "bank_transfer" || formData.withdrawalMethod === "instant_transfer") && (
-                <div className="space-y-2">
-                  <Label htmlFor="bankAccount">رقم الحساب البنكي</Label>
-                  <Input
-                    id="bankAccount"
-                    type="text"
-                    value={formData.bankAccount}
-                    onChange={(e) => handleInputChange("bankAccount", e.target.value)}
-                    placeholder="SA1234567890123456789012"
-                    className="form-input"
-                    disabled={withdrawMutation.isPending}
-                    required
-                  />
-                </div>
-              )}
-
-              {/* Description */}
-              <div className="space-y-2">
-                <Label htmlFor="description">وصف السحب (اختياري)</Label>
-                <Input
-                  id="description"
-                  type="text"
-                  value={formData.description}
-                  onChange={(e) => handleInputChange("description", e.target.value)}
-                  placeholder="سبب السحب..."
-                  className="form-input"
-                  disabled={withdrawMutation.isPending}
-                />
-              </div>
-
-              {/* Summary */}
-              {formData.amount && selectedMethod && (
-                <div className="bg-muted/50 p-4 rounded-lg space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>المبلغ المطلوب</span>
-                    <span>${parseFloat(formData.amount).toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>رسوم {selectedMethod.name}</span>
-                    <span>-${calculateFee().toFixed(2)}</span>
-                  </div>
-                  <div className="border-t pt-2 flex justify-between font-semibold">
-                    <span>المبلغ المستلم</span>
-                    <span>${calculateTotal().toFixed(2)}</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Submit Button */}
-              <Button 
-                type="submit" 
-                className="w-full" 
-                disabled={withdrawMutation.isPending || cardsLoading}
-              >
-                {withdrawMutation.isPending ? (
-                  <div className="flex items-center gap-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    جارٍ المعالجة...
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <ArrowDown className="h-4 w-4" />
-                    تأكيد السحب
-                  </div>
-                )}
-              </Button>
-            </form>
+            )}
           </CardContent>
         </Card>
 
-        {/* Withdrawal Limits */}
-        <Card className="banking-shadow mt-6">
+        {/* Withdrawal Methods */}
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-sm">حدود السحب</CardTitle>
+            <CardTitle className="text-lg text-gray-900 dark:text-white">طريقة السحب</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <div className="flex justify-between text-sm">
-              <span>الحد اليومي</span>
-              <span>$5,000</span>
+            <div 
+              className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                selectedMethod === "card" 
+                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
+                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+              }`}
+              onClick={() => setSelectedMethod("card")}
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
+                  <CreditCard className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">بطاقة مصرفية</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">1-3 أيام عمل</p>
+                </div>
+              </div>
             </div>
-            <div className="flex justify-between text-sm">
-              <span>الحد الشهري</span>
-              <span>$50,000</span>
-            </div>
-            <div className="flex justify-between text-sm text-muted-foreground">
-              <span>تم استخدامه اليوم</span>
-              <span>$0</span>
+
+            <div 
+              className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                selectedMethod === "bank" 
+                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
+                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+              }`}
+              onClick={() => setSelectedMethod("bank")}
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-xl">
+                  <Building className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">حساب بنكي</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">3-5 أيام عمل</p>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Withdraw Button */}
+        <Button
+          onClick={handleWithdraw}
+          disabled={withdrawMutation.isPending || !amount || parseFloat(amount) > (balance?.balance || 0)}
+          className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
+        >
+          <Minus className="h-5 w-5 mr-2" />
+          {withdrawMutation.isPending ? "جاري السحب..." : `سحب $${amount || "0.00"}`}
+        </Button>
       </div>
     </div>
   );

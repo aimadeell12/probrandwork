@@ -1,140 +1,191 @@
 import { useState } from "react";
-import { ArrowLeft } from "lucide-react";
-import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, CreditCard, DollarSign, Plus, Building } from "lucide-react";
 import { useLocation } from "wouter";
-
-interface Currency {
-  id: string;
-  name: string;
-  symbol: string;
-  balance: number;
-  usdValue: number;
-  icon: string;
-  color: string;
-}
+import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Deposit() {
-  const { t } = useLanguage();
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [amount, setAmount] = useState("");
+  const [selectedMethod, setSelectedMethod] = useState("card");
 
-  const currencies: Currency[] = [
-    {
-      id: "usdt",
-      name: "USDT",
-      symbol: "USDT",
-      balance: 0.00,
-      usdValue: 0.00,
-      icon: "💎",
-      color: "bg-teal-500"
+  const depositMutation = useMutation({
+    mutationFn: async (data: { amount: number; method: string }) => {
+      return apiRequest(`/api/wallet/deposit`, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
     },
-    {
-      id: "usdc",
-      name: "USDC",
-      symbol: "USDC", 
-      balance: 0.00,
-      usdValue: 0.00,
-      icon: "$",
-      color: "bg-blue-500"
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] });
+      toast({
+        title: "تم الإيداع بنجاح",
+        description: `تم إيداع $${amount} في محفظتك`,
+      });
+      setAmount("");
+      setLocation("/dashboard");
     },
-    {
-      id: "btc",
-      name: "Bitcoin",
-      symbol: "BTC",
-      balance: 0.00,
-      usdValue: 0.00,
-      icon: "₿",
-      color: "bg-orange-500"
+    onError: () => {
+      toast({
+        title: "خطأ في الإيداع",
+        description: "حدث خطأ أثناء عملية الإيداع",
+        variant: "destructive",
+      });
     },
-    {
-      id: "eth",
-      name: "Ethereum",
-      symbol: "ETH",
-      balance: 0.00,
-      usdValue: 0.00,
-      icon: "Ξ",
-      color: "bg-purple-500"
-    },
-    {
-      id: "usd",
-      name: "USD",
-      symbol: "USD",
-      balance: 0.00,
-      usdValue: 0.00,
-      icon: "$",
-      color: "bg-green-500"
+  });
+
+  const handleDeposit = () => {
+    const depositAmount = parseFloat(amount);
+    if (!depositAmount || depositAmount <= 0) {
+      toast({
+        title: "مبلغ غير صحيح",
+        description: "يرجى إدخال مبلغ صحيح",
+        variant: "destructive",
+      });
+      return;
     }
-  ];
 
-  const handleCurrencySelect = (currency: Currency) => {
-    // Store selected currency in localStorage and navigate to options
-    localStorage.setItem("selectedCurrency", JSON.stringify(currency));
-    setLocation("/deposit/options");
+    if (depositAmount < 1) {
+      toast({
+        title: "مبلغ صغير جداً",
+        description: "الحد الأدنى للإيداع هو $1",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    depositMutation.mutate({ amount: depositAmount, method: selectedMethod });
   };
 
+  const quickAmounts = [10, 25, 50, 100, 250, 500];
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setLocation("/")}
-          className="p-2"
-        >
-          <ArrowLeft className="h-6 w-6" />
-        </Button>
-
-        <h1 className="text-xl font-semibold text-foreground">{t("selectCurrency")}</h1>
-
-        <div className="w-10"></div> {/* فراغ للحفاظ على التوازن */}
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
+        <div className="flex items-center space-x-4 space-x-reverse">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setLocation("/dashboard")}
+            className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+          >
+            <ArrowLeft className="h-6 w-6" />
+          </Button>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+            إيداع أموال
+          </h1>
+        </div>
       </div>
 
-      {/* Currency List */}
-      <div className="p-4 space-y-3">
-        {currencies.map((currency) => (
-          <Card 
-            key={currency.id}
-            className="bg-card border-border hover:bg-accent transition-colors cursor-pointer"
-            onClick={() => handleCurrencySelect(currency)}
-          >
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className={`w-12 h-12 ${currency.color} rounded-full flex items-center justify-center text-white font-bold text-lg`}>
-                    {currency.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-foreground font-semibold text-lg">{currency.symbol}</h3>
-                    <p className="text-muted-foreground text-sm">{currency.name}</p>
-                  </div>
-                </div>
+      <div className="p-4 space-y-6 relative z-10 max-w-md mx-auto">
+        
+        {/* Amount Input */}
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
+              <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                <DollarSign className="h-5 w-5 text-green-600" />
+              </div>
+              المبلغ المراد إيداعه
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">المبلغ بالدولار</Label>
+              <Input
+                id="amount"
+                type="number"
+                placeholder="0.00"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-purple-200/30 focus:border-purple-500 rounded-2xl"
+              />
+            </div>
 
-                <div className="text-right">
-                  <p className="text-foreground font-semibold text-lg">{currency.balance.toFixed(2)}</p>
-                  <p className="text-muted-foreground text-sm">≈${currency.usdValue.toFixed(2)}</p>
+            {/* Quick Amount Buttons */}
+            <div className="grid grid-cols-3 gap-2">
+              {quickAmounts.map((quickAmount) => (
+                <Button
+                  key={quickAmount}
+                  variant="outline"
+                  onClick={() => setAmount(quickAmount.toString())}
+                  className="bg-white/80 dark:bg-gray-700/80 border-purple-200/30 hover:bg-purple-50 hover:border-purple-400"
+                >
+                  ${quickAmount}
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Payment Methods */}
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+          <CardHeader>
+            <CardTitle className="text-lg text-gray-900 dark:text-white">طريقة الدفع</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div 
+              className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                selectedMethod === "card" 
+                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
+                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+              }`}
+              onClick={() => setSelectedMethod("card")}
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
+                  <CreditCard className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">بطاقة ائتمان</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Visa, Mastercard</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            </div>
 
-      {/* Info Section */}
-      <div className="p-4 mt-8">
-        <div className="bg-card rounded-lg p-4 border border-border">
-          <h3 className="text-foreground font-semibold mb-2">{t("depositInformation")}</h3>
-          <p className="text-muted-foreground text-sm mb-2">
-            {t("selectCurrencyToView")}
-          </p>
-          <p className="text-muted-foreground text-sm mb-2">
-            {t("minimumDepositApply")}
-          </p>
-          <p className="text-muted-foreground text-sm">
-            {t("processingTimesVary")}
-          </p>
-        </div>
+            <div 
+              className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                selectedMethod === "bank" 
+                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
+                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+              }`}
+              onClick={() => setSelectedMethod("bank")}
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-xl">
+                  <Building className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">تحويل بنكي</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">ACH, Wire Transfer</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Deposit Button */}
+        <Button
+          onClick={handleDeposit}
+          disabled={depositMutation.isPending || !amount}
+          className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
+        >
+          <Plus className="h-5 w-5 mr-2" />
+          {depositMutation.isPending ? "جاري الإيداع..." : `إيداع $${amount || "0.00"}`}
+        </Button>
       </div>
     </div>
   );

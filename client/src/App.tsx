@@ -23,6 +23,7 @@ import SecurityPrivacy from "@/pages/security-privacy";
 import Notifications from "@/pages/notifications";
 import Send from "@/pages/send";
 import Withdraw from "@/pages/withdraw";
+import Scan from "@/pages/scan";
 import Transactions from "@/pages/transactions";
 import NotFound from "@/pages/not-found";
 
