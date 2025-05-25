@@ -112,11 +112,13 @@ export default function Dashboard() {
                 <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center">
                   <div className="w-8 h-5 bg-gray-300 dark:bg-gray-600 rounded"></div>
                 </div>
-                <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white">{t('guidanceForBeginnersTitle')}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{t('verifyIdentity')}</p>
-                  <p className="text-sm text-red-500 dark:text-red-400">{t('clickToVerify')}</p>
-                </div>
+                <Link href="/kyc-verification">
+                  <div className="cursor-pointer">
+                    <h3 className="font-medium text-gray-900 dark:text-white">{t('guidanceForBeginnersTitle')}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{t('pleaseVerifyIdentity')}</p>
+                    <p className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700">{t('clickToVerify')}</p>
+                  </div>
+                </Link>
               </div>
               <Button variant="ghost" size="icon" className="text-gray-400">
                 <X className="h-5 w-5" />
