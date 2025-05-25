@@ -49,8 +49,8 @@ function Router() {
           </>
         ) : (
           <>
-            <Route path="/" component={Home} />
-            <Route path="/home" component={Home} />
+            <Route path="/" component={Dashboard} />
+            <Route path="/home" component={Dashboard} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/wallet" component={Wallet} />
             <Route path="/admin" component={Admin} />
