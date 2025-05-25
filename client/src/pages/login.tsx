@@ -1,44 +1,42 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { CreditCard, LogIn } from "lucide-react";
-import { Link } from "wouter";
+import { useState } from 'react';
+import { Link, useLocation } from 'wouter';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { useMutation } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
 
 export default function Login() {
-  const [location] = useLocation();
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    email: "",
+    email: '',
+    password: ''
   });
 
-  useEffect(() => {
-    setIsRegistering(location === "/register");
-  }, [location]);
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-
   const loginMutation = useMutation({
-    mutationFn: (data: typeof formData) => apiRequest("POST", "/api/auth/login", data),
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      toast({
-        title: "مرحباً بك",
-        description: response.message || "تم تسجيل الدخول بنجاح",
+    mutationFn: async (data: { email: string; password: string }) => {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
-      window.location.href = "/";
+      if (!response.ok) throw new Error('فشل في تسجيل الدخول');
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "مرحباً بعودتك!",
+        description: "تم تسجيل الدخول بنجاح",
+      });
+      setLocation('/dashboard');
     },
     onError: (error: any) => {
       toast({
         title: "خطأ في تسجيل الدخول",
-        description: error.message || "تحقق من بياناتك وحاول مرة أخرى",
+        description: error.message || "يرجى التحقق من البيانات المدخلة",
         variant: "destructive",
       });
     },
@@ -46,10 +44,10 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.username.trim() || !formData.password.trim()) {
+    if (!formData.email || !formData.password) {
       toast({
         title: "بيانات ناقصة",
-        description: "يرجى إدخال جميع البيانات المطلوبة",
+        description: "يرجى ملء جميع الحقول",
         variant: "destructive",
       });
       return;
@@ -58,82 +56,152 @@ export default function Login() {
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <CreditCard className="h-12 w-12 text-primary" />
-          </div>
-          <h1 className="text-2xl font-bold text-foreground">منصة البطاقات المصرفية</h1>
-          <p className="text-muted-foreground">سجل دخولك للوصول إلى حسابك</p>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      
+      <div className="px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
+        
+        {/* Header */}
+        <div className="pt-2 sm:pt-3 text-center">
+          <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide">
+            مرحباً بعودتك
+          </h1>
+          <h2 className="text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">
+            تسجيل الدخول
+          </h2>
         </div>
 
-        <Card className="banking-shadow">
-          <CardHeader>
-            <CardTitle className="text-center text-xl">تسجيل الدخول</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="username">اسم المستخدم</Label>
-                <Input
-                  id="username"
-                  type="text"
-                  value={formData.username}
-                  onChange={(e) => handleInputChange("username", e.target.value)}
-                  placeholder="أدخل اسم المستخدم"
-                  required
-                  className="form-input"
-                  disabled={loginMutation.isPending}
-                />
+        {/* Login Form */}
+        <div className="flex-1 flex items-center justify-center py-1 sm:py-2 relative">
+          
+          {/* Credit Card positioned responsively */}
+          <div className="absolute top-8 right-2 sm:top-12 sm:right-4 md:top-16 md:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
+            <div className="w-52 h-32 sm:w-60 sm:h-36 md:w-68 md:h-40 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-xl shadow-2xl p-3 sm:p-4 md:p-5 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
+              
+              {/* Card background pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-slate-900/80 rounded-xl"></div>
+              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-2xl"></div>
+              
+              <div className="relative z-10">
+                {/* Card header */}
+                <div className="flex justify-between items-start mb-3 sm:mb-4">
+                  <div className="text-white font-bold text-base sm:text-lg">DIGITAL</div>
+                  {/* Mastercard-style logo */}
+                  <div className="flex space-x-1">
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-500 rounded-full opacity-90"></div>
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-yellow-400 rounded-full opacity-90 -ml-1"></div>
+                  </div>
+                </div>
+                
+                {/* EMV chip simulation */}
+                <div className="w-8 h-6 sm:w-9 sm:h-6 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-md mb-3 sm:mb-4 shadow-inner"></div>
+                
+                {/* Card number */}
+                <div className="text-white font-mono text-sm sm:text-base font-semibold tracking-widest mb-2 sm:mb-3">
+                  4532 1234 5678
+                </div>
+                
+                {/* Card details */}
+                <div className="flex justify-between items-end text-sm">
+                  <div>
+                    <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
+                    <div className="text-white font-semibold">12/28</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-white font-semibold">M.BENNANI</div>
+                  </div>
+                </div>
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password">كلمة المرور</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) => handleInputChange("password", e.target.value)}
-                  placeholder="أدخل كلمة المرور"
-                  required
-                  className="form-input"
-                  disabled={loginMutation.isPending}
-                />
-              </div>
-
-              <Button 
-                type="submit" 
-                className="w-full"
-                disabled={loginMutation.isPending}
-              >
-                <LogIn className="ml-2 h-4 w-4" />
-                {loginMutation.isPending ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
-              </Button>
-            </form>
-
-            <div className="mt-6 text-center">
-              <p className="text-muted-foreground text-sm">
-                ليس لديك حساب؟{" "}
-                <Link href="/register" className="text-primary hover:underline font-medium">
-                  إنشاء حساب جديد
-                </Link>
-              </p>
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        <div className="mt-6 text-center text-xs text-muted-foreground">
-          <p>© 2024 منصة البطاقات المصرفية. جميع الحقوق محفوظة.</p>
+          {/* Login Form Card */}
+          <div className="w-full max-w-sm mx-auto">
+            <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 sm:p-8">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                
+                {/* Email Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-gray-700 dark:text-gray-300 font-medium">
+                    البريد الإلكتروني
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className="w-full h-12 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
+                    placeholder="أدخل بريدك الإلكتروني"
+                    required
+                  />
+                </div>
+
+                {/* Password Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-gray-700 dark:text-gray-300 font-medium">
+                    كلمة المرور
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => handleInputChange('password', e.target.value)}
+                    className="w-full h-12 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
+                    placeholder="أدخل كلمة المرور"
+                    required
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  disabled={loginMutation.isPending}
+                  className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 border border-purple-500/20"
+                >
+                  {loginMutation.isPending ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+                </Button>
+
+                {/* Divider */}
+                <div className="flex items-center justify-center pt-4">
+                  <div className="w-16 h-1 bg-gradient-to-r from-purple-400/40 to-pink-400/40 rounded-full"></div>
+                </div>
+
+                {/* Sign Up Link */}
+                <div className="text-center pt-2">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    ليس لديك حساب؟{' '}
+                    <Link href="/register">
+                      <span className="text-purple-600 dark:text-purple-400 font-medium hover:underline cursor-pointer">
+                        إنشاء حساب جديد
+                      </span>
+                    </Link>
+                  </p>
+                </div>
+
+              </form>
+            </Card>
+          </div>
         </div>
+
+        {/* Back to Welcome */}
+        <div className="w-full max-w-sm mx-auto pb-1">
+          <Link href="/">
+            <Button 
+              variant="outline" 
+              className="w-full h-10 sm:h-12 border-2 border-purple-300/60 dark:border-purple-400/60 text-purple-700 dark:text-purple-300 text-sm sm:text-base font-semibold rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 backdrop-blur-sm"
+            >
+              العودة للصفحة الرئيسية
+            </Button>
+          </Link>
+        </div>
+
       </div>
     </div>
   );
