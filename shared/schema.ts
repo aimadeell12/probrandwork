@@ -102,10 +102,43 @@ export const supportTickets = pgTable("support_tickets", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// KYC Verification table
+export const kycVerifications = pgTable("kyc_verifications", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  nationality: varchar("nationality").notNull(),
+  firstName: varchar("first_name").notNull(),
+  lastName: varchar("last_name").notNull(),
+  dateOfBirth: timestamp("date_of_birth").notNull(),
+  documentType: varchar("document_type").notNull(), // passport, national_id, driving_license, residence_permit
+  idNumber: varchar("id_number").notNull(),
+  phoneNumber: varchar("phone_number"),
+  email: varchar("email"),
+  status: varchar("status").notNull().default("pending"), // pending, under_review, approved, rejected
+  submittedAt: timestamp("submitted_at").defaultNow(),
+  reviewedAt: timestamp("reviewed_at"),
+  rejectionReason: text("rejection_reason"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// KYC Documents table
+export const kycDocuments = pgTable("kyc_documents", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  kycId: uuid("kyc_id").notNull().references(() => kycVerifications.id),
+  documentType: varchar("document_type").notNull(), // id-front, id-back, selfie
+  fileName: varchar("file_name").notNull(),
+  fileUrl: text("file_url").notNull(),
+  fileSize: integer("file_size"),
+  mimeType: varchar("mime_type"),
+  uploadedAt: timestamp("uploaded_at").defaultNow(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   cards: many(cards),
   supportTickets: many(supportTickets),
+  kycVerifications: many(kycVerifications),
 }));
 
 export const cardsRelations = relations(cards, ({ one, many }) => ({
