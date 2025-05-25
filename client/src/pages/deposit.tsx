@@ -85,7 +85,7 @@ export default function Deposit() {
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            إيداع أموال
+            {t('depositMoney')}
           </h1>
         </div>
       </div>
@@ -104,7 +104,7 @@ export default function Deposit() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">المبلغ بالدولار</Label>
+              <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">{t('amountInDollars')}</Label>
               <Input
                 id="amount"
                 type="number"
