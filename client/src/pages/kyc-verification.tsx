@@ -54,6 +54,7 @@ export default function KYCVerification() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [ageError, setAgeError] = useState("");
 
   // تحميل بيانات المستخدم المسجل دخوله
   useEffect(() => {
@@ -64,6 +65,31 @@ export default function KYCVerification() {
       }));
     }
   }, [user]);
+
+  // وظيفة التحقق من العمر
+  const validateAge = (dateOfBirth: string) => {
+    if (!dateOfBirth) {
+      setAgeError("");
+      return false;
+    }
+
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    if (age < 18) {
+      setAgeError("يجب أن يكون عمرك 18 سنة أو أكثر للتسجيل");
+      return false;
+    }
+
+    setAgeError("");
+    return true;
+  };
 
   const startCamera = async (documentType: DocumentType) => {
     try {
@@ -268,9 +294,21 @@ export default function KYCVerification() {
               id="dateOfBirth"
               type="date"
               value={personalInfo.dateOfBirth}
-              onChange={(e) => setPersonalInfo(prev => ({...prev, dateOfBirth: e.target.value}))}
-              className="bg-white/80 dark:bg-gray-700/80"
+              onChange={(e) => {
+                const newDate = e.target.value;
+                setPersonalInfo(prev => ({...prev, dateOfBirth: newDate}));
+                validateAge(newDate);
+              }}
+              className={`bg-white/80 dark:bg-gray-700/80 ${ageError ? 'border-red-500' : ''}`}
             />
+            {ageError && (
+              <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {ageError}
+              </p>
+            )}
           </div>
           
           <div>
@@ -349,7 +387,7 @@ export default function KYCVerification() {
         <Button 
           onClick={() => setCurrentStep("documents")} 
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-          disabled={!personalInfo.fullName || !personalInfo.idNumber || !personalInfo.documentType || !personalInfo.dateOfBirth || !personalInfo.address || !personalInfo.city || !personalInfo.postalCode}
+          disabled={!personalInfo.fullName || !personalInfo.idNumber || !personalInfo.documentType || !personalInfo.dateOfBirth || !personalInfo.address || !personalInfo.city || !personalInfo.postalCode || ageError}
         >
           {t("continue")}
         </Button>
