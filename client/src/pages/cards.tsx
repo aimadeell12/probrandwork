@@ -548,7 +548,7 @@ export default function Cards() {
                         ? "Blocked" 
                         : card.status === "frozen"
                         ? "Frozen"
-                        : "Customizable"}
+                        : "Active"}
                     </div>
                     <h3 className={cn(
                       "text-lg font-semibold mt-2 transition-all duration-300",
@@ -574,7 +574,7 @@ export default function Cards() {
                         ? "Card is permanently blocked" 
                         : card.status === "frozen"
                         ? "Card is temporarily frozen"
-                        : "Customizable"}
+                        : "Ready to use"}
                     </p>
                   </div>
 
