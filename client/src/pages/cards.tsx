@@ -265,9 +265,9 @@ export default function Cards() {
                         DIGITAL
                       </div>
                       
-                      {/* Card number */}
-                      <div className="absolute top-16 left-6 right-20">
-                        <div className="text-white font-mono text-base tracking-widest">
+                      {/* Card number - full width */}
+                      <div className="absolute top-1/2 left-6 right-6 transform -translate-y-1/2">
+                        <div className="text-white font-mono text-lg tracking-widest text-center">
                           {formatCardNumber(card.lastFour || card.last_four || "1234")}
                         </div>
                       </div>
