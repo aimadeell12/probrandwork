@@ -268,7 +268,7 @@ export default function Cards() {
                       {/* Card number */}
                       <div className="absolute top-16 left-6 right-20">
                         <div className="text-white font-mono text-base tracking-widest">
-                          {formatCardNumber(card.lastFour)}
+                          {formatCardNumber(card.lastFour || card.last_four || "1234")}
                         </div>
                       </div>
                       
