@@ -42,7 +42,6 @@ export default function KYCVerification() {
     fullName: "",
     dateOfBirth: "",
     idNumber: "",
-    idType: "",
     nationality: "",
     country: ""
   });
@@ -60,13 +59,6 @@ export default function KYCVerification() {
       }));
     }
   }, [user]);
-
-  // تشغيل الكاميرا تلقائياً عند دخول الصفحة
-  useEffect(() => {
-    if (activeCamera) {
-      startCamera(activeCamera);
-    }
-  }, [activeCamera]);
 
   const startCamera = async (documentType: DocumentType) => {
     try {
@@ -250,7 +242,7 @@ export default function KYCVerification() {
         <div className="grid grid-cols-1 gap-6">
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              Full Name
+              الاسم الكامل
             </div>
             <Input
               id="fullName"
@@ -262,24 +254,7 @@ export default function KYCVerification() {
           
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              ID Type
-            </div>
-            <select
-              value={personalInfo.idType || ""}
-              onChange={(e) => setPersonalInfo(prev => ({...prev, idType: e.target.value}))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white/80 dark:bg-gray-700/80 dark:border-gray-600 text-gray-900 dark:text-gray-100"
-            >
-              <option value="">Select ID Type</option>
-              <option value="national-id">National ID</option>
-              <option value="passport">Passport</option>
-              <option value="driving-license">Driving License</option>
-              <option value="residence-permit">Residence Permit</option>
-            </select>
-          </div>
-          
-          <div>
-            <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              Date of Birth
+              تاريخ الميلاد
             </div>
             <Input
               id="dateOfBirth"
@@ -292,13 +267,13 @@ export default function KYCVerification() {
           
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              ID Number
+              رقم الهوية
             </div>
             <Input
               id="idNumber"
               value={personalInfo.idNumber}
               onChange={(e) => setPersonalInfo(prev => ({...prev, idNumber: e.target.value}))}
-              placeholder="Enter ID Number"
+              placeholder="أدخل رقم الهوية"
               className="bg-white/80 dark:bg-gray-700/80"
             />
           </div>
@@ -321,29 +296,20 @@ export default function KYCVerification() {
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <CreditCard className="h-6 w-6 text-purple-600" />
-          Document Verification
+          {t("documentVerification")}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Camera View - Always visible when active */}
+        {/* Camera View */}
         {activeCamera && (
-          <div className="w-full mb-6">
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl p-4">
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-                  {activeCamera === "id-front" && "Front of ID"}
-                  {activeCamera === "id-back" && "Back of ID"}
-                  {activeCamera === "selfie" && "Take Selfie"}
-                </h3>
-              </div>
-              
+          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 m-4 max-w-md w-full">
               <div className="relative mb-4">
                 <video
                   ref={videoRef}
                   autoPlay
                   playsInline
-                  className="w-full rounded-xl bg-black"
-                  style={{ aspectRatio: '4/3' }}
+                  className="w-full rounded-xl"
                 />
                 <canvas ref={canvasRef} className="hidden" />
               </div>
@@ -351,10 +317,10 @@ export default function KYCVerification() {
               <div className="flex gap-4 justify-center">
                 <Button onClick={capturePhoto} className="bg-purple-600 hover:bg-purple-700">
                   <Camera className="h-5 w-5 mr-2" />
-                  Capture
+                  {t("capture")}
                 </Button>
                 <Button onClick={stopCamera} variant="outline">
-                  Cancel
+                  {t("cancel")}
                 </Button>
               </div>
             </div>
@@ -573,7 +539,8 @@ export default function KYCVerification() {
         </div>
 
         {/* Step Content */}
-        {(currentStep === "personal" || currentStep === "country") && renderPersonalInfoStep()}
+        {currentStep === "country" && renderCountryStep()}
+        {currentStep === "personal" && renderPersonalInfoStep()}
         {currentStep === "documents" && renderDocumentStep()}
         {currentStep === "review" && renderReviewStep()}
       </div>
