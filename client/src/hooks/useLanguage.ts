@@ -545,14 +545,12 @@ const translations = {
     processingWithdraw: "Processing...",
     withdrawSuccess: "Withdrawal Successful",
     withdrawError: "Withdrawal Error",
-    insufficientFunds: "Insufficient Funds",
     amountTooSmall: "Amount Too Small",
     withdrawMethod: "Withdrawal Method",
     workingDays13: "1-3 business days",
     workingDays35: "3-5 business days",
     
     // Cards translations
-    myCards: "My Cards",
     createCard: "Create Card",
     virtualCard: "Virtual Card",
     physicalCard: "Physical Card",
@@ -560,20 +558,6 @@ const translations = {
     cardCreationError: "Card Creation Error",
     customizable: "Customizable",
     chooseCard: "Choose Card",
-    
-    // Dashboard guidance section
-    guidanceForBeginnersTitle: "Guidance for Beginners",
-    pleaseVerifyIdentity: "Please verify your identity",
-    clickToVerify: "Click to verify",
-    
-    // Transactions translations
-    allTransactions: "All Transactions",
-    searchTransactions: "Search Transactions",
-    filterTransactions: "Filter Transactions",
-    noTransactions: "No Transactions",
-    completed: "Completed",
-    pending: "Pending",
-    failed: "Failed",
     
 
   }

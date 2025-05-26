@@ -21,7 +21,7 @@ export default function Cards() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const { toast } = useToast();
 
-  const { data: cards = [], isLoading } = useQuery({
+  const { data: cards = [], isLoading } = useQuery<Card[]>({
     queryKey: ["/api/cards"],
   });
 
@@ -110,7 +110,7 @@ export default function Cards() {
         </div>
 
         {/* Cards List */}
-        {cards.length === 0 ? (
+        {Array.isArray(cards) && cards.length === 0 ? (
           <div className="text-center py-12">
             <CreditCard className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">لا توجد بطاقات</h3>
@@ -124,7 +124,7 @@ export default function Cards() {
           </div>
         ) : (
           <div className="space-y-6">
-            {cards.map((card: Card) => (
+            {Array.isArray(cards) && cards.map((card: Card) => (
               <div key={card.id} className="relative">
                 {/* Card Visual */}
                 <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto">
