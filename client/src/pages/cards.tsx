@@ -260,10 +260,7 @@ export default function Cards() {
                         </DropdownMenu>
                       </div>
                       
-                      {/* Digital text */}
-                      <div className="absolute top-1/4 right-8 text-white font-bold text-xs tracking-wider transform rotate-90 origin-center opacity-80">
-                        DIGITAL
-                      </div>
+
                       
                       {/* Card number - full width */}
                       <div className="absolute top-1/2 left-6 right-6 transform -translate-y-1/2">
