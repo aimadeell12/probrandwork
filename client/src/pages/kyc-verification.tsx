@@ -252,7 +252,9 @@ export default function KYCVerification() {
           </div>
           
           <div>
-            <Label htmlFor="dateOfBirth">{t("dateOfBirth")}</Label>
+            <Label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t("dateOfBirth")}
+            </Label>
             <Input
               id="dateOfBirth"
               type="date"
@@ -263,7 +265,9 @@ export default function KYCVerification() {
           </div>
           
           <div>
-            <Label htmlFor="idNumber">{t("idNumber")}</Label>
+            <Label htmlFor="idNumber" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t("idNumber")}
+            </Label>
             <Input
               id="idNumber"
               value={personalInfo.idNumber}
