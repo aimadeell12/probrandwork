@@ -118,14 +118,32 @@ export default function Cards() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       toast({
-        title: "تم تفعيل البطاقة",
-        description: "تم تفعيل البطاقة بنجاح",
+        title: "Card Activated",
+        description: "Card activated successfully",
       });
     },
     onError: () => {
       toast({
-        title: "خطأ",
-        description: "فشل في تفعيل البطاقة",
+        title: "Error",
+        description: "Failed to activate card",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const blockCardMutation = useMutation({
+    mutationFn: (cardId: string) => cardApi.blockCard(cardId, "User requested block"),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      toast({
+        title: "Card Blocked",
+        description: "Card has been blocked successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to block card",
         variant: "destructive",
       });
     },
@@ -297,23 +315,32 @@ export default function Cards() {
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem>
                               <Settings className="mr-2 h-4 w-4" />
-                              الإعدادات
+                              Settings
                             </DropdownMenuItem>
                             {card.status === "active" ? (
-                              <DropdownMenuItem
-                                onClick={() => suspendCardMutation.mutate(card.id)}
-                                className="text-red-600"
-                              >
-                                <Lock className="mr-2 h-4 w-4" />
-                                إيقاف البطاقة
-                              </DropdownMenuItem>
+                              <>
+                                <DropdownMenuItem
+                                  onClick={() => suspendCardMutation.mutate(card.id)}
+                                  className="text-orange-600"
+                                >
+                                  <Lock className="mr-2 h-4 w-4" />
+                                  Suspend Card
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                  onClick={() => blockCardMutation.mutate(card.id)}
+                                  className="text-red-600"
+                                >
+                                  <Lock className="mr-2 h-4 w-4" />
+                                  Block Card
+                                </DropdownMenuItem>
+                              </>
                             ) : (
                               <DropdownMenuItem
                                 onClick={() => activateCardMutation.mutate(card.id)}
                                 className="text-green-600"
                               >
                                 <Lock className="mr-2 h-4 w-4" />
-                                تفعيل البطاقة
+                                Activate Card
                               </DropdownMenuItem>
                             )}
                           </DropdownMenuContent>
