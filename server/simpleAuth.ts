@@ -18,6 +18,12 @@ export const requireAuth: RequestHandler = async (req, res, next) => {
 };
 
 export function setupSimpleAuth(app: Express) {
+  // Add logging middleware for debugging
+  app.use("/api/auth/profile", (req, res, next) => {
+    console.log(`=== Profile route middleware: ${req.method} ${req.url} ===`);
+    next();
+  });
+
   // Login route
   app.post("/api/auth/login", async (req, res) => {
     try {
