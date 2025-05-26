@@ -543,16 +543,6 @@ export default function Cards() {
                                   Add Funds
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                  onClick={() => {
-                                    setSelectedCardForBalance(card);
-                                    setBalanceOperation("remove");
-                                  }}
-                                  className="text-orange-600"
-                                >
-                                  <Minus className="mr-2 h-4 w-4" />
-                                  Remove Funds
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
                                   onClick={() => freezeCardMutation.mutate(card.id)}
                                   className="text-blue-600"
                                 >
@@ -807,7 +797,7 @@ export default function Cards() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Balance Adjustment Dialog */}
+      {/* Add Funds Dialog */}
       <Dialog open={!!selectedCardForBalance} onOpenChange={() => {
         setSelectedCardForBalance(null);
         setBalanceAdjustment("");
@@ -815,12 +805,10 @@ export default function Cards() {
         <DialogContent className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-gray-900 dark:text-white">
-              {balanceOperation === "add" ? "Add Funds" : "Remove Funds"}
+              Add Funds
             </DialogTitle>
             <DialogDescription className="text-gray-600 dark:text-gray-300">
-              {balanceOperation === "add" 
-                ? "Add funds to your card balance" 
-                : "Remove funds from your card balance"}
+              Add funds to your card balance
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -836,9 +824,7 @@ export default function Cards() {
                 onChange={(e) => setBalanceAdjustment(e.target.value)}
               />
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                {balanceOperation === "add" 
-                  ? "Funds will be added to your card balance" 
-                  : "Funds will be removed from your card balance"}
+                Funds will be added to your card balance
               </p>
             </div>
           </div>
@@ -855,15 +841,9 @@ export default function Cards() {
             <Button
               onClick={handleBalanceAdjustment}
               disabled={adjustBalanceMutation.isPending || !balanceAdjustment}
-              className={balanceOperation === "add" 
-                ? "bg-green-600 hover:bg-green-700" 
-                : "bg-orange-600 hover:bg-orange-700"}
+              className="bg-green-600 hover:bg-green-700"
             >
-              {adjustBalanceMutation.isPending 
-                ? "Processing..." 
-                : balanceOperation === "add" 
-                  ? "Add Funds" 
-                  : "Remove Funds"}
+              {adjustBalanceMutation.isPending ? "Processing..." : "Add Funds"}
             </Button>
           </DialogFooter>
         </DialogContent>
