@@ -31,6 +31,7 @@ import Webhooks from "@/pages/webhooks";
 import NationalitySelection from "@/pages/nationality-selection";
 import PersonalInformation from "@/pages/personal-information";
 import DocumentCapture from "@/pages/document-capture";
+import KYCVerification from "@/pages/kyc-verification";
 import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";
 
@@ -89,6 +90,7 @@ function Router() {
             <Route path="/nationality-selection" component={NationalitySelection} />
             <Route path="/personal-information" component={PersonalInformation} />
             <Route path="/document-capture" component={DocumentCapture} />
+            <Route path="/kyc-verification" component={KYCVerification} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
           </>
