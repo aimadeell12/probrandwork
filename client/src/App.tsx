@@ -25,6 +25,7 @@ import Send from "@/pages/send";
 import Withdraw from "@/pages/withdraw";
 import Scan from "@/pages/scan";
 import Transactions from "@/pages/transactions";
+import EditProfile from "@/pages/edit-profile";
 
 import NationalitySelection from "@/pages/nationality-selection";
 import PersonalInformation from "@/pages/personal-information";
@@ -81,6 +82,7 @@ function Router() {
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/scan" component={Scan} />
             <Route path="/transactions" component={Transactions} />
+            <Route path="/edit-profile" component={EditProfile} />
             <Route path="/nationality-selection" component={NationalitySelection} />
             <Route path="/personal-information" component={PersonalInformation} />
             <Route path="/document-capture" component={DocumentCapture} />

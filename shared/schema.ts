@@ -38,6 +38,14 @@ export const users = pgTable("users", {
   profileImageUrl: varchar("profile_image_url"),
   phone: varchar("phone"),
   address: varchar("address"),
+  dateOfBirth: varchar("date_of_birth"),
+  nationality: varchar("nationality"),
+  idDocumentNumber: varchar("id_document_number"),
+  idDocumentType: varchar("id_document_type"),
+  occupation: varchar("occupation"),
+  city: varchar("city"),
+  postalCode: varchar("postal_code"),
+  country: varchar("country").default("MAR"),
   role: varchar("role").notNull().default("user"), // user, admin
   authType: varchar("auth_type").notNull().default("local"), // replit, local
   // Security settings

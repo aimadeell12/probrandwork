@@ -36,6 +36,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   setupSimpleAuth(app);
 
+  // Profile update route
+  app.patch("/api/auth/profile", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const updateData = req.body;
+      
+      const updatedUser = await storage.updateUserProfile(userId, updateData);
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   // Cards routes
   app.get("/api/cards", requireAuth, async (req: any, res) => {
     try {
@@ -90,15 +107,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
           kyc: {
             firstName: user.firstName || cardData.holderName?.split(' ')[0] || "User",
             lastName: user.lastName || cardData.holderName?.split(' ')[1] || "Name",
-            dob: "1990-01-01", // You can add a dateOfBirth field to user schema later
+            dob: user.dateOfBirth || "1990-01-01",
             residentialAddress: {
               line1: user.address || "Default Address",
-              line2: "Suite 1",
-              city: "Casablanca",
-              country: "MAR"
+              line2: user.city || "Suite 1",
+              city: user.city || "Casablanca",
+              country: user.country || "MAR"
             },
-            idDocumentType: "TaxIDNumber",
-            idDocumentNumber: "123456" // You can add ID document field to user schema later
+            idDocumentType: user.idDocumentType || "TaxIDNumber",
+            idDocumentNumber: user.idDocumentNumber || "123456"
           },
           preferredCardName: `${user.firstName || ""} ${user.lastName || ""}`.trim() || cardData.holderName || "Card Holder",
           meta: {
