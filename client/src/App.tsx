@@ -87,6 +87,7 @@ function Router() {
             <Route path="/edit-profile" component={EditProfile} />
 
             <Route path="/kyc-verification" component={KYCVerification} />
+            <Route path="/auto-kyc" component={AutoKYC} />
             <Route path="/document-capture" component={DocumentCapture} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
