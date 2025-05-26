@@ -182,10 +182,16 @@ export default function EditProfile() {
                     name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>الاسم الأول</FormLabel>
+                        <FormLabel className="flex items-center space-x-2">
+                          <span>الاسم الأول</span>
+                          <span className="text-xs text-orange-600 dark:text-orange-400 mr-2">🔒 محمي</span>
+                        </FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="أدخل الاسم الأول" />
+                          <Input {...field} readOnly disabled className="bg-gray-100 dark:bg-gray-700 cursor-not-allowed" placeholder="أدخل الاسم الأول" />
                         </FormControl>
+                        <p className="text-xs text-gray-500 mt-1">
+                          الاسم الأول لا يمكن تعديله لأغراض الأمان
+                        </p>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -195,10 +201,16 @@ export default function EditProfile() {
                     name="lastName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>اسم العائلة</FormLabel>
+                        <FormLabel className="flex items-center space-x-2">
+                          <span>اسم العائلة</span>
+                          <span className="text-xs text-orange-600 dark:text-orange-400 mr-2">🔒 محمي</span>
+                        </FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="أدخل اسم العائلة" />
+                          <Input {...field} readOnly disabled className="bg-gray-100 dark:bg-gray-700 cursor-not-allowed" placeholder="أدخل اسم العائلة" />
                         </FormControl>
+                        <p className="text-xs text-gray-500 mt-1">
+                          اسم العائلة لا يمكن تعديله لأغراض الأمان
+                        </p>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -274,10 +286,16 @@ export default function EditProfile() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>البريد الإلكتروني</FormLabel>
+                      <FormLabel className="flex items-center space-x-2">
+                        <span>البريد الإلكتروني</span>
+                        <span className="text-xs text-orange-600 dark:text-orange-400 mr-2">🔒 محمي</span>
+                      </FormLabel>
                       <FormControl>
-                        <Input {...field} type="email" placeholder="your@email.com" />
+                        <Input {...field} type="email" readOnly disabled className="bg-gray-100 dark:bg-gray-700 cursor-not-allowed" placeholder="your@email.com" />
                       </FormControl>
+                      <p className="text-xs text-gray-500 mt-1">
+                        البريد الإلكتروني لا يمكن تعديله لأغراض الأمان
+                      </p>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -313,10 +331,16 @@ export default function EditProfile() {
                   name="address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>الشارع والرقم</FormLabel>
+                      <FormLabel className="flex items-center space-x-2">
+                        <span>الشارع والرقم</span>
+                        <span className="text-xs text-orange-600 dark:text-orange-400 mr-2">🔒 محمي</span>
+                      </FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="رقم البيت، اسم الشارع" />
+                        <Input {...field} readOnly disabled className="bg-gray-100 dark:bg-gray-700 cursor-not-allowed" placeholder="رقم البيت، اسم الشارع" />
                       </FormControl>
+                      <p className="text-xs text-gray-500 mt-1">
+                        العنوان لا يمكن تعديله لأغراض الأمان
+                      </p>
                       <FormMessage />
                     </FormItem>
                   )}
