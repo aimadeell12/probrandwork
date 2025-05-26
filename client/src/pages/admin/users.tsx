@@ -78,36 +78,36 @@ export default function UserManagement() {
         </div>
 
         {/* Search and Filters */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <div className="relative flex-1">
+        <div className="flex flex-col gap-4 mb-6">
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               placeholder="Search users by name or email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className="pl-10 w-full"
             />
           </div>
           
-          <div className="flex gap-2">
+          <div className="grid grid-cols-3 gap-2 sm:flex sm:gap-2">
             <Button
               variant={filterStatus === "all" ? "default" : "outline"}
               onClick={() => setFilterStatus("all")}
-              className="px-4"
+              className="px-3 py-2 text-sm"
             >
               All Users
             </Button>
             <Button
               variant={filterStatus === "admin" ? "default" : "outline"}
               onClick={() => setFilterStatus("admin")}
-              className="px-4"
+              className="px-3 py-2 text-sm"
             >
               Admins
             </Button>
             <Button
               variant={filterStatus === "user" ? "default" : "outline"}
               onClick={() => setFilterStatus("user")}
-              className="px-4"
+              className="px-3 py-2 text-sm"
             >
               Regular Users
             </Button>
@@ -115,30 +115,30 @@ export default function UserManagement() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
           <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                  <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            <CardContent className="p-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <Users className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Total Users</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{users.length}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Total Users</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">{users.length}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
           <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
-                  <Shield className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+            <CardContent className="p-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                  <Shield className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Administrators</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Administrators</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">
                     {users.filter((u: any) => u.role === 'admin').length}
                   </p>
                 </div>
@@ -147,14 +147,14 @@ export default function UserManagement() {
           </Card>
           
           <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                  <User className="h-5 w-5 text-green-600 dark:text-green-400" />
+            <CardContent className="p-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                  <User className="h-4 w-4 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Regular Users</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Regular Users</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">
                     {users.filter((u: any) => u.role !== 'admin').length}
                   </p>
                 </div>
@@ -163,14 +163,14 @@ export default function UserManagement() {
           </Card>
           
           <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
-                  <Calendar className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+            <CardContent className="p-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                  <Calendar className="h-4 w-4 text-orange-600 dark:text-orange-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">New Today</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">0</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">New Today</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">0</p>
                 </div>
               </div>
             </CardContent>
@@ -194,49 +194,49 @@ export default function UserManagement() {
                 </div>
               ) : (
                 filteredUsers.map((user: any, index: number) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
-                        <span className="text-white font-semibold text-sm">
+                  <div key={index} className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white font-semibold text-xs">
                           {user.firstName?.[0]}{user.lastName?.[0]}
                         </span>
                       </div>
                       
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-gray-900 dark:text-white">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
+                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm truncate">
                             {user.firstName} {user.lastName}
                           </h3>
                           {user.role === 'admin' && (
-                            <Badge className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300">
-                              <Shield className="h-3 w-3 mr-1" />
+                            <Badge className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs">
+                              <Shield className="h-2 w-2 mr-1" />
                               Admin
                             </Badge>
                           )}
                         </div>
                         
-                        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-                          <div className="flex items-center gap-1">
-                            <Mail className="h-3 w-3" />
-                            {user.email}
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
+                            <Mail className="h-3 w-3 flex-shrink-0" />
+                            <span className="truncate">{user.email}</span>
                           </div>
                           {user.phone && (
-                            <div className="flex items-center gap-1">
-                              <Phone className="h-3 w-3" />
-                              {user.phone}
+                            <div className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
+                              <Phone className="h-3 w-3 flex-shrink-0" />
+                              <span className="truncate">{user.phone}</span>
                             </div>
                           )}
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
-                            {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}
+                          <div className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
+                            <Calendar className="h-3 w-3 flex-shrink-0" />
+                            <span>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}</span>
                           </div>
                         </div>
                       </div>
+                      
+                      <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0">
+                        <MoreVertical className="h-3 w-3" />
+                      </Button>
                     </div>
-                    
-                    <Button variant="ghost" size="icon">
-                      <MoreVertical className="h-4 w-4" />
-                    </Button>
                   </div>
                 ))
               )}
