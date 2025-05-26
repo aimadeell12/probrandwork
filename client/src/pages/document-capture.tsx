@@ -29,6 +29,9 @@ export default function DocumentCapture() {
   const [facingMode, setFacingMode] = useState<"user" | "environment">("environment");
   const [flashEnabled, setFlashEnabled] = useState(false);
   const [availableCameras, setAvailableCameras] = useState<MediaDeviceInfo[]>([]);
+  const [isDetecting, setIsDetecting] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const [detectionMessage, setDetectionMessage] = useState("");
 
   const documentSteps = [
     { 
@@ -134,6 +137,11 @@ export default function DocumentCapture() {
         
         setStream(mediaStream);
         setActiveCamera(documentType);
+        
+        // Start auto-detection after camera loads
+        setTimeout(() => {
+          startAutoDetection();
+        }, 1000);
       }
     } catch (error: any) {
       console.error("Error accessing camera:", error);
@@ -160,6 +168,41 @@ export default function DocumentCapture() {
     }
   };
 
+  // Auto-detection function
+  const startAutoDetection = () => {
+    if (!videoRef.current || !activeCamera) return;
+
+    setIsDetecting(true);
+    setDetectionMessage(
+      activeCamera === "selfie" 
+        ? (language === "ar" ? "ضع وجهك في الدائرة واحتفظ بثباتك" : "Position your face in the circle and stay still")
+        : (language === "ar" ? "ضع البطاقة في الإطار واحتفظ بثباتها" : "Place the card in the frame and keep it steady")
+    );
+
+    // Simulate detection with a realistic delay
+    setTimeout(() => {
+      if (activeCamera && isDetecting) {
+        setDetectionMessage(language === "ar" ? "تم اكتشاف الهدف! جاري العد التنازلي..." : "Target detected! Countdown starting...");
+        startCountdown();
+      }
+    }, 2000);
+  };
+
+  const startCountdown = () => {
+    let count = 3;
+    setCountdown(count);
+
+    const countdownInterval = setInterval(() => {
+      count--;
+      setCountdown(count);
+
+      if (count === 0) {
+        clearInterval(countdownInterval);
+        capturePhoto();
+      }
+    }, 1000);
+  };
+
   const capturePhoto = () => {
     if (!videoRef.current || !canvasRef.current || !activeCamera) return;
 
@@ -180,6 +223,9 @@ export default function DocumentCapture() {
           : doc
       ));
       
+      setIsDetecting(false);
+      setCountdown(0);
+      setDetectionMessage("");
       stopCamera();
     }
   };
@@ -306,80 +352,158 @@ export default function DocumentCapture() {
             />
             <canvas ref={canvasRef} className="hidden" />
             
-            {/* Camera Overlay Guide */}
+            {/* Auto-Detection Overlay */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               {activeCamera !== "selfie" ? (
-                // Document frame guide
+                // Document frame guide with detection animation
                 <div className="relative">
-                  <div className="w-80 h-52 border-4 border-white/80 rounded-2xl bg-transparent">
-                    {/* Corner guides */}
-                    <div className="absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 border-green-400 rounded-tl-lg"></div>
-                    <div className="absolute -top-1 -right-1 w-6 h-6 border-t-4 border-r-4 border-green-400 rounded-tr-lg"></div>
-                    <div className="absolute -bottom-1 -left-1 w-6 h-6 border-b-4 border-l-4 border-green-400 rounded-bl-lg"></div>
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 border-b-4 border-r-4 border-green-400 rounded-br-lg"></div>
+                  <div className={`w-80 h-52 border-4 rounded-2xl bg-transparent transition-all duration-500 ${
+                    isDetecting ? 'border-green-400 shadow-lg shadow-green-400/50' : 'border-white/80'
+                  }`}>
+                    {/* Animated corner guides */}
+                    <div className={`absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 rounded-tl-lg transition-colors duration-500 ${
+                      isDetecting ? 'border-green-400' : 'border-white/80'
+                    }`}></div>
+                    <div className={`absolute -top-1 -right-1 w-6 h-6 border-t-4 border-r-4 rounded-tr-lg transition-colors duration-500 ${
+                      isDetecting ? 'border-green-400' : 'border-white/80'
+                    }`}></div>
+                    <div className={`absolute -bottom-1 -left-1 w-6 h-6 border-b-4 border-l-4 rounded-bl-lg transition-colors duration-500 ${
+                      isDetecting ? 'border-green-400' : 'border-white/80'
+                    }`}></div>
+                    <div className={`absolute -bottom-1 -right-1 w-6 h-6 border-b-4 border-r-4 rounded-br-lg transition-colors duration-500 ${
+                      isDetecting ? 'border-green-400' : 'border-white/80'
+                    }`}></div>
+
+                    {/* Scanning animation */}
+                    {isDetecting && (
+                      <div className="absolute inset-0 overflow-hidden rounded-2xl">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-green-400/60 animate-pulse"></div>
+                        <div className="absolute bottom-0 left-0 w-full h-1 bg-green-400/60 animate-pulse"></div>
+                      </div>
+                    )}
                   </div>
-                  <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 text-white text-center">
-                    <p className="text-sm font-medium">
-                      {language === "ar" ? "ضع البطاقة داخل الإطار" : "Place card within frame"}
-                    </p>
-                  </div>
+                  
+                  {/* Countdown display */}
+                  {countdown > 0 && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white text-4xl font-bold animate-ping">
+                        {countdown}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
-                // Selfie circle guide
+                // Selfie circle guide with detection
                 <div className="relative">
-                  <div className="w-64 h-80 border-4 border-white/80 rounded-full bg-transparent">
+                  <div className={`w-64 h-80 border-4 rounded-full bg-transparent transition-all duration-500 ${
+                    isDetecting ? 'border-green-400 shadow-lg shadow-green-400/50' : 'border-white/80'
+                  }`}>
                     {/* Face position indicators */}
-                    <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-400 rounded-full"></div>
-                    <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-green-400 rounded-full"></div>
+                    <div className={`absolute top-16 left-1/2 transform -translate-x-1/2 w-2 h-2 rounded-full transition-colors duration-500 ${
+                      isDetecting ? 'bg-green-400' : 'bg-white/80'
+                    }`}></div>
+                    <div className={`absolute bottom-32 left-1/2 transform -translate-x-1/2 w-8 h-1 rounded-full transition-colors duration-500 ${
+                      isDetecting ? 'bg-green-400' : 'bg-white/80'
+                    }`}></div>
+
+                    {/* Face detection animation */}
+                    {isDetecting && (
+                      <div className="absolute inset-4 border-2 border-green-400/40 rounded-full animate-pulse"></div>
+                    )}
                   </div>
-                  <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 text-white text-center">
-                    <p className="text-sm font-medium">
-                      {language === "ar" ? "ضع وجهك داخل الدائرة" : "Position face within circle"}
-                    </p>
-                  </div>
+                  
+                  {/* Countdown display */}
+                  {countdown > 0 && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white text-4xl font-bold animate-ping">
+                        {countdown}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </div>
 
-          {/* Camera Controls */}
+          {/* Auto-Detection Status */}
           <div className="bg-black/80 p-6">
-            {/* Instructions */}
+            {/* Detection Status */}
             <div className="text-center mb-6">
-              <p className="text-white/80 text-sm">
-                {activeCamera === "id-front" && (language === "ar" ? 
-                  "تأكد من وضوح جميع التفاصيل والنص على البطاقة" : 
-                  "Ensure all details and text on the card are clear")}
-                {activeCamera === "id-back" && (language === "ar" ? 
-                  "تأكد من وضوح الجهة الخلفية للبطاقة" : 
-                  "Ensure the back of the card is clear")}
-                {activeCamera === "selfie" && (language === "ar" ? 
-                  "انظر مباشرة للكاميرا وتأكد من الإضاءة الجيدة" : 
-                  "Look directly at the camera with good lighting")}
+              <div className="flex items-center justify-center gap-3 mb-4">
+                {isDetecting ? (
+                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                ) : (
+                  <div className="w-3 h-3 bg-white/40 rounded-full"></div>
+                )}
+                <p className="text-white text-lg font-medium">
+                  {language === "ar" ? "التصوير التلقائي" : "Auto Capture"}
+                </p>
+              </div>
+              
+              {/* Detection Message */}
+              <p className="text-white/80 text-sm mb-4">
+                {detectionMessage || (
+                  activeCamera === "selfie" 
+                    ? (language === "ar" ? "ضع وجهك في الدائرة وانتظر التصوير التلقائي" : "Position your face in the circle and wait for auto capture")
+                    : (language === "ar" ? "ضع البطاقة في الإطار وانتظر التصوير التلقائي" : "Place the card in the frame and wait for auto capture")
+                )}
               </p>
-            </div>
 
-            {/* Capture Button */}
-            <div className="flex justify-center">
-              <Button 
-                onClick={capturePhoto} 
-                size="lg"
-                className="w-20 h-20 bg-white text-black hover:bg-gray-100 rounded-full p-0 shadow-lg"
-              >
-                <div className="w-16 h-16 bg-white border-4 border-gray-300 rounded-full flex items-center justify-center">
-                  <div className="w-12 h-12 bg-white border-2 border-gray-400 rounded-full"></div>
+              {/* Progress Indicator */}
+              <div className="flex justify-center">
+                <div className={`w-32 h-1 bg-white/20 rounded-full overflow-hidden ${isDetecting ? 'bg-green-400/20' : ''}`}>
+                  {isDetecting && (
+                    <div className="h-full bg-green-400 rounded-full animate-pulse"></div>
+                  )}
                 </div>
-              </Button>
+              </div>
             </div>
 
-            {/* Additional Tips */}
-            <div className="flex justify-center mt-4">
-              <div className="flex items-center gap-2 text-white/60 text-xs">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <span>
-                  {language === "ar" ? "تأكد من الإضاءة الجيدة" : "Ensure good lighting"}
+            {/* Auto-Detection Status Icons */}
+            <div className="flex justify-center items-center gap-6">
+              <div className="flex flex-col items-center">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  isDetecting ? 'bg-green-400/20 text-green-400' : 'bg-white/10 text-white/60'
+                }`}>
+                  <Camera className="h-4 w-4" />
+                </div>
+                <span className="text-xs text-white/60 mt-1">
+                  {language === "ar" ? "الكشف" : "Detection"}
                 </span>
               </div>
+              
+              <div className="flex flex-col items-center">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  countdown > 0 ? 'bg-yellow-400/20 text-yellow-400' : 'bg-white/10 text-white/60'
+                }`}>
+                  <span className="text-sm font-bold">
+                    {countdown > 0 ? countdown : "3"}
+                  </span>
+                </div>
+                <span className="text-xs text-white/60 mt-1">
+                  {language === "ar" ? "العد" : "Timer"}
+                </span>
+              </div>
+              
+              <div className="flex flex-col items-center">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 text-white/60">
+                  <Check className="h-4 w-4" />
+                </div>
+                <span className="text-xs text-white/60 mt-1">
+                  {language === "ar" ? "التقاط" : "Capture"}
+                </span>
+              </div>
+            </div>
+
+            {/* Manual Override */}
+            <div className="flex justify-center mt-6">
+              <Button 
+                onClick={capturePhoto} 
+                variant="outline"
+                className="border-white/20 text-white/60 hover:bg-white/5 text-sm"
+              >
+                {language === "ar" ? "التقاط يدوي" : "Manual Capture"}
+              </Button>
             </div>
           </div>
         </div>
