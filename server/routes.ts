@@ -87,6 +87,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             dob: "1990-01-01",
             residentialAddress: {
               line1: "Default Address",
+              line2: "Suite 1",
               city: "HK",
               country: "HKG"
             },
