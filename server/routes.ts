@@ -113,6 +113,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         };
 
         console.log("📋 Sending corrected data to Reap API:", JSON.stringify(reapCardData, null, 2));
+        console.log("🔍 API Key being used:", process.env.REAP_API_KEY?.substring(0, 10) + "...");
+        console.log("🌐 Request URL will be:", `https://api.reap.global/api/v1/cards`);
         
         const reapCard = await reapService.createCard(reapCardData);
         
