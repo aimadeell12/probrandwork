@@ -314,20 +314,29 @@ export default function KYCVerification() {
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <CreditCard className="h-6 w-6 text-purple-600" />
-          {t("documentVerification")}
+          Document Verification
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Camera View */}
+        {/* Camera View - Always visible when active */}
         {activeCamera && (
-          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 m-4 max-w-md w-full">
+          <div className="w-full mb-6">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl p-4">
+              <div className="text-center mb-4">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                  {activeCamera === "id-front" && "Front of ID"}
+                  {activeCamera === "id-back" && "Back of ID"}
+                  {activeCamera === "selfie" && "Take Selfie"}
+                </h3>
+              </div>
+              
               <div className="relative mb-4">
                 <video
                   ref={videoRef}
                   autoPlay
                   playsInline
-                  className="w-full rounded-xl"
+                  className="w-full rounded-xl bg-black"
+                  style={{ aspectRatio: '4/3' }}
                 />
                 <canvas ref={canvasRef} className="hidden" />
               </div>
@@ -335,10 +344,10 @@ export default function KYCVerification() {
               <div className="flex gap-4 justify-center">
                 <Button onClick={capturePhoto} className="bg-purple-600 hover:bg-purple-700">
                   <Camera className="h-5 w-5 mr-2" />
-                  {t("capture")}
+                  Capture
                 </Button>
                 <Button onClick={stopCamera} variant="outline">
-                  {t("cancel")}
+                  Cancel
                 </Button>
               </div>
             </div>
