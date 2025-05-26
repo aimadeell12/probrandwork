@@ -101,6 +101,7 @@ class ReapService {
   }
 
   async createCard(cardData: ReapCreateCardRequest): Promise<ReapCardResponse> {
+    console.log('📋 Data being sent to Reap API:', JSON.stringify(cardData, null, 2));
     return await this.makeRequest('/cards', 'POST', cardData) as ReapCardResponse;
   }
 
