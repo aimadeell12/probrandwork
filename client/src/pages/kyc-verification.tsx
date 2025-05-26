@@ -79,7 +79,7 @@ export default function KYCVerification() {
               setPersonalInfo(data.personalInfo);
             }
             // تحديد الخطوة الحالية بناءً على البيانات المحفوظة
-            if (data.status === 'verified' || data.status === 'under_review') {
+            if (data.status === 'verified' || data.status === 'under_review' || data.status === 'pending') {
               setCurrentStep("review");
             } else if (data.personalInfo && data.personalInfo.country) {
               setCurrentStep("personal");
@@ -661,38 +661,53 @@ Select the country where you currently reside to start the verification process
 
         {/* Summary */}
         <div className="space-y-4">
-          <h4 className="font-semibold text-gray-900 dark:text-white">المعلومات المقدمة</h4>
+          <h4 className="font-semibold text-gray-900 dark:text-white">Submitted Information</h4>
           <div className="grid gap-3 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-400">الاسم الكامل:</span>
+              <span className="text-gray-600 dark:text-gray-400">Full Name:</span>
               <span className="text-gray-900 dark:text-white">{personalInfo.fullName}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-400">رقم الهوية:</span>
+              <span className="text-gray-600 dark:text-gray-400">ID Number:</span>
               <span className="text-gray-900 dark:text-white">{personalInfo.idNumber}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-400">الوثائق المرفقة:</span>
+              <span className="text-gray-600 dark:text-gray-400">Documents Uploaded:</span>
               <span className="text-gray-900 dark:text-white">{documents.filter(doc => doc.captured).length}/3</span>
             </div>
           </div>
         </div>
         
         {verificationStatus === "pending" && (
-          <Button 
-            onClick={submitVerification}
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-          >
-            إرسال طلب التحقق
-          </Button>
+          <div className="text-center">
+            <p className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4">
+              ✅ Verification Under Review
+            </p>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              Your identity verification is currently being reviewed by our team. We'll notify you once the process is complete.
+            </p>
+            <Link href="/dashboard">
+              <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
+                Return to Dashboard
+              </Button>
+            </Link>
+          </div>
         )}
         
         {verificationStatus === "verified" && (
-          <Link href="/dashboard">
-            <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800">
-              العودة للوحة التحكم
-            </Button>
-          </Link>
+          <div className="text-center">
+            <p className="text-lg font-semibold text-green-600 dark:text-green-400 mb-4">
+              ✅ Verification Completed
+            </p>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              Your identity has been successfully verified! You now have full access to all banking features.
+            </p>
+            <Link href="/dashboard">
+              <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800">
+                Return to Dashboard
+              </Button>
+            </Link>
+          </div>
         )}
       </CardContent>
     </Card>
