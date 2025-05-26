@@ -93,7 +93,8 @@ export default function EditProfile() {
       });
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
     },
-    onError: () => {
+    onError: (error) => {
+      console.error("Update profile error:", error);
       toast({
         title: "خطأ في التحديث",
         description: "حدث خطأ أثناء حفظ البيانات",
