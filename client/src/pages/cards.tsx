@@ -227,7 +227,7 @@ export default function Cards() {
                       </div>
                       
                       {/* Card actions */}
-                      <div className="absolute top-4 right-4">
+                      <div className="absolute top-2 right-2">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
