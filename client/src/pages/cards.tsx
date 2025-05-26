@@ -336,33 +336,7 @@ export default function Cards() {
                     <div className="w-8 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-sm"></div>
                   </div>
                   
-                  {/* Digital text */}
-                  <div className="absolute top-6 right-6 text-white font-bold text-lg tracking-wider transform rotate-90 origin-center">
-                    DIGITAL
-                  </div>
-                  
-                  {/* Card number */}
-                  <div className="absolute top-1/2 left-6 transform -translate-y-1/2">
-                    <div className="text-white font-mono text-lg tracking-widest">
-                      4532 1234 5678
-                    </div>
-                  </div>
-                  
-                  {/* Card details */}
-                  <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
-                    <div>
-                      <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                      <div className="text-white font-semibold text-sm">12/28</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-white font-semibold text-sm">CARD HOLDER</div>
-                    </div>
-                  </div>
 
-                  {/* VISA logo */}
-                  <div className="absolute bottom-6 left-6">
-                    <div className="text-white font-bold text-xl italic">VISA</div>
-                  </div>
                 </div>
               </div>
             </div>
