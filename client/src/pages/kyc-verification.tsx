@@ -226,10 +226,19 @@ export default function KYCVerification() {
       if (response.ok) {
         const result = await response.json();
         console.log('✅ KYC verification saved to database successfully:', result);
-        setVerificationStatus("verified");
         
-        // حفظ الحالة محلياً للحفاظ على التجربة
-        localStorage.setItem('kycVerificationStatus', 'verified');
+        // استخدم الحالة الفعلية من قاعدة البيانات
+        const actualStatus = result.kyc.status;
+        if (actualStatus === "pending") {
+          setVerificationStatus("in-review");
+        } else if (actualStatus === "approved") {
+          setVerificationStatus("verified");
+        } else {
+          setVerificationStatus("rejected");
+        }
+        
+        // حفظ الحالة الفعلية
+        localStorage.setItem('kycVerificationStatus', actualStatus);
         localStorage.setItem('kycVerificationData', JSON.stringify(result.kyc));
       } else {
         const errorData = await response.json();
@@ -624,8 +633,8 @@ export default function KYCVerification() {
               <div className="animate-spin">
                 <Clock className="h-12 w-12 text-blue-500" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{t("verificationInReview")}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{t("verificationInReviewDesc")}</p>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">طلبك في المراجعة</h3>
+              <p className="text-gray-600 dark:text-gray-400">تم إرسال طلب التحقق بنجاح وهو الآن قيد المراجعة من قبل فريقنا</p>
             </div>
           )}
           
