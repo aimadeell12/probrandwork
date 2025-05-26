@@ -84,6 +84,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create card with Reap API using real user data
       try {
         console.log("Creating card with Reap API using real user data...");
+        console.log("🔍 User data available:", JSON.stringify(user, null, 2));
         
         const reapCardData = {
           cardType: cardData.type === "virtual" ? "Virtual" : "Physical",
