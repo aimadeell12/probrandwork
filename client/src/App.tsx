@@ -26,6 +26,7 @@ import Withdraw from "@/pages/withdraw";
 import Scan from "@/pages/scan";
 import Transactions from "@/pages/transactions";
 import EditProfile from "@/pages/edit-profile";
+import Webhooks from "@/pages/webhooks";
 
 import NationalitySelection from "@/pages/nationality-selection";
 import PersonalInformation from "@/pages/personal-information";
@@ -86,6 +87,7 @@ function Router() {
             <Route path="/nationality-selection" component={NationalitySelection} />
             <Route path="/personal-information" component={PersonalInformation} />
             <Route path="/document-capture" component={DocumentCapture} />
+            <Route path="/webhooks" component={Webhooks} />
           </>
         )}
         <Route component={NotFound} />

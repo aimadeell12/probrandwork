@@ -41,6 +41,14 @@ interface ReapCreateCardRequest {
   };
 }
 
+interface ReapWebhookSubscriptionRequest {
+  subscribeUrl: string;
+}
+
+interface ReapWebhookSubscriptionResponse {
+  id: string;
+}
+
 class ReapService {
   private apiKey: string;
   private baseUrl: string;
@@ -213,6 +221,59 @@ class ReapService {
     }
     
     return cardNumber;
+  }
+
+  // Subscribe to webhook notifications
+  async subscribeToWebhook(subscribeUrl: string): Promise<ReapWebhookSubscriptionResponse> {
+    if (!this.apiKey) {
+      throw new Error('Reap API key required for webhook subscription');
+    }
+
+    const webhookData: ReapWebhookSubscriptionRequest = {
+      subscribeUrl
+    };
+
+    console.log('🔔 Subscribing to webhook:', webhookData);
+    
+    try {
+      const result = await this.makeRequest('/webhooks', 'POST', webhookData);
+      console.log('✅ Webhook subscription successful:', result);
+      return result as ReapWebhookSubscriptionResponse;
+    } catch (error) {
+      console.error('❌ Webhook subscription failed:', error);
+      throw error;
+    }
+  }
+
+  // Get webhook subscriptions
+  async getWebhookSubscriptions(): Promise<any[]> {
+    if (!this.apiKey) {
+      throw new Error('Reap API key required');
+    }
+
+    try {
+      const result = await this.makeRequest('/webhooks');
+      console.log('✅ Retrieved webhook subscriptions:', result);
+      return result;
+    } catch (error) {
+      console.error('❌ Failed to get webhook subscriptions:', error);
+      throw error;
+    }
+  }
+
+  // Delete webhook subscription
+  async deleteWebhookSubscription(webhookId: string): Promise<void> {
+    if (!this.apiKey) {
+      throw new Error('Reap API key required');
+    }
+
+    try {
+      await this.makeRequest(`/webhooks/${webhookId}`, 'DELETE');
+      console.log('✅ Webhook subscription deleted successfully');
+    } catch (error) {
+      console.error('❌ Failed to delete webhook subscription:', error);
+      throw error;
+    }
   }
 
   // دالة لاختبار الاتصال بـ API

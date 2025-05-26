@@ -767,6 +767,91 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Webhook routes for Reap API
+  app.post("/api/webhooks/subscribe", requireAuth, async (req: any, res) => {
+    try {
+      const { subscribeUrl } = req.body;
+      
+      if (!subscribeUrl) {
+        return res.status(400).json({ message: "Subscribe URL is required" });
+      }
+
+      const subscription = await reapService.subscribeToWebhook(subscribeUrl);
+      res.json({
+        message: "Webhook subscription successful",
+        subscription
+      });
+    } catch (error) {
+      console.error("Error subscribing to webhook:", error);
+      res.status(500).json({ 
+        message: "Failed to subscribe to webhook",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  app.get("/api/webhooks", requireAuth, async (req: any, res) => {
+    try {
+      const subscriptions = await reapService.getWebhookSubscriptions();
+      res.json(subscriptions);
+    } catch (error) {
+      console.error("Error fetching webhook subscriptions:", error);
+      res.status(500).json({ 
+        message: "Failed to fetch webhook subscriptions",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  app.delete("/api/webhooks/:id", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      await reapService.deleteWebhookSubscription(id);
+      res.json({ message: "Webhook subscription deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting webhook subscription:", error);
+      res.status(500).json({ 
+        message: "Failed to delete webhook subscription",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Webhook endpoint to receive notifications from Reap
+  app.post("/api/webhooks/reap", async (req, res) => {
+    try {
+      console.log("🔔 Received Reap webhook:", req.body);
+      
+      // Process webhook data based on event type
+      const webhookData = req.body;
+      
+      // Example webhook processing - you can customize this based on your needs
+      if (webhookData.event_type === 'transaction.created') {
+        // Handle transaction webhook
+        console.log("Processing transaction webhook:", webhookData);
+        
+        // You could create notifications, update balances, etc.
+        // Example: Create notification for the user
+        // await storage.createNotification({
+        //   userId: webhookData.user_id,
+        //   type: 'transaction',
+        //   title: 'Transaction Alert',
+        //   message: `Transaction of ${webhookData.amount} processed`,
+        //   data: webhookData
+        // });
+      } else if (webhookData.event_type === 'card.status_changed') {
+        // Handle card status change webhook
+        console.log("Processing card status webhook:", webhookData);
+      }
+      
+      // Always respond with 200 to acknowledge receipt
+      res.status(200).json({ message: "Webhook received and processed" });
+    } catch (error) {
+      console.error("Error processing webhook:", error);
+      res.status(500).json({ message: "Error processing webhook" });
+    }
+  });
+
   // Admin routes
   app.get("/api/admin/users", requireAuth, async (req: any, res) => {
     try {
