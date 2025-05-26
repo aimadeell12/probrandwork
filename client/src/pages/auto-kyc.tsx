@@ -51,7 +51,12 @@ export default function AutoKYC() {
   }, [documents, activeCamera]);
 
   const startCamera = async (documentType: DocumentType) => {
+    console.log("Starting camera for:", documentType);
+    
     try {
+      // First set the active camera to show the camera interface
+      setActiveCamera(documentType);
+      
       const mediaStream = await navigator.mediaDevices.getUserMedia({ 
         video: { 
           facingMode: documentType === "selfie" ? "user" : "environment",
@@ -60,14 +65,16 @@ export default function AutoKYC() {
         } 
       });
       
+      console.log("Camera stream obtained");
+      
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
         videoRef.current.onloadedmetadata = () => {
+          console.log("Video metadata loaded");
           videoRef.current?.play();
         };
         
         setStream(mediaStream);
-        setActiveCamera(documentType);
         
         // Start auto-detection after camera loads
         setTimeout(() => {
@@ -76,7 +83,19 @@ export default function AutoKYC() {
       }
     } catch (error) {
       console.error("Error accessing camera:", error);
-      alert(language === "ar" ? "تعذر الوصول للكاميرا. تحقق من الأذونات." : "Unable to access camera. Please check permissions.");
+      setActiveCamera(null); // Reset camera state on error
+      
+      let errorMessage = language === "ar" 
+        ? "تعذر الوصول للكاميرا. يرجى السماح بالوصول للكاميرا في المتصفح." 
+        : "Unable to access camera. Please allow camera access in your browser.";
+        
+      if (error.name === 'NotAllowedError') {
+        errorMessage = language === "ar" 
+          ? "تم رفض الوصول للكاميرا. يرجى السماح بالوصول وإعادة المحاولة."
+          : "Camera access denied. Please allow camera access and try again.";
+      }
+      
+      alert(errorMessage);
     }
   };
 
