@@ -633,8 +633,15 @@ export default function KYCVerification() {
               <div className="animate-spin">
                 <Clock className="h-12 w-12 text-blue-500" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">طلبك في المراجعة</h3>
-              <p className="text-gray-600 dark:text-gray-400">تم إرسال طلب التحقق بنجاح وهو الآن قيد المراجعة من قبل فريقنا</p>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                {language === "ar" ? "طلبك في المراجعة" : "Your Request is Under Review"}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {language === "ar" 
+                  ? "تم إرسال طلب التحقق بنجاح وهو الآن قيد المراجعة من قبل فريقنا" 
+                  : "Your verification request has been successfully submitted and is now under review by our team"
+                }
+              </p>
             </div>
           )}
           
