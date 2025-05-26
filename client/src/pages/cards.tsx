@@ -288,19 +288,7 @@ export default function Cards() {
                         </div>
                       </div>
 
-                      {/* Status indicator */}
-                      <div className="absolute bottom-6 left-6">
-                        <div className={cn(
-                          "px-3 py-1 rounded-full text-xs font-medium",
-                          card.status === "active" 
-                            ? "bg-green-500/20 text-green-100" 
-                            : card.status === "suspended"
-                            ? "bg-red-500/20 text-red-100"
-                            : "bg-yellow-500/20 text-yellow-100"
-                        )}>
-                          {card.status === "active" ? "نشطة" : card.status === "suspended" ? "معلقة" : "في الانتظار"}
-                        </div>
-                      </div>
+
                     </div>
                   </div>
 
