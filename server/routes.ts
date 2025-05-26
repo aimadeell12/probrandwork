@@ -97,16 +97,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.updateWalletBalance(userId, currentBalance - cardCost);
 
         res.json(card);
-      } catch (lithicError) {
-        console.error("Error creating Lithic card:", lithicError);
+      } catch (reapError) {
+        console.error("Error creating Reap card:", reapError);
         
-        // Create card without Lithic (simulated)
+        // Create card without Reap (simulated)
         const card = await storage.createCard({
           ...cardData,
-          lithicCardId: `sim_${Date.now()}`,
-          lastFour: cardData.lastFour || Math.floor(1000 + Math.random() * 9000).toString(),
-          expiryMonth: cardData.expiryMonth || 12,
-          expiryYear: cardData.expiryYear || 2028,
+          reapCardId: `sim_${Date.now()}`,
+          lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
+          expiryMonth: 12,
+          expiryYear: 2028,
           status: "active",
         });
 
