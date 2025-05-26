@@ -330,17 +330,27 @@ export default function KYCVerification() {
         {/* Document Capture Cards */}
         <div className="space-y-4">
           {[
-            { type: "id-front" as DocumentType, title: t("idFront"), icon: CreditCard },
-            { type: "id-back" as DocumentType, title: t("idBack"), icon: CreditCard },
-            { type: "selfie" as DocumentType, title: t("selfiePhoto"), icon: User }
-          ].map(({ type, title, icon: Icon }) => {
+            { type: "id-front" as DocumentType, title: "وجه بطاقة الهوية", titleEn: "ID Front", icon: CreditCard },
+            { type: "id-back" as DocumentType, title: "ظهر بطاقة الهوية", titleEn: "ID Back", icon: CreditCard },
+            { type: "selfie" as DocumentType, title: "صورة سيلفي", titleEn: "Selfie Photo", icon: User }
+          ].map(({ type, title, titleEn, icon: Icon }) => {
             const document = documents.find(doc => doc.type === type);
+            const { language } = useLanguage();
+            const displayTitle = language === "ar" ? title : titleEn;
+            
             return (
               <div key={type} className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <Icon className="h-5 w-5 text-purple-600" />
-                    <span className="font-medium text-gray-900 dark:text-white">{title}</span>
+                  <div className="flex items-center gap-3">
+                    <Icon className="h-6 w-6 text-purple-600" />
+                    <div className="flex flex-col">
+                      <span className="font-semibold text-gray-900 dark:text-white text-base">
+                        {displayTitle}
+                      </span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        {language === "ar" ? "التقط صورة واضحة" : "Take a clear photo"}
+                      </span>
+                    </div>
                   </div>
                   {document?.captured && (
                     <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
