@@ -85,12 +85,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       try {
         console.log("Creating card with Reap API using corrected format...");
         
+        // بيانات sandbox محددة كما في المثال
         const reapCardData = {
           cardType: cardData.type === "virtual" ? "Virtual" : "Physical" as "Virtual" | "Physical",
           customerType: "Consumer" as const,
           kyc: {
-            firstName: user.firstName || "Aimad",
-            lastName: user.lastName || "Eloirraki", 
+            firstName: "Chris",
+            lastName: "Meyer", 
             dob: "2000-01-01",
             residentialAddress: {
               line1: "Test",
@@ -101,14 +102,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
             idDocumentType: "TaxIDNumber",
             idDocumentNumber: "123456"
           },
-          preferredCardName: `${user.firstName} ${user.lastName}`.trim(),
+          preferredCardName: "Chris Meyer",
           meta: {
             otpPhoneNumber: {
               dialCode: "852",
               phoneNumber: "60254458"
             },
-            id: userId,
-            email: user.email || "abc@gmail.com"
+            id: "123456",
+            email: "abc@gmail.com"
           }
         };
 
