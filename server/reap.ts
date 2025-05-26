@@ -2,12 +2,6 @@ import fetch from 'node-fetch';
 
 interface ReapCardResponse {
   id: string;
-  card_number: string;
-  exp_month: number;
-  exp_year: number;
-  cvv: string;
-  status: string;
-  balance: number;
 }
 
 interface ReapTransactionResponse {
@@ -21,9 +15,30 @@ interface ReapTransactionResponse {
 }
 
 interface ReapCreateCardRequest {
-  cardholder_name: string;
-  card_type: 'virtual' | 'physical';
-  spending_limit?: number;
+  cardType: 'Physical' | 'Virtual';
+  customerType: 'Consumer';
+  kyc: {
+    firstName: string;
+    lastName: string;
+    dob: string;
+    residentialAddress: {
+      line1: string;
+      line2?: string;
+      city: string;
+      country: string;
+    };
+    idDocumentType: string;
+    idDocumentNumber: string;
+  };
+  preferredCardName: string;
+  meta: {
+    otpPhoneNumber: {
+      dialCode: string;
+      phoneNumber: string;
+    };
+    id: string;
+    email: string;
+  };
 }
 
 class ReapService {
@@ -32,7 +47,7 @@ class ReapService {
 
   constructor() {
     this.apiKey = process.env.REAP_API_KEY || '';
-    this.baseUrl = 'https://api.reap.com'; // استخدم URL الصحيح من Documentation
+    this.baseUrl = 'https://sandbox.api.caas.reap.global';
     
     if (!this.apiKey) {
       console.warn('Reap API key not found. Card operations will be simulated.');
@@ -45,7 +60,9 @@ class ReapService {
     const options: any = {
       method,
       headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
+        'x-reap-api-key': this.apiKey,
+        'Accept-Version': 'v1.0',
+        'accept': 'application/json',
         'Content-Type': 'application/json',
       },
     };

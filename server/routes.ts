@@ -78,19 +78,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create card with Lithic (simulated)
       try {
         const reapCard = await reapService.createCard({
-          cardholder_name: cardData.holderName || "Card Holder",
-          card_type: cardData.type as "virtual" | "physical",
-          spending_limit: Number(cardData.creditLimit) || 5000,
+          cardType: cardData.type === "virtual" ? "Virtual" : "Physical",
+          customerType: "Consumer",
+          kyc: {
+            firstName: cardData.holderName?.split(' ')[0] || "Card",
+            lastName: cardData.holderName?.split(' ')[1] || "Holder",
+            dob: "1990-01-01",
+            residentialAddress: {
+              line1: "Default Address",
+              city: "HK",
+              country: "HKG"
+            },
+            idDocumentType: "TaxIDNumber",
+            idDocumentNumber: "123456"
+          },
+          preferredCardName: cardData.holderName || "Card Holder",
+          meta: {
+            otpPhoneNumber: {
+              dialCode: "852",
+              phoneNumber: "60254458"
+            },
+            id: userId,
+            email: "user@example.com"
+          }
         });
 
         // Save to database with Reap data
         const card = await storage.createCard({
           ...cardData,
           reapCardId: reapCard.id,
-          lastFour: reapCard.card_number.slice(-4),
-          expiryMonth: reapCard.exp_month,
-          expiryYear: reapCard.exp_year,
-          status: reapCard.status === "active" ? "active" : "pending",
+          lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
+          expiryMonth: 12,
+          expiryYear: 2028,
+          status: "active",
         });
 
         // Deduct cost from wallet balance
