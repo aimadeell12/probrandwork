@@ -45,6 +45,16 @@ export default function KYCVerificationNew() {
     loadKYCStatus();
   }, []);
 
+  // إضافة وظيفة لمسح البيانات والبدء من جديد
+  useEffect(() => {
+    // تنظيف الكاميرا عند إغلاق الصفحة
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [stream]);
+
   const loadKYCStatus = async () => {
     try {
       const response = await fetch('/api/kyc/status');
@@ -139,6 +149,41 @@ export default function KYCVerificationNew() {
   const retakePhoto = () => {
     setCapturedImage(null);
     startCamera();
+  };
+
+  const resetKYCData = async () => {
+    try {
+      const response = await fetch('/api/kyc/reset', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        // إعادة تعيين كل البيانات المحلية
+        setVerificationStatus("not_started");
+        setCurrentStep(1);
+        setPersonalInfo({
+          fullName: "",
+          dateOfBirth: "",
+          documentType: "",
+          idNumber: "",
+          address: "",
+          city: "",
+          postalCode: ""
+        });
+        setCapturedImage(null);
+        stopCamera();
+        console.log('✅ KYC data reset successfully');
+      } else {
+        console.error('❌ Error resetting KYC data');
+        alert('Error resetting verification data. Please try again.');
+      }
+    } catch (error) {
+      console.error('❌ Error resetting KYC data:', error);
+      alert('Error resetting verification data. Please try again.');
+    }
   };
 
   const submitVerification = async () => {
