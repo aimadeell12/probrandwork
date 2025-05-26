@@ -365,7 +365,7 @@ Select the country where you currently reside to start the verification process
         <div className="grid grid-cols-1 gap-6">
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              الاسم الكامل
+              Full Name
             </div>
             <Input
               id="fullName"
@@ -377,7 +377,7 @@ Select the country where you currently reside to start the verification process
           
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              تاريخ الميلاد
+              Date of Birth
             </div>
             <Input
               id="dateOfBirth"
@@ -402,43 +402,43 @@ Select the country where you currently reside to start the verification process
           
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              نوع الهوية
+              Document Type
             </div>
             <Select value={personalInfo.documentType} onValueChange={(value) => setPersonalInfo(prev => ({...prev, documentType: value}))}>
               <SelectTrigger className="bg-white/80 dark:bg-gray-700/80">
-                <SelectValue placeholder="اختر نوع الهوية" />
+                <SelectValue placeholder="Choose document type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="national_id">بطاقة الهوية الوطنية</SelectItem>
-                <SelectItem value="passport">جواز السفر</SelectItem>
-                <SelectItem value="driving_license">رخصة القيادة</SelectItem>
-                <SelectItem value="residence_permit">إقامة</SelectItem>
+                <SelectItem value="national_id">National ID Card</SelectItem>
+                <SelectItem value="passport">Passport</SelectItem>
+                <SelectItem value="driving_license">Driving License</SelectItem>
+                <SelectItem value="residence_permit">Residence Permit</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              رقم الهوية
+              ID Number
             </div>
             <Input
               id="idNumber"
               value={personalInfo.idNumber}
               onChange={(e) => setPersonalInfo(prev => ({...prev, idNumber: e.target.value}))}
-              placeholder="أدخل رقم الهوية"
+              placeholder="Enter ID number"
               className="bg-white/80 dark:bg-gray-700/80"
             />
           </div>
 
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              العنوان والشارع
+              Street Address
             </div>
             <Input
               id="address"
               value={personalInfo.address}
               onChange={(e) => setPersonalInfo(prev => ({...prev, address: e.target.value}))}
-              placeholder="أدخل اسم الشارع والرقم"
+              placeholder="Enter street name and number"
               className="bg-white/80 dark:bg-gray-700/80"
             />
           </div>
@@ -446,26 +446,26 @@ Select the country where you currently reside to start the verification process
           <div className="grid grid-cols-2 gap-4">
             <div>
               <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                المدينة
+                City
               </div>
               <Input
                 id="city"
                 value={personalInfo.city}
                 onChange={(e) => setPersonalInfo(prev => ({...prev, city: e.target.value}))}
-                placeholder="أدخل اسم المدينة"
+                placeholder="Enter city name"
                 className="bg-white/80 dark:bg-gray-700/80"
               />
             </div>
 
             <div>
               <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                الرمز البريدي
+                Postal Code
               </div>
               <Input
                 id="postalCode"
                 value={personalInfo.postalCode}
                 onChange={(e) => setPersonalInfo(prev => ({...prev, postalCode: e.target.value}))}
-                placeholder="أدخل الرمز البريدي"
+                placeholder="Enter postal code"
                 className="bg-white/80 dark:bg-gray-700/80"
               />
             </div>
