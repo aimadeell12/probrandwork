@@ -19,7 +19,7 @@ import {
   type InsertNotificationSettings,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, and, count } from "drizzle-orm";
+import { eq, desc, and, count, sql } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
