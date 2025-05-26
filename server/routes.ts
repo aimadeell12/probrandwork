@@ -120,21 +120,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.json(card);
       } catch (reapError) {
         console.error("Error creating Reap card:", reapError);
-        
-        // Create card without Reap (simulated)
-        const card = await storage.createCard({
-          ...cardData,
-          reapCardId: `sim_${Date.now()}`,
-          lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
-          expiryMonth: 12,
-          expiryYear: 2028,
-          status: "active",
-        });
-
-        // Deduct cost from wallet balance
-        await storage.updateWalletBalance(userId, currentBalance - cardCost);
-
-        res.json(card);
+        return res.status(500).json({ message: "Failed to create card with Reap API" });
       }
     } catch (error) {
       console.error("Error creating card:", error);
@@ -157,7 +143,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Suspend with Lithic
       if (card.lithicCardId) {
-        await lithicService.suspendCard(card.lithicCardId);
+        await reapService.updateCardStatus(card.reapCardId || "", "suspended");
       }
 
       // Update database
@@ -184,7 +170,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Activate with Lithic
       if (card.lithicCardId) {
-        await lithicService.activateCard(card.lithicCardId);
+        await reapService.updateCardStatus(card.reapCardId || "", "active");
       }
 
       // Update database
@@ -237,7 +223,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Process deposit with Lithic
-      const transfer = await lithicService.deposit(card.lithicCardId || "", amount);
+      const transfer = await reapService.addFunds(card.reapCardId || "", amount);
 
       // Create transaction record
       await storage.createTransaction({
@@ -320,7 +306,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      const balance = await lithicService.getBalance(card.lithicCardId || "");
+      const balance = await reapService.getCardBalance(card.reapCardId || "");
       
       res.json({ balance });
     } catch (error) {
