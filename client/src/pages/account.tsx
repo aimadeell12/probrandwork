@@ -42,11 +42,18 @@ export default function Account() {
   // Define the settings menu items
   const settingsItems = [
     {
+      icon: User,
+      title: "تعديل الملف الشخصي",
+      description: "إدخال البيانات الحقيقية والكاملة",
+      path: "/edit-profile",
+      color: "purple"
+    },
+    {
       icon: Settings,
       title: t("accountSettings"),
       description: t("editPreferences"),
       path: "/account/settings",
-      color: "purple"
+      color: "blue"
     },
     {
       icon: Shield,
