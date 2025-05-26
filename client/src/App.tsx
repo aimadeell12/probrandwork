@@ -28,10 +28,7 @@ import Transactions from "@/pages/transactions";
 import EditProfile from "@/pages/edit-profile";
 import Webhooks from "@/pages/webhooks";
 
-import KYCVerification from "@/pages/kyc-verification-clean";
-import AutoKYC from "@/pages/auto-kyc";
-import CameraTest from "@/pages/camera-test";
-import DocumentCapture from "@/pages/document-capture";
+import KYCVerification from "@/pages/kyc-verification";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -88,9 +85,6 @@ function Router() {
             <Route path="/edit-profile" component={EditProfile} />
 
             <Route path="/kyc-verification" component={KYCVerification} />
-            <Route path="/auto-kyc" component={AutoKYC} />
-            <Route path="/document-capture" component={DocumentCapture} />
-            <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
           </>
         )}
