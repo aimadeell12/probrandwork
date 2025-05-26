@@ -297,19 +297,6 @@ const translations = {
     tryAgain: "يرجى المحاولة مرة أخرى",
     accountCreationFailed: "فشل في إنشاء الحساب",
     
-    // Login page translations
-    welcomeBack: "مرحباً بعودتك",
-    signInTitle: "تسجيل الدخول",
-    username: "اسم المستخدم",
-    enterUsername: "أدخل اسم المستخدم",
-    signingIn: "جاري تسجيل الدخول...",
-    loginFailed: "فشل في تسجيل الدخول",
-    welcomeBackSuccess: "مرحباً بعودتك!",
-    loginSuccessful: "تم تسجيل الدخول بنجاح",
-    loginError: "خطأ في تسجيل الدخول",
-    checkCredentials: "يرجى التحقق من البيانات المدخلة",
-    dontHaveAccount: "ليس لديك حساب؟",
-    
     // Transactions translations
     allTransactions: "جميع المعاملات",
     searchTransactions: "البحث في المعاملات",
@@ -507,19 +494,6 @@ const translations = {
     tryAgain: "Please try again",
     accountCreationFailed: "Failed to create account",
 
-    // Login page translations
-    welcomeBack: "Welcome Back",
-    signInTitle: "Sign In",
-    username: "Username",
-    enterUsername: "Enter your username",
-    signingIn: "Signing in...",
-    loginFailed: "Login failed",
-    welcomeBackSuccess: "Welcome back!",
-    loginSuccessful: "Login successful",
-    loginError: "Login Error",
-    checkCredentials: "Please check your credentials",
-    dontHaveAccount: "Don't have an account?",
-
     // Common
     comingSoon: "Coming Soon",
     comingSoonDesc: "This feature will be available soon",
@@ -545,12 +519,14 @@ const translations = {
     processingWithdraw: "Processing...",
     withdrawSuccess: "Withdrawal Successful",
     withdrawError: "Withdrawal Error",
+    insufficientFunds: "Insufficient Funds",
     amountTooSmall: "Amount Too Small",
     withdrawMethod: "Withdrawal Method",
     workingDays13: "1-3 business days",
     workingDays35: "3-5 business days",
     
     // Cards translations
+    myCards: "My Cards",
     createCard: "Create Card",
     virtualCard: "Virtual Card",
     physicalCard: "Physical Card",
@@ -558,6 +534,20 @@ const translations = {
     cardCreationError: "Card Creation Error",
     customizable: "Customizable",
     chooseCard: "Choose Card",
+    
+    // Dashboard guidance section
+    guidanceForBeginnersTitle: "Guidance for Beginners",
+    pleaseVerifyIdentity: "Please verify your identity",
+    clickToVerify: "Click to verify",
+    
+    // Transactions translations
+    allTransactions: "All Transactions",
+    searchTransactions: "Search Transactions",
+    filterTransactions: "Filter Transactions",
+    noTransactions: "No Transactions",
+    completed: "Completed",
+    pending: "Pending",
+    failed: "Failed",
     
 
   }

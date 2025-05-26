@@ -239,7 +239,7 @@ export default function SendMoney() {
         <Button
           onClick={handleSend}
           disabled={sendMutation.isPending || !amount || !recipient}
-          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
+          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
         >
           <Send className="h-5 w-5 mr-2" />
           {sendMutation.isPending ? "جاري الإرسال..." : `إرسال $${amount || "0.00"}`}

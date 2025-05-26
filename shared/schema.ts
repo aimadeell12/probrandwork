@@ -11,7 +11,6 @@ import {
   boolean,
   uuid,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -164,66 +163,6 @@ export const supportTicketsRelations = relations(supportTickets, ({ one }) => ({
   }),
 }));
 
-// Notifications table
-export const notifications = pgTable("notifications", {
-  id: text("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: text("user_id").notNull().references(() => users.id),
-  type: text("type").notNull(), // "transaction", "security", "system", "promotion", "card"
-  title: text("title").notNull(),
-  message: text("message").notNull(),
-  data: jsonb("data"), // Additional data for the notification
-  isRead: boolean("is_read").default(false).notNull(),
-  priority: text("priority").default("normal").notNull(), // "low", "normal", "high", "urgent"
-  actionUrl: text("action_url"), // URL to navigate when notification is clicked
-  actionLabel: text("action_label"), // Text for action button
-  expiresAt: timestamp("expires_at"), // Optional expiration date
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  readAt: timestamp("read_at"),
-});
-
-// Notification settings table
-export const notificationSettings = pgTable("notification_settings", {
-  id: text("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: text("user_id").notNull().references(() => users.id),
-  
-  // Transaction notifications
-  transactionAlerts: boolean("transaction_alerts").default(true).notNull(),
-  largeTransactions: boolean("large_transactions").default(true).notNull(),
-  failedTransactions: boolean("failed_transactions").default(true).notNull(),
-  
-  // Security notifications
-  loginAlerts: boolean("login_alerts").default(true).notNull(),
-  passwordChanges: boolean("password_changes").default(true).notNull(),
-  accountChanges: boolean("account_changes").default(true).notNull(),
-  
-  // Marketing notifications
-  promotions: boolean("promotions").default(false).notNull(),
-  newsletters: boolean("newsletters").default(true).notNull(),
-  productUpdates: boolean("product_updates").default(true).notNull(),
-  
-  // Delivery preferences
-  emailNotifications: boolean("email_notifications").default(true).notNull(),
-  pushNotifications: boolean("push_notifications").default(true).notNull(),
-  smsNotifications: boolean("sms_notifications").default(false).notNull(),
-  
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
-
-export const notificationsRelations = relations(notifications, ({ one }) => ({
-  user: one(users, {
-    fields: [notifications.userId],
-    references: [users.id],
-  }),
-}));
-
-export const notificationSettingsRelations = relations(notificationSettings, ({ one }) => ({
-  user: one(users, {
-    fields: [notificationSettings.userId],
-    references: [users.id],
-  }),
-}));
-
 // Schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   createdAt: true,
@@ -267,18 +206,6 @@ export const insertSupportTicketSchema = createInsertSchema(supportTickets).omit
   updatedAt: true,
 });
 
-export const insertNotificationSchema = createInsertSchema(notifications).omit({
-  id: true,
-  createdAt: true,
-  readAt: true,
-});
-
-export const insertNotificationSettingsSchema = createInsertSchema(notificationSettings).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
 // Types
 export type UpsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -288,7 +215,3 @@ export type InsertTransaction = z.infer<typeof insertTransactionSchema>;
 export type Transaction = typeof transactions.$inferSelect;
 export type InsertSupportTicket = z.infer<typeof insertSupportTicketSchema>;
 export type SupportTicket = typeof supportTickets.$inferSelect;
-export type InsertNotification = z.infer<typeof insertNotificationSchema>;
-export type Notification = typeof notifications.$inferSelect;
-export type InsertNotificationSettings = z.infer<typeof insertNotificationSettingsSchema>;
-export type NotificationSettings = typeof notificationSettings.$inferSelect;

@@ -3,8 +3,8 @@ import {
   cards,
   transactions,
   supportTickets,
-  notifications,
-  notificationSettings,
+  kycVerifications,
+  kycDocuments,
   type User,
   type UpsertUser,
   type Card,
@@ -13,10 +13,10 @@ import {
   type InsertTransaction,
   type SupportTicket,
   type InsertSupportTicket,
-  type Notification,
-  type InsertNotification,
-  type NotificationSettings,
-  type InsertNotificationSettings,
+  type KycVerification,
+  type InsertKycVerification,
+  type KycDocument,
+  type InsertKycDocument,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, count } from "drizzle-orm";
@@ -47,18 +47,12 @@ export interface IStorage {
   getSupportTicketsByUserId(userId: string): Promise<SupportTicket[]>;
   createSupportTicket(ticket: InsertSupportTicket): Promise<SupportTicket>;
   
-  // Notification operations
-  getNotificationsByUserId(userId: string): Promise<Notification[]>;
-  getUnreadNotificationsCount(userId: string): Promise<number>;
-  createNotification(notification: InsertNotification): Promise<Notification>;
-  markNotificationAsRead(id: string): Promise<Notification>;
-  markAllNotificationsAsRead(userId: string): Promise<void>;
-  deleteNotification(id: string): Promise<void>;
-  
-  // Notification settings operations
-  getNotificationSettings(userId: string): Promise<NotificationSettings | undefined>;
-  createNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings>;
-  updateNotificationSettings(userId: string, updates: Partial<NotificationSettings>): Promise<NotificationSettings>;
+  // KYC operations
+  getKycVerificationByUserId(userId: string): Promise<KycVerification | undefined>;
+  createKycVerification(kyc: InsertKycVerification): Promise<KycVerification>;
+  updateKycVerification(id: string, updates: Partial<KycVerification>): Promise<KycVerification>;
+  createKycDocument(document: InsertKycDocument): Promise<KycDocument>;
+  getKycDocumentsByKycId(kycId: string): Promise<KycDocument[]>;
   
   // Admin operations
   getAllUsers(): Promise<User[]>;
@@ -193,85 +187,6 @@ export class DatabaseStorage implements IStorage {
       .values(ticket)
       .returning();
     return newTicket;
-  }
-
-  // Notification operations
-  async getNotificationsByUserId(userId: string): Promise<Notification[]> {
-    return await db
-      .select()
-      .from(notifications)
-      .where(eq(notifications.userId, userId))
-      .orderBy(desc(notifications.createdAt));
-  }
-
-  async getUnreadNotificationsCount(userId: string): Promise<number> {
-    const [result] = await db
-      .select({ count: count() })
-      .from(notifications)
-      .where(and(
-        eq(notifications.userId, userId),
-        eq(notifications.isRead, false)
-      ));
-    return result.count;
-  }
-
-  async createNotification(notification: InsertNotification): Promise<Notification> {
-    const [newNotification] = await db
-      .insert(notifications)
-      .values(notification)
-      .returning();
-    return newNotification;
-  }
-
-  async markNotificationAsRead(id: string): Promise<Notification> {
-    const [updatedNotification] = await db
-      .update(notifications)
-      .set({ isRead: true, readAt: new Date() })
-      .where(eq(notifications.id, id))
-      .returning();
-    return updatedNotification;
-  }
-
-  async markAllNotificationsAsRead(userId: string): Promise<void> {
-    await db
-      .update(notifications)
-      .set({ isRead: true, readAt: new Date() })
-      .where(and(
-        eq(notifications.userId, userId),
-        eq(notifications.isRead, false)
-      ));
-  }
-
-  async deleteNotification(id: string): Promise<void> {
-    await db
-      .delete(notifications)
-      .where(eq(notifications.id, id));
-  }
-
-  // Notification settings operations
-  async getNotificationSettings(userId: string): Promise<NotificationSettings | undefined> {
-    const [settings] = await db
-      .select()
-      .from(notificationSettings)
-      .where(eq(notificationSettings.userId, userId));
-    return settings;
-  }
-
-  async createNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings> {
-    const [newSettings] = await db
-      .insert(notificationSettings)
-      .values(settings)
-      .returning();
-    return newSettings;
-  }
-
-  async updateNotificationSettings(userId: string, updates: Partial<NotificationSettings>): Promise<NotificationSettings> {
-    const [updatedSettings] = await db
-      .update(notificationSettings)
-      .set({ ...updates, updatedAt: new Date() })
-      .where(eq(notificationSettings.userId, userId))
-      .returning();
-    return updatedSettings;
   }
 
   // Admin operations

@@ -270,7 +270,7 @@ export default function AccountSettings() {
                 variant="outline" 
                 size="sm"
                 onClick={() => handleInputChange("emailNotifications", !formData.emailNotifications)}
-                className={formData.emailNotifications ? "bg-purple-50 text-purple-600 border-purple-200 hover:bg-purple-100 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-900" : ""}
+                className={formData.emailNotifications ? "bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-900" : ""}
               >
                 {formData.emailNotifications ? "Enabled" : "Disabled"}
               </Button>
@@ -285,7 +285,7 @@ export default function AccountSettings() {
                 variant="outline" 
                 size="sm"
                 onClick={() => handleInputChange("smsNotifications", !formData.smsNotifications)}
-                className={formData.smsNotifications ? "bg-purple-50 text-purple-600 border-purple-200 hover:bg-purple-100 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-900" : ""}
+                className={formData.smsNotifications ? "bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-900" : ""}
               >
                 {formData.smsNotifications ? "Enabled" : "Disabled"}
               </Button>
@@ -296,7 +296,7 @@ export default function AccountSettings() {
         {/* Save Button */}
         <Button 
           onClick={handleSave} 
-          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white"
           disabled={profileMutation.isPending || notificationsMutation.isPending}
         >
           {profileMutation.isPending || notificationsMutation.isPending ? (
