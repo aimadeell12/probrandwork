@@ -31,6 +31,9 @@ import Webhooks from "@/pages/webhooks";
 import KYCVerification from "@/pages/kyc-verification-new";
 import KycManagement from "@/pages/kyc-management";
 import AdminNavigation from "@/components/admin-navigation";
+import UserManagement from "@/pages/admin/users";
+import SystemReports from "@/pages/admin/reports";
+import AdminSettings from "@/pages/admin/settings";
 import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";
 
@@ -88,6 +91,9 @@ function Router() {
             <Route path="/kyc-verification" component={KYCVerification} />
             <Route path="/kyc-management" component={KycManagement} />
             <Route path="/admin-panel" component={AdminNavigation} />
+            <Route path="/admin/users" component={UserManagement} />
+            <Route path="/admin/reports" component={SystemReports} />
+            <Route path="/admin/settings" component={AdminSettings} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
           </>
