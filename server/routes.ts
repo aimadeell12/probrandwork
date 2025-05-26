@@ -525,7 +525,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         idNumber: formData.idNumber,
         phoneNumber: formData.phoneNumber,
         email: formData.email,
-        status: "approved" // Auto-approve for now
+        status: "pending" // Pending review by admin
       });
 
       // Check if KYC already exists
