@@ -104,7 +104,9 @@ export function setupSimpleAuth(app: Express) {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      res.json({ id: user.id, username: user.username, email: user.email });
+      // Return all user data except sensitive fields
+      const { password, ...userWithoutPassword } = user;
+      res.json(userWithoutPassword);
     } catch (error) {
       console.error("Get user error:", error);
       res.status(500).json({ message: "Failed to get user" });
