@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useAuth } from "@/hooks/useAuth";
 import { 
   ArrowLeft, 
   Camera, 
@@ -29,6 +30,7 @@ interface DocumentCapture {
 
 export default function KYCVerification() {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState<KYCStep>("country");
   const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>("pending");
   const [documents, setDocuments] = useState<DocumentCapture[]>([
@@ -47,6 +49,16 @@ export default function KYCVerification() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
+
+  // تحميل بيانات المستخدم المسجل دخوله
+  useEffect(() => {
+    if (user && user.firstName && user.lastName) {
+      setPersonalInfo(prev => ({
+        ...prev,
+        fullName: `${user.firstName} ${user.lastName}`
+      }));
+    }
+  }, [user]);
 
   const startCamera = async (documentType: DocumentType) => {
     try {
