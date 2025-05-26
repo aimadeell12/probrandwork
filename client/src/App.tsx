@@ -64,6 +64,7 @@ function Router() {
             <Route path="/welcome" component={Welcome} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/camera-test" component={CameraTest} />
           </>
         ) : (
           <>
@@ -88,6 +89,7 @@ function Router() {
             <Route path="/nationality-selection" component={NationalitySelection} />
             <Route path="/personal-information" component={PersonalInformation} />
             <Route path="/document-capture" component={DocumentCapture} />
+            <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
           </>
         )}
