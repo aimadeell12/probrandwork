@@ -145,8 +145,13 @@ export default function Cards() {
   });
 
   const blockCardMutation = useMutation({
-    mutationFn: (cardId: string) => cardApi.blockCard(cardId, "User requested block"),
+    mutationFn: (cardId: string) => {
+      console.log(`🔒 Frontend: Attempting to block card ${cardId}`);
+      return cardApi.blockCard(cardId, "User requested block");
+    },
     onSuccess: (data, cardId) => {
+      console.log(`✅ Frontend: Block card successful for ${cardId}`, data);
+      
       // Update the card status immediately in cache and keep it
       queryClient.setQueryData(["/api/cards"], (oldCards: Card[]) => {
         if (!oldCards) return oldCards;
@@ -155,17 +160,16 @@ export default function Cards() {
         );
       });
       
-      // Delay the refetch to ensure the visual change persists
-      setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
-      }, 1000);
+      // Force immediate refresh without delay
+      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       
       toast({
         title: "Card Blocked",
         description: "Card has been blocked permanently",
       });
     },
-    onError: () => {
+    onError: (error) => {
+      console.error(`❌ Frontend: Failed to block card`, error);
       toast({
         title: "Error",
         description: "Failed to block card",
