@@ -205,7 +205,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.patch("/api/cards/:id/block", requireAuth, async (req: any, res) => {
     try {
       const cardId = req.params.id;
+      console.log(`🔒 Blocking card: ${cardId}`);
+      
       const card = await storage.getCard(cardId);
+      console.log(`📋 Found card:`, card);
       
       if (!card) {
         return res.status(404).json({ message: "Card not found" });
@@ -217,11 +220,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Block with Reap API
       if (card.reapCardId) {
+        console.log(`🌐 Updating Reap card status: ${card.reapCardId}`);
         await reapService.updateCardStatus(card.reapCardId, "cancelled");
       }
 
       // Update database permanently
+      console.log(`💾 Updating database with status: blocked`);
       const updatedCard = await storage.updateCard(cardId, { status: "blocked" });
+      console.log(`✅ Updated card:`, updatedCard);
+      
       res.json(updatedCard);
     } catch (error) {
       console.error("Error blocking card:", error);
