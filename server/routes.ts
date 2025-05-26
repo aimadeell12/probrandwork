@@ -124,9 +124,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           type: cardData.type,
           holderName: `${user.firstName} ${user.lastName}`.trim(),
           reapCardId: reapCard.id,
-          status: "active",
           currency: cardData.currency || "USD",
-          balance: "1000"
+          balance: "1000",
+          expiryMonth: 12,
+          expiryYear: 2028,
+          design: "blue"
         });
         
         // Deduct cost from wallet balance
