@@ -234,25 +234,33 @@ export default function Cards() {
   });
 
   const adjustBalanceMutation = useMutation({
-    mutationFn: ({ cardId, adjustment }: { cardId: string; adjustment: number }) =>
-      fetch(`/api/cards/${cardId}/transfer`, {
+    mutationFn: async ({ cardId, adjustment }: { cardId: string; adjustment: number }) => {
+      const response = await fetch(`/api/cards/${cardId}/transfer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: adjustment })
-      }).then(res => res.json()),
-    onSuccess: () => {
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      return response.json();
+    },
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       toast({
         title: "Balance Updated",
-        description: "Card balance has been adjusted successfully",
+        description: `Funds ${balanceOperation === "add" ? "added" : "withdrawn"} successfully!`,
       });
       setSelectedCardForBalance(null);
       setBalanceAdjustment("");
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error('Balance adjustment error:', error);
       toast({
         title: "Error",
-        description: "Failed to adjust card balance",
+        description: error.message || "Failed to adjust card balance",
         variant: "destructive",
       });
     },
