@@ -171,7 +171,7 @@ export default function Welcome() {
             </div>
 
             {/* Refined Action Buttons */}
-            <div className="space-y-12 mb-20">
+            <div className="space-y-16 mb-20">
               <Link href="/login">
                 <Button className="group w-full max-w-sm h-14 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/30 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 border border-purple-500/30 backdrop-blur-sm relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
