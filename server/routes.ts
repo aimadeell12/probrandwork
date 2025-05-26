@@ -4,7 +4,7 @@ import path from "path";
 import { storage } from "./storage";
 import { setupSimpleAuth, requireAuth } from "./simpleAuth";
 import { reapService } from "./reap";
-import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema } from "@shared/schema";
+import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
@@ -485,6 +485,86 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching balance:", error);
       res.status(500).json({ message: "Failed to fetch balance" });
+    }
+  });
+
+  // KYC routes
+  app.get("/api/kyc/status", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
+      const kycData = await storage.getKycVerificationByUserId(userId);
+      res.json(kycData || null);
+    } catch (error) {
+      console.error("Error fetching KYC status:", error);
+      res.status(500).json({ message: "Failed to fetch KYC status" });
+    }
+  });
+
+  app.post("/api/kyc/submit", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Validate form data
+      const formData = kycVerificationFormSchema.parse(req.body);
+      
+      // Convert form data to KYC verification data
+      const kycData = insertKycVerificationSchema.parse({
+        userId,
+        nationality: formData.nationality,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        dateOfBirth: new Date(formData.dateOfBirth),
+        documentType: formData.documentType,
+        idNumber: formData.idNumber,
+        phoneNumber: formData.phoneNumber,
+        email: formData.email,
+        status: "approved" // Auto-approve for now
+      });
+
+      // Check if KYC already exists
+      const existingKyc = await storage.getKycVerificationByUserId(userId);
+      let result;
+      
+      if (existingKyc) {
+        // Update existing KYC
+        result = await storage.updateKycVerification(existingKyc.id, {
+          ...kycData,
+          reviewedAt: new Date()
+        });
+      } else {
+        // Create new KYC
+        result = await storage.createKycVerification(kycData);
+      }
+
+      // Update user profile with address information
+      await storage.updateUserProfile(userId, {
+        address: formData.streetAddress,
+        city: formData.city,
+        postalCode: formData.postalCode,
+        dateOfBirth: formData.dateOfBirth,
+        nationality: formData.nationality,
+        idDocumentType: formData.documentType,
+        idDocumentNumber: formData.idNumber
+      });
+
+      console.log("✅ KYC verification saved successfully:", result);
+      res.json({ success: true, kyc: result });
+    } catch (error) {
+      console.error("Error submitting KYC:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Validation error", 
+          errors: error.errors 
+        });
+      }
+      res.status(500).json({ message: "Failed to submit KYC verification" });
     }
   });
 

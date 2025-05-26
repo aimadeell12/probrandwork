@@ -290,6 +290,44 @@ export const insertNotificationSettingsSchema = createInsertSchema(notificationS
   updatedAt: true,
 });
 
+export const insertKycVerificationSchema = createInsertSchema(kycVerifications).omit({
+  id: true,
+  submittedAt: true,
+  reviewedAt: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertKycDocumentSchema = createInsertSchema(kycDocuments).omit({
+  id: true,
+  uploadedAt: true,
+});
+
+// Enhanced KYC schema with address fields
+export const kycVerificationFormSchema = z.object({
+  nationality: z.string().min(1, "الجنسية مطلوبة"),
+  firstName: z.string().min(1, "الاسم الأول مطلوب"),
+  lastName: z.string().min(1, "الاسم الأخير مطلوب"),
+  dateOfBirth: z.string().refine((date) => {
+    const birthDate = new Date(date);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      return age - 1 >= 18;
+    }
+    return age >= 18;
+  }, "يجب أن يكون عمرك 18 سنة أو أكثر"),
+  documentType: z.string().min(1, "نوع الوثيقة مطلوب"),
+  idNumber: z.string().min(1, "رقم الهوية مطلوب"),
+  phoneNumber: z.string().optional(),
+  email: z.string().email("البريد الإلكتروني غير صحيح").optional(),
+  streetAddress: z.string().min(1, "عنوان الشارع مطلوب"),
+  city: z.string().min(1, "المدينة مطلوبة"),
+  postalCode: z.string().min(1, "الرمز البريدي مطلوب"),
+});
+
 // Types
 export type UpsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -303,3 +341,8 @@ export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 export type Notification = typeof notifications.$inferSelect;
 export type InsertNotificationSettings = z.infer<typeof insertNotificationSettingsSchema>;
 export type NotificationSettings = typeof notificationSettings.$inferSelect;
+export type InsertKycVerification = z.infer<typeof insertKycVerificationSchema>;
+export type KycVerification = typeof kycVerifications.$inferSelect;
+export type InsertKycDocument = z.infer<typeof insertKycDocumentSchema>;
+export type KycDocument = typeof kycDocuments.$inferSelect;
+export type KycVerificationForm = z.infer<typeof kycVerificationFormSchema>;

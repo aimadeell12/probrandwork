@@ -68,31 +68,20 @@ export default function KYCVerification() {
 
   // تحميل حالة التحقق المحفوظة
   useEffect(() => {
-    const loadKYCStatus = () => {
+    const loadKYCStatus = async () => {
       try {
-        const savedStatus = localStorage.getItem('kycVerificationStatus');
-        const savedPersonalInfo = localStorage.getItem('kycPersonalInfo');
-        const savedDocuments = localStorage.getItem('kycDocuments');
-        
-        if (savedStatus) {
-          setVerificationStatus(savedStatus as VerificationStatus);
-          
-          if (savedPersonalInfo) {
-            const parsedInfo = JSON.parse(savedPersonalInfo);
-            setPersonalInfo(parsedInfo);
-          }
-          
-          if (savedDocuments) {
-            const parsedDocs = JSON.parse(savedDocuments);
-            setDocuments(parsedDocs);
-          }
-          
-          // تحديد الخطوة الحالية بناءً على البيانات المحفوظة
-          if (savedStatus === 'verified' || savedStatus === 'under_review') {
-            setCurrentStep("review");
-          } else if (savedPersonalInfo) {
-            const parsedInfo = JSON.parse(savedPersonalInfo);
-            if (parsedInfo.country) {
+        const response = await fetch('/api/kyc/status');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.status) {
+            setVerificationStatus(data.status);
+            if (data.personalInfo) {
+              setPersonalInfo(data.personalInfo);
+            }
+            // تحديد الخطوة الحالية بناءً على البيانات المحفوظة
+            if (data.status === 'verified' || data.status === 'under_review') {
+              setCurrentStep("review");
+            } else if (data.personalInfo && data.personalInfo.country) {
               setCurrentStep("personal");
             }
           }
@@ -207,16 +196,29 @@ export default function KYCVerification() {
   const submitVerification = async () => {
     setVerificationStatus("in-review");
     
-    // محاكاة عملية المراجعة
-    setTimeout(() => {
-      setVerificationStatus("verified");
-      
-      // حفظ حالة التحقق في التخزين المحلي
-      localStorage.setItem('kycVerificationStatus', 'verified');
-      localStorage.setItem('kycPersonalInfo', JSON.stringify(personalInfo));
-      localStorage.setItem('kycDocuments', JSON.stringify(documents.filter(doc => doc.captured)));
-      
-    }, 2000);
+    try {
+      // إرسال بيانات التحقق للخادم
+      const response = await fetch('/api/kyc/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...personalInfo,
+          documents: documents.filter(doc => doc.captured),
+          status: 'under_review'
+        }),
+      });
+
+      if (response.ok) {
+        setVerificationStatus("verified");
+      } else {
+        throw new Error('Failed to submit verification');
+      }
+    } catch (error) {
+      console.error('Error submitting verification:', error);
+      setVerificationStatus("rejected");
+    }
   };
 
   const getStepStatus = (step: KYCStep) => {
@@ -275,14 +277,21 @@ export default function KYCVerification() {
             {countries.map((country) => (
               <div
                 key={country.code}
-                onClick={() => {
+                onClick={async () => {
                   const updatedInfo = {...personalInfo, country: country.code, nationality: language === "ar" ? country.name : country.nameEn};
                   setPersonalInfo(updatedInfo);
                   setCurrentStep("personal");
                   
-                  // حفظ التقدم في التخزين المحلي
-                  localStorage.setItem('kycPersonalInfo', JSON.stringify(updatedInfo));
-                  localStorage.setItem('kycCurrentStep', "personal");
+                  // حفظ التقدم
+                  try {
+                    await fetch('/api/kyc/save-progress', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ personalInfo: updatedInfo, currentStep: "personal" })
+                    });
+                  } catch (error) {
+                    console.log('Failed to save progress');
+                  }
                 }}
                 className={`p-4 border rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${
                   personalInfo.country === country.code
