@@ -194,6 +194,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.patch("/api/cards/:id/freeze", requireAuth, async (req: any, res) => {
+    try {
+      const cardId = req.params.id;
+      const card = await storage.getCard(cardId);
+      
+      if (!card) {
+        return res.status(404).json({ message: "Card not found" });
+      }
+
+      if (card.userId !== req.user.id) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      // Freeze with Reap API
+      if (card.reapCardId) {
+        await reapService.freezeCard(card.reapCardId);
+      }
+
+      // Update database
+      const updatedCard = await storage.updateCard(cardId, { status: "frozen" });
+      res.json(updatedCard);
+    } catch (error) {
+      console.error("Error freezing card:", error);
+      res.status(500).json({ message: "Failed to freeze card" });
+    }
+  });
+
+  app.patch("/api/cards/:id/unfreeze", requireAuth, async (req: any, res) => {
+    try {
+      const cardId = req.params.id;
+      const card = await storage.getCard(cardId);
+      
+      if (!card) {
+        return res.status(404).json({ message: "Card not found" });
+      }
+
+      if (card.userId !== req.user.id) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      // Unfreeze with Reap API
+      if (card.reapCardId) {
+        await reapService.unfreezeCard(card.reapCardId);
+      }
+
+      // Update database
+      const updatedCard = await storage.updateCard(cardId, { status: "active" });
+      res.json(updatedCard);
+    } catch (error) {
+      console.error("Error unfreezing card:", error);
+      res.status(500).json({ message: "Failed to unfreeze card" });
+    }
+  });
+
   // Transactions routes
   app.get("/api/cards/:id/transactions", requireAuth, async (req: any, res) => {
     try {

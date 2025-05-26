@@ -105,6 +105,22 @@ class ReapService {
     return await this.makeRequest(`/cards/${cardId}`, 'PATCH', { status });
   }
 
+  async freezeCard(cardId: string): Promise<ReapCardResponse> {
+    if (!this.apiKey) {
+      throw new Error('Reap API key required');
+    }
+
+    return await this.makeRequest(`/cards/${cardId}/status`, 'PUT', { freeze: true });
+  }
+
+  async unfreezeCard(cardId: string): Promise<ReapCardResponse> {
+    if (!this.apiKey) {
+      throw new Error('Reap API key required');
+    }
+
+    return await this.makeRequest(`/cards/${cardId}/status`, 'PUT', { freeze: false });
+  }
+
   async getCardTransactions(cardId: string): Promise<ReapTransactionResponse[]> {
     if (!this.apiKey) {
       return [];

@@ -7,6 +7,8 @@ export const cardApi = {
   suspendCard: (id: string) => apiRequest("PATCH", `/api/cards/${id}/suspend`),
   activateCard: (id: string) => apiRequest("PATCH", `/api/cards/${id}/activate`),
   blockCard: (id: string, reason: string) => apiRequest("PATCH", `/api/cards/${id}/block`, { reason }),
+  freezeCard: (id: string) => apiRequest("PATCH", `/api/cards/${id}/freeze`),
+  unfreezeCard: (id: string) => apiRequest("PATCH", `/api/cards/${id}/unfreeze`),
   getTransactions: (cardId: string) => apiRequest("GET", `/api/cards/${cardId}/transactions`),
 };
 

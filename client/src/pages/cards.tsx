@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Plus, MoreVertical, Settings, Lock, AlertTriangle } from "lucide-react";
+import { CreditCard, Plus, MoreVertical, Settings, Lock, AlertTriangle, Snowflake, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/useLanguage";
 import {
@@ -168,6 +168,64 @@ export default function Cards() {
       toast({
         title: "Error",
         description: "Failed to block card",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const freezeCardMutation = useMutation({
+    mutationFn: (cardId: string) => cardApi.freezeCard(cardId),
+    onSuccess: (data, cardId) => {
+      // Update the card status immediately in cache
+      queryClient.setQueryData(["/api/cards"], (oldCards: Card[]) => {
+        if (!oldCards) return oldCards;
+        return oldCards.map(card => 
+          card.id === cardId ? { ...card, status: "frozen" } : card
+        );
+      });
+      
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      }, 1000);
+      
+      toast({
+        title: "Card Frozen",
+        description: "Card has been temporarily frozen",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to freeze card",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const unfreezeCardMutation = useMutation({
+    mutationFn: (cardId: string) => cardApi.unfreezeCard(cardId),
+    onSuccess: (data, cardId) => {
+      // Update the card status immediately in cache
+      queryClient.setQueryData(["/api/cards"], (oldCards: Card[]) => {
+        if (!oldCards) return oldCards;
+        return oldCards.map(card => 
+          card.id === cardId ? { ...card, status: "active" } : card
+        );
+      });
+      
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      }, 1000);
+      
+      toast({
+        title: "Card Unfrozen",
+        description: "Card has been reactivated",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to unfreeze card",
         variant: "destructive",
       });
     },
