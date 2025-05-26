@@ -194,12 +194,25 @@ export default function KYCVerification() {
   };
 
   const submitVerification = async () => {
+    // التحقق من اكتمال جميع البيانات المطلوبة
+    if (!personalInfo.fullName || !personalInfo.dateOfBirth || !personalInfo.documentType || 
+        !personalInfo.idNumber || !personalInfo.address || !personalInfo.city || !personalInfo.postalCode) {
+      alert("Please complete all required fields before submitting");
+      return;
+    }
+
+    // التحقق من رفع جميع الوثائق المطلوبة
+    if (documents.filter(doc => doc.captured).length < 3) {
+      alert("Please upload all required documents before submitting");
+      return;
+    }
+
     setVerificationStatus("in-review");
     
     try {
       // تحضير بيانات التحقق للإرسال لقاعدة البيانات
       const formData = {
-        nationality: personalInfo.nationality,
+        nationality: personalInfo.nationality || "Saudi Arabia",
         firstName: personalInfo.fullName.split(' ')[0] || user?.firstName || '',
         lastName: personalInfo.fullName.split(' ').slice(1).join(' ') || user?.lastName || '',
         dateOfBirth: personalInfo.dateOfBirth,
