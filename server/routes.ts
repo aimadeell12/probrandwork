@@ -109,7 +109,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const card = await storage.createCard({
           ...cardData,
           reapCardId: reapCard.id,
-          lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
           expiryMonth: 12,
           expiryYear: 2028,
           status: "active",
@@ -142,9 +141,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      // Suspend with Lithic
-      if (card.lithicCardId) {
-        await reapService.updateCardStatus(card.reapCardId || "", "suspended");
+      // Suspend with Reap API
+      if (card.reapCardId) {
+        await reapService.updateCardStatus(card.reapCardId, "suspended");
       }
 
       // Update database
@@ -169,9 +168,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      // Activate with Lithic
-      if (card.lithicCardId) {
-        await reapService.updateCardStatus(card.reapCardId || "", "active");
+      // Activate with Reap API
+      if (card.reapCardId) {
+        await reapService.updateCardStatus(card.reapCardId, "active");
       }
 
       // Update database
