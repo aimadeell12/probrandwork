@@ -4,62 +4,18 @@ import { Button } from "@/components/ui/button";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Plus, MoreVertical, Settings, Lock } from "lucide-react";
+import { CreditCard, Home, TrendingUp, Headphones } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import CreateCardModal from "@/components/create-card-modal";
-import type { Card } from "shared/schema";
 
 export default function Cards() {
   const { t } = useLanguage();
-  const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const { toast } = useToast();
 
-  const { data: cards = [], isLoading } = useQuery<Card[]>({
+  const { data: cards, isLoading } = useQuery({
     queryKey: ["/api/cards"],
-  });
-
-  const suspendCardMutation = useMutation({
-    mutationFn: (cardId: string) => cardApi.suspendCard(cardId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
-      toast({
-        title: "تم إيقاف البطاقة",
-        description: "تم إيقاف البطاقة بنجاح",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "خطأ",
-        description: "فشل في إيقاف البطاقة",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const activateCardMutation = useMutation({
-    mutationFn: (cardId: string) => cardApi.activateCard(cardId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
-      toast({
-        title: "تم تفعيل البطاقة",
-        description: "تم تفعيل البطاقة بنجاح",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "خطأ",
-        description: "فشل في تفعيل البطاقة",
-        variant: "destructive",
-      });
-    },
   });
 
   const createCardMutation = useMutation({
@@ -67,35 +23,18 @@ export default function Cards() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       toast({
-        title: "تم إنشاء البطاقة",
-        description: "تم إنشاء البطاقة الجديدة بنجاح",
+        title: t("cardCreated"),
+        description: t("cardCreated"),
       });
     },
     onError: () => {
       toast({
-        title: "خطأ في إنشاء البطاقة",
-        description: "فشل في إنشاء البطاقة",
+        title: t("error"),
+        description: t("cardCreationError"),
         variant: "destructive",
       });
     },
   });
-
-  const getCardGradient = (design: string) => {
-    switch (design) {
-      case "green":
-        return "bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700";
-      case "purple":
-        return "bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-700";
-      case "black":
-        return "bg-gradient-to-br from-gray-800 via-gray-900 to-black";
-      default:
-        return "bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700";
-    }
-  };
-
-  const formatCardNumber = (lastFour: string) => {
-    return `•••• •••• •••• ${lastFour}`;
-  };
 
   const handleCreateCard = () => {
     const cardData = {
@@ -104,23 +43,12 @@ export default function Cards() {
       design: "black",
       currency: "USD",
       expiryMonth: 12,
-      expiryYear: 2028,
+      expiryYear: 2027,
       lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
     };
     
     createCardMutation.mutate(cardData);
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400">جاري تحميل البطاقات...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
@@ -131,249 +59,110 @@ export default function Cards() {
       
       <div className="container mx-auto px-6 py-8 max-w-md relative z-10">
         
-        {/* Display existing cards if any */}
-        {Array.isArray(cards) && cards.length > 0 ? (
-          <>
-            {/* Header for existing cards */}
-            <div className="flex items-center justify-between mb-8 pt-12">
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">بطاقاتي</h1>
-              <Button
-                onClick={() => setShowCreateModal(true)}
-                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full p-3"
-              >
-                <Plus className="h-5 w-5" />
-              </Button>
-            </div>
+        {/* Header */}
+        <div className="text-center mb-8 pt-12">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">{t("chooseCard")}</h1>
+        </div>
 
-            {/* Cards List */}
-            <div className="space-y-6">
-              {cards.map((card: Card) => (
-                <div key={card.id} className="relative">
-                  {/* Card Visual */}
-                  <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto">
-                    <div className={cn(
-                      "absolute inset-0 rounded-2xl shadow-2xl overflow-hidden",
-                      getCardGradient(card.design)
-                    )}>
-                      
-                      {/* Card design elements */}
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
-                      <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full blur-lg"></div>
-                      
-                      {/* Card type indicator */}
-                      <div className="absolute top-6 left-6">
-                        <div className="w-8 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-sm"></div>
-                      </div>
-                      
-                      {/* Card actions */}
-                      <div className="absolute top-6 right-6">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
-                              <MoreVertical className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <Settings className="mr-2 h-4 w-4" />
-                              الإعدادات
-                            </DropdownMenuItem>
-                            {card.status === "active" ? (
-                              <DropdownMenuItem
-                                onClick={() => suspendCardMutation.mutate(card.id)}
-                                className="text-red-600"
-                              >
-                                <Lock className="mr-2 h-4 w-4" />
-                                إيقاف البطاقة
-                              </DropdownMenuItem>
-                            ) : (
-                              <DropdownMenuItem
-                                onClick={() => activateCardMutation.mutate(card.id)}
-                                className="text-green-600"
-                              >
-                                <Lock className="mr-2 h-4 w-4" />
-                                تفعيل البطاقة
-                              </DropdownMenuItem>
-                            )}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                      
-                      {/* Digital text */}
-                      <div className="absolute top-1/4 right-6 text-white font-bold text-lg tracking-wider transform rotate-90 origin-center">
-                        DIGITAL
-                      </div>
-                      
-                      {/* Card number */}
-                      <div className="absolute top-1/2 left-6 transform -translate-y-1/2">
-                        <div className="text-white font-mono text-lg tracking-widest">
-                          {formatCardNumber(card.lastFour)}
-                        </div>
-                      </div>
-                      
-                      {/* Card details */}
-                      <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
-                        <div>
-                          <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                          <div className="text-white font-semibold text-sm">
-                            {String(card.expiryMonth).padStart(2, '0')}/{String(card.expiryYear).slice(-2)}
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-white font-semibold text-sm">{card.holderName.toUpperCase()}</div>
-                        </div>
-                      </div>
+        {/* Card Type Selector */}
+        <div className="flex bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full p-1 mb-12 max-w-xs mx-auto shadow-lg border border-white/30">
+          <button
+            onClick={() => setSelectedCardType("virtual")}
+            className={cn(
+              "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
+              selectedCardType === "virtual"
+                ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
+                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            )}
+          >
+            {t("virtualCard")}
+          </button>
+          <button
+            onClick={() => setSelectedCardType("physical")}
+            className={cn(
+              "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
+              selectedCardType === "physical"
+                ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
+                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            )}
+          >
+            {t("physicalCard")}
+          </button>
+        </div>
 
-                      {/* Status indicator */}
-                      <div className="absolute bottom-6 left-6">
-                        <div className={cn(
-                          "px-3 py-1 rounded-full text-xs font-medium",
-                          card.status === "active" 
-                            ? "bg-green-500/20 text-green-100" 
-                            : card.status === "suspended"
-                            ? "bg-red-500/20 text-red-100"
-                            : "bg-yellow-500/20 text-yellow-100"
-                        )}>
-                          {card.status === "active" ? "نشطة" : card.status === "suspended" ? "معلقة" : "في الانتظار"}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card info */}
-                  <div className="text-center mt-4">
-                    <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                      <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
-                      قابلة للتخصيص
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-2">
-                      {card.type === "virtual" ? "بطاقة افتراضية" : "بطاقة فيزيائية"}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">
-                      قابلة للتخصيص
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        ) : (
-          <>
-            {/* Header when no cards */}
-            <div className="text-center mb-8 pt-12">
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">Choose Card</h1>
-            </div>
-
-            {/* Card Type Selector */}
-            <div className="flex bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full p-1 mb-12 max-w-xs mx-auto shadow-lg border border-white/30">
-              <button
-                onClick={() => setSelectedCardType("virtual")}
-                className={cn(
-                  "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
-                  selectedCardType === "virtual"
-                    ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                )}
-              >
-                Virtual Card
-              </button>
-              <button
-                onClick={() => setSelectedCardType("physical")}
-                className={cn(
-                  "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
-                  selectedCardType === "physical"
-                    ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                )}
-              >
-                Physical Card
-              </button>
-            </div>
-
-            {/* Sample Card Display */}
-            <div className="mb-8 px-4">
-              <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto">
-                {/* Card background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 rounded-2xl shadow-2xl overflow-hidden">
-                  
-                  {/* Card design elements */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-400/20 to-transparent rounded-full blur-xl"></div>
-                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-purple-400/20 to-transparent rounded-full blur-lg"></div>
-                  
-                  {/* Mastercard logo placeholder */}
-                  <div className="absolute top-6 left-6">
-                    <div className="w-8 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-sm"></div>
-                  </div>
-                  
-                  {/* Digital text */}
-                  <div className="absolute top-6 right-6 text-white font-bold text-lg tracking-wider transform rotate-90 origin-center">
-                    DIGITAL
-                  </div>
-                  
-                  {/* Card number */}
-                  <div className="absolute top-1/2 left-6 transform -translate-y-1/2">
-                    <div className="text-white font-mono text-lg tracking-widest">
-                      4532 1234 5678
-                    </div>
-                  </div>
-                  
-                  {/* Card details */}
-                  <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
-                    <div>
-                      <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                      <div className="text-white font-semibold text-sm">12/28</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-white font-semibold text-sm">CARD HOLDER</div>
-                    </div>
-                  </div>
-
-                  {/* VISA logo */}
-                  <div className="absolute bottom-6 left-6">
-                    <div className="text-white font-bold text-xl italic">VISA</div>
-                  </div>
-                </div>
+        {/* Card Preview */}
+        <div className="flex justify-center mb-8">
+          <div className="w-48 h-72 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-2xl relative overflow-hidden shadow-2xl">
+            
+            {/* Card background pattern */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/10 to-slate-900/80 rounded-2xl"></div>
+            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-2xl"></div>
+            
+            {/* Card Brand - Vertical Text on Right */}
+            <div className="absolute right-4 top-8 bottom-20 flex items-center justify-center z-10">
+              <div className="text-white font-bold text-lg tracking-wider transform rotate-90 origin-center whitespace-nowrap">
+                DIGITAL
               </div>
             </div>
-
-            {/* Customizable Badge */}
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
-                Customizable
+            
+            {/* EMV chip simulation */}
+            <div className="absolute top-16 left-6 w-8 h-6 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-md shadow-inner z-10"></div>
+            
+            {/* Card number */}
+            <div className="absolute top-32 left-6 text-white font-mono text-sm font-semibold tracking-widest z-10">
+              4532 1234 5678
+            </div>
+            
+            {/* VISA Logo */}
+            <div className="absolute bottom-8 left-6 z-10">
+              <div className="text-white font-bold text-2xl italic">
+                VISA
               </div>
             </div>
-
-            {/* Card Type Info */}
-            <div className="text-center mb-4">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                {selectedCardType === "virtual" ? "Virtual Card" : "Physical Card"}
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Customizable
-              </p>
+            
+            {/* Card details */}
+            <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
+              <div>
+                <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
+                <div className="text-white font-semibold text-sm">12/28</div>
+              </div>
+              <div className="text-right">
+                <div className="text-white font-semibold text-sm">CARD HOLDER</div>
+              </div>
             </div>
+          </div>
+        </div>
 
-            {/* Create Card Button */}
-            <div className="px-4 mb-8">
-              <Button 
-                onClick={handleCreateCard}
-                disabled={createCardMutation.isPending}
-                className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
-              >
-                {createCardMutation.isPending ? "جاري الشراء..." : "شراء البطاقة"}
-              </Button>
-            </div>
-          </>
-        )}
+        {/* Customizable Badge */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
+            {t("customizable")}
+          </div>
+        </div>
+
+        {/* Card Type Info */}
+        <div className="text-center mb-4">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            {selectedCardType === "virtual" ? t("virtualCard") : t("physicalCard")}
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">
+            {t("customizable")}
+          </p>
+        </div>
+
+        {/* Apply Button */}
+        <div className="px-4 mb-24 pb-8">
+          <Button 
+            onClick={handleCreateCard}
+            disabled={createCardMutation.isPending}
+            className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
+          >
+            {createCardMutation.isPending ? "جاري الشراء..." : "شراء البطاقة"}
+          </Button>
+        </div>
 
       </div>
-
-      {/* Create Card Modal */}
-      <CreateCardModal
-        open={showCreateModal}
-        onOpenChange={setShowCreateModal}
-      />
     </div>
   );
 }

@@ -8,36 +8,40 @@ export default function Landing() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
       {/* Navigation */}
-      <nav className="bg-card shadow-sm border-b border-border sticky top-0 z-50">
+      <nav className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-lg border-b border-purple-200/30 dark:border-purple-400/30 sticky top-0 z-50 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4 space-x-reverse">
               <div className="flex items-center">
-                <CreditCard className="h-8 w-8 text-primary ml-3" />
-                <span className="text-xl font-bold text-primary">منصة البطاقات</span>
+                <CreditCard className="h-8 w-8 text-purple-600 dark:text-purple-400 ml-3" />
+                <span className="text-xl font-bold text-purple-700 dark:text-purple-300">منصة البطاقات</span>
               </div>
             </div>
             
             <div className="hidden md:flex items-center space-x-6 space-x-reverse">
-              <a href="#home" className="text-primary font-medium border-b-2 border-primary">الرئيسية</a>
-              <a href="#features" className="text-muted-foreground hover:text-primary">المميزات</a>
-              <a href="#pricing" className="text-muted-foreground hover:text-primary">الأسعار</a>
-              <a href="#support" className="text-muted-foreground hover:text-primary">الدعم</a>
+              <a href="#home" className="text-purple-600 dark:text-purple-400 font-medium border-b-2 border-purple-600 dark:border-purple-400">الرئيسية</a>
+              <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">المميزات</a>
+              <a href="#pricing" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">الأسعار</a>
+              <a href="#support" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">الدعم</a>
             </div>
 
             <div className="flex items-center space-x-4 space-x-reverse">
               <Button 
                 variant="outline" 
                 onClick={handleLogin}
-                className="font-medium"
+                className="border-purple-300 dark:border-purple-400 text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/20 font-medium"
               >
                 تسجيل الدخول
               </Button>
               <Button 
-                onClick={handleLogin}
-                className="banking-gradient hover:opacity-90"
+                onClick={() => window.location.href = "/welcome"}
+                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
               >
                 إنشاء حساب
               </Button>
@@ -47,30 +51,30 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="banking-gradient text-white py-20">
+      <section className="py-20 lg:py-32 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight text-gray-900 dark:text-white">
                 إدارة البطاقات المصرفية
-                <span className="block text-blue-200">بكل سهولة وأمان</span>
+                <span className="block text-purple-600 dark:text-purple-400">بكل سهولة وأمان</span>
               </h1>
-              <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
                 منصة متطورة لإصدار وإدارة البطاقات المصرفية باستخدام تقنية Lithic API. 
                 تحكم كامل، أمان عالي، وتجربة مستخدم استثنائية.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg"
-                  onClick={handleLogin}
-                  className="bg-white text-primary hover:bg-gray-50 font-semibold px-8 py-4 text-lg"
+                  onClick={() => window.location.href = "/welcome"}
+                  className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 font-semibold px-8 py-4 text-lg"
                 >
                   ابدأ مجاناً
                 </Button>
                 <Button 
                   size="lg"
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-primary font-semibold px-8 py-4 text-lg"
+                  className="border-purple-300 dark:border-purple-400 text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/20 font-semibold px-8 py-4 text-lg"
                 >
                   شاهد العرض التوضيحي
                 </Button>
@@ -80,7 +84,7 @@ export default function Landing() {
               {/* Card Visual */}
               <Card className="transform rotate-3 banking-shadow-lg">
                 <CardContent className="p-6">
-                  <div className="card-gradient-blue rounded-xl p-6 text-white mb-4">
+                  <div className="bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl p-6 text-white mb-4">
                     <div className="flex justify-between items-center mb-4">
                       <CreditCard className="h-8 w-8" />
                       <span className="text-sm">**** 4532</span>
@@ -160,8 +164,8 @@ export default function Landing() {
 
             <Card className="banking-shadow hover:banking-shadow-lg transition-shadow">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6">
-                  <Smartphone className="h-8 w-8 text-blue-500" />
+                <div className="w-16 h-16 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6">
+                  <Smartphone className="h-8 w-8 text-purple-500" />
                 </div>
                 <h3 className="text-xl font-semibold mb-4">تطبيق محمول</h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -198,24 +202,24 @@ export default function Landing() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-primary py-20">
+      <section className="bg-gradient-to-r from-purple-600 to-purple-700 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 text-center text-white">
             <div>
               <div className="text-4xl font-bold mb-2">50,000+</div>
-              <div className="text-blue-200">بطاقة مُصدرة</div>
+              <div className="text-purple-200">بطاقة مُصدرة</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">99.9%</div>
-              <div className="text-blue-200">وقت التشغيل</div>
+              <div className="text-purple-200">وقت التشغيل</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">500+</div>
-              <div className="text-blue-200">عميل راضٍ</div>
+              <div className="text-purple-200">عميل راضٍ</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">24/7</div>
-              <div className="text-blue-200">دعم فني</div>
+              <div className="text-purple-200">دعم فني</div>
             </div>
           </div>
         </div>
