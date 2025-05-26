@@ -41,7 +41,8 @@ function Router() {
   // صفحات التحقق من الهوية التي يجب إخفاء الشريط السفلي منها
   const kycPages = [
     '/kyc-verification',
-    '/document-capture'
+    '/document-capture',
+    '/auto-kyc'
   ];
 
   const shouldHideBottomNav = kycPages.includes(location);
