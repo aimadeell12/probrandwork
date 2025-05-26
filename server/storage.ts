@@ -118,8 +118,12 @@ export class DatabaseStorage implements IStorage {
   }
   
   async updateUserProfile(userId: string, updates: Partial<User>): Promise<User> {
+    console.log("updateUserProfile called with:", { userId, updates });
+    
     // Ensure we're not updating sensitive fields unexpectedly
     const { id, password, authType, role, createdAt, ...safeUpdates } = updates;
+    
+    console.log("Safe updates to apply:", safeUpdates);
     
     const [updatedUser] = await db
       .update(users)
@@ -130,6 +134,7 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId))
       .returning();
     
+    console.log("User updated successfully:", updatedUser);
     return updatedUser;
   }
 
