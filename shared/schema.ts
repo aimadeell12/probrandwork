@@ -143,6 +143,11 @@ export const kycDocuments = pgTable("kyc_documents", {
   fileUrl: text("file_url").notNull(),
   fileSize: integer("file_size"),
   mimeType: varchar("mime_type"),
+  imageData: text("image_data"), // Base64 encoded image
+  confidence: decimal("confidence", { precision: 5, scale: 2 }), // AI confidence score
+  extractedText: text("extracted_text"), // OCR extracted text
+  detectionMetadata: jsonb("detection_metadata"), // AI analysis results
+  isProcessed: boolean("is_processed").default(false),
   uploadedAt: timestamp("uploaded_at").defaultNow(),
 });
 
@@ -290,6 +295,19 @@ export const insertNotificationSettingsSchema = createInsertSchema(notificationS
   updatedAt: true,
 });
 
+export const insertKycVerificationSchema = createInsertSchema(kycVerifications).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  submittedAt: true,
+  reviewedAt: true,
+});
+
+export const insertKycDocumentSchema = createInsertSchema(kycDocuments).omit({
+  id: true,
+  uploadedAt: true,
+});
+
 // Types
 export type UpsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -303,3 +321,7 @@ export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 export type Notification = typeof notifications.$inferSelect;
 export type InsertNotificationSettings = z.infer<typeof insertNotificationSettingsSchema>;
 export type NotificationSettings = typeof notificationSettings.$inferSelect;
+export type InsertKycVerification = z.infer<typeof insertKycVerificationSchema>;
+export type KycVerification = typeof kycVerifications.$inferSelect;
+export type InsertKycDocument = z.infer<typeof insertKycDocumentSchema>;
+export type KycDocument = typeof kycDocuments.$inferSelect;

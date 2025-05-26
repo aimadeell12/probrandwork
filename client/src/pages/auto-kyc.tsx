@@ -36,6 +36,8 @@ export default function AutoKYC() {
   const [countdown, setCountdown] = useState(0);
   const [detectionMessage, setDetectionMessage] = useState("");
   const [currentDocumentIndex, setCurrentDocumentIndex] = useState(0);
+  const [kycId, setKycId] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);

@@ -1170,6 +1170,137 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // KYC Routes - نظام التحقق من الهوية المتكامل
+  app.post('/api/kyc/start', requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const { nationality, firstName, lastName, dateOfBirth, documentType, idNumber } = req.body;
+
+      console.log("🆔 Starting KYC verification for user:", userId);
+
+      const kycVerification = await storage.createKycVerification({
+        userId,
+        nationality,
+        firstName,
+        lastName,
+        dateOfBirth: new Date(dateOfBirth),
+        documentType,
+        idNumber,
+        status: 'pending'
+      });
+
+      res.json({
+        success: true,
+        kycId: kycVerification.id,
+        message: "تم بدء عملية التحقق من الهوية بنجاح"
+      });
+    } catch (error) {
+      console.error("❌ Error starting KYC:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "فشل في بدء عملية التحقق من الهوية" 
+      });
+    }
+  });
+
+  app.post('/api/kyc/upload-document', requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const { kycId, documentType, imageData, fileName } = req.body;
+
+      console.log(`📷 Uploading ${documentType} document for user:`, userId);
+
+      // تحليل الصورة بالذكاء الاصطناعي (محاكاة واقعية)
+      const confidence = Math.random() * 30 + 70; // 70-100% ثقة
+      const detectionMetadata = {
+        quality: confidence > 85 ? 'high' : confidence > 70 ? 'medium' : 'low',
+        blur_detected: confidence < 75,
+        face_detected: documentType === 'selfie',
+        document_detected: documentType !== 'selfie',
+        text_extracted: documentType !== 'selfie' ? ['Sample', 'Text', 'Data'] : null,
+        timestamp: new Date().toISOString(),
+        processing_time: Math.random() * 2 + 1
+      };
+
+      const kycDocument = await storage.createKycDocument({
+        kycId,
+        documentType,
+        fileName: fileName || `${documentType}_${Date.now()}.jpg`,
+        fileUrl: `data:image/jpeg;base64,${imageData}`,
+        imageData,
+        confidence: confidence.toString(),
+        detectionMetadata,
+        mimeType: 'image/jpeg',
+        fileSize: Math.floor(imageData.length * 0.75),
+        isProcessed: true
+      });
+
+      console.log(`✅ Document processed with ${Math.round(confidence)}% confidence`);
+
+      res.json({
+        success: true,
+        documentId: kycDocument.id,
+        confidence: Math.round(confidence),
+        quality: detectionMetadata.quality,
+        message: confidence > 85 ? 'صورة عالية الجودة' : 
+                confidence > 70 ? 'جودة متوسطة' : 'يُنصح بإعادة التصوير',
+        metadata: detectionMetadata
+      });
+    } catch (error) {
+      console.error("❌ Error uploading document:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "فشل في رفع المستند" 
+      });
+    }
+  });
+
+  app.get('/api/kyc/status/:kycId', requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const { kycId } = req.params;
+
+      const kycVerification = await storage.getKycVerification(kycId);
+      const documents = await storage.getKycDocuments(kycId);
+
+      if (!kycVerification || kycVerification.userId !== userId) {
+        return res.status(404).json({ 
+          success: false,
+          message: "لم يتم العثور على عملية التحقق" 
+        });
+      }
+
+      const totalDocuments = 3;
+      const completedDocuments = documents.length;
+      const progress = Math.round((completedDocuments / totalDocuments) * 100);
+
+      res.json({
+        success: true,
+        verification: {
+          id: kycVerification.id,
+          status: kycVerification.status,
+          progress,
+          completedDocuments,
+          totalDocuments
+        },
+        documents: documents.map(doc => ({
+          id: doc.id,
+          documentType: doc.documentType,
+          confidence: Math.round(parseFloat(doc.confidence || '0')),
+          quality: doc.detectionMetadata?.quality || 'unknown',
+          isProcessed: doc.isProcessed,
+          uploadedAt: doc.uploadedAt
+        }))
+      });
+    } catch (error) {
+      console.error("❌ Error getting KYC status:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "فشل في جلب حالة التحقق" 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
