@@ -29,6 +29,7 @@ import EditProfile from "@/pages/edit-profile";
 import Webhooks from "@/pages/webhooks";
 
 import KYCVerification from "@/pages/kyc-verification-new";
+import KycManagement from "@/pages/kyc-management";
 import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";
 
@@ -84,6 +85,7 @@ function Router() {
             <Route path="/edit-profile" component={EditProfile} />
 
             <Route path="/kyc-verification" component={KYCVerification} />
+            <Route path="/kyc-management" component={KycManagement} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
           </>

@@ -935,6 +935,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
 
 
+  // Admin KYC management routes
+  app.get("/api/admin/kyc", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const kycRequests = await storage.getAllKycVerifications();
+      res.json(kycRequests);
+    } catch (error) {
+      console.error("Error fetching KYC requests:", error);
+      res.status(500).json({ message: "Failed to fetch KYC requests" });
+    }
+  });
+
+  app.patch("/api/admin/kyc/:kycId/status", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const { kycId } = req.params;
+      const { status, rejectionReason } = req.body;
+
+      if (!["pending", "verified", "rejected"].includes(status)) {
+        return res.status(400).json({ message: "Invalid status" });
+      }
+
+      const updatedKyc = await storage.updateKycStatus(kycId, status, rejectionReason);
+      res.json(updatedKyc);
+    } catch (error) {
+      console.error("Error updating KYC status:", error);
+      res.status(500).json({ message: "Failed to update KYC status" });
+    }
+  });
+
   // KYC routes
   app.get("/api/kyc/verification", requireAuth, async (req: any, res) => {
     try {

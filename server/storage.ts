@@ -76,6 +76,8 @@ export interface IStorage {
   updateKycVerification(id: string, updates: Partial<KycVerification>): Promise<KycVerification>;
   createKycDocument(documentData: InsertKycDocument): Promise<KycDocument>;
   getKycDocumentsByKycId(kycId: string): Promise<KycDocument[]>;
+  getAllKycVerifications(): Promise<KycVerification[]>;
+  updateKycStatus(id: string, status: string, rejectionReason?: string): Promise<KycVerification>;
 
 }
 
@@ -399,7 +401,29 @@ export class DatabaseStorage implements IStorage {
       .where(eq(kycDocuments.kycId, kycId));
   }
 
+  async getAllKycVerifications(): Promise<KycVerification[]> {
+    return await db.select()
+      .from(kycVerifications)
+      .orderBy(desc(kycVerifications.submittedAt));
+  }
 
+  async updateKycStatus(id: string, status: string, rejectionReason?: string): Promise<KycVerification> {
+    const updates: Partial<KycVerification> = {
+      status: status as "pending" | "verified" | "rejected",
+      reviewedAt: new Date(),
+    };
+
+    if (rejectionReason) {
+      updates.rejectionReason = rejectionReason;
+    }
+
+    const [updatedKyc] = await db.update(kycVerifications)
+      .set(updates)
+      .where(eq(kycVerifications.id, id))
+      .returning();
+
+    return updatedKyc;
+  }
 
   // Wallet operations
   async getWalletBalance(userId: string): Promise<number> {
