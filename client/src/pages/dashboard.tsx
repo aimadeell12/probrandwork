@@ -66,8 +66,8 @@ export default function Dashboard() {
 
         {/* Currency Selector */}
         <div className="mb-6">
-          <Button variant="outline" className="bg-blue-100 dark:bg-blue-900/30 border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 rounded-2xl px-4 py-2">
-            <span className="text-blue-600 mr-2">$</span>
+          <Button variant="outline" className="bg-purple-100 dark:bg-purple-900/30 border-purple-200 dark:border-purple-700 text-purple-700 dark:text-purple-300 rounded-2xl px-4 py-2">
+            <span className="text-purple-600 mr-2">$</span>
             {t("usd")}
             <ChevronDown className="h-4 w-4 ml-2" />
           </Button>
