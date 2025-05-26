@@ -75,6 +75,7 @@ export default function Cards() {
     mutationFn: (cardData: any) => cardApi.createCard(cardData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] });
       setShowChooseCard(false); // Hide choose card view after creation
       toast({
         title: "🎉 تم إنشاء البطاقة بنجاح",
