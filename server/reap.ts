@@ -72,13 +72,28 @@ class ReapService {
     }
 
     try {
+      console.log('🔑 Making Reap API request:', {
+        url,
+        method,
+        headers: options.headers,
+        body: data ? JSON.stringify(data, null, 2) : undefined
+      });
+
       const response = await fetch(url, options);
       
       if (!response.ok) {
-        throw new Error(`Reap API error: ${response.status} ${response.statusText}`);
+        const errorText = await response.text();
+        console.error('❌ Reap API error response:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: errorText
+        });
+        throw new Error(`Reap API error: ${response.status} ${response.statusText} - ${errorText}`);
       }
 
-      return await response.json();
+      const result = await response.json();
+      console.log('✅ Reap API success:', result);
+      return result;
     } catch (error) {
       console.error('Reap API request failed:', error);
       throw error;
