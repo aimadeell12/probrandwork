@@ -95,73 +95,61 @@ export default function KYCVerificationNew() {
 
   const startCamera = async () => {
     try {
-      // تجربة إعدادات مختلفة للكاميرا
-      let constraints = {
+      console.log('🎥 Starting camera...');
+      
+      // إعدادات بسيطة للكاميرا
+      const constraints = {
         video: {
           facingMode: 'environment',
-          width: { min: 640, ideal: 1280, max: 1920 },
-          height: { min: 480, ideal: 720, max: 1080 }
-        },
-        audio: false
+          width: 640,
+          height: 480
+        }
       };
 
-      let mediaStream;
-      try {
-        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-      } catch (err) {
-        // إذا فشلت الكاميرا الخلفية، جرب الأمامية
-        console.log('Rear camera failed, trying front camera...');
-        constraints.video.facingMode = 'user';
-        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-      }
-
+      const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      console.log('📱 Camera permission granted');
+      
       setStream(mediaStream);
+      setIsCameraOpen(true);
       
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
         
-        // انتظار تحميل البيانات الوصفية
-        videoRef.current.onloadedmetadata = async () => {
-          try {
-            await videoRef.current?.play();
-            console.log('✅ Video started playing');
-          } catch (playError) {
-            console.error('Error playing video:', playError);
-          }
-        };
-
-        // إعدادات مهمة للهاتف المحمول
-        videoRef.current.setAttribute('playsinline', 'true');
-        videoRef.current.setAttribute('autoplay', 'true');
-        videoRef.current.setAttribute('muted', 'true');
+        // ضبط خصائص الفيديو
+        videoRef.current.playsInline = true;
+        videoRef.current.autoplay = true;
         videoRef.current.muted = true;
         
-        // محاولة تشغيل الفيديو فوراً
-        try {
-          await videoRef.current.play();
-        } catch (playError) {
-          console.log('Immediate play failed, waiting for metadata...');
-        }
+        // تشغيل الفيديو عند تحميل البيانات
+        videoRef.current.addEventListener('loadedmetadata', () => {
+          videoRef.current?.play().then(() => {
+            console.log('✅ Video is now playing');
+          }).catch(error => {
+            console.error('❌ Video play error:', error);
+          });
+        });
+        
+        // محاولة تشغيل فوري
+        setTimeout(() => {
+          videoRef.current?.play().catch(console.error);
+        }, 100);
       }
       
-      setIsCameraOpen(true);
-      console.log('✅ Camera initialized successfully');
     } catch (error) {
-      console.error('❌ Error accessing camera:', error);
+      console.error('❌ Camera error:', error);
+      setIsCameraOpen(false);
       
-      let errorMessage = 'Unable to access camera. ';
+      let message = 'Camera access failed. ';
       if (error instanceof Error) {
         if (error.name === 'NotAllowedError') {
-          errorMessage += 'Please allow camera access when prompted by your browser.';
+          message += 'Please allow camera permission and try again.';
         } else if (error.name === 'NotFoundError') {
-          errorMessage += 'No camera found on this device.';
-        } else if (error.name === 'NotSupportedError') {
-          errorMessage += 'Camera is not supported by this browser.';
+          message += 'No camera found on device.';
         } else {
-          errorMessage += 'Error: ' + error.message;
+          message += error.message;
         }
       }
-      alert(errorMessage);
+      alert(message);
     }
   };
 
@@ -515,18 +503,18 @@ export default function KYCVerificationNew() {
 
                 {isCameraOpen && (
                   <div className="text-center">
-                    <div className="relative mb-4 bg-gray-900 rounded-lg overflow-hidden mx-auto max-w-md">
+                    <div className="relative mb-4 bg-black rounded-lg overflow-hidden mx-auto max-w-md">
                       <video
                         ref={videoRef}
-                        className="w-full h-64 object-cover rounded-lg"
+                        className="w-full h-64 object-cover"
                         autoPlay
                         playsInline
                         muted
-                        controls={false}
+                        style={{ transform: 'scaleX(-1)' }}
                       />
                       <div className="absolute inset-4 border-2 border-white/70 rounded-lg pointer-events-none">
                         <div className="absolute -top-8 left-0 right-0 text-white text-sm bg-black/70 p-2 rounded text-center">
-                          Position your ID document within the frame
+                          Position your ID within the white frame
                         </div>
                       </div>
                     </div>
