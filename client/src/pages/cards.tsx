@@ -447,20 +447,23 @@ export default function Cards() {
                               Settings
                             </DropdownMenuItem>
                             
-                            {/* Always show Activate Card if not active */}
-                            {card.status !== "active" && card.status !== "blocked" && (
+                            {/* Show different options based on card status */}
+                            {card.status === "blocked" ? (
+                              <DropdownMenuItem disabled className="text-gray-400">
+                                <Lock className="mr-2 h-4 w-4" />
+                                Card Blocked
+                              </DropdownMenuItem>
+                            ) : card.status === "frozen" ? (
                               <DropdownMenuItem
-                                onClick={() => activateCardMutation.mutate(card.id)}
+                                onClick={() => unfreezeCardMutation.mutate(card.id)}
                                 className="text-green-600"
                               >
-                                <Lock className="mr-2 h-4 w-4" />
-                                Activate Card
+                                <Play className="mr-2 h-4 w-4" />
+                                Unfreeze Card
                               </DropdownMenuItem>
-                            )}
-                            
-                            {/* Show card management options for active cards */}
-                            {(card.status === "active" || !card.status) ? (
+                            ) : (
                               <>
+                                {/* For active or unspecified status cards */}
                                 <DropdownMenuItem
                                   onClick={() => suspendCardMutation.mutate(card.id)}
                                   className="text-orange-600"
@@ -483,23 +486,7 @@ export default function Cards() {
                                   Block Card
                                 </DropdownMenuItem>
                               </>
-                            ) : card.status === "frozen" ? (
-                              <DropdownMenuItem
-                                onClick={() => unfreezeCardMutation.mutate(card.id)}
-                                className="text-green-600"
-                              >
-                                <Play className="mr-2 h-4 w-4" />
-                                Unfreeze Card
-                              </DropdownMenuItem>
-                            ) : card.status !== "blocked" ? (
-                              <DropdownMenuItem
-                                onClick={() => activateCardMutation.mutate(card.id)}
-                                className="text-green-600"
-                              >
-                                <Lock className="mr-2 h-4 w-4" />
-                                Activate Card
-                              </DropdownMenuItem>
-                            ) : null}
+                            )}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
