@@ -386,30 +386,7 @@ export default function EditProfile() {
               </CardContent>
             </Card>
 
-            {/* Professional Information */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Briefcase className="h-5 w-5 text-pink-600" />
-                  <span>المعلومات المهنية</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <FormField
-                  control={form.control}
-                  name="occupation"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>المهنة</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="أدخل مهنتك" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
+
 
           </form>
         </Form>
