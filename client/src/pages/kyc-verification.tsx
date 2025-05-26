@@ -31,7 +31,7 @@ interface DocumentCapture {
 export default function KYCVerification() {
   const { t } = useLanguage();
   const { user } = useAuth();
-  const [currentStep, setCurrentStep] = useState<KYCStep>("country");
+  const [currentStep, setCurrentStep] = useState<KYCStep>("personal");
   const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>("pending");
   const [documents, setDocuments] = useState<DocumentCapture[]>([
     { type: "id-front", image: null, captured: false },
