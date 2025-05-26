@@ -489,10 +489,10 @@ Select the country where you currently reside to start the verification process
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <CreditCard className="h-6 w-6 text-purple-600" />
-          تحميل الوثائق المطلوبة
+          Upload Required Documents
         </CardTitle>
         <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
-          يرجى تصوير أو تحميل الوثائق المطلوبة بوضوح
+          Please take clear photos or upload the required documents
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -588,7 +588,7 @@ Select the country where you currently reside to start the verification process
                       />
                       <Button className="w-full bg-purple-600 hover:bg-purple-700">
                         <Upload className="h-4 w-4 mr-2" />
-                        تحميل الملف
+                        Upload File
                       </Button>
                     </div>
                   </div>
@@ -603,7 +603,7 @@ Select the country where you currently reside to start the verification process
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
           disabled={!documents.every(doc => doc.captured)}
         >
-          متابعة
+          Continue
         </Button>
       </CardContent>
     </Card>
