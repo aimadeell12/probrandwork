@@ -197,26 +197,47 @@ export default function KYCVerification() {
     setVerificationStatus("in-review");
     
     try {
-      // إرسال بيانات التحقق للخادم
+      // تحضير بيانات التحقق للإرسال لقاعدة البيانات
+      const formData = {
+        nationality: selectedNationality,
+        firstName: personalInfo.fullName.split(' ')[0] || user?.firstName || '',
+        lastName: personalInfo.fullName.split(' ').slice(1).join(' ') || user?.lastName || '',
+        dateOfBirth: personalInfo.dateOfBirth,
+        documentType: personalInfo.documentType,
+        idNumber: personalInfo.idNumber,
+        phoneNumber: personalInfo.phoneNumber || user?.phone || '',
+        email: personalInfo.email || user?.email || '',
+        streetAddress: personalInfo.streetAddress,
+        city: personalInfo.city,
+        postalCode: personalInfo.postalCode
+      };
+      
+      console.log('📋 Submitting KYC verification to database:', formData);
+      
+      // إرسال البيانات لقاعدة البيانات الفعلية
       const response = await fetch('/api/kyc/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...personalInfo,
-          documents: documents.filter(doc => doc.captured),
-          status: 'under_review'
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
+        const result = await response.json();
+        console.log('✅ KYC verification saved to database successfully:', result);
         setVerificationStatus("verified");
+        
+        // حفظ الحالة محلياً للحفاظ على التجربة
+        localStorage.setItem('kycVerificationStatus', 'verified');
+        localStorage.setItem('kycVerificationData', JSON.stringify(result.kyc));
       } else {
-        throw new Error('Failed to submit verification');
+        const errorData = await response.json();
+        console.error('❌ Server error:', errorData);
+        throw new Error(errorData.message || 'Failed to submit verification');
       }
     } catch (error) {
-      console.error('Error submitting verification:', error);
+      console.error('❌ Error submitting KYC verification:', error);
       setVerificationStatus("rejected");
     }
   };
