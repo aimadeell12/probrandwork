@@ -46,7 +46,7 @@ export default function KYCVerification() {
     nationality: "",
     country: ""
   });
-  const [activeCamera, setActiveCamera] = useState<DocumentType | null>("id-front");
+  const [activeCamera, setActiveCamera] = useState<DocumentType | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
