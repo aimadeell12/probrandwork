@@ -202,32 +202,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Simple block card route for testing
   app.patch("/api/cards/:id/block", async (req: any, res) => {
-    console.log(`🔒 BLOCK CARD ROUTE HIT! Card ID: ${req.params.id}`);
-    console.log(`📋 Request body:`, req.body);
-    console.log(`📋 Request headers:`, req.headers);
+    const cardId = req.params.id;
+    console.log(`🔒 BLOCK CARD ROUTE HIT! Card ID: ${cardId}`);
     
     try {
-      const cardId = req.params.id;
       console.log(`🔍 Looking for card with ID: ${cardId}`);
+      const card = await storage.getCard(cardId);
       
-      // Direct database update for testing
-      console.log(`💾 Directly updating card status to blocked...`);
+      if (!card) {
+        console.log(`❌ Card not found: ${cardId}`);
+        return res.status(404).json({ message: "Card not found" });
+      }
+      
+      console.log(`📋 Found card:`, card);
+      console.log(`💾 Updating card status to blocked...`);
+      
       const updatedCard = await storage.updateCard(cardId, { status: "blocked" });
-      console.log(`✅ Database update result:`, updatedCard);
+      console.log(`✅ Successfully updated card to blocked:`, updatedCard);
       
-      res.json({ 
-        success: true, 
-        message: "Card blocked successfully",
-        card: updatedCard 
-      });
+      res.json(updatedCard);
     } catch (error) {
       console.error("❌ Error in block card route:", error);
       res.status(500).json({ 
-        success: false, 
         message: "Failed to block card",
-        error: error.message 
+        error: error instanceof Error ? error.message : "Unknown error"
       });
     }
   });
