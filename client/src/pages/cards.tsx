@@ -137,7 +137,7 @@ export default function Cards() {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       toast({
         title: "Card Blocked",
-        description: "Card has been blocked successfully",
+        description: "Card has been blocked permanently",
       });
     },
     onError: () => {
@@ -148,6 +148,20 @@ export default function Cards() {
       });
     },
   });
+
+  const handleBlockCard = (cardId: string) => {
+    const confirmed = window.confirm(
+      "⚠️ WARNING: This will permanently block your card!\n\n" +
+      "• Your card will be disabled immediately\n" +
+      "• You won't be able to make any transactions\n" +
+      "• This action cannot be easily reversed\n\n" +
+      "Are you sure you want to block this card permanently?"
+    );
+    
+    if (confirmed) {
+      blockCardMutation.mutate(cardId);
+    }
+  };
 
   const createCardMutation = useMutation({
     mutationFn: (cardData: any) => cardApi.createCard(cardData),
@@ -327,7 +341,7 @@ export default function Cards() {
                                   Suspend Card
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                  onClick={() => blockCardMutation.mutate(card.id)}
+                                  onClick={() => handleBlockCard(card.id)}
                                   className="text-red-600"
                                 >
                                   <Lock className="mr-2 h-4 w-4" />
