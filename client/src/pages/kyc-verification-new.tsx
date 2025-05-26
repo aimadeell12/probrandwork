@@ -95,18 +95,48 @@ export default function KYCVerificationNew() {
 
   const startCamera = async () => {
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' }
-      });
+      // طلب أذونات أكثر شمولية للكاميرا
+      const constraints = {
+        video: {
+          facingMode: { ideal: 'environment' }, // الكاميرا الخلفية مفضلة
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        },
+        audio: false
+      };
+
+      const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
       setStream(mediaStream);
+      
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
-        videoRef.current.play();
+        // إضافة مستمعات للأحداث للتأكد من تشغيل الفيديو
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play().catch(console.error);
+        };
+        videoRef.current.setAttribute('playsinline', 'true');
+        videoRef.current.setAttribute('autoplay', 'true');
+        videoRef.current.setAttribute('muted', 'true');
       }
       setIsCameraOpen(true);
+      console.log('✅ Camera started successfully');
     } catch (error) {
-      console.error('Error accessing camera:', error);
-      alert('Unable to access camera. Please ensure camera permissions are granted.');
+      console.error('❌ Error accessing camera:', error);
+      
+      // رسائل خطأ أكثر تفصيلاً
+      let errorMessage = 'Unable to access camera. ';
+      if (error instanceof Error) {
+        if (error.name === 'NotAllowedError') {
+          errorMessage += 'Please allow camera access in your browser settings.';
+        } else if (error.name === 'NotFoundError') {
+          errorMessage += 'No camera found on this device.';
+        } else if (error.name === 'NotSupportedError') {
+          errorMessage += 'Camera is not supported by this browser.';
+        } else {
+          errorMessage += 'Please ensure camera permissions are granted and try again.';
+        }
+      }
+      alert(errorMessage);
     }
   };
 
@@ -139,18 +169,6 @@ export default function KYCVerificationNew() {
   const retakePhoto = () => {
     setCapturedImage(null);
     startCamera();
-  };
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
-        setCapturedImage(result);
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const submitVerification = async () => {
@@ -453,53 +471,39 @@ export default function KYCVerificationNew() {
                 </div>
 
                 {!capturedImage && !isCameraOpen && (
-                  <div className="text-center space-y-4">
+                  <div className="text-center">
                     <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 mb-4">
-                      <Upload className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                      <Camera className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                       <p className="text-gray-600 dark:text-gray-400 mb-4">
-                        Choose how to add your ID document photo
+                        Click the button below to start your camera and take a photo
                       </p>
-                      
-                      <div className="space-y-3">
-                        <Button
-                          onClick={startCamera}
-                          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
-                        >
-                          <Camera className="h-4 w-4 mr-2" />
-                          Take Photo with Camera
-                        </Button>
-                        
-                        <div className="relative">
-                          <input
-                            type="file"
-                            accept="image/*,image/jpeg,image/png"
-                            onChange={handleFileUpload}
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                            id="file-upload"
-                          />
-                          <Button
-                            variant="outline"
-                            className="w-full border-blue-300 text-blue-600 hover:bg-blue-50 dark:border-blue-600 dark:text-blue-400"
-                          >
-                            <Upload className="h-4 w-4 mr-2" />
-                            Upload from Gallery
-                          </Button>
-                        </div>
-                      </div>
+                      <Button
+                        onClick={startCamera}
+                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                      >
+                        <Camera className="h-4 w-4 mr-2" />
+                        Start Camera
+                      </Button>
                     </div>
                   </div>
                 )}
 
                 {isCameraOpen && (
                   <div className="text-center">
-                    <div className="relative mb-4">
+                    <div className="relative mb-4 bg-black rounded-lg overflow-hidden">
                       <video
                         ref={videoRef}
-                        className="w-full max-w-md mx-auto rounded-lg shadow-lg"
+                        className="w-full max-w-md mx-auto rounded-lg"
                         autoPlay
                         playsInline
+                        muted
+                        style={{ aspectRatio: '16/9' }}
                       />
-                      <div className="absolute inset-0 border-2 border-white rounded-lg pointer-events-none"></div>
+                      <div className="absolute inset-4 border-2 border-white/50 rounded-lg pointer-events-none">
+                        <div className="absolute top-2 left-2 right-2 text-white text-xs bg-black/50 p-2 rounded">
+                          Position your ID document within the frame
+                        </div>
+                      </div>
                     </div>
                     <div className="flex gap-4 justify-center">
                       <Button
