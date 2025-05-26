@@ -31,7 +31,7 @@ interface DocumentCapture {
 export default function KYCVerification() {
   const { t } = useLanguage();
   const { user } = useAuth();
-  const [currentStep, setCurrentStep] = useState<KYCStep>("personal");
+  const [currentStep, setCurrentStep] = useState<KYCStep>("country");
   const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>("pending");
   const [documents, setDocuments] = useState<DocumentCapture[]>([
     { type: "id-front", image: null, captured: false },
@@ -46,7 +46,7 @@ export default function KYCVerification() {
     nationality: "",
     country: ""
   });
-  const [activeCamera, setActiveCamera] = useState<DocumentType | null>(null);
+  const [activeCamera, setActiveCamera] = useState<DocumentType | null>("id-front");
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -60,6 +60,13 @@ export default function KYCVerification() {
       }));
     }
   }, [user]);
+
+  // تشغيل الكاميرا تلقائياً عند دخول الصفحة
+  useEffect(() => {
+    if (activeCamera) {
+      startCamera(activeCamera);
+    }
+  }, [activeCamera]);
 
   const startCamera = async (documentType: DocumentType) => {
     try {
@@ -566,8 +573,7 @@ export default function KYCVerification() {
         </div>
 
         {/* Step Content */}
-        {currentStep === "country" && renderCountryStep()}
-        {currentStep === "personal" && renderPersonalInfoStep()}
+        {(currentStep === "personal" || currentStep === "country") && renderPersonalInfoStep()}
         {currentStep === "documents" && renderDocumentStep()}
         {currentStep === "review" && renderReviewStep()}
       </div>
