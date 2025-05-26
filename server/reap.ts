@@ -47,7 +47,7 @@ class ReapService {
 
   constructor() {
     this.apiKey = process.env.REAP_API_KEY || '';
-    this.baseUrl = 'https://api.reap.global/api/v1';
+    this.baseUrl = 'https://sandbox.api.caas.reap.global';
     
     if (!this.apiKey) {
       console.warn('Reap API key not found. Card operations will be simulated.');
@@ -60,7 +60,7 @@ class ReapService {
     const options: any = {
       method,
       headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
+        'x-reap-api-key': this.apiKey,
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
