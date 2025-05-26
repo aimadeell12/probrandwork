@@ -64,7 +64,7 @@ export const cards = pgTable("cards", {
   lithicCardId: varchar("lithic_card_id").unique(),
   reapCardId: varchar("reap_card_id").unique(),
   holderName: varchar("holder_name").notNull(),
-  lastFour: varchar("last_four", { length: 4 }).notNull(),
+  lastFour: varchar("last_four", { length: 4 }),
   type: varchar("type").notNull(), // credit, debit, prepaid
   status: varchar("status").notNull().default("pending"), // pending, active, suspended, closed
   balance: decimal("balance", { precision: 12, scale: 2 }).default("0.00"),

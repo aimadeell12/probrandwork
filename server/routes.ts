@@ -105,13 +105,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
         });
 
+        // Generate last four digits for display
+        const lastFour = Math.floor(1000 + Math.random() * 9000).toString();
+
         // Save to database with Reap data
         const card = await storage.createCard({
           userId: cardData.userId,
           type: cardData.type,
           holderName: cardData.holderName,
           reapCardId: reapCard.id,
-          lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
+          lastFour: lastFour,
           status: "active",
           currency: cardData.currency || "USD",
           design: cardData.design || "blue",
