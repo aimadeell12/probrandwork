@@ -260,12 +260,12 @@ export default function Cards() {
                         </DropdownMenu>
                       </div>
                       
-                      {/* Three dots indicator */}
-                      <div className="absolute top-6 right-6">
+                      {/* Three dots indicator - top right corner */}
+                      <div className="absolute top-4 right-4">
                         <div className="flex space-x-1">
-                          <div className="w-1.5 h-1.5 bg-white/60 rounded-full"></div>
-                          <div className="w-1.5 h-1.5 bg-white/60 rounded-full"></div>
-                          <div className="w-1.5 h-1.5 bg-white/60 rounded-full"></div>
+                          <div className="w-1.5 h-1.5 bg-white/80 rounded-full"></div>
+                          <div className="w-1.5 h-1.5 bg-white/80 rounded-full"></div>
+                          <div className="w-1.5 h-1.5 bg-white/80 rounded-full"></div>
                         </div>
                       </div>
                       
