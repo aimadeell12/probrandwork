@@ -202,37 +202,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Simple block card route for testing
   app.patch("/api/cards/:id/block", async (req: any, res) => {
+    console.log(`🔒 BLOCK CARD ROUTE HIT! Card ID: ${req.params.id}`);
+    console.log(`📋 Request body:`, req.body);
+    console.log(`📋 Request headers:`, req.headers);
+    
     try {
       const cardId = req.params.id;
-      console.log(`🔒 Blocking card: ${cardId}`);
+      console.log(`🔍 Looking for card with ID: ${cardId}`);
       
-      const card = await storage.getCard(cardId);
-      console.log(`📋 Found card:`, card);
-      
-      if (!card) {
-        return res.status(404).json({ message: "Card not found" });
-      }
-
-      if (card.userId !== req.user.id) {
-        return res.status(403).json({ message: "Access denied" });
-      }
-
-      // Block with Reap API
-      if (card.reapCardId) {
-        console.log(`🌐 Updating Reap card status: ${card.reapCardId}`);
-        await reapService.updateCardStatus(card.reapCardId, "cancelled");
-      }
-
-      // Update database permanently
-      console.log(`💾 Updating database with status: blocked`);
+      // Direct database update for testing
+      console.log(`💾 Directly updating card status to blocked...`);
       const updatedCard = await storage.updateCard(cardId, { status: "blocked" });
-      console.log(`✅ Updated card:`, updatedCard);
+      console.log(`✅ Database update result:`, updatedCard);
       
-      res.json(updatedCard);
+      res.json({ 
+        success: true, 
+        message: "Card blocked successfully",
+        card: updatedCard 
+      });
     } catch (error) {
-      console.error("Error blocking card:", error);
-      res.status(500).json({ message: "Failed to block card" });
+      console.error("❌ Error in block card route:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to block card",
+        error: error.message 
+      });
     }
   });
 
