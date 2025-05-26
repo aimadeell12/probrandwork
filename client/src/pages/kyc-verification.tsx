@@ -46,12 +46,13 @@ export default function KYCVerification() {
     country: ""
   });
   const [activeCamera, setActiveCamera] = useState<DocumentType | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [stream, setStream] = useState<MediaStream | null>(null);
   const [isDetecting, setIsDetecting] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [detectionMessage, setDetectionMessage] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // تحميل بيانات المستخدم المسجل دخوله
   useEffect(() => {
