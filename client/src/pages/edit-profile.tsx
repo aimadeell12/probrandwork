@@ -401,11 +401,23 @@ export default function EditProfile() {
       {/* Fixed Save Button Above Bottom Navigation */}
       <div className="fixed bottom-20 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 p-4 shadow-lg z-40">
         <Button
-          onClick={() => {
+          onClick={async () => {
             console.log("Save button clicked!");
             console.log("Form errors:", form.formState.errors);
             console.log("Form values:", form.getValues());
-            form.handleSubmit(onSubmit)();
+            
+            // Force submit with current values
+            const currentValues = form.getValues();
+            const filteredData = Object.fromEntries(
+              Object.entries(currentValues).filter(([_, value]) => value !== "")
+            );
+            console.log("Forcing submit with:", filteredData);
+            
+            if (Object.keys(filteredData).length > 0) {
+              updateProfileMutation.mutate(filteredData);
+            } else {
+              console.log("No data to save");
+            }
           }}
           className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
           disabled={updateProfileMutation.isPending}
