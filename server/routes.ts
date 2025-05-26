@@ -346,6 +346,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const balance = await storage.getWalletBalance(userId);
+      
+      // Prevent caching
+      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
+      
       res.json({ balance });
     } catch (error) {
       console.error("Error fetching wallet balance:", error);
