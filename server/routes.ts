@@ -107,11 +107,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
         // Save to database with Reap data
         const card = await storage.createCard({
-          ...cardData,
+          userId: cardData.userId,
+          type: cardData.type,
+          holderName: cardData.holderName,
           reapCardId: reapCard.id,
-          expiryMonth: 12,
-          expiryYear: 2028,
+          lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
           status: "active",
+          currency: cardData.currency || "USD",
+          design: cardData.design || "blue",
         });
 
         // Deduct cost from wallet balance
