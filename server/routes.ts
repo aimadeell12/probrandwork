@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import express, { type Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupSimpleAuth, requireAuth } from "./simpleAuth";
@@ -9,6 +9,8 @@ import session from "express-session";
 import connectPg from "connect-pg-simple";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Admin panel static files
+  app.use("/admin", express.static("admin"));
   // Setup session middleware first
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
   const pgStore = connectPg(session);
