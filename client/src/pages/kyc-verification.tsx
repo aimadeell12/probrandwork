@@ -45,7 +45,10 @@ export default function KYCVerification() {
     idNumber: "",
     nationality: "",
     country: "",
-    documentType: ""
+    documentType: "",
+    address: "",
+    city: "",
+    postalCode: ""
   });
   const [activeCamera, setActiveCamera] = useState<DocumentType | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -300,12 +303,53 @@ export default function KYCVerification() {
             />
           </div>
 
+          <div>
+            <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              العنوان والشارع
+            </div>
+            <Input
+              id="address"
+              value={personalInfo.address}
+              onChange={(e) => setPersonalInfo(prev => ({...prev, address: e.target.value}))}
+              placeholder="أدخل اسم الشارع والرقم"
+              className="bg-white/80 dark:bg-gray-700/80"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                المدينة
+              </div>
+              <Input
+                id="city"
+                value={personalInfo.city}
+                onChange={(e) => setPersonalInfo(prev => ({...prev, city: e.target.value}))}
+                placeholder="أدخل اسم المدينة"
+                className="bg-white/80 dark:bg-gray-700/80"
+              />
+            </div>
+
+            <div>
+              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                الرمز البريدي
+              </div>
+              <Input
+                id="postalCode"
+                value={personalInfo.postalCode}
+                onChange={(e) => setPersonalInfo(prev => ({...prev, postalCode: e.target.value}))}
+                placeholder="أدخل الرمز البريدي"
+                className="bg-white/80 dark:bg-gray-700/80"
+              />
+            </div>
+          </div>
+
         </div>
         
         <Button 
           onClick={() => setCurrentStep("documents")} 
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-          disabled={!personalInfo.fullName || !personalInfo.idNumber || !personalInfo.documentType || !personalInfo.dateOfBirth}
+          disabled={!personalInfo.fullName || !personalInfo.idNumber || !personalInfo.documentType || !personalInfo.dateOfBirth || !personalInfo.address || !personalInfo.city || !personalInfo.postalCode}
         >
           {t("continue")}
         </Button>
