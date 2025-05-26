@@ -148,32 +148,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/cards/:id/suspend", requireAuth, async (req: any, res) => {
-    try {
-      const cardId = req.params.id;
-      const card = await storage.getCard(cardId);
-      
-      if (!card) {
-        return res.status(404).json({ message: "Card not found" });
-      }
 
-      if (card.userId !== req.user.id) {
-        return res.status(403).json({ message: "Access denied" });
-      }
-
-      // Suspend with Reap API
-      if (card.reapCardId) {
-        await reapService.updateCardStatus(card.reapCardId, "suspended");
-      }
-
-      // Update database
-      const updatedCard = await storage.updateCard(cardId, { status: "suspended" });
-      res.json(updatedCard);
-    } catch (error) {
-      console.error("Error suspending card:", error);
-      res.status(500).json({ message: "Failed to suspend card" });
-    }
-  });
 
   app.patch("/api/cards/:id/activate", requireAuth, async (req: any, res) => {
     try {

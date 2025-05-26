@@ -108,23 +108,7 @@ export default function Cards() {
     queryKey: ["/api/wallet/balance"],
   });
 
-  const suspendCardMutation = useMutation({
-    mutationFn: (cardId: string) => cardApi.suspendCard(cardId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
-      toast({
-        title: "تم إيقاف البطاقة",
-        description: "تم إيقاف البطاقة بنجاح",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "خطأ",
-        description: "فشل في إيقاف البطاقة",
-        variant: "destructive",
-      });
-    },
-  });
+
 
   const activateCardMutation = useMutation({
     mutationFn: (cardId: string) => cardApi.activateCard(cardId),
@@ -470,13 +454,6 @@ export default function Cards() {
                             ) : (
                               <>
                                 {/* For active or unspecified status cards */}
-                                <DropdownMenuItem
-                                  onClick={() => suspendCardMutation.mutate(card.id)}
-                                  className="text-orange-600"
-                                >
-                                  <Lock className="mr-2 h-4 w-4" />
-                                  Suspend Card
-                                </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() => freezeCardMutation.mutate(card.id)}
                                   className="text-blue-600"

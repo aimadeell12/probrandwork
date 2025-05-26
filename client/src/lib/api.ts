@@ -4,7 +4,7 @@ import { apiRequest } from "./queryClient";
 export const cardApi = {
   getCards: () => apiRequest("GET", "/api/cards"),
   createCard: (data: any) => apiRequest("POST", "/api/cards", data),
-  suspendCard: (id: string) => apiRequest("PATCH", `/api/cards/${id}/suspend`),
+
   activateCard: (id: string) => apiRequest("PATCH", `/api/cards/${id}/activate`),
   blockCard: (id: string, reason: string) => apiRequest("PATCH", `/api/cards/${id}/block`, { reason }),
   freezeCard: (id: string) => apiRequest("PATCH", `/api/cards/${id}/freeze`),
