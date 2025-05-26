@@ -95,45 +95,70 @@ export default function KYCVerificationNew() {
 
   const startCamera = async () => {
     try {
-      // طلب أذونات أكثر شمولية للكاميرا
-      const constraints = {
+      // تجربة إعدادات مختلفة للكاميرا
+      let constraints = {
         video: {
-          facingMode: { ideal: 'environment' }, // الكاميرا الخلفية مفضلة
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
+          facingMode: 'environment',
+          width: { min: 640, ideal: 1280, max: 1920 },
+          height: { min: 480, ideal: 720, max: 1080 }
         },
         audio: false
       };
 
-      const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      let mediaStream;
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      } catch (err) {
+        // إذا فشلت الكاميرا الخلفية، جرب الأمامية
+        console.log('Rear camera failed, trying front camera...');
+        constraints.video.facingMode = 'user';
+        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      }
+
       setStream(mediaStream);
       
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
-        // إضافة مستمعات للأحداث للتأكد من تشغيل الفيديو
-        videoRef.current.onloadedmetadata = () => {
-          videoRef.current?.play().catch(console.error);
+        
+        // انتظار تحميل البيانات الوصفية
+        videoRef.current.onloadedmetadata = async () => {
+          try {
+            await videoRef.current?.play();
+            console.log('✅ Video started playing');
+          } catch (playError) {
+            console.error('Error playing video:', playError);
+          }
         };
+
+        // إعدادات مهمة للهاتف المحمول
         videoRef.current.setAttribute('playsinline', 'true');
         videoRef.current.setAttribute('autoplay', 'true');
         videoRef.current.setAttribute('muted', 'true');
+        videoRef.current.muted = true;
+        
+        // محاولة تشغيل الفيديو فوراً
+        try {
+          await videoRef.current.play();
+        } catch (playError) {
+          console.log('Immediate play failed, waiting for metadata...');
+        }
       }
+      
       setIsCameraOpen(true);
-      console.log('✅ Camera started successfully');
+      console.log('✅ Camera initialized successfully');
     } catch (error) {
       console.error('❌ Error accessing camera:', error);
       
-      // رسائل خطأ أكثر تفصيلاً
       let errorMessage = 'Unable to access camera. ';
       if (error instanceof Error) {
         if (error.name === 'NotAllowedError') {
-          errorMessage += 'Please allow camera access in your browser settings.';
+          errorMessage += 'Please allow camera access when prompted by your browser.';
         } else if (error.name === 'NotFoundError') {
           errorMessage += 'No camera found on this device.';
         } else if (error.name === 'NotSupportedError') {
           errorMessage += 'Camera is not supported by this browser.';
         } else {
-          errorMessage += 'Please ensure camera permissions are granted and try again.';
+          errorMessage += 'Error: ' + error.message;
         }
       }
       alert(errorMessage);
@@ -490,17 +515,17 @@ export default function KYCVerificationNew() {
 
                 {isCameraOpen && (
                   <div className="text-center">
-                    <div className="relative mb-4 bg-black rounded-lg overflow-hidden">
+                    <div className="relative mb-4 bg-gray-900 rounded-lg overflow-hidden mx-auto max-w-md">
                       <video
                         ref={videoRef}
-                        className="w-full max-w-md mx-auto rounded-lg"
+                        className="w-full h-64 object-cover rounded-lg"
                         autoPlay
                         playsInline
                         muted
-                        style={{ aspectRatio: '16/9' }}
+                        controls={false}
                       />
-                      <div className="absolute inset-4 border-2 border-white/50 rounded-lg pointer-events-none">
-                        <div className="absolute top-2 left-2 right-2 text-white text-xs bg-black/50 p-2 rounded">
+                      <div className="absolute inset-4 border-2 border-white/70 rounded-lg pointer-events-none">
+                        <div className="absolute -top-8 left-0 right-0 text-white text-sm bg-black/70 p-2 rounded text-center">
                           Position your ID document within the frame
                         </div>
                       </div>
