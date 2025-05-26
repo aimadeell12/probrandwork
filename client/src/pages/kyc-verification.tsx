@@ -469,7 +469,7 @@ export default function KYCVerification() {
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
           disabled={!personalInfo.fullName || !personalInfo.idNumber || !personalInfo.documentType || !personalInfo.dateOfBirth || !personalInfo.address || !personalInfo.city || !personalInfo.postalCode || !!ageError}
         >
-          {t("continue")}
+          متابعة
         </Button>
       </CardContent>
     </Card>
@@ -594,7 +594,7 @@ export default function KYCVerification() {
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
           disabled={!documents.every(doc => doc.captured)}
         >
-          {t("continue")}
+          متابعة
         </Button>
       </CardContent>
     </Card>
@@ -670,14 +670,14 @@ export default function KYCVerification() {
             onClick={submitVerification}
             className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
           >
-            {t("submitVerification")}
+            إرسال طلب التحقق
           </Button>
         )}
         
         {verificationStatus === "verified" && (
           <Link href="/dashboard">
             <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800">
-              {t("continueToDashboard")}
+              العودة للوحة التحكم
             </Button>
           </Link>
         )}
