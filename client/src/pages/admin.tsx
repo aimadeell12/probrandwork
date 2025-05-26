@@ -184,289 +184,222 @@ export default function Admin() {
           </Card>
         </div>
 
-        {/* Enhanced Tabbed Interface */}
-        <Tabs defaultValue="users" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="users" className="flex items-center space-x-2 space-x-reverse">
-              <Users className="h-4 w-4" />
-              <span>المستخدمون</span>
-            </TabsTrigger>
-            <TabsTrigger value="cards" className="flex items-center space-x-2 space-x-reverse">
-              <CreditCard className="h-4 w-4" />
-              <span>البطاقات</span>
-            </TabsTrigger>
-            <TabsTrigger value="activities" className="flex items-center space-x-2 space-x-reverse">
-              <Activity className="h-4 w-4" />
-              <span>النشاطات</span>
-            </TabsTrigger>
-            <TabsTrigger value="system" className="flex items-center space-x-2 space-x-reverse">
-              <Settings className="h-4 w-4" />
-              <span>النظام</span>
-            </TabsTrigger>
-          </TabsList>
+        {/* Simplified Admin Dashboard */}
+        <div className="grid lg:grid-cols-4 gap-6 mb-8">
+          {/* Quick Actions */}
+          <Card className="banking-shadow lg:col-span-1">
+            <CardHeader>
+              <CardTitle className="text-lg">إجراءات سريعة</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button className="w-full justify-start">
+                <UserCog className="h-4 w-4 ml-2" />
+                إضافة مدير
+              </Button>
+              <Button variant="outline" className="w-full justify-start">
+                <Database className="h-4 w-4 ml-2" />
+                نسخ احتياطي
+              </Button>
+              <Button variant="outline" className="w-full justify-start">
+                <TrendingUp className="h-4 w-4 ml-2" />
+                تقرير شامل
+              </Button>
+            </CardContent>
+          </Card>
 
-          {/* Users Tab */}
-          <TabsContent value="users">
-            <Card className="banking-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  إدارة المستخدمين
+          {/* System Status */}
+          <Card className="banking-shadow lg:col-span-3">
+            <CardHeader>
+              <CardTitle className="text-lg">حالة النظام</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-950 rounded-lg">
                   <div className="flex items-center space-x-2 space-x-reverse">
-                    <Badge variant="outline">
-                      {users?.length || 0} مستخدم
-                    </Badge>
-                    <Button size="sm">
-                      <UserCog className="h-4 w-4 ml-2" />
-                      إضافة مدير
-                    </Button>
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <span className="font-medium">قاعدة البيانات</span>
                   </div>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {users && users.length > 0 ? (
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b border-border">
-                          <th className="text-right py-3 text-sm font-medium text-muted-foreground">المستخدم</th>
-                          <th className="text-right py-3 text-sm font-medium text-muted-foreground">الدور</th>
-                          <th className="text-right py-3 text-sm font-medium text-muted-foreground">الحالة</th>
-                          <th className="text-right py-3 text-sm font-medium text-muted-foreground">تاريخ التسجيل</th>
-                          <th className="text-right py-3 text-sm font-medium text-muted-foreground">الإجراءات</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-border">
-                        {users.map((user: any) => (
-                          <tr key={user.id} className="hover:bg-muted/50">
-                            <td className="py-4">
-                              <div className="flex items-center space-x-3 space-x-reverse">
-                                <img 
-                                  src={user.profileImageUrl || "/placeholder-avatar.png"} 
-                                  alt="صورة المستخدم" 
-                                  className="w-8 h-8 rounded-full object-cover" 
-                                />
-                                <div>
-                                  <p className="font-medium text-foreground">
-                                    {user.firstName} {user.lastName}
-                                  </p>
-                                  <p className="text-sm text-muted-foreground">{user.email}</p>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="py-4">
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Badge 
-                                    variant={user.role === "admin" ? "default" : "secondary"}
-                                    className="cursor-pointer hover:opacity-80"
-                                  >
-                                    {user.role === "admin" ? "مدير" : "مستخدم"}
-                                  </Badge>
-                                </DialogTrigger>
-                                <DialogContent>
-                                  <DialogHeader>
-                                    <DialogTitle>تغيير دور المستخدم</DialogTitle>
-                                  </DialogHeader>
-                                  <div className="space-y-4">
-                                    <div>
-                                      <label className="text-sm font-medium">الدور الجديد</label>
-                                      <Select 
-                                        defaultValue={user.role}
-                                        onValueChange={(value) => 
-                                          updateRoleMutation.mutate({ userId: user.id, role: value })
-                                        }
-                                      >
-                                        <SelectTrigger>
-                                          <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                          <SelectItem value="user">مستخدم</SelectItem>
-                                          <SelectItem value="admin">مدير</SelectItem>
-                                        </SelectContent>
-                                      </Select>
-                                    </div>
-                                  </div>
-                                </DialogContent>
-                              </Dialog>
-                            </td>
-                            <td className="py-4">
-                              <Badge variant={user.isActive ? "default" : "destructive"}>
-                                {user.isActive ? (
-                                  <>
-                                    <CheckCircle className="h-3 w-3 ml-1" />
-                                    نشط
-                                  </>
-                                ) : (
-                                  <>
-                                    <XCircle className="h-3 w-3 ml-1" />
-                                    معطل
-                                  </>
-                                )}
-                              </Badge>
-                            </td>
-                            <td className="py-4 text-muted-foreground text-sm">
-                              {new Date(user.createdAt).toLocaleDateString("ar-SA")}
-                            </td>
-                            <td className="py-4">
-                              <div className="flex items-center space-x-2 space-x-reverse">
-                                <Button 
-                                  size="sm" 
-                                  variant="outline"
-                                  onClick={() => toggleStatusMutation.mutate(user.id)}
-                                  disabled={toggleStatusMutation.isPending}
-                                >
-                                  {user.isActive ? "إيقاف" : "تفعيل"}
-                                </Button>
-                                <Button size="sm" variant="ghost">
-                                  <Shield className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <Badge variant="default">نشط</Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-950 rounded-lg">
+                  <div className="flex items-center space-x-2 space-x-reverse">
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <span className="font-medium">Reap API</span>
                   </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">لا يوجد مستخدمون</p>
+                  <Badge variant="default">متصل</Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-950 rounded-lg">
+                  <div className="flex items-center space-x-2 space-x-reverse">
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <span className="font-medium">الخدمات</span>
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
+                  <Badge variant="default">متاح</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* Cards Tab */}
-          <TabsContent value="cards">
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Users Management */}
+          <div className="lg:col-span-2">
             <Card className="banking-shadow">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                  إدارة البطاقات
-                  <Badge variant="outline">
-                    {cards?.length || 0} بطاقة
-                  </Badge>
+                  <div className="flex items-center space-x-2 space-x-reverse">
+                    <Users className="h-5 w-5" />
+                    <span>إدارة المستخدمين</span>
+                  </div>
+                  <Badge variant="outline">{users?.length || 0} مستخدم</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {cards && cards.length > 0 ? (
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {cards.map((card: any) => (
-                      <div key={card.id} className="border rounded-lg p-4 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <Badge variant="outline">{card.type}</Badge>
-                          <Badge variant={card.status === "active" ? "default" : "secondary"}>
-                            {card.status}
+                <div className="space-y-4">
+                  {users && users.length > 0 ? (
+                    users.slice(0, 5).map((user: any) => (
+                      <div key={user.id} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div className="flex items-center space-x-3 space-x-reverse">
+                          <img 
+                            src={user.profileImageUrl || "/placeholder-avatar.png"} 
+                            alt="صورة المستخدم" 
+                            className="w-10 h-10 rounded-full object-cover" 
+                          />
+                          <div>
+                            <p className="font-medium text-foreground">
+                              {user.firstName} {user.lastName}
+                            </p>
+                            <p className="text-sm text-muted-foreground">{user.email}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2 space-x-reverse">
+                          <Badge variant={user.role === "admin" ? "default" : "secondary"}>
+                            {user.role === "admin" ? "مدير" : "مستخدم"}
                           </Badge>
-                        </div>
-                        <div>
-                          <p className="font-medium">{card.holderName}</p>
-                          <p className="text-sm text-muted-foreground">**** **** **** ****</p>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">الرصيد</span>
-                          <span className="font-medium">${card.balance || "0.00"}</span>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button size="sm" variant="outline">
+                                <Settings className="h-4 w-4" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>إدارة المستخدم</DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-4">
+                                <div>
+                                  <label className="text-sm font-medium">تغيير الدور</label>
+                                  <Select 
+                                    defaultValue={user.role}
+                                    onValueChange={(value) => 
+                                      updateRoleMutation.mutate({ userId: user.id, role: value })
+                                    }
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="user">مستخدم عادي</SelectItem>
+                                      <SelectItem value="admin">مدير النظام</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                                <Button 
+                                  onClick={() => toggleStatusMutation.mutate(user.id)}
+                                  variant="outline"
+                                  className="w-full"
+                                >
+                                  {user.isActive ? "إيقاف المستخدم" : "تفعيل المستخدم"}
+                                </Button>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <CreditCard className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">لا توجد بطاقات مصدرة</p>
-                  </div>
-                )}
+                    ))
+                  ) : (
+                    <div className="text-center py-8">
+                      <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                      <p className="text-muted-foreground">لا يوجد مستخدمون</p>
+                    </div>
+                  )}
+                  {users && users.length > 5 && (
+                    <Button variant="outline" className="w-full">
+                      عرض جميع المستخدمين ({users.length})
+                    </Button>
+                  )}
+                </div>
               </CardContent>
             </Card>
-          </TabsContent>
+          </div>
 
-          {/* Activities Tab */}
-          <TabsContent value="activities">
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Cards Overview */}
             <Card className="banking-shadow">
               <CardHeader>
-                <CardTitle>سجل النشاطات</CardTitle>
+                <CardTitle className="flex items-center space-x-2 space-x-reverse">
+                  <CreditCard className="h-5 w-5" />
+                  <span>البطاقات</span>
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                {activities && activities.length > 0 ? (
-                  <div className="space-y-4">
-                    {activities.map((activity: any, index: number) => (
-                      <div key={index} className="flex items-start space-x-3 space-x-reverse p-3 rounded-lg bg-muted/30">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">المجموع</span>
+                    <span className="font-bold text-lg">{cards?.length || 0}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">النشطة</span>
+                    <span className="font-medium text-green-600">
+                      {cards?.filter((card: any) => card.status === "active").length || 0}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">المعطلة</span>
+                    <span className="font-medium text-red-600">
+                      {cards?.filter((card: any) => card.status !== "active").length || 0}
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recent Activities */}
+            <Card className="banking-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 space-x-reverse">
+                  <Activity className="h-5 w-5" />
+                  <span>آخر النشاطات</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {activities && activities.length > 0 ? (
+                    activities.slice(0, 3).map((activity: any, index: number) => (
+                      <div key={index} className="flex items-center space-x-3 space-x-reverse">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-foreground">
-                            {activity.type === "user_registered" ? "مستخدم جديد مسجل" : "بطاقة جديدة صدرت"}
+                          <p className="text-sm font-medium">
+                            {activity.type === "user_registered" ? "مستخدم جديد" : "بطاقة جديدة"}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {new Date(activity.createdAt).toLocaleString("ar-SA")}
+                            {new Date(activity.createdAt).toLocaleDateString("ar-SA")}
                           </p>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">لا توجد نشاطات حديثة</p>
-                  </div>
-                )}
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground text-center py-4">
+                      لا توجد نشاطات حديثة
+                    </p>
+                  )}
+                </div>
               </CardContent>
             </Card>
-          </TabsContent>
+          </div>
+        </div>
 
-          {/* System Tab */}
-          <TabsContent value="system">
-            <div className="grid lg:grid-cols-2 gap-6">
-              <Card className="banking-shadow">
-                <CardHeader>
-                  <CardTitle>عمليات النظام</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button className="w-full">
-                    <Database className="ml-2 h-4 w-4" />
-                    نسخ احتياطي للنظام
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <RefreshCw className="ml-2 h-4 w-4" />
-                    مزامنة Reap API
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <TrendingUp className="ml-2 h-4 w-4" />
-                    تقارير النظام
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="banking-shadow">
-                <CardHeader>
-                  <CardTitle>حالة الخدمات</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Reap API</span>
-                    <Badge variant="default">
-                      <CheckCircle className="w-3 h-3 ml-1" />
-                      متصل
-                    </Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">قاعدة البيانات</span>
-                    <Badge variant="default">
-                      <CheckCircle className="w-3 h-3 ml-1" />
-                      نشط
-                    </Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">خدمة الدفع</span>
-                    <Badge variant="default">
-                      <CheckCircle className="w-3 h-3 ml-1" />
-                      متاح
-                    </Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
       </div>
     </div>
   );
