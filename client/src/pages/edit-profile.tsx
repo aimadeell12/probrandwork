@@ -85,10 +85,7 @@ export default function EditProfile() {
   // Update profile mutation
   const updateProfileMutation = useMutation({
     mutationFn: (data: ProfileFormData) =>
-      apiRequest(`/api/auth/profile`, {
-        method: "PATCH",
-        body: JSON.stringify(data),
-      }),
+      apiRequest(`/api/auth/profile`, "PATCH", data),
     onSuccess: () => {
       toast({
         title: "تم التحديث بنجاح",
