@@ -415,8 +415,8 @@ export default function EditProfile() {
         </Form>
       </div>
       
-      {/* Fixed Save Button at Bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 p-4 shadow-lg">
+      {/* Fixed Save Button Above Bottom Navigation */}
+      <div className="fixed bottom-20 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 p-4 shadow-lg z-40">
         <Button
           onClick={() => form.handleSubmit(onSubmit)()}
           className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
