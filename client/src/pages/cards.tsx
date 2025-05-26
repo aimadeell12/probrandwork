@@ -147,9 +147,35 @@ export default function Cards() {
               </Button>
             </div>
 
+            {/* Card Type Filter */}
+            <div className="flex bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full p-1 mb-8 max-w-xs mx-auto shadow-lg border border-white/30">
+              <button
+                onClick={() => setSelectedCardType("virtual")}
+                className={cn(
+                  "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
+                  selectedCardType === "virtual"
+                    ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                )}
+              >
+                Virtual Card
+              </button>
+              <button
+                onClick={() => setSelectedCardType("physical")}
+                className={cn(
+                  "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
+                  selectedCardType === "physical"
+                    ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                )}
+              >
+                Physical Card
+              </button>
+            </div>
+
             {/* Cards List */}
             <div className="space-y-6">
-              {cards.map((card: Card) => (
+              {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card) => (
                 <div key={card.id} className="relative">
                   {/* Card Visual */}
                   <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto">
@@ -295,173 +321,69 @@ export default function Cards() {
               </button>
             </div>
 
-            {/* Show multiple card designs for selection */}
-            <div className="space-y-8 mb-8">
-              {/* Virtual Card Design 1 */}
-              {selectedCardType === "virtual" && (
-                <>
-                  <div className="text-center">
-                    <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto mb-4">
-                      <div className="absolute inset-0 bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 rounded-2xl shadow-2xl overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-400/20 to-transparent rounded-full blur-xl"></div>
-                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-purple-400/20 to-transparent rounded-full blur-lg"></div>
-                        <div className="absolute top-6 left-6">
-                          <div className="w-8 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-sm"></div>
-                        </div>
-                        <div className="absolute top-6 right-6 text-white font-bold text-lg tracking-wider transform rotate-90 origin-center">
-                          DIGITAL
-                        </div>
-                        <div className="absolute top-1/2 left-6 transform -translate-y-1/2">
-                          <div className="text-white font-mono text-lg tracking-widest">
-                            4532 1234 5678
-                          </div>
-                        </div>
-                        <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
-                          <div>
-                            <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                            <div className="text-white font-semibold text-sm">12/28</div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-white font-semibold text-sm">CARD HOLDER</div>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-6 left-6">
-                          <div className="text-white font-bold text-xl italic">VISA</div>
-                        </div>
-                      </div>
+            {/* Sample Card Display */}
+            <div className="mb-8 px-4">
+              <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto">
+                {/* Card background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 rounded-2xl shadow-2xl overflow-hidden">
+                  
+                  {/* Card design elements */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-400/20 to-transparent rounded-full blur-xl"></div>
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-purple-400/20 to-transparent rounded-full blur-lg"></div>
+                  
+                  {/* Mastercard logo placeholder */}
+                  <div className="absolute top-6 left-6">
+                    <div className="w-8 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-sm"></div>
+                  </div>
+                  
+                  {/* Digital text */}
+                  <div className="absolute top-6 right-6 text-white font-bold text-lg tracking-wider transform rotate-90 origin-center">
+                    DIGITAL
+                  </div>
+                  
+                  {/* Card number */}
+                  <div className="absolute top-1/2 left-6 transform -translate-y-1/2">
+                    <div className="text-white font-mono text-lg tracking-widest">
+                      4532 1234 5678
                     </div>
-                    <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
-                      قابلة للتخصيص
+                  </div>
+                  
+                  {/* Card details */}
+                  <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
+                    <div>
+                      <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
+                      <div className="text-white font-semibold text-sm">12/28</div>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">بطاقة افتراضية</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">قابلة للتخصيص</p>
+                    <div className="text-right">
+                      <div className="text-white font-semibold text-sm">CARD HOLDER</div>
+                    </div>
                   </div>
 
-                  {/* Additional Virtual Card Design */}
-                  <div className="text-center">
-                    <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto mb-4">
-                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 rounded-2xl shadow-2xl overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
-                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full blur-lg"></div>
-                        <div className="absolute top-6 left-6">
-                          <div className="w-8 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-sm"></div>
-                        </div>
-                        <div className="absolute top-6 right-6 text-white font-bold text-lg tracking-wider transform rotate-90 origin-center">
-                          DIGITAL
-                        </div>
-                        <div className="absolute top-1/2 left-6 transform -translate-y-1/2">
-                          <div className="text-white font-mono text-lg tracking-widest">
-                            4532 1234 5678
-                          </div>
-                        </div>
-                        <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
-                          <div>
-                            <div className="text-gray-100 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                            <div className="text-white font-semibold text-sm">12/28</div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-white font-semibold text-sm">CARD HOLDER</div>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-6 left-6">
-                          <div className="text-white font-bold text-xl italic">VISA</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      <div className="w-4 h-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500"></div>
-                      قابلة للتخصيص
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">بطاقة افتراضية</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">تصميم أخضر</p>
+                  {/* VISA logo */}
+                  <div className="absolute bottom-6 left-6">
+                    <div className="text-white font-bold text-xl italic">VISA</div>
                   </div>
-                </>
-              )}
-
-              {/* Physical Card Designs */}
-              {selectedCardType === "physical" && (
-                <>
-                  <div className="text-center">
-                    <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto mb-4">
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-700 rounded-2xl shadow-2xl overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
-                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full blur-lg"></div>
-                        <div className="absolute top-6 left-6">
-                          <div className="w-8 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-sm"></div>
-                        </div>
-                        <div className="absolute top-6 right-6 text-white font-bold text-lg tracking-wider transform rotate-90 origin-center">
-                          PHYSICAL
-                        </div>
-                        <div className="absolute top-1/2 left-6 transform -translate-y-1/2">
-                          <div className="text-white font-mono text-lg tracking-widest">
-                            4532 1234 5678
-                          </div>
-                        </div>
-                        <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
-                          <div>
-                            <div className="text-gray-100 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                            <div className="text-white font-semibold text-sm">12/28</div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-white font-semibold text-sm">CARD HOLDER</div>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-6 left-6">
-                          <div className="text-white font-bold text-xl italic">VISA</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500"></div>
-                      قابلة للتخصيص
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">بطاقة فيزيائية</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">تصميم بنفسجي</p>
-                  </div>
-
-                  <div className="text-center">
-                    <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto mb-4">
-                      <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-2xl shadow-2xl overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-gray-600/20 to-transparent rounded-full blur-xl"></div>
-                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-gray-700/20 to-transparent rounded-full blur-lg"></div>
-                        <div className="absolute top-6 left-6">
-                          <div className="w-8 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-sm"></div>
-                        </div>
-                        <div className="absolute top-6 right-6 text-white font-bold text-lg tracking-wider transform rotate-90 origin-center">
-                          PHYSICAL
-                        </div>
-                        <div className="absolute top-1/2 left-6 transform -translate-y-1/2">
-                          <div className="text-white font-mono text-lg tracking-widest">
-                            4532 1234 5678
-                          </div>
-                        </div>
-                        <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
-                          <div>
-                            <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                            <div className="text-white font-semibold text-sm">12/28</div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-white font-semibold text-sm">CARD HOLDER</div>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-6 left-6">
-                          <div className="text-white font-bold text-xl italic">VISA</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      <div className="w-4 h-4 rounded-full bg-gradient-to-r from-gray-500 to-black"></div>
-                      قابلة للتخصيص
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">بطاقة فيزيائية</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">تصميم أسود</p>
-                  </div>
-                </>
-              )}
+                </div>
+              </div>
             </div>
 
+            {/* Customizable Badge */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
+                Customizable
+              </div>
+            </div>
 
+            {/* Card Type Info */}
+            <div className="text-center mb-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                {selectedCardType === "virtual" ? "Virtual Card" : "Physical Card"}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                Customizable
+              </p>
+            </div>
 
             {/* Create Card Button */}
             <div className="px-4 mb-24 pb-8">
