@@ -387,7 +387,7 @@ export default function KYCVerification() {
         <Button 
           onClick={() => setCurrentStep("documents")} 
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-          disabled={!personalInfo.fullName || !personalInfo.idNumber || !personalInfo.documentType || !personalInfo.dateOfBirth || !personalInfo.address || !personalInfo.city || !personalInfo.postalCode || ageError}
+          disabled={!personalInfo.fullName || !personalInfo.idNumber || !personalInfo.documentType || !personalInfo.dateOfBirth || !personalInfo.address || !personalInfo.city || !personalInfo.postalCode || !!ageError}
         >
           {t("continue")}
         </Button>
@@ -487,14 +487,7 @@ export default function KYCVerification() {
                   </div>
                 ) : (
                   <div className="flex gap-2">
-                    <Button 
-                      onClick={() => startCamera(type)}
-                      className="flex-1 bg-purple-600 hover:bg-purple-700"
-                    >
-                      <Camera className="h-4 w-4 mr-2" />
-                      {t("takePhoto")}
-                    </Button>
-                    <div className="relative">
+                    <div className="relative w-full">
                       <input
                         type="file"
                         accept="image/*"
@@ -504,9 +497,9 @@ export default function KYCVerification() {
                         }}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       />
-                      <Button variant="outline">
+                      <Button className="w-full bg-purple-600 hover:bg-purple-700">
                         <Upload className="h-4 w-4 mr-2" />
-                        {t("upload")}
+                        تحميل الملف
                       </Button>
                     </div>
                   </div>
