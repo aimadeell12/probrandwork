@@ -202,6 +202,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.patch("/api/cards/:id/block", requireAuth, async (req: any, res) => {
+    try {
+      const cardId = req.params.id;
+      const card = await storage.getCard(cardId);
+      
+      if (!card) {
+        return res.status(404).json({ message: "Card not found" });
+      }
+
+      if (card.userId !== req.user.id) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      // Block with Reap API
+      if (card.reapCardId) {
+        await reapService.updateCardStatus(card.reapCardId, "cancelled");
+      }
+
+      // Update database permanently
+      const updatedCard = await storage.updateCard(cardId, { status: "blocked" });
+      res.json(updatedCard);
+    } catch (error) {
+      console.error("Error blocking card:", error);
+      res.status(500).json({ message: "Failed to block card" });
+    }
+  });
+
   app.patch("/api/cards/:id/freeze", requireAuth, async (req: any, res) => {
     try {
       const cardId = req.params.id;
