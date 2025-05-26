@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Plus, MoreVertical, Settings, Lock, AlertTriangle, Snowflake, Play } from "lucide-react";
+import { CreditCard, Plus, MoreVertical, Settings, Lock, AlertTriangle, Snowflake, Play, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/useLanguage";
 import {
@@ -93,6 +93,7 @@ export default function Cards() {
   const [showChooseCard, setShowChooseCard] = useState(false);
   const [showBlockDialog, setShowBlockDialog] = useState(false);
   const [cardToBlock, setCardToBlock] = useState<string>("");
+  const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
   const { toast } = useToast();
 
   const { data: cards = [], isLoading } = useQuery<Card[]>({
@@ -285,6 +286,12 @@ export default function Cards() {
 
   const formatCardNumber = (lastFour: string) => {
     return `•••• •••• •••• ${lastFour}`;
+  };
+
+  const generateFullCardNumber = (lastFour: string) => {
+    // Generate a realistic card number with proper spacing
+    const prefix = "4532 1234 5678"; // Visa format for demo
+    return `${prefix} ${lastFour}`;
   };
 
   const handleCreateCard = () => {
@@ -488,8 +495,26 @@ export default function Cards() {
                       
                       {/* Card number - full width */}
                       <div className="absolute top-1/2 left-6 right-6 transform -translate-y-1/2">
-                        <div className="text-white font-mono text-lg tracking-widest text-center">
-                          {formatCardNumber(card.lastFour || "1234")}
+                        <div className="flex items-center justify-center gap-3">
+                          <div className="text-white font-mono text-lg tracking-widest text-center">
+                            {showCardNumbers[card.id] 
+                              ? generateFullCardNumber(card.lastFour || "1234")
+                              : formatCardNumber(card.lastFour || "1234")
+                            }
+                          </div>
+                          <button
+                            onClick={() => setShowCardNumbers(prev => ({
+                              ...prev,
+                              [card.id]: !prev[card.id]
+                            }))}
+                            className="text-white/70 hover:text-white transition-colors p-1"
+                          >
+                            {showCardNumbers[card.id] ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </button>
                         </div>
                       </div>
                       
