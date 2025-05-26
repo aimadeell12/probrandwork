@@ -274,7 +274,9 @@ export default function Cards() {
                         <div>
                           <div className="text-white/60 text-xs uppercase tracking-wide mb-1">CARDHOLDER</div>
                           <div className="text-white font-medium text-sm uppercase">
-                            {card.holderName}
+                            {(user as any)?.firstName && (user as any)?.lastName 
+                              ? `${(user as any).firstName} ${(user as any).lastName}`.toUpperCase()
+                              : card.holderName}
                           </div>
                         </div>
                         <div className="text-right">
