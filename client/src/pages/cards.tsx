@@ -366,7 +366,7 @@ export default function Cards() {
                 disabled={createCardMutation.isPending}
                 className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
               >
-                {createCardMutation.isPending ? "جاري الشراء..." : "شراء البطاقة"}
+                {createCardMutation.isPending ? "جاري الإنشاء..." : selectedCardType === "virtual" ? "إنشاء بطاقة 8 USD" : "إنشاء بطاقة 90 USD"}
               </Button>
             </div>
           </>
