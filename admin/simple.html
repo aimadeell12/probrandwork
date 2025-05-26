@@ -12,6 +12,9 @@
         .admin-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .stat-card { transition: all 0.3s ease; }
         .stat-card:hover { transform: translateY(-5px); }
+        .section { display: none; }
+        .section.active { display: block; }
+        .nav-btn.active { background-color: #374151; }
     </style>
 </head>
 <body class="bg-gray-50" dir="rtl">
@@ -404,7 +407,32 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadStats();
             loadUsers();
+            loadCards();
         });
+
+        // Section Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all nav buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Load section-specific data
+            if (sectionName === 'users') {
+                loadUsers();
+            } else if (sectionName === 'cards') {
+                loadCards();
+            }
+        }
 
         // Load statistics
         async function loadStats() {
@@ -529,6 +557,101 @@
         function refreshUsers() {
             loadUsers();
             showNotification('تم تحديث قائمة المستخدمين', 'success');
+        }
+
+        // Load cards
+        async function loadCards() {
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/cards`, {
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    const cards = await response.json();
+                    displayCards(cards);
+                } else {
+                    throw new Error('Failed to load cards');
+                }
+            } catch (error) {
+                console.error('Error loading cards:', error);
+                document.getElementById('cardsList').innerHTML = `
+                    <div class="text-center py-8 text-red-500">
+                        <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
+                        <p>خطأ في تحميل البطاقات</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Display cards
+        function displayCards(cards) {
+            const cardsList = document.getElementById('cardsList');
+            
+            if (!cards || cards.length === 0) {
+                cardsList.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-credit-card text-4xl mb-4"></i>
+                        <p>لا توجد بطاقات</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cardsList.innerHTML = cards.map(card => `
+                <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-credit-card text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900">${card.holderName || 'غير محدد'}</p>
+                            <p class="text-sm text-gray-500">نوع: ${card.type || 'افتراضي'}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                            نشطة
+                        </span>
+                        <button onclick="manageCard('${card.id}')" 
+                                class="text-purple-600 hover:text-purple-800 p-2 transition">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Manage card function
+        function manageCard(cardId) {
+            showNotification('إدارة البطاقة: ' + cardId, 'info');
+        }
+
+        // Filter functions for KYC
+        function filterKYC(status) {
+            // Update filter buttons
+            const filterBtns = document.querySelectorAll('.kyc-filter-btn');
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('bg-indigo-600', 'text-white');
+            
+            showNotification(`تصفية طلبات KYC: ${status}`, 'info');
+        }
+
+        // Filter functions for withdrawals
+        function filterWithdrawals(status) {
+            // Update filter buttons
+            const filterBtns = document.querySelectorAll('.withdrawal-filter-btn');
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-green-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('bg-green-600', 'text-white');
+            
+            showNotification(`تصفية طلبات السحب: ${status}`, 'info');
         }
 
         // Export data function
