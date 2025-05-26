@@ -77,6 +77,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Create card with Reap API
       try {
+        console.log("Creating card with Reap API...");
         const reapCard = await reapService.createCard({
           cardType: cardData.type === "virtual" ? "Virtual" : "Physical",
           customerType: "Consumer",
@@ -277,13 +278,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Check balance first
-      const balance = await lithicService.getBalance(card.lithicCardId || "");
+      const balance = await reapService.getCardBalance(card.reapCardId || "");
       if (balance < amount) {
         return res.status(400).json({ message: "Insufficient funds" });
       }
 
-      // Process withdrawal with Lithic
-      const transfer = await lithicService.withdraw(card.lithicCardId || "", amount);
+      // Process withdrawal with Reap
+      const transfer = await reapService.addFunds(card.reapCardId || "", -amount);
 
       // Create transaction record
       await storage.createTransaction({
