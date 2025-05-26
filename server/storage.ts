@@ -355,12 +355,12 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId))
       .limit(1);
     
-    return user[0]?.walletBalance || 0;
+    return parseFloat(user[0]?.walletBalance || "0");
   }
 
   async updateWalletBalance(userId: string, newBalance: number): Promise<void> {
     await db.update(users)
-      .set({ walletBalance: newBalance })
+      .set({ walletBalance: newBalance.toString() })
       .where(eq(users.id, userId));
   }
 }
