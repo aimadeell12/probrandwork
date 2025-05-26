@@ -86,12 +86,17 @@ export default function EditProfile() {
   const updateProfileMutation = useMutation({
     mutationFn: (data: ProfileFormData) =>
       apiRequest("PATCH", `/api/auth/profile`, data),
-    onSuccess: () => {
+    onSuccess: async (updatedUser) => {
+      console.log("Profile update successful, updated user:", updatedUser);
+      
+      // Invalidate and refetch user data immediately
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
+      
       toast({
         title: "تم التحديث بنجاح",
         description: "تم حفظ بياناتك الشخصية",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
     },
     onError: (error) => {
       console.error("Update profile error:", error);
