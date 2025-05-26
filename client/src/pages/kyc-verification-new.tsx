@@ -37,7 +37,9 @@ export default function KYCVerificationNew() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [idFrontImage, setIdFrontImage] = useState<string | null>(null);
+  const [idBackImage, setIdBackImage] = useState<string | null>(null);
+  const [selfieImage, setSelfieImage] = useState<string | null>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
 
   // تحميل حالة التحقق عند تحميل الصفحة
@@ -90,7 +92,7 @@ export default function KYCVerificationNew() {
   };
 
   const isStep3Valid = () => {
-    return capturedImage !== null;
+    return idFrontImage !== null && idBackImage !== null && selfieImage !== null;
   };
 
   const startCamera = async () => {
@@ -483,64 +485,156 @@ export default function KYCVerificationNew() {
                   </p>
                 </div>
 
-                {!capturedImage && (
+                <div className="space-y-6">
+                  {/* ID Front Image */}
                   <div className="text-center">
-                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 mb-4">
-                      <Upload className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                      <p className="text-gray-600 dark:text-gray-400 mb-4">
-                        Upload a photo of your ID document
-                      </p>
-                      
-                      <div className="relative">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              const reader = new FileReader();
-                              reader.onload = (event) => {
-                                setCapturedImage(event.target?.result as string);
-                              };
-                              reader.readAsDataURL(file);
-                            }
-                          }}
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                          id="file-upload"
-                        />
-                        <Button
-                          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
-                        >
-                          <Upload className="h-4 w-4 mr-2" />
-                          Choose Photo from Gallery
-                        </Button>
-                      </div>
+                    <h5 className="text-lg font-semibold mb-2">ID Front Side</h5>
+                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 mb-4">
+                      {!idFrontImage ? (
+                        <>
+                          <Upload className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                          <p className="text-gray-600 dark:text-gray-400 mb-3">
+                            Upload front side of your ID
+                          </p>
+                          <div className="relative">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onload = (event) => {
+                                    setIdFrontImage(event.target?.result as string);
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                            />
+                            <Button className="bg-blue-600 hover:bg-blue-700">
+                              <Upload className="h-4 w-4 mr-2" />
+                              Choose Front Image
+                            </Button>
+                          </div>
+                        </>
+                      ) : (
+                        <div>
+                          <img src={idFrontImage} alt="ID Front" className="max-w-xs mx-auto rounded mb-3" />
+                          <Button
+                            onClick={() => setIdFrontImage(null)}
+                            variant="outline"
+                            size="sm"
+                          >
+                            Change Image
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </div>
-                )}
 
-
-
-                {capturedImage && (
+                  {/* ID Back Image */}
                   <div className="text-center">
-                    <div className="mb-4">
-                      <img
-                        src={capturedImage}
-                        alt="Captured ID"
-                        className="w-full max-w-md mx-auto rounded-lg shadow-lg"
-                      />
+                    <h5 className="text-lg font-semibold mb-2">ID Back Side</h5>
+                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 mb-4">
+                      {!idBackImage ? (
+                        <>
+                          <Upload className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                          <p className="text-gray-600 dark:text-gray-400 mb-3">
+                            Upload back side of your ID
+                          </p>
+                          <div className="relative">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onload = (event) => {
+                                    setIdBackImage(event.target?.result as string);
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                            />
+                            <Button className="bg-blue-600 hover:bg-blue-700">
+                              <Upload className="h-4 w-4 mr-2" />
+                              Choose Back Image
+                            </Button>
+                          </div>
+                        </>
+                      ) : (
+                        <div>
+                          <img src={idBackImage} alt="ID Back" className="max-w-xs mx-auto rounded mb-3" />
+                          <Button
+                            onClick={() => setIdBackImage(null)}
+                            variant="outline"
+                            size="sm"
+                          >
+                            Change Image
+                          </Button>
+                        </div>
+                      )}
                     </div>
+                  </div>
+
+                  {/* Selfie with ID */}
+                  <div className="text-center">
+                    <h5 className="text-lg font-semibold mb-2">Selfie with ID</h5>
+                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 mb-4">
+                      {!selfieImage ? (
+                        <>
+                          <Upload className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                          <p className="text-gray-600 dark:text-gray-400 mb-3">
+                            Upload a selfie holding your ID
+                          </p>
+                          <div className="relative">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onload = (event) => {
+                                    setSelfieImage(event.target?.result as string);
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                            />
+                            <Button className="bg-blue-600 hover:bg-blue-700">
+                              <Upload className="h-4 w-4 mr-2" />
+                              Choose Selfie Image
+                            </Button>
+                          </div>
+                        </>
+                      ) : (
+                        <div>
+                          <img src={selfieImage} alt="Selfie with ID" className="max-w-xs mx-auto rounded mb-3" />
+                          <Button
+                            onClick={() => setSelfieImage(null)}
+                            variant="outline"
+                            size="sm"
+                          >
+                            Change Image
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+
+
+                {isStep3Valid() && (
+                  <div className="text-center mt-6">
                     <p className="text-green-600 dark:text-green-400 mb-4 font-semibold">
-                      ✅ Photo captured successfully!
+                      ✅ All photos uploaded successfully!
                     </p>
-                    <Button
-                      onClick={retakePhoto}
-                      variant="outline"
-                      className="mb-6"
-                    >
-                      <RotateCcw className="h-4 w-4 mr-2" />
-                      Retake Photo
-                    </Button>
                   </div>
                 )}
 
@@ -618,9 +712,58 @@ export default function KYCVerificationNew() {
                   )}
                 </div>
 
+                {/* Review Images */}
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-4">
+                  <h5 className="font-semibold text-gray-900 dark:text-white">Uploaded Documents</h5>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* ID Front */}
+                    {idFrontImage && (
+                      <div className="text-center">
+                        <img
+                          src={idFrontImage}
+                          alt="ID Front"
+                          className="w-full max-w-xs mx-auto rounded-lg shadow-md border"
+                        />
+                        <p className="text-green-600 dark:text-green-400 text-sm mt-2">
+                          ✅ ID Front Side
+                        </p>
+                      </div>
+                    )}
+                    
+                    {/* ID Back */}
+                    {idBackImage && (
+                      <div className="text-center">
+                        <img
+                          src={idBackImage}
+                          alt="ID Back"
+                          className="w-full max-w-xs mx-auto rounded-lg shadow-md border"
+                        />
+                        <p className="text-green-600 dark:text-green-400 text-sm mt-2">
+                          ✅ ID Back Side
+                        </p>
+                      </div>
+                    )}
+                    
+                    {/* Selfie */}
+                    {selfieImage && (
+                      <div className="text-center">
+                        <img
+                          src={selfieImage}
+                          alt="Selfie with ID"
+                          className="w-full max-w-xs mx-auto rounded-lg shadow-md border"
+                        />
+                        <p className="text-green-600 dark:text-green-400 text-sm mt-2">
+                          ✅ Selfie with ID
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <div className="flex gap-4">
                   <Button
-                    onClick={() => setCurrentStep(2)}
+                    onClick={() => setCurrentStep(3)}
                     variant="outline"
                     className="flex-1"
                   >
