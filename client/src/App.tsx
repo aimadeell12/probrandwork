@@ -28,9 +28,6 @@ import Transactions from "@/pages/transactions";
 import EditProfile from "@/pages/edit-profile";
 import Webhooks from "@/pages/webhooks";
 
-import NationalitySelection from "@/pages/nationality-selection";
-import PersonalInformation from "@/pages/personal-information";
-import DocumentCapture from "@/pages/document-capture";
 import KYCVerification from "@/pages/kyc-verification";
 import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";
@@ -41,9 +38,7 @@ function Router() {
 
   // صفحات التحقق من الهوية التي يجب إخفاء الشريط السفلي منها
   const kycPages = [
-    '/nationality-selection', 
-    '/personal-information',
-    '/document-capture'
+    '/kyc-verification'
   ];
 
   const shouldHideBottomNav = kycPages.includes(location);
@@ -87,9 +82,7 @@ function Router() {
             <Route path="/scan" component={Scan} />
             <Route path="/transactions" component={Transactions} />
             <Route path="/edit-profile" component={EditProfile} />
-            <Route path="/nationality-selection" component={NationalitySelection} />
-            <Route path="/personal-information" component={PersonalInformation} />
-            <Route path="/document-capture" component={DocumentCapture} />
+
             <Route path="/kyc-verification" component={KYCVerification} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
