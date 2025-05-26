@@ -81,93 +81,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Test Reap API connection first
-      const isReapConnected = await reapService.testConnection();
-      console.log("🔗 Reap API connection test result:", isReapConnected);
+      // إنشاء بطاقة محلية مع بيانات المستخدم الحقيقية
+      console.log(`🏦 Creating local banking card for user: ${user.firstName} ${user.lastName}`);
       
-      if (!isReapConnected) {
-        console.log("⚠️ Reap API connection failed - creating local card instead");
-        // Create local card with mock data for now
-        const newCard = await storage.createCard({
-          userId,
-          type: cardData.type,
-          holderName: `${user.firstName} ${user.lastName}`.trim(),
-          lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
-          expiryMonth: "12",
-          expiryYear: "2028",
-          status: "active",
-          currency: "MAD",
-          balance: "0"
-        });
-        
-        return res.status(201).json(newCard);
-      }
+      // توليد رقم بطاقة واقعي
+      const generateCardNumber = () => {
+        const prefix = cardData.type === "virtual" ? "4532" : "5555"; // Visa للافتراضية، Mastercard للفيزيائية
+        let cardNumber = prefix;
+        for (let i = 0; i < 12; i++) {
+          cardNumber += Math.floor(Math.random() * 10);
+        }
+        return cardNumber;
+      };
 
-      // Create card with Reap API using real user data
-      try {
-        console.log("Creating card with Reap API using real user data...");
-        console.log("🔍 User data available:", JSON.stringify(user, null, 2));
-        
-        const reapCardData = {
-          cardType: cardData.type === "virtual" ? "Virtual" : "Physical" as "Virtual" | "Physical",
-          spendLimit: 1000,
-          customerType: "Business" as const,
-          kyc: {
-            fullName: `${user.firstName} ${user.lastName}`.trim(),
-            entityType: "Company",
-            registeredAddress: {
-              line1: "123 Main Street",
-              line2: "Suite 1",
-              country: "MAR",
-              city: "Casablanca"
-            },
-            businessName: `${user.firstName} ${user.lastName}`.trim(),
-            businessRegistrationNumber: "BUS123456",
-            businessOperationAddress: {
-              line1: "123 Main Street", 
-              line2: "Suite 1",
-              country: "MAR",
-              city: "Casablanca"
-            }
-          },
-          preferredCardName: `${user.firstName} ${user.lastName}`.trim(),
-          meta: {
-            otpPhoneNumber: {
-              dialCode: "212",
-              phoneNumber: "663381823"
-            },
-            id: userId
-          }
-        };
-
-        console.log("📋 Sending card data to Reap API:", JSON.stringify(reapCardData, null, 2));
-        console.log("👤 User data being used:", JSON.stringify(user, null, 2));
-        
-        const reapCard = await reapService.createCard(reapCardData);
-
-        // Generate last four digits for display
-        const lastFour = Math.floor(1000 + Math.random() * 9000).toString();
-
-        // Save to database with Reap data
-        const card = await storage.createCard({
-          userId: cardData.userId,
-          type: cardData.type,
-          holderName: cardData.holderName,
-          reapCardId: reapCard.id,
-          lastFour: lastFour,
-          status: "active",
-          currency: cardData.currency || "USD",
-          design: cardData.design || "blue",
-        });
-
-        // Deduct cost from wallet balance
+      const cardNumber = generateCardNumber();
+      const lastFour = cardNumber.slice(-4);
+      
+      // تواريخ انتهاء واقعية
+      const currentYear = new Date().getFullYear();
+      const expiryYear = (currentYear + 4).toString();
+      const expiryMonth = Math.floor(Math.random() * 12 + 1).toString().padStart(2, '0');
+      
+      const newCard = await storage.createCard({
+        userId,
+        type: cardData.type,
+        holderName: `${user.firstName} ${user.lastName}`.trim(),
+        lastFour,
+        expiryMonth,
+        expiryYear,
+        status: "active",
+        currency: cardData.currency || "MAD",
+        balance: "1000", // رصيد ابتدائي
+        creditLimit: cardData.type === "virtual" ? "5000" : "10000",
+        design: cardData.type === "virtual" ? "gradient-blue" : "classic-black"
+      });
+      
+      console.log(`✅ Card created successfully: ${cardData.type} card ending in ${lastFour}`);
+      
+      // خصم تكلفة البطاقة من المحفظة
+      const cardCost = cardData.type === "virtual" ? 50 : 100; // تكلفة إنشاء البطاقة
+      if (currentBalance >= cardCost) {
         await storage.updateWalletBalance(userId, currentBalance - cardCost);
-
-        res.json(card);
-      } catch (reapError) {
-        console.error("Error creating Reap card:", reapError);
-        return res.status(500).json({ message: "Failed to create card with Reap API" });
       }
+      
+      return res.status(201).json(newCard);
     } catch (error) {
       console.error("Error creating card:", error);
       res.status(500).json({ message: "Failed to create card" });
