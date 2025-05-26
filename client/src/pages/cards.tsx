@@ -16,6 +16,66 @@ import {
 import CreateCardModal from "@/components/create-card-modal";
 import type { Card } from "shared/schema";
 
+// Transaction List Component
+function TransactionList({ cardId }: { cardId: string }) {
+  const { data: transactions = [], isLoading } = useQuery({
+    queryKey: ["/api/cards", cardId, "transactions"],
+    queryFn: async () => {
+      const response = await fetch(`/api/cards/${cardId}/transactions`);
+      if (!response.ok) throw new Error('Failed to fetch transactions');
+      return response.json();
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="mt-4 p-4 bg-white/50 dark:bg-gray-800/50 rounded-lg">
+        <div className="text-sm text-gray-600 dark:text-gray-400">Loading transactions...</div>
+      </div>
+    );
+  }
+
+  if (!transactions.length) {
+    return (
+      <div className="mt-4 p-4 bg-white/50 dark:bg-gray-800/50 rounded-lg">
+        <div className="text-sm text-gray-600 dark:text-gray-400 text-center">No transactions yet</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-4 space-y-2">
+      <h4 className="text-sm font-medium text-gray-900 dark:text-white px-2">Recent Transactions</h4>
+      <div className="space-y-2 max-h-48 overflow-y-auto">
+        {transactions.slice(0, 5).map((transaction: any, index: number) => (
+          <div key={transaction.id || index} className="p-3 bg-white/60 dark:bg-gray-800/60 rounded-lg border border-white/40">
+            <div className="flex justify-between items-start">
+              <div className="flex-1">
+                <div className="text-sm font-medium text-gray-900 dark:text-white">
+                  {transaction.merchant_name || transaction.description || 'Transaction'}
+                </div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">
+                  {new Date(transaction.created_at || Date.now()).toLocaleDateString()}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className={`text-sm font-medium ${
+                  transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
+                }`}>
+                  {transaction.amount > 0 ? '+' : '-'}${Math.abs(transaction.amount / 100).toFixed(2)}
+                </div>
+                <div className="text-xs text-gray-500 capitalize">
+                  {transaction.status || 'completed'}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Cards() {
   const { t } = useLanguage();
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -265,7 +325,7 @@ export default function Cards() {
                       {/* Card number - full width */}
                       <div className="absolute top-1/2 left-6 right-6 transform -translate-y-1/2">
                         <div className="text-white font-mono text-lg tracking-widest text-center">
-                          {formatCardNumber(card.lastFour || card.last_four || "1234")}
+                          {formatCardNumber(card.lastFour || "1234")}
                         </div>
                       </div>
                       
@@ -295,15 +355,18 @@ export default function Cards() {
                   <div className="text-center mt-4">
                     <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                       <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
-                      قابلة للتخصيص
+                      Customizable
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-2">
-                      {card.type === "virtual" ? "بطاقة افتراضية" : "بطاقة فيزيائية"}
+                      {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
-                      قابلة للتخصيص
+                      Customizable
                     </p>
                   </div>
+
+                  {/* Recent Transactions */}
+                  <TransactionList cardId={card.id} />
                 </div>
               ))}
             </div>
