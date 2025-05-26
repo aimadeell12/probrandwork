@@ -10,17 +10,17 @@ import session from "express-session";
 import connectPg from "connect-pg-simple";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Admin panel static files
-  app.use("/admin", express.static("admin"));
+  // Admin routes - must come before static files
+  app.get("/admin", (req, res) => {
+    res.sendFile(path.join(process.cwd(), "admin", "simple.html"));
+  });
   
-  // Admin routes
   app.get("/admin/login", (req, res) => {
     res.sendFile(path.join(process.cwd(), "admin", "login.html"));
   });
   
-  app.get("/admin", (req, res) => {
-    res.sendFile(path.join(process.cwd(), "admin", "simple.html"));
-  });
+  // Admin panel static files
+  app.use("/admin", express.static("admin"));
   // Setup session middleware first
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
   const pgStore = connectPg(session);
