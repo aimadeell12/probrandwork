@@ -29,6 +29,7 @@ import EditProfile from "@/pages/edit-profile";
 import Webhooks from "@/pages/webhooks";
 
 import KYCVerification from "@/pages/kyc-verification";
+import AutoKYC from "@/pages/auto-kyc";
 import CameraTest from "@/pages/camera-test";
 import DocumentCapture from "@/pages/document-capture";
 import NotFound from "@/pages/not-found";

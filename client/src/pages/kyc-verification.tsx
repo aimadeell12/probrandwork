@@ -163,6 +163,9 @@ export default function KYCVerification() {
       setStream(null);
     }
     setActiveCamera(null);
+    setIsDetecting(false);
+    setCountdown(0);
+    setDetectionMessage("");
   };
 
   const retakePhoto = (documentType: DocumentType) => {
@@ -343,8 +346,15 @@ export default function KYCVerification() {
     </Card>
   );
 
-  const renderDocumentStep = () => (
-    <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
+  const renderDocumentStep = () => {
+    // Auto-start camera for the first uncaptured document
+    const nextDocument = documents.find(doc => !doc.captured);
+    if (nextDocument && !activeCamera) {
+      setTimeout(() => startCamera(nextDocument.type), 500);
+    }
+
+    return (
+      <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <CreditCard className="h-6 w-6 text-purple-600" />
@@ -496,77 +506,45 @@ export default function KYCVerification() {
           </div>
         )}
 
-        {/* Document Capture Cards */}
-        <div className="space-y-4">
-          {[
-            { type: "id-front" as DocumentType, title: t("idFront"), icon: CreditCard },
-            { type: "id-back" as DocumentType, title: t("idBack"), icon: CreditCard },
-            { type: "selfie" as DocumentType, title: t("selfiePhoto"), icon: User }
-          ].map(({ type, title, icon: Icon }) => {
-            const document = documents.find(doc => doc.type === type);
-            return (
-              <div key={type} className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <Icon className="h-5 w-5 text-purple-600" />
-                    <span className="font-medium text-gray-900 dark:text-white">{title}</span>
+        {/* Current Document Status */}
+        {!activeCamera && (
+          <div className="text-center p-8">
+            <div className="w-16 h-16 mx-auto mb-4 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+              <Camera className="h-8 w-8 text-purple-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              التصوير التلقائي جاري التحضير...
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              سيتم فتح الكاميرا تلقائياً لتصوير المستندات المطلوبة
+            </p>
+            
+            {/* Progress Indicator */}
+            <div className="mt-6 space-y-3">
+              {documents.map((doc, index) => (
+                <div key={doc.type} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    {doc.type === "selfie" ? (
+                      <User className="h-5 w-5 text-purple-600" />
+                    ) : (
+                      <CreditCard className="h-5 w-5 text-purple-600" />
+                    )}
+                    <span className="text-sm font-medium">
+                      {doc.type === "id-front" && "الجهة الأمامية للبطاقة"}
+                      {doc.type === "id-back" && "الجهة الخلفية للبطاقة"}
+                      {doc.type === "selfie" && "الصورة الشخصية"}
+                    </span>
                   </div>
-                  {document?.captured && (
-                    <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                      <CheckCircle2 className="h-4 w-4 mr-1" />
-                      {t("captured")}
-                    </Badge>
+                  {doc.captured ? (
+                    <CheckCircle2 className="h-5 w-5 text-green-500" />
+                  ) : (
+                    <Clock className="h-5 w-5 text-gray-400" />
                   )}
                 </div>
-                
-                {document?.image ? (
-                  <div className="space-y-3">
-                    <img
-                      src={document.image}
-                      alt={title}
-                      className="w-full h-32 object-cover rounded-lg border"
-                    />
-                    <div className="flex gap-2">
-                      <Button 
-                        onClick={() => retakePhoto(type)}
-                        variant="outline" 
-                        size="sm"
-                        className="flex-1"
-                      >
-                        {t("retake")}
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex gap-2">
-                    <Button 
-                      onClick={() => startCamera(type)}
-                      className="flex-1 bg-purple-600 hover:bg-purple-700"
-                    >
-                      <Camera className="h-4 w-4 mr-2" />
-                      {t("takePhoto")}
-                    </Button>
-                    <div className="relative">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) handleFileUpload(type, file);
-                        }}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      />
-                      <Button variant="outline">
-                        <Upload className="h-4 w-4 mr-2" />
-                        {t("upload")}
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+              ))}
+            </div>
+          </div>
+        )}
         
         <Button 
           onClick={() => setCurrentStep("review")} 
@@ -577,7 +555,8 @@ export default function KYCVerification() {
         </Button>
       </CardContent>
     </Card>
-  );
+    );
+  };
 
   const renderReviewStep = () => (
     <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
