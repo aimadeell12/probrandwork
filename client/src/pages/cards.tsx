@@ -232,6 +232,50 @@ export default function Cards() {
     },
   });
 
+  const adjustBalanceMutation = useMutation({
+    mutationFn: ({ cardId, adjustment }: { cardId: string; adjustment: number }) =>
+      fetch(`/api/cards/${cardId}/transfer`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: adjustment })
+      }).then(res => res.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      toast({
+        title: "Balance Updated",
+        description: "Card balance has been adjusted successfully",
+      });
+      setSelectedCardForBalance(null);
+      setBalanceAdjustment("");
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to adjust card balance",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleBalanceAdjustment = () => {
+    if (!selectedCardForBalance || !balanceAdjustment) return;
+    
+    const adjustment = parseFloat(balanceAdjustment);
+    if (isNaN(adjustment)) {
+      toast({
+        title: "Invalid Amount",
+        description: "Please enter a valid number",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    adjustBalanceMutation.mutate({ 
+      cardId: selectedCardForBalance.id, 
+      adjustment 
+    });
+  };
+
   const handleBlockCard = (cardId: string) => {
     setCardToBlock(cardId);
     setShowBlockDialog(true);
@@ -745,6 +789,51 @@ export default function Cards() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Balance Adjustment Dialog */}
+      <Dialog open={!!selectedCardForBalance} onOpenChange={() => setSelectedCardForBalance(null)}>
+        <DialogContent className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-gray-900 dark:text-white">
+              Adjust Card Balance
+            </DialogTitle>
+            <DialogDescription className="text-gray-600 dark:text-gray-300">
+              Add or remove funds from your card. Use positive numbers to add funds, negative to remove.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="adjustment">Amount (USD)</Label>
+              <Input
+                id="adjustment"
+                type="number"
+                step="0.01"
+                placeholder="Enter amount (e.g., 100 or -50)"
+                value={balanceAdjustment}
+                onChange={(e) => setBalanceAdjustment(e.target.value)}
+              />
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Current balance will be updated immediately
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setSelectedCardForBalance(null)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleBalanceAdjustment}
+              disabled={adjustBalanceMutation.isPending || !balanceAdjustment}
+              className="bg-green-600 hover:bg-green-700"
+            >
+              {adjustBalanceMutation.isPending ? "Processing..." : "Update Balance"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
