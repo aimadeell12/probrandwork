@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useAuth } from "@/hooks/useAuth";
 import { 
@@ -43,7 +44,8 @@ export default function KYCVerification() {
     dateOfBirth: "",
     idNumber: "",
     nationality: "",
-    country: ""
+    country: "",
+    documentType: ""
   });
   const [activeCamera, setActiveCamera] = useState<DocumentType | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -267,6 +269,23 @@ export default function KYCVerification() {
           
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              نوع الهوية
+            </div>
+            <Select value={personalInfo.documentType} onValueChange={(value) => setPersonalInfo(prev => ({...prev, documentType: value}))}>
+              <SelectTrigger className="bg-white/80 dark:bg-gray-700/80">
+                <SelectValue placeholder="اختر نوع الهوية" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="national_id">بطاقة الهوية الوطنية</SelectItem>
+                <SelectItem value="passport">جواز السفر</SelectItem>
+                <SelectItem value="driving_license">رخصة القيادة</SelectItem>
+                <SelectItem value="residence_permit">إقامة</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               رقم الهوية
             </div>
             <Input
@@ -283,7 +302,7 @@ export default function KYCVerification() {
         <Button 
           onClick={() => setCurrentStep("documents")} 
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-          disabled={!personalInfo.fullName || !personalInfo.idNumber}
+          disabled={!personalInfo.fullName || !personalInfo.idNumber || !personalInfo.documentType || !personalInfo.dateOfBirth}
         >
           {t("continue")}
         </Button>
