@@ -520,7 +520,7 @@ export default function KYCVerificationNew() {
                         </>
                       ) : (
                         <div>
-                          <img src={idFrontImage} alt="ID Front" className="max-w-xs mx-auto rounded mb-3" />
+                          <img src={idFrontImage} alt="ID Front" className="w-32 h-20 object-cover mx-auto rounded mb-3 border" />
                           <Button
                             onClick={() => setIdFrontImage(null)}
                             variant="outline"
@@ -567,7 +567,7 @@ export default function KYCVerificationNew() {
                         </>
                       ) : (
                         <div>
-                          <img src={idBackImage} alt="ID Back" className="max-w-xs mx-auto rounded mb-3" />
+                          <img src={idBackImage} alt="ID Back" className="w-32 h-20 object-cover mx-auto rounded mb-3 border" />
                           <Button
                             onClick={() => setIdBackImage(null)}
                             variant="outline"
@@ -614,7 +614,7 @@ export default function KYCVerificationNew() {
                         </>
                       ) : (
                         <div>
-                          <img src={selfieImage} alt="Selfie with ID" className="max-w-xs mx-auto rounded mb-3" />
+                          <img src={selfieImage} alt="Selfie with ID" className="w-32 h-20 object-cover mx-auto rounded mb-3 border" />
                           <Button
                             onClick={() => setSelfieImage(null)}
                             variant="outline"
@@ -723,7 +723,7 @@ export default function KYCVerificationNew() {
                         <img
                           src={idFrontImage}
                           alt="ID Front"
-                          className="w-full max-w-xs mx-auto rounded-lg shadow-md border"
+                          className="w-24 h-16 object-cover mx-auto rounded-lg shadow-md border"
                         />
                         <p className="text-green-600 dark:text-green-400 text-sm mt-2">
                           ✅ ID Front Side
@@ -737,7 +737,7 @@ export default function KYCVerificationNew() {
                         <img
                           src={idBackImage}
                           alt="ID Back"
-                          className="w-full max-w-xs mx-auto rounded-lg shadow-md border"
+                          className="w-24 h-16 object-cover mx-auto rounded-lg shadow-md border"
                         />
                         <p className="text-green-600 dark:text-green-400 text-sm mt-2">
                           ✅ ID Back Side
@@ -751,7 +751,7 @@ export default function KYCVerificationNew() {
                         <img
                           src={selfieImage}
                           alt="Selfie with ID"
-                          className="w-full max-w-xs mx-auto rounded-lg shadow-md border"
+                          className="w-24 h-16 object-cover mx-auto rounded-lg shadow-md border"
                         />
                         <p className="text-green-600 dark:text-green-400 text-sm mt-2">
                           ✅ Selfie with ID
