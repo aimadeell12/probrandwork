@@ -51,6 +51,8 @@ export const users = pgTable("users", {
   pushNotifications: boolean("push_notifications").default(true),
   transactionAlerts: boolean("transaction_alerts").default(true),
   marketingEmails: boolean("marketing_emails").default(false),
+  // Wallet
+  walletBalance: decimal("wallet_balance", { precision: 10, scale: 2 }).default("100.00"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
