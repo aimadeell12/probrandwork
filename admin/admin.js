@@ -12,7 +12,8 @@ async function loadDashboardData() {
     try {
         await Promise.all([
             loadStats(),
-            loadUsers()
+            loadUsers(),
+            loadKycRequests()
         ]);
     } catch (error) {
         console.error('Error loading dashboard data:', error);
@@ -190,6 +191,117 @@ function systemBackup() {
     setTimeout(() => {
         showNotification('تم إنشاء النسخة الاحتياطية بنجاح', 'success');
     }, 3000);
+}
+
+// Load KYC requests
+async function loadKycRequests() {
+    try {
+        const response = await fetch(`${API_BASE}/api/admin/kyc`, {
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            const kycRequests = await response.json();
+            displayKycRequests(kycRequests);
+        }
+    } catch (error) {
+        console.error('Error loading KYC requests:', error);
+    }
+}
+
+// Display KYC requests
+function displayKycRequests(kycRequests) {
+    const container = document.getElementById('kycList');
+    if (!container) return;
+    
+    if (kycRequests.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-8">
+                <i class="fas fa-id-card text-gray-400 text-4xl mb-4"></i>
+                <p class="text-gray-500">لا توجد طلبات KYC في الوقت الحالي</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = kycRequests.map(kyc => `
+        <div class="bg-white rounded-lg shadow-sm border p-4 mb-4">
+            <div class="flex justify-between items-start">
+                <div class="flex-1">
+                    <h3 class="font-medium text-gray-900">${kyc.firstName} ${kyc.lastName}</h3>
+                    <p class="text-sm text-gray-600">${kyc.email}</p>
+                    <p class="text-xs text-gray-500">تاريخ الإرسال: ${new Date(kyc.submittedAt).toLocaleDateString('ar-SA')}</p>
+                </div>
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <span class="px-2 py-1 text-xs rounded-full ${getKycStatusColor(kyc.status)}">
+                        ${getKycStatusText(kyc.status)}
+                    </span>
+                    <div class="flex space-x-1 space-x-reverse">
+                        ${kyc.status === 'pending' ? `
+                            <button onclick="updateKycStatus('${kyc.id}', 'verified')" 
+                                    class="px-3 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600">
+                                موافقة
+                            </button>
+                            <button onclick="updateKycStatus('${kyc.id}', 'rejected')" 
+                                    class="px-3 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600">
+                                رفض
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Get KYC status color
+function getKycStatusColor(status) {
+    switch(status) {
+        case 'pending': return 'bg-yellow-100 text-yellow-800';
+        case 'verified': return 'bg-green-100 text-green-800';
+        case 'rejected': return 'bg-red-100 text-red-800';
+        default: return 'bg-gray-100 text-gray-800';
+    }
+}
+
+// Get KYC status text
+function getKycStatusText(status) {
+    switch(status) {
+        case 'pending': return 'قيد المراجعة';
+        case 'verified': return 'موافق عليه';
+        case 'rejected': return 'مرفوض';
+        default: return 'غير معروف';
+    }
+}
+
+// Update KYC status
+async function updateKycStatus(kycId, status) {
+    try {
+        let rejectionReason = null;
+        if (status === 'rejected') {
+            rejectionReason = prompt('يرجى إدخال سبب الرفض:');
+            if (!rejectionReason) return;
+        }
+
+        const response = await fetch(`${API_BASE}/api/admin/kyc/${kycId}/status`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ status, rejectionReason })
+        });
+
+        if (response.ok) {
+            showNotification('تم تحديث حالة التحقق بنجاح', 'success');
+            loadKycRequests(); // Reload the list
+        } else {
+            showNotification('فشل في تحديث حالة التحقق', 'error');
+        }
+    } catch (error) {
+        console.error('Error updating KYC status:', error);
+        showNotification('حدث خطأ أثناء تحديث حالة التحقق', 'error');
+    }
 }
 
 // Logout function
