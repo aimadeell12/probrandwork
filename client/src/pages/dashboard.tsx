@@ -132,7 +132,7 @@ export default function Dashboard() {
                   <div className="w-8 h-5 bg-gray-300 dark:bg-gray-600 rounded"></div>
                 </div>
                 <div className="space-y-2">
-                  <Link href="/nationality-selection">
+                  <Link href="/kyc-verification">
                     <div className="cursor-pointer">
                       <h3 className="font-medium text-gray-900 dark:text-white">{t('guidanceForBeginnersTitle')}</h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">{t('pleaseVerifyIdentity')}</p>
