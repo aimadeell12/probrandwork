@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Plus, MoreVertical, Settings, Lock, AlertTriangle, Snowflake, Play, Eye, EyeOff } from "lucide-react";
+import { CreditCard, Plus, Minus, MoreVertical, Settings, Lock, AlertTriangle, Snowflake, Play, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/useLanguage";
 import {
@@ -106,6 +106,7 @@ export default function Cards() {
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
   const [selectedCardForBalance, setSelectedCardForBalance] = useState<Card | null>(null);
   const [balanceAdjustment, setBalanceAdjustment] = useState<string>("");
+  const [balanceOperation, setBalanceOperation] = useState<"add" | "remove">("add");
   const { toast } = useToast();
 
   const { data: cards = [], isLoading } = useQuery<Card[]>({
@@ -260,15 +261,18 @@ export default function Cards() {
   const handleBalanceAdjustment = () => {
     if (!selectedCardForBalance || !balanceAdjustment) return;
     
-    const adjustment = parseFloat(balanceAdjustment);
-    if (isNaN(adjustment)) {
+    const amount = parseFloat(balanceAdjustment);
+    if (isNaN(amount) || amount <= 0) {
       toast({
         title: "Invalid Amount",
-        description: "Please enter a valid number",
+        description: "Please enter a valid positive number",
         variant: "destructive",
       });
       return;
     }
+
+    // Apply negative for removal operations
+    const adjustment = balanceOperation === "remove" ? -amount : amount;
 
     adjustBalanceMutation.mutate({ 
       cardId: selectedCardForBalance.id, 
@@ -529,11 +533,24 @@ export default function Cards() {
                               <>
                                 {/* For active or unspecified status cards */}
                                 <DropdownMenuItem
-                                  onClick={() => setSelectedCardForBalance(card)}
+                                  onClick={() => {
+                                    setSelectedCardForBalance(card);
+                                    setBalanceOperation("add");
+                                  }}
                                   className="text-green-600"
                                 >
-                                  <CreditCard className="mr-2 h-4 w-4" />
-                                  Adjust Balance
+                                  <Plus className="mr-2 h-4 w-4" />
+                                  Add Funds
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    setSelectedCardForBalance(card);
+                                    setBalanceOperation("remove");
+                                  }}
+                                  className="text-orange-600"
+                                >
+                                  <Minus className="mr-2 h-4 w-4" />
+                                  Remove Funds
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() => freezeCardMutation.mutate(card.id)}
@@ -791,14 +808,19 @@ export default function Cards() {
       </AlertDialog>
 
       {/* Balance Adjustment Dialog */}
-      <Dialog open={!!selectedCardForBalance} onOpenChange={() => setSelectedCardForBalance(null)}>
+      <Dialog open={!!selectedCardForBalance} onOpenChange={() => {
+        setSelectedCardForBalance(null);
+        setBalanceAdjustment("");
+      }}>
         <DialogContent className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-gray-900 dark:text-white">
-              Adjust Card Balance
+              {balanceOperation === "add" ? "Add Funds" : "Remove Funds"}
             </DialogTitle>
             <DialogDescription className="text-gray-600 dark:text-gray-300">
-              Add or remove funds from your card. Use positive numbers to add funds, negative to remove.
+              {balanceOperation === "add" 
+                ? "Add funds to your card balance" 
+                : "Remove funds from your card balance"}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -808,28 +830,40 @@ export default function Cards() {
                 id="adjustment"
                 type="number"
                 step="0.01"
-                placeholder="Enter amount (e.g., 100 or -50)"
+                min="0.01"
+                placeholder="Enter amount (e.g., 100)"
                 value={balanceAdjustment}
                 onChange={(e) => setBalanceAdjustment(e.target.value)}
               />
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Current balance will be updated immediately
+                {balanceOperation === "add" 
+                  ? "Funds will be added to your card balance" 
+                  : "Funds will be removed from your card balance"}
               </p>
             </div>
           </div>
           <DialogFooter>
             <Button
               variant="outline"
-              onClick={() => setSelectedCardForBalance(null)}
+              onClick={() => {
+                setSelectedCardForBalance(null);
+                setBalanceAdjustment("");
+              }}
             >
               Cancel
             </Button>
             <Button
               onClick={handleBalanceAdjustment}
               disabled={adjustBalanceMutation.isPending || !balanceAdjustment}
-              className="bg-green-600 hover:bg-green-700"
+              className={balanceOperation === "add" 
+                ? "bg-green-600 hover:bg-green-700" 
+                : "bg-orange-600 hover:bg-orange-700"}
             >
-              {adjustBalanceMutation.isPending ? "Processing..." : "Update Balance"}
+              {adjustBalanceMutation.isPending 
+                ? "Processing..." 
+                : balanceOperation === "add" 
+                  ? "Add Funds" 
+                  : "Remove Funds"}
             </Button>
           </DialogFooter>
         </DialogContent>
