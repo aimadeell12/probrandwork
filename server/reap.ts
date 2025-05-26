@@ -80,12 +80,19 @@ class ReapService {
 
       const response = await fetch(url, options);
       
+      console.log('✅ Response status:', response.status);
+      console.log('✅ Response headers:', Object.fromEntries(response.headers.entries()));
+      
       if (!response.ok) {
         const errorText = await response.text();
         console.error('❌ Reap API error response:', {
           status: response.status,
           statusText: response.statusText,
-          body: errorText
+          body: errorText,
+          url: url,
+          method: method,
+          requestHeaders: options.headers,
+          requestBody: data ? JSON.stringify(data, null, 2) : undefined
         });
         throw new Error(`Reap API error: ${response.status} ${response.statusText} - ${errorText}`);
       }
