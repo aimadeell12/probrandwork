@@ -27,6 +27,14 @@ export default function Cards() {
     queryKey: ["/api/cards"],
   });
 
+  const { data: user } = useQuery({
+    queryKey: ["/api/auth/user"],
+  });
+
+  const { data: balance = { balance: 0 } } = useQuery({
+    queryKey: ["/api/wallet/balance"],
+  });
+
   const suspendCardMutation = useMutation({
     mutationFn: (cardId: string) => cardApi.suspendCard(cardId),
     onSuccess: () => {
@@ -100,14 +108,31 @@ export default function Cards() {
   };
 
   const handleCreateCard = () => {
+    const cardCost = selectedCardType === "virtual" ? 8 : 90;
+    
+    // Check if user has sufficient balance
+    if ((balance as any)?.balance < cardCost) {
+      toast({
+        title: "رصيد غير كافي",
+        description: `تحتاج إلى ${cardCost} USD لإنشاء هذه البطاقة. رصيدك الحالي: ${(balance as any)?.balance || 0} USD`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const userName = (user as any)?.firstName && (user as any)?.lastName 
+      ? `${(user as any).firstName} ${(user as any).lastName}`
+      : (user as any)?.email?.split('@')[0] || "Card Holder";
+
     const cardData = {
-      holderName: "Card Holder",
+      holderName: userName,
       type: selectedCardType,
-      design: "black",
+      design: selectedCardType === "virtual" ? "black" : "purple",
       currency: "USD",
       expiryMonth: 12,
       expiryYear: 2028,
       lastFour: Math.floor(1000 + Math.random() * 9000).toString(),
+      cost: cardCost,
     };
     
     createCardMutation.mutate(cardData);

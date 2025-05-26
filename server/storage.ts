@@ -60,6 +60,10 @@ export interface IStorage {
   createNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings>;
   updateNotificationSettings(userId: string, updates: Partial<NotificationSettings>): Promise<NotificationSettings>;
   
+  // Wallet operations
+  getWalletBalance(userId: string): Promise<number>;
+  updateWalletBalance(userId: string, newBalance: number): Promise<void>;
+  
   // Admin operations
   getAllUsers(): Promise<User[]>;
   getAllCards(): Promise<Card[]>;
@@ -342,6 +346,22 @@ export class DatabaseStorage implements IStorage {
     return await db.select()
       .from(kycDocuments)
       .where(eq(kycDocuments.kycId, kycId));
+  }
+
+  // Wallet operations
+  async getWalletBalance(userId: string): Promise<number> {
+    const user = await db.select()
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    
+    return user[0]?.walletBalance || 0;
+  }
+
+  async updateWalletBalance(userId: string, newBalance: number): Promise<void> {
+    await db.update(users)
+      .set({ walletBalance: newBalance })
+      .where(eq(users.id, userId));
   }
 }
 
