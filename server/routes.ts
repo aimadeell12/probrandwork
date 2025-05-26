@@ -36,28 +36,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   setupSimpleAuth(app);
 
-  // Profile update route
-  app.patch("/api/auth/profile", requireAuth, async (req: any, res) => {
-    try {
-      const userId = req.session?.userId;
-      if (!userId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      
-      console.log("Updating profile for user:", userId);
-      console.log("Update data:", req.body);
-      
-      const updateData = req.body;
-      const updatedUser = await storage.updateUserProfile(userId, updateData);
-      
-      console.log("Profile updated successfully");
-      res.json(updatedUser);
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      console.error("Error details:", error.message);
-      res.status(500).json({ message: "Internal server error", error: error.message });
-    }
-  });
+
 
   // Cards routes
   app.get("/api/cards", requireAuth, async (req: any, res) => {
