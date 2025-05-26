@@ -446,7 +446,20 @@ export default function Cards() {
                               <Settings className="mr-2 h-4 w-4" />
                               Settings
                             </DropdownMenuItem>
-                            {card.status === "active" ? (
+                            
+                            {/* Always show Activate Card if not active */}
+                            {card.status !== "active" && card.status !== "blocked" && (
+                              <DropdownMenuItem
+                                onClick={() => activateCardMutation.mutate(card.id)}
+                                className="text-green-600"
+                              >
+                                <Lock className="mr-2 h-4 w-4" />
+                                Activate Card
+                              </DropdownMenuItem>
+                            )}
+                            
+                            {/* Show card management options for active cards */}
+                            {(card.status === "active" || !card.status) ? (
                               <>
                                 <DropdownMenuItem
                                   onClick={() => suspendCardMutation.mutate(card.id)}
@@ -466,7 +479,7 @@ export default function Cards() {
                                   onClick={() => handleBlockCard(card.id)}
                                   className="text-red-600"
                                 >
-                                  <Lock className="mr-2 h-4 w-4" />
+                                  <AlertTriangle className="mr-2 h-4 w-4" />
                                   Block Card
                                 </DropdownMenuItem>
                               </>
