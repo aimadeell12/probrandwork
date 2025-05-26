@@ -1,5 +1,6 @@
 import express, { type Express } from "express";
 import { createServer, type Server } from "http";
+import path from "path";
 import { storage } from "./storage";
 import { setupSimpleAuth, requireAuth } from "./simpleAuth";
 import { reapService } from "./reap";
@@ -11,6 +12,15 @@ import connectPg from "connect-pg-simple";
 export async function registerRoutes(app: Express): Promise<Server> {
   // Admin panel static files
   app.use("/admin", express.static("admin"));
+  
+  // Admin routes
+  app.get("/admin/login", (req, res) => {
+    res.sendFile(path.join(process.cwd(), "admin", "login.html"));
+  });
+  
+  app.get("/admin", (req, res) => {
+    res.sendFile(path.join(process.cwd(), "admin", "simple.html"));
+  });
   // Setup session middleware first
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
   const pgStore = connectPg(session);

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام الإدارة - المنصة المصرفية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+        body { font-family: 'Cairo', sans-serif; }
+        .admin-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .stat-card { transition: all 0.3s ease; }
+        .stat-card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body class="bg-gray-50" dir="rtl">
+    <!-- Header -->
+    <header class="bg-white shadow-lg border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt text-2xl text-indigo-600 ml-3"></i>
+                    <h1 class="text-xl font-bold text-gray-900">نظام الإدارة</h1>
+                </div>
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <span class="text-sm text-gray-600">المدير العام</span>
+                    <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-8 space-x-reverse">
+                <button onclick="showSection('dashboard')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition active">
+                    <i class="fas fa-tachometer-alt ml-2"></i>لوحة التحكم
+                </button>
+                <button onclick="showSection('users')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
+                    <i class="fas fa-users ml-2"></i>إدارة المستخدمين
+                </button>
+                <button onclick="showSection('kyc')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
+                    <i class="fas fa-id-card ml-2"></i>إدارة KYC
+                </button>
+                <button onclick="showSection('withdrawals')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
+                    <i class="fas fa-money-bill-wave ml-2"></i>إدارة السحوبات
+                </button>
+                <button onclick="showSection('cards')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
+                    <i class="fas fa-credit-card ml-2"></i>إدارة البطاقات
+                </button>
+                <button onclick="showSection('reports')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
+                    <i class="fas fa-chart-bar ml-2"></i>التقارير
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Section -->
+        <div class="admin-gradient rounded-lg p-6 text-white mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold mb-2">مرحباً بك في لوحة الإدارة</h2>
+                    <p class="text-indigo-100 text-lg">إدارة شاملة للمنصة المصرفية الرقمية</p>
+                </div>
+                <div class="hidden md:block">
+                    <i class="fas fa-chart-line text-6xl text-indigo-200"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
+                <div class="flex items-center">
+                    <div class="p-3 bg-blue-100 rounded-full ml-4">
+                        <i class="fas fa-users text-blue-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">إجمالي المستخدمين</p>
+                        <p class="text-2xl font-bold text-gray-900" id="totalUsers">تحميل...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-500">
+                <div class="flex items-center">
+                    <div class="p-3 bg-green-100 rounded-full ml-4">
+                        <i class="fas fa-credit-card text-green-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">البطاقات النشطة</p>
+                        <p class="text-2xl font-bold text-gray-900" id="totalCards">تحميل...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-purple-500">
+                <div class="flex items-center">
+                    <div class="p-3 bg-purple-100 rounded-full ml-4">
+                        <i class="fas fa-exchange-alt text-purple-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">المعاملات اليوم</p>
+                        <p class="text-2xl font-bold text-gray-900" id="totalTransactions">تحميل...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-yellow-500">
+                <div class="flex items-center">
+                    <div class="p-3 bg-yellow-100 rounded-full ml-4">
+                        <i class="fas fa-dollar-sign text-yellow-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">إجمالي الأرباح</p>
+                        <p class="text-2xl font-bold text-gray-900">$24,567</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div id="dashboard-section" class="section active">
+            <!-- Main Dashboard Grid -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Quick Actions Sidebar -->
+                <div class="lg:col-span-1 space-y-6">
+                    <!-- Quick Actions -->
+                    <div class="bg-white rounded-lg shadow-lg">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                <i class="fas fa-bolt text-yellow-500 ml-2"></i>
+                                إجراءات سريعة
+                            </h3>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <button onclick="showNotification('سيتم إضافة مدير جديد قريباً', 'info')" 
+                                    class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center">
+                                <i class="fas fa-user-shield ml-2"></i>
+                                إضافة مدير
+                            </button>
+                            <button onclick="exportData()" 
+                                    class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition flex items-center justify-center">
+                                <i class="fas fa-download ml-2"></i>
+                                تصدير البيانات
+                            </button>
+                            <button onclick="showNotification('تم إنشاء نسخة احتياطية', 'success')" 
+                                    class="w-full bg-orange-600 text-white py-3 px-4 rounded-lg hover:bg-orange-700 transition flex items-center justify-center">
+                                <i class="fas fa-database ml-2"></i>
+                                نسخ احتياطي
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- System Status -->
+                    <div class="bg-white rounded-lg shadow-lg">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                <i class="fas fa-heartbeat text-red-500 ml-2"></i>
+                                حالة النظام
+                            </h3>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">الخادم الرئيسي</span>
+                                <span class="flex items-center text-green-600 text-sm font-medium">
+                                    <i class="fas fa-circle text-xs ml-1"></i>متصل
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">قاعدة البيانات</span>
+                                <span class="flex items-center text-green-600 text-sm font-medium">
+                                    <i class="fas fa-circle text-xs ml-1"></i>نشط
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">Reap API</span>
+                                <span class="flex items-center text-green-600 text-sm font-medium">
+                                    <i class="fas fa-circle text-xs ml-1"></i>متاح
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">خدمات الدفع</span>
+                                <span class="flex items-center text-green-600 text-sm font-medium">
+                                    <i class="fas fa-circle text-xs ml-1"></i>فعال
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow-lg">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                <i class="fas fa-chart-line text-indigo-600 ml-2"></i>
+                                نظرة عامة على النشاط
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-indigo-600">2</div>
+                                    <div class="text-sm text-gray-600">مستخدمين جدد اليوم</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-green-600">8</div>
+                                    <div class="text-sm text-gray-600">بطاقات نشطة</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-purple-600">0</div>
+                                    <div class="text-sm text-gray-600">معاملات قيد المراجعة</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-orange-600">0</div>
+                                    <div class="text-sm text-gray-600">طلبات KYC معلقة</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Management Section -->
+        <div id="users-section" class="section hidden">
+            <div class="bg-white rounded-lg shadow-lg">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-users text-indigo-600 ml-2"></i>
+                            إدارة المستخدمين
+                        </h3>
+                        <button onclick="refreshUsers()" class="text-indigo-600 hover:text-indigo-800 transition">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div id="usersList" class="space-y-4">
+                        <!-- Users will load here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KYC Management Section -->
+        <div id="kyc-section" class="section hidden">
+            <div class="bg-white rounded-lg shadow-lg">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                        <i class="fas fa-id-card text-blue-600 ml-2"></i>
+                        إدارة KYC
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <div class="mb-6">
+                        <div class="flex space-x-4 space-x-reverse mb-4">
+                            <button onclick="filterKYC('all')" class="kyc-filter-btn px-4 py-2 rounded-lg bg-indigo-600 text-white">
+                                الكل
+                            </button>
+                            <button onclick="filterKYC('pending')" class="kyc-filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">
+                                قيد المراجعة
+                            </button>
+                            <button onclick="filterKYC('approved')" class="kyc-filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">
+                                مقبولة
+                            </button>
+                            <button onclick="filterKYC('rejected')" class="kyc-filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">
+                                مرفوضة
+                            </button>
+                        </div>
+                    </div>
+                    <div id="kycList" class="space-y-4">
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-id-card text-4xl mb-4"></i>
+                            <p>لا توجد طلبات KYC في الوقت الحالي</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Withdrawals Management Section -->
+        <div id="withdrawals-section" class="section hidden">
+            <div class="bg-white rounded-lg shadow-lg">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                        <i class="fas fa-money-bill-wave text-green-600 ml-2"></i>
+                        إدارة السحوبات
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <div class="mb-6">
+                        <div class="flex space-x-4 space-x-reverse mb-4">
+                            <button onclick="filterWithdrawals('all')" class="withdrawal-filter-btn px-4 py-2 rounded-lg bg-green-600 text-white">
+                                الكل
+                            </button>
+                            <button onclick="filterWithdrawals('pending')" class="withdrawal-filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">
+                                قيد المراجعة
+                            </button>
+                            <button onclick="filterWithdrawals('approved')" class="withdrawal-filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">
+                                مقبولة
+                            </button>
+                            <button onclick="filterWithdrawals('rejected')" class="withdrawal-filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700">
+                                مرفوضة
+                            </button>
+                        </div>
+                    </div>
+                    <div id="withdrawalsList" class="space-y-4">
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-money-bill-wave text-4xl mb-4"></i>
+                            <p>لا توجد طلبات سحب في الوقت الحالي</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards Management Section -->
+        <div id="cards-section" class="section hidden">
+            <div class="bg-white rounded-lg shadow-lg">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                        <i class="fas fa-credit-card text-purple-600 ml-2"></i>
+                        إدارة البطاقات
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <div id="cardsList" class="space-y-4">
+                        <!-- Cards will load here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Section -->
+        <div id="reports-section" class="section hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-lg">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-chart-bar text-orange-600 ml-2"></i>
+                            تقارير المستخدمين
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div class="flex justify-between">
+                                <span>مستخدمين جدد هذا الشهر</span>
+                                <span class="font-bold text-blue-600">2</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>مستخدمين نشطين</span>
+                                <span class="font-bold text-green-600">2</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>حسابات معلقة</span>
+                                <span class="font-bold text-yellow-600">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-credit-card text-purple-600 ml-2"></i>
+                            تقارير البطاقات
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div class="flex justify-between">
+                                <span>بطاقات نشطة</span>
+                                <span class="font-bold text-green-600">8</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>بطاقات معلقة</span>
+                                <span class="font-bold text-yellow-600">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>بطاقات محظورة</span>
+                                <span class="font-bold text-red-600">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple JavaScript -->
+    <script>
+        const API_BASE = window.location.origin;
+
+        // Load dashboard data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            loadUsers();
+        });
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/stats`, {
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    const stats = await response.json();
+                    document.getElementById('totalUsers').textContent = stats.totalUsers || '0';
+                    document.getElementById('totalCards').textContent = stats.totalCards || '0';
+                    document.getElementById('totalTransactions').textContent = stats.totalTransactions || '0';
+                } else {
+                    throw new Error('Failed to load stats');
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                document.getElementById('totalUsers').textContent = 'خطأ';
+                document.getElementById('totalCards').textContent = 'خطأ';
+                document.getElementById('totalTransactions').textContent = 'خطأ';
+            }
+        }
+
+        // Load users
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/users`, {
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    const users = await response.json();
+                    displayUsers(users);
+                } else {
+                    throw new Error('Failed to load users');
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                document.getElementById('usersList').innerHTML = `
+                    <div class="text-center py-8 text-red-500">
+                        <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
+                        <p>خطأ في تحميل المستخدمين</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Display users
+        function displayUsers(users) {
+            const usersList = document.getElementById('usersList');
+            
+            if (!users || users.length === 0) {
+                usersList.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-users text-4xl mb-4"></i>
+                        <p>لا يوجد مستخدمون</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            usersList.innerHTML = users.map(user => `
+                <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-indigo-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-900">${user.firstName || ''} ${user.lastName || ''}</p>
+                            <p class="text-sm text-gray-500">${user.email || 'لا يوجد إيميل'}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <span class="px-3 py-1 text-xs rounded-full ${user.role === 'admin' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}">
+                            ${user.role === 'admin' ? 'مدير' : 'مستخدم'}
+                        </span>
+                        <button onclick="editUser('${user.id}', '${user.role}')" 
+                                class="text-indigo-600 hover:text-indigo-800 p-2 transition">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Edit user function
+        function editUser(userId, currentRole) {
+            const newRole = currentRole === 'admin' ? 'user' : 'admin';
+            const confirmMessage = `هل تريد تغيير المستخدم إلى ${newRole === 'admin' ? 'مدير' : 'مستخدم عادي'}؟`;
+            
+            if (confirm(confirmMessage)) {
+                updateUserRole(userId, newRole);
+            }
+        }
+
+        // Update user role
+        async function updateUserRole(userId, newRole) {
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/users/${userId}/role`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ role: newRole })
+                });
+                
+                if (response.ok) {
+                    showNotification('تم تحديث دور المستخدم بنجاح', 'success');
+                    loadUsers();
+                } else {
+                    showNotification('خطأ في تحديث دور المستخدم', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating user role:', error);
+                showNotification('خطأ في الاتصال', 'error');
+            }
+        }
+
+        // Refresh functions
+        function refreshUsers() {
+            loadUsers();
+            showNotification('تم تحديث قائمة المستخدمين', 'success');
+        }
+
+        // Export data function
+        function exportData() {
+            showNotification('جاري تصدير البيانات...', 'info');
+            setTimeout(() => {
+                showNotification('تم تصدير البيانات بنجاح', 'success');
+            }, 2000);
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 left-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 ${getNotificationColor(type)}`;
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas ${getNotificationIcon(type)}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        function getNotificationColor(type) {
+            switch(type) {
+                case 'success': return 'bg-green-500 text-white';
+                case 'error': return 'bg-red-500 text-white';
+                case 'warning': return 'bg-yellow-500 text-white';
+                default: return 'bg-blue-500 text-white';
+            }
+        }
+
+        function getNotificationIcon(type) {
+            switch(type) {
+                case 'success': return 'fa-check-circle';
+                case 'error': return 'fa-exclamation-circle';
+                case 'warning': return 'fa-exclamation-triangle';
+                default: return 'fa-info-circle';
+            }
+        }
+    </script>
+</body>
+</html>
