@@ -66,6 +66,34 @@ export default function KYCVerification() {
     }
   }, [user]);
 
+  // تحميل حالة التحقق المحفوظة
+  useEffect(() => {
+    const loadKYCStatus = async () => {
+      try {
+        const response = await fetch('/api/kyc/status');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.status) {
+            setVerificationStatus(data.status);
+            if (data.personalInfo) {
+              setPersonalInfo(data.personalInfo);
+            }
+            // تحديد الخطوة الحالية بناءً على البيانات المحفوظة
+            if (data.status === 'verified' || data.status === 'under_review') {
+              setCurrentStep("review");
+            } else if (data.personalInfo && data.personalInfo.country) {
+              setCurrentStep("personal");
+            }
+          }
+        }
+      } catch (error) {
+        console.log('No saved KYC data found');
+      }
+    };
+
+    loadKYCStatus();
+  }, []);
+
   // وظيفة التحقق من العمر
   const validateAge = (dateOfBirth: string) => {
     if (!dateOfBirth) {
@@ -168,10 +196,29 @@ export default function KYCVerification() {
   const submitVerification = async () => {
     setVerificationStatus("in-review");
     
-    // Simulate API call
-    setTimeout(() => {
-      setVerificationStatus("verified");
-    }, 3000);
+    try {
+      // إرسال بيانات التحقق للخادم
+      const response = await fetch('/api/kyc/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...personalInfo,
+          documents: documents.filter(doc => doc.captured),
+          status: 'under_review'
+        }),
+      });
+
+      if (response.ok) {
+        setVerificationStatus("verified");
+      } else {
+        throw new Error('Failed to submit verification');
+      }
+    } catch (error) {
+      console.error('Error submitting verification:', error);
+      setVerificationStatus("rejected");
+    }
   };
 
   const getStepStatus = (step: KYCStep) => {
@@ -230,9 +277,21 @@ export default function KYCVerification() {
             {countries.map((country) => (
               <div
                 key={country.code}
-                onClick={() => {
-                  setPersonalInfo(prev => ({...prev, country: country.code, nationality: language === "ar" ? country.name : country.nameEn}));
+                onClick={async () => {
+                  const updatedInfo = {...personalInfo, country: country.code, nationality: language === "ar" ? country.name : country.nameEn};
+                  setPersonalInfo(updatedInfo);
                   setCurrentStep("personal");
+                  
+                  // حفظ التقدم
+                  try {
+                    await fetch('/api/kyc/save-progress', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ personalInfo: updatedInfo, currentStep: "personal" })
+                    });
+                  } catch (error) {
+                    console.log('Failed to save progress');
+                  }
                 }}
                 className={`p-4 border rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${
                   personalInfo.country === country.code
