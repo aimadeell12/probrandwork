@@ -20,6 +20,7 @@ export default function Cards() {
   const { t } = useLanguage();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
+  const [showChooseCard, setShowChooseCard] = useState(false);
   const { toast } = useToast();
 
   const { data: cards = [], isLoading } = useQuery<Card[]>({
@@ -66,6 +67,7 @@ export default function Cards() {
     mutationFn: (cardData: any) => cardApi.createCard(cardData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      setShowChooseCard(false); // Hide choose card view after creation
       toast({
         title: "تم إنشاء البطاقة",
         description: "تم إنشاء البطاقة الجديدة بنجاح",
@@ -131,14 +133,14 @@ export default function Cards() {
       
       <div className="container mx-auto px-6 py-8 max-w-md relative z-10">
         
-        {/* Check if there are cards */}
-        {Array.isArray(cards) && cards.length > 0 ? (
+        {/* Check if there are cards and not showing choose card view */}
+        {Array.isArray(cards) && cards.length > 0 && !showChooseCard ? (
           <>
             {/* Header for existing cards */}
             <div className="flex items-center justify-between mb-8 pt-12">
               <h1 className="text-xl font-bold text-gray-900 dark:text-white">بطاقاتي</h1>
               <Button
-                onClick={() => setShowCreateModal(true)}
+                onClick={() => setShowChooseCard(true)}
                 className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full p-3"
               >
                 <Plus className="h-5 w-5" />
@@ -260,9 +262,9 @@ export default function Cards() {
             {/* Extra space for bottom navigation */}
             <div className="mb-24"></div>
           </>
-        ) : (
+        ) : showChooseCard || cards.length === 0 ? (
           <>
-            {/* Header when no cards - Choose Card Design */}
+            {/* Header - Choose Card Design */}
             <div className="text-center mb-8 pt-12">
               <h1 className="text-xl font-bold text-gray-900 dark:text-white">Choose Card</h1>
             </div>
@@ -368,7 +370,7 @@ export default function Cards() {
               </Button>
             </div>
           </>
-        )}
+        ) : null}
 
       </div>
 
