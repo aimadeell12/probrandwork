@@ -242,29 +242,29 @@ export default function Welcome() {
           {/* Showcase Container */}
           <div className="relative transform hover:scale-[1.02] transition-all duration-700">
             
-            {/* Fixed Floating Credit Card */}
-            <div className="absolute -top-16 -left-32 lg:-left-36 xl:-left-40 transform rotate-12 z-40 hover:rotate-6 hover:scale-105 transition-all duration-500 group">
-              <div className="w-80 h-48 lg:w-88 lg:h-52 xl:w-96 xl:h-56 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 rounded-3xl shadow-2xl p-6 lg:p-7 xl:p-8 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
+            {/* Elegant Compact Credit Card */}
+            <div className="absolute -top-12 -left-24 lg:-left-28 xl:-left-32 transform rotate-12 z-40 hover:rotate-6 hover:scale-105 transition-all duration-500 group">
+              <div className="w-64 h-40 lg:w-72 lg:h-44 xl:w-80 xl:h-48 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 rounded-2xl shadow-2xl p-4 lg:p-5 xl:p-6 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
                 {/* Card background effects */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/15 to-slate-900/90 rounded-3xl"></div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-3xl"></div>
-                <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-full blur-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/15 to-slate-900/90 rounded-2xl"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-2xl"></div>
+                <div className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-full blur-xl"></div>
                 
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   {/* Card header */}
                   <div className="flex justify-between items-start">
-                    <div className="text-white font-black text-lg lg:text-xl xl:text-2xl tracking-wider">DIGITAL</div>
+                    <div className="text-white font-black text-base lg:text-lg xl:text-xl tracking-wider">DIGITAL</div>
                     <div className="flex space-x-1">
-                      <div className="w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 bg-red-500 rounded-full opacity-90 shadow-lg"></div>
-                      <div className="w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 bg-yellow-400 rounded-full opacity-90 -ml-2 shadow-lg"></div>
+                      <div className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 bg-red-500 rounded-full opacity-90 shadow-lg"></div>
+                      <div className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 bg-yellow-400 rounded-full opacity-90 -ml-1 shadow-lg"></div>
                     </div>
                   </div>
                   
                   {/* EMV chip */}
-                  <div className="w-10 h-7 lg:w-12 lg:h-8 xl:w-14 xl:h-10 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-lg shadow-inner border border-yellow-200/30"></div>
+                  <div className="w-8 h-6 lg:w-10 lg:h-7 xl:w-12 xl:h-8 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-md shadow-inner border border-yellow-200/30"></div>
                   
                   {/* Card number */}
-                  <div className="text-white font-mono text-lg lg:text-xl xl:text-2xl font-bold tracking-[0.2em] lg:tracking-[0.25em] xl:tracking-[0.3em]">
+                  <div className="text-white font-mono text-sm lg:text-base xl:text-lg font-bold tracking-[0.15em] lg:tracking-[0.2em] xl:tracking-[0.25em]">
                     4532 1234 5678
                   </div>
                   
@@ -272,24 +272,24 @@ export default function Welcome() {
                   <div className="flex justify-between items-end">
                     <div>
                       <div className="text-gray-300 text-xs uppercase tracking-wider mb-1">Valid Thru</div>
-                      <div className="text-white font-bold text-base lg:text-lg xl:text-xl">12/28</div>
+                      <div className="text-white font-bold text-sm lg:text-base xl:text-lg">12/28</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-white font-bold text-base lg:text-lg xl:text-xl tracking-wide">M.BENNANI</div>
+                      <div className="text-white font-bold text-sm lg:text-base xl:text-lg tracking-wide">M.BENNANI</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Secondary Floating Card (Additional Visual Interest) */}
-            <div className="absolute -bottom-16 -right-28 transform -rotate-6 z-30 opacity-40 hover:opacity-70 transition-all duration-500">
-              <div className="w-72 h-44 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-2xl shadow-xl p-6 backdrop-blur-sm border border-blue-600/30 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-blue-900/80 rounded-2xl"></div>
-                <div className="relative z-10">
-                  <div className="text-white/80 font-bold text-lg mb-4">VIRTUAL</div>
-                  <div className="w-10 h-6 bg-gradient-to-br from-blue-200 to-blue-400 rounded-md mb-4"></div>
-                  <div className="text-white/70 font-mono text-lg tracking-widest">•••• •••• 8902</div>
+            {/* Compact Secondary Card */}
+            <div className="absolute -bottom-12 -right-20 transform -rotate-6 z-30 opacity-40 hover:opacity-70 transition-all duration-500">
+              <div className="w-56 h-36 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-xl shadow-xl p-4 backdrop-blur-sm border border-blue-600/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-blue-900/80 rounded-xl"></div>
+                <div className="relative z-10 h-full flex flex-col justify-between">
+                  <div className="text-white/80 font-bold text-sm">VIRTUAL</div>
+                  <div className="w-8 h-5 bg-gradient-to-br from-blue-200 to-blue-400 rounded-sm"></div>
+                  <div className="text-white/70 font-mono text-sm tracking-widest">•••• •••• 8902</div>
                 </div>
               </div>
             </div>
