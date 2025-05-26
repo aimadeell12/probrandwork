@@ -266,23 +266,23 @@ export default function Cards() {
                       </div>
                       
                       {/* Card number */}
-                      <div className="absolute top-1/2 left-6 transform -translate-y-1/2">
-                        <div className="text-white font-mono text-lg tracking-widest">
+                      <div className="absolute top-16 left-6 right-20">
+                        <div className="text-white font-mono text-base tracking-widest">
                           {formatCardNumber(card.lastFour)}
                         </div>
                       </div>
                       
                       {/* Card details */}
-                      <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
+                      <div className="absolute bottom-14 left-6 right-6 flex justify-between z-10">
                         <div>
                           <div className="text-white/60 text-xs uppercase tracking-wide mb-1">VALID THRU</div>
                           <div className="text-white font-mono text-sm">
                             {String(card.expiryMonth).padStart(2, '0')}/{String(card.expiryYear).slice(-2)}
                           </div>
                         </div>
-                        <div className="text-right max-w-[120px]">
+                        <div className="text-right max-w-[100px]">
                           <div className="text-white/60 text-xs uppercase tracking-wide mb-1">CARDHOLDER</div>
-                          <div className="text-white font-medium text-sm uppercase truncate">
+                          <div className="text-white font-medium text-xs uppercase truncate">
                             {card.holderName}
                           </div>
                         </div>
