@@ -316,9 +316,21 @@ export default function Cards() {
                   {/* Card Visual */}
                   <div className="relative w-full aspect-[1.6/1] max-w-sm mx-auto">
                     <div className={cn(
-                      "absolute inset-0 rounded-2xl shadow-2xl overflow-hidden",
-                      getCardGradient(card.design)
+                      "absolute inset-0 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300",
+                      card.status === "blocked" 
+                        ? "grayscale opacity-60 bg-gray-500" 
+                        : getCardGradient(card.design)
                     )}>
+                      
+                      {/* Blocked overlay */}
+                      {card.status === "blocked" && (
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
+                          <div className="text-center text-white">
+                            <Lock className="h-8 w-8 mx-auto mb-2" />
+                            <span className="text-sm font-bold">BLOCKED</span>
+                          </div>
+                        </div>
+                      )}
                       
                       {/* Card design elements */}
                       <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
@@ -405,15 +417,31 @@ export default function Cards() {
 
                   {/* Card info */}
                   <div className="text-center mt-4">
-                    <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <div className={cn(
+                      "inline-flex items-center gap-2 text-sm transition-all duration-300",
+                      card.status === "blocked" 
+                        ? "text-red-600 dark:text-red-400" 
+                        : "text-gray-600 dark:text-gray-400"
+                    )}>
                       <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
                       Customizable
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-2">
+                    <h3 className={cn(
+                      "text-lg font-semibold mt-2 transition-all duration-300",
+                      card.status === "blocked" 
+                        ? "text-red-600 dark:text-red-400" 
+                        : "text-gray-900 dark:text-white"
+                    )}>
                       {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
+                      {card.status === "blocked" && " - BLOCKED"}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">
-                      Customizable
+                    <p className={cn(
+                      "text-sm transition-all duration-300",
+                      card.status === "blocked" 
+                        ? "text-red-500 dark:text-red-400" 
+                        : "text-gray-600 dark:text-gray-400"
+                    )}>
+                      {card.status === "blocked" ? "Card is permanently blocked" : "Customizable"}
                     </p>
                   </div>
 
