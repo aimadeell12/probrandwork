@@ -33,14 +33,10 @@ export default function KYCVerificationNew() {
     postalCode: ""
   });
 
-  // Camera states
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  // File upload states
   const [idFrontImage, setIdFrontImage] = useState<string | null>(null);
   const [idBackImage, setIdBackImage] = useState<string | null>(null);
   const [selfieImage, setSelfieImage] = useState<string | null>(null);
-  const [stream, setStream] = useState<MediaStream | null>(null);
 
   // تحميل حالة التحقق عند تحميل الصفحة
   useEffect(() => {
@@ -93,97 +89,6 @@ export default function KYCVerificationNew() {
 
   const isStep3Valid = () => {
     return idFrontImage !== null && idBackImage !== null && selfieImage !== null;
-  };
-
-  const startCamera = async () => {
-    try {
-      console.log('🎥 Starting camera...');
-      
-      // إعدادات بسيطة للكاميرا
-      const constraints = {
-        video: {
-          facingMode: 'environment',
-          width: 640,
-          height: 480
-        }
-      };
-
-      const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-      console.log('📱 Camera permission granted');
-      
-      setStream(mediaStream);
-      setIsCameraOpen(true);
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-        
-        // ضبط خصائص الفيديو
-        videoRef.current.playsInline = true;
-        videoRef.current.autoplay = true;
-        videoRef.current.muted = true;
-        
-        // تشغيل الفيديو عند تحميل البيانات
-        videoRef.current.addEventListener('loadedmetadata', () => {
-          videoRef.current?.play().then(() => {
-            console.log('✅ Video is now playing');
-          }).catch(error => {
-            console.error('❌ Video play error:', error);
-          });
-        });
-        
-        // محاولة تشغيل فوري
-        setTimeout(() => {
-          videoRef.current?.play().catch(console.error);
-        }, 100);
-      }
-      
-    } catch (error) {
-      console.error('❌ Camera error:', error);
-      setIsCameraOpen(false);
-      
-      let message = 'Camera access failed. ';
-      if (error instanceof Error) {
-        if (error.name === 'NotAllowedError') {
-          message += 'Please allow camera permission and try again.';
-        } else if (error.name === 'NotFoundError') {
-          message += 'No camera found on device.';
-        } else {
-          message += error.message;
-        }
-      }
-      alert(message);
-    }
-  };
-
-  const capturePhoto = () => {
-    if (videoRef.current && canvasRef.current) {
-      const canvas = canvasRef.current;
-      const video = videoRef.current;
-      const context = canvas.getContext('2d');
-      
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      
-      if (context) {
-        context.drawImage(video, 0, 0);
-        const imageData = canvas.toDataURL('image/jpeg', 0.8);
-        setCapturedImage(imageData);
-        stopCamera();
-      }
-    }
-  };
-
-  const stopCamera = () => {
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-      setStream(null);
-    }
-    setIsCameraOpen(false);
-  };
-
-  const retakePhoto = () => {
-    setCapturedImage(null);
-    startCamera();
   };
 
   const submitVerification = async () => {
@@ -695,21 +600,7 @@ export default function KYCVerificationNew() {
                     </div>
                   </div>
 
-                  {capturedImage && (
-                    <div className="space-y-3">
-                      <h5 className="font-semibold text-gray-900 dark:text-white">ID Document Photo</h5>
-                      <div className="text-center">
-                        <img
-                          src={capturedImage}
-                          alt="ID Document"
-                          className="w-full max-w-xs mx-auto rounded-lg shadow-md border"
-                        />
-                        <p className="text-green-600 dark:text-green-400 text-sm mt-2">
-                          ✅ Document photo captured
-                        </p>
-                      </div>
-                    </div>
-                  )}
+
                 </div>
 
                 {/* Review Images */}
