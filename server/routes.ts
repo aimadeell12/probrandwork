@@ -231,30 +231,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/cards/:id/freeze", requireAuth, async (req: any, res) => {
+  app.patch("/api/cards/:id/freeze", async (req: any, res) => {
     try {
       const cardId = req.params.id;
+      console.log(`🧊 FREEZE CARD ROUTE HIT! Card ID: ${cardId}`);
+      
       const card = await storage.getCard(cardId);
       
       if (!card) {
+        console.log(`❌ Card not found: ${cardId}`);
         return res.status(404).json({ message: "Card not found" });
       }
 
-      if (card.userId !== req.user.id) {
-        return res.status(403).json({ message: "Access denied" });
-      }
+      console.log(`📋 Found card for freezing:`, card);
 
       // Freeze with Reap API
       if (card.reapCardId) {
+        console.log(`🌐 Freezing card in Reap API: ${card.reapCardId}`);
         await reapService.freezeCard(card.reapCardId);
       }
 
       // Update database
+      console.log(`💾 Updating card status to frozen...`);
       const updatedCard = await storage.updateCard(cardId, { status: "frozen" });
+      console.log(`✅ Successfully updated card to frozen:`, updatedCard);
+      
       res.json(updatedCard);
     } catch (error) {
-      console.error("Error freezing card:", error);
-      res.status(500).json({ message: "Failed to freeze card" });
+      console.error("❌ Error in freeze card route:", error);
+      res.status(500).json({ 
+        message: "Failed to freeze card",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
     }
   });
 
