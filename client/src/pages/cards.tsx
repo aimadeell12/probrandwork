@@ -282,9 +282,9 @@ export default function Cards() {
                         </div>
                       </div>
                       
-                      {/* Cardholder name at bottom */}
-                      <div className="absolute bottom-6 left-6 right-6">
-                        <div className="text-center">
+                      {/* Cardholder name at bottom left */}
+                      <div className="absolute bottom-6 left-6">
+                        <div>
                           <div className="text-white/60 text-xs uppercase tracking-wide mb-1">CARDHOLDER</div>
                           <div className="text-white font-medium text-sm uppercase">
                             {card.holderName}
