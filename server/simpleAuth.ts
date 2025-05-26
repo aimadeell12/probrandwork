@@ -113,26 +113,27 @@ export function setupSimpleAuth(app: Express) {
 
   // Update user profile
   app.patch("/api/auth/profile", requireAuth, async (req: any, res) => {
-    console.log("=== PATCH /api/auth/profile route hit ===");
+    console.log("🚀 [PROFILE UPDATE] Route handler called");
+    console.log("🚀 [PROFILE UPDATE] Request body:", JSON.stringify(req.body, null, 2));
+    
     try {
       const userId = req.session?.userId;
-      console.log("Session userId:", userId);
+      console.log("🚀 [PROFILE UPDATE] User ID from session:", userId);
       
       if (!userId) {
-        console.log("No userId in session, returning 401");
+        console.log("❌ [PROFILE UPDATE] No user ID in session");
         return res.status(401).json({ message: "Unauthorized" });
       }
       
-      console.log("Updating profile for user:", userId);
-      console.log("Update data:", req.body);
-      
       const updateData = req.body;
+      console.log("🚀 [PROFILE UPDATE] Calling storage.updateUserProfile...");
+      
       const updatedUser = await storage.updateUserProfile(userId, updateData);
       
-      console.log("Profile updated successfully:", updatedUser);
+      console.log("✅ [PROFILE UPDATE] Success! Updated user:", JSON.stringify(updatedUser, null, 2));
       res.json(updatedUser);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error("❌ [PROFILE UPDATE] Error:", error);
       res.status(500).json({ message: "Internal server error" });
     }
   });
