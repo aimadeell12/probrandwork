@@ -526,9 +526,9 @@ Select the country where you currently reside to start the verification process
         {/* Document Capture Cards */}
         <div className="space-y-4">
           {[
-            { type: "id-front" as DocumentType, title: "وجه بطاقة الهوية", titleEn: "ID Front", icon: CreditCard },
-            { type: "id-back" as DocumentType, title: "ظهر بطاقة الهوية", titleEn: "ID Back", icon: CreditCard },
-            { type: "selfie" as DocumentType, title: "صورة سيلفي", titleEn: "Selfie Photo", icon: User }
+            { type: "id-front" as DocumentType, title: "ID Front", titleEn: "ID Front", icon: CreditCard },
+            { type: "id-back" as DocumentType, title: "ID Back", titleEn: "ID Back", icon: CreditCard },
+            { type: "selfie" as DocumentType, title: "Selfie Photo", titleEn: "Selfie Photo", icon: User }
           ].map(({ type, title, titleEn, icon: Icon }) => {
             const document = documents.find(doc => doc.type === type);
             const { language } = useLanguage();
@@ -544,7 +544,7 @@ Select the country where you currently reside to start the verification process
                         {displayTitle}
                       </span>
                       <span className="text-sm text-gray-600 dark:text-gray-400">
-                        {language === "ar" ? "التقط صورة واضحة" : "Take a clear photo"}
+                        Take a clear photo
                       </span>
                     </div>
                   </div>

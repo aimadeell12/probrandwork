@@ -242,7 +242,7 @@ const translations = {
     selfiePhoto: "صورة سيلفي",
     captured: "تم التقاط",
     takePhoto: "التقاط صورة",
-    upload: "رفع",
+    upload: "Upload File",
     retake: "إعادة التقاط",
     capture: "التقاط",
     cancel: "إلغاء",
