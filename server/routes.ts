@@ -202,7 +202,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/cards/:id/block", requireAuth, async (req: any, res) => {
+  app.patch("/api/cards/:id/block", async (req: any, res) => {
     try {
       const cardId = req.params.id;
       console.log(`🔒 Blocking card: ${cardId}`);
