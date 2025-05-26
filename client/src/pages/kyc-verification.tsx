@@ -199,15 +199,15 @@ export default function KYCVerification() {
     try {
       // تحضير بيانات التحقق للإرسال لقاعدة البيانات
       const formData = {
-        nationality: selectedNationality,
+        nationality: personalInfo.nationality,
         firstName: personalInfo.fullName.split(' ')[0] || user?.firstName || '',
         lastName: personalInfo.fullName.split(' ').slice(1).join(' ') || user?.lastName || '',
         dateOfBirth: personalInfo.dateOfBirth,
         documentType: personalInfo.documentType,
         idNumber: personalInfo.idNumber,
-        phoneNumber: personalInfo.phoneNumber || user?.phone || '',
-        email: personalInfo.email || user?.email || '',
-        streetAddress: personalInfo.streetAddress,
+        phoneNumber: (user as any)?.phone || '',
+        email: (user as any)?.email || '',
+        streetAddress: personalInfo.address,
         city: personalInfo.city,
         postalCode: personalInfo.postalCode
       };
@@ -346,7 +346,7 @@ export default function KYCVerification() {
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <User className="h-6 w-6 text-purple-600" />
-          {t("personalInformation")}
+          المعلومات الشخصية
         </CardTitle>
         <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
           يرجى ملء جميع المعلومات المطلوبة بدقة
@@ -648,18 +648,18 @@ export default function KYCVerification() {
 
         {/* Summary */}
         <div className="space-y-4">
-          <h4 className="font-semibold text-gray-900 dark:text-white">{t("submittedInformation")}</h4>
+          <h4 className="font-semibold text-gray-900 dark:text-white">المعلومات المقدمة</h4>
           <div className="grid gap-3 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-400">{t("fullName")}:</span>
+              <span className="text-gray-600 dark:text-gray-400">الاسم الكامل:</span>
               <span className="text-gray-900 dark:text-white">{personalInfo.fullName}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-400">{t("idNumber")}:</span>
+              <span className="text-gray-600 dark:text-gray-400">رقم الهوية:</span>
               <span className="text-gray-900 dark:text-white">{personalInfo.idNumber}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-400">{t("documentsSubmitted")}:</span>
+              <span className="text-gray-600 dark:text-gray-400">الوثائق المرفقة:</span>
               <span className="text-gray-900 dark:text-white">{documents.filter(doc => doc.captured).length}/3</span>
             </div>
           </div>
