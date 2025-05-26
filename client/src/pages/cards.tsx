@@ -422,7 +422,7 @@ export default function Cards() {
 
                       {/* Frozen overlay */}
                       {card.status === "frozen" && (
-                        <div className="absolute inset-0 bg-blue-900/30 flex items-center justify-center z-10">
+                        <div className="absolute inset-0 bg-blue-900/30 flex items-center justify-center z-5 pointer-events-none">
                           <div className="text-center text-white">
                             <Snowflake className="h-8 w-8 mx-auto mb-2" />
                             <span className="text-sm font-bold">FROZEN</span>
@@ -440,7 +440,7 @@ export default function Cards() {
                       </div>
                       
                       {/* Card actions */}
-                      <div className="absolute top-2 right-2">
+                      <div className="absolute top-2 right-2 z-20">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
