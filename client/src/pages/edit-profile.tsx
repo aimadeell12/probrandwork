@@ -103,6 +103,7 @@ export default function EditProfile() {
   });
 
   const onSubmit = (data: ProfileFormData) => {
+    console.log("Form submitted with data:", data);
     updateProfileMutation.mutate(data);
   };
 
@@ -395,7 +396,10 @@ export default function EditProfile() {
       {/* Fixed Save Button Above Bottom Navigation */}
       <div className="fixed bottom-20 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 p-4 shadow-lg z-40">
         <Button
-          onClick={() => form.handleSubmit(onSubmit)()}
+          onClick={() => {
+            console.log("Save button clicked!");
+            form.handleSubmit(onSubmit)();
+          }}
           className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
           disabled={updateProfileMutation.isPending}
         >
