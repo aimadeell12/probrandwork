@@ -389,6 +389,11 @@ export default function Cards() {
                       "absolute inset-0 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300",
                       card.status === "blocked" 
                         ? "grayscale opacity-60 bg-gray-500" 
+                        : card.status === "frozen"
+                        ? "opacity-80 blur-[1px]"
+                        : "",
+                      card.status === "frozen" 
+                        ? "bg-gradient-to-br from-blue-400 via-cyan-500 to-blue-600"
                         : getCardGradient(card.design)
                     )}>
                       
@@ -398,6 +403,16 @@ export default function Cards() {
                           <div className="text-center text-white">
                             <Lock className="h-8 w-8 mx-auto mb-2" />
                             <span className="text-sm font-bold">BLOCKED</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Frozen overlay */}
+                      {card.status === "frozen" && (
+                        <div className="absolute inset-0 bg-blue-900/30 flex items-center justify-center z-10">
+                          <div className="text-center text-white">
+                            <Snowflake className="h-8 w-8 mx-auto mb-2" />
+                            <span className="text-sm font-bold">FROZEN</span>
                           </div>
                         </div>
                       )}
@@ -434,6 +449,13 @@ export default function Cards() {
                                   Suspend Card
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
+                                  onClick={() => freezeCardMutation.mutate(card.id)}
+                                  className="text-blue-600"
+                                >
+                                  <Snowflake className="mr-2 h-4 w-4" />
+                                  Freeze Card
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
                                   onClick={() => handleBlockCard(card.id)}
                                   className="text-red-600"
                                 >
@@ -441,7 +463,15 @@ export default function Cards() {
                                   Block Card
                                 </DropdownMenuItem>
                               </>
-                            ) : (
+                            ) : card.status === "frozen" ? (
+                              <DropdownMenuItem
+                                onClick={() => unfreezeCardMutation.mutate(card.id)}
+                                className="text-green-600"
+                              >
+                                <Play className="mr-2 h-4 w-4" />
+                                Unfreeze Card
+                              </DropdownMenuItem>
+                            ) : card.status !== "blocked" ? (
                               <DropdownMenuItem
                                 onClick={() => activateCardMutation.mutate(card.id)}
                                 className="text-green-600"
@@ -449,7 +479,7 @@ export default function Cards() {
                                 <Lock className="mr-2 h-4 w-4" />
                                 Activate Card
                               </DropdownMenuItem>
-                            )}
+                            ) : null}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
@@ -491,27 +521,43 @@ export default function Cards() {
                       "inline-flex items-center gap-2 text-sm transition-all duration-300",
                       card.status === "blocked" 
                         ? "text-red-600 dark:text-red-400" 
+                        : card.status === "frozen"
+                        ? "text-blue-600 dark:text-blue-400"
                         : "text-gray-600 dark:text-gray-400"
                     )}>
-                      <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
+                      <div className={cn(
+                        "w-4 h-4 rounded-full",
+                        card.status === "frozen"
+                          ? "bg-gradient-to-r from-blue-500 to-cyan-500"
+                          : "bg-gradient-to-r from-purple-500 to-blue-500"
+                      )}></div>
                       Customizable
                     </div>
                     <h3 className={cn(
                       "text-lg font-semibold mt-2 transition-all duration-300",
                       card.status === "blocked" 
                         ? "text-red-600 dark:text-red-400" 
+                        : card.status === "frozen"
+                        ? "text-blue-600 dark:text-blue-400"
                         : "text-gray-900 dark:text-white"
                     )}>
                       {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
                       {card.status === "blocked" && " - BLOCKED"}
+                      {card.status === "frozen" && " - FROZEN"}
                     </h3>
                     <p className={cn(
                       "text-sm transition-all duration-300",
                       card.status === "blocked" 
                         ? "text-red-500 dark:text-red-400" 
+                        : card.status === "frozen"
+                        ? "text-blue-500 dark:text-blue-400"
                         : "text-gray-600 dark:text-gray-400"
                     )}>
-                      {card.status === "blocked" ? "Card is permanently blocked" : "Customizable"}
+                      {card.status === "blocked" 
+                        ? "Card is permanently blocked" 
+                        : card.status === "frozen"
+                        ? "Card is temporarily frozen"
+                        : "Customizable"}
                     </p>
                   </div>
 
