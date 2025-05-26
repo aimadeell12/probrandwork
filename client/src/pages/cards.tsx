@@ -227,7 +227,7 @@ export default function Cards() {
                       </div>
                       
                       {/* Card actions */}
-                      <div className="absolute top-6 right-6">
+                      <div className="absolute top-4 right-4">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
@@ -260,14 +260,7 @@ export default function Cards() {
                         </DropdownMenu>
                       </div>
                       
-                      {/* Three dots indicator - top right corner */}
-                      <div className="absolute top-4 right-4">
-                        <div className="flex space-x-1">
-                          <div className="w-1.5 h-1.5 bg-white/80 rounded-full"></div>
-                          <div className="w-1.5 h-1.5 bg-white/80 rounded-full"></div>
-                          <div className="w-1.5 h-1.5 bg-white/80 rounded-full"></div>
-                        </div>
-                      </div>
+
                       
                       {/* Card number - full width */}
                       <div className="absolute top-1/2 left-6 right-6 transform -translate-y-1/2">
