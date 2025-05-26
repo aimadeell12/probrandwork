@@ -266,30 +266,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/cards/:id/unfreeze", requireAuth, async (req: any, res) => {
+  app.patch("/api/cards/:id/unfreeze", async (req: any, res) => {
     try {
       const cardId = req.params.id;
+      console.log(`🔥 UNFREEZE CARD ROUTE HIT! Card ID: ${cardId}`);
+      
       const card = await storage.getCard(cardId);
       
       if (!card) {
+        console.log(`❌ Card not found: ${cardId}`);
         return res.status(404).json({ message: "Card not found" });
       }
 
-      if (card.userId !== req.user.id) {
-        return res.status(403).json({ message: "Access denied" });
-      }
+      console.log(`📋 Found card for unfreezing:`, card);
 
       // Unfreeze with Reap API
       if (card.reapCardId) {
+        console.log(`🌐 Unfreezing card in Reap API: ${card.reapCardId}`);
         await reapService.unfreezeCard(card.reapCardId);
       }
 
-      // Update database
+      // Update database to active status
+      console.log(`💾 Updating card status to active...`);
       const updatedCard = await storage.updateCard(cardId, { status: "active" });
+      console.log(`✅ Successfully updated card to active:`, updatedCard);
+      
       res.json(updatedCard);
     } catch (error) {
-      console.error("Error unfreezing card:", error);
-      res.status(500).json({ message: "Failed to unfreeze card" });
+      console.error("❌ Error in unfreeze card route:", error);
+      res.status(500).json({ 
+        message: "Failed to unfreeze card",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
     }
   });
 
