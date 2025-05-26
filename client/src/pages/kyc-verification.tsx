@@ -239,22 +239,23 @@ export default function KYCVerification() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-6">
           <div>
-            <Label htmlFor="fullName">{t("fullName")}</Label>
+            <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              الاسم الكامل
+            </div>
             <Input
               id="fullName"
-              value={personalInfo.fullName}
-              onChange={(e) => setPersonalInfo(prev => ({...prev, fullName: e.target.value}))}
-              placeholder={t("enterFullName")}
+              value={`${user?.firstName || 'Aimad'} ${user?.lastName || 'Eloirraki'}`}
+              readOnly
               className="bg-white/80 dark:bg-gray-700/80"
             />
           </div>
           
           <div>
-            <Label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {t("dateOfBirth")}
-            </Label>
+            <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              تاريخ الميلاد
+            </div>
             <Input
               id="dateOfBirth"
               type="date"
@@ -265,18 +266,17 @@ export default function KYCVerification() {
           </div>
           
           <div>
-            <Label htmlFor="idNumber" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {t("idNumber")}
-            </Label>
+            <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              رقم الهوية
+            </div>
             <Input
               id="idNumber"
               value={personalInfo.idNumber}
               onChange={(e) => setPersonalInfo(prev => ({...prev, idNumber: e.target.value}))}
-              placeholder={t("enterIdNumber")}
+              placeholder="أدخل رقم الهوية"
               className="bg-white/80 dark:bg-gray-700/80"
             />
           </div>
-          
 
         </div>
         
