@@ -483,88 +483,43 @@ export default function KYCVerificationNew() {
                   </p>
                 </div>
 
-                {!capturedImage && !isCameraOpen && (
-                  <div className="text-center space-y-4">
+                {!capturedImage && (
+                  <div className="text-center">
                     <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 mb-4">
-                      <Camera className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                      <Upload className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                       <p className="text-gray-600 dark:text-gray-400 mb-4">
-                        Take a photo of your ID document
+                        Upload a photo of your ID document
                       </p>
                       
-                      <div className="space-y-3">
+                      <div className="relative">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onload = (event) => {
+                                setCapturedImage(event.target?.result as string);
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                          id="file-upload"
+                        />
                         <Button
-                          onClick={startCamera}
                           className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
                         >
-                          <Camera className="h-4 w-4 mr-2" />
-                          Use Camera (Recommended)
+                          <Upload className="h-4 w-4 mr-2" />
+                          Choose Photo from Gallery
                         </Button>
-                        
-                        <div className="relative">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                const reader = new FileReader();
-                                reader.onload = (event) => {
-                                  setCapturedImage(event.target?.result as string);
-                                };
-                                reader.readAsDataURL(file);
-                              }
-                            }}
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                            id="file-upload"
-                          />
-                          <Button
-                            variant="outline"
-                            className="w-full border-blue-300 text-blue-600 hover:bg-blue-50 dark:border-blue-600 dark:text-blue-400"
-                          >
-                            <Upload className="h-4 w-4 mr-2" />
-                            Choose from Gallery
-                          </Button>
-                        </div>
                       </div>
                     </div>
                   </div>
                 )}
 
-                {isCameraOpen && (
-                  <div className="text-center">
-                    <div className="relative mb-4 bg-black rounded-lg overflow-hidden mx-auto max-w-md">
-                      <video
-                        ref={videoRef}
-                        className="w-full h-64 object-cover"
-                        autoPlay
-                        playsInline
-                        muted
-                        style={{ transform: 'scaleX(-1)' }}
-                      />
-                      <div className="absolute inset-4 border-2 border-white/70 rounded-lg pointer-events-none">
-                        <div className="absolute -top-8 left-0 right-0 text-white text-sm bg-black/70 p-2 rounded text-center">
-                          Position your ID within the white frame
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex gap-4 justify-center">
-                      <Button
-                        onClick={stopCamera}
-                        variant="outline"
-                        className="flex-1 max-w-32"
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={capturePhoto}
-                        className="flex-1 max-w-32 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
-                      >
-                        <Camera className="h-4 w-4 mr-2" />
-                        Capture
-                      </Button>
-                    </div>
-                  </div>
-                )}
+
 
                 {capturedImage && (
                   <div className="text-center">
