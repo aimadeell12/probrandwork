@@ -23,6 +23,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import CreateCardModal from "@/components/create-card-modal";
 import type { Card } from "shared/schema";
 
@@ -94,6 +104,8 @@ export default function Cards() {
   const [showBlockDialog, setShowBlockDialog] = useState(false);
   const [cardToBlock, setCardToBlock] = useState<string>("");
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
+  const [selectedCardForBalance, setSelectedCardForBalance] = useState<Card | null>(null);
+  const [balanceAdjustment, setBalanceAdjustment] = useState<string>("");
   const { toast } = useToast();
 
   const { data: cards = [], isLoading } = useQuery<Card[]>({
@@ -472,6 +484,13 @@ export default function Cards() {
                             ) : (
                               <>
                                 {/* For active or unspecified status cards */}
+                                <DropdownMenuItem
+                                  onClick={() => setSelectedCardForBalance(card)}
+                                  className="text-green-600"
+                                >
+                                  <CreditCard className="mr-2 h-4 w-4" />
+                                  Adjust Balance
+                                </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() => freezeCardMutation.mutate(card.id)}
                                   className="text-blue-600"
