@@ -31,6 +31,7 @@ import Webhooks from "@/pages/webhooks";
 import NationalitySelection from "@/pages/nationality-selection";
 import PersonalInformation from "@/pages/personal-information";
 import DocumentCapture from "@/pages/document-capture";
+import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";
 
 function Router() {

@@ -1,27 +1,15 @@
 import { useState, useRef } from "react";
-import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
 import { ArrowLeft, Camera, Upload, Check, RotateCcw, User, CreditCard } from "lucide-react";
 
 type DocumentType = "id-front" | "id-back" | "selfie";
 
-interface CapturedDocument {
-  type: DocumentType;
-  image: string | null;
-  captured: boolean;
-}
-
-export default function DocumentCapture() {
-  const { t, language } = useLanguage();
-  const [, setLocation] = useLocation();
+export default function CameraTest() {
+  const { language } = useLanguage();
   const [currentStep, setCurrentStep] = useState<DocumentType>("id-front");
   const [activeCamera, setActiveCamera] = useState<DocumentType | null>(null);
-  const [documents, setDocuments] = useState<CapturedDocument[]>([
-    { type: "id-front", image: null, captured: false },
-    { type: "id-back", image: null, captured: false },
-    { type: "selfie", image: null, captured: false }
-  ]);
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -49,7 +37,6 @@ export default function DocumentCapture() {
   ];
 
   const currentStepInfo = documentSteps.find(step => step.type === currentStep);
-  const currentDocument = documents.find(doc => doc.type === currentStep);
 
   const startCamera = async (documentType: DocumentType) => {
     try {
@@ -117,12 +104,7 @@ export default function DocumentCapture() {
       context.drawImage(video, 0, 0);
       
       const imageData = canvas.toDataURL("image/jpeg", 0.8);
-      
-      setDocuments(prev => prev.map(doc => 
-        doc.type === activeCamera 
-          ? { ...doc, image: imageData, captured: true }
-          : doc
-      ));
+      setCapturedImage(imageData);
       
       stopCamera();
     }
@@ -136,58 +118,17 @@ export default function DocumentCapture() {
     setActiveCamera(null);
   };
 
-  const retakePhoto = (documentType: DocumentType) => {
-    setDocuments(prev => prev.map(doc => 
-      doc.type === documentType 
-        ? { ...doc, image: null, captured: false }
-        : doc
-    ));
+  const retakePhoto = () => {
+    setCapturedImage(null);
   };
-
-  const handleFileUpload = (documentType: DocumentType, file: File) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const imageData = e.target?.result as string;
-      setDocuments(prev => prev.map(doc => 
-        doc.type === documentType 
-          ? { ...doc, image: imageData, captured: true }
-          : doc
-      ));
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleNext = () => {
-    const currentIndex = documentSteps.findIndex(step => step.type === currentStep);
-    
-    if (currentIndex < documentSteps.length - 1) {
-      setCurrentStep(documentSteps[currentIndex + 1].type);
-    } else {
-      // جميع الصور تم التقاطها، انتقل للخطوة التالية
-      setLocation("/kyc-verification");
-    }
-  };
-
-  const handleBack = () => {
-    const currentIndex = documentSteps.findIndex(step => step.type === currentStep);
-    
-    if (currentIndex > 0) {
-      setCurrentStep(documentSteps[currentIndex - 1].type);
-    } else {
-      setLocation("/personal-information");
-    }
-  };
-
-  const allDocumentsCaptured = documents.every(doc => doc.captured);
-  const canProceed = currentDocument?.captured || false;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between p-4 text-white">
-        <Button variant="ghost" size="sm" className="text-white hover:bg-white/10" onClick={handleBack}>
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
+        <h1 className="text-xl font-bold">
+          {language === "ar" ? "اختبار الكاميرا" : "Camera Test"}
+        </h1>
       </div>
 
       {/* Camera Modal */}
@@ -227,37 +168,8 @@ export default function DocumentCapture() {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col justify-between px-6 pb-8">
-        <div className="space-y-8">
-          {/* Title */}
-          <div className="space-y-4">
-            <h1 className="text-2xl font-bold text-white">
-              {language === "ar" ? "تصوير الوثائق" : "Document Capture"}
-            </h1>
-            <p className="text-white/70 text-sm leading-relaxed">
-              {language === "ar" 
-                ? "يرجى التقاط صور واضحة لوثائق الهوية والصورة الشخصية."
-                : "Please capture clear photos of your identity documents and selfie."
-              }
-            </p>
-          </div>
-
-          {/* Progress Steps */}
-          <div className="flex justify-center space-x-2 rtl:space-x-reverse">
-            {documentSteps.map((step, index) => (
-              <div
-                key={step.type}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  step.type === currentStep
-                    ? "bg-white"
-                    : documents.find(doc => doc.type === step.type)?.captured
-                    ? "bg-green-400"
-                    : "bg-white/30"
-                }`}
-              />
-            ))}
-          </div>
-
+      <div className="flex-1 flex flex-col justify-center items-center px-6 pb-8">
+        <div className="space-y-8 w-full max-w-md">
           {/* Current Step */}
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-600/50">
             <div className="flex items-center gap-4 mb-4">
@@ -270,16 +182,16 @@ export default function DocumentCapture() {
               </div>
             </div>
 
-            {currentDocument?.image ? (
+            {capturedImage ? (
               <div className="space-y-4">
                 <img
-                  src={currentDocument.image}
+                  src={capturedImage}
                   alt={currentStepInfo?.title}
                   className="w-full h-48 object-cover rounded-xl border border-gray-600"
                 />
                 <div className="flex gap-3">
                   <Button 
-                    onClick={() => retakePhoto(currentStep)}
+                    onClick={retakePhoto}
                     variant="outline" 
                     className="flex-1 border-gray-600 text-white hover:bg-white/10 rounded-xl"
                   >
@@ -299,7 +211,7 @@ export default function DocumentCapture() {
                     {currentStepInfo?.icon && <currentStepInfo.icon className="h-8 w-8 text-gray-400" />}
                   </div>
                   <p className="text-white/70 text-sm mb-4">
-                    {language === "ar" ? "اختر طريقة التقاط الصورة" : "Choose capture method"}
+                    {language === "ar" ? "اختبر الكاميرا" : "Test Camera"}
                   </p>
                 </div>
                 
@@ -311,63 +223,33 @@ export default function DocumentCapture() {
                     <Camera className="h-4 w-4 mr-2" />
                     {language === "ar" ? "فتح الكاميرا" : "Open Camera"}
                   </Button>
-                  <div className="relative">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) handleFileUpload(currentStep, file);
-                      }}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                    <Button 
-                      variant="outline" 
-                      className="border-gray-600 text-white hover:bg-white/10 rounded-xl px-4"
-                    >
-                      <Upload className="h-4 w-4 mr-2" />
-                      {language === "ar" ? "رفع" : "Upload"}
-                    </Button>
-                  </div>
                 </div>
               </div>
             )}
           </div>
-        </div>
 
-        {/* Bottom Section */}
-        <div className="space-y-6">
-          {/* Navigation Buttons */}
-          <div className="flex gap-4">
-            {documentSteps.findIndex(step => step.type === currentStep) > 0 && (
+          {/* Step Selector */}
+          <div className="flex gap-2 justify-center">
+            {documentSteps.map((step) => (
               <Button
-                onClick={handleBack}
-                variant="outline"
-                className="flex-1 border-gray-600 text-white hover:bg-white/10 rounded-full h-12"
+                key={step.type}
+                onClick={() => setCurrentStep(step.type)}
+                variant={currentStep === step.type ? "default" : "outline"}
+                className={`${
+                  currentStep === step.type 
+                    ? "bg-white text-black" 
+                    : "border-gray-600 text-white hover:bg-white/10"
+                } rounded-xl px-4 py-2`}
               >
-                {language === "ar" ? "السابق" : "Previous"}
+                <step.icon className="h-4 w-4 mr-2" />
+                {step.type === "selfie" 
+                  ? (language === "ar" ? "سيلفي" : "Selfie")
+                  : step.type === "id-front"
+                  ? (language === "ar" ? "أمامي" : "Front")
+                  : (language === "ar" ? "خلفي" : "Back")
+                }
               </Button>
-            )}
-            <Button
-              onClick={handleNext}
-              disabled={!canProceed}
-              className="flex-1 bg-white text-black font-semibold rounded-full hover:bg-gray-100 disabled:bg-gray-600 disabled:text-gray-400 transition-all duration-200 h-12"
-            >
-              {allDocumentsCaptured ? 
-                (language === "ar" ? "إنهاء" : "Finish") : 
-                (language === "ar" ? "التالي" : "Next")
-              }
-            </Button>
-          </div>
-
-          {/* Progress Indicator */}
-          <div className="flex justify-center">
-            <div className="w-24 h-1 bg-white/30 rounded-full">
-              <div 
-                className="h-1 bg-white rounded-full transition-all duration-300"
-                style={{ width: `${((documentSteps.findIndex(step => step.type === currentStep) + 1) / documentSteps.length) * 100}%` }}
-              ></div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
