@@ -100,10 +100,26 @@ export function setupSimpleAuth(app: Express) {
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
       }
+      
+      // Disable caching to always return fresh data
+      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
+      
       const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
+      
+      console.log("📋 [GET USER] Returning fresh user data:", {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        updatedAt: user.updatedAt
+      });
+      
       // Return all user data except sensitive fields
       const { password, ...userWithoutPassword } = user;
       res.json(userWithoutPassword);
