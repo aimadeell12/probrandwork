@@ -297,51 +297,51 @@ export default function Welcome() {
               </div>
             </div>
 
-            {/* Ultra-Premium Phone Frame */}
-            <div className="relative w-96 h-[680px] bg-gradient-to-br from-white/95 to-gray-100/95 dark:from-gray-800/95 dark:to-gray-700/95 rounded-[3.5rem] shadow-2xl overflow-hidden backdrop-blur-sm border-2 border-white/50 dark:border-gray-600/50 transform hover:scale-105 transition-all duration-700 group">
+            {/* Optimized Phone Frame */}
+            <div className="relative w-72 h-[500px] lg:w-80 lg:h-[550px] xl:w-84 xl:h-[580px] bg-gradient-to-br from-white/95 to-gray-100/95 dark:from-gray-800/95 dark:to-gray-700/95 rounded-[2.5rem] shadow-2xl overflow-hidden backdrop-blur-sm border-2 border-white/50 dark:border-gray-600/50 transform hover:scale-105 transition-all duration-500 group">
               
               {/* Phone notch */}
-              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-900 dark:bg-gray-300 rounded-full z-50"></div>
+              <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-24 h-4 bg-gray-900 dark:bg-gray-300 rounded-full z-50"></div>
               
               {/* Phone Screen Content */}
-              <div className="p-10 h-full bg-gradient-to-br from-purple-50/95 via-pink-50/95 to-blue-50/95 dark:from-gray-700/95 dark:via-purple-800/95 dark:to-blue-800/95 mt-8">
-                <div className="space-y-10 flex flex-col items-center justify-center h-full">
+              <div className="p-6 lg:p-8 h-full bg-gradient-to-br from-purple-50/95 via-pink-50/95 to-blue-50/95 dark:from-gray-700/95 dark:via-purple-800/95 dark:to-blue-800/95 mt-6">
+                <div className="space-y-6 lg:space-y-8 flex flex-col items-center justify-center h-full">
                   
-                  {/* Ultra-Premium Avatar with animation */}
+                  {/* Optimized Avatar */}
                   <div className="relative group-hover:scale-110 transition-transform duration-500">
-                    <div className="w-40 h-40 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full shadow-2xl flex items-center justify-center border-4 border-white/50 relative overflow-hidden">
+                    <div className="w-24 h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full shadow-2xl flex items-center justify-center border-3 border-white/50 relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-400/50 to-purple-500/50 rounded-full animate-pulse"></div>
-                      <div className="w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center relative z-10">
-                        <span className="text-5xl font-black text-white">M</span>
+                      <div className="w-20 h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center relative z-10">
+                        <span className="text-2xl lg:text-3xl xl:text-4xl font-black text-white">M</span>
                       </div>
                     </div>
-                    {/* Enhanced online indicator */}
-                    <div className="absolute -bottom-3 -right-3 w-12 h-12 bg-green-500 rounded-full border-4 border-white shadow-xl flex items-center justify-center">
-                      <div className="w-6 h-6 bg-green-400 rounded-full animate-pulse"></div>
+                    {/* Online indicator */}
+                    <div className="absolute -bottom-2 -right-2 w-8 h-8 lg:w-10 lg:h-10 bg-green-500 rounded-full border-3 border-white shadow-xl flex items-center justify-center">
+                      <div className="w-4 h-4 lg:w-5 lg:h-5 bg-green-400 rounded-full animate-pulse"></div>
                     </div>
                   </div>
                   
-                  {/* Enhanced User Info Card */}
+                  {/* Optimized User Info Card */}
                   <div className="text-center transform group-hover:scale-105 transition-transform duration-500">
-                    <div className="bg-white/90 dark:bg-gray-800/90 rounded-3xl shadow-xl p-8 border border-white/70 dark:border-gray-600/70 min-w-[240px] backdrop-blur-sm">
-                      <div className="text-3xl font-black text-gray-800 dark:text-white mb-3">Mohamed</div>
-                      <div className="text-base text-gray-600 dark:text-gray-300 font-medium">Digital Account Holder</div>
-                      <div className="mt-4 px-4 py-2 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/30 dark:to-blue-900/30 rounded-full">
-                        <span className="text-sm font-semibold text-green-700 dark:text-green-400">Active Account</span>
+                    <div className="bg-white/90 dark:bg-gray-800/90 rounded-2xl shadow-xl p-4 lg:p-6 border border-white/70 dark:border-gray-600/70 min-w-[180px] lg:min-w-[200px] backdrop-blur-sm">
+                      <div className="text-xl lg:text-2xl xl:text-3xl font-black text-gray-800 dark:text-white mb-2">Mohamed</div>
+                      <div className="text-sm lg:text-base text-gray-600 dark:text-gray-300 font-medium">Digital Account Holder</div>
+                      <div className="mt-3 px-3 py-1 lg:px-4 lg:py-2 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/30 dark:to-blue-900/30 rounded-full">
+                        <span className="text-xs lg:text-sm font-semibold text-green-700 dark:text-green-400">Active Account</span>
                       </div>
                     </div>
                   </div>
                   
-                  {/* Enhanced Status Indicators */}
-                  <div className="flex space-x-6">
-                    <div className="bg-white/80 dark:bg-gray-700/80 rounded-2xl p-6 shadow-xl border border-white/60 dark:border-gray-600/60 transform hover:scale-110 transition-all duration-300 group/indicator">
-                      <div className="w-6 h-6 bg-green-500 rounded-full animate-pulse group-hover/indicator:animate-bounce shadow-lg"></div>
+                  {/* Optimized Status Indicators */}
+                  <div className="flex space-x-4 lg:space-x-6">
+                    <div className="bg-white/80 dark:bg-gray-700/80 rounded-xl p-3 lg:p-4 shadow-xl border border-white/60 dark:border-gray-600/60 transform hover:scale-110 transition-all duration-300 group/indicator">
+                      <div className="w-4 h-4 lg:w-5 lg:h-5 bg-green-500 rounded-full animate-pulse group-hover/indicator:animate-bounce shadow-lg"></div>
                     </div>
-                    <div className="bg-white/80 dark:bg-gray-700/80 rounded-2xl p-6 shadow-xl border border-white/60 dark:border-gray-600/60 transform hover:scale-110 transition-all duration-300 group/indicator">
-                      <div className="w-6 h-6 bg-blue-500 rounded-full animate-pulse group-hover/indicator:animate-bounce shadow-lg"></div>
+                    <div className="bg-white/80 dark:bg-gray-700/80 rounded-xl p-3 lg:p-4 shadow-xl border border-white/60 dark:border-gray-600/60 transform hover:scale-110 transition-all duration-300 group/indicator">
+                      <div className="w-4 h-4 lg:w-5 lg:h-5 bg-blue-500 rounded-full animate-pulse group-hover/indicator:animate-bounce shadow-lg"></div>
                     </div>
-                    <div className="bg-white/80 dark:bg-gray-700/80 rounded-2xl p-6 shadow-xl border border-white/60 dark:border-gray-600/60 transform hover:scale-110 transition-all duration-300 group/indicator">
-                      <div className="w-6 h-6 bg-purple-500 rounded-full animate-pulse group-hover/indicator:animate-bounce shadow-lg"></div>
+                    <div className="bg-white/80 dark:bg-gray-700/80 rounded-xl p-3 lg:p-4 shadow-xl border border-white/60 dark:border-gray-600/60 transform hover:scale-110 transition-all duration-300 group/indicator">
+                      <div className="w-4 h-4 lg:w-5 lg:h-5 bg-purple-500 rounded-full animate-pulse group-hover/indicator:animate-bounce shadow-lg"></div>
                     </div>
                   </div>
                 </div>
