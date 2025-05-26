@@ -399,6 +399,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Card-specific transfer endpoint
+  app.post("/api/cards/:cardId/transfer", async (req: any, res) => {
+    try {
+      const { cardId } = req.params;
+      const { amount } = req.body;
+      
+      console.log("🎯 Transfer request:", { cardId, amount, sessionId: req.session?.userId });
+      
+      // Check authentication
+      if (!req.session?.userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
+      if (!amount || amount === 0) {
+        return res.status(400).json({ message: "Invalid amount" });
+      }
+
+      const card = await storage.getCard(cardId);
+      if (!card) {
+        return res.status(404).json({ message: "Card not found" });
+      }
+
+      if (card.userId !== req.session.userId) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      console.log("💳 Processing Reap API call for card:", card.reapCardId);
+      
+      // Process with Reap API
+      const transfer = await reapService.addFunds(card.reapCardId || "", amount);
+      
+      console.log("✅ Reap API response:", transfer);
+
+      // Create transaction record
+      await storage.createTransaction({
+        cardId: cardId,
+        amount: amount.toString(),
+        type: amount > 0 ? "deposit" : "withdrawal",
+        description: amount > 0 ? "Add funds" : "Withdraw funds",
+        status: "completed",
+        currency: "USD",
+        merchant: "Card Transfer System",
+      });
+
+      res.json({
+        success: true,
+        transfer,
+        message: amount > 0 ? "Funds added successfully" : "Funds withdrawn successfully"
+      });
+    } catch (error) {
+      console.error("❌ Error processing card transfer:", error);
+      res.status(500).json({ message: "Failed to process transfer" });
+    }
+  });
+
   app.get("/api/wallet/balance/:cardId", requireAuth, async (req: any, res) => {
     try {
       const { cardId } = req.params;
