@@ -170,14 +170,14 @@ export default function Welcome() {
               </p>
             </div>
 
-            {/* Ultra-Premium Action Buttons */}
-            <div className="space-y-8 mb-20">
+            {/* Refined Action Buttons */}
+            <div className="space-y-12 mb-20">
               <Link href="/login">
-                <Button className="group w-full max-w-lg h-20 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white text-xl font-bold rounded-3xl shadow-2xl hover:shadow-purple-500/30 transform hover:scale-[1.03] hover:-translate-y-2 transition-all duration-500 border border-purple-500/30 backdrop-blur-sm relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <span className="flex items-center justify-center space-x-4 relative z-10">
+                <Button className="group w-full max-w-sm h-14 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-purple-500/30 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 border border-purple-500/30 backdrop-blur-sm relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="flex items-center justify-center space-x-3 relative z-10">
                     <span className="tracking-wide">LOG IN</span>
-                    <div className="w-3 h-3 bg-white/80 rounded-full animate-pulse group-hover:animate-bounce"></div>
+                    <div className="w-2 h-2 bg-white/80 rounded-full animate-pulse group-hover:animate-bounce"></div>
                   </span>
                 </Button>
               </Link>
@@ -185,9 +185,9 @@ export default function Welcome() {
               <Link href="/register">
                 <Button 
                   variant="outline" 
-                  className="group w-full max-w-lg h-20 border-3 border-purple-300/70 dark:border-purple-400/70 text-purple-700 dark:text-purple-300 text-xl font-bold rounded-3xl bg-white/95 dark:bg-gray-800/95 hover:bg-gradient-to-r hover:from-white hover:to-purple-50 dark:hover:from-gray-700 dark:hover:to-purple-900/50 shadow-2xl hover:shadow-purple-500/20 transform hover:scale-[1.03] hover:-translate-y-2 transition-all duration-500 backdrop-blur-sm relative overflow-hidden"
+                  className="group w-full max-w-sm h-14 border-2 border-purple-300/70 dark:border-purple-400/70 text-purple-700 dark:text-purple-300 text-lg font-semibold rounded-2xl bg-white/95 dark:bg-gray-800/95 hover:bg-gradient-to-r hover:from-white hover:to-purple-50 dark:hover:from-gray-700 dark:hover:to-purple-900/50 shadow-2xl hover:shadow-purple-500/20 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 backdrop-blur-sm relative overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-100/20 via-pink-100/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-100/20 via-pink-100/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative z-10 tracking-wide">OPEN A DIGITAL ACCOUNT</span>
                 </Button>
               </Link>
