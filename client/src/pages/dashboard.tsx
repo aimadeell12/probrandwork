@@ -21,8 +21,14 @@ export default function Dashboard() {
     queryKey: ["/api/notifications/unread-count"],
   });
 
+  // Fetch KYC status
+  const { data: kycData } = useQuery({
+    queryKey: ["/api/kyc/status"],
+  });
+
   const balance = walletData?.balance || 5.00;
   const unreadCount = unreadData?.count || 0;
+  const kycStatus = kycData?.status;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
@@ -123,31 +129,59 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        {/* Notifications Card */}
-        <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl mb-6">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center">
-                  <div className="w-8 h-5 bg-gray-300 dark:bg-gray-600 rounded"></div>
+        {/* KYC Status Card */}
+        {kycStatus && (
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl mb-6">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl flex items-center justify-center">
+                    <Info className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-medium text-gray-900 dark:text-white">Identity Verification Submitted</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Your KYC verification is currently under review
+                    </p>
+                    <Badge variant="secondary" className="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300">
+                      {kycStatus === 'pending' ? 'Under Review' : kycStatus === 'verified' ? 'Verified' : 'Rejected'}
+                    </Badge>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Link href="/kyc-verification">
-                    <div className="cursor-pointer">
-                      <h3 className="font-medium text-gray-900 dark:text-white">{t('guidanceForBeginnersTitle')}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{t('pleaseVerifyIdentity')}</p>
-                      <p className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700">{t('clickToVerify')}</p>
-                    </div>
-                  </Link>
-
-                </div>
+                <Button variant="ghost" size="icon">
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
-              <Button variant="ghost" size="icon" className="text-gray-400">
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Notifications Card - Only show if no KYC submitted */}
+        {!kycStatus && (
+          <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl mb-6">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center">
+                    <div className="w-8 h-5 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                  </div>
+                  <div className="space-y-2">
+                    <Link href="/kyc-verification">
+                      <div className="cursor-pointer">
+                        <h3 className="font-medium text-gray-900 dark:text-white">{t('guidanceForBeginnersTitle')}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('pleaseVerifyIdentity')}</p>
+                        <p className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700">{t('clickToVerify')}</p>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+                <Button variant="ghost" size="icon" className="text-gray-400">
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
       </div>
 
