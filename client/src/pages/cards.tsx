@@ -395,12 +395,14 @@ export default function Cards() {
                     <div className={cn(
                       "absolute inset-0 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300",
                       card.status === "blocked" 
-                        ? "grayscale opacity-60 bg-gray-500" 
+                        ? "grayscale opacity-70" 
                         : card.status === "frozen"
                         ? "opacity-80 blur-[1px]"
                         : "",
                       card.status === "frozen" 
                         ? "bg-gradient-to-br from-blue-400 via-cyan-500 to-blue-600"
+                        : card.status === "blocked"
+                        ? "bg-gradient-to-br from-gray-400 via-gray-500 to-gray-600"
                         : getCardGradient(card.design)
                     )}>
                       
@@ -552,11 +554,17 @@ export default function Cards() {
                     )}>
                       <div className={cn(
                         "w-4 h-4 rounded-full",
-                        card.status === "frozen"
+                        card.status === "blocked"
+                          ? "bg-gradient-to-r from-red-500 to-red-600"
+                          : card.status === "frozen"
                           ? "bg-gradient-to-r from-blue-500 to-cyan-500"
                           : "bg-gradient-to-r from-purple-500 to-blue-500"
                       )}></div>
-                      Customizable
+                      {card.status === "blocked" 
+                        ? "Blocked" 
+                        : card.status === "frozen"
+                        ? "Frozen"
+                        : "Customizable"}
                     </div>
                     <h3 className={cn(
                       "text-lg font-semibold mt-2 transition-all duration-300",
