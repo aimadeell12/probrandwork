@@ -141,6 +141,18 @@ export default function KYCVerificationNew() {
     startCamera();
   };
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setCapturedImage(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const submitVerification = async () => {
     try {
       const formData = {
@@ -441,19 +453,39 @@ export default function KYCVerificationNew() {
                 </div>
 
                 {!capturedImage && !isCameraOpen && (
-                  <div className="text-center">
+                  <div className="text-center space-y-4">
                     <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 mb-4">
-                      <Camera className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                      <Upload className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                       <p className="text-gray-600 dark:text-gray-400 mb-4">
-                        Click the button below to start your camera and take a photo
+                        Choose how to add your ID document photo
                       </p>
-                      <Button
-                        onClick={startCamera}
-                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
-                      >
-                        <Camera className="h-4 w-4 mr-2" />
-                        Start Camera
-                      </Button>
+                      
+                      <div className="space-y-3">
+                        <Button
+                          onClick={startCamera}
+                          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                        >
+                          <Camera className="h-4 w-4 mr-2" />
+                          Take Photo with Camera
+                        </Button>
+                        
+                        <div className="relative">
+                          <input
+                            type="file"
+                            accept="image/*,image/jpeg,image/png"
+                            onChange={handleFileUpload}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                            id="file-upload"
+                          />
+                          <Button
+                            variant="outline"
+                            className="w-full border-blue-300 text-blue-600 hover:bg-blue-50 dark:border-blue-600 dark:text-blue-400"
+                          >
+                            <Upload className="h-4 w-4 mr-2" />
+                            Upload from Gallery
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
