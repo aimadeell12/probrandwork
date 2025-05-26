@@ -101,10 +101,13 @@ export function setupSimpleAuth(app: Express) {
         return res.status(401).json({ message: "Unauthorized" });
       }
       
-      // Disable caching to always return fresh data
-      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+      // Force fresh data - disable all caching
+      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, private');
       res.set('Pragma', 'no-cache');
       res.set('Expires', '0');
+      res.set('Last-Modified', new Date().toUTCString());
+      res.set('ETag', `"${Date.now()}"`);
+      res.set('Vary', '*');
       
       const user = await storage.getUser(userId);
       if (!user) {
