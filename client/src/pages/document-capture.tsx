@@ -1,8 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
-import { ArrowLeft, Camera, Upload, Check, RotateCcw, User, CreditCard } from "lucide-react";
+import { ArrowLeft, Camera, Upload, Check, RotateCcw, User, CreditCard, RotateCw, Zap, ZapOff } from "lucide-react";
 
 type DocumentType = "id-front" | "id-back" | "selfie";
 
@@ -26,6 +26,9 @@ export default function DocumentCapture() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [facingMode, setFacingMode] = useState<"user" | "environment">("environment");
+  const [flashEnabled, setFlashEnabled] = useState(false);
+  const [availableCameras, setAvailableCameras] = useState<MediaDeviceInfo[]>([]);
 
   const documentSteps = [
     { 
@@ -51,6 +54,52 @@ export default function DocumentCapture() {
   const currentStepInfo = documentSteps.find(step => step.type === currentStep);
   const currentDocument = documents.find(doc => doc.type === currentStep);
 
+  // Get available cameras on component mount
+  useEffect(() => {
+    const getAvailableCameras = async () => {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        setAvailableCameras(videoDevices);
+      } catch (error) {
+        console.error("Error getting cameras:", error);
+      }
+    };
+
+    getAvailableCameras();
+  }, []);
+
+  const toggleCamera = async () => {
+    if (stream && activeCamera) {
+      stopCamera();
+      const newFacingMode = facingMode === "user" ? "environment" : "user";
+      setFacingMode(newFacingMode);
+      
+      // Small delay to ensure stream is properly stopped
+      setTimeout(() => {
+        startCamera(activeCamera);
+      }, 500);
+    }
+  };
+
+  const toggleFlash = async () => {
+    if (stream) {
+      const track = stream.getVideoTracks()[0];
+      const capabilities = track.getCapabilities();
+      
+      if (capabilities.torch) {
+        try {
+          await track.applyConstraints({
+            advanced: [{ torch: !flashEnabled }]
+          });
+          setFlashEnabled(!flashEnabled);
+        } catch (error) {
+          console.error("Flash not supported:", error);
+        }
+      }
+    }
+  };
+
   const startCamera = async (documentType: DocumentType) => {
     try {
       // Check if camera is available
@@ -58,14 +107,17 @@ export default function DocumentCapture() {
         throw new Error("Camera not supported");
       }
 
-      // Request camera permissions with better mobile support
+      // Enhanced camera constraints for better document scanning
       const constraints = {
         video: {
-          facingMode: documentType === "selfie" ? "user" : "environment",
-          width: { ideal: 1280, max: 1920 },
-          height: { ideal: 720, max: 1080 },
-          // Add mobile-specific constraints
-          aspectRatio: 16/9
+          facingMode: documentType === "selfie" ? facingMode : (facingMode === "user" ? "environment" : "environment"),
+          width: { ideal: 1920, min: 640, max: 4096 },
+          height: { ideal: 1080, min: 480, max: 2160 },
+          // Enhanced settings for document capture
+          focusMode: "continuous",
+          exposureMode: "continuous",
+          whiteBalanceMode: "continuous",
+          zoom: documentType !== "selfie" ? 1.2 : 1.0 // Slight zoom for document clarity
         },
         audio: false
       };
@@ -98,6 +150,10 @@ export default function DocumentCapture() {
         errorMessage = language === "ar"
           ? "لم يتم العثور على كاميرا. تأكد من وجود كاميرا متاحة."
           : "No camera found. Please ensure a camera is available.";
+      } else if (error?.name === "NotReadableError") {
+        errorMessage = language === "ar"
+          ? "الكاميرا قيد الاستخدام بواسطة تطبيق آخر. أغلق التطبيقات الأخرى وحاول مرة أخرى."
+          : "Camera is being used by another application. Close other apps and try again.";
       }
       
       alert(errorMessage);
@@ -190,37 +246,140 @@ export default function DocumentCapture() {
         </Button>
       </div>
 
-      {/* Camera Modal */}
+      {/* Enhanced Camera Modal */}
       {activeCamera && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
-          <div className="bg-gray-900 rounded-2xl p-6 m-4 max-w-md w-full">
-            <h3 className="text-white text-lg font-semibold mb-4 text-center">
+        <div className="fixed inset-0 bg-black z-50 flex flex-col">
+          {/* Camera Header */}
+          <div className="flex items-center justify-between p-4 text-white bg-black/50">
+            <Button 
+              onClick={stopCamera} 
+              variant="ghost" 
+              size="sm" 
+              className="text-white hover:bg-white/10 rounded-full"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <h3 className="text-white text-lg font-semibold">
               {currentStepInfo?.title || ""}
             </h3>
-            <div className="relative mb-4">
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                controls={false}
-                className="w-full rounded-xl object-cover aspect-video"
-                style={{ 
-                  transform: activeCamera === "selfie" ? "scaleX(-1)" : "none",
-                  maxHeight: "60vh"
-                }}
-              />
-              <canvas ref={canvasRef} className="hidden" />
-            </div>
             
-            <div className="flex gap-4 justify-center">
-              <Button onClick={capturePhoto} className="bg-white text-black hover:bg-gray-100 rounded-full px-6">
-                <Camera className="h-5 w-5 mr-2" />
-                {language === "ar" ? "التقاط" : "Capture"}
+            {/* Camera Controls */}
+            <div className="flex items-center gap-2">
+              {/* Flash Toggle */}
+              {activeCamera !== "selfie" && (
+                <Button 
+                  onClick={toggleFlash}
+                  variant="ghost" 
+                  size="sm"
+                  className={`text-white hover:bg-white/10 rounded-full ${flashEnabled ? 'bg-yellow-500/20' : ''}`}
+                >
+                  {flashEnabled ? <Zap className="h-5 w-5" /> : <ZapOff className="h-5 w-5" />}
+                </Button>
+              )}
+              
+              {/* Camera Switch */}
+              {availableCameras.length > 1 && (
+                <Button 
+                  onClick={toggleCamera}
+                  variant="ghost" 
+                  size="sm"
+                  className="text-white hover:bg-white/10 rounded-full"
+                >
+                  <RotateCw className="h-5 w-5" />
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* Camera View */}
+          <div className="flex-1 relative">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              controls={false}
+              className="w-full h-full object-cover"
+              style={{ 
+                transform: activeCamera === "selfie" ? "scaleX(-1)" : "none"
+              }}
+            />
+            <canvas ref={canvasRef} className="hidden" />
+            
+            {/* Camera Overlay Guide */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              {activeCamera !== "selfie" ? (
+                // Document frame guide
+                <div className="relative">
+                  <div className="w-80 h-52 border-4 border-white/80 rounded-2xl bg-transparent">
+                    {/* Corner guides */}
+                    <div className="absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 border-green-400 rounded-tl-lg"></div>
+                    <div className="absolute -top-1 -right-1 w-6 h-6 border-t-4 border-r-4 border-green-400 rounded-tr-lg"></div>
+                    <div className="absolute -bottom-1 -left-1 w-6 h-6 border-b-4 border-l-4 border-green-400 rounded-bl-lg"></div>
+                    <div className="absolute -bottom-1 -right-1 w-6 h-6 border-b-4 border-r-4 border-green-400 rounded-br-lg"></div>
+                  </div>
+                  <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 text-white text-center">
+                    <p className="text-sm font-medium">
+                      {language === "ar" ? "ضع البطاقة داخل الإطار" : "Place card within frame"}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                // Selfie circle guide
+                <div className="relative">
+                  <div className="w-64 h-80 border-4 border-white/80 rounded-full bg-transparent">
+                    {/* Face position indicators */}
+                    <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-400 rounded-full"></div>
+                    <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-green-400 rounded-full"></div>
+                  </div>
+                  <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 text-white text-center">
+                    <p className="text-sm font-medium">
+                      {language === "ar" ? "ضع وجهك داخل الدائرة" : "Position face within circle"}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Camera Controls */}
+          <div className="bg-black/80 p-6">
+            {/* Instructions */}
+            <div className="text-center mb-6">
+              <p className="text-white/80 text-sm">
+                {activeCamera === "id-front" && (language === "ar" ? 
+                  "تأكد من وضوح جميع التفاصيل والنص على البطاقة" : 
+                  "Ensure all details and text on the card are clear")}
+                {activeCamera === "id-back" && (language === "ar" ? 
+                  "تأكد من وضوح الجهة الخلفية للبطاقة" : 
+                  "Ensure the back of the card is clear")}
+                {activeCamera === "selfie" && (language === "ar" ? 
+                  "انظر مباشرة للكاميرا وتأكد من الإضاءة الجيدة" : 
+                  "Look directly at the camera with good lighting")}
+              </p>
+            </div>
+
+            {/* Capture Button */}
+            <div className="flex justify-center">
+              <Button 
+                onClick={capturePhoto} 
+                size="lg"
+                className="w-20 h-20 bg-white text-black hover:bg-gray-100 rounded-full p-0 shadow-lg"
+              >
+                <div className="w-16 h-16 bg-white border-4 border-gray-300 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-white border-2 border-gray-400 rounded-full"></div>
+                </div>
               </Button>
-              <Button onClick={stopCamera} variant="outline" className="border-white text-white hover:bg-white/10 rounded-full px-6">
-                {language === "ar" ? "إلغاء" : "Cancel"}
-              </Button>
+            </div>
+
+            {/* Additional Tips */}
+            <div className="flex justify-center mt-4">
+              <div className="flex items-center gap-2 text-white/60 text-xs">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span>
+                  {language === "ar" ? "تأكد من الإضاءة الجيدة" : "Ensure good lighting"}
+                </span>
+              </div>
             </div>
           </div>
         </div>

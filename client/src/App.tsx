@@ -30,6 +30,7 @@ import Webhooks from "@/pages/webhooks";
 
 import KYCVerification from "@/pages/kyc-verification";
 import CameraTest from "@/pages/camera-test";
+import DocumentCapture from "@/pages/document-capture";
 import NotFound from "@/pages/not-found";
 
 function Router() {
