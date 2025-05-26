@@ -39,7 +39,8 @@ function Router() {
 
   // صفحات التحقق من الهوية التي يجب إخفاء الشريط السفلي منها
   const kycPages = [
-    '/kyc-verification'
+    '/kyc-verification',
+    '/document-capture'
   ];
 
   const shouldHideBottomNav = kycPages.includes(location);
@@ -85,6 +86,7 @@ function Router() {
             <Route path="/edit-profile" component={EditProfile} />
 
             <Route path="/kyc-verification" component={KYCVerification} />
+            <Route path="/document-capture" component={DocumentCapture} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
           </>
