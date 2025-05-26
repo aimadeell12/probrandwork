@@ -424,7 +424,25 @@ export default function Cards() {
                       </div>
                       
                       {/* Card actions */}
-                      <div className="absolute top-2 right-2 z-20">
+                      <div className="absolute top-2 right-2 z-20 flex gap-2">
+                        {/* Eye button for card number visibility */}
+                        <Button
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => setShowCardNumbers(prev => ({
+                            ...prev,
+                            [card.id]: !prev[card.id]
+                          }))}
+                          className="text-white hover:bg-white/10"
+                        >
+                          {showCardNumbers[card.id] ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </Button>
+                        
+                        {/* Menu button */}
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
@@ -478,26 +496,11 @@ export default function Cards() {
                       
                       {/* Card number - full width */}
                       <div className="absolute top-1/2 left-6 right-6 transform -translate-y-1/2">
-                        <div className="flex items-center justify-center gap-3">
-                          <div className="text-white font-mono text-lg tracking-widest text-center">
-                            {showCardNumbers[card.id] 
-                              ? generateFullCardNumber(card.lastFour || "1234")
-                              : formatCardNumber(card.lastFour || "1234")
-                            }
-                          </div>
-                          <button
-                            onClick={() => setShowCardNumbers(prev => ({
-                              ...prev,
-                              [card.id]: !prev[card.id]
-                            }))}
-                            className="text-white/70 hover:text-white transition-colors p-1"
-                          >
-                            {showCardNumbers[card.id] ? (
-                              <EyeOff className="h-4 w-4" />
-                            ) : (
-                              <Eye className="h-4 w-4" />
-                            )}
-                          </button>
+                        <div className="text-white font-mono text-lg tracking-widest text-center">
+                          {showCardNumbers[card.id] 
+                            ? generateFullCardNumber(card.lastFour || "1234")
+                            : formatCardNumber(card.lastFour || "1234")
+                          }
                         </div>
                       </div>
                       
