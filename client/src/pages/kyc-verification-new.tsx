@@ -560,7 +560,7 @@ export default function KYCVerificationNew() {
                   </Button>
                 </div>
 
-                <canvas ref={canvasRef} className="hidden" />
+
               </div>
             )}
 
