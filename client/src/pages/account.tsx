@@ -8,7 +8,8 @@ import {
   HelpCircle, 
   LogOut,
   ChevronRight,
-  Globe
+  Globe,
+  User
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
