@@ -130,21 +130,40 @@ export default function Dashboard() {
         </div>
 
         {/* KYC Status Card */}
-        {kycStatus && (
+        {kycStatus && kycStatus.status !== 'verified' && (
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl mb-6">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl flex items-center justify-center">
-                    <Info className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                    kycStatus.status === 'pending' ? 'bg-yellow-100 dark:bg-yellow-900/30' :
+                    kycStatus.status === 'rejected' ? 'bg-red-100 dark:bg-red-900/30' :
+                    'bg-green-100 dark:bg-green-900/30'
+                  }`}>
+                    <Info className={`h-6 w-6 ${
+                      kycStatus.status === 'pending' ? 'text-yellow-600 dark:text-yellow-400' :
+                      kycStatus.status === 'rejected' ? 'text-red-600 dark:text-red-400' :
+                      'text-green-600 dark:text-green-400'
+                    }`} />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="font-medium text-gray-900 dark:text-white">Identity Verification Submitted</h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white">
+                      {kycStatus.status === 'pending' ? 'Identity Verification Submitted' :
+                       kycStatus.status === 'rejected' ? 'Identity Verification Rejected' :
+                       'Identity Verification Completed'}
+                    </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Your KYC verification is currently under review
+                      {kycStatus.status === 'pending' ? 'Your KYC verification is currently under review' :
+                       kycStatus.status === 'rejected' ? 'Your KYC verification was rejected. Please resubmit.' :
+                       'Your identity has been successfully verified'}
                     </p>
-                    <Badge variant="secondary" className="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300">
-                      {kycStatus === 'pending' ? 'Under Review' : kycStatus === 'verified' ? 'Verified' : 'Rejected'}
+                    <Badge variant="secondary" className={
+                      kycStatus.status === 'pending' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300' :
+                      kycStatus.status === 'rejected' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' :
+                      'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                    }>
+                      {kycStatus.status === 'pending' ? 'Under Review' : 
+                       kycStatus.status === 'verified' ? 'Verified' : 'Rejected'}
                     </Badge>
                   </div>
                 </div>
