@@ -77,15 +77,21 @@ export default function Cards() {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
       setShowChooseCard(false); // Hide choose card view after creation
       toast({
-        title: "تم إنشاء البطاقة",
-        description: "تم إنشاء البطاقة الجديدة بنجاح",
+        title: "🎉 تم إنشاء البطاقة بنجاح",
+        description: "بطاقتك الجديدة جاهزة للاستخدام الآن",
+        duration: 3000,
       });
     },
-    onError: () => {
+    onError: (error: any) => {
+      const errorMessage = error?.message === "Insufficient balance" 
+        ? "رصيدك غير كافي لإنشاء هذه البطاقة"
+        : "حدث خطأ أثناء إنشاء البطاقة";
+      
       toast({
-        title: "خطأ في إنشاء البطاقة",
-        description: "فشل في إنشاء البطاقة",
-        variant: "destructive",
+        title: "⚠️ لا يمكن إنشاء البطاقة",
+        description: errorMessage,
+        variant: "default",
+        duration: 4000,
       });
     },
   });
@@ -113,9 +119,10 @@ export default function Cards() {
     // Check if user has sufficient balance
     if ((balance as any)?.balance < cardCost) {
       toast({
-        title: "رصيد غير كافي",
-        description: `تحتاج إلى ${cardCost} USD لإنشاء هذه البطاقة. رصيدك الحالي: ${(balance as any)?.balance || 0} USD`,
-        variant: "destructive",
+        title: "💳 رصيد غير كافي",
+        description: `نحتاج إلى ${cardCost} دولار لإنشاء هذه البطاقة\nرصيدك الحالي: ${(balance as any)?.balance || 0} دولار`,
+        variant: "default",
+        duration: 4000,
       });
       return;
     }
