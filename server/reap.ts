@@ -86,20 +86,7 @@ class ReapService {
   }
 
   async createCard(cardData: ReapCreateCardRequest): Promise<ReapCardResponse> {
-    if (!this.apiKey) {
-      // محاكاة إنشاء البطاقة عند عدم وجود API key
-      return {
-        id: `reap_${Date.now()}`,
-        card_number: this.generateCardNumber(),
-        exp_month: 12,
-        exp_year: new Date().getFullYear() + 3,
-        cvv: Math.floor(Math.random() * 900 + 100).toString(),
-        status: 'active',
-        balance: 0
-      };
-    }
-
-    return await this.makeRequest('/cards', 'POST', cardData);
+    return await this.makeRequest('/cards', 'POST', cardData) as ReapCardResponse;
   }
 
   async getCard(cardId: string): Promise<ReapCardResponse> {
