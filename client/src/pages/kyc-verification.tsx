@@ -49,6 +49,9 @@ export default function KYCVerification() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [isDetecting, setIsDetecting] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const [detectionMessage, setDetectionMessage] = useState("");
 
   // تحميل بيانات المستخدم المسجل دخوله
   useEffect(() => {
@@ -72,13 +75,59 @@ export default function KYCVerification() {
       
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play();
+        };
+        
         setStream(mediaStream);
         setActiveCamera(documentType);
+        
+        // Start auto-detection after camera loads
+        setTimeout(() => {
+          startAutoDetection();
+        }, 1000);
       }
     } catch (error) {
       console.error("Error accessing camera:", error);
       alert("Unable to access camera. Please check permissions.");
     }
+  };
+
+  // Auto-detection function
+  const startAutoDetection = () => {
+    if (!videoRef.current || !activeCamera) return;
+
+    setIsDetecting(true);
+    const { language } = useLanguage();
+    setDetectionMessage(
+      activeCamera === "selfie" 
+        ? (language === "ar" ? "ضع وجهك في الدائرة واحتفظ بثباتك" : "Position your face in the circle and stay still")
+        : (language === "ar" ? "ضع البطاقة في الإطار واحتفظ بثباتها" : "Place the card in the frame and keep it steady")
+    );
+
+    // Simulate detection with a realistic delay
+    setTimeout(() => {
+      if (activeCamera && isDetecting) {
+        const { language } = useLanguage();
+        setDetectionMessage(language === "ar" ? "تم اكتشاف الهدف! جاري العد التنازلي..." : "Target detected! Countdown starting...");
+        startCountdown();
+      }
+    }, 2000);
+  };
+
+  const startCountdown = () => {
+    let count = 3;
+    setCountdown(count);
+
+    const countdownInterval = setInterval(() => {
+      count--;
+      setCountdown(count);
+
+      if (count === 0) {
+        clearInterval(countdownInterval);
+        capturePhoto();
+      }
+    }, 1000);
   };
 
   const capturePhoto = () => {
@@ -101,6 +150,9 @@ export default function KYCVerification() {
           : doc
       ));
       
+      setIsDetecting(false);
+      setCountdown(0);
+      setDetectionMessage("");
       stopCamera();
     }
   };
@@ -300,28 +352,145 @@ export default function KYCVerification() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Camera View */}
+        {/* Auto-Capture Camera View */}
         {activeCamera && (
-          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 m-4 max-w-md w-full">
-              <div className="relative mb-4">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  className="w-full rounded-xl"
-                />
-                <canvas ref={canvasRef} className="hidden" />
-              </div>
+          <div className="fixed inset-0 bg-black z-50">
+            <div className="relative h-full w-full">
+              {/* Camera Video */}
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  transform: activeCamera === "selfie" ? "scaleX(-1)" : "none"
+                }}
+              />
+              <canvas ref={canvasRef} className="hidden" />
               
-              <div className="flex gap-4 justify-center">
-                <Button onClick={capturePhoto} className="bg-purple-600 hover:bg-purple-700">
-                  <Camera className="h-5 w-5 mr-2" />
-                  {t("capture")}
-                </Button>
-                <Button onClick={stopCamera} variant="outline">
-                  {t("cancel")}
-                </Button>
+              {/* Auto-Detection Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                {activeCamera !== "selfie" ? (
+                  // Document frame guide with detection animation
+                  <div className="relative">
+                    <div className={`w-80 h-52 border-4 rounded-2xl bg-transparent transition-all duration-500 ${
+                      isDetecting ? 'border-green-400 shadow-lg shadow-green-400/50' : 'border-white/80'
+                    }`}>
+                      {/* Animated corner guides */}
+                      <div className={`absolute -top-1 -left-1 w-6 h-6 border-t-4 border-l-4 rounded-tl-lg transition-colors duration-500 ${
+                        isDetecting ? 'border-green-400' : 'border-white/80'
+                      }`}></div>
+                      <div className={`absolute -top-1 -right-1 w-6 h-6 border-t-4 border-r-4 rounded-tr-lg transition-colors duration-500 ${
+                        isDetecting ? 'border-green-400' : 'border-white/80'
+                      }`}></div>
+                      <div className={`absolute -bottom-1 -left-1 w-6 h-6 border-b-4 border-l-4 rounded-bl-lg transition-colors duration-500 ${
+                        isDetecting ? 'border-green-400' : 'border-white/80'
+                      }`}></div>
+                      <div className={`absolute -bottom-1 -right-1 w-6 h-6 border-b-4 border-r-4 rounded-br-lg transition-colors duration-500 ${
+                        isDetecting ? 'border-green-400' : 'border-white/80'
+                      }`}></div>
+
+                      {/* Scanning animation */}
+                      {isDetecting && (
+                        <div className="absolute inset-0 overflow-hidden rounded-2xl">
+                          <div className="absolute top-0 left-0 w-full h-1 bg-green-400/60 animate-pulse"></div>
+                          <div className="absolute bottom-0 left-0 w-full h-1 bg-green-400/60 animate-pulse"></div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Countdown display */}
+                    {countdown > 0 && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white text-4xl font-bold animate-ping">
+                          {countdown}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  // Selfie circle guide with detection
+                  <div className="relative">
+                    <div className={`w-64 h-80 border-4 rounded-full bg-transparent transition-all duration-500 ${
+                      isDetecting ? 'border-green-400 shadow-lg shadow-green-400/50' : 'border-white/80'
+                    }`}>
+                      {/* Face position indicators */}
+                      <div className={`absolute top-16 left-1/2 transform -translate-x-1/2 w-2 h-2 rounded-full transition-colors duration-500 ${
+                        isDetecting ? 'bg-green-400' : 'bg-white/80'
+                      }`}></div>
+                      <div className={`absolute bottom-32 left-1/2 transform -translate-x-1/2 w-8 h-1 rounded-full transition-colors duration-500 ${
+                        isDetecting ? 'bg-green-400' : 'bg-white/80'
+                      }`}></div>
+
+                      {/* Face detection animation */}
+                      {isDetecting && (
+                        <div className="absolute inset-4 border-2 border-green-400/40 rounded-full animate-pulse"></div>
+                      )}
+                    </div>
+                    
+                    {/* Countdown display */}
+                    {countdown > 0 && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white text-4xl font-bold animate-ping">
+                          {countdown}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Auto-Detection Status */}
+              <div className="absolute bottom-0 left-0 right-0 bg-black/80 p-6">
+                {/* Detection Status */}
+                <div className="text-center mb-6">
+                  <div className="flex items-center justify-center gap-3 mb-4">
+                    {isDetecting ? (
+                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                    ) : (
+                      <div className="w-3 h-3 bg-white/40 rounded-full"></div>
+                    )}
+                    <p className="text-white text-lg font-medium">
+                      التصوير التلقائي
+                    </p>
+                  </div>
+                  
+                  {/* Detection Message */}
+                  <p className="text-white/80 text-sm mb-4">
+                    {detectionMessage || (
+                      activeCamera === "selfie" 
+                        ? "ضع وجهك في الدائرة وانتظر التصوير التلقائي"
+                        : "ضع البطاقة في الإطار وانتظر التصوير التلقائي"
+                    )}
+                  </p>
+
+                  {/* Progress Indicator */}
+                  <div className="flex justify-center">
+                    <div className={`w-32 h-1 bg-white/20 rounded-full overflow-hidden ${isDetecting ? 'bg-green-400/20' : ''}`}>
+                      {isDetecting && (
+                        <div className="h-full bg-green-400 rounded-full animate-pulse"></div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Manual Override & Cancel */}
+                <div className="flex justify-center gap-4">
+                  <Button 
+                    onClick={capturePhoto} 
+                    variant="outline"
+                    className="border-white/20 text-white/60 hover:bg-white/5 text-sm"
+                  >
+                    التقاط يدوي
+                  </Button>
+                  <Button 
+                    onClick={stopCamera} 
+                    variant="outline"
+                    className="border-white/20 text-white/60 hover:bg-white/5 text-sm"
+                  >
+                    إلغاء
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
