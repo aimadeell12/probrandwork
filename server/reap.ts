@@ -126,12 +126,9 @@ class ReapService {
     return await this.makeRequest(`/cards/${cardId}/transactions`);
   }
 
-  async addFunds(cardId: string, amount: number): Promise<{ success: boolean; new_balance: number }> {
-    if (!this.apiKey) {
-      return { success: true, new_balance: amount };
-    }
-
-    return await this.makeRequest(`/cards/${cardId}/fund`, 'POST', { amount });
+  async addFunds(cardId: string, amount: number): Promise<{ creditBefore: string; creditAfter: string }> {
+    const response = await this.makeRequest(`/cards/${cardId}/credit`, 'PUT', { adjustment: amount.toString() });
+    return response as { creditBefore: string; creditAfter: string };
   }
 
   async getCardBalance(cardId: string): Promise<number> {
