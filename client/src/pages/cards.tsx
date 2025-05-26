@@ -275,13 +275,16 @@ export default function Cards() {
                       {/* Card details */}
                       <div className="absolute bottom-16 left-6 right-6 flex justify-between z-10">
                         <div>
-                          <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                          <div className="text-white font-semibold text-sm">
+                          <div className="text-white/60 text-xs uppercase tracking-wide mb-1">VALID THRU</div>
+                          <div className="text-white font-mono text-sm">
                             {String(card.expiryMonth).padStart(2, '0')}/{String(card.expiryYear).slice(-2)}
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-white font-semibold text-sm">{card.holderName.toUpperCase()}</div>
+                        <div className="text-right max-w-[120px]">
+                          <div className="text-white/60 text-xs uppercase tracking-wide mb-1">CARDHOLDER</div>
+                          <div className="text-white font-medium text-sm uppercase truncate">
+                            {card.holderName}
+                          </div>
                         </div>
                       </div>
 
