@@ -273,16 +273,20 @@ export default function Cards() {
                       </div>
                       
                       {/* Card details */}
-                      <div className="absolute bottom-14 left-6 right-6 flex justify-between z-10">
+                      <div className="absolute bottom-14 left-6">
                         <div>
                           <div className="text-white/60 text-xs uppercase tracking-wide mb-1">VALID THRU</div>
                           <div className="text-white font-mono text-sm">
                             {String(card.expiryMonth).padStart(2, '0')}/{String(card.expiryYear).slice(-2)}
                           </div>
                         </div>
-                        <div className="text-right max-w-[100px]">
+                      </div>
+                      
+                      {/* Cardholder name at bottom */}
+                      <div className="absolute bottom-6 left-6 right-6">
+                        <div className="text-center">
                           <div className="text-white/60 text-xs uppercase tracking-wide mb-1">CARDHOLDER</div>
-                          <div className="text-white font-medium text-xs uppercase truncate">
+                          <div className="text-white font-medium text-sm uppercase">
                             {card.holderName}
                           </div>
                         </div>
