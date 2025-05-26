@@ -298,6 +298,97 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(cards.createdAt));
   }
 
+  async getSystemStats(): Promise<any> {
+    const totalUsers = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(users);
+    
+    const totalCards = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(cards);
+    
+    const totalTransactions = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(transactions);
+    
+    const totalVolume = await db
+      .select({ total: sql<number>`sum(${transactions.amount})` })
+      .from(transactions);
+
+    const activeUsers = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(users)
+      .where(eq(users.isActive, true));
+
+    const recentUsers = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(users)
+      .where(sql`${users.createdAt} >= NOW() - INTERVAL '30 days'`);
+
+    return {
+      totalUsers: totalUsers[0]?.count || 0,
+      totalCards: totalCards[0]?.count || 0,
+      totalTransactions: totalTransactions[0]?.count || 0,
+      totalVolume: totalVolume[0]?.total || 0,
+      activeUsers: activeUsers[0]?.count || 0,
+      recentUsers: recentUsers[0]?.count || 0,
+    };
+  }
+
+  async updateUserRole(userId: string, role: string): Promise<User> {
+    const [updatedUser] = await db
+      .update(users)
+      .set({ role, updatedAt: new Date() })
+      .where(eq(users.id, userId))
+      .returning();
+    return updatedUser;
+  }
+
+  async toggleUserStatus(userId: string): Promise<User> {
+    const user = await this.getUser(userId);
+    if (!user) throw new Error("User not found");
+    
+    const [updatedUser] = await db
+      .update(users)
+      .set({ isActive: !user.isActive, updatedAt: new Date() })
+      .where(eq(users.id, userId))
+      .returning();
+    return updatedUser;
+  }
+
+  async getRecentActivities(): Promise<any[]> {
+    // Get recent user registrations
+    const recentUsers = await db
+      .select({
+        id: users.id,
+        type: sql<string>`'user_registered'`,
+        data: sql<string>`json_build_object('name', ${users.firstName} || ' ' || ${users.lastName}, 'email', ${users.email})`,
+        createdAt: users.createdAt
+      })
+      .from(users)
+      .orderBy(desc(users.createdAt))
+      .limit(5);
+
+    // Get recent card creations
+    const recentCards = await db
+      .select({
+        id: cards.id,
+        type: sql<string>`'card_created'`,
+        data: sql<string>`json_build_object('cardType', ${cards.cardType}, 'status', ${cards.status})`,
+        createdAt: cards.createdAt
+      })
+      .from(cards)
+      .orderBy(desc(cards.createdAt))
+      .limit(5);
+
+    // Combine and sort by date
+    const activities = [...recentUsers, ...recentCards]
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 10);
+
+    return activities;
+  }
+
   async getSystemStats(): Promise<{
     totalUsers: number;
     totalCards: number;

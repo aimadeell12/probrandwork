@@ -883,6 +883,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/admin/cards", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const cards = await storage.getAllCards();
+      res.json(cards);
+    } catch (error) {
+      console.error("Error fetching admin cards:", error);
+      res.status(500).json({ message: "Failed to fetch cards" });
+    }
+  });
+
+  app.get("/api/admin/activities", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const activities = await storage.getRecentActivities();
+      res.json(activities);
+    } catch (error) {
+      console.error("Error fetching admin activities:", error);
+      res.status(500).json({ message: "Failed to fetch activities" });
+    }
+  });
+
+  app.patch("/api/admin/users/:userId/role", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const { userId } = req.params;
+      const { role } = req.body;
+
+      if (!["user", "admin"].includes(role)) {
+        return res.status(400).json({ message: "Invalid role" });
+      }
+
+      const updatedUser = await storage.updateUserRole(userId, role);
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating user role:", error);
+      res.status(500).json({ message: "Failed to update user role" });
+    }
+  });
+
+  app.patch("/api/admin/users/:userId/toggle-status", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const { userId } = req.params;
+      const updatedUser = await storage.toggleUserStatus(userId);
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error toggling user status:", error);
+      res.status(500).json({ message: "Failed to toggle user status" });
+    }
+  });
+
   // KYC routes
   app.get("/api/kyc/verification", requireAuth, async (req: any, res) => {
     try {

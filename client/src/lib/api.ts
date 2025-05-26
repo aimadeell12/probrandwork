@@ -22,6 +22,12 @@ export const supportApi = {
 export const adminApi = {
   getUsers: () => apiRequest("GET", "/api/admin/users"),
   getStats: () => apiRequest("GET", "/api/admin/stats"),
+  getCards: () => apiRequest("GET", "/api/admin/cards"),
+  getActivities: () => apiRequest("GET", "/api/admin/activities"),
+  updateUserRole: (userId: string, role: string) => 
+    apiRequest("PATCH", `/api/admin/users/${userId}/role`, { role }),
+  toggleUserStatus: (userId: string) => 
+    apiRequest("PATCH", `/api/admin/users/${userId}/toggle-status`),
 };
 
 // User Profile and Settings operations
