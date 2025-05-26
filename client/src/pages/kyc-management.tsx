@@ -48,10 +48,19 @@ export default function KycManagement() {
   // Update KYC status mutation
   const updateStatusMutation = useMutation({
     mutationFn: async ({ kycId, status, rejectionReason }: { kycId: string; status: string; rejectionReason?: string }) => {
-      return apiRequest("/api/admin/kyc/" + kycId + "/status", {
+      const response = await fetch("/api/admin/kyc/" + kycId + "/status", {
         method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ status, rejectionReason }),
       });
+      
+      if (!response.ok) {
+        throw new Error("Failed to update KYC status");
+      }
+      
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/kyc"] });
