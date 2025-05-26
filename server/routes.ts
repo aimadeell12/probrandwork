@@ -75,33 +75,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
         userId,
       });
 
-      // Create card with Reap API
+      // Get user data for real KYC information
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Create card with Reap API using real user data
       try {
-        console.log("Creating card with Reap API...");
+        console.log("Creating card with Reap API using real user data...");
         const reapCard = await reapService.createCard({
           cardType: cardData.type === "virtual" ? "Virtual" : "Physical",
           customerType: "Consumer",
           kyc: {
-            firstName: cardData.holderName?.split(' ')[0] || "Card",
-            lastName: cardData.holderName?.split(' ')[1] || "Holder",
-            dob: "1990-01-01",
+            firstName: user.firstName || cardData.holderName?.split(' ')[0] || "User",
+            lastName: user.lastName || cardData.holderName?.split(' ')[1] || "Name",
+            dob: "1990-01-01", // You can add a dateOfBirth field to user schema later
             residentialAddress: {
-              line1: "Default Address",
+              line1: user.address || "Default Address",
               line2: "Suite 1",
-              city: "HK",
-              country: "HKG"
+              city: "Casablanca",
+              country: "MAR"
             },
             idDocumentType: "TaxIDNumber",
-            idDocumentNumber: "123456"
+            idDocumentNumber: "123456" // You can add ID document field to user schema later
           },
-          preferredCardName: cardData.holderName || "Card Holder",
+          preferredCardName: `${user.firstName || ""} ${user.lastName || ""}`.trim() || cardData.holderName || "Card Holder",
           meta: {
             otpPhoneNumber: {
-              dialCode: "852",
-              phoneNumber: "60254458"
+              dialCode: "212",
+              phoneNumber: user.phone?.replace("+212", "") || "663381823"
             },
             id: userId,
-            email: "user@example.com"
+            email: user.email || "user@example.com"
           }
         });
 
