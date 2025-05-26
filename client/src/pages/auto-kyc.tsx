@@ -41,13 +41,12 @@ export default function AutoKYC() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
 
-  // Auto-start camera for next document
+  // Auto-start camera for next document immediately
   useEffect(() => {
     const nextDocument = documents.find(doc => !doc.captured);
     if (nextDocument && !activeCamera) {
-      setTimeout(() => {
-        startCamera(nextDocument.type);
-      }, 1000);
+      // Start camera immediately without delay
+      startCamera(nextDocument.type);
     }
   }, [documents, activeCamera]);
 
@@ -341,9 +340,21 @@ export default function AutoKYC() {
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                     {language === "ar" ? "التصوير التلقائي جاري التحضير..." : "Auto Capture Preparing..."}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">
                     {language === "ar" ? "سيتم فتح الكاميرا تلقائياً لتصوير المستندات المطلوبة" : "Camera will open automatically to capture required documents"}
                   </p>
+                  
+                  {/* Manual start button in case auto-start doesn't work */}
+                  <Button 
+                    onClick={() => {
+                      const nextDocument = documents.find(doc => !doc.captured);
+                      if (nextDocument) startCamera(nextDocument.type);
+                    }}
+                    className="bg-purple-600 hover:bg-purple-700 text-white"
+                  >
+                    <Camera className="h-4 w-4 mr-2" />
+                    {language === "ar" ? "ابدأ التصوير" : "Start Capture"}
+                  </Button>
                 </div>
               ) : (
                 <div className="text-center p-8">
