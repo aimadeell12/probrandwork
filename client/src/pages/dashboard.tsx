@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Minus, ArrowRight, QrCode, X, ChevronDown, Info, Gift, Bell, Globe } from "lucide-react";
+import { Plus, Minus, ArrowRight, QrCode, X, ChevronDown, Info, Gift, Bell, Globe, Crown } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
 import NotificationCenter from "@/components/notification-center";
@@ -11,6 +11,11 @@ import NotificationCenter from "@/components/notification-center";
 export default function Dashboard() {
   const { t } = useLanguage();
   const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState(false);
+  
+  // Fetch user info
+  const { data: userInfo } = useQuery({
+    queryKey: ["/api/auth/user"],
+  });
   
   const { data: walletData } = useQuery({
     queryKey: ["/api/wallet/balance"],
@@ -29,6 +34,7 @@ export default function Dashboard() {
   const balance = walletData?.balance || 5.00;
   const unreadCount = unreadData?.count || 0;
   const kycStatus = kycData;
+  const isAdmin = userInfo?.role === 'admin';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
@@ -48,6 +54,13 @@ export default function Dashboard() {
           </div>
           
           <div className="flex items-center gap-2">
+            {isAdmin && (
+              <Link href="/admin-panel">
+                <Button variant="ghost" size="icon" className="text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30" title="Admin Panel">
+                  <Crown className="h-5 w-5" />
+                </Button>
+              </Link>
+            )}
             <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400">
               <Gift className="h-5 w-5" />
             </Button>
