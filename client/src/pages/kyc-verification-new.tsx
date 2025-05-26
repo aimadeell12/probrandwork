@@ -484,19 +484,48 @@ export default function KYCVerificationNew() {
                 </div>
 
                 {!capturedImage && !isCameraOpen && (
-                  <div className="text-center">
+                  <div className="text-center space-y-4">
                     <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 mb-4">
                       <Camera className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                       <p className="text-gray-600 dark:text-gray-400 mb-4">
-                        Click the button below to start your camera and take a photo
+                        Take a photo of your ID document
                       </p>
-                      <Button
-                        onClick={startCamera}
-                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
-                      >
-                        <Camera className="h-4 w-4 mr-2" />
-                        Start Camera
-                      </Button>
+                      
+                      <div className="space-y-3">
+                        <Button
+                          onClick={startCamera}
+                          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                        >
+                          <Camera className="h-4 w-4 mr-2" />
+                          Use Camera (Recommended)
+                        </Button>
+                        
+                        <div className="relative">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onload = (event) => {
+                                  setCapturedImage(event.target?.result as string);
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                            id="file-upload"
+                          />
+                          <Button
+                            variant="outline"
+                            className="w-full border-blue-300 text-blue-600 hover:bg-blue-50 dark:border-blue-600 dark:text-blue-400"
+                          >
+                            <Upload className="h-4 w-4 mr-2" />
+                            Choose from Gallery
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
