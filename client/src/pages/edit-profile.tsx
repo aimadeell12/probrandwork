@@ -411,17 +411,20 @@ export default function EditProfile() {
               </CardContent>
             </Card>
 
-            {/* Save Button */}
-            <Button
-              type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-              disabled={updateProfileMutation.isPending}
-            >
-              <Save className="h-5 w-5 mr-2" />
-              {updateProfileMutation.isPending ? "جاري الحفظ..." : "حفظ التغييرات"}
-            </Button>
           </form>
         </Form>
+      </div>
+      
+      {/* Fixed Save Button at Bottom */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 p-4 shadow-lg">
+        <Button
+          onClick={() => form.handleSubmit(onSubmit)()}
+          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+          disabled={updateProfileMutation.isPending}
+        >
+          <Save className="h-5 w-5 mr-2" />
+          {updateProfileMutation.isPending ? "جاري الحفظ..." : "حفظ التغييرات"}
+        </Button>
       </div>
     </div>
   );
