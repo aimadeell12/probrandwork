@@ -213,10 +213,14 @@ export default function EditProfile() {
                       <FormLabel className="flex items-center space-x-2">
                         <Calendar className="h-4 w-4" />
                         <span>تاريخ الميلاد</span>
+                        <span className="text-xs text-orange-600 dark:text-orange-400 mr-2">🔒 محمي</span>
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} type="date" />
+                        <Input {...field} type="date" readOnly disabled className="bg-gray-100 dark:bg-gray-700 cursor-not-allowed" />
                       </FormControl>
+                      <p className="text-xs text-gray-500 mt-1">
+                        تاريخ الميلاد لا يمكن تعديله لأغراض الأمان
+                      </p>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -227,10 +231,13 @@ export default function EditProfile() {
                   name="nationality"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>الجنسية</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormLabel className="flex items-center space-x-2">
+                        <span>الجنسية</span>
+                        <span className="text-xs text-orange-600 dark:text-orange-400 mr-2">🔒 محمي</span>
+                      </FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value} disabled>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="bg-gray-100 dark:bg-gray-700 cursor-not-allowed">
                             <SelectValue placeholder="اختر الجنسية" />
                           </SelectTrigger>
                         </FormControl>
@@ -243,6 +250,9 @@ export default function EditProfile() {
                           <SelectItem value="Other">أخرى</SelectItem>
                         </SelectContent>
                       </Select>
+                      <p className="text-xs text-gray-500 mt-1">
+                        الجنسية لا يمكن تعديلها لأغراض الأمان
+                      </p>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -382,10 +392,13 @@ export default function EditProfile() {
                   name="idDocumentType"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>نوع الهوية</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormLabel className="flex items-center space-x-2">
+                        <span>نوع الهوية</span>
+                        <span className="text-xs text-orange-600 dark:text-orange-400 mr-2">🔒 محمي</span>
+                      </FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value} disabled>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="bg-gray-100 dark:bg-gray-700 cursor-not-allowed">
                             <SelectValue placeholder="اختر نوع الهوية" />
                           </SelectTrigger>
                         </FormControl>
@@ -396,6 +409,9 @@ export default function EditProfile() {
                           <SelectItem value="TaxIDNumber">الرقم الضريبي</SelectItem>
                         </SelectContent>
                       </Select>
+                      <p className="text-xs text-gray-500 mt-1">
+                        نوع الهوية لا يمكن تعديله لأغراض الأمان
+                      </p>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -406,10 +422,16 @@ export default function EditProfile() {
                   name="idDocumentNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>رقم الهوية</FormLabel>
+                      <FormLabel className="flex items-center space-x-2">
+                        <span>رقم الهوية</span>
+                        <span className="text-xs text-orange-600 dark:text-orange-400 mr-2">🔒 محمي</span>
+                      </FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="أدخل رقم الهوية" />
+                        <Input {...field} readOnly disabled className="bg-gray-100 dark:bg-gray-700 cursor-not-allowed" placeholder="أدخل رقم الهوية" />
                       </FormControl>
+                      <p className="text-xs text-gray-500 mt-1">
+                        رقم الهوية لا يمكن تعديله لأغراض الأمان
+                      </p>
                       <FormMessage />
                     </FormItem>
                   )}
