@@ -75,7 +75,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         userId,
       });
 
-      // Create card with Lithic (simulated)
+      // Create card with Reap API
       try {
         const reapCard = await reapService.createCard({
           cardType: cardData.type === "virtual" ? "Virtual" : "Physical",
