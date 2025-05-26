@@ -113,9 +113,13 @@ export function setupSimpleAuth(app: Express) {
 
   // Update user profile
   app.patch("/api/auth/profile", requireAuth, async (req: any, res) => {
+    console.log("=== PATCH /api/auth/profile route hit ===");
     try {
       const userId = req.session?.userId;
+      console.log("Session userId:", userId);
+      
       if (!userId) {
+        console.log("No userId in session, returning 401");
         return res.status(401).json({ message: "Unauthorized" });
       }
       
@@ -125,7 +129,7 @@ export function setupSimpleAuth(app: Express) {
       const updateData = req.body;
       const updatedUser = await storage.updateUserProfile(userId, updateData);
       
-      console.log("Profile updated successfully");
+      console.log("Profile updated successfully:", updatedUser);
       res.json(updatedUser);
     } catch (error) {
       console.error("Error updating profile:", error);
