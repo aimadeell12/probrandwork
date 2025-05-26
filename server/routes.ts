@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupSimpleAuth, requireAuth } from "./simpleAuth";
-import { lithicService } from "./lithic";
+import { reapService } from "./reap";
 import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
@@ -77,21 +77,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Create card with Lithic (simulated)
       try {
-        const lithicCard = await lithicService.createCard({
-          holderName: cardData.holderName || "Card Holder",
-          type: cardData.type,
-          creditLimit: Number(cardData.creditLimit) || 5000,
-          currency: cardData.currency,
+        const reapCard = await reapService.createCard({
+          cardholder_name: cardData.holderName || "Card Holder",
+          card_type: cardData.type as "virtual" | "physical",
+          spending_limit: Number(cardData.creditLimit) || 5000,
         });
 
-        // Save to database with Lithic data
+        // Save to database with Reap data
         const card = await storage.createCard({
           ...cardData,
-          lithicCardId: lithicCard.token,
-          lastFour: lithicCard.last_four,
-          expiryMonth: lithicCard.exp_month,
-          expiryYear: lithicCard.exp_year,
-          status: lithicCard.state === "OPEN" ? "active" : "pending",
+          reapCardId: reapCard.id,
+          lastFour: reapCard.card_number.slice(-4),
+          expiryMonth: reapCard.exp_month,
+          expiryYear: reapCard.exp_year,
+          status: reapCard.status === "active" ? "active" : "pending",
         });
 
         // Deduct cost from wallet balance

@@ -62,6 +62,7 @@ export const cards = pgTable("cards", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: varchar("user_id").notNull().references(() => users.id),
   lithicCardId: varchar("lithic_card_id").unique(),
+  reapCardId: varchar("reap_card_id").unique(),
   holderName: varchar("holder_name").notNull(),
   lastFour: varchar("last_four", { length: 4 }).notNull(),
   type: varchar("type").notNull(), // credit, debit, prepaid
