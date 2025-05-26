@@ -110,28 +110,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         const reapCardData = {
           cardType: cardData.type === "virtual" ? "Virtual" : "Physical" as "Virtual" | "Physical",
-          customerType: "Consumer" as const,
+          spendLimit: 1000,
+          customerType: "Business" as const,
           kyc: {
-            firstName: user.firstName || "Aimad",
-            lastName: user.lastName || "Eloirraki", 
-            dob: "1995-01-01", // تاريخ ميلاد افتراضي بتنسيق صحيح
-            residentialAddress: {
+            fullName: `${user.firstName} ${user.lastName}`.trim(),
+            entityType: "Company",
+            registeredAddress: {
               line1: "123 Main Street",
-              line2: "Apt 1",
-              city: "Casablanca",
-              country: "MA" // كود الدولة بتنسيق ISO
+              line2: "Suite 1",
+              country: "MAR",
+              city: "Casablanca"
             },
-            idDocumentType: "NationalID",
-            idDocumentNumber: "ID123456789"
+            businessName: `${user.firstName} ${user.lastName}`.trim(),
+            businessRegistrationNumber: "BUS123456",
+            businessOperationAddress: {
+              line1: "123 Main Street", 
+              line2: "Suite 1",
+              country: "MAR",
+              city: "Casablanca"
+            }
           },
           preferredCardName: `${user.firstName} ${user.lastName}`.trim(),
           meta: {
             otpPhoneNumber: {
-              dialCode: "+212",
+              dialCode: "212",
               phoneNumber: "663381823"
             },
-            id: userId,
-            email: user.email
+            id: userId
           }
         };
 
