@@ -38,24 +38,55 @@
 
     <!-- Navigation Menu -->
     <nav class="bg-gray-800 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex space-x-8 space-x-reverse">
-                <button onclick="showSection('dashboard')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition active">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex justify-between items-center py-3">
+                <span class="text-sm font-medium">القائمة</span>
+                <button id="mobile-menu-btn" class="text-white p-2">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-4 lg:space-x-8 space-x-reverse overflow-x-auto">
+                <button onclick="showSection('dashboard')" class="nav-btn px-3 lg:px-4 py-3 text-xs lg:text-sm font-medium hover:bg-gray-700 transition active whitespace-nowrap">
+                    <i class="fas fa-tachometer-alt ml-1 lg:ml-2"></i>لوحة التحكم
+                </button>
+                <button onclick="showSection('users')" class="nav-btn px-3 lg:px-4 py-3 text-xs lg:text-sm font-medium hover:bg-gray-700 transition whitespace-nowrap">
+                    <i class="fas fa-users ml-1 lg:ml-2"></i>المستخدمين
+                </button>
+                <button onclick="showSection('kyc')" class="nav-btn px-3 lg:px-4 py-3 text-xs lg:text-sm font-medium hover:bg-gray-700 transition whitespace-nowrap">
+                    <i class="fas fa-id-card ml-1 lg:ml-2"></i>KYC
+                </button>
+                <button onclick="showSection('withdrawals')" class="nav-btn px-3 lg:px-4 py-3 text-xs lg:text-sm font-medium hover:bg-gray-700 transition whitespace-nowrap">
+                    <i class="fas fa-money-bill-wave ml-1 lg:ml-2"></i>السحوبات
+                </button>
+                <button onclick="showSection('cards')" class="nav-btn px-3 lg:px-4 py-3 text-xs lg:text-sm font-medium hover:bg-gray-700 transition whitespace-nowrap">
+                    <i class="fas fa-credit-card ml-1 lg:ml-2"></i>البطاقات
+                </button>
+                <button onclick="showSection('reports')" class="nav-btn px-3 lg:px-4 py-3 text-xs lg:text-sm font-medium hover:bg-gray-700 transition whitespace-nowrap">
+                    <i class="fas fa-chart-bar ml-1 lg:ml-2"></i>التقارير
+                </button>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="md:hidden hidden bg-gray-700">
+                <button onclick="showSection('dashboard')" class="mobile-nav-btn w-full text-right px-4 py-3 text-sm hover:bg-gray-600 border-b border-gray-600">
                     <i class="fas fa-tachometer-alt ml-2"></i>لوحة التحكم
                 </button>
-                <button onclick="showSection('users')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
-                    <i class="fas fa-users ml-2"></i>إدارة المستخدمين
+                <button onclick="showSection('users')" class="mobile-nav-btn w-full text-right px-4 py-3 text-sm hover:bg-gray-600 border-b border-gray-600">
+                    <i class="fas fa-users ml-2"></i>المستخدمين
                 </button>
-                <button onclick="showSection('kyc')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
-                    <i class="fas fa-id-card ml-2"></i>إدارة KYC
+                <button onclick="showSection('kyc')" class="mobile-nav-btn w-full text-right px-4 py-3 text-sm hover:bg-gray-600 border-b border-gray-600">
+                    <i class="fas fa-id-card ml-2"></i>KYC
                 </button>
-                <button onclick="showSection('withdrawals')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
-                    <i class="fas fa-money-bill-wave ml-2"></i>إدارة السحوبات
+                <button onclick="showSection('withdrawals')" class="mobile-nav-btn w-full text-right px-4 py-3 text-sm hover:bg-gray-600 border-b border-gray-600">
+                    <i class="fas fa-money-bill-wave ml-2"></i>السحوبات
                 </button>
-                <button onclick="showSection('cards')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
-                    <i class="fas fa-credit-card ml-2"></i>إدارة البطاقات
+                <button onclick="showSection('cards')" class="mobile-nav-btn w-full text-right px-4 py-3 text-sm hover:bg-gray-600 border-b border-gray-600">
+                    <i class="fas fa-credit-card ml-2"></i>البطاقات
                 </button>
-                <button onclick="showSection('reports')" class="nav-btn px-4 py-3 text-sm font-medium hover:bg-gray-700 transition">
+                <button onclick="showSection('reports')" class="mobile-nav-btn w-full text-right px-4 py-3 text-sm hover:bg-gray-600">
                     <i class="fas fa-chart-bar ml-2"></i>التقارير
                 </button>
             </div>
@@ -63,18 +94,78 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Welcome Section -->
-        <div class="admin-gradient rounded-lg p-6 text-white mb-8">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-3xl font-bold mb-2">مرحباً بك في لوحة الإدارة</h2>
-                    <p class="text-indigo-100 text-lg">إدارة شاملة للمنصة المصرفية الرقمية</p>
+    <main class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 lg:py-8">
+        
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section active">
+            <div class="mb-6 lg:mb-8">
+                <h2 class="text-xl lg:text-2xl font-bold text-gray-900 mb-2">لوحة التحكم</h2>
+                <p class="text-sm lg:text-base text-gray-600">نظرة عامة على النظام والإحصائيات</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 mb-6 lg:mb-8">
+                <div class="stat-card bg-white rounded-lg shadow p-4 lg:p-6">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                            <i class="fas fa-users text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="mr-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">إجمالي المستخدمين</p>
+                            <p id="total-users" class="text-xl lg:text-2xl font-semibold text-gray-900">0</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="hidden md:block">
-                    <i class="fas fa-chart-line text-6xl text-indigo-200"></i>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-4 lg:p-6">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-green-100 text-green-600">
+                            <i class="fas fa-credit-card text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="mr-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">إجمالي البطاقات</p>
+                            <p id="total-cards" class="text-xl lg:text-2xl font-semibold text-gray-900">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-4 lg:p-6">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                            <i class="fas fa-exchange-alt text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="mr-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">المعاملات</p>
+                            <p id="total-transactions" class="text-xl lg:text-2xl font-semibold text-gray-900">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-4 lg:p-6">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                            <i class="fas fa-dollar-sign text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="mr-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">إجمالي الحجم</p>
+                            <p id="total-volume" class="text-xl lg:text-2xl font-semibold text-gray-900">$0</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Recent Activity -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-4 lg:px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-base lg:text-lg font-medium text-gray-900">النشاطات الأخيرة</h3>
+                </div>
+                <div class="p-4 lg:p-6">
+                    <div id="recent-activities" class="space-y-3">
+                        <!-- Activities will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
         <!-- Statistics Cards -->
@@ -702,6 +793,36 @@
                 default: return 'fa-info-circle';
             }
         }
+
+        // Mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    
+                    // Change icon
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.className = 'fas fa-bars';
+                    } else {
+                        icon.className = 'fas fa-times';
+                    }
+                });
+                
+                // Close mobile menu when clicking on nav items
+                const mobileNavBtns = document.querySelectorAll('.mobile-nav-btn');
+                mobileNavBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+                    });
+                });
+            }
+        });
     </script>
 </body>
 </html>
