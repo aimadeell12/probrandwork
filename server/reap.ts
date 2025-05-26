@@ -78,6 +78,9 @@ class ReapService {
         body: data ? JSON.stringify(data, null, 2) : undefined
       });
 
+      console.log('📋 Full request options:', JSON.stringify(options, null, 2));
+      console.log('🌐 Request URL:', url);
+      
       const response = await fetch(url, options);
       
       console.log('✅ Response status:', response.status);
@@ -108,7 +111,42 @@ class ReapService {
 
   async createCard(cardData: ReapCreateCardRequest): Promise<ReapCardResponse> {
     console.log('📋 Data being sent to Reap API:', JSON.stringify(cardData, null, 2));
-    return await this.makeRequest('/cards', 'POST', cardData) as ReapCardResponse;
+    
+    // استخدام نفس الطلب الذي نجح في cURL
+    const url = 'https://sandbox.api.caas.reap.global/cards';
+    
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-reap-api-key': this.apiKey
+      },
+      body: JSON.stringify(cardData)
+    };
+
+    console.log('🔥 Direct request - URL:', url);
+    console.log('🔥 Direct request - Headers:', options.headers);
+    console.log('🔥 Direct request - Body:', options.body);
+
+    try {
+      const response = await fetch(url, options);
+      
+      console.log('✅ Response status:', response.status);
+      console.log('✅ Response ok:', response.ok);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Error response:', errorText);
+        throw new Error(`Reap API error: ${response.status} ${response.statusText} - ${errorText}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Success result:', result);
+      return result;
+    } catch (error) {
+      console.error('🔥 Request failed:', error);
+      throw error;
+    }
   }
 
   async getCard(cardId: string): Promise<ReapCardResponse> {
