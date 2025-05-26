@@ -28,7 +28,7 @@ export default function Dashboard() {
 
   const balance = walletData?.balance || 5.00;
   const unreadCount = unreadData?.count || 0;
-  const kycStatus = kycData?.status;
+  const kycStatus = kycData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
