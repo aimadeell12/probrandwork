@@ -261,7 +261,7 @@ export default function Cards() {
                       </div>
                       
                       {/* Digital text */}
-                      <div className="absolute top-1/4 right-6 text-white font-bold text-lg tracking-wider transform rotate-90 origin-center">
+                      <div className="absolute top-1/4 right-8 text-white font-bold text-xs tracking-wider transform rotate-90 origin-center opacity-80">
                         DIGITAL
                       </div>
                       
