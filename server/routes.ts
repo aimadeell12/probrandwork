@@ -81,50 +81,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "User not found" });
       }
 
-      // إنشاء بطاقة محلية مع بيانات المستخدم الحقيقية
-      console.log(`🏦 Creating local banking card for user: ${user.firstName} ${user.lastName}`);
-      
-      // توليد رقم بطاقة واقعي
-      const generateCardNumber = () => {
-        const prefix = cardData.type === "virtual" ? "4532" : "5555"; // Visa للافتراضية، Mastercard للفيزيائية
-        let cardNumber = prefix;
-        for (let i = 0; i < 12; i++) {
-          cardNumber += Math.floor(Math.random() * 10);
-        }
-        return cardNumber;
-      };
+      // Create card with Reap API using corrected format
+      try {
+        console.log("Creating card with Reap API using corrected format...");
+        
+        const reapCardData = {
+          cardType: cardData.type === "virtual" ? "Virtual" : "Physical" as "Virtual" | "Physical",
+          customerType: "Consumer" as const,
+          kyc: {
+            firstName: user.firstName || "Aimad",
+            lastName: user.lastName || "Eloirraki", 
+            dob: "2000-01-01",
+            residentialAddress: {
+              line1: "Test",
+              line2: "Test",
+              city: "HK",
+              country: "HKG"
+            },
+            idDocumentType: "TaxIDNumber",
+            idDocumentNumber: "123456"
+          },
+          preferredCardName: `${user.firstName} ${user.lastName}`.trim(),
+          meta: {
+            otpPhoneNumber: {
+              dialCode: "852",
+              phoneNumber: "60254458"
+            },
+            id: userId,
+            email: user.email || "abc@gmail.com"
+          }
+        };
 
-      const cardNumber = generateCardNumber();
-      const lastFour = cardNumber.slice(-4);
-      
-      // تواريخ انتهاء واقعية
-      const currentYear = new Date().getFullYear();
-      const expiryYear = (currentYear + 4).toString();
-      const expiryMonth = Math.floor(Math.random() * 12 + 1).toString().padStart(2, '0');
-      
-      const newCard = await storage.createCard({
-        userId,
-        type: cardData.type,
-        holderName: `${user.firstName} ${user.lastName}`.trim(),
-        lastFour,
-        expiryMonth,
-        expiryYear,
-        status: "active",
-        currency: cardData.currency || "MAD",
-        balance: "1000", // رصيد ابتدائي
-        creditLimit: cardData.type === "virtual" ? "5000" : "10000",
-        design: cardData.type === "virtual" ? "gradient-blue" : "classic-black"
-      });
-      
-      console.log(`✅ Card created successfully: ${cardData.type} card ending in ${lastFour}`);
-      
-      // خصم تكلفة البطاقة من المحفظة
-      const cardCost = cardData.type === "virtual" ? 50 : 100; // تكلفة إنشاء البطاقة
-      if (currentBalance >= cardCost) {
-        await storage.updateWalletBalance(userId, currentBalance - cardCost);
+        console.log("📋 Sending corrected data to Reap API:", JSON.stringify(reapCardData, null, 2));
+        
+        const reapCard = await reapService.createCard(reapCardData);
+        
+        const newCard = await storage.createCard({
+          userId,
+          type: cardData.type,
+          holderName: `${user.firstName} ${user.lastName}`.trim(),
+          reapCardId: reapCard.id,
+          status: "active",
+          currency: cardData.currency || "USD",
+          balance: "1000"
+        });
+        
+        // Deduct cost from wallet balance
+        const cardCost = cardData.type === "virtual" ? 50 : 100;
+        if (currentBalance >= cardCost) {
+          await storage.updateWalletBalance(userId, currentBalance - cardCost);
+        }
+        
+        return res.status(201).json(newCard);
+      } catch (error: any) {
+        console.error("Error creating Reap card:", error);
+        return res.status(500).json({ message: "Failed to create card with Reap API" });
       }
-      
-      return res.status(201).json(newCard);
     } catch (error) {
       console.error("Error creating card:", error);
       res.status(500).json({ message: "Failed to create card" });
