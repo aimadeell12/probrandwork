@@ -296,10 +296,10 @@ export default function KYCVerification() {
             <svg className="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            اختر دولة الإقامة
+{language === "ar" ? "اختر دولة الإقامة" : "Select Country of Residence"}
           </CardTitle>
           <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
-            اختر الدولة التي تقيم فيها حالياً لبدء عملية التحقق
+            {language === "ar" ? "اختر الدولة التي تقيم فيها حالياً لبدء عملية التحقق" : "Select the country where you currently reside to start the verification process"}
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -355,10 +355,10 @@ export default function KYCVerification() {
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <User className="h-6 w-6 text-purple-600" />
-          المعلومات الشخصية
+          {language === "ar" ? "المعلومات الشخصية" : "Personal Information"}
         </CardTitle>
         <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
-          يرجى ملء جميع المعلومات المطلوبة بدقة
+          {language === "ar" ? "يرجى ملء جميع المعلومات المطلوبة بدقة" : "Please fill in all required information accurately"}
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
