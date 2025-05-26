@@ -104,7 +104,12 @@ export default function EditProfile() {
 
   const onSubmit = (data: ProfileFormData) => {
     console.log("Form submitted with data:", data);
-    updateProfileMutation.mutate(data);
+    // Send only non-empty fields
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([_, value]) => value !== "")
+    );
+    console.log("Filtered data:", filteredData);
+    updateProfileMutation.mutate(filteredData);
   };
 
   if (isLoading) {
