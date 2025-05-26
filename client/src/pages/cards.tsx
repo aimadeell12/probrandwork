@@ -147,6 +147,7 @@ export default function Cards() {
     mutationFn: (cardId: string) => cardApi.blockCard(cardId, "User requested block"),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cards"] });
+      queryClient.refetchQueries({ queryKey: ["/api/cards"] });
       toast({
         title: "Card Blocked",
         description: "Card has been blocked permanently",
