@@ -245,40 +245,40 @@ export default function Welcome() {
           {/* Showcase Container */}
           <div className="relative transform hover:scale-[1.02] transition-all duration-700">
             
-            {/* Ultra-Premium Floating Credit Card */}
-            <div className="absolute -top-24 -left-40 xl:-left-48 transform rotate-12 z-40 hover:rotate-6 hover:scale-110 transition-all duration-700 group">
-              <div className="w-96 h-56 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 rounded-3xl shadow-2xl p-8 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
+            {/* Fixed Floating Credit Card */}
+            <div className="absolute -top-16 -left-32 lg:-left-36 xl:-left-40 transform rotate-12 z-40 hover:rotate-6 hover:scale-105 transition-all duration-500 group">
+              <div className="w-80 h-48 lg:w-88 lg:h-52 xl:w-96 xl:h-56 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 rounded-3xl shadow-2xl p-6 lg:p-7 xl:p-8 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
                 {/* Card background effects */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/15 to-slate-900/90 rounded-3xl"></div>
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-3xl"></div>
-                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-full blur-2xl"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-3xl"></div>
+                <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-full blur-2xl"></div>
                 
-                <div className="relative z-10">
-                  {/* Card header with enhanced styling */}
-                  <div className="flex justify-between items-start mb-8">
-                    <div className="text-white font-black text-2xl tracking-wider">DIGITAL</div>
+                <div className="relative z-10 h-full flex flex-col justify-between">
+                  {/* Card header */}
+                  <div className="flex justify-between items-start">
+                    <div className="text-white font-black text-lg lg:text-xl xl:text-2xl tracking-wider">DIGITAL</div>
                     <div className="flex space-x-1">
-                      <div className="w-10 h-10 bg-red-500 rounded-full opacity-90 shadow-lg"></div>
-                      <div className="w-10 h-10 bg-yellow-400 rounded-full opacity-90 -ml-3 shadow-lg"></div>
+                      <div className="w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 bg-red-500 rounded-full opacity-90 shadow-lg"></div>
+                      <div className="w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 bg-yellow-400 rounded-full opacity-90 -ml-2 shadow-lg"></div>
                     </div>
                   </div>
                   
-                  {/* Enhanced EMV chip */}
-                  <div className="w-14 h-10 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-xl mb-8 shadow-inner border border-yellow-200/30"></div>
+                  {/* EMV chip */}
+                  <div className="w-10 h-7 lg:w-12 lg:h-8 xl:w-14 xl:h-10 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-lg shadow-inner border border-yellow-200/30"></div>
                   
-                  {/* Card number with better spacing */}
-                  <div className="text-white font-mono text-2xl font-bold tracking-[0.3em] mb-6">
+                  {/* Card number */}
+                  <div className="text-white font-mono text-lg lg:text-xl xl:text-2xl font-bold tracking-[0.2em] lg:tracking-[0.25em] xl:tracking-[0.3em]">
                     4532 1234 5678
                   </div>
                   
-                  {/* Enhanced card details */}
+                  {/* Card details */}
                   <div className="flex justify-between items-end">
                     <div>
-                      <div className="text-gray-300 text-xs uppercase tracking-wider mb-2">Valid Thru</div>
-                      <div className="text-white font-bold text-xl">12/28</div>
+                      <div className="text-gray-300 text-xs uppercase tracking-wider mb-1">Valid Thru</div>
+                      <div className="text-white font-bold text-base lg:text-lg xl:text-xl">12/28</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-white font-bold text-xl tracking-wide">M.BENNANI</div>
+                      <div className="text-white font-bold text-base lg:text-lg xl:text-xl tracking-wide">M.BENNANI</div>
                     </div>
                   </div>
                 </div>
