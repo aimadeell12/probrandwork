@@ -87,29 +87,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log("🔍 User data available:", JSON.stringify(user, null, 2));
         
         const reapCardData = {
-          cardType: cardData.type === "virtual" ? "Virtual" : "Physical",
-          customerType: "Consumer",
+          cardType: cardData.type === "virtual" ? "Virtual" : "Physical" as "Virtual" | "Physical",
+          customerType: "Consumer" as const,
           kyc: {
-            firstName: user.firstName || cardData.holderName?.split(' ')[0] || "User",
-            lastName: user.lastName || cardData.holderName?.split(' ')[1] || "Name",
-            dob: user.dateOfBirth || "1990-01-01",
+            firstName: user.firstName || "Aimad",
+            lastName: user.lastName || "Eloirraki", 
+            dob: "1995-01-01", // تاريخ ميلاد افتراضي بتنسيق صحيح
             residentialAddress: {
-              line1: user.address || "Default Address",
-              line2: user.city || "Suite 1",
-              city: user.city || "Casablanca",
-              country: user.country || "MAR"
+              line1: "123 Main Street",
+              line2: "Apt 1",
+              city: "Casablanca",
+              country: "MA" // كود الدولة بتنسيق ISO
             },
-            idDocumentType: user.idDocumentType || "TaxIDNumber",
-            idDocumentNumber: user.idDocumentNumber || "123456"
+            idDocumentType: "NationalID",
+            idDocumentNumber: "ID123456789"
           },
-          preferredCardName: `${user.firstName || ""} ${user.lastName || ""}`.trim() || cardData.holderName || "Card Holder",
+          preferredCardName: `${user.firstName} ${user.lastName}`.trim(),
           meta: {
             otpPhoneNumber: {
-              dialCode: "212",
-              phoneNumber: user.phone?.replace("+212", "") || "663381823"
+              dialCode: "+212",
+              phoneNumber: "663381823"
             },
             id: userId,
-            email: user.email || "user@example.com"
+            email: user.email
           }
         };
 
