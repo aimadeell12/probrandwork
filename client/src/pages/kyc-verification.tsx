@@ -42,6 +42,7 @@ export default function KYCVerification() {
     fullName: "",
     dateOfBirth: "",
     idNumber: "",
+    idType: "",
     nationality: "",
     country: ""
   });
@@ -242,7 +243,7 @@ export default function KYCVerification() {
         <div className="grid grid-cols-1 gap-6">
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              الاسم الكامل
+              Full Name
             </div>
             <Input
               id="fullName"
@@ -254,7 +255,24 @@ export default function KYCVerification() {
           
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              تاريخ الميلاد
+              ID Type
+            </div>
+            <select
+              value={personalInfo.idType || ""}
+              onChange={(e) => setPersonalInfo(prev => ({...prev, idType: e.target.value}))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white/80 dark:bg-gray-700/80 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+            >
+              <option value="">Select ID Type</option>
+              <option value="national-id">National ID</option>
+              <option value="passport">Passport</option>
+              <option value="driving-license">Driving License</option>
+              <option value="residence-permit">Residence Permit</option>
+            </select>
+          </div>
+          
+          <div>
+            <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Date of Birth
             </div>
             <Input
               id="dateOfBirth"
@@ -267,13 +285,13 @@ export default function KYCVerification() {
           
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              رقم الهوية
+              ID Number
             </div>
             <Input
               id="idNumber"
               value={personalInfo.idNumber}
               onChange={(e) => setPersonalInfo(prev => ({...prev, idNumber: e.target.value}))}
-              placeholder="أدخل رقم الهوية"
+              placeholder="Enter ID Number"
               className="bg-white/80 dark:bg-gray-700/80"
             />
           </div>
