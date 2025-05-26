@@ -84,7 +84,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create card with Reap API using real user data
       try {
         console.log("Creating card with Reap API using real user data...");
-        const reapCard = await reapService.createCard({
+        
+        const reapCardData = {
           cardType: cardData.type === "virtual" ? "Virtual" : "Physical",
           customerType: "Consumer",
           kyc: {
@@ -109,7 +110,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
             id: userId,
             email: user.email || "user@example.com"
           }
-        });
+        };
+
+        console.log("📋 Sending card data to Reap API:", JSON.stringify(reapCardData, null, 2));
+        console.log("👤 User data being used:", JSON.stringify(user, null, 2));
+        
+        const reapCard = await reapService.createCard(reapCardData);
 
         // Generate last four digits for display
         const lastFour = Math.floor(1000 + Math.random() * 9000).toString();
