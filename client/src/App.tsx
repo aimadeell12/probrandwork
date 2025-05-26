@@ -28,7 +28,7 @@ import Transactions from "@/pages/transactions";
 import EditProfile from "@/pages/edit-profile";
 import Webhooks from "@/pages/webhooks";
 
-import KYCVerification from "@/pages/kyc-verification";
+import KYCVerification from "@/pages/kyc-verification-clean";
 import AutoKYC from "@/pages/auto-kyc";
 import CameraTest from "@/pages/camera-test";
 import DocumentCapture from "@/pages/document-capture";

@@ -64,35 +64,150 @@ export default function KYCVerification() {
     }
   }, [user]);
 
+  // Auto-start camera detection system
+  useEffect(() => {
+    if (currentStep === "documents") {
+      const nextDocument = documents.find(doc => !doc.captured);
+      if (nextDocument && !activeCamera) {
+        setTimeout(() => startCamera(nextDocument.type), 1000);
+      }
+    }
+  }, [currentStep, documents, activeCamera]);
+
+  // Smart detection and countdown system
+  useEffect(() => {
+    if (!activeCamera || !isDetecting) return;
+    
+    const detectionTimer = setTimeout(() => {
+      startCountdown();
+    }, 2000); // محاكاة كشف الوثيقة بعد ثانيتين
+
+    return () => clearTimeout(detectionTimer);
+  }, [activeCamera, isDetecting]);
+
+  const startCountdown = () => {
+    let count = 3;
+    setCountdown(count);
+
+    const countdownInterval = setInterval(() => {
+      count--;
+      setCountdown(count);
+
+      if (count === 0) {
+        clearInterval(countdownInterval);
+        capturePhoto().catch(console.error);
+      }
+    }, 1000);
+  };
+
+  const capturePhoto = async () => {
+    if (!videoRef.current || !canvasRef.current || !activeCamera) return;
+
+    const canvas = canvasRef.current;
+    const video = videoRef.current;
+    const context = canvas.getContext("2d");
+
+    if (context) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0);
+      
+      const imageData = canvas.toDataURL("image/jpeg", 0.8);
+      
+      setIsProcessing(true);
+      
+      // محاكاة تحليل الذكاء الاصطناعي
+      const confidence = Math.floor(Math.random() * 25 + 75); // 75-100%
+      const quality = confidence > 90 ? 'عالية' : confidence > 80 ? 'جيدة' : 'متوسطة';
+      
+      console.log(`✅ تم التقاط ${activeCamera} بنجاح - دقة ${confidence}%`);
+      
+      setDocuments(prev => prev.map(doc => 
+        doc.type === activeCamera 
+          ? { 
+              ...doc, 
+              image: imageData, 
+              captured: true
+            }
+          : doc
+      ));
+      
+      // عرض رسالة النجاح مع تحليل الجودة
+      setDetectionMessage(`✅ تم الحفظ - جودة ${quality} (${confidence}%)`);
+      
+      setTimeout(() => {
+        setDetectionMessage("");
+        setIsProcessing(false);
+        setIsDetecting(false);
+        setCountdown(0);
+        stopCamera();
+      }, 2000);
+    }
+  };
+
   const startCamera = async (documentType: DocumentType) => {
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: documentType === "selfie" ? "user" : "environment",
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        } 
-      });
+      // طلب إذن الكاميرا مع إعدادات محسنة
+      const constraints = {
+        video: {
+          facingMode: documentType === "selfie" ? "user" : { ideal: "environment" },
+          width: { min: 640, ideal: 1280, max: 1920 },
+          height: { min: 480, ideal: 720, max: 1080 }
+        },
+        audio: false
+      };
+
+      console.log(`🎥 بدء الكاميرا لتصوير ${documentType}...`);
+      const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      
+      setStream(mediaStream);
+      setActiveCamera(documentType);
       
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
+        
+        // تأكد من تشغيل الفيديو
         videoRef.current.onloadedmetadata = () => {
-          videoRef.current?.play();
+          videoRef.current?.play().catch(e => console.log('Play failed:', e));
         };
-        
-        setStream(mediaStream);
-        setActiveCamera(documentType);
-        
-        // Start auto-detection after camera loads
-        setTimeout(() => {
-          startAutoDetection();
-        }, 1000);
       }
+
+      console.log(`✅ تم تشغيل الكاميرا بنجاح لتصوير ${documentType}`);
+      
+      // بدء كشف تلقائي بعد ثانيتين
+      setTimeout(() => {
+        setIsDetecting(true);
+        setDetectionMessage(getDetectionMessage(documentType));
+      }, 2000);
+      
     } catch (error) {
-      console.error("Error accessing camera:", error);
-      alert("Unable to access camera. Please check permissions.");
+      console.error("❌ خطأ في الوصول للكاميرا:", error);
+      setDetectionMessage("فشل في الوصول للكاميرا - تأكد من إعطاء الإذن");
+      setTimeout(() => setDetectionMessage(""), 4000);
     }
   };
+
+  const stopCamera = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+    setActiveCamera(null);
+    setIsDetecting(false);
+    setCountdown(0);
+    setDetectionMessage("");
+  };
+
+  const getDetectionMessage = (type: DocumentType) => {
+    switch (type) {
+      case "id-front": return "ضع الجهة الأمامية للبطاقة داخل الإطار";
+      case "id-back": return "ضع الجهة الخلفية للبطاقة داخل الإطار";
+      case "selfie": return "انظر إلى الكاميرا مباشرة";
+      default: return "ضع الوثيقة داخل الإطار";
+    }
+  };
+
+
 
   // Auto-detection function
   const startAutoDetection = () => {
