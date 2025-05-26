@@ -14,9 +14,7 @@ import {
   AlertCircle, 
   Clock,
   User,
-  CreditCard,
-  Phone,
-  Mail
+  CreditCard
 } from "lucide-react";
 
 type KYCStep = "country" | "personal" | "documents" | "phone" | "review";
@@ -43,8 +41,6 @@ export default function KYCVerification() {
     dateOfBirth: "",
     idNumber: "",
     nationality: "",
-    phoneNumber: "",
-    email: "",
     country: ""
   });
   const [activeCamera, setActiveCamera] = useState<DocumentType | null>(null);
@@ -139,7 +135,6 @@ export default function KYCVerification() {
     if (step === "country" && personalInfo.country) return "completed";
     if (step === "personal" && personalInfo.fullName && personalInfo.idNumber) return "completed";
     if (step === "documents" && documents.every(doc => doc.captured)) return "completed";
-    if (step === "phone" && personalInfo.phoneNumber) return "completed";
     if (step === "review" && verificationStatus === "verified") return "completed";
     return currentStep === step ? "active" : "pending";
   };
@@ -266,28 +261,7 @@ export default function KYCVerification() {
             />
           </div>
           
-          <div>
-            <Label htmlFor="phoneNumber">{t("phoneNumber")}</Label>
-            <Input
-              id="phoneNumber"
-              value={personalInfo.phoneNumber}
-              onChange={(e) => setPersonalInfo(prev => ({...prev, phoneNumber: e.target.value}))}
-              placeholder={t("enterPhoneNumber")}
-              className="bg-white/80 dark:bg-gray-700/80"
-            />
-          </div>
-          
-          <div>
-            <Label htmlFor="email">{t("email")}</Label>
-            <Input
-              id="email"
-              type="email"
-              value={personalInfo.email}
-              onChange={(e) => setPersonalInfo(prev => ({...prev, email: e.target.value}))}
-              placeholder={t("enterEmail")}
-              className="bg-white/80 dark:bg-gray-700/80"
-            />
-          </div>
+
         </div>
         
         <Button 
