@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Plus, MoreVertical, Settings, Lock } from "lucide-react";
+import { CreditCard, Plus, MoreVertical, Settings, Lock, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/useLanguage";
 import {
@@ -13,6 +13,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import CreateCardModal from "@/components/create-card-modal";
 import type { Card } from "shared/schema";
 
@@ -81,6 +91,8 @@ export default function Cards() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const [showChooseCard, setShowChooseCard] = useState(false);
+  const [showBlockDialog, setShowBlockDialog] = useState(false);
+  const [cardToBlock, setCardToBlock] = useState<string>("");
   const { toast } = useToast();
 
   const { data: cards = [], isLoading } = useQuery<Card[]>({
@@ -150,16 +162,15 @@ export default function Cards() {
   });
 
   const handleBlockCard = (cardId: string) => {
-    const confirmed = window.confirm(
-      "⚠️ WARNING: This will permanently block your card!\n\n" +
-      "• Your card will be disabled immediately\n" +
-      "• You won't be able to make any transactions\n" +
-      "• This action cannot be easily reversed\n\n" +
-      "Are you sure you want to block this card permanently?"
-    );
-    
-    if (confirmed) {
-      blockCardMutation.mutate(cardId);
+    setCardToBlock(cardId);
+    setShowBlockDialog(true);
+  };
+
+  const confirmBlockCard = () => {
+    if (cardToBlock) {
+      blockCardMutation.mutate(cardToBlock);
+      setShowBlockDialog(false);
+      setCardToBlock("");
     }
   };
 
@@ -506,6 +517,54 @@ export default function Cards() {
         open={showCreateModal}
         onOpenChange={setShowCreateModal}
       />
+
+      {/* Block Card Confirmation Dialog */}
+      <AlertDialog open={showBlockDialog} onOpenChange={setShowBlockDialog}>
+        <AlertDialogContent className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-2xl border border-red-200 dark:border-red-800">
+          <AlertDialogHeader className="text-center pb-4">
+            <div className="mx-auto w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-4">
+              <AlertTriangle className="w-8 h-8 text-red-600 dark:text-red-400" />
+            </div>
+            <AlertDialogTitle className="text-xl font-bold text-gray-900 dark:text-white">
+              Block Card Permanently?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-600 dark:text-gray-300 mt-2">
+              <div className="font-medium text-red-600 dark:text-red-400 mb-3">
+                ⚠️ This action cannot be easily reversed!
+              </div>
+              <div className="text-left space-y-2 bg-red-50 dark:bg-red-900/10 p-4 rounded-lg">
+                <div className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Your card will be disabled immediately</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>No transactions will be possible</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>You'll need to contact support to reactivate</span>
+                </div>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex flex-col-reverse sm:flex-row gap-3 pt-6">
+            <AlertDialogCancel 
+              onClick={() => setShowBlockDialog(false)}
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300"
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmBlockCard}
+              className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+              disabled={blockCardMutation.isPending}
+            >
+              {blockCardMutation.isPending ? "Blocking..." : "Yes, Block Card"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
