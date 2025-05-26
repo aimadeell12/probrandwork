@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, CheckCircle2, Upload, AlertCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Upload, AlertCircle, Camera, RotateCcw } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 interface PersonalInfo {
@@ -32,6 +32,13 @@ export default function KYCVerificationNew() {
     city: "",
     postalCode: ""
   });
+
+  // Camera states
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
 
   // تحميل حالة التحقق عند تحميل الصفحة
   useEffect(() => {
@@ -80,6 +87,58 @@ export default function KYCVerificationNew() {
     return personalInfo.address && 
            personalInfo.city && 
            personalInfo.postalCode;
+  };
+
+  const isStep3Valid = () => {
+    return capturedImage !== null;
+  };
+
+  const startCamera = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: 'environment' }
+      });
+      setStream(mediaStream);
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
+        videoRef.current.play();
+      }
+      setIsCameraOpen(true);
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+      alert('Unable to access camera. Please ensure camera permissions are granted.');
+    }
+  };
+
+  const capturePhoto = () => {
+    if (videoRef.current && canvasRef.current) {
+      const canvas = canvasRef.current;
+      const video = videoRef.current;
+      const context = canvas.getContext('2d');
+      
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      
+      if (context) {
+        context.drawImage(video, 0, 0);
+        const imageData = canvas.toDataURL('image/jpeg', 0.8);
+        setCapturedImage(imageData);
+        stopCamera();
+      }
+    }
+  };
+
+  const stopCamera = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+    setIsCameraOpen(false);
+  };
+
+  const retakePhoto = () => {
+    setCapturedImage(null);
+    startCamera();
   };
 
   const submitVerification = async () => {
@@ -213,7 +272,7 @@ export default function KYCVerificationNew() {
         <div className="mb-8">
           <div className="flex items-center justify-between relative">
             <div className="absolute top-4 left-0 right-0 h-0.5 bg-gray-200 dark:bg-gray-700 -z-10"></div>
-            {[1, 2, 3].map((step) => (
+            {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex flex-col items-center">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 ${
                   currentStep >= step 
@@ -223,7 +282,7 @@ export default function KYCVerificationNew() {
                   {step}
                 </div>
                 <span className="text-xs text-gray-600 dark:text-gray-400">
-                  {step === 1 ? "Personal Info" : step === 2 ? "Address" : "Review"}
+                  {step === 1 ? "Personal" : step === 2 ? "Address" : step === 3 ? "ID Photo" : "Review"}
                 </span>
               </div>
             ))}
@@ -235,7 +294,8 @@ export default function KYCVerificationNew() {
           <CardHeader>
             <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">
               {currentStep === 1 ? "Personal Information" : 
-               currentStep === 2 ? "Address Information" : "Review & Submit"}
+               currentStep === 2 ? "Address Information" : 
+               currentStep === 3 ? "ID Document Photo" : "Review & Submit"}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -368,8 +428,112 @@ export default function KYCVerificationNew() {
               </div>
             )}
 
-            {/* Step 3: Review & Submit */}
+            {/* Step 3: ID Document Photo */}
             {currentStep === 3 && (
+              <div className="space-y-6">
+                <div className="text-center">
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                    Take a Photo of Your ID Document
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-400 mb-6">
+                    Please take a clear photo of your {personalInfo.documentType.replace('_', ' ')}. Ensure all text is readable and the document is well-lit.
+                  </p>
+                </div>
+
+                {!capturedImage && !isCameraOpen && (
+                  <div className="text-center">
+                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 mb-4">
+                      <Camera className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-600 dark:text-gray-400 mb-4">
+                        Click the button below to start your camera and take a photo
+                      </p>
+                      <Button
+                        onClick={startCamera}
+                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                      >
+                        <Camera className="h-4 w-4 mr-2" />
+                        Start Camera
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {isCameraOpen && (
+                  <div className="text-center">
+                    <div className="relative mb-4">
+                      <video
+                        ref={videoRef}
+                        className="w-full max-w-md mx-auto rounded-lg shadow-lg"
+                        autoPlay
+                        playsInline
+                      />
+                      <div className="absolute inset-0 border-2 border-white rounded-lg pointer-events-none"></div>
+                    </div>
+                    <div className="flex gap-4 justify-center">
+                      <Button
+                        onClick={stopCamera}
+                        variant="outline"
+                        className="flex-1 max-w-32"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={capturePhoto}
+                        className="flex-1 max-w-32 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                      >
+                        <Camera className="h-4 w-4 mr-2" />
+                        Capture
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {capturedImage && (
+                  <div className="text-center">
+                    <div className="mb-4">
+                      <img
+                        src={capturedImage}
+                        alt="Captured ID"
+                        className="w-full max-w-md mx-auto rounded-lg shadow-lg"
+                      />
+                    </div>
+                    <p className="text-green-600 dark:text-green-400 mb-4 font-semibold">
+                      ✅ Photo captured successfully!
+                    </p>
+                    <Button
+                      onClick={retakePhoto}
+                      variant="outline"
+                      className="mb-6"
+                    >
+                      <RotateCcw className="h-4 w-4 mr-2" />
+                      Retake Photo
+                    </Button>
+                  </div>
+                )}
+
+                <div className="flex gap-4">
+                  <Button
+                    onClick={() => setCurrentStep(2)}
+                    variant="outline"
+                    className="flex-1"
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    onClick={() => setCurrentStep(4)}
+                    disabled={!isStep3Valid()}
+                    className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  >
+                    Continue
+                  </Button>
+                </div>
+
+                <canvas ref={canvasRef} className="hidden" />
+              </div>
+            )}
+
+            {/* Step 4: Review & Submit */}
+            {currentStep === 4 && (
               <div className="space-y-6">
                 <div className="space-y-4">
                   <h4 className="font-semibold text-gray-900 dark:text-white">Review Your Information</h4>
@@ -403,6 +567,22 @@ export default function KYCVerificationNew() {
                       <span className="text-gray-900 dark:text-white">{personalInfo.postalCode}</span>
                     </div>
                   </div>
+
+                  {capturedImage && (
+                    <div className="space-y-3">
+                      <h5 className="font-semibold text-gray-900 dark:text-white">ID Document Photo</h5>
+                      <div className="text-center">
+                        <img
+                          src={capturedImage}
+                          alt="ID Document"
+                          className="w-full max-w-xs mx-auto rounded-lg shadow-md border"
+                        />
+                        <p className="text-green-600 dark:text-green-400 text-sm mt-2">
+                          ✅ Document photo captured
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex gap-4">
