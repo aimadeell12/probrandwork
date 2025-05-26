@@ -345,24 +345,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      // Get user's first card for balance
-      const cards = await storage.getCardsByUserId(userId);
-      if (cards.length === 0) {
-        return res.json({ balance: 0 });
-      }
-
-      const primaryCard = cards[0];
-      let balance = 0;
-
-      try {
-        if (primaryCard.lithicCardId) {
-          balance = await lithicService.getBalance(primaryCard.lithicCardId);
-        }
-      } catch (error) {
-        console.log("Using default balance due to Lithic service unavailable");
-        balance = 1250.75; // Default balance for demo
-      }
-
+      const balance = await storage.getWalletBalance(userId);
       res.json({ balance });
     } catch (error) {
       console.error("Error fetching wallet balance:", error);
