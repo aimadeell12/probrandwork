@@ -41,7 +41,7 @@ export default function Welcome() {
               <div className="relative z-10">
                 {/* رأس البطاقة */}
                 <div className="flex justify-between items-start mb-6">
-                  <div className="text-white font-bold text-lg tracking-wide">DIGITAL</div>
+                  <div className="text-white font-bold text-lg tracking-wide">PAYdota</div>
                   {/* شعار البطاقة */}
                   <div className="flex -space-x-1">
                     <div className="w-6 h-6 bg-red-500 rounded-full"></div>
