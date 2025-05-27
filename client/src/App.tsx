@@ -23,7 +23,6 @@ import SecurityPrivacy from "@/pages/security-privacy";
 import Notifications from "@/pages/notifications";
 import Send from "@/pages/send";
 import Withdraw from "@/pages/withdraw";
-import Scan from "@/pages/scan";
 import Transactions from "@/pages/transactions";
 import EditProfile from "@/pages/edit-profile";
 import Webhooks from "@/pages/webhooks";
@@ -86,7 +85,6 @@ function Router() {
             <Route path="/account/notifications" component={Notifications} />
             <Route path="/send" component={Send} />
             <Route path="/withdraw" component={Withdraw} />
-            <Route path="/scan" component={Scan} />
             <Route path="/transactions" component={Transactions} />
             <Route path="/edit-profile" component={EditProfile} />
 
