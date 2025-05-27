@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Building2, Check, Copy, CreditCard, DollarSign } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function BankTransfer() {
   const [, setLocation] = useLocation();
@@ -16,7 +18,48 @@ export default function BankTransfer() {
   const [reference, setReference] = useState("");
   const [copied, setCopied] = useState("");
 
-  const availableBanks: any[] = [];
+  // Get user data to check country
+  const { data: userData } = useQuery({
+    queryKey: ["/api/auth/user"],
+    queryFn: () => apiRequest("/api/auth/user").then(res => res.json())
+  });
+
+  // Moroccan banks - only show for users from Morocco
+  const moroccanBanks = [
+    {
+      id: "cih",
+      name: "بنك CIH",
+      name_en: "CIH Bank",
+      logo: "🏦",
+      iban: "MA64 0110 0000 0000 0123 4567 89",
+      accountNumber: "001234567890",
+      swiftCode: "CIHMMAMC",
+      currency: "MAD"
+    },
+    {
+      id: "attijari",
+      name: "التجاري وفا بنك",
+      name_en: "Attijariwafa Bank",
+      logo: "🏛️",
+      iban: "MA64 0072 0000 0000 0123 4567 89",
+      accountNumber: "007234567890",
+      swiftCode: "BCMAMAMC",
+      currency: "MAD"
+    },
+    {
+      id: "sgm",
+      name: "بنك المغرب",
+      name_en: "Société Générale Marocaine",
+      logo: "🏢",
+      iban: "MA64 0022 0000 0000 0123 4567 89",
+      accountNumber: "002234567890",
+      swiftCode: "SOGEMAMC",
+      currency: "MAD"
+    }
+  ];
+
+  // Only show banks if user is from Morocco
+  const availableBanks = userData?.country === "MAR" ? moroccanBanks : [];
 
   const selectedBankDetails = availableBanks.find((bank) => bank.id === selectedBank);
 
@@ -122,10 +165,10 @@ export default function BankTransfer() {
                   <div className="p-8 text-center bg-gray-50 dark:bg-gray-700/50 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600">
                     <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                     <p className="text-gray-500 dark:text-gray-400 text-lg font-medium mb-2">
-                      لا توجد بنوك متاحة حالياً
+                      لا توجد بنوك متاحة لدولتك حالياً
                     </p>
                     <p className="text-gray-400 dark:text-gray-500 text-sm">
-                      سيتم إضافة البنوك قريباً
+                      البنوك المتاحة: المغرب (CIH, ATTIJARI, SGM)
                     </p>
                   </div>
                 ) : (
