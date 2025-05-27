@@ -34,6 +34,7 @@ import AdminNavigation from "@/components/admin-navigation";
 import UserManagement from "@/pages/admin/users";
 import SystemReports from "@/pages/admin/reports";
 import AdminSettings from "@/pages/admin/settings";
+import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";
 
@@ -94,6 +95,7 @@ function Router() {
             <Route path="/admin/users" component={UserManagement} />
             <Route path="/admin/reports" component={SystemReports} />
             <Route path="/admin/settings" component={AdminSettings} />
+            <Route path="/bank-transfer" component={BankTransfer} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
           </>

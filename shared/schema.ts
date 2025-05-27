@@ -151,6 +151,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   cards: many(cards),
   supportTickets: many(supportTickets),
   kycVerifications: many(kycVerifications),
+  bankTransfers: many(bankTransfers),
 }));
 
 export const cardsRelations = relations(cards, ({ one, many }) => ({
@@ -174,6 +175,28 @@ export const supportTicketsRelations = relations(supportTickets, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+// Bank Transfers table
+export const bankTransfers = pgTable("bank_transfers", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  type: varchar("type").notNull(), // incoming, outgoing
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  currency: varchar("currency", { length: 3 }).notNull().default("USD"),
+  recipientName: varchar("recipient_name"),
+  recipientBank: varchar("recipient_bank"),
+  recipientAccount: varchar("recipient_account"),
+  senderName: varchar("sender_name"),
+  senderBank: varchar("sender_bank"),
+  senderAccount: varchar("sender_account"),
+  reference: varchar("reference"),
+  description: text("description"),
+  status: varchar("status").notNull().default("pending"), // pending, processing, completed, failed, cancelled
+  feeAmount: decimal("fee_amount", { precision: 12, scale: 2 }).default("0.00"),
+  createdAt: timestamp("created_at").defaultNow(),
+  processedAt: timestamp("processed_at"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
 
 // Notifications table
 export const notifications = pgTable("notifications", {
@@ -301,6 +324,13 @@ export const insertKycVerificationSchema = createInsertSchema(kycVerifications).
 export const insertKycDocumentSchema = createInsertSchema(kycDocuments).omit({
   id: true,
   uploadedAt: true,
+});
+
+export const insertBankTransferSchema = createInsertSchema(bankTransfers).omit({
+  id: true,
+  createdAt: true,
+  processedAt: true,
+  updatedAt: true,
 });
 
 // Enhanced KYC schema with address fields
