@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Minus, ArrowRight, QrCode, X, ChevronDown, Info, Gift, Bell, Globe, Crown } from "lucide-react";
+import { Plus, Minus, ArrowRight, QrCode, X, ChevronDown, Info, Gift, Bell, Globe, Crown, Grid3X3 } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
 import NotificationCenter from "@/components/notification-center";
@@ -132,6 +132,14 @@ export default function Dashboard() {
             </div>
           </Link>
           
+          <Link href="/services">
+            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                <Grid3X3 className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+              </div>
+              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Hub</span>
+            </div>
+          </Link>
 
         </div>
 
