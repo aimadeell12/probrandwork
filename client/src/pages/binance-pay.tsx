@@ -146,17 +146,7 @@ export default function BinancePay() {
                     src="/attached_assets/pngwing.com.png" 
                     alt="Binance" 
                     className="h-10 w-10 object-contain"
-                    onError={(e) => {
-                      // إذا فشل تحميل الصورة، استخدم أيقونة CSS
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.nextElementSibling.style.display = 'flex';
-                    }}
                   />
-                  <div className="hidden p-2 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl shadow-lg">
-                    <div className="w-6 h-6 bg-black rounded-lg flex items-center justify-center">
-                      <div className="text-yellow-400 font-bold text-sm">B</div>
-                    </div>
-                  </div>
                 </div>
                 Binance Pay
               </h1>
@@ -176,17 +166,7 @@ export default function BinancePay() {
                   src="/attached_assets/pngwing.com.png" 
                   alt="Binance" 
                   className="h-7 w-7 object-contain"
-                  onError={(e) => {
-                    // إذا فشل تحميل الصورة، استخدم أيقونة CSS
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.nextElementSibling.style.display = 'flex';
-                  }}
                 />
-                <div className="hidden p-1.5 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl shadow-lg">
-                  <div className="w-5 h-5 bg-black rounded-lg flex items-center justify-center">
-                    <div className="text-yellow-400 font-bold text-xs">B</div>
-                  </div>
-                </div>
                 إنشاء طلب دفع
               </CardTitle>
             </CardHeader>
