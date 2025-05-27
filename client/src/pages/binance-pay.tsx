@@ -204,123 +204,130 @@ export default function BinancePay() {
           </Card>
         ) : (
           /* Payment Details */
-          <div className="space-y-6 max-w-2xl mx-auto">
+          <div className="space-y-6">
             {/* Payment Info Card */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200 dark:border-yellow-800">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
               <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white flex items-center justify-between">
-                  <span>Payment Order Created</span>
-                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                    Active
+                <CardTitle className="text-lg flex items-center justify-between text-gray-900 dark:text-white">
+                  <span className="flex items-center gap-2">
+                    <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                      <Check className="h-5 w-5 text-green-600" />
+                    </div>
+                    تم إنشاء طلب الدفع
+                  </span>
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 rounded-full">
+                    نشط
                   </Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-sm text-gray-600 dark:text-gray-400">Order ID</Label>
-                    <p className="font-mono text-sm break-all">{paymentOrder.orderId}</p>
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
+                    <Label className="text-sm text-gray-600 dark:text-gray-400">رقم الطلب</Label>
+                    <p className="font-mono text-sm break-all text-gray-900 dark:text-white">{paymentOrder.orderId}</p>
                   </div>
-                  <div>
-                    <Label className="text-sm text-gray-600 dark:text-gray-400">Expires At</Label>
-                    <p className="text-sm flex items-center">
-                      <Clock className="h-4 w-4 mr-1" />
+                  <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
+                    <Label className="text-sm text-gray-600 dark:text-gray-400">ينتهي في</Label>
+                    <p className="text-sm flex items-center text-gray-900 dark:text-white">
+                      <Clock className="h-4 w-4 ml-1" />
                       {formatExpireTime(paymentOrder.expireTime)}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-2 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                  <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                <div className="flex items-center space-x-2 space-x-reverse p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800">
+                  <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
                   <p className="text-sm text-yellow-800 dark:text-yellow-300">
-                    Complete your payment before the expiration time to avoid order cancellation.
+                    أكمل دفعتك قبل انتهاء الوقت المحدد لتجنب إلغاء الطلب.
                   </p>
                 </div>
               </CardContent>
             </Card>
 
             {/* QR Code Card */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200 dark:border-yellow-800">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
               <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white flex items-center">
-                  <QrCode className="h-5 w-5 mr-2" />
-                  Scan QR Code
+                <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
+                  <div className="p-1 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <QrCode className="h-5 w-5 text-purple-600" />
+                  </div>
+                  امسح رمز QR
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-center space-y-4">
                 <div className="flex justify-center">
-                  <div className="p-4 bg-white rounded-lg shadow-lg">
+                  <div className="p-6 bg-white rounded-2xl shadow-xl border border-purple-100">
                     <img 
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentOrder.qrCode)}`}
                       alt="Payment QR Code"
-                      className="w-48 h-48"
+                      className="w-48 h-48 rounded-xl"
                     />
                   </div>
                 </div>
                 
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Scan this QR code with your Binance app to complete the payment
+                    امسح رمز QR هذا بتطبيق Binance الخاص بك لإكمال الدفع
                   </p>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={handleCopyQrCode}
-                    className="flex items-center space-x-2"
+                    className="flex items-center gap-2 rounded-2xl border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/20"
                   >
                     {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                    <span>{copied ? "Copied!" : "Copy QR Data"}</span>
+                    <span>{copied ? "تم النسخ!" : "نسخ بيانات QR"}</span>
                   </Button>
                 </div>
               </CardContent>
             </Card>
 
             {/* Payment Links Card */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200 dark:border-yellow-800">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
               <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white">Payment Options</CardTitle>
+                <CardTitle className="text-lg text-gray-900 dark:text-white">خيارات الدفع</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <Button
                   onClick={() => window.open(paymentOrder.paymentUrl, '_blank')}
-                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-white flex items-center justify-center space-x-2"
+                  className="w-full bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white flex items-center justify-center gap-2 py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
                 >
-                  <ExternalLink className="h-4 w-4" />
-                  <span>Open Binance Pay Checkout</span>
+                  <ExternalLink className="h-5 w-5" />
+                  <span>فتح صفحة دفع Binance</span>
                 </Button>
 
                 <Button
                   onClick={() => window.open(paymentOrder.deeplink, '_blank')}
                   variant="outline"
-                  className="w-full flex items-center justify-center space-x-2"
+                  className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/20"
                 >
-                  <ExternalLink className="h-4 w-4" />
-                  <span>Open in Binance App</span>
+                  <ExternalLink className="h-5 w-5" />
+                  <span>فتح في تطبيق Binance</span>
                 </Button>
 
                 <Button
                   onClick={handleCheckStatus}
                   disabled={queryOrderMutation.isPending}
                   variant="secondary"
-                  className="w-full"
+                  className="w-full py-4 rounded-2xl bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/30 dark:hover:bg-purple-900/50"
                 >
-                  {queryOrderMutation.isPending ? "Checking..." : "Check Payment Status"}
+                  {queryOrderMutation.isPending ? "جاري التحقق..." : "تحقق من حالة الدفع"}
                 </Button>
               </CardContent>
             </Card>
 
             {/* Instructions */}
-            <Card className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
-              <CardContent className="p-4">
-                <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
-                  How to pay with Binance Pay:
+            <Card className="bg-blue-50/80 dark:bg-blue-900/20 border-blue-200/30 dark:border-blue-800/30 shadow-xl">
+              <CardContent className="p-6">
+                <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-3 text-lg">
+                  كيفية الدفع بـ Binance Pay:
                 </h3>
-                <ol className="list-decimal list-inside space-y-1 text-sm text-blue-800 dark:text-blue-200">
-                  <li>Open your Binance app</li>
-                  <li>Go to Pay section</li>
-                  <li>Scan the QR code above or click "Open in Binance App"</li>
-                  <li>Confirm the payment in your Binance app</li>
-                  <li>Wait for confirmation (usually instant)</li>
+                <ol className="list-decimal list-inside space-y-2 text-sm text-blue-800 dark:text-blue-200">
+                  <li>افتح تطبيق Binance الخاص بك</li>
+                  <li>اذهب إلى قسم Pay</li>
+                  <li>امسح رمز QR أعلاه أو اضغط على "فتح في تطبيق Binance"</li>
+                  <li>أكد الدفعة في تطبيق Binance الخاص بك</li>
+                  <li>انتظر التأكيد (عادة فوري)</li>
                 </ol>
               </CardContent>
             </Card>
