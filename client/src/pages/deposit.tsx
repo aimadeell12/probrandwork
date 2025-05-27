@@ -74,25 +74,31 @@ export default function Deposit() {
       
       {/* Header */}
       <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
-        <div className="flex items-center space-x-4 space-x-reverse">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20"
-          >
-            <ArrowLeft className="h-6 w-6" />
-          </Button>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center space-x-4 space-x-reverse">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setLocation("/dashboard")}
+              className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+            >
+              <ArrowLeft className="h-6 w-6" />
+            </Button>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">
             {t('depositMoney')}
           </h1>
+          </div>
         </div>
       </div>
 
-      <div className="p-4 space-y-6 relative z-10 max-w-md mx-auto">
+      <div className="p-4 lg:p-8 space-y-6 relative z-10 max-w-md lg:max-w-4xl mx-auto">
         
-        {/* Amount Input */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+        {/* Desktop Layout */}
+        <div className="lg:grid lg:grid-cols-2 lg:gap-8 space-y-6 lg:space-y-0">
+          
+          {/* Left Column - Amount Input */}
+          <div className="space-y-6">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
               <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
@@ -113,13 +119,13 @@ export default function Deposit() {
                 className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-purple-200/30 focus:border-purple-500 rounded-2xl"
               />
             </div>
-
-
           </CardContent>
         </Card>
+          </div>
 
-        {/* Payment Methods */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+          {/* Right Column - Payment Methods */}
+          <div className="space-y-6">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardHeader>
             <CardTitle className="text-lg text-gray-900 dark:text-white">{t('paymentMethod')}</CardTitle>
           </CardHeader>
@@ -183,15 +189,17 @@ export default function Deposit() {
           </CardContent>
         </Card>
 
-        {/* Deposit Button */}
-        <Button
-          onClick={handleDeposit}
-          disabled={depositMutation.isPending || !amount}
-          className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
-        >
-          <Plus className="h-5 w-5 mr-2" />
-          {depositMutation.isPending ? t('processingDeposit') : `${t('depositButton')} $${amount || "0.00"}`}
-        </Button>
+            {/* Deposit Button */}
+            <Button
+              onClick={handleDeposit}
+              disabled={depositMutation.isPending || !amount}
+              className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
+            >
+              <Plus className="h-5 w-5 mr-2" />
+              {depositMutation.isPending ? t('processingDeposit') : `${t('depositButton')} $${amount || "0.00"}`}
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
