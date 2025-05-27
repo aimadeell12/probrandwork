@@ -141,9 +141,21 @@ export default function BinancePay() {
             </Link>
             <div>
               <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
-                <div className="mr-3 p-2 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl shadow-lg">
-                  <div className="w-6 h-6 bg-black rounded-lg flex items-center justify-center">
-                    <div className="text-yellow-400 font-bold text-sm">B</div>
+                <div className="mr-3">
+                  <img 
+                    src="/attached_assets/pngwing.com.png" 
+                    alt="Binance" 
+                    className="h-10 w-10 object-contain"
+                    onError={(e) => {
+                      // إذا فشل تحميل الصورة، استخدم أيقونة CSS
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.nextElementSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="hidden p-2 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl shadow-lg">
+                    <div className="w-6 h-6 bg-black rounded-lg flex items-center justify-center">
+                      <div className="text-yellow-400 font-bold text-sm">B</div>
+                    </div>
                   </div>
                 </div>
                 Binance Pay
@@ -160,7 +172,17 @@ export default function BinancePay() {
           <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
-                <div className="p-1.5 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl shadow-lg">
+                <img 
+                  src="/attached_assets/pngwing.com.png" 
+                  alt="Binance" 
+                  className="h-7 w-7 object-contain"
+                  onError={(e) => {
+                    // إذا فشل تحميل الصورة، استخدم أيقونة CSS
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="hidden p-1.5 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl shadow-lg">
                   <div className="w-5 h-5 bg-black rounded-lg flex items-center justify-center">
                     <div className="text-yellow-400 font-bold text-xs">B</div>
                   </div>
