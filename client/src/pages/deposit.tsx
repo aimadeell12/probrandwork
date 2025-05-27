@@ -66,7 +66,7 @@ export default function Deposit() {
     depositMutation.mutate({ amount: depositAmount, method: selectedMethod });
   };
 
-  const quickAmounts = [10, 25, 50, 100, 250, 500];
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
@@ -117,19 +117,7 @@ export default function Deposit() {
               />
             </div>
 
-            {/* Quick Amount Buttons */}
-            <div className="grid grid-cols-3 gap-2">
-              {quickAmounts.map((quickAmount) => (
-                <Button
-                  key={quickAmount}
-                  variant="outline"
-                  onClick={() => setAmount(quickAmount.toString())}
-                  className="bg-white/80 dark:bg-gray-700/80 border-purple-200/30 hover:bg-purple-50 hover:border-purple-400"
-                >
-                  ${quickAmount}
-                </Button>
-              ))}
-            </div>
+
           </CardContent>
         </Card>
 
