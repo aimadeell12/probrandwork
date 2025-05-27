@@ -41,6 +41,10 @@ import UserManagement from "@/pages/admin/users";
 import SystemReports from "@/pages/admin/reports";
 import AdminSettings from "@/pages/admin/settings";
 import AdminBankTransfers from "@/pages/admin/bank-transfers";
+import AdminReferrals from "@/pages/admin/referrals";
+import AdminVouchers from "@/pages/admin/vouchers";
+import AdminCurrency from "@/pages/admin/currency";
+import AdminCommunity from "@/pages/admin/community";
 import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";
@@ -102,6 +106,10 @@ function Router() {
             <Route path="/admin/reports" component={SystemReports} />
             <Route path="/admin/settings" component={AdminSettings} />
             <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
+          <Route path="/admin/referrals" component={AdminReferrals} />
+          <Route path="/admin/vouchers" component={AdminVouchers} />
+          <Route path="/admin/currency" component={AdminCurrency} />
+          <Route path="/admin/community" component={AdminCommunity} />
             <Route path="/bank-transfer" component={BankTransfer} />
             <Route path="/services" component={Services} />
             <Route path="/account/referral" component={Referral} />

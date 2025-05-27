@@ -11,7 +11,11 @@ import {
   Home,
   ChevronRight,
   Crown,
-  Building2
+  Building2,
+  Gift,
+  Ticket,
+  DollarSign,
+  MessageSquare
 } from "lucide-react";
 
 export default function AdminNavigation() {
@@ -49,6 +53,38 @@ export default function AdminNavigation() {
       icon: Building2,
       color: "bg-indigo-500",
       isActive: location === "/admin/bank-transfers"
+    },
+    {
+      title: "Referral Management",
+      description: "Manage referral programs and rewards",
+      href: "/admin/referrals",
+      icon: Gift,
+      color: "bg-pink-500",
+      isActive: location === "/admin/referrals"
+    },
+    {
+      title: "Voucher Management", 
+      description: "Create and manage discount vouchers",
+      href: "/admin/vouchers",
+      icon: Ticket,
+      color: "bg-yellow-500",
+      isActive: location === "/admin/vouchers"
+    },
+    {
+      title: "Currency Management",
+      description: "Manage exchange rates and conversions",
+      href: "/admin/currency",
+      icon: DollarSign,
+      color: "bg-green-500",
+      isActive: location === "/admin/currency"
+    },
+    {
+      title: "Community Management",
+      description: "Moderate discussions and events",
+      href: "/admin/community",
+      icon: MessageSquare,
+      color: "bg-blue-500",
+      isActive: location === "/admin/community"
     },
     {
       title: "Admin Settings",
