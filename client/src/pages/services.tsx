@@ -143,11 +143,13 @@ export default function Services() {
     if (href) {
       return (
         <Link href={href}>
-          <div className="flex flex-col items-center p-6 rounded-2xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 cursor-pointer">
-            <div className={`w-16 h-16 ${service.color} rounded-2xl flex items-center justify-center mb-4 shadow-md`}>
-              <Icon className={`h-8 w-8 ${service.iconColor}`} />
+          <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+            <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+              <div className={`w-10 h-10 ${service.color} rounded-2xl flex items-center justify-center`}>
+                <Icon className={`h-5 w-5 ${service.iconColor}`} />
+              </div>
             </div>
-            <span className="text-sm font-medium text-gray-900 dark:text-white text-center">
+            <span className="text-sm text-gray-700 dark:text-gray-300 font-medium text-center">
               {service.title}
             </span>
           </div>
@@ -158,12 +160,14 @@ export default function Services() {
     return (
       <div 
         onClick={service.action}
-        className="flex flex-col items-center p-6 rounded-2xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 cursor-pointer"
+        className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200"
       >
-        <div className={`w-16 h-16 ${service.color} rounded-2xl flex items-center justify-center mb-4 shadow-md`}>
-          <Icon className={`h-8 w-8 ${service.iconColor}`} />
+        <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+          <div className={`w-10 h-10 ${service.color} rounded-2xl flex items-center justify-center`}>
+            <Icon className={`h-5 w-5 ${service.iconColor}`} />
+          </div>
         </div>
-        <span className="text-sm font-medium text-gray-900 dark:text-white text-center">
+        <span className="text-sm text-gray-700 dark:text-gray-300 font-medium text-center">
           {service.title}
         </span>
       </div>
@@ -171,31 +175,35 @@ export default function Services() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-gray-900 to-indigo-900 relative overflow-hidden">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/10 to-pink-200/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 sticky top-0 z-10">
-        <div className="flex items-center space-x-4">
+      <div className="bg-gray-900/80 backdrop-blur-sm border-b border-gray-700/30 p-4 relative z-10">
+        <div className="flex items-center space-x-4 space-x-reverse">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl"
+            className="p-2 hover:bg-gray-800/50 text-white"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-xl font-bold text-white">
             Services Hub
           </h1>
         </div>
       </div>
 
-      <div className="p-6 space-y-8 pb-20">
+      <div className="p-4 space-y-6 relative z-10 pb-20">
         
         {/* Popular Services */}
         <div>
-          <h2 className="text-lg font-bold text-white mb-6">Popular</h2>
-          <div className="grid grid-cols-3 gap-4">
+          <h2 className="text-lg font-bold text-white mb-4">Popular</h2>
+          <div className="grid grid-cols-3 gap-3">
             {popularServices.map((service, index) => (
               <ServiceCard key={index} service={service} />
             ))}
@@ -204,8 +212,8 @@ export default function Services() {
 
         {/* Card Services */}
         <div>
-          <h2 className="text-lg font-bold text-white mb-6">Card</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <h2 className="text-lg font-bold text-white mb-4">Card</h2>
+          <div className="grid grid-cols-2 gap-3">
             {cardServices.map((service, index) => (
               <ServiceCard 
                 key={index} 
@@ -218,8 +226,8 @@ export default function Services() {
 
         {/* Transaction Services */}
         <div>
-          <h2 className="text-lg font-bold text-white mb-6">Transaction</h2>
-          <div className="grid grid-cols-3 gap-4">
+          <h2 className="text-lg font-bold text-white mb-4">Transaction</h2>
+          <div className="grid grid-cols-3 gap-3">
             {transactionServices.map((service, index) => (
               <ServiceCard 
                 key={index} 
@@ -232,8 +240,8 @@ export default function Services() {
 
         {/* Banking Services */}
         <div>
-          <h2 className="text-lg font-bold text-white mb-6">Banking</h2>
-          <div className="grid grid-cols-3 gap-4">
+          <h2 className="text-lg font-bold text-white mb-4">Banking</h2>
+          <div className="grid grid-cols-3 gap-3">
             <ServiceCard 
               service={{
                 icon: Building2,
@@ -249,8 +257,8 @@ export default function Services() {
 
         {/* Support Services */}
         <div>
-          <h2 className="text-lg font-bold text-white mb-6">Support</h2>
-          <div className="grid grid-cols-3 gap-4">
+          <h2 className="text-lg font-bold text-white mb-4">Support</h2>
+          <div className="grid grid-cols-3 gap-3">
             {supportServices.map((service, index) => (
               <ServiceCard 
                 key={index} 
