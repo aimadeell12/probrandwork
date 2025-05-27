@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useLanguage } from "@/hooks/useLanguage";
+import binanceIcon from "@assets/pngwing.com.png";
 
 export default function Deposit() {
   const { t } = useLanguage();
@@ -133,7 +134,11 @@ export default function Deposit() {
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
-                  <Coins className="h-5 w-5 text-yellow-600" />
+                  <img 
+                    src={binanceIcon} 
+                    alt="Binance" 
+                    className="h-5 w-5 object-contain"
+                  />
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">Binance Pay</p>
