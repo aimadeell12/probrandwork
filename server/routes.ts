@@ -48,15 +48,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       let banks;
       if (country) {
+        // Get both country-specific banks AND global banks
         banks = await db
           .select()
           .from(schema.banks)
           .where(and(
-            eq(schema.banks.country, country as string),
+            sql`(${schema.banks.country} = ${country} OR ${schema.banks.country} = 'GLOBAL')`,
             eq(schema.banks.isActive, true)
           ))
           .orderBy(schema.banks.name);
       } else {
+        // Get all banks if no country specified
         banks = await db
           .select()
           .from(schema.banks)
