@@ -15,7 +15,8 @@ import {
   Gift,
   Ticket,
   DollarSign,
-  MessageSquare
+  MessageSquare,
+  Plus
 } from "lucide-react";
 
 export default function AdminNavigation() {

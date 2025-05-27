@@ -107,6 +107,7 @@ function Router() {
             <Route path="/admin/reports" component={SystemReports} />
             <Route path="/admin/settings" component={AdminSettings} />
             <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
+            <Route path="/admin/deposit-requests" component={DepositRequests} />
           <Route path="/admin/referrals" component={AdminReferrals} />
           <Route path="/admin/vouchers" component={AdminVouchers} />
           <Route path="/admin/currency" component={AdminCurrency} />
