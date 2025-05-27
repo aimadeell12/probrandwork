@@ -37,6 +37,11 @@ export default function BankTransfer() {
   });
 
   const availableBanks = banks || [];
+  
+  // Debug logs
+  console.log("🏦 User country:", userData?.country);
+  console.log("🏦 Available banks:", availableBanks);
+  console.log("🏦 Banks loading:", isLoadingBanks);
 
   const selectedBankDetails = availableBanks.find((bank) => bank.code === selectedBank);
 
