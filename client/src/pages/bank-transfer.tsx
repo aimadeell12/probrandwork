@@ -3,73 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Building2, Check, Copy, CreditCard, DollarSign } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import { useLanguage } from "@/hooks/useLanguage";
-
-interface BankAccount {
-  id: string;
-  bankName: string;
-  accountNumber: string;
-  accountHolderName: string;
-  iban?: string;
-  swiftCode?: string;
-  routingNumber?: string;
-  currency: string;
-  isActive: boolean;
-}
 
 export default function BankTransfer() {
-  const { t } = useLanguage();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const [amount, setAmount] = useState("");
   const [selectedBank, setSelectedBank] = useState("");
   const [reference, setReference] = useState("");
   const [copied, setCopied] = useState("");
-
-  // Create bank transfer function (simplified for now)
-  const handleCreateTransfer = () => {
-    toast({
-      title: "تم إنشاء التحويل",
-      description: "تم إنشاء طلب التحويل البنكي بنجاح. استخدم التفاصيل أدناه لإكمال التحويل.",
-    });
-    setAmount("");
-    setSelectedBank("");
-    setReference("");
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!amount || !selectedBank) {
-      toast({
-        title: "خطأ",
-        description: "يرجى ملء جميع الحقول المطلوبة",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    handleCreateTransfer();
-  };
-
-  const copyToClipboard = (text: string, type: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(type);
-    setTimeout(() => setCopied(""), 2000);
-    toast({
-      title: "تم النسخ",
-      description: "تم نسخ المعلومات إلى الحافظة",
-    });
-  };
-
-  const selectedBankDetails = bankAccounts?.find((bank: BankAccount) => bank.id === selectedBank);
 
   const availableBanks = [
     {
@@ -133,6 +78,38 @@ export default function BankTransfer() {
       currency: "SAR"
     }
   ];
+
+  const selectedBankDetails = availableBanks.find((bank) => bank.id === selectedBank);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!amount || !selectedBank) {
+      toast({
+        title: "خطأ",
+        description: "يرجى ملء جميع الحقول المطلوبة",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "تم إنشاء التحويل",
+      description: "تم إنشاء طلب التحويل البنكي بنجاح. استخدم التفاصيل أدناه لإكمال التحويل.",
+    });
+    setAmount("");
+    setSelectedBank("");
+    setReference("");
+  };
+
+  const copyToClipboard = (text: string, type: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(type);
+    setTimeout(() => setCopied(""), 2000);
+    toast({
+      title: "تم النسخ",
+      description: "تم نسخ المعلومات إلى الحافظة",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900 relative overflow-hidden">
@@ -250,24 +227,17 @@ export default function BankTransfer() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                disabled={createTransferMutation.isPending || !amount || !selectedBank}
+                disabled={!amount || !selectedBank}
                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-6 rounded-2xl text-lg font-medium shadow-lg hover:shadow-xl transition-all"
               >
-                {createTransferMutation.isPending ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    جاري الإنشاء...
-                  </>
-                ) : (
-                  "إنشاء طلب التحويل"
-                )}
+                إنشاء طلب التحويل
               </Button>
             </form>
           </CardContent>
         </Card>
 
         {/* Bank Details Card - Show when bank is selected */}
-        {selectedBank && (
+        {selectedBank && selectedBankDetails && (
           <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-blue-200/30 shadow-xl">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
@@ -276,94 +246,87 @@ export default function BankTransfer() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {(() => {
-                const bank = availableBanks.find(b => b.id === selectedBank);
-                if (!bank) return null;
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
+                  <div className="text-3xl">{selectedBankDetails.logo}</div>
+                  <div>
+                    <p className="font-bold text-lg text-gray-900 dark:text-white">
+                      {selectedBankDetails.name}
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      {selectedBankDetails.name_en}
+                    </p>
+                  </div>
+                </div>
                 
-                return (
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
-                      <div className="text-3xl">{bank.logo}</div>
-                      <div>
-                        <p className="font-bold text-lg text-gray-900 dark:text-white">
-                          {bank.name}
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          {bank.name_en}
-                        </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">رقم الحساب:</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-sm">{selectedBankDetails.accountNumber}</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0"
+                          onClick={() => copyToClipboard(selectedBankDetails.accountNumber, 'account')}
+                        >
+                          {copied === 'account' ? (
+                            <Check className="h-3 w-3 text-green-600" />
+                          ) : (
+                            <Copy className="h-3 w-3" />
+                          )}
+                        </Button>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-                          <span className="text-sm text-gray-600 dark:text-gray-400">رقم الحساب:</span>
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-sm">{bank.accountNumber}</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-6 w-6 p-0"
-                              onClick={() => copyToClipboard(bank.accountNumber, 'account')}
-                            >
-                              {copied === 'account' ? (
-                                <Check className="h-3 w-3 text-green-600" />
-                              ) : (
-                                <Copy className="h-3 w-3" />
-                              )}
-                            </Button>
-                          </div>
-                        </div>
-                        
-                        <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-                          <span className="text-sm text-gray-600 dark:text-gray-400">IBAN:</span>
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-sm">{bank.iban}</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-6 w-6 p-0"
-                              onClick={() => copyToClipboard(bank.iban, 'iban')}
-                            >
-                              {copied === 'iban' ? (
-                                <Check className="h-3 w-3 text-green-600" />
-                              ) : (
-                                <Copy className="h-3 w-3" />
-                              )}
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-                          <span className="text-sm text-gray-600 dark:text-gray-400">Swift Code:</span>
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-sm">{bank.swiftCode}</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-6 w-6 p-0"
-                              onClick={() => copyToClipboard(bank.swiftCode, 'swift')}
-                            >
-                              {copied === 'swift' ? (
-                                <Check className="h-3 w-3 text-green-600" />
-                              ) : (
-                                <Copy className="h-3 w-3" />
-                              )}
-                            </Button>
-                          </div>
-                        </div>
-                        
-                        <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-                          <span className="text-sm text-gray-600 dark:text-gray-400">العملة:</span>
-                          <span className="font-medium">{bank.currency}</span>
-                        </div>
+                    <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">IBAN:</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-sm">{selectedBankDetails.iban}</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0"
+                          onClick={() => copyToClipboard(selectedBankDetails.iban, 'iban')}
+                        >
+                          {copied === 'iban' ? (
+                            <Check className="h-3 w-3 text-green-600" />
+                          ) : (
+                            <Copy className="h-3 w-3" />
+                          )}
+                        </Button>
                       </div>
                     </div>
                   </div>
-                );
-              })()}
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Swift Code:</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-sm">{selectedBankDetails.swiftCode}</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0"
+                          onClick={() => copyToClipboard(selectedBankDetails.swiftCode, 'swift')}
+                        >
+                          {copied === 'swift' ? (
+                            <Check className="h-3 w-3 text-green-600" />
+                          ) : (
+                            <Copy className="h-3 w-3" />
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">العملة:</span>
+                      <span className="font-medium">{selectedBankDetails.currency}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         )}
