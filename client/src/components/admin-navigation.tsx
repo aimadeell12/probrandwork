@@ -10,7 +10,8 @@ import {
   Settings, 
   Home,
   ChevronRight,
-  Crown
+  Crown,
+  Building2
 } from "lucide-react";
 
 export default function AdminNavigation() {
@@ -40,6 +41,14 @@ export default function AdminNavigation() {
       icon: BarChart3,
       color: "bg-purple-500",
       isActive: location === "/admin/reports"
+    },
+    {
+      title: "Bank Transfer Management",
+      description: "Monitor and manage all bank transfers",
+      href: "/admin/bank-transfers",
+      icon: Building2,
+      color: "bg-indigo-500",
+      isActive: location === "/admin/bank-transfers"
     },
     {
       title: "Admin Settings",
