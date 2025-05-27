@@ -14,7 +14,7 @@ export default function BottomNavigation() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-purple-50/95 dark:bg-purple-900/95 backdrop-blur-sm border-t border-purple-200/30 dark:border-purple-700/30 z-50 shadow-2xl" style={{ position: 'fixed', bottom: 0 }}>
+    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-purple-50/95 via-pink-50/95 to-purple-100/95 dark:bg-gradient-to-r dark:from-gray-900/95 dark:via-purple-900/95 dark:to-purple-900/95 backdrop-blur-sm border-t border-purple-200/20 dark:border-purple-700/30 z-50 shadow-2xl" style={{ position: 'fixed', bottom: 0 }}>
       <div className="flex justify-around py-4">
         {navItems.map((item) => {
           const Icon = item.icon;
