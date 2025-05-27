@@ -9,9 +9,7 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import cihBankLogo from "@assets/Cih-bank.png";
-import attijariBankLogo from "@assets/images (1).png";
-import sgmBankLogo from "@assets/images (3).png";
+import type { Bank } from "@shared/schema";
 
 export default function BankTransfer() {
   const [, setLocation] = useLocation();
@@ -27,44 +25,20 @@ export default function BankTransfer() {
     queryFn: () => apiRequest("/api/auth/user").then(res => res.json())
   });
 
-  // Moroccan banks - only show for users from Morocco
-  const moroccanBanks = [
-    {
-      id: "cih",
-      name: "بنك CIH",
-      name_en: "CIH Bank",
-      logo: cihBankLogo,
-      iban: "MA64 0110 0000 0000 0123 4567 89",
-      accountNumber: "001234567890",
-      swiftCode: "CIHMMAMC",
-      currency: "MAD"
+  // Get banks from database based on user's country
+  const { data: banks, isLoading: isLoadingBanks } = useQuery<Bank[]>({
+    queryKey: ["/api/banks", userData?.country],
+    queryFn: () => {
+      const country = userData?.country;
+      const url = country ? `/api/banks?country=${country}` : "/api/banks";
+      return apiRequest(url).then(res => res.json());
     },
-    {
-      id: "attijari",
-      name: "التجاري وفا بنك",
-      name_en: "Attijariwafa Bank",
-      logo: attijariBankLogo,
-      iban: "MA64 0072 0000 0000 0123 4567 89",
-      accountNumber: "007234567890",
-      swiftCode: "BCMAMAMC",
-      currency: "MAD"
-    },
-    {
-      id: "sgm",
-      name: "بنك المغرب",
-      name_en: "Société Générale Marocaine",
-      logo: sgmBankLogo,
-      iban: "MA64 0022 0000 0000 0123 4567 89",
-      accountNumber: "002234567890",
-      swiftCode: "SOGEMAMC",
-      currency: "MAD"
-    }
-  ];
+    enabled: !!userData, // Only fetch when we have user data
+  });
 
-  // Only show banks if user is from Morocco
-  const availableBanks = userData?.country === "MAR" ? moroccanBanks : [];
+  const availableBanks = banks || [];
 
-  const selectedBankDetails = availableBanks.find((bank) => bank.id === selectedBank);
+  const selectedBankDetails = availableBanks.find((bank) => bank.code === selectedBank);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -178,31 +152,35 @@ export default function BankTransfer() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {availableBanks.map((bank) => (
                       <div
-                        key={bank.id}
+                        key={bank.code}
                         className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
-                          selectedBank === bank.id
+                          selectedBank === bank.code
                             ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
                             : "border-blue-200/30 bg-white/50 dark:bg-gray-700/50 hover:border-blue-300"
                         }`}
-                        onClick={() => setSelectedBank(bank.id)}
+                        onClick={() => setSelectedBank(bank.code)}
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-12 h-12 flex items-center justify-center">
-                            <img 
-                              src={bank.logo} 
-                              alt={bank.name_en}
-                              className="w-10 h-10 object-contain"
-                            />
+                            {bank.logoUrl ? (
+                              <img 
+                                src={bank.logoUrl} 
+                                alt={bank.nameEn}
+                                className="w-10 h-10 object-contain"
+                              />
+                            ) : (
+                              <Building2 className="w-8 h-8 text-blue-600" />
+                            )}
                           </div>
                           <div className="flex-1">
                             <p className="font-medium text-gray-900 dark:text-white">
                               {bank.name}
                             </p>
                             <p className="text-sm text-gray-600 dark:text-gray-300">
-                              {bank.name_en}
+                              {bank.nameEn}
                             </p>
                           </div>
-                          {selectedBank === bank.id && (
+                          {selectedBank === bank.code && (
                             <Check className="h-5 w-5 text-blue-600" />
                           )}
                         </div>
@@ -251,13 +229,23 @@ export default function BankTransfer() {
             <CardContent>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
-                  <div className="text-3xl">{selectedBankDetails.logo}</div>
+                  <div className="w-12 h-12 flex items-center justify-center">
+                    {selectedBankDetails.logoUrl ? (
+                      <img 
+                        src={selectedBankDetails.logoUrl} 
+                        alt={selectedBankDetails.nameEn}
+                        className="w-10 h-10 object-contain"
+                      />
+                    ) : (
+                      <Building2 className="w-8 h-8 text-blue-600" />
+                    )}
+                  </div>
                   <div>
                     <p className="font-bold text-lg text-gray-900 dark:text-white">
                       {selectedBankDetails.name}
                     </p>
                     <p className="text-gray-600 dark:text-gray-300">
-                      {selectedBankDetails.name_en}
+                      {selectedBankDetails.nameEn}
                     </p>
                   </div>
                 </div>
