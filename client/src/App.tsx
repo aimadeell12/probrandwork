@@ -26,6 +26,7 @@ import Withdraw from "@/pages/withdraw";
 import Transactions from "@/pages/transactions";
 import EditProfile from "@/pages/edit-profile";
 import Webhooks from "@/pages/webhooks";
+import Services from "@/pages/services";
 
 import KYCVerification from "@/pages/kyc-verification-new";
 import KycManagement from "@/pages/kyc-management";
@@ -96,6 +97,7 @@ function Router() {
             <Route path="/admin/settings" component={AdminSettings} />
             <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
             <Route path="/bank-transfer" component={BankTransfer} />
+            <Route path="/services" component={Services} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
           </>
