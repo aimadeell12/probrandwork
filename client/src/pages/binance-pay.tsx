@@ -18,6 +18,7 @@ import {
 import { Link } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import binanceIcon from "@assets/pngwing.com.png";
 import { useLanguage } from "@/hooks/useLanguage";
 
 interface BinancePayOrder {
@@ -143,7 +144,7 @@ export default function BinancePay() {
               <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
                 <div className="mr-3">
                   <img 
-                    src="/attached_assets/pngwing.com.png" 
+                    src={binanceIcon} 
                     alt="Binance" 
                     className="h-10 w-10 object-contain"
                   />
@@ -163,7 +164,7 @@ export default function BinancePay() {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
                 <img 
-                  src="/attached_assets/pngwing.com.png" 
+                  src={binanceIcon} 
                   alt="Binance" 
                   className="h-7 w-7 object-contain"
                 />
