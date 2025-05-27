@@ -18,21 +18,21 @@ export default function Services() {
       icon: Mail,
       title: "Referral",
       description: "Invite friends and earn rewards",
-      color: "from-blue-500 to-blue-600",
+      color: "from-purple-600 to-purple-700",
       action: () => toast({ title: "Coming Soon", description: "Referral program will be available soon" })
     },
     {
       icon: Gift,
       title: "Gift",
       description: "Send gifts to friends", 
-      color: "from-red-500 to-pink-600",
+      color: "from-purple-500 to-purple-600",
       action: () => toast({ title: "Coming Soon", description: "Gift feature will be available soon" })
     },
     {
       icon: Ticket,
       title: "Vouchers",
       description: "Redeem vouchers and coupons",
-      color: "from-orange-500 to-amber-600",
+      color: "from-purple-400 to-purple-500",
       action: () => toast({ title: "Coming Soon", description: "Vouchers will be available soon" })
     }
   ];
@@ -42,14 +42,14 @@ export default function Services() {
       icon: CreditCard,
       title: "Apply",
       description: "Apply for new cards",
-      color: "from-purple-500 to-indigo-600",
+      color: "from-indigo-600 to-indigo-700",
       href: "/cards"
     },
     {
       icon: Crown,
       title: "Priority",
       description: "Priority card services",
-      color: "from-yellow-500 to-orange-600",
+      color: "from-indigo-500 to-indigo-600",
       action: () => toast({ title: "Coming Soon", description: "Priority services will be available soon" })
     }
   ];
@@ -59,42 +59,42 @@ export default function Services() {
       icon: ArrowDownToLine,
       title: "Deposit",
       description: "Add money to wallet",
-      color: "from-green-500 to-emerald-600",
+      color: "from-emerald-600 to-emerald-700",
       href: "/deposit"
     },
     {
       icon: ArrowUpFromLine,
       title: "Withdraw",
       description: "Withdraw money",
-      color: "from-red-500 to-rose-600",
+      color: "from-rose-600 to-rose-700",
       href: "/withdraw"
     },
     {
       icon: Send,
       title: "Send",
       description: "Send money to others",
-      color: "from-blue-500 to-cyan-600",
+      color: "from-blue-600 to-blue-700",
       href: "/send"
     },
     {
       icon: ArrowDown,
       title: "Receive",
       description: "Receive payments",
-      color: "from-purple-500 to-violet-600",
+      color: "from-violet-600 to-violet-700",
       action: () => toast({ title: "Coming Soon", description: "Receive feature will be available soon" })
     },
     {
       icon: RefreshCw,
       title: "Convert",
       description: "Currency conversion",
-      color: "from-orange-500 to-yellow-600",
+      color: "from-amber-600 to-amber-700",
       action: () => toast({ title: "Coming Soon", description: "Currency conversion will be available soon" })
     },
     {
       icon: Bell,
       title: "Alert",
       description: "Transaction alerts",
-      color: "from-amber-500 to-orange-600",
+      color: "from-orange-600 to-orange-700",
       href: "/account/notifications"
     }
   ];
@@ -104,21 +104,21 @@ export default function Services() {
       icon: GraduationCap,
       title: "Learn",
       description: "Educational resources",
-      color: "from-indigo-500 to-blue-600",
+      color: "from-slate-600 to-slate-700",
       action: () => toast({ title: "Coming Soon", description: "Learning center will be available soon" })
     },
     {
       icon: Users,
       title: "Community",
       description: "Join our community",
-      color: "from-pink-500 to-rose-600",
+      color: "from-slate-500 to-slate-600",
       action: () => toast({ title: "Coming Soon", description: "Community features will be available soon" })
     },
     {
       icon: MessageCircle,
       title: "Chat",
       description: "Customer support",
-      color: "from-teal-500 to-cyan-600",
+      color: "from-slate-700 to-slate-800",
       href: "/support"
     }
   ];
@@ -157,21 +157,21 @@ export default function Services() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-gray-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-60 h-60 bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-r from-indigo-400/10 to-purple-400/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/15 to-indigo-500/15 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-500/10 to-slate-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/3 right-1/3 w-64 h-64 bg-gradient-to-r from-indigo-500/8 to-purple-500/8 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-black/30 backdrop-blur-xl border-b border-white/10 p-4 relative z-10">
+      <div className="bg-slate-900/80 backdrop-blur-xl border-b border-white/5 p-4 relative z-10">
         <div className="flex items-center space-x-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-white/10 text-white border-0"
+            className="p-2 hover:bg-white/5 text-white border-0 rounded-xl"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -230,7 +230,7 @@ export default function Services() {
                 icon: Building2,
                 title: "Bank Transfer",
                 description: "Transfer to bank accounts",
-                color: "from-blue-500 to-indigo-600"
+                color: "from-cyan-600 to-cyan-700"
               }}
               href="/bank-transfer"
             />
