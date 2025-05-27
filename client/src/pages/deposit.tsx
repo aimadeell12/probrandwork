@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, CreditCard, DollarSign, Plus, Building } from "lucide-react";
+import { ArrowLeft, CreditCard, DollarSign, Plus, Building, Coins } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,10 +20,7 @@ export default function Deposit() {
 
   const depositMutation = useMutation({
     mutationFn: async (data: { amount: number; method: string }) => {
-      return apiRequest(`/api/wallet/deposit`, {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
+      return apiRequest(`/api/wallet/deposit`, 'POST', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] });
@@ -161,6 +158,25 @@ export default function Deposit() {
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">{t('bankTransfer')}</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">ACH, Wire Transfer</p>
+                </div>
+              </div>
+            </div>
+
+            <div 
+              className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                selectedMethod === "binance" 
+                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
+                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+              }`}
+              onClick={() => setSelectedMethod("binance")}
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
+                  <Coins className="h-5 w-5 text-yellow-600" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">Binance Pay</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Crypto payments</p>
                 </div>
               </div>
             </div>
