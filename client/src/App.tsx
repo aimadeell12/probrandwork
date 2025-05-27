@@ -107,12 +107,12 @@ function Router() {
             <Route path="/admin/users" component={UserManagement} />
             <Route path="/admin/reports" component={SystemReports} />
             <Route path="/admin/settings" component={AdminSettings} />
-            <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
+              <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
             <Route path="/admin/deposit-requests" component={DepositRequests} />
-          <Route path="/admin/referrals" component={AdminReferrals} />
-          <Route path="/admin/vouchers" component={AdminVouchers} />
-          <Route path="/admin/currency" component={AdminCurrency} />
-          <Route path="/admin/community" component={AdminCommunity} />
+            <Route path="/admin/referrals" component={AdminReferrals} />
+            <Route path="/admin/vouchers" component={AdminVouchers} />
+            <Route path="/admin/currency" component={AdminCurrency} />
+            <Route path="/admin/community" component={AdminCommunity} />
             <Route path="/bank-transfer" component={BankTransfer} />
             <Route path="/binance-pay" component={BinancePay} />
             <Route path="/services" component={Services} />

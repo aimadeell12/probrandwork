@@ -60,6 +60,12 @@ export default function Deposit() {
       return;
     }
 
+    // إذا كان الخيار المحدد هو Binance Pay، توجه إلى صفحة Binance Pay
+    if (selectedMethod === "binance") {
+      setLocation("/binance-pay");
+      return;
+    }
+
     depositMutation.mutate({ amount: depositAmount, method: selectedMethod });
   };
 
