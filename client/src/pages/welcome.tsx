@@ -21,7 +21,7 @@ export default function Welcome() {
         {/* Header Content - محسن للهواتف */}
         <div className="pt-6 sm:pt-8 text-center">
           <h1 className="text-gray-600 dark:text-gray-400 text-lg sm:text-xl mb-2 font-light tracking-wide">
-            Digital account
+            Banking account
           </h1>
           <h2 className="text-gray-900 dark:text-white text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 tracking-tight">
             fully <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">online</span>
@@ -67,7 +67,7 @@ export default function Welcome() {
                   </div>
                   <div className="text-right">
                     <div className="text-white font-bold">AIMAD</div>
-                    <div className="text-gray-300 text-xs">Digital Account Holder</div>
+                    <div className="text-gray-300 text-xs">Account Holder</div>
                   </div>
                 </div>
               </div>
