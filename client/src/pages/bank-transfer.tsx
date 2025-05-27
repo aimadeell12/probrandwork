@@ -16,68 +16,7 @@ export default function BankTransfer() {
   const [reference, setReference] = useState("");
   const [copied, setCopied] = useState("");
 
-  const availableBanks = [
-    {
-      id: "alrajhi",
-      name: "مصرف الراجحي",
-      name_en: "Al Rajhi Bank", 
-      logo: "🏛️",
-      iban: "SA03 8000 0000 6080 1016 7519",
-      accountNumber: "608010167519",
-      swiftCode: "RJHISARI",
-      currency: "SAR"
-    },
-    {
-      id: "samba", 
-      name: "بنك سامبا المالي",
-      name_en: "Samba Financial Group",
-      logo: "🏦",
-      iban: "SA44 4500 0000 0000 0012 3456",
-      accountNumber: "000000123456", 
-      swiftCode: "SAMBSARI",
-      currency: "SAR"
-    },
-    {
-      id: "ahli",
-      name: "البنك الأهلي التجاري", 
-      name_en: "National Commercial Bank",
-      logo: "🏪",
-      iban: "SA15 1000 0000 1234 5678 9012",
-      accountNumber: "12345678901",
-      swiftCode: "NCBKSAJE",
-      currency: "SAR"
-    },
-    {
-      id: "riyad",
-      name: "بنك الرياض",
-      name_en: "Riyad Bank", 
-      logo: "🏢",
-      iban: "SA39 2000 0000 0000 1234 5678",
-      accountNumber: "000012345678",
-      swiftCode: "RIBLSARI", 
-      currency: "SAR"
-    },
-    {
-      id: "fransi",
-      name: "البنك السعودي الفرنسي",
-      name_en: "Banque Saudi Fransi",
-      logo: "🏛️",
-      iban: "SA85 5500 0000 0000 5432 1098", 
-      accountNumber: "000054321098",
-      swiftCode: "BSFRSARI",
-      currency: "SAR"
-    },
-    {
-      id: "alinma",
-      name: "بنك الإنماء",
-      name_en: "Alinma Bank",
-      logo: "🏦", 
-      iban: "SA12 0500 0000 0000 6789 0123",
-      accountNumber: "000067890123",
-      swiftCode: "INMASARI",
-      currency: "SAR"
-    }
-  ];
+  const availableBanks: any[] = [];
 
   const selectedBankDetails = availableBanks.find((bank) => bank.id === selectedBank);
 
@@ -179,34 +118,46 @@ export default function BankTransfer() {
                 <Label className="text-gray-700 dark:text-gray-300">
                   اختر البنك
                 </Label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {availableBanks.map((bank) => (
-                    <div
-                      key={bank.id}
-                      className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
-                        selectedBank === bank.id
-                          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                          : "border-blue-200/30 bg-white/50 dark:bg-gray-700/50 hover:border-blue-300"
-                      }`}
-                      onClick={() => setSelectedBank(bank.id)}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="text-2xl">{bank.logo}</div>
-                        <div className="flex-1">
-                          <p className="font-medium text-gray-900 dark:text-white">
-                            {bank.name}
-                          </p>
-                          <p className="text-sm text-gray-600 dark:text-gray-300">
-                            {bank.name_en}
-                          </p>
+                {availableBanks.length === 0 ? (
+                  <div className="p-8 text-center bg-gray-50 dark:bg-gray-700/50 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600">
+                    <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-500 dark:text-gray-400 text-lg font-medium mb-2">
+                      لا توجد بنوك متاحة حالياً
+                    </p>
+                    <p className="text-gray-400 dark:text-gray-500 text-sm">
+                      سيتم إضافة البنوك قريباً
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {availableBanks.map((bank) => (
+                      <div
+                        key={bank.id}
+                        className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                          selectedBank === bank.id
+                            ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                            : "border-blue-200/30 bg-white/50 dark:bg-gray-700/50 hover:border-blue-300"
+                        }`}
+                        onClick={() => setSelectedBank(bank.id)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="text-2xl">{bank.logo}</div>
+                          <div className="flex-1">
+                            <p className="font-medium text-gray-900 dark:text-white">
+                              {bank.name}
+                            </p>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                              {bank.name_en}
+                            </p>
+                          </div>
+                          {selectedBank === bank.id && (
+                            <Check className="h-5 w-5 text-blue-600" />
+                          )}
                         </div>
-                        {selectedBank === bank.id && (
-                          <Check className="h-5 w-5 text-blue-600" />
-                        )}
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Reference (Optional) */}
