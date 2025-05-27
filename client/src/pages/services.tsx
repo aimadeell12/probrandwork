@@ -20,7 +20,7 @@ export default function Services() {
       description: "Invite friends and earn rewards",
       color: "bg-blue-600",
       iconColor: "text-white",
-      action: () => toast({ title: "Coming Soon", description: "Referral program will be available soon" })
+      href: "/account/referral"
     },
     {
       icon: Gift,
@@ -28,7 +28,7 @@ export default function Services() {
       description: "Send gifts to friends", 
       color: "bg-pink-600",
       iconColor: "text-white",
-      action: () => toast({ title: "Coming Soon", description: "Gift feature will be available soon" })
+      href: "/send"
     },
     {
       icon: Ticket,
@@ -36,7 +36,7 @@ export default function Services() {
       description: "Redeem vouchers and coupons",
       color: "bg-orange-600",
       iconColor: "text-white",
-      action: () => toast({ title: "Coming Soon", description: "Vouchers will be available soon" })
+      href: "/account/vouchers"
     }
   ];
 
@@ -55,7 +55,7 @@ export default function Services() {
       description: "Priority card services",
       color: "bg-yellow-600",
       iconColor: "text-white",
-      action: () => toast({ title: "Coming Soon", description: "Priority services will be available soon" })
+      href: "/cards/priority"
     }
   ];
 
@@ -90,7 +90,7 @@ export default function Services() {
       description: "Receive payments",
       color: "bg-purple-600",
       iconColor: "text-white",
-      action: () => toast({ title: "Coming Soon", description: "Receive feature will be available soon" })
+      href: "/wallet"
     },
     {
       icon: RefreshCw,
@@ -98,7 +98,7 @@ export default function Services() {
       description: "Currency conversion",
       color: "bg-orange-600",
       iconColor: "text-white",
-      action: () => toast({ title: "Coming Soon", description: "Currency conversion will be available soon" })
+      href: "/account/currency"
     },
     {
       icon: Bell,
@@ -117,7 +117,7 @@ export default function Services() {
       description: "Educational resources",
       color: "bg-indigo-600",
       iconColor: "text-white",
-      action: () => toast({ title: "Coming Soon", description: "Learning center will be available soon" })
+      href: "/account/help"
     },
     {
       icon: Users,
@@ -125,7 +125,7 @@ export default function Services() {
       description: "Join our community",
       color: "bg-teal-600",
       iconColor: "text-white",
-      action: () => toast({ title: "Coming Soon", description: "Community features will be available soon" })
+      href: "/account/community"
     },
     {
       icon: MessageCircle,
@@ -137,40 +137,22 @@ export default function Services() {
     }
   ];
 
-  const ServiceCard = ({ service, href }: { service: any; href?: string }) => {
+  const ServiceCard = ({ service }: { service: any }) => {
     const Icon = service.icon;
     
-    if (href) {
-      return (
-        <Link href={href}>
-          <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-            <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
-              <div className={`w-10 h-10 ${service.color} rounded-2xl flex items-center justify-center`}>
-                <Icon className={`h-5 w-5 ${service.iconColor}`} />
-              </div>
-            </div>
-            <span className="text-sm text-gray-700 dark:text-gray-300 font-medium text-center">
-              {service.title}
-            </span>
-          </div>
-        </Link>
-      );
-    }
-
     return (
-      <div 
-        onClick={service.action}
-        className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200"
-      >
-        <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
-          <div className={`w-10 h-10 ${service.color} rounded-2xl flex items-center justify-center`}>
-            <Icon className={`h-5 w-5 ${service.iconColor}`} />
+      <Link href={service.href}>
+        <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+          <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+            <div className={`w-10 h-10 ${service.color} rounded-2xl flex items-center justify-center`}>
+              <Icon className={`h-5 w-5 ${service.iconColor}`} />
+            </div>
           </div>
+          <span className="text-sm text-gray-700 dark:text-gray-300 font-medium text-center">
+            {service.title}
+          </span>
         </div>
-        <span className="text-sm text-gray-700 dark:text-gray-300 font-medium text-center">
-          {service.title}
-        </span>
-      </div>
+      </Link>
     );
   };
 
@@ -213,11 +195,7 @@ export default function Services() {
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Card</h2>
           <div className="grid grid-cols-2 gap-4">
             {cardServices.map((service, index) => (
-              <ServiceCard 
-                key={index} 
-                service={service} 
-                href={service.href}
-              />
+              <ServiceCard key={index} service={service} />
             ))}
           </div>
         </div>
@@ -227,11 +205,7 @@ export default function Services() {
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Transaction</h2>
           <div className="grid grid-cols-3 gap-4">
             {transactionServices.map((service, index) => (
-              <ServiceCard 
-                key={index} 
-                service={service} 
-                href={service.href}
-              />
+              <ServiceCard key={index} service={service} />
             ))}
           </div>
         </div>
@@ -246,9 +220,9 @@ export default function Services() {
                 title: "Bank Transfer",
                 description: "Transfer to bank accounts",
                 color: "bg-cyan-600",
-                iconColor: "text-white"
+                iconColor: "text-white",
+                href: "/bank-transfer"
               }}
-              href="/bank-transfer"
             />
           </div>
         </div>
@@ -258,11 +232,7 @@ export default function Services() {
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Support</h2>
           <div className="grid grid-cols-3 gap-4">
             {supportServices.map((service, index) => (
-              <ServiceCard 
-                key={index} 
-                service={service} 
-                href={service.href}
-              />
+              <ServiceCard key={index} service={service} />
             ))}
           </div>
         </div>

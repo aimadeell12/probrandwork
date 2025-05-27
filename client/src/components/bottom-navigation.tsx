@@ -15,7 +15,7 @@ export default function BottomNavigation() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-purple-50/95 via-pink-50/95 to-purple-100/95 dark:bg-gradient-to-r dark:from-gray-900/95 dark:via-purple-900/95 dark:to-purple-900/95 backdrop-blur-sm border-t border-purple-200/20 dark:border-purple-700/30 z-50 shadow-2xl" style={{ position: 'fixed', bottom: 0 }}>
-      <div className="flex justify-around py-4">
+      <div className="flex justify-around py-3">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location === item.path || (item.path === "/dashboard" && location === "/");
@@ -23,8 +23,8 @@ export default function BottomNavigation() {
           return (
             <Link key={item.path} href={item.path}>
               <div className="flex flex-col items-center gap-1 cursor-pointer transform hover:scale-105 transition-all duration-200">
-                <div className={`p-2 rounded-xl ${isActive ? 'bg-gradient-to-br from-purple-600 to-purple-700 shadow-lg' : 'bg-gray-100/50 dark:bg-gray-800/50'}`}>
-                  <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-500 dark:text-gray-400'}`} />
+                <div className={`p-1.5 rounded-xl ${isActive ? 'bg-gradient-to-br from-purple-600 to-purple-700 shadow-lg' : 'bg-gray-100/50 dark:bg-gray-800/50'}`}>
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-500 dark:text-gray-400'}`} />
                 </div>
                 <span className={`text-xs font-medium ${isActive ? 'text-purple-600 dark:text-purple-400' : 'text-gray-500 dark:text-gray-400'}`}>{item.label}</span>
               </div>
