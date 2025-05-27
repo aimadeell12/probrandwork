@@ -141,8 +141,10 @@ export default function BinancePay() {
             </Link>
             <div>
               <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
-                <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl mr-3">
-                  <DollarSign className="h-6 w-6 text-yellow-600" />
+                <div className="mr-3 p-2 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl shadow-lg">
+                  <div className="w-6 h-6 bg-black rounded-lg flex items-center justify-center">
+                    <div className="text-yellow-400 font-bold text-sm">B</div>
+                  </div>
                 </div>
                 Binance Pay
               </h1>
@@ -158,8 +160,10 @@ export default function BinancePay() {
           <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
-                <div className="p-1 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
-                  <DollarSign className="h-5 w-5 text-yellow-600" />
+                <div className="p-1.5 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl shadow-lg">
+                  <div className="w-5 h-5 bg-black rounded-lg flex items-center justify-center">
+                    <div className="text-yellow-400 font-bold text-xs">B</div>
+                  </div>
                 </div>
                 إنشاء طلب دفع
               </CardTitle>
