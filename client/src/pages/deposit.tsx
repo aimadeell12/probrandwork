@@ -72,39 +72,9 @@ export default function Deposit() {
 
       <div className="p-4 lg:p-8 space-y-6 relative z-10 max-w-md lg:max-w-4xl mx-auto">
         
-        {/* Desktop Layout */}
-        <div className="lg:grid lg:grid-cols-2 lg:gap-8 space-y-6 lg:space-y-0">
-          
-          {/* Left Column - Amount Input */}
-          <div className="space-y-6">
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
-              <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                <DollarSign className="h-5 w-5 text-green-600" />
-              </div>
-              {t('depositAmount')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">{t('amountInDollars')}</Label>
-              <Input
-                id="amount"
-                type="number"
-                placeholder="0.00"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-purple-200/30 focus:border-purple-500 rounded-2xl"
-              />
-            </div>
-          </CardContent>
-        </Card>
-          </div>
-
-          {/* Right Column - Payment Methods */}
-          <div className="space-y-6">
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+        {/* Payment Methods */}
+        <div className="max-w-md mx-auto space-y-6">
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardHeader>
             <CardTitle className="text-lg text-gray-900 dark:text-white">{t('paymentMethod')}</CardTitle>
           </CardHeader>
@@ -173,7 +143,6 @@ export default function Deposit() {
             </div>
           </CardContent>
         </Card>
-          </div>
         </div>
       </div>
     </div>

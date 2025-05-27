@@ -124,60 +124,66 @@ export default function BinancePay() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-100 dark:from-gray-900 dark:via-yellow-900 dark:to-orange-900">
-      <div className="container mx-auto p-4 space-y-6">
-        {/* Header */}
-        <div className="flex items-center space-x-4">
-          <Link href="/deposit">
-            <Button variant="ghost" size="sm" className="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              {t('back')}
-            </Button>
-          </Link>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
-              <img 
-                src="https://public.bnbstatic.com/image/cms/blog/20210610/5fa26d65-e8b1-48dd-93a7-8db2bbc03eb9.png" 
-                alt="Binance Pay" 
-                className="h-8 w-8 mr-3"
-              />
-              Binance Pay
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
-              {t('securePaymentWithBinance')}
-            </p>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      
+      {/* Header */}
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center space-x-4 space-x-reverse">
+            <Link href="/deposit">
+              <Button variant="ghost" size="sm" className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                <ArrowLeft className="h-6 w-6" />
+              </Button>
+            </Link>
+            <div>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
+                <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl mr-3">
+                  <DollarSign className="h-6 w-6 text-yellow-600" />
+                </div>
+                Binance Pay
+              </h1>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div className="p-4 lg:p-8 space-y-6 relative z-10 max-w-md lg:max-w-4xl mx-auto">
 
         {!paymentOrder ? (
           /* Payment Form */
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200 dark:border-yellow-800 max-w-md mx-auto">
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white flex items-center">
-                <DollarSign className="h-5 w-5 mr-2" />
-                Create Payment Order
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
+                <div className="p-1 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
+                  <DollarSign className="h-5 w-5 text-yellow-600" />
+                </div>
+                إنشاء طلب دفع
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="amount">{t('amount')}</Label>
+                <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">المبلغ</Label>
                 <Input
                   id="amount"
                   type="number"
-                  placeholder="Enter amount"
+                  placeholder="أدخل المبلغ"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="bg-white dark:bg-gray-900"
+                  className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-purple-200/30 focus:border-purple-500 rounded-2xl"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="currency">Currency</Label>
+                <Label htmlFor="currency" className="text-gray-700 dark:text-gray-300">العملة</Label>
                 <select
                   id="currency"
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                  className="w-full px-3 py-2 border border-purple-200/30 dark:border-purple-600 rounded-2xl bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-gray-100 focus:border-purple-500"
                 >
                   <option value="USDT">USDT</option>
                   <option value="BTC">BTC</option>
@@ -190,9 +196,9 @@ export default function BinancePay() {
               <Button
                 onClick={handleCreateOrder}
                 disabled={createOrderMutation.isPending}
-                className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
+                className="w-full bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
               >
-                {createOrderMutation.isPending ? "Creating Order..." : "Create Payment Order"}
+                {createOrderMutation.isPending ? "جاري الإنشاء..." : "إنشاء طلب الدفع"}
               </Button>
             </CardContent>
           </Card>
