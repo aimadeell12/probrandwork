@@ -66,10 +66,7 @@ export default function AdminBankTransfers() {
   // Update status mutation
   const updateStatusMutation = useMutation({
     mutationFn: ({ transferId, status }: { transferId: string; status: string }) =>
-      apiRequest(`/api/admin/bank-transfers/${transferId}/status`, {
-        method: 'PATCH',
-        body: JSON.stringify({ status })
-      }),
+      apiRequest(`/api/admin/bank-transfers/${transferId}/status`, 'PATCH', { status }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/bank-transfers'] });
       setShowStatusDialog(false);

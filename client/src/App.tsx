@@ -96,6 +96,7 @@ function Router() {
             <Route path="/admin/users" component={UserManagement} />
             <Route path="/admin/reports" component={SystemReports} />
             <Route path="/admin/settings" component={AdminSettings} />
+            <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
             <Route path="/bank-transfer" component={BankTransfer} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
