@@ -43,7 +43,7 @@ export default function Dashboard() {
       <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
       
-      <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10 max-w-7xl mx-auto">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -83,65 +83,74 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Currency Selector */}
-        <div className="mb-6">
-          <Button variant="outline" className="bg-purple-100 dark:bg-purple-900/30 border-purple-200 dark:border-purple-700 text-purple-700 dark:text-purple-300 rounded-2xl px-4 py-2">
-            <span className="text-purple-600 mr-2">$</span>
-            {t("usd")}
-            <ChevronDown className="h-4 w-4 ml-2" />
-          </Button>
-        </div>
+        {/* Main Content - Desktop Layout */}
+        <div className="lg:grid lg:grid-cols-3 lg:gap-8 space-y-8 lg:space-y-0">
+          
+          {/* Left Column - Main Wallet Info */}
+          <div className="lg:col-span-2 space-y-6">
+            
+            {/* Currency Selector */}
+            <div className="mb-6">
+              <Button variant="outline" className="bg-purple-100 dark:bg-purple-900/30 border-purple-200 dark:border-purple-700 text-purple-700 dark:text-purple-300 rounded-2xl px-4 py-2">
+                <span className="text-purple-600 mr-2">$</span>
+                {t("usd")}
+                <ChevronDown className="h-4 w-4 ml-2" />
+              </Button>
+            </div>
 
-        {/* Balance Section */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-gray-600 dark:text-gray-400 text-sm">{t("totalBalance")}</span>
-            <Info className="h-4 w-4 text-gray-400" />
+            {/* Balance Section */}
+            <div className="mb-8">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-gray-600 dark:text-gray-400 text-sm">{t("totalBalance")}</span>
+                <Info className="h-4 w-4 text-gray-400" />
+              </div>
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-8">
+                $ {balance.toFixed(2)}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="grid grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-12">
+              <Link href="/deposit">
+                <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                    <Plus className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t('deposit')}</span>
+                </div>
+              </Link>
+              
+              <Link href="/withdraw">
+                <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                    <Minus className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t('withdraw')}</span>
+                </div>
+              </Link>
+              
+              <Link href="/send">
+                <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                    <ArrowRight className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t('send')}</span>
+                </div>
+              </Link>
+              
+              <Link href="/services">
+                <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
+                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                    <Grid3X3 className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">Hub</span>
+                </div>
+              </Link>
+            </div>
           </div>
-          <div className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-8">
-            $ {balance.toFixed(2)}
-          </div>
-        </div>
 
-        {/* Action Buttons */}
-        <div className="grid grid-cols-4 gap-4 mb-12">
-          <Link href="/deposit">
-            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
-                <Plus className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-              </div>
-              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{t('deposit')}</span>
-            </div>
-          </Link>
-          
-          <Link href="/withdraw">
-            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
-                <Minus className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-              </div>
-              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{t('withdraw')}</span>
-            </div>
-          </Link>
-          
-          <Link href="/send">
-            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
-                <ArrowRight className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-              </div>
-              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{t('send')}</span>
-            </div>
-          </Link>
-          
-          <Link href="/services">
-            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
-                <Grid3X3 className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-              </div>
-              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Hub</span>
-            </div>
-          </Link>
-
-        </div>
+          {/* Right Column - Status Cards & Quick Actions */}
+          <div className="lg:col-span-1 space-y-6">
 
         {/* KYC Status Card */}
         {kycStatus && kycStatus.status !== 'verified' && (
@@ -216,13 +225,15 @@ export default function Dashboard() {
           </Card>
         )}
 
-      </div>
+          </div>
+        </div>
 
-      {/* Notification Center */}
-      <NotificationCenter 
-        isOpen={isNotificationCenterOpen}
-        onClose={() => setIsNotificationCenterOpen(false)}
-      />
+        {/* Notification Center */}
+        <NotificationCenter 
+          isOpen={isNotificationCenterOpen}
+          onClose={() => setIsNotificationCenterOpen(false)}
+        />
+      </div>
     </div>
   );
 }
