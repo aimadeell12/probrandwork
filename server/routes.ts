@@ -1338,6 +1338,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ==================== ADMIN REFERRAL MANAGEMENT APIs ====================
+  
+  // Get all referrals for admin
+  app.get("/api/admin/referrals", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const referrals = await db.select().from(schema.referrals).orderBy(desc(schema.referrals.createdAt));
+
+      res.json(referrals);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error fetching referrals: " + error.message });
+    }
+  });
+
+  // Get referral statistics for admin
+  app.get("/api/admin/referrals/stats", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const totalReferrals = await db.select({ count: sql`count(*)` }).from(schema.referrals);
+      const successfulReferrals = await db.select({ count: sql`count(*)` }).from(schema.referrals).where(eq(schema.referrals.status, 'completed'));
+      const pendingReferrals = await db.select({ count: sql`count(*)` }).from(schema.referrals).where(eq(schema.referrals.status, 'pending'));
+      const totalRewards = await db.select({ sum: sql`sum(CAST(${schema.referrals.rewardAmount} AS DECIMAL))` }).from(schema.referrals).where(eq(schema.referrals.status, 'completed'));
+
+      res.json({
+        totalReferrals: totalReferrals[0]?.count || 0,
+        successfulReferrals: successfulReferrals[0]?.count || 0,
+        pendingReferrals: pendingReferrals[0]?.count || 0,
+        totalRewards: totalRewards[0]?.sum || 0
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error fetching referral stats: " + error.message });
+    }
+  });
+
+  // Update referral status
+  app.patch("/api/admin/referrals/:id", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const { id } = req.params;
+      const { status } = req.body;
+      
+      const updateData: any = { status };
+      if (status === 'completed') {
+        updateData.completedAt = new Date();
+      }
+
+      await db.update(schema.referrals)
+        .set(updateData)
+        .where(eq(schema.referrals.id, id));
+      
+      res.json({ success: true });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error updating referral: " + error.message });
+    }
+  });
+
   // ==================== REFERRAL PROGRAM APIs ====================
   
   // Get user's referral data
