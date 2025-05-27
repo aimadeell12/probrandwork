@@ -635,3 +635,41 @@ export type InsertExchangeRate = z.infer<typeof insertExchangeRateSchema>;
 export type ExchangeRate = typeof exchangeRates.$inferSelect;
 export type InsertCurrencyConversion = z.infer<typeof insertCurrencyConversionSchema>;
 export type CurrencyConversion = typeof currencyConversions.$inferSelect;
+
+// Deposit requests table
+export const depositRequests = pgTable("deposit_requests", {
+  id: text("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: text("user_id").notNull().references(() => users.id),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  method: varchar("method").notNull(), // card, bank, crypto
+  status: varchar("status").notNull().default("pending"), // pending, approved, rejected
+  adminNotes: text("admin_notes"),
+  processedBy: text("processed_by").references(() => users.id),
+  transactionReference: varchar("transaction_reference"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  processedAt: timestamp("processed_at"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Relations for deposit requests
+export const depositRequestsRelations = relations(depositRequests, ({ one }) => ({
+  user: one(users, {
+    fields: [depositRequests.userId],
+    references: [users.id],
+  }),
+  processedByUser: one(users, {
+    fields: [depositRequests.processedBy],
+    references: [users.id],
+  }),
+}));
+
+// Insert schema for deposit requests
+export const insertDepositRequestSchema = createInsertSchema(depositRequests).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+// Types for deposit requests
+export type InsertDepositRequest = z.infer<typeof insertDepositRequestSchema>;
+export type DepositRequest = typeof depositRequests.$inferSelect;

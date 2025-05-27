@@ -55,6 +55,14 @@ export default function AdminNavigation() {
       isActive: location === "/admin/bank-transfers"
     },
     {
+      title: "Deposit Requests",
+      description: "Review and approve deposit requests",
+      href: "/admin/deposit-requests",
+      icon: Plus,
+      color: "bg-emerald-500",
+      isActive: location === "/admin/deposit-requests"
+    },
+    {
       title: "Referral Management",
       description: "Manage referral programs and rewards",
       href: "/admin/referrals",

@@ -45,6 +45,7 @@ import AdminReferrals from "@/pages/admin/referrals";
 import AdminVouchers from "@/pages/admin/vouchers";
 import AdminCurrency from "@/pages/admin/currency";
 import AdminCommunity from "@/pages/admin/community";
+import DepositRequests from "@/pages/admin/deposit-requests";
 import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";

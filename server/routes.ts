@@ -1777,6 +1777,203 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin: Get all deposit requests
+  app.get("/api/admin/deposit-requests", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Check if user is admin
+      const user = await db.select().from(schema.users).where(eq(schema.users.id, userId)).limit(1);
+      if (!user[0] || user[0].role !== 'admin') {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const requests = await db
+        .select({
+          id: schema.depositRequests.id,
+          userId: schema.depositRequests.userId,
+          userEmail: schema.users.email,
+          userName: sql`CONCAT(${schema.users.firstName}, ' ', ${schema.users.lastName})`,
+          amount: schema.depositRequests.amount,
+          method: schema.depositRequests.method,
+          status: schema.depositRequests.status,
+          adminNotes: schema.depositRequests.adminNotes,
+          createdAt: schema.depositRequests.createdAt,
+          updatedAt: schema.depositRequests.updatedAt,
+        })
+        .from(schema.depositRequests)
+        .leftJoin(schema.users, eq(schema.depositRequests.userId, schema.users.id))
+        .orderBy(desc(schema.depositRequests.createdAt));
+
+      res.json(requests);
+    } catch (error) {
+      console.error("Error fetching deposit requests:", error);
+      res.status(500).json({ message: "Failed to fetch deposit requests" });
+    }
+  });
+
+  // Admin: Approve deposit request
+  app.post("/api/admin/deposit-requests/:id/approve", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const requestId = req.params.id;
+      
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Check if user is admin
+      const user = await db.select().from(schema.users).where(eq(schema.users.id, userId)).limit(1);
+      if (!user[0] || user[0].role !== 'admin') {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      // Get the deposit request
+      const [request] = await db
+        .select()
+        .from(schema.depositRequests)
+        .where(eq(schema.depositRequests.id, requestId))
+        .limit(1);
+
+      if (!request) {
+        return res.status(404).json({ message: "Deposit request not found" });
+      }
+
+      if (request.status !== 'pending') {
+        return res.status(400).json({ message: "Request already processed" });
+      }
+
+      // Update deposit request status
+      await db
+        .update(schema.depositRequests)
+        .set({
+          status: 'approved',
+          processedBy: userId,
+          processedAt: new Date(),
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.depositRequests.id, requestId));
+
+      // Add amount to user's wallet
+      await db
+        .update(schema.wallets)
+        .set({
+          balance: sql`${schema.wallets.balance} + ${request.amount}`,
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.wallets.userId, request.userId));
+
+      // Create transaction record
+      await db.insert(schema.transactions).values({
+        userId: request.userId,
+        type: 'deposit',
+        amount: request.amount,
+        status: 'completed',
+        description: `Deposit approved by admin`,
+        method: request.method,
+      });
+
+      res.json({ message: "Deposit request approved successfully" });
+    } catch (error) {
+      console.error("Error approving deposit request:", error);
+      res.status(500).json({ message: "Failed to approve deposit request" });
+    }
+  });
+
+  // Admin: Reject deposit request
+  app.post("/api/admin/deposit-requests/:id/reject", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const requestId = req.params.id;
+      const { notes } = req.body;
+      
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Check if user is admin
+      const user = await db.select().from(schema.users).where(eq(schema.users.id, userId)).limit(1);
+      if (!user[0] || user[0].role !== 'admin') {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      // Get the deposit request
+      const [request] = await db
+        .select()
+        .from(schema.depositRequests)
+        .where(eq(schema.depositRequests.id, requestId))
+        .limit(1);
+
+      if (!request) {
+        return res.status(404).json({ message: "Deposit request not found" });
+      }
+
+      if (request.status !== 'pending') {
+        return res.status(400).json({ message: "Request already processed" });
+      }
+
+      // Update deposit request status
+      await db
+        .update(schema.depositRequests)
+        .set({
+          status: 'rejected',
+          processedBy: userId,
+          processedAt: new Date(),
+          adminNotes: notes || 'Request rejected by admin',
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.depositRequests.id, requestId));
+
+      res.json({ message: "Deposit request rejected" });
+    } catch (error) {
+      console.error("Error rejecting deposit request:", error);
+      res.status(500).json({ message: "Failed to reject deposit request" });
+    }
+  });
+
+  // Submit deposit request (update existing deposit endpoint)
+  app.post("/api/wallet/deposit", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const { amount, method } = req.body;
+
+      if (!amount || amount <= 0) {
+        return res.status(400).json({ message: "Invalid amount" });
+      }
+
+      if (!method || !['card', 'bank', 'crypto'].includes(method)) {
+        return res.status(400).json({ message: "Invalid payment method" });
+      }
+
+      // Create deposit request instead of directly adding to wallet
+      const [depositRequest] = await db
+        .insert(schema.depositRequests)
+        .values({
+          userId,
+          amount: amount.toString(),
+          method,
+          status: 'pending',
+        })
+        .returning();
+
+      res.json({ 
+        message: "Deposit request submitted successfully", 
+        requestId: depositRequest.id,
+        status: "pending"
+      });
+    } catch (error) {
+      console.error("Error submitting deposit request:", error);
+      res.status(500).json({ message: "Failed to submit deposit request" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
