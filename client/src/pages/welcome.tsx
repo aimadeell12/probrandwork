@@ -19,124 +19,89 @@ export default function Welcome() {
       <div className="lg:hidden px-4 sm:px-6 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
         
         {/* Header Content - محسن للهواتف */}
-        <div className="pt-1 sm:pt-2 text-center">
-          <h1 className="text-gray-700 dark:text-gray-300 text-base sm:text-lg mb-1 font-medium tracking-wide">
+        <div className="pt-6 sm:pt-8 text-center">
+          <h1 className="text-gray-600 dark:text-gray-400 text-lg sm:text-xl mb-2 font-light tracking-wide">
             Digital account
           </h1>
-          <h2 className="text-gray-900 dark:text-white text-xl sm:text-2xl font-bold mb-2 sm:mb-3 tracking-tight">
-            fully online
+          <h2 className="text-gray-900 dark:text-white text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 tracking-tight">
+            fully <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">online</span>
           </h2>
         </div>
 
-        {/* Center Visual Content - مضغوط ومتوازن */}
-        <div className="flex-1 flex items-center justify-center py-1 sm:py-2 relative">
-          {/* Credit Card positioned responsively */}
-          <div className="absolute top-8 right-2 sm:top-12 sm:right-4 md:top-16 md:right-8 transform rotate-12 z-20 hover:rotate-6 transition-transform duration-300">
-            <div className="w-52 h-32 sm:w-60 sm:h-36 md:w-68 md:h-40 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 rounded-xl shadow-2xl p-3 sm:p-4 md:p-5 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
-              
-              {/* Card background pattern */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-slate-900/80 rounded-xl"></div>
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-2xl"></div>
+        {/* Center Visual Content - تصميم محسن */}
+        <div className="flex-1 flex items-center justify-center py-4 relative">
+          
+          {/* البطاقة الرقمية الحديثة */}
+          <div className="relative mx-auto max-w-sm">
+            <div className="relative bg-gradient-to-br from-slate-800 via-blue-900 to-slate-900 rounded-2xl shadow-2xl p-6 transform rotate-6 hover:rotate-3 transition-all duration-500 border border-slate-700/50 backdrop-blur-sm">
+              {/* خلفية البطاقة مع التأثيرات */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 via-purple-600/20 to-transparent rounded-2xl"></div>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-white/20 to-transparent rounded-full blur-3xl"></div>
               
               <div className="relative z-10">
-                {/* Card header */}
-                <div className="flex justify-between items-start mb-3 sm:mb-4">
-                  <div className="text-white font-bold text-base sm:text-lg">DIGITAL</div>
-                  {/* Mastercard-style logo */}
-                  <div className="flex space-x-1">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-500 rounded-full opacity-90"></div>
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-yellow-400 rounded-full opacity-90 -ml-1"></div>
+                {/* رأس البطاقة */}
+                <div className="flex justify-between items-start mb-6">
+                  <div className="text-white font-bold text-lg tracking-wide">DIGITAL</div>
+                  {/* شعار البطاقة */}
+                  <div className="flex -space-x-1">
+                    <div className="w-6 h-6 bg-red-500 rounded-full"></div>
+                    <div className="w-6 h-6 bg-yellow-400 rounded-full"></div>
                   </div>
                 </div>
                 
-                {/* EMV chip simulation */}
-                <div className="w-8 h-6 sm:w-9 sm:h-6 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-md mb-3 sm:mb-4 shadow-inner"></div>
+                {/* الشريحة الذكية */}
+                <div className="w-10 h-7 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-lg mb-6 shadow-inner"></div>
                 
-                {/* Card number */}
-                <div className="text-white font-mono text-sm sm:text-base font-semibold tracking-widest mb-2 sm:mb-3">
+                {/* رقم البطاقة */}
+                <div className="text-white font-mono text-lg font-bold tracking-wider mb-4">
                   4532 1234 5678
                 </div>
                 
-                {/* Card details */}
-                <div className="flex justify-between items-end text-sm">
+                {/* تفاصيل البطاقة */}
+                <div className="flex justify-between items-end">
                   <div>
                     <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                    <div className="text-white font-semibold">12/28</div>
+                    <div className="text-white font-bold text-sm">12/28</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-white font-semibold">M.BENNANI</div>
+                    <div className="text-white font-bold">Mohamed</div>
+                    <div className="text-gray-300 text-xs">Digital Account Holder</div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="relative transform hover:scale-105 transition-transform duration-300">
-            {/* Phone Frame with stable responsive sizing */}
-            <div className="relative mx-auto w-56 h-80 sm:w-64 sm:h-96 md:w-72 md:h-[450px] bg-white/95 dark:bg-gray-800/95 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-white/30">
-              {/* Phone Screen */}
-              <div className="p-4 sm:p-6 h-full bg-gradient-to-br from-purple-100/90 to-pink-100/90 dark:from-gray-700/90 dark:to-purple-800/90">
-                {/* Stable App Interface with avatar */}
-                <div className="space-y-3 sm:space-y-4 md:space-y-6 flex flex-col items-center justify-center h-full">
-                  
-                  {/* Responsive Premium Avatar */}
-                  <div className="relative">
-                    <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-2xl flex items-center justify-center border-3 sm:border-4 border-white/30">
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-                        <span className="text-xl sm:text-2xl md:text-3xl font-bold text-white">M</span>
-                      </div>
-                    </div>
-                    {/* Online indicator */}
-                    <div className="absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full border-2 sm:border-3 border-white shadow-lg"></div>
-                  </div>
-                  
-                  {/* Responsive User info */}
-                  <div className="text-center">
-                    <div className="bg-white/70 rounded-xl shadow-lg p-2 sm:p-3 md:p-4 border border-white/50 min-w-[120px] sm:min-w-[140px]">
-                      <div className="text-base sm:text-lg md:text-xl font-bold text-gray-800">Mohamed</div>
-                      <div className="text-xs sm:text-sm text-gray-600 mt-1">Digital Account Holder</div>
-                    </div>
-                  </div>
-                  
-                  {/* Responsive Status indicators */}
-                  <div className="flex space-x-2 sm:space-x-3">
-                    <div className="bg-white/60 rounded-full p-2 sm:p-3 shadow-md border border-white/40">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse"></div>
-                    </div>
-                    <div className="bg-white/60 rounded-full p-2 sm:p-3 shadow-md border border-white/40">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                    </div>
-                    <div className="bg-white/60 rounded-full p-2 sm:p-3 shadow-md border border-white/40">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse"></div>
-                    </div>
-                  </div>
-                  
-                </div>
-              </div>
+            {/* مؤشرات الحالة التفاعلية */}
+            <div className="flex justify-center mt-8 space-x-3">
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-lg"></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse delay-75 shadow-lg"></div>
+              <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse delay-150 shadow-lg"></div>
             </div>
           </div>
         </div>
 
-        {/* أزرار مضغوطة - تناسب الشاشة بدون تمرير */}
-        <div className="w-full max-w-sm mx-auto pb-1">
+        {/* أزرار محسنة وحديثة */}
+        <div className="w-full max-w-sm mx-auto pb-6 space-y-4">
           <Link href="/login">
-            <Button className="w-full h-10 sm:h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white text-sm sm:text-base font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 mb-3 sm:mb-4 border border-purple-500/20">
-              LOG IN
+            <Button className="w-full h-14 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white text-base font-bold rounded-2xl shadow-2xl hover:shadow-purple-500/40 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 border border-purple-500/30 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative z-10 tracking-wide">LOG IN</span>
             </Button>
           </Link>
 
           <Link href="/register">
             <Button 
               variant="outline" 
-              className="w-full h-10 sm:h-12 border-2 border-purple-300/60 dark:border-purple-400/60 text-purple-700 dark:text-purple-300 text-sm sm:text-base font-semibold rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 backdrop-blur-sm"
+              className="w-full h-14 border-2 border-purple-300 hover:border-purple-400 text-purple-700 hover:text-purple-800 text-base font-bold rounded-2xl bg-white/90 hover:bg-white shadow-2xl hover:shadow-purple-500/20 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 backdrop-blur-sm relative overflow-hidden group"
             >
-              OPEN A DIGITAL ACCOUNT
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-50/50 via-purple-100/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative z-10 tracking-wide">OPEN A DIGITAL ACCOUNT</span>
             </Button>
           </Link>
           
-          {/* مؤشر سفلي مضغوط */}
-          <div className="flex justify-center pt-2 sm:pt-3">
-            <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-purple-400/40 to-pink-400/40 dark:from-white/20 dark:to-purple-300/20 rounded-full shadow-sm"></div>
+          {/* مؤشر سفلي أنيق */}
+          <div className="flex justify-center pt-4">
+            <div className="w-16 h-1.5 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 rounded-full shadow-lg animate-pulse"></div>
           </div>
         </div>
       </div>
