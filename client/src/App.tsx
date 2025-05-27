@@ -34,6 +34,7 @@ import AdminNavigation from "@/components/admin-navigation";
 import UserManagement from "@/pages/admin/users";
 import SystemReports from "@/pages/admin/reports";
 import AdminSettings from "@/pages/admin/settings";
+import AdminBankTransfers from "@/pages/admin/bank-transfers";
 import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";

@@ -1215,6 +1215,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin bank transfer routes
+  app.get("/api/admin/bank-transfers", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const transfers = await db.select({
+        id: schema.bankTransfers.id,
+        type: schema.bankTransfers.type,
+        amount: schema.bankTransfers.amount,
+        currency: schema.bankTransfers.currency,
+        recipientName: schema.bankTransfers.recipientName,
+        recipientBank: schema.bankTransfers.recipientBank,
+        recipientAccount: schema.bankTransfers.recipientAccount,
+        senderName: schema.bankTransfers.senderName,
+        senderBank: schema.bankTransfers.senderBank,
+        senderAccount: schema.bankTransfers.senderAccount,
+        reference: schema.bankTransfers.reference,
+        description: schema.bankTransfers.description,
+        status: schema.bankTransfers.status,
+        feeAmount: schema.bankTransfers.feeAmount,
+        createdAt: schema.bankTransfers.createdAt,
+        processedAt: schema.bankTransfers.processedAt,
+        userId: schema.bankTransfers.userId,
+        userFirstName: schema.users.firstName,
+        userLastName: schema.users.lastName,
+        userEmail: schema.users.email
+      })
+      .from(schema.bankTransfers)
+      .leftJoin(schema.users, eq(schema.bankTransfers.userId, schema.users.id))
+      .orderBy(desc(schema.bankTransfers.createdAt));
+
+      res.json(transfers);
+    } catch (error) {
+      console.error("Error fetching admin bank transfers:", error);
+      res.status(500).json({ error: "Failed to fetch bank transfers" });
+    }
+  });
+
+  app.patch("/api/admin/bank-transfers/:id/status", requireAuth, async (req: any, res) => {
+    try {
+      const user = await storage.getUser(req.session?.userId!);
+      if (!user || user.role !== "admin") {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+
+      const { id } = req.params;
+      const { status, adminNote } = req.body;
+
+      if (!["pending", "processing", "completed", "failed", "cancelled"].includes(status)) {
+        return res.status(400).json({ error: "Invalid status" });
+      }
+
+      const [transfer] = await db.update(schema.bankTransfers)
+        .set({ 
+          status, 
+          processedAt: status === 'completed' ? new Date() : null,
+          updatedAt: new Date()
+        })
+        .where(eq(schema.bankTransfers.id, id))
+        .returning();
+
+      if (!transfer) {
+        return res.status(404).json({ error: "Transfer not found" });
+      }
+
+      res.json(transfer);
+    } catch (error) {
+      console.error("Error updating bank transfer status:", error);
+      res.status(500).json({ error: "Failed to update transfer status" });
+    }
+  });
+
   app.post("/api/bank-transfers", requireAuth, async (req: any, res) => {
     try {
       const userId = req.session?.userId;
