@@ -27,6 +27,12 @@ import Transactions from "@/pages/transactions";
 import EditProfile from "@/pages/edit-profile";
 import Webhooks from "@/pages/webhooks";
 import Services from "@/pages/services";
+import Referral from "@/pages/account/referral";
+import Vouchers from "@/pages/account/vouchers";
+import Currency from "@/pages/account/currency";
+import Help from "@/pages/account/help";
+import Community from "@/pages/account/community";
+import PriorityCards from "@/pages/cards/priority";
 
 import KYCVerification from "@/pages/kyc-verification-new";
 import KycManagement from "@/pages/kyc-management";
@@ -98,6 +104,12 @@ function Router() {
             <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
             <Route path="/bank-transfer" component={BankTransfer} />
             <Route path="/services" component={Services} />
+            <Route path="/account/referral" component={Referral} />
+            <Route path="/account/vouchers" component={Vouchers} />
+            <Route path="/account/currency" component={Currency} />
+            <Route path="/account/help" component={Help} />
+            <Route path="/account/community" component={Community} />
+            <Route path="/cards/priority" component={PriorityCards} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
           </>
