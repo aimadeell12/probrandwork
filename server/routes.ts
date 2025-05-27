@@ -41,6 +41,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   setupSimpleAuth(app);
 
+  // Banks routes
+  app.get("/api/banks", async (req, res) => {
+    try {
+      const { country } = req.query;
+      
+      let banks;
+      if (country) {
+        banks = await db
+          .select()
+          .from(schema.banks)
+          .where(and(
+            eq(schema.banks.country, country as string),
+            eq(schema.banks.isActive, true)
+          ))
+          .orderBy(schema.banks.name);
+      } else {
+        banks = await db
+          .select()
+          .from(schema.banks)
+          .where(eq(schema.banks.isActive, true))
+          .orderBy(schema.banks.name);
+      }
+      
+      res.json(banks);
+    } catch (error) {
+      console.error("Error fetching banks:", error);
+      res.status(500).json({ message: "Error fetching banks" });
+    }
+  });
+
   // Cards routes
   app.get("/api/cards", requireAuth, async (req: any, res) => {
     try {

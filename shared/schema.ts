@@ -182,10 +182,28 @@ export const supportTicketsRelations = relations(supportTickets, ({ one }) => ({
   }),
 }));
 
+// Banks table
+export const banks = pgTable("banks", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  code: varchar("code").notNull().unique(), // e.g., "cih", "attijari", "sgm"
+  name: varchar("name").notNull(), // Arabic name
+  nameEn: varchar("name_en").notNull(), // English name
+  country: varchar("country").notNull(), // ISO country code e.g., "MAR"
+  currency: varchar("currency", { length: 3 }).notNull(), // e.g., "MAD"
+  iban: varchar("iban").notNull(), // Bank's IBAN
+  accountNumber: varchar("account_number").notNull(),
+  swiftCode: varchar("swift_code").notNull(),
+  logoUrl: text("logo_url"), // Path to bank logo
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Bank Transfers table
 export const bankTransfers = pgTable("bank_transfers", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: varchar("user_id").notNull().references(() => users.id),
+  bankId: uuid("bank_id").references(() => banks.id),
   type: varchar("type").notNull(), // incoming, outgoing
   amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
   currency: varchar("currency", { length: 3 }).notNull().default("USD"),
@@ -264,10 +282,18 @@ export const notificationSettingsRelations = relations(notificationSettings, ({ 
   }),
 }));
 
+export const banksRelations = relations(banks, ({ many }) => ({
+  bankTransfers: many(bankTransfers),
+}));
+
 export const bankTransfersRelations = relations(bankTransfers, ({ one }) => ({
   user: one(users, {
     fields: [bankTransfers.userId],
     references: [users.id],
+  }),
+  bank: one(banks, {
+    fields: [bankTransfers.bankId],
+    references: [banks.id],
   }),
 }));
 
@@ -339,6 +365,12 @@ export const insertKycDocumentSchema = createInsertSchema(kycDocuments).omit({
   uploadedAt: true,
 });
 
+export const insertBankSchema = createInsertSchema(banks).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export const insertBankTransferSchema = createInsertSchema(bankTransfers).omit({
   id: true,
   createdAt: true,
@@ -390,6 +422,8 @@ export type InsertKycDocument = z.infer<typeof insertKycDocumentSchema>;
 export type KycDocument = typeof kycDocuments.$inferSelect;
 export type KycVerificationForm = z.infer<typeof kycVerificationFormSchema>;
 
+export type InsertBank = z.infer<typeof insertBankSchema>;
+export type Bank = typeof banks.$inferSelect;
 export type InsertBankTransfer = z.infer<typeof insertBankTransferSchema>;
 export type BankTransfer = typeof bankTransfers.$inferSelect;
 
