@@ -40,44 +40,7 @@ export default function Deposit() {
     },
   });
 
-  const handleDeposit = () => {
-    // التوجيه المباشر حسب طريقة الدفع المختارة
-    if (selectedMethod === "binance") {
-      setLocation("/binance-pay");
-      return;
-    } else if (selectedMethod === "bank") {
-      setLocation("/bank-transfer");
-      return;
-    } else if (selectedMethod === "card") {
-      toast({
-        title: "Credit Card",
-        description: "Credit card payment will be available soon",
-      });
-      return;
-    }
 
-    // للطرق الأخرى، تحقق من المبلغ أولاً
-    const depositAmount = parseFloat(amount);
-    if (!depositAmount || depositAmount <= 0) {
-      toast({
-        title: "Invalid Amount",
-        description: "Please enter a valid amount",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (depositAmount < 1) {
-      toast({
-        title: "Amount Too Small",
-        description: "Minimum deposit is $1",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    depositMutation.mutate({ amount: depositAmount, method: selectedMethod });
-  };
 
 
 
@@ -152,7 +115,13 @@ export default function Deposit() {
                   ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
                   : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
               }`}
-              onClick={() => setSelectedMethod("card")}
+              onClick={() => {
+                setSelectedMethod("card");
+                toast({
+                  title: "Credit Card",
+                  description: "Credit card payment will be available soon",
+                });
+              }}
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
@@ -171,7 +140,7 @@ export default function Deposit() {
                   ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
                   : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
               }`}
-              onClick={() => setSelectedMethod("bank")}
+              onClick={() => setLocation("/bank-transfer")}
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-xl">
@@ -190,7 +159,7 @@ export default function Deposit() {
                   ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
                   : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
               }`}
-              onClick={() => setSelectedMethod("binance")}
+              onClick={() => setLocation("/binance-pay")}
             >
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
@@ -204,16 +173,6 @@ export default function Deposit() {
             </div>
           </CardContent>
         </Card>
-
-            {/* Deposit Button */}
-            <Button
-              onClick={handleDeposit}
-              disabled={depositMutation.isPending || !amount}
-              className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
-            >
-              <Plus className="h-5 w-5 mr-2" />
-              {depositMutation.isPending ? t('processingDeposit') : `${t('depositButton')} $${amount || "0.00"}`}
-            </Button>
           </div>
         </div>
       </div>
