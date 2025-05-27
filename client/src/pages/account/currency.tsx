@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,6 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowLeft, ArrowUpDown, TrendingUp, Clock } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Currency() {
   const [, setLocation] = useLocation();
@@ -14,22 +16,51 @@ export default function Currency() {
   const [toCurrency, setToCurrency] = useState("EUR");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
+  const queryClient = useQueryClient();
+
+  // Get exchange rates
+  const { data: exchangeRates = [] } = useQuery({
+    queryKey: ['/api/currency/rates'],
+    queryFn: () => apiRequest('GET', '/api/currency/rates').then(res => res.json())
+  });
+
+  // Get conversion history
+  const { data: conversionHistory = [] } = useQuery({
+    queryKey: ['/api/currency/history'],
+    queryFn: () => apiRequest('GET', '/api/currency/history').then(res => res.json())
+  });
+
+  // Convert currency mutation
+  const convertMutation = useMutation({
+    mutationFn: (data: { fromCurrency: string; toCurrency: string; amount: number }) =>
+      apiRequest('POST', '/api/currency/convert', data).then(res => res.json()),
+    onSuccess: (data) => {
+      setConvertedAmount(data.toAmount.toFixed(4));
+      toast({
+        title: "Conversion Complete",
+        description: `${amount} ${fromCurrency} = ${data.toAmount.toFixed(4)} ${toCurrency}`
+      });
+      // Refresh conversion history
+      queryClient.invalidateQueries({ queryKey: ['/api/currency/history'] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to convert currency",
+        variant: "destructive"
+      });
+    }
+  });
 
   const currencies = [
-    { code: "USD", name: "US Dollar", symbol: "$", rate: 1.0000 },
-    { code: "EUR", name: "Euro", symbol: "€", rate: 0.8500 },
-    { code: "GBP", name: "British Pound", symbol: "£", rate: 0.7300 },
-    { code: "JPY", name: "Japanese Yen", symbol: "¥", rate: 110.25 },
-    { code: "CAD", name: "Canadian Dollar", symbol: "C$", rate: 1.2500 },
-    { code: "AUD", name: "Australian Dollar", symbol: "A$", rate: 1.3500 },
-    { code: "CHF", name: "Swiss Franc", symbol: "CHF", rate: 0.9200 },
-    { code: "CNY", name: "Chinese Yuan", symbol: "¥", rate: 6.4500 }
-  ];
-
-  const recentConversions = [
-    { from: "USD", to: "EUR", amount: 100, converted: 85, date: "2024-01-15" },
-    { from: "EUR", to: "GBP", amount: 200, converted: 172, date: "2024-01-14" },
-    { from: "USD", to: "JPY", amount: 50, converted: 5512, date: "2024-01-13" }
+    { code: "USD", name: "US Dollar", symbol: "$" },
+    { code: "EUR", name: "Euro", symbol: "€" },
+    { code: "GBP", name: "British Pound", symbol: "£" },
+    { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+    { code: "CAD", name: "Canadian Dollar", symbol: "C$" },
+    { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+    { code: "CHF", name: "Swiss Franc", symbol: "CHF" },
+    { code: "CNY", name: "Chinese Yuan", symbol: "¥" }
   ];
 
   const convertCurrency = () => {
@@ -42,15 +73,10 @@ export default function Currency() {
       return;
     }
 
-    const fromRate = currencies.find(c => c.code === fromCurrency)?.rate || 1;
-    const toRate = currencies.find(c => c.code === toCurrency)?.rate || 1;
-    const result = (parseFloat(amount) / fromRate) * toRate;
-    
-    setConvertedAmount(result.toFixed(4));
-    
-    toast({
-      title: "Conversion Complete",
-      description: `${amount} ${fromCurrency} = ${result.toFixed(4)} ${toCurrency}`
+    convertMutation.mutate({
+      fromCurrency,
+      toCurrency,
+      amount: parseFloat(amount)
     });
   };
 
@@ -178,13 +204,18 @@ export default function Currency() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-3">
-              {currencies.slice(0, 6).map((currency) => (
-                <div key={currency.code} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+              {exchangeRates.slice(0, 6).map((rate: any) => (
+                <div key={`${rate.fromCurrency}-${rate.toCurrency}`} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                   <span className="font-medium text-gray-900 dark:text-white">
-                    1 USD = {currency.rate.toFixed(4)} {currency.code}
+                    1 {rate.fromCurrency} = {parseFloat(rate.rate).toFixed(4)} {rate.toCurrency}
                   </span>
                 </div>
               ))}
+              {exchangeRates.length === 0 && (
+                <div className="col-span-2 text-center text-gray-600 dark:text-gray-400 py-4">
+                  No exchange rates available
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -199,21 +230,27 @@ export default function Currency() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {recentConversions.map((conversion, index) => (
-                <div key={index} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {getCurrencySymbol(conversion.from)}{conversion.amount} → {getCurrencySymbol(conversion.to)}{conversion.converted}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {conversion.from} to {conversion.to}
-                    </p>
-                  </div>
-                  <span className="text-sm text-gray-500 dark:text-gray-500">
-                    {new Date(conversion.date).toLocaleDateString()}
-                  </span>
+              {conversionHistory.length === 0 ? (
+                <div className="text-center text-gray-600 dark:text-gray-400 py-4">
+                  No conversion history found
                 </div>
-              ))}
+              ) : (
+                conversionHistory.map((conversion: any) => (
+                  <div key={conversion.id} className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                    <div>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {getCurrencySymbol(conversion.fromCurrency)}{conversion.fromAmount} → {getCurrencySymbol(conversion.toCurrency)}{conversion.toAmount}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {conversion.fromCurrency} to {conversion.toCurrency}
+                      </p>
+                    </div>
+                    <span className="text-sm text-gray-500 dark:text-gray-500">
+                      {new Date(conversion.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                ))
+              )}
             </div>
           </CardContent>
         </Card>
