@@ -175,35 +175,33 @@ export default function Services() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-gray-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/10 to-pink-200/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
       
-      {/* Header */}
-      <div className="bg-gray-900/80 backdrop-blur-sm border-b border-gray-700/30 p-4 relative z-10">
-        <div className="flex items-center space-x-4 space-x-reverse">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10">
+        
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-8">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-gray-800/50 text-white"
+            className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
             Services Hub
           </h1>
         </div>
-      </div>
-
-      <div className="p-4 space-y-6 relative z-10 pb-20">
         
         {/* Popular Services */}
-        <div>
-          <h2 className="text-lg font-bold text-white mb-4">Popular</h2>
-          <div className="grid grid-cols-3 gap-3">
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Popular</h2>
+          <div className="grid grid-cols-3 gap-4">
             {popularServices.map((service, index) => (
               <ServiceCard key={index} service={service} />
             ))}
@@ -211,9 +209,9 @@ export default function Services() {
         </div>
 
         {/* Card Services */}
-        <div>
-          <h2 className="text-lg font-bold text-white mb-4">Card</h2>
-          <div className="grid grid-cols-2 gap-3">
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Card</h2>
+          <div className="grid grid-cols-2 gap-4">
             {cardServices.map((service, index) => (
               <ServiceCard 
                 key={index} 
@@ -225,9 +223,9 @@ export default function Services() {
         </div>
 
         {/* Transaction Services */}
-        <div>
-          <h2 className="text-lg font-bold text-white mb-4">Transaction</h2>
-          <div className="grid grid-cols-3 gap-3">
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Transaction</h2>
+          <div className="grid grid-cols-3 gap-4">
             {transactionServices.map((service, index) => (
               <ServiceCard 
                 key={index} 
@@ -239,9 +237,9 @@ export default function Services() {
         </div>
 
         {/* Banking Services */}
-        <div>
-          <h2 className="text-lg font-bold text-white mb-4">Banking</h2>
-          <div className="grid grid-cols-3 gap-3">
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Banking</h2>
+          <div className="grid grid-cols-3 gap-4">
             <ServiceCard 
               service={{
                 icon: Building2,
@@ -256,9 +254,9 @@ export default function Services() {
         </div>
 
         {/* Support Services */}
-        <div>
-          <h2 className="text-lg font-bold text-white mb-4">Support</h2>
-          <div className="grid grid-cols-3 gap-3">
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Support</h2>
+          <div className="grid grid-cols-3 gap-4">
             {supportServices.map((service, index) => (
               <ServiceCard 
                 key={index} 
