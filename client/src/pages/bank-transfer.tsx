@@ -28,10 +28,14 @@ export default function BankTransfer() {
   // Get banks from database based on user's country
   const { data: banks, isLoading: isLoadingBanks } = useQuery<Bank[]>({
     queryKey: ["/api/banks", userData?.country],
-    queryFn: () => {
+    queryFn: async () => {
       const country = userData?.country;
       const url = country ? `/api/banks?country=${country}` : "/api/banks";
-      return apiRequest(url).then(res => res.json());
+      console.log("🔄 Fetching banks from:", url);
+      const response = await apiRequest("GET", url);
+      const result = await response.json();
+      console.log("📦 Received banks:", result);
+      return result;
     },
     enabled: !!userData, // Only fetch when we have user data
   });
