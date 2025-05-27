@@ -258,6 +258,13 @@ export const notificationSettingsRelations = relations(notificationSettings, ({ 
   }),
 }));
 
+export const bankTransfersRelations = relations(bankTransfers, ({ one }) => ({
+  user: one(users, {
+    fields: [bankTransfers.userId],
+    references: [users.id],
+  }),
+}));
+
 // Schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   createdAt: true,
@@ -376,3 +383,6 @@ export type KycVerification = typeof kycVerifications.$inferSelect;
 export type InsertKycDocument = z.infer<typeof insertKycDocumentSchema>;
 export type KycDocument = typeof kycDocuments.$inferSelect;
 export type KycVerificationForm = z.infer<typeof kycVerificationFormSchema>;
+
+export type InsertBankTransfer = z.infer<typeof insertBankTransferSchema>;
+export type BankTransfer = typeof bankTransfers.$inferSelect;

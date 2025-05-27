@@ -8,6 +8,9 @@ import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, 
 import { z } from "zod";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
+import { db } from "./db";
+import * as schema from "@shared/schema";
+import { eq, desc, and } from "drizzle-orm";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup session middleware first
@@ -1193,6 +1196,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating notification settings:", error);
       res.status(500).json({ message: "Failed to update notification settings" });
+    }
+  });
+
+  // Bank transfer routes
+  app.get("/api/bank-transfers", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const transfers = await db.select()
+        .from(schema.bankTransfers)
+        .where(eq(schema.bankTransfers.userId, userId))
+        .orderBy(desc(schema.bankTransfers.createdAt));
+
+      res.json(transfers);
+    } catch (error) {
+      console.error("Error fetching bank transfers:", error);
+      res.status(500).json({ error: "Failed to fetch bank transfers" });
+    }
+  });
+
+  app.post("/api/bank-transfers", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const parsedData = schema.insertBankTransferSchema.parse(req.body);
+      
+      const [transfer] = await db.insert(schema.bankTransfers)
+        .values({
+          ...parsedData,
+          userId,
+        })
+        .returning();
+
+      res.json(transfer);
+    } catch (error) {
+      console.error("Error creating bank transfer:", error);
+      res.status(500).json({ error: "Failed to create bank transfer" });
+    }
+  });
+
+  app.patch("/api/bank-transfers/:id/status", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      const userId = req.session?.userId;
+
+      const [transfer] = await db.update(schema.bankTransfers)
+        .set({ 
+          status, 
+          processedAt: status === 'completed' ? new Date() : null,
+          updatedAt: new Date()
+        })
+        .where(and(
+          eq(schema.bankTransfers.id, id),
+          eq(schema.bankTransfers.userId, userId)
+        ))
+        .returning();
+
+      if (!transfer) {
+        return res.status(404).json({ error: "Transfer not found" });
+      }
+
+      res.json(transfer);
+    } catch (error) {
+      console.error("Error updating bank transfer status:", error);
+      res.status(500).json({ error: "Failed to update transfer status" });
     }
   });
 

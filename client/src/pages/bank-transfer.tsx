@@ -26,25 +26,8 @@ import {
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-
-interface BankTransfer {
-  id: string;
-  type: 'incoming' | 'outgoing';
-  amount: number;
-  currency: string;
-  recipientName: string;
-  recipientBank: string;
-  recipientAccount: string;
-  senderName: string;
-  senderBank: string;
-  senderAccount: string;
-  reference: string;
-  description: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
-  createdAt: string;
-  processedAt?: string;
-  feeAmount: number;
-}
+import { apiRequest } from "@/lib/queryClient";
+import { BankTransfer as BankTransferType } from "@shared/schema";
 
 export default function BankTransfer() {
   const { toast } = useToast();
