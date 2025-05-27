@@ -4,6 +4,7 @@ import path from "path";
 import { storage } from "./storage";
 import { setupSimpleAuth, requireAuth } from "./simpleAuth";
 import { reapService } from "./reap";
+import { binancePayService } from "./binance";
 import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
@@ -1948,7 +1949,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid amount" });
       }
 
-      if (!method || !['card', 'bank', 'crypto'].includes(method)) {
+      if (!method || !['card', 'bank', 'crypto', 'binance'].includes(method)) {
         return res.status(400).json({ message: "Invalid payment method" });
       }
 
@@ -1971,6 +1972,184 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error submitting deposit request:", error);
       res.status(500).json({ message: "Failed to submit deposit request" });
+    }
+  });
+
+  // Binance Pay: Create payment order
+  app.post("/api/binance/create-order", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      if (!binancePayService.isConfigured()) {
+        return res.status(503).json({ 
+          message: "Binance Pay is not configured. Please contact administrator." 
+        });
+      }
+
+      const { amount, currency = 'USDT' } = req.body;
+
+      if (!amount || amount <= 0) {
+        return res.status(400).json({ message: "Invalid amount" });
+      }
+
+      // Generate unique merchant trade number
+      const merchantTradeNo = binancePayService.generateMerchantTradeNo(userId);
+
+      // Create Binance Pay order
+      const orderData = {
+        merchantTradeNo,
+        totalFee: amount.toString(),
+        currency,
+        productType: 'Digital Asset',
+        productName: 'Wallet Deposit',
+        productDetail: `Deposit $${amount} to wallet`,
+        returnUrl: `${process.env.BASE_URL || 'https://your-domain.com'}/deposit/success`,
+        cancelUrl: `${process.env.BASE_URL || 'https://your-domain.com'}/deposit/cancel`,
+      };
+
+      const paymentOrder = await binancePayService.createOrder(orderData);
+
+      // Store order information in database
+      await db
+        .insert(schema.depositRequests)
+        .values({
+          userId,
+          amount: amount.toString(),
+          method: 'binance',
+          status: 'pending',
+          transactionReference: merchantTradeNo,
+        });
+
+      res.json({
+        success: true,
+        orderId: merchantTradeNo,
+        paymentUrl: paymentOrder.checkoutUrl,
+        qrCode: paymentOrder.qrContent,
+        deeplink: paymentOrder.deeplink,
+        universalUrl: paymentOrder.universalUrl,
+        expireTime: paymentOrder.expireTime,
+      });
+    } catch (error) {
+      console.error("Error creating Binance Pay order:", error);
+      res.status(500).json({ 
+        message: "Failed to create payment order",
+        error: error.message 
+      });
+    }
+  });
+
+  // Binance Pay: Query order status
+  app.post("/api/binance/query-order", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      if (!binancePayService.isConfigured()) {
+        return res.status(503).json({ 
+          message: "Binance Pay is not configured. Please contact administrator." 
+        });
+      }
+
+      const { merchantTradeNo } = req.body;
+
+      if (!merchantTradeNo) {
+        return res.status(400).json({ message: "Merchant trade number is required" });
+      }
+
+      const orderStatus = await binancePayService.queryOrder(merchantTradeNo);
+
+      // Update local deposit request status based on Binance Pay status
+      if (orderStatus.status === 'PAY_SUCCESS') {
+        await db
+          .update(schema.depositRequests)
+          .set({
+            status: 'approved',
+            processedAt: new Date(),
+            updatedAt: new Date(),
+          })
+          .where(eq(schema.depositRequests.transactionReference, merchantTradeNo));
+
+        // Add amount to user's wallet
+        const [request] = await db
+          .select()
+          .from(schema.depositRequests)
+          .where(eq(schema.depositRequests.transactionReference, merchantTradeNo))
+          .limit(1);
+
+        if (request) {
+          await db.insert(schema.transactions).values({
+            userId: request.userId,
+            type: 'deposit',
+            amount: request.amount,
+            status: 'completed',
+            description: `Binance Pay deposit completed`,
+            method: 'binance',
+          });
+        }
+      }
+
+      res.json({
+        success: true,
+        status: orderStatus.status,
+        orderInfo: orderStatus,
+      });
+    } catch (error) {
+      console.error("Error querying Binance Pay order:", error);
+      res.status(500).json({ 
+        message: "Failed to query order status",
+        error: error.message 
+      });
+    }
+  });
+
+  // Binance Pay: Webhook endpoint for payment notifications
+  app.post("/api/binance/webhook", async (req: any, res) => {
+    try {
+      // Verify webhook signature here if needed
+      const { merchantTradeNo, status, totalFee } = req.body;
+
+      if (status === 'PAY_SUCCESS') {
+        // Find the deposit request
+        const [request] = await db
+          .select()
+          .from(schema.depositRequests)
+          .where(eq(schema.depositRequests.transactionReference, merchantTradeNo))
+          .limit(1);
+
+        if (request && request.status === 'pending') {
+          // Update deposit request status
+          await db
+            .update(schema.depositRequests)
+            .set({
+              status: 'approved',
+              processedAt: new Date(),
+              updatedAt: new Date(),
+            })
+            .where(eq(schema.depositRequests.id, request.id));
+
+          // Add amount to user's wallet (you'll need to implement wallet logic)
+          await db.insert(schema.transactions).values({
+            userId: request.userId,
+            type: 'deposit',
+            amount: request.amount,
+            status: 'completed',
+            description: `Binance Pay deposit completed - ${merchantTradeNo}`,
+            method: 'binance',
+          });
+
+          console.log(`Binance Pay payment successful for order: ${merchantTradeNo}`);
+        }
+      }
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error processing Binance Pay webhook:", error);
+      res.status(500).json({ message: "Webhook processing failed" });
     }
   });
 

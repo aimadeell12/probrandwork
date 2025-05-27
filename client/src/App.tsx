@@ -46,6 +46,7 @@ import AdminVouchers from "@/pages/admin/vouchers";
 import AdminCurrency from "@/pages/admin/currency";
 import AdminCommunity from "@/pages/admin/community";
 import DepositRequests from "@/pages/admin/deposit-requests";
+import BinancePay from "@/pages/binance-pay";
 import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
 import NotFound from "@/pages/not-found";
@@ -113,6 +114,7 @@ function Router() {
           <Route path="/admin/currency" component={AdminCurrency} />
           <Route path="/admin/community" component={AdminCommunity} />
             <Route path="/bank-transfer" component={BankTransfer} />
+            <Route path="/binance-pay" component={BinancePay} />
             <Route path="/services" component={Services} />
             <Route path="/account/referral" component={Referral} />
             <Route path="/account/vouchers" component={Vouchers} />
