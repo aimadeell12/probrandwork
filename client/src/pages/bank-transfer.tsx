@@ -9,6 +9,9 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import cihBankLogo from "@assets/Cih-bank.png";
+import attijariBankLogo from "@assets/images (1).png";
+import sgmBankLogo from "@assets/images (3).png";
 
 export default function BankTransfer() {
   const [, setLocation] = useLocation();
@@ -30,7 +33,7 @@ export default function BankTransfer() {
       id: "cih",
       name: "بنك CIH",
       name_en: "CIH Bank",
-      logo: "🏦",
+      logo: cihBankLogo,
       iban: "MA64 0110 0000 0000 0123 4567 89",
       accountNumber: "001234567890",
       swiftCode: "CIHMMAMC",
@@ -40,7 +43,7 @@ export default function BankTransfer() {
       id: "attijari",
       name: "التجاري وفا بنك",
       name_en: "Attijariwafa Bank",
-      logo: "🏛️",
+      logo: attijariBankLogo,
       iban: "MA64 0072 0000 0000 0123 4567 89",
       accountNumber: "007234567890",
       swiftCode: "BCMAMAMC",
@@ -50,7 +53,7 @@ export default function BankTransfer() {
       id: "sgm",
       name: "بنك المغرب",
       name_en: "Société Générale Marocaine",
-      logo: "🏢",
+      logo: sgmBankLogo,
       iban: "MA64 0022 0000 0000 0123 4567 89",
       accountNumber: "002234567890",
       swiftCode: "SOGEMAMC",
@@ -184,7 +187,13 @@ export default function BankTransfer() {
                         onClick={() => setSelectedBank(bank.id)}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="text-2xl">{bank.logo}</div>
+                          <div className="w-12 h-12 flex items-center justify-center">
+                            <img 
+                              src={bank.logo} 
+                              alt={bank.name_en}
+                              className="w-10 h-10 object-contain"
+                            />
+                          </div>
                           <div className="flex-1">
                             <p className="font-medium text-gray-900 dark:text-white">
                               {bank.name}
