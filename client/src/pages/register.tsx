@@ -18,11 +18,12 @@ export default function Register() {
     fullName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    referralCode: ''
   });
 
   const registerMutation = useMutation({
-    mutationFn: async (data: { fullName: string; email: string; password: string }) => {
+    mutationFn: async (data: { fullName: string; email: string; password: string; referralCode?: string }) => {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -80,7 +81,8 @@ export default function Register() {
     registerMutation.mutate({
       fullName: formData.fullName,
       email: formData.email,
-      password: formData.password
+      password: formData.password,
+      referralCode: formData.referralCode || undefined
     });
   };
 
@@ -181,6 +183,24 @@ export default function Register() {
                     placeholder={t('reenterPassword')}
                     required
                   />
+                </div>
+
+                {/* Referral Code Field (Optional) */}
+                <div className="space-y-2">
+                  <Label htmlFor="referralCode" className="text-gray-700 dark:text-gray-300 font-medium">
+                    {t('referralCode')} <span className="text-gray-500 text-sm">({t('optional')})</span>
+                  </Label>
+                  <Input
+                    id="referralCode"
+                    type="text"
+                    value={formData.referralCode}
+                    onChange={(e) => handleInputChange('referralCode', e.target.value.toUpperCase())}
+                    className="w-full h-10 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
+                    placeholder={t('enterReferralCode')}
+                  />
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {t('referralCodeHelp')}
+                  </p>
                 </div>
 
                 {/* Submit Button */}
