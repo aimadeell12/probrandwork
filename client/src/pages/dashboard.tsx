@@ -132,14 +132,7 @@ export default function Dashboard() {
             </div>
           </Link>
           
-          <Link href="/scan">
-            <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-              <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
-                <QrCode className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-              </div>
-              <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{t('scan')}</span>
-            </div>
-          </Link>
+
         </div>
 
         {/* KYC Status Card */}
