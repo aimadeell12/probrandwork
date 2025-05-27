@@ -88,7 +88,7 @@ export default function Referral() {
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
               <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">5</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats?.friendsReferred || 0}</p>
               <p className="text-sm text-gray-600 dark:text-gray-400">Friends Referred</p>
             </CardContent>
           </Card>
@@ -96,7 +96,7 @@ export default function Referral() {
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
               <DollarSign className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">$125</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">${stats?.totalEarnings || 0}</p>
               <p className="text-sm text-gray-600 dark:text-gray-400">Earned</p>
             </CardContent>
           </Card>

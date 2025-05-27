@@ -5,42 +5,50 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft, Plus, Ticket, CheckCircle, Clock, XCircle } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Vouchers() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [voucherCode, setVoucherCode] = useState("");
+  const queryClient = useQueryClient();
 
-  const vouchers = [
-    {
-      id: 1,
-      code: "WELCOME50",
-      title: "$50 Welcome Bonus",
-      description: "First-time user bonus",
-      amount: 50,
-      status: "used",
-      expiresAt: "2024-12-31",
-      usedAt: "2024-01-15"
+  // Get user's vouchers
+  const { data: userVouchers = [], isLoading } = useQuery({
+    queryKey: ['/api/vouchers/my-vouchers'],
+    queryFn: () => apiRequest('GET', '/api/vouchers/my-vouchers').then(res => res.json())
+  });
+
+  // Get available vouchers
+  const { data: availableVouchers = [] } = useQuery({
+    queryKey: ['/api/vouchers/available'],
+    queryFn: () => apiRequest('GET', '/api/vouchers/available').then(res => res.json())
+  });
+
+  // Redeem voucher mutation
+  const redeemMutation = useMutation({
+    mutationFn: (code: string) => 
+      apiRequest('POST', '/api/vouchers/redeem', { voucherCode: code }).then(res => res.json()),
+    onSuccess: (data) => {
+      toast({
+        title: "Success!",
+        description: `Voucher redeemed! You received $${data.amount}`
+      });
+      setVoucherCode("");
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ['/api/vouchers/my-vouchers'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/vouchers/available'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/wallet/balance'] });
     },
-    {
-      id: 2,
-      code: "CASHBACK25",
-      title: "$25 Cashback",
-      description: "Monthly cashback reward",
-      amount: 25,
-      status: "active",
-      expiresAt: "2024-12-31"
-    },
-    {
-      id: 3,
-      code: "FRIEND10",
-      title: "$10 Friend Bonus",
-      description: "Referral bonus",
-      amount: 10,
-      status: "expired",
-      expiresAt: "2024-02-28"
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to redeem voucher",
+        variant: "destructive"
+      });
     }
-  ];
+  });
 
   const redeemVoucher = () => {
     if (!voucherCode.trim()) {
@@ -52,11 +60,7 @@ export default function Vouchers() {
       return;
     }
 
-    toast({
-      title: "Success!",
-      description: `Voucher ${voucherCode} redeemed successfully!`
-    });
-    setVoucherCode("");
+    redeemMutation.mutate(voucherCode);
   };
 
   const getStatusIcon = (status: string) => {
@@ -137,49 +141,62 @@ export default function Vouchers() {
 
         {/* Vouchers List */}
         <div className="space-y-4">
-          {vouchers.map((voucher) => (
-            <Card key={voucher.id} className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                      <Ticket className="h-6 w-6 text-purple-600" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-gray-900 dark:text-white">
-                          {voucher.title}
-                        </h3>
-                        {getStatusIcon(voucher.status)}
-                      </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        {voucher.description}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-500">
-                        Code: {voucher.code}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-500">
-                        Expires: {new Date(voucher.expiresAt).toLocaleDateString()}
-                      </p>
-                      {voucher.usedAt && (
-                        <p className="text-xs text-gray-500 dark:text-gray-500">
-                          Used: {new Date(voucher.usedAt).toLocaleDateString()}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                      ${voucher.amount}
-                    </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(voucher.status)}`}>
-                      {voucher.status.charAt(0).toUpperCase() + voucher.status.slice(1)}
-                    </span>
-                  </div>
-                </div>
+          {isLoading ? (
+            <div className="text-center py-8">
+              <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto" />
+            </div>
+          ) : userVouchers.length === 0 ? (
+            <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
+              <CardContent className="p-8 text-center">
+                <Ticket className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600 dark:text-gray-400">No vouchers found</p>
               </CardContent>
             </Card>
-          ))}
+          ) : (
+            userVouchers.map((voucher: any) => (
+              <Card key={voucher.id} className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                        <Ticket className="h-6 w-6 text-purple-600" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold text-gray-900 dark:text-white">
+                            {voucher.title}
+                          </h3>
+                          {getStatusIcon(voucher.status)}
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                          {voucher.description}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">
+                          Code: {voucher.code}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">
+                          Expires: {new Date(voucher.expiresAt).toLocaleDateString()}
+                        </p>
+                        {voucher.usedAt && (
+                          <p className="text-xs text-gray-500 dark:text-gray-500">
+                            Used: {new Date(voucher.usedAt).toLocaleDateString()}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                        ${voucher.amount}
+                      </div>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(voucher.status)}`}>
+                        {voucher.status.charAt(0).toUpperCase() + voucher.status.slice(1)}
+                      </span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
 
         {/* Available Vouchers */}
@@ -189,37 +206,30 @@ export default function Vouchers() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="p-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border border-purple-200/30">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">SAVE20</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">$20 off next transaction</p>
+              {availableVouchers.length === 0 ? (
+                <p className="text-center text-gray-600 dark:text-gray-400 py-4">
+                  No available vouchers at the moment
+                </p>
+              ) : (
+                availableVouchers.map((voucher: any) => (
+                  <div key={voucher.id} className="p-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border border-purple-200/30">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{voucher.code}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{voucher.description}</p>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setVoucherCode(voucher.code)}
+                        disabled={redeemMutation.isPending}
+                      >
+                        Apply
+                      </Button>
+                    </div>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setVoucherCode("SAVE20")}
-                  >
-                    Apply
-                  </Button>
-                </div>
-              </div>
-              
-              <div className="p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border border-green-200/30">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">BONUS15</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">$15 account credit</p>
-                  </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setVoucherCode("BONUS15")}
-                  >
-                    Apply
-                  </Button>
-                </div>
-              </div>
+                ))
+              )}
             </div>
           </CardContent>
         </Card>

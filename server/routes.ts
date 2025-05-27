@@ -10,7 +10,7 @@ import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { db } from "./db";
 import * as schema from "@shared/schema";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, sql, isNull } from "drizzle-orm";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup session middleware first
@@ -1447,7 +1447,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const vouchers = await db.select().from(schema.vouchers)
         .where(and(
           eq(schema.vouchers.status, 'active'),
-          eq(schema.vouchers.userId, null) // Public vouchers
+          isNull(schema.vouchers.userId) // Public vouchers
         ))
         .orderBy(desc(schema.vouchers.createdAt));
       
