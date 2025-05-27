@@ -66,7 +66,7 @@ export default function Welcome() {
                     <div className="text-white font-bold text-sm">12/28</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-white font-bold">Mohamed</div>
+                    <div className="text-white font-bold">AIMAD</div>
                     <div className="text-gray-300 text-xs">Digital Account Holder</div>
                   </div>
                 </div>
