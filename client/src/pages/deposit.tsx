@@ -60,12 +60,23 @@ export default function Deposit() {
       return;
     }
 
-    // إذا كان الخيار المحدد هو Binance Pay، توجه إلى صفحة Binance Pay
+    // التوجيه حسب طريقة الدفع المختارة
     if (selectedMethod === "binance") {
       setLocation("/binance-pay");
       return;
+    } else if (selectedMethod === "bank") {
+      setLocation("/bank-transfer");
+      return;
+    } else if (selectedMethod === "card") {
+      // يمكن إضافة صفحة بطاقة ائتمان هنا لاحقاً
+      toast({
+        title: "Credit Card",
+        description: "Credit card payment will be available soon",
+      });
+      return;
     }
 
+    // للطرق الأخرى، استخدم النظام القديم
     depositMutation.mutate({ amount: depositAmount, method: selectedMethod });
   };
 
