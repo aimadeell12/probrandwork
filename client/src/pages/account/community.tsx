@@ -251,26 +251,32 @@ export default function Community() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {topContributors.map((contributor, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+              {contributors.length === 0 ? (
+                <div className="text-center text-gray-600 dark:text-gray-400 py-4">
+                  No contributors found
+                </div>
+              ) : (
+                contributors.map((contributor: any, index: number) => (
+                <div key={contributor.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                       {index + 1}
                     </div>
                     <div>
                       <p className="font-medium text-gray-900 dark:text-white">
-                        {contributor.name}
+                        {contributor.name || 'Anonymous'}
                       </p>
                       <Badge variant="secondary" className="text-xs">
-                        {contributor.badge}
+                        {contributor.badge || 'Member'}
                       </Badge>
                     </div>
                   </div>
                   <span className="text-sm font-bold text-purple-600">
-                    {contributor.points} pts
+                    {contributor.points || 0} pts
                   </span>
                 </div>
-              ))}
+                ))
+              )}
             </div>
           </CardContent>
         </Card>
