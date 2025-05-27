@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,12 +6,32 @@ import { ArrowLeft, Copy, Share, Users, DollarSign, Gift } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Referral() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const { user } = useAuth();
-  const [referralCode] = useState("REF" + Math.random().toString(36).substr(2, 8).toUpperCase());
+  const [referralCode, setReferralCode] = useState("");
+
+  // Get user's referral data
+  const { data: referralData, isLoading } = useQuery({
+    queryKey: ['/api/referrals/my-data'],
+    queryFn: () => apiRequest('GET', '/api/referrals/my-data').then(res => res.json())
+  });
+
+  // Get referral statistics
+  const { data: stats } = useQuery({
+    queryKey: ['/api/referrals/stats'],
+    queryFn: () => apiRequest('GET', '/api/referrals/stats').then(res => res.json())
+  });
+
+  useEffect(() => {
+    if (referralData?.referralCode) {
+      setReferralCode(referralData.referralCode);
+    }
+  }, [referralData]);
 
   const copyReferralCode = () => {
     navigator.clipboard.writeText(referralCode);

@@ -1338,6 +1338,377 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ==================== REFERRAL PROGRAM APIs ====================
+  
+  // Get user's referral data
+  app.get("/api/referrals/my-data", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const [referralData] = await db.select().from(schema.referrals).where(eq(schema.referrals.referrerId, userId));
+      
+      if (!referralData) {
+        // Create referral code if doesn't exist
+        const newCode = 'REF' + Math.random().toString(36).substr(2, 8).toUpperCase();
+        const [newReferral] = await db.insert(schema.referrals).values({
+          referrerId: userId,
+          referralCode: newCode,
+          status: 'pending'
+        }).returning();
+        return res.json(newReferral);
+      }
+      
+      res.json(referralData);
+    } catch (error) {
+      console.error("Error fetching referral data:", error);
+      res.status(500).json({ message: "Failed to fetch referral data" });
+    }
+  });
+
+  // Get referral statistics
+  app.get("/api/referrals/stats", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      
+      // Count completed referrals
+      const completedReferrals = await db.select().from(schema.referrals)
+        .where(and(eq(schema.referrals.referrerId, userId), eq(schema.referrals.status, 'completed')));
+      
+      // Calculate total earnings
+      const totalEarnings = completedReferrals.reduce((sum, ref) => sum + parseFloat(ref.rewardAmount || '0'), 0);
+      
+      res.json({
+        friendsReferred: completedReferrals.length,
+        totalEarnings: totalEarnings
+      });
+    } catch (error) {
+      console.error("Error fetching referral stats:", error);
+      res.status(500).json({ message: "Failed to fetch referral stats" });
+    }
+  });
+
+  // Apply referral code
+  app.post("/api/referrals/apply", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const { referralCode } = req.body;
+      
+      if (!referralCode) {
+        return res.status(400).json({ message: "Referral code is required" });
+      }
+      
+      // Find referral
+      const [referral] = await db.select().from(schema.referrals)
+        .where(eq(schema.referrals.referralCode, referralCode));
+      
+      if (!referral) {
+        return res.status(404).json({ message: "Invalid referral code" });
+      }
+      
+      if (referral.referrerId === userId) {
+        return res.status(400).json({ message: "Cannot use your own referral code" });
+      }
+      
+      // Update referral with referee
+      await db.update(schema.referrals)
+        .set({ 
+          refereeId: userId, 
+          status: 'completed',
+          completedAt: new Date()
+        })
+        .where(eq(schema.referrals.id, referral.id));
+      
+      res.json({ message: "Referral code applied successfully", reward: referral.rewardAmount });
+    } catch (error) {
+      console.error("Error applying referral code:", error);
+      res.status(500).json({ message: "Failed to apply referral code" });
+    }
+  });
+
+  // ==================== VOUCHERS APIs ====================
+  
+  // Get user's vouchers
+  app.get("/api/vouchers/my-vouchers", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const vouchers = await db.select().from(schema.vouchers)
+        .where(eq(schema.vouchers.userId, userId))
+        .orderBy(desc(schema.vouchers.createdAt));
+      
+      res.json(vouchers);
+    } catch (error) {
+      console.error("Error fetching user vouchers:", error);
+      res.status(500).json({ message: "Failed to fetch vouchers" });
+    }
+  });
+
+  // Get available vouchers
+  app.get("/api/vouchers/available", requireAuth, async (req: any, res) => {
+    try {
+      const vouchers = await db.select().from(schema.vouchers)
+        .where(and(
+          eq(schema.vouchers.status, 'active'),
+          eq(schema.vouchers.userId, null) // Public vouchers
+        ))
+        .orderBy(desc(schema.vouchers.createdAt));
+      
+      res.json(vouchers);
+    } catch (error) {
+      console.error("Error fetching available vouchers:", error);
+      res.status(500).json({ message: "Failed to fetch available vouchers" });
+    }
+  });
+
+  // Redeem voucher
+  app.post("/api/vouchers/redeem", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const { voucherCode } = req.body;
+      
+      if (!voucherCode) {
+        return res.status(400).json({ message: "Voucher code is required" });
+      }
+      
+      // Find voucher
+      const [voucher] = await db.select().from(schema.vouchers)
+        .where(and(
+          eq(schema.vouchers.code, voucherCode),
+          eq(schema.vouchers.status, 'active')
+        ));
+      
+      if (!voucher) {
+        return res.status(404).json({ message: "Invalid or expired voucher code" });
+      }
+      
+      // Check if voucher is expired
+      if (new Date() > new Date(voucher.expiresAt)) {
+        await db.update(schema.vouchers)
+          .set({ status: 'expired' })
+          .where(eq(schema.vouchers.id, voucher.id));
+        return res.status(400).json({ message: "Voucher has expired" });
+      }
+      
+      // Apply voucher to user
+      await db.update(schema.vouchers)
+        .set({ 
+          userId: userId,
+          status: 'used',
+          usedAt: new Date()
+        })
+        .where(eq(schema.vouchers.id, voucher.id));
+      
+      // Add amount to user wallet
+      await db.update(schema.users)
+        .set({ 
+          walletBalance: sql`wallet_balance + ${voucher.amount}`
+        })
+        .where(eq(schema.users.id, userId));
+      
+      res.json({ 
+        message: "Voucher redeemed successfully", 
+        amount: voucher.amount,
+        type: voucher.type
+      });
+    } catch (error) {
+      console.error("Error redeeming voucher:", error);
+      res.status(500).json({ message: "Failed to redeem voucher" });
+    }
+  });
+
+  // ==================== CURRENCY CONVERTER APIs ====================
+  
+  // Get exchange rates
+  app.get("/api/currency/rates", requireAuth, async (req: any, res) => {
+    try {
+      const rates = await db.select().from(schema.exchangeRates)
+        .orderBy(desc(schema.exchangeRates.lastUpdated));
+      
+      res.json(rates);
+    } catch (error) {
+      console.error("Error fetching exchange rates:", error);
+      res.status(500).json({ message: "Failed to fetch exchange rates" });
+    }
+  });
+
+  // Convert currency
+  app.post("/api/currency/convert", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const { fromCurrency, toCurrency, amount } = req.body;
+      
+      if (!fromCurrency || !toCurrency || !amount) {
+        return res.status(400).json({ message: "Missing required parameters" });
+      }
+      
+      // Get exchange rate
+      const [rate] = await db.select().from(schema.exchangeRates)
+        .where(and(
+          eq(schema.exchangeRates.fromCurrency, fromCurrency),
+          eq(schema.exchangeRates.toCurrency, toCurrency)
+        ));
+      
+      if (!rate) {
+        return res.status(404).json({ message: "Exchange rate not found" });
+      }
+      
+      const convertedAmount = parseFloat(amount) * parseFloat(rate.rate.toString());
+      
+      // Save conversion history
+      await db.insert(schema.currencyConversions).values({
+        userId,
+        fromCurrency,
+        toCurrency,
+        fromAmount: amount.toString(),
+        toAmount: convertedAmount.toString(),
+        exchangeRate: rate.rate.toString()
+      });
+      
+      res.json({
+        fromAmount: amount,
+        toAmount: convertedAmount,
+        exchangeRate: rate.rate,
+        fromCurrency,
+        toCurrency
+      });
+    } catch (error) {
+      console.error("Error converting currency:", error);
+      res.status(500).json({ message: "Failed to convert currency" });
+    }
+  });
+
+  // Get conversion history
+  app.get("/api/currency/history", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const conversions = await db.select().from(schema.currencyConversions)
+        .where(eq(schema.currencyConversions.userId, userId))
+        .orderBy(desc(schema.currencyConversions.createdAt))
+        .limit(10);
+      
+      res.json(conversions);
+    } catch (error) {
+      console.error("Error fetching conversion history:", error);
+      res.status(500).json({ message: "Failed to fetch conversion history" });
+    }
+  });
+
+  // ==================== COMMUNITY APIs ====================
+  
+  // Get discussions
+  app.get("/api/community/discussions", requireAuth, async (req: any, res) => {
+    try {
+      const discussions = await db.select({
+        id: schema.discussions.id,
+        title: schema.discussions.title,
+        category: schema.discussions.category,
+        isPopular: schema.discussions.isPopular,
+        likes: schema.discussions.likes,
+        replies: schema.discussions.replies,
+        createdAt: schema.discussions.createdAt,
+        author: schema.users.firstName,
+        userId: schema.discussions.userId
+      })
+      .from(schema.discussions)
+      .leftJoin(schema.users, eq(schema.discussions.userId, schema.users.id))
+      .where(eq(schema.discussions.status, 'active'))
+      .orderBy(desc(schema.discussions.createdAt));
+      
+      res.json(discussions);
+    } catch (error) {
+      console.error("Error fetching discussions:", error);
+      res.status(500).json({ message: "Failed to fetch discussions" });
+    }
+  });
+
+  // Get community stats
+  app.get("/api/community/stats", requireAuth, async (req: any, res) => {
+    try {
+      const totalMembers = await db.select().from(schema.users);
+      const todayDiscussions = await db.select().from(schema.discussions)
+        .where(sql`DATE(created_at) = DATE(NOW())`);
+      
+      res.json({
+        totalMembers: totalMembers.length,
+        onlineNow: Math.floor(totalMembers.length * 0.02), // Simulate 2% online
+        postsToday: todayDiscussions.length,
+        helpfulAnswers: 1250 // Static for now
+      });
+    } catch (error) {
+      console.error("Error fetching community stats:", error);
+      res.status(500).json({ message: "Failed to fetch community stats" });
+    }
+  });
+
+  // Get events
+  app.get("/api/community/events", requireAuth, async (req: any, res) => {
+    try {
+      const events = await db.select().from(schema.events)
+        .where(eq(schema.events.status, 'upcoming'))
+        .orderBy(schema.events.eventDate);
+      
+      res.json(events);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      res.status(500).json({ message: "Failed to fetch events" });
+    }
+  });
+
+  // Join event
+  app.post("/api/community/events/:eventId/join", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const { eventId } = req.params;
+      
+      // Check if already registered
+      const [existing] = await db.select().from(schema.eventAttendees)
+        .where(and(
+          eq(schema.eventAttendees.eventId, eventId),
+          eq(schema.eventAttendees.userId, userId)
+        ));
+      
+      if (existing) {
+        return res.status(400).json({ message: "Already registered for this event" });
+      }
+      
+      // Register for event
+      await db.insert(schema.eventAttendees).values({
+        eventId,
+        userId
+      });
+      
+      // Update attendee count
+      await db.update(schema.events)
+        .set({ 
+          currentAttendees: sql`current_attendees + 1`
+        })
+        .where(eq(schema.events.id, eventId));
+      
+      res.json({ message: "Successfully registered for event" });
+    } catch (error) {
+      console.error("Error joining event:", error);
+      res.status(500).json({ message: "Failed to join event" });
+    }
+  });
+
+  // Get top contributors
+  app.get("/api/community/contributors", requireAuth, async (req: any, res) => {
+    try {
+      const contributors = await db.select({
+        name: sql`CONCAT(${schema.users.firstName}, ' ', ${schema.users.lastName})`,
+        points: schema.userContributions.points,
+        badge: schema.userContributions.badge
+      })
+      .from(schema.userContributions)
+      .leftJoin(schema.users, eq(schema.userContributions.userId, schema.users.id))
+      .orderBy(desc(schema.userContributions.points))
+      .limit(10);
+      
+      res.json(contributors);
+    } catch (error) {
+      console.error("Error fetching contributors:", error);
+      res.status(500).json({ message: "Failed to fetch contributors" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

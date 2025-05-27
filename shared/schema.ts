@@ -152,6 +152,12 @@ export const usersRelations = relations(users, ({ many }) => ({
   supportTickets: many(supportTickets),
   kycVerifications: many(kycVerifications),
   bankTransfers: many(bankTransfers),
+  referrals: many(referrals),
+  vouchers: many(vouchers),
+  discussions: many(discussions),
+  discussionReplies: many(discussionReplies),
+  eventAttendees: many(eventAttendees),
+  currencyConversions: many(currencyConversions),
 }));
 
 export const cardsRelations = relations(cards, ({ one, many }) => ({
@@ -386,3 +392,246 @@ export type KycVerificationForm = z.infer<typeof kycVerificationFormSchema>;
 
 export type InsertBankTransfer = z.infer<typeof insertBankTransferSchema>;
 export type BankTransfer = typeof bankTransfers.$inferSelect;
+
+// Referral Program table
+export const referrals = pgTable("referrals", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  referrerId: varchar("referrer_id").notNull().references(() => users.id),
+  refereeId: varchar("referee_id").references(() => users.id),
+  referralCode: varchar("referral_code").notNull().unique(),
+  status: varchar("status").notNull().default("pending"), // pending, completed, rewarded
+  rewardAmount: decimal("reward_amount", { precision: 10, scale: 2 }).default("25.00"),
+  createdAt: timestamp("created_at").defaultNow(),
+  completedAt: timestamp("completed_at"),
+});
+
+// Vouchers table
+export const vouchers = pgTable("vouchers", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: varchar("user_id").references(() => users.id),
+  code: varchar("code").notNull().unique(),
+  title: varchar("title").notNull(),
+  description: text("description"),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  type: varchar("type").notNull().default("discount"), // discount, cashback, bonus
+  status: varchar("status").notNull().default("active"), // active, used, expired
+  expiresAt: timestamp("expires_at").notNull(),
+  usedAt: timestamp("used_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Community discussions table
+export const discussions = pgTable("discussions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  title: varchar("title").notNull(),
+  content: text("content").notNull(),
+  category: varchar("category").notNull(),
+  status: varchar("status").notNull().default("active"), // active, locked, archived
+  isPopular: boolean("is_popular").default(false),
+  likes: integer("likes").default(0),
+  replies: integer("replies").default(0),
+  viewCount: integer("view_count").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Discussion replies table
+export const discussionReplies = pgTable("discussion_replies", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  discussionId: uuid("discussion_id").notNull().references(() => discussions.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  content: text("content").notNull(),
+  likes: integer("likes").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Community events table
+export const events = pgTable("events", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: varchar("title").notNull(),
+  description: text("description"),
+  eventDate: timestamp("event_date").notNull(),
+  eventTime: varchar("event_time").notNull(),
+  maxAttendees: integer("max_attendees"),
+  currentAttendees: integer("current_attendees").default(0),
+  status: varchar("status").notNull().default("upcoming"), // upcoming, ongoing, completed, cancelled
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Event attendees table
+export const eventAttendees = pgTable("event_attendees", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  eventId: uuid("event_id").notNull().references(() => events.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  registeredAt: timestamp("registered_at").defaultNow(),
+});
+
+// User contributions (for community ranking)
+export const userContributions = pgTable("user_contributions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  points: integer("points").default(0),
+  badge: varchar("badge").default("New Member"),
+  helpfulAnswers: integer("helpful_answers").default(0),
+  discussionsCreated: integer("discussions_created").default(0),
+  repliesPosted: integer("replies_posted").default(0),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Currency exchange rates table
+export const exchangeRates = pgTable("exchange_rates", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  fromCurrency: varchar("from_currency", { length: 3 }).notNull(),
+  toCurrency: varchar("to_currency", { length: 3 }).notNull(),
+  rate: decimal("rate", { precision: 12, scale: 6 }).notNull(),
+  lastUpdated: timestamp("last_updated").defaultNow(),
+});
+
+// Currency conversions history table
+export const currencyConversions = pgTable("currency_conversions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  fromCurrency: varchar("from_currency", { length: 3 }).notNull(),
+  toCurrency: varchar("to_currency", { length: 3 }).notNull(),
+  fromAmount: decimal("from_amount", { precision: 12, scale: 2 }).notNull(),
+  toAmount: decimal("to_amount", { precision: 12, scale: 2 }).notNull(),
+  exchangeRate: decimal("exchange_rate", { precision: 12, scale: 6 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Relations for new tables
+export const referralsRelations = relations(referrals, ({ one }) => ({
+  referrer: one(users, {
+    fields: [referrals.referrerId],
+    references: [users.id],
+  }),
+  referee: one(users, {
+    fields: [referrals.refereeId],
+    references: [users.id],
+  }),
+}));
+
+export const vouchersRelations = relations(vouchers, ({ one }) => ({
+  user: one(users, {
+    fields: [vouchers.userId],
+    references: [users.id],
+  }),
+}));
+
+export const discussionsRelations = relations(discussions, ({ one, many }) => ({
+  user: one(users, {
+    fields: [discussions.userId],
+    references: [users.id],
+  }),
+  replies: many(discussionReplies),
+}));
+
+export const discussionRepliesRelations = relations(discussionReplies, ({ one }) => ({
+  discussion: one(discussions, {
+    fields: [discussionReplies.discussionId],
+    references: [discussions.id],
+  }),
+  user: one(users, {
+    fields: [discussionReplies.userId],
+    references: [users.id],
+  }),
+}));
+
+export const eventsRelations = relations(events, ({ many }) => ({
+  attendees: many(eventAttendees),
+}));
+
+export const eventAttendeesRelations = relations(eventAttendees, ({ one }) => ({
+  event: one(events, {
+    fields: [eventAttendees.eventId],
+    references: [events.id],
+  }),
+  user: one(users, {
+    fields: [eventAttendees.userId],
+    references: [users.id],
+  }),
+}));
+
+export const userContributionsRelations = relations(userContributions, ({ one }) => ({
+  user: one(users, {
+    fields: [userContributions.userId],
+    references: [users.id],
+  }),
+}));
+
+export const currencyConversionsRelations = relations(currencyConversions, ({ one }) => ({
+  user: one(users, {
+    fields: [currencyConversions.userId],
+    references: [users.id],
+  }),
+}));
+
+// Insert schemas for new tables
+export const insertReferralSchema = createInsertSchema(referrals).omit({
+  id: true,
+  createdAt: true,
+  completedAt: true,
+});
+
+export const insertVoucherSchema = createInsertSchema(vouchers).omit({
+  id: true,
+  createdAt: true,
+  usedAt: true,
+});
+
+export const insertDiscussionSchema = createInsertSchema(discussions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertDiscussionReplySchema = createInsertSchema(discussionReplies).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertEventSchema = createInsertSchema(events).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertEventAttendeeSchema = createInsertSchema(eventAttendees).omit({
+  id: true,
+  registeredAt: true,
+});
+
+export const insertUserContributionSchema = createInsertSchema(userContributions).omit({
+  id: true,
+  updatedAt: true,
+});
+
+export const insertExchangeRateSchema = createInsertSchema(exchangeRates).omit({
+  id: true,
+  lastUpdated: true,
+});
+
+export const insertCurrencyConversionSchema = createInsertSchema(currencyConversions).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Types for new tables
+export type InsertReferral = z.infer<typeof insertReferralSchema>;
+export type Referral = typeof referrals.$inferSelect;
+export type InsertVoucher = z.infer<typeof insertVoucherSchema>;
+export type Voucher = typeof vouchers.$inferSelect;
+export type InsertDiscussion = z.infer<typeof insertDiscussionSchema>;
+export type Discussion = typeof discussions.$inferSelect;
+export type InsertDiscussionReply = z.infer<typeof insertDiscussionReplySchema>;
+export type DiscussionReply = typeof discussionReplies.$inferSelect;
+export type InsertEvent = z.infer<typeof insertEventSchema>;
+export type Event = typeof events.$inferSelect;
+export type InsertEventAttendee = z.infer<typeof insertEventAttendeeSchema>;
+export type EventAttendee = typeof eventAttendees.$inferSelect;
+export type InsertUserContribution = z.infer<typeof insertUserContributionSchema>;
+export type UserContribution = typeof userContributions.$inferSelect;
+export type InsertExchangeRate = z.infer<typeof insertExchangeRateSchema>;
+export type ExchangeRate = typeof exchangeRates.$inferSelect;
+export type InsertCurrencyConversion = z.infer<typeof insertCurrencyConversionSchema>;
+export type CurrencyConversion = typeof currencyConversions.$inferSelect;
