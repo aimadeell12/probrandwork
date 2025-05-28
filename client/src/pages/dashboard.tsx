@@ -46,7 +46,7 @@ export default function Dashboard() {
       <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10 max-w-7xl mx-auto">
         
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 status-bar-safe">
           <div className="flex items-center gap-4">
             <Badge variant="secondary" className="bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full">
               {t("wallet")}
@@ -56,18 +56,18 @@ export default function Dashboard() {
           <div className="flex items-center gap-2">
             {isAdmin && (
               <Link href="/admin-panel">
-                <Button variant="ghost" size="icon" className="text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30" title="Admin Panel">
+                <Button variant="ghost" size="icon" className="text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30 native-button haptic-light touch-target" title="Admin Panel">
                   <Crown className="h-5 w-5" />
                 </Button>
               </Link>
             )}
-            <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400">
+            <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">
               <Gift className="h-5 w-5" />
             </Button>
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-gray-600 dark:text-gray-400 relative"
+              className="text-gray-600 dark:text-gray-400 relative native-button haptic-light touch-target"
               onClick={() => setIsNotificationCenterOpen(true)}
             >
               <Bell className="h-5 w-5" />
@@ -112,8 +112,8 @@ export default function Dashboard() {
             {/* Action Buttons */}
             <div className="grid grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-12">
               <Link href="/deposit">
-                <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                <div className="flex flex-col items-center cursor-pointer native-button haptic-medium touch-target">
+                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                     <Plus className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
                   </div>
                   <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t('deposit')}</span>
@@ -121,8 +121,8 @@ export default function Dashboard() {
               </Link>
               
               <Link href="/withdraw">
-                <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                <div className="flex flex-col items-center cursor-pointer native-button haptic-medium touch-target">
+                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                     <Minus className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
                   </div>
                   <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t('withdraw')}</span>
@@ -130,8 +130,8 @@ export default function Dashboard() {
               </Link>
               
               <Link href="/send">
-                <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                <div className="flex flex-col items-center cursor-pointer native-button haptic-medium touch-target">
+                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                     <ArrowRight className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
                   </div>
                   <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t('send')}</span>
@@ -139,8 +139,8 @@ export default function Dashboard() {
               </Link>
               
               <Link href="/services">
-                <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
+                <div className="flex flex-col items-center cursor-pointer native-button haptic-medium touch-target">
+                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                     <Grid3X3 className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
                   </div>
                   <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">Hub</span>

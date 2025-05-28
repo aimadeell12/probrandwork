@@ -56,7 +56,7 @@ export default function Welcome() {
                 
                 {/* رقم البطاقة */}
                 <div className="text-white font-mono text-lg font-bold tracking-wider mb-4">
-                  4532 1234 5678
+                  4532 1234 5678 9012
                 </div>
                 
                 {/* تفاصيل البطاقة */}
@@ -83,7 +83,7 @@ export default function Welcome() {
         </div>
 
         {/* أزرار محسنة وحديثة */}
-        <div className="w-full max-w-sm mx-auto pb-6 space-y-4">
+        <div className="w-full max-w-sm mx-auto pb-6 space-y-8">
           <Link href="/login">
             <Button className="w-full h-14 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white text-base font-bold rounded-2xl shadow-2xl hover:shadow-purple-500/40 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 border border-purple-500/30 relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -138,7 +138,7 @@ export default function Welcome() {
             </div>
 
             {/* Compact Action Buttons */}
-            <div className="space-y-8 mb-12">
+            <div className="space-y-12 mb-12">
               <Link href="/login">
                 <Button className="group w-full max-w-xs h-11 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white text-sm font-semibold rounded-xl shadow-lg hover:shadow-purple-500/30 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 border border-purple-500/30 backdrop-blur-sm relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -232,7 +232,7 @@ export default function Welcome() {
                   
                   {/* Card number */}
                   <div className="text-white font-mono text-sm lg:text-base xl:text-lg font-bold tracking-[0.15em] lg:tracking-[0.2em] xl:tracking-[0.25em]">
-                    4532 1234 5678
+                    4532 1234 5678 9012
                   </div>
                   
                   {/* Card details */}

@@ -130,6 +130,151 @@
   .form-select {
     @apply w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-ring focus:border-transparent transition-colors bg-background;
   }
+
+  /* Native Mobile App Enhancements */
+  .mobile-safe-area {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Touch-friendly interactive elements */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    @apply flex items-center justify-center;
+  }
+
+  /* Native-like button states */
+  .native-button {
+    @apply transition-all duration-150 ease-out;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  .native-button:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+
+  /* Card interactions */
+  .native-card {
+    @apply transition-all duration-200 ease-out;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  .native-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  /* Pull-to-refresh indicator */
+  .pull-refresh {
+    @apply transition-transform duration-300 ease-out;
+  }
+
+  /* Smooth scrolling */
+  .native-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+
+  /* Native-like navigation transitions */
+  .page-transition {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+  }
+
+  .slide-out-left {
+    animation: slideOutLeft 0.3s ease-out;
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOutLeft {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  }
+
+  /* Native loading states */
+  .skeleton-pulse {
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes skeletonPulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Haptic feedback simulation */
+  .haptic-light {
+    @apply transition-all duration-75;
+  }
+  
+  .haptic-light:active {
+    transform: scale(0.98);
+  }
+
+  .haptic-medium {
+    @apply transition-all duration-100;
+  }
+  
+  .haptic-medium:active {
+    transform: scale(0.96);
+  }
+
+  .haptic-heavy {
+    @apply transition-all duration-150;
+  }
+  
+  .haptic-heavy:active {
+    transform: scale(0.94);
+  }
+
+  /* Status bar compatibility */
+  .status-bar-safe {
+    padding-top: max(env(safe-area-inset-top), 24px);
+  }
+
+  /* Bottom navigation safe area */
+  .bottom-nav-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 16px);
+  }
+
+  /* iOS-style blur effects */
+  .ios-blur {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Native-like focus states */
+  .native-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2;
+  }
 }
 
 /* Custom scrollbar */
