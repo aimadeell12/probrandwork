@@ -27,9 +27,14 @@ export default function Register() {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          username: data.email, // Use email as username
+          email: data.email,
+          password: data.password,
+          fullName: data.fullName
+        }),
       });
-      if (!response.ok) throw new Error(t('accountCreationFailed'));
+      if (!response.ok) throw new Error('Failed to create account');
       return response.json();
     },
     onSuccess: () => {
