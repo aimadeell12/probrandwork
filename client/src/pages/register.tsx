@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useLanguage } from '@/hooks/useLanguage';
 import { LanguageToggle } from '@/components/language-toggle';
@@ -14,6 +14,7 @@ export default function Register() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const { t } = useLanguage();
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -39,12 +40,19 @@ export default function Register() {
       if (!response.ok) throw new Error('Failed to create account');
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast({
         title: t('welcome'),
         description: t('accountCreated'),
       });
-      setLocation('/dashboard');
+      
+      // إعادة تحميل بيانات المستخدم بعد التسجيل الناجح
+      await queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
+      
+      // انتظار قصير للتأكد من تحديث حالة المصادقة
+      setTimeout(() => {
+        setLocation('/dashboard');
+      }, 100);
     },
     onError: (error: any) => {
       toast({
