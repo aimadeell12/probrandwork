@@ -83,47 +83,57 @@ function Router() {
           </>
         ) : (
           <>
-            <Route path="/" component={Dashboard} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/home" component={Dashboard} />
-            <Route path="/wallet" component={Wallet} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/cards" component={Cards} />
-            <Route path="/support" component={Support} />
-            <Route path="/account" component={Account} />
-            <Route path="/deposit" component={Deposit} />
-            <Route path="/deposit/options" component={DepositOptions} />
-            <Route path="/account/settings" component={AccountSettings} />
-            <Route path="/account/security" component={SecurityPrivacy} />
-            <Route path="/account/notifications" component={Notifications} />
-            <Route path="/send" component={Send} />
-            <Route path="/withdraw" component={Withdraw} />
-            <Route path="/transactions" component={Transactions} />
-            <Route path="/edit-profile" component={EditProfile} />
-
-            <Route path="/kyc-verification" component={KYCVerification} />
-            <Route path="/kyc-management" component={KycManagement} />
-            <Route path="/admin-panel" component={AdminNavigation} />
+            {/* Admin routes - most specific first */}
             <Route path="/admin/users" component={UserManagement} />
             <Route path="/admin/reports" component={SystemReports} />
             <Route path="/admin/settings" component={AdminSettings} />
-              <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
+            <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
             <Route path="/admin/deposit-requests" component={DepositRequests} />
             <Route path="/admin/referrals" component={AdminReferrals} />
             <Route path="/admin/vouchers" component={AdminVouchers} />
             <Route path="/admin/currency" component={AdminCurrency} />
             <Route path="/admin/community" component={AdminCommunity} />
-            <Route path="/bank-transfer" component={BankTransfer} />
-            <Route path="/binance-pay" component={BinancePay} />
-            <Route path="/services" component={Services} />
+            <Route path="/admin-panel" component={AdminNavigation} />
+            <Route path="/admin" component={Admin} />
+
+            {/* Account routes */}
+            <Route path="/account/settings" component={AccountSettings} />
+            <Route path="/account/security" component={SecurityPrivacy} />
+            <Route path="/account/notifications" component={Notifications} />
             <Route path="/account/referral" component={Referral} />
             <Route path="/account/vouchers" component={Vouchers} />
             <Route path="/account/currency" component={Currency} />
             <Route path="/account/help" component={Help} />
             <Route path="/account/community" component={Community} />
+            <Route path="/account" component={Account} />
+
+            {/* Deposit routes */}
+            <Route path="/deposit/options" component={DepositOptions} />
+            <Route path="/deposit" component={Deposit} />
+
+            {/* Cards routes */}
             <Route path="/cards/priority" component={PriorityCards} />
+            <Route path="/cards" component={Cards} />
+
+            {/* Other specific routes */}
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/home" component={Dashboard} />
+            <Route path="/wallet" component={Wallet} />
+            <Route path="/support" component={Support} />
+            <Route path="/send" component={Send} />
+            <Route path="/withdraw" component={Withdraw} />
+            <Route path="/transactions" component={Transactions} />
+            <Route path="/edit-profile" component={EditProfile} />
+            <Route path="/kyc-verification" component={KYCVerification} />
+            <Route path="/kyc-management" component={KycManagement} />
+            <Route path="/bank-transfer" component={BankTransfer} />
+            <Route path="/binance-pay" component={BinancePay} />
+            <Route path="/services" component={Services} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
+
+            {/* Root route - last */}
+            <Route path="/" component={Dashboard} />
           </>
         )}
         <Route component={NotFound} />
