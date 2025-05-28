@@ -68,7 +68,9 @@ export function setupLocalAuth(app: Express) {
   // Register endpoint
   app.post("/api/auth/register", async (req, res) => {
     try {
+      console.log("🚀 [REGISTER] Received request body:", JSON.stringify(req.body, null, 2));
       const userData = registerSchema.parse(req.body);
+      console.log("✅ [REGISTER] Parsed user data:", JSON.stringify(userData, null, 2));
       
       // Check if username or email already exists
       const existingUser = await storage.getUserByUsername(userData.username);
@@ -84,6 +86,13 @@ export function setupLocalAuth(app: Express) {
       // Hash password
       const hashedPassword = await bcrypt.hash(userData.password, 12);
       
+      console.log("🚀 [REGISTER] Creating user with data:", {
+        username: userData.username,
+        email: userData.email,
+        firstName: userData.firstName,
+        lastName: userData.lastName
+      });
+      
       // Create user
       const user = await storage.createLocalUser({
         id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -93,6 +102,13 @@ export function setupLocalAuth(app: Express) {
         firstName: userData.firstName,
         lastName: userData.lastName,
         authType: "local",
+      });
+      
+      console.log("✅ [REGISTER] User created successfully:", {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
       });
       
       // Create session
