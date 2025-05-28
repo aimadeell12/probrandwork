@@ -38,6 +38,12 @@ const translations = {
     scan: "مسح",
     guidanceForBeginnersTitle: "إرشادات للمبتدئين",
     
+    // Cards page
+    myCards: "بطاقاتي",
+    loadingCards: "جاري تحميل البطاقات...",
+    virtualCard: "بطاقة افتراضية",
+    physicalCard: "بطاقة فعلية",
+    
     // Transactions page
     transactionsTitle: "المعاملات",
     searchTransactions: "البحث في المعاملات...",

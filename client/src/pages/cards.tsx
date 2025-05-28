@@ -308,18 +308,18 @@ export default function Cards() {
       queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] });
       setShowChooseCard(false); // Hide choose card view after creation
       toast({
-        title: "🎉 تم إنشاء البطاقة بنجاح",
-        description: "بطاقتك الجديدة جاهزة للاستخدام الآن",
+        title: "🎉 Card Created Successfully",
+        description: "Your new card is ready to use",
         duration: 3000,
       });
     },
     onError: (error: any) => {
       const errorMessage = error?.message === "Insufficient balance" 
-        ? "رصيدك غير كافي لإنشاء هذه البطاقة"
-        : "حدث خطأ أثناء إنشاء البطاقة";
+        ? "Insufficient balance to create this card"
+        : "Error occurred while creating card";
       
       toast({
-        title: "⚠️ لا يمكن إنشاء البطاقة",
+        title: "⚠️ Cannot Create Card",
         description: errorMessage,
         variant: "default",
         duration: 4000,
@@ -356,8 +356,8 @@ export default function Cards() {
     // Check if user has sufficient balance
     if ((balance as any)?.balance < cardCost) {
       toast({
-        title: "💳 رصيد غير كافي",
-        description: `نحتاج إلى ${cardCost} دولار لإنشاء هذه البطاقة\nرصيدك الحالي: ${(balance as any)?.balance || 0} دولار`,
+        title: "💳 Insufficient Balance",
+        description: `Need $${cardCost} to create this card\nCurrent balance: $${(balance as any)?.balance || 0}`,
         variant: "default",
         duration: 4000,
       });
@@ -387,7 +387,7 @@ export default function Cards() {
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400">جاري تحميل البطاقات...</p>
+          <p className="text-gray-600 dark:text-gray-400">Loading cards...</p>
         </div>
       </div>
     );
