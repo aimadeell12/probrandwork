@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useLanguage } from '@/hooks/useLanguage';
 import { LanguageToggle } from '@/components/language-toggle';
@@ -14,6 +14,7 @@ export default function Login() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const { t } = useLanguage();
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -34,10 +35,12 @@ export default function Login() {
         title: t('welcomeBackSuccess'),
         description: t('loginSuccessful'),
       });
-      // استخدام window.location للتأكد من إعادة التحميل الكامل
+      // تحديث بيانات المصادقة في التخزين المؤقت
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      // إعادة التوجيه بعد تحديث البيانات
       setTimeout(() => {
         window.location.href = '/dashboard';
-      }, 500);
+      }, 200);
     },
     onError: (error: any) => {
       toast({
