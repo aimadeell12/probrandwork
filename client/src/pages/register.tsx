@@ -15,7 +15,8 @@ export default function Register() {
   const { toast } = useToast();
   const { t } = useLanguage();
   const [formData, setFormData] = useState({
-    fullName: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -23,7 +24,7 @@ export default function Register() {
   });
 
   const registerMutation = useMutation({
-    mutationFn: async (data: { fullName: string; email: string; password: string; referralCode?: string }) => {
+    mutationFn: async (data: { firstName: string; lastName: string; email: string; password: string; referralCode?: string }) => {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -31,7 +32,8 @@ export default function Register() {
           username: data.email, // Use email as username
           email: data.email,
           password: data.password,
-          fullName: data.fullName
+          firstName: data.firstName,
+          lastName: data.lastName
         }),
       });
       if (!response.ok) throw new Error('Failed to create account');
@@ -56,7 +58,7 @@ export default function Register() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.fullName || !formData.email || !formData.password || !formData.confirmPassword) {
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.confirmPassword) {
       toast({
         title: t('incompleteData'),
         description: t('fillAllFields'),
@@ -84,7 +86,8 @@ export default function Register() {
     }
 
     registerMutation.mutate({
-      fullName: formData.fullName,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       email: formData.email,
       password: formData.password,
       referralCode: formData.referralCode || undefined
@@ -126,18 +129,34 @@ export default function Register() {
             <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 sm:p-8">
               <form onSubmit={handleSubmit} className="space-y-4">
                 
-                {/* Full Name Field */}
+                {/* First Name Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="fullName" className="text-gray-700 dark:text-gray-300 font-medium">
-                    {t('fullName')}
+                  <Label htmlFor="firstName" className="text-gray-700 dark:text-gray-300 font-medium">
+                    {t('firstName')}
                   </Label>
                   <Input
-                    id="fullName"
+                    id="firstName"
                     type="text"
-                    value={formData.fullName}
-                    onChange={(e) => handleInputChange('fullName', e.target.value)}
+                    value={formData.firstName}
+                    onChange={(e) => handleInputChange('firstName', e.target.value)}
                     className="w-full h-10 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
-                    placeholder={t('enterFullName')}
+                    placeholder={t('enterFirstName')}
+                    required
+                  />
+                </div>
+
+                {/* Last Name Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="lastName" className="text-gray-700 dark:text-gray-300 font-medium">
+                    {t('lastName')}
+                  </Label>
+                  <Input
+                    id="lastName"
+                    type="text"
+                    value={formData.lastName}
+                    onChange={(e) => handleInputChange('lastName', e.target.value)}
+                    className="w-full h-10 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
+                    placeholder={t('enterLastName')}
                     required
                   />
                 </div>
