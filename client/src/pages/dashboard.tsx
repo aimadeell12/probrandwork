@@ -40,7 +40,7 @@ export default function Dashboard() {
   const kycStatus = kycData;
   const isAdmin = (userInfo as any)?.role === 'admin';
 
-  // دالة تحديث البيانات عند السحب للتحديث
+  // Refresh data function for pull-to-refresh
   const handleRefresh = async () => {
     triggerHaptic({ type: 'medium' });
     await Promise.all([

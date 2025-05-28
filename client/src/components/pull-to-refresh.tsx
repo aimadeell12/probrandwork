@@ -15,9 +15,9 @@ export default function PullToRefresh({
   children,
   onRefresh,
   threshold = 60,
-  refreshingText = "جاري التحديث...",
-  pullText = "اسحب للتحديث",
-  releaseText = "اتركه للتحديث"
+  refreshingText = "Refreshing...",
+  pullText = "Pull to refresh",
+  releaseText = "Release to refresh"
 }: PullToRefreshProps) {
   const [pullDistance, setPullDistance] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
