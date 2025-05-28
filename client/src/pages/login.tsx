@@ -34,7 +34,10 @@ export default function Login() {
         title: t('welcomeBackSuccess'),
         description: t('loginSuccessful'),
       });
-      setLocation('/dashboard');
+      // استخدام window.location للتأكد من إعادة التحميل الكامل
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 500);
     },
     onError: (error: any) => {
       toast({
