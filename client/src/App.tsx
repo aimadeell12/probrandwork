@@ -83,9 +83,9 @@ function Router() {
           </>
         ) : (
           <>
+            <Route path="/" component={Dashboard} />
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/" component={() => { window.location.href = '/dashboard'; return null; }} />
-            <Route path="/home" component={() => { window.location.href = '/dashboard'; return null; }} />
+            <Route path="/home" component={Dashboard} />
             <Route path="/wallet" component={Wallet} />
             <Route path="/admin" component={Admin} />
             <Route path="/cards" component={Cards} />
