@@ -585,6 +585,11 @@ const translations = {
     allTransactions: "All Transactions",
     filterTransactions: "Filter Transactions",
     
+    // 404 Page translations
+    pageNotFound: "Page Not Found",
+    pageNotFoundDescription: "Sorry, the page you are looking for does not exist or has been moved to another location",
+    goHome: "Go Home",
+    goBack: "Go Back",
 
   }
 };
