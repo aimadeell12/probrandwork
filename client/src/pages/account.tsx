@@ -61,12 +61,16 @@ export default function Account() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 relative overflow-hidden pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden pb-20">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-gray-900 p-4 relative z-10">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
         <div className="flex items-center justify-center">
-          <h1 className="text-xl font-medium text-white">
+          <h1 className="text-xl font-medium text-gray-900 dark:text-white">
             My
           </h1>
         </div>
@@ -94,17 +98,17 @@ export default function Account() {
 
         {/* Menu Items */}
         {/* Settings Group */}
-        <Card className="bg-gray-800 border-gray-700 shadow-lg mb-3 rounded-xl overflow-hidden">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 dark:border-purple-700/30 shadow-lg mb-3 rounded-xl overflow-hidden">
           <CardContent className="p-0">
             <button 
               onClick={() => navigateTo("/account/language")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors border-b border-gray-700 last:border-b-0"
+              className="w-full p-3 flex items-center justify-between hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors border-b border-purple-100/30 dark:border-purple-700/30 last:border-b-0"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
-                  <Globe className="h-5 w-5 text-purple-400" />
+                  <Globe className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <span className="text-white font-medium text-sm">
+                <span className="text-gray-900 dark:text-white font-medium text-sm">
                   Language
                 </span>
               </div>
@@ -113,13 +117,13 @@ export default function Account() {
             
             <button 
               onClick={() => navigateTo("/account/payment-password")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors"
+              className="w-full p-3 flex items-center justify-between hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
-                  <Settings className="h-5 w-5 text-purple-400" />
+                  <Settings className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <span className="text-white font-medium text-sm">
+                <span className="text-gray-900 dark:text-white font-medium text-sm">
                   Setting Payment Password
                 </span>
               </div>
@@ -129,17 +133,17 @@ export default function Account() {
         </Card>
 
         {/* Support Group */}
-        <Card className="bg-gray-800 border-gray-700 shadow-lg mb-3 rounded-xl overflow-hidden">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 dark:border-purple-700/30 shadow-lg mb-3 rounded-xl overflow-hidden">
           <CardContent className="p-0">
             <button 
               onClick={() => navigateTo("/customer-service")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors border-b border-gray-700"
+              className="w-full p-3 flex items-center justify-between hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors border-b border-purple-100/30 dark:border-purple-700/30"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
-                  <Phone className="h-5 w-5 text-purple-400" />
+                  <Phone className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <span className="text-white font-medium text-sm">
+                <span className="text-gray-900 dark:text-white font-medium text-sm">
                   Customer Service
                 </span>
               </div>
@@ -148,13 +152,13 @@ export default function Account() {
             
             <button 
               onClick={() => navigateTo("/security-privacy")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors"
+              className="w-full p-3 flex items-center justify-between hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
-                  <Shield className="h-5 w-5 text-purple-400" />
+                  <Shield className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <span className="text-white font-medium text-sm">
+                <span className="text-gray-900 dark:text-white font-medium text-sm">
                   Security Settings
                 </span>
               </div>
@@ -164,17 +168,17 @@ export default function Account() {
         </Card>
 
         {/* Cards & Services Group */}
-        <Card className="bg-gray-800 border-gray-700 shadow-lg mb-3 rounded-xl overflow-hidden">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 dark:border-purple-700/30 shadow-lg mb-3 rounded-xl overflow-hidden">
           <CardContent className="p-0">
             <button 
               onClick={() => navigateTo("/card-purchase-record")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors border-b border-gray-700"
+              className="w-full p-3 flex items-center justify-between hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors border-b border-purple-100/30 dark:border-purple-700/30"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
-                  <CreditCard className="h-5 w-5 text-purple-400" />
+                  <CreditCard className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <span className="text-white font-medium text-sm">
+                <span className="text-gray-900 dark:text-white font-medium text-sm">
                   Card Purchase Record
                 </span>
               </div>
@@ -183,13 +187,13 @@ export default function Account() {
             
             <button 
               onClick={() => navigateTo("/coupons")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors border-b border-gray-700"
+              className="w-full p-3 flex items-center justify-between hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors border-b border-purple-100/30 dark:border-purple-700/30"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
-                  <Gift className="h-5 w-5 text-purple-400" />
+                  <Gift className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <span className="text-white font-medium text-sm">
+                <span className="text-gray-900 dark:text-white font-medium text-sm">
                   Coupons
                 </span>
               </div>
@@ -198,14 +202,14 @@ export default function Account() {
             
             <button 
               onClick={() => navigateTo("/about")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors"
+              className="w-full p-3 flex items-center justify-between hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
-                  <HelpCircle className="h-5 w-5 text-purple-400" />
+                  <HelpCircle className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div className="flex-1 text-left">
-                  <span className="text-white font-medium text-sm block">
+                  <span className="text-gray-900 dark:text-white font-medium text-sm block">
                     About PayouCard
                   </span>
                 </div>
@@ -217,17 +221,17 @@ export default function Account() {
         </Card>
 
         {/* Logout */}
-        <Card className="bg-gray-800 border-gray-700 shadow-lg rounded-xl overflow-hidden">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 dark:border-purple-700/30 shadow-lg rounded-xl overflow-hidden">
           <CardContent className="p-0">
             <button 
               onClick={handleLogout}
-              className="w-full p-3 flex items-center justify-between hover:bg-gray-700/50 transition-colors"
+              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
-                  <LogOut className="h-5 w-5 text-purple-400" />
+                  <LogOut className="h-5 w-5 text-red-600 dark:text-red-400" />
                 </div>
-                <span className="text-white font-medium text-sm">
+                <span className="text-red-600 dark:text-red-400 font-medium text-sm">
                   Log out
                 </span>
               </div>
