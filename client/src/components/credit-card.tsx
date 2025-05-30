@@ -40,14 +40,26 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
 
   return (
     <div className="relative w-full aspect-[1.6/1] rounded-3xl overflow-hidden shadow-2xl mx-auto max-w-sm">
-      {/* Card Background - Purple gradient like in the image */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700">
+      {/* Card Background - Different colors based on card type */}
+      <div className={`absolute inset-0 ${
+        card.type === 'physical' 
+          ? 'bg-gradient-to-br from-gray-900 via-black to-gray-800'
+          : 'bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700'
+      }`}>
         {/* Subtle overlay effects */}
         <div className="absolute inset-0">
           {/* Top right glow */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
+          <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl ${
+            card.type === 'physical' 
+              ? 'bg-gray-400/10'
+              : 'bg-white/10'
+          }`}></div>
           {/* Bottom left glow */}
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full blur-2xl"></div>
+          <div className={`absolute bottom-0 left-0 w-24 h-24 rounded-full blur-2xl ${
+            card.type === 'physical' 
+              ? 'bg-gray-300/5'
+              : 'bg-white/5'
+          }`}></div>
         </div>
       </div>
 
