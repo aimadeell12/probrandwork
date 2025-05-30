@@ -10,9 +10,9 @@ interface CreditCardProps {
 
 export function CreditCard({ card, showDetails = false, onToggleVisibility }: CreditCardProps) {
   const formatCardNumber = (lastFour: string | null) => {
-    if (!lastFour) return "**** **** **** ****";
-    if (!showDetails) return "**** **** **** " + lastFour;
-    return "**** **** **** " + lastFour;
+    if (!lastFour) return "•••• •••• •••• ••••";
+    if (!showDetails) return "•••• •••• •••• " + lastFour;
+    return "•••• •••• •••• " + lastFour;
   };
 
   const formatExpiry = () => {
@@ -39,9 +39,9 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       </div>
 
       {/* Card Content */}
-      <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+      <div className="relative z-10 p-6 h-full flex flex-col text-white">
         {/* Top Section - Brand Name and Toggle */}
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-start mb-4">
           <h2 className="text-xl font-bold tracking-wide text-white">PAYdota</h2>
           {onToggleVisibility && (
             <button
@@ -53,25 +53,23 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
           )}
         </div>
 
-        {/* Middle Section - Card Number */}
-        <div className="flex-1 flex flex-col justify-center py-4">
-          <div className="w-full mb-3">
-            <p className="text-lg font-mono tracking-[0.2em] font-light text-white">
-              {formatCardNumber(card.lastFour)}
-            </p>
-          </div>
-          
-          {/* Card Balance */}
-          <div className="w-full">
-            <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Available Balance</p>
-            <p className="text-base font-semibold text-white">
-              ${(Number(card.balance) || 0).toFixed(2)}
-            </p>
-          </div>
+        {/* Card Number Section */}
+        <div className="mb-4">
+          <p className="text-lg font-mono tracking-[0.15em] font-light text-white whitespace-nowrap overflow-hidden text-ellipsis">
+            {formatCardNumber(card.lastFour)}
+          </p>
+        </div>
+        
+        {/* Card Balance */}
+        <div className="mb-6">
+          <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Available Balance</p>
+          <p className="text-base font-semibold text-white">
+            ${(Number(card.balance) || 0).toFixed(2)}
+          </p>
         </div>
 
         {/* Bottom Section - Expiry and CVV */}
-        <div className="flex justify-between items-end">
+        <div className="flex justify-between items-end mt-auto">
           <div>
             <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Valid Thru</p>
             <p className="text-sm font-mono font-medium text-white">
