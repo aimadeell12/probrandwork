@@ -21,6 +21,11 @@ import DepositOptions from "@/pages/deposit-options";
 import AccountSettings from "@/pages/account-settings";
 import SecurityPrivacy from "@/pages/security-privacy";
 import Notifications from "@/pages/notifications";
+import LanguageSettings from "@/pages/account/language";
+import PaymentPassword from "@/pages/account/payment-password";
+import CustomerService from "@/pages/customer-service";
+import About from "@/pages/about";
+import Coupons from "@/pages/coupons";
 import Send from "@/pages/send";
 import Withdraw from "@/pages/withdraw";
 import Transactions from "@/pages/transactions";
@@ -100,12 +105,20 @@ function Router() {
             <Route path="/account/settings" component={AccountSettings} />
             <Route path="/account/security" component={SecurityPrivacy} />
             <Route path="/account/notifications" component={Notifications} />
+            <Route path="/account/language" component={LanguageSettings} />
+            <Route path="/account/payment-password" component={PaymentPassword} />
             <Route path="/account/referral" component={Referral} />
             <Route path="/account/vouchers" component={Vouchers} />
             <Route path="/account/currency" component={Currency} />
             <Route path="/account/help" component={Help} />
             <Route path="/account/community" component={Community} />
             <Route path="/account" component={Account} />
+            
+            {/* Additional pages */}
+            <Route path="/customer-service" component={CustomerService} />
+            <Route path="/security-privacy" component={SecurityPrivacy} />
+            <Route path="/about" component={About} />
+            <Route path="/coupons" component={Coupons} />
 
             {/* Deposit routes */}
             <Route path="/deposit/options" component={DepositOptions} />
