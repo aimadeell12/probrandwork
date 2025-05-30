@@ -24,13 +24,15 @@ export default function Cards() {
   if (cardsLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900 relative overflow-hidden">
-        <div className="container mx-auto px-6 py-8 max-w-md relative z-10">
-          <div className="pt-12 space-y-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="animate-pulse">
-                <div className="w-full aspect-[1.6/1] bg-gray-200 dark:bg-gray-700 rounded-2xl"></div>
-              </div>
-            ))}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
+          <div className="pt-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="w-full aspect-[1.6/1] bg-gray-200 dark:bg-gray-700 rounded-2xl max-w-sm mx-auto"></div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -43,17 +45,17 @@ export default function Cards() {
       <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
       
-      <div className="container mx-auto px-6 py-8 max-w-md relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
         
         {/* Check if there are cards and not showing choose card view */}
         {Array.isArray(cards) && cards.length > 0 && !showChooseCard ? (
           <>
             {/* Header for existing cards */}
-            <div className="flex items-center justify-between mb-8 pt-12">
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">بطاقاتي</h1>
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 pt-12 gap-4">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center sm:text-right">بطاقاتي</h1>
               <Button
                 onClick={() => setShowChooseCard(true)}
-                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full p-3"
+                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full p-3 shadow-lg"
               >
                 <Plus className="h-5 w-5" />
               </Button>
@@ -64,7 +66,7 @@ export default function Cards() {
               <button
                 onClick={() => setSelectedCardType("virtual")}
                 className={cn(
-                  "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
+                  "flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-medium transition-all",
                   selectedCardType === "virtual"
                     ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
@@ -75,7 +77,7 @@ export default function Cards() {
               <button
                 onClick={() => setSelectedCardType("physical")}
                 className={cn(
-                  "flex-1 py-2 px-4 rounded-full text-xs font-medium transition-all",
+                  "flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-medium transition-all",
                   selectedCardType === "physical"
                     ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
@@ -85,12 +87,12 @@ export default function Cards() {
               </button>
             </div>
 
-            {/* Cards List */}
-            <div className="space-y-6">
+            {/* Cards Grid - Responsive Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
               {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card) => (
-                <div key={card.id} className="relative">
+                <div key={card.id} className="relative group">
                   {/* Card Visual */}
-                  <div className="relative w-full max-w-sm mx-auto">
+                  <div className="relative w-full max-w-sm mx-auto transform transition-transform duration-300 group-hover:scale-105">
                     <CreditCardComponent 
                       card={card} 
                       showDetails={showCardNumbers[card.id] || false}
@@ -99,7 +101,7 @@ export default function Cards() {
                   </div>
 
                   {/* Card info */}
-                  <div className="text-center mt-4">
+                  <div className="text-center mt-4 space-y-2">
                     <div className={cn(
                       "inline-flex items-center gap-2 text-sm transition-all duration-300",
                       card.status === "blocked" 
@@ -123,7 +125,7 @@ export default function Cards() {
                         : "Active"}
                     </div>
                     <h3 className={cn(
-                      "text-lg font-semibold mt-2 transition-all duration-300",
+                      "text-lg sm:text-xl font-semibold transition-all duration-300",
                       card.status === "blocked" 
                         ? "text-red-600 dark:text-red-400" 
                         : card.status === "frozen"
