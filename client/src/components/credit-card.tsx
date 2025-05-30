@@ -89,7 +89,7 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         </div>
 
         {/* Bottom Section - Expiry and CVV */}
-        <div className="mt-auto">
+        <div className="mt-auto space-y-2">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-xs opacity-70 uppercase tracking-wide leading-none">Valid Thru</p>
@@ -97,12 +97,17 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
                 {formatExpiry()}
               </p>
             </div>
-            <div className="text-right">
-              <p className="text-xs opacity-70 uppercase tracking-wide leading-none">CVV</p>
-              <p className="text-xs font-mono font-medium text-white mt-1">
-                {formatCVV()}
-              </p>
+            <div className="opacity-0">
+              {/* Spacer for balance */}
             </div>
+          </div>
+          
+          {/* CVV in Center */}
+          <div className="text-center">
+            <p className="text-xs opacity-70 uppercase tracking-wide leading-none">CVV</p>
+            <p className="text-xs font-mono font-medium text-white mt-1">
+              {formatCVV()}
+            </p>
           </div>
         </div>
       </div>
