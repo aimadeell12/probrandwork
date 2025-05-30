@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import type { Card } from "shared/schema";
 
 interface CreditCardProps {
@@ -9,6 +10,11 @@ interface CreditCardProps {
 }
 
 export function CreditCard({ card, showDetails = false, onToggleVisibility }: CreditCardProps) {
+  // Fetch user data for card holder name
+  const { data: user } = useQuery({
+    queryKey: ['/api/auth/user'],
+  });
+
   const formatCardNumber = (lastFour: string | null) => {
     if (!lastFour) return "•••• •••• •••• ••••";
     if (!showDetails) return "•••• •••• •••• " + lastFour;
@@ -25,6 +31,13 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
     return "***";
   };
 
+  const getCardHolderName = () => {
+    if (!user) return "CARD HOLDER";
+    const firstName = (user as any).firstName || "";
+    const lastName = (user as any).lastName || "";
+    return `${firstName} ${lastName}`.trim().toUpperCase() || "CARD HOLDER";
+  };
+
   return (
     <div className="relative w-full aspect-[1.6/1] rounded-3xl overflow-hidden shadow-2xl mx-auto max-w-sm">
       {/* Card Background - Purple gradient like in the image */}
@@ -39,10 +52,10 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       </div>
 
       {/* Card Content */}
-      <div className="relative z-10 pt-4 px-6 pb-6 h-full flex flex-col text-white">
+      <div className="relative z-10 pt-4 px-6 pb-4 h-full flex flex-col text-white">
         {/* Top Section - Brand Name and Toggle */}
-        <div className="flex justify-between items-start mb-3">
-          <h2 className="text-xl font-bold tracking-wide text-white">PAYdota</h2>
+        <div className="flex justify-between items-start mb-4">
+          <h2 className="text-lg font-bold tracking-wide text-white">PAYdota</h2>
           {onToggleVisibility && (
             <button
               onClick={onToggleVisibility}
@@ -54,8 +67,8 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         </div>
 
         {/* Card Number Section */}
-        <div className="mb-3">
-          <p className="text-lg font-mono tracking-[0.15em] font-light text-white whitespace-nowrap overflow-hidden text-ellipsis">
+        <div className="mb-4">
+          <p className="text-base font-mono tracking-[0.15em] font-light text-white whitespace-nowrap overflow-hidden text-ellipsis">
             {formatCardNumber(card.lastFour)}
           </p>
         </div>
@@ -63,24 +76,34 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         {/* Card Balance */}
         <div className="mb-4">
           <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Available Balance</p>
-          <p className="text-base font-semibold text-white">
+          <p className="text-sm font-semibold text-white">
             ${(Number(card.balance) || 0).toFixed(2)}
           </p>
         </div>
 
-        {/* Bottom Section - Expiry and CVV */}
-        <div className="flex justify-between items-end mt-auto">
-          <div>
-            <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Valid Thru</p>
-            <p className="text-sm font-mono font-medium text-white">
-              {formatExpiry()}
+        {/* Bottom Section - Card Holder, Expiry and CVV */}
+        <div className="mt-auto">
+          {/* Card Holder Name */}
+          <div className="mb-2">
+            <p className="text-xs font-medium text-white tracking-wide">
+              {getCardHolderName()}
             </p>
           </div>
-          <div className="text-right">
-            <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">CVV</p>
-            <p className="text-sm font-mono font-medium text-white">
-              {formatCVV()}
-            </p>
+          
+          {/* Expiry and CVV */}
+          <div className="flex justify-between items-end">
+            <div>
+              <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Valid Thru</p>
+              <p className="text-xs font-mono font-medium text-white">
+                {formatExpiry()}
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">CVV</p>
+              <p className="text-xs font-mono font-medium text-white">
+                {formatCVV()}
+              </p>
+            </div>
           </div>
         </div>
       </div>
