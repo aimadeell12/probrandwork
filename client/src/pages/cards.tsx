@@ -87,72 +87,88 @@ export default function Cards() {
               </button>
             </div>
 
-            {/* Cards Grid - Responsive Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-              {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card) => (
-                <div key={card.id} className="relative group">
-                  {/* Card Visual */}
-                  <div className="relative w-full max-w-sm mx-auto transform transition-transform duration-300 group-hover:scale-105">
-                    <CreditCardComponent 
-                      card={card} 
-                      showDetails={showCardNumbers[card.id] || false}
-                      onToggleVisibility={() => toggleCardVisibility(card.id)}
-                    />
-                  </div>
+            {/* Cards Carousel - Horizontal Scrolling */}
+            <div className="relative">
+              <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 px-4 -mx-4 snap-x snap-mandatory">
+                {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card, index: number) => (
+                  <div key={card.id} className="flex-shrink-0 w-80 sm:w-96 snap-center">
+                    <div className="relative group">
+                      {/* Card Visual */}
+                      <div className="relative w-full transform transition-transform duration-300 group-hover:scale-105">
+                        <CreditCardComponent 
+                          card={card} 
+                          showDetails={showCardNumbers[card.id] || false}
+                          onToggleVisibility={() => toggleCardVisibility(card.id)}
+                        />
+                      </div>
 
-                  {/* Card info */}
-                  <div className="text-center mt-4 space-y-2">
-                    <div className={cn(
-                      "inline-flex items-center gap-2 text-sm transition-all duration-300",
-                      card.status === "blocked" 
-                        ? "text-red-600 dark:text-red-400" 
-                        : card.status === "frozen"
-                        ? "text-blue-600 dark:text-blue-400"
-                        : "text-gray-600 dark:text-gray-400"
-                    )}>
-                      <div className={cn(
-                        "w-4 h-4 rounded-full",
-                        card.status === "blocked"
-                          ? "bg-gradient-to-r from-red-500 to-red-600"
-                          : card.status === "frozen"
-                          ? "bg-gradient-to-r from-blue-500 to-cyan-500"
-                          : "bg-gradient-to-r from-purple-500 to-blue-500"
-                      )}></div>
-                      {card.status === "blocked" 
-                        ? "Blocked" 
-                        : card.status === "frozen"
-                        ? "Frozen"
-                        : "Active"}
+                      {/* Card info */}
+                      <div className="text-center mt-4 space-y-2">
+                        <div className={cn(
+                          "inline-flex items-center gap-2 text-sm transition-all duration-300",
+                          card.status === "blocked" 
+                            ? "text-red-600 dark:text-red-400" 
+                            : card.status === "frozen"
+                            ? "text-blue-600 dark:text-blue-400"
+                            : "text-gray-600 dark:text-gray-400"
+                        )}>
+                          <div className={cn(
+                            "w-4 h-4 rounded-full",
+                            card.status === "blocked"
+                              ? "bg-gradient-to-r from-red-500 to-red-600"
+                              : card.status === "frozen"
+                              ? "bg-gradient-to-r from-blue-500 to-cyan-500"
+                              : "bg-gradient-to-r from-purple-500 to-blue-500"
+                          )}></div>
+                          {card.status === "blocked" 
+                            ? "Blocked" 
+                            : card.status === "frozen"
+                            ? "Frozen"
+                            : "Active"}
+                        </div>
+                        <h3 className={cn(
+                          "text-lg sm:text-xl font-semibold transition-all duration-300",
+                          card.status === "blocked" 
+                            ? "text-red-600 dark:text-red-400" 
+                            : card.status === "frozen"
+                            ? "text-blue-600 dark:text-blue-400"
+                            : "text-gray-900 dark:text-white"
+                        )}>
+                          {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
+                          {card.status === "blocked" && " - BLOCKED"}
+                          {card.status === "frozen" && " - FROZEN"}
+                        </h3>
+                        <p className={cn(
+                          "text-sm transition-all duration-300",
+                          card.status === "blocked" 
+                            ? "text-red-500 dark:text-red-400" 
+                            : card.status === "frozen"
+                            ? "text-blue-500 dark:text-blue-400"
+                            : "text-gray-600 dark:text-gray-400"
+                        )}>
+                          {card.status === "blocked" 
+                            ? "Card is permanently blocked" 
+                            : card.status === "frozen"
+                            ? "Card is temporarily frozen"
+                            : "Ready to use"}
+                        </p>
+                      </div>
                     </div>
-                    <h3 className={cn(
-                      "text-lg sm:text-xl font-semibold transition-all duration-300",
-                      card.status === "blocked" 
-                        ? "text-red-600 dark:text-red-400" 
-                        : card.status === "frozen"
-                        ? "text-blue-600 dark:text-blue-400"
-                        : "text-gray-900 dark:text-white"
-                    )}>
-                      {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
-                      {card.status === "blocked" && " - BLOCKED"}
-                      {card.status === "frozen" && " - FROZEN"}
-                    </h3>
-                    <p className={cn(
-                      "text-sm transition-all duration-300",
-                      card.status === "blocked" 
-                        ? "text-red-500 dark:text-red-400" 
-                        : card.status === "frozen"
-                        ? "text-blue-500 dark:text-blue-400"
-                        : "text-gray-600 dark:text-gray-400"
-                    )}>
-                      {card.status === "blocked" 
-                        ? "Card is permanently blocked" 
-                        : card.status === "frozen"
-                        ? "Card is temporarily frozen"
-                        : "Ready to use"}
-                    </p>
                   </div>
+                ))}
+              </div>
+              
+              {/* Card indicators */}
+              {cards.filter((card: Card) => card.type === selectedCardType).length > 1 && (
+                <div className="flex justify-center mt-6 space-x-2">
+                  {cards.filter((card: Card) => card.type === selectedCardType).map((_, index) => (
+                    <div 
+                      key={index}
+                      className="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"
+                    />
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
             
             {/* Extra space for bottom navigation */}
