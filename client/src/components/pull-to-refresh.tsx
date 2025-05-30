@@ -92,7 +92,7 @@ export default function PullToRefresh({
     >
       {/* مؤشر السحب للتحديث */}
       <div 
-        className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center text-center bg-gradient-to-b from-purple-50 to-transparent dark:from-purple-900/50 z-10"
+        className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center text-center bg-gradient-to-b from-purple-50/90 via-white/80 to-pink-50/90 dark:from-gray-900/90 dark:via-gray-800/80 dark:to-purple-900/90 backdrop-blur-sm z-10"
         style={{ 
           height: `${Math.min(pullDistance, threshold * 1.2)}px`,
           opacity: refreshOpacity,
