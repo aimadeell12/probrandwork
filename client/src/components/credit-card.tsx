@@ -39,36 +39,33 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       </div>
 
       {/* Card Content */}
-      <div className="relative z-10 p-8 h-full flex flex-col justify-between text-white">
+      <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
         {/* Top Section - Brand Name and Toggle */}
         <div className="flex justify-between items-start">
-          <h2 className="text-3xl font-bold tracking-widest text-white">PAYdota</h2>
+          <h2 className="text-xl font-bold tracking-wide text-white">PAYdota</h2>
           {onToggleVisibility && (
             <button
               onClick={onToggleVisibility}
-              className="p-2 rounded-full hover:bg-white/20 transition-colors"
+              className="p-1.5 rounded-full hover:bg-white/20 transition-colors"
             >
-              {showDetails ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              {showDetails ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           )}
         </div>
 
-        {/* Middle Section - Card Number and Balance */}
-        <div className="flex-1 flex flex-col justify-center py-6">
-          <div className="w-full mb-4">
-            <p className="text-2xl font-mono tracking-[0.3em] font-light text-white">
+        {/* Middle Section - Card Number */}
+        <div className="flex-1 flex flex-col justify-center py-4">
+          <div className="w-full mb-3">
+            <p className="text-lg font-mono tracking-[0.2em] font-light text-white">
               {formatCardNumber(card.lastFour)}
             </p>
           </div>
           
           {/* Card Balance */}
           <div className="w-full">
-            <p className="text-xs opacity-70 mb-1 uppercase tracking-wide">Available Balance</p>
-            <p className="text-xl font-bold text-white">
-              {new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: card.currency || 'USD',
-              }).format(card.balance || 0)}
+            <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Available Balance</p>
+            <p className="text-base font-semibold text-white">
+              ${(Number(card.balance) || 0).toFixed(2)}
             </p>
           </div>
         </div>
@@ -76,13 +73,14 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         {/* Bottom Section - Expiry and CVV */}
         <div className="flex justify-between items-end">
           <div>
-            <p className="text-xl font-mono font-medium text-white">
+            <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Valid Thru</p>
+            <p className="text-sm font-mono font-medium text-white">
               {formatExpiry()}
             </p>
           </div>
           <div className="text-right">
-            <p className="text-sm opacity-80 mb-1 font-medium">CVV</p>
-            <p className="text-xl font-mono font-medium text-white">
+            <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">CVV</p>
+            <p className="text-sm font-mono font-medium text-white">
               {formatCVV()}
             </p>
           </div>
