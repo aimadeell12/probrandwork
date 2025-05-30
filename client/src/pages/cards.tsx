@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Plus, Minus, MoreVertical, Settings, Lock, AlertTriangle, Snowflake, Play, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { CreditCard, Plus, Minus, MoreVertical, Settings, Lock, AlertTriangle, Snowflake, Play, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/useLanguage";
-import { useLocation } from "wouter";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,6 +34,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import CreateCardModal from "@/components/create-card-modal";
+import { CreditCard as CreditCardComponent } from "@/components/credit-card";
 import type { Card } from "shared/schema";
 
 // Transaction List Component
