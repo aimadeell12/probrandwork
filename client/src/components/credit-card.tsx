@@ -53,11 +53,22 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
           )}
         </div>
 
-        {/* Middle Section - Card Number */}
-        <div className="flex-1 flex items-center py-8">
-          <div className="w-full">
-            <p className="text-3xl font-mono tracking-[0.4em] font-light text-white">
+        {/* Middle Section - Card Number and Balance */}
+        <div className="flex-1 flex flex-col justify-center py-6">
+          <div className="w-full mb-4">
+            <p className="text-2xl font-mono tracking-[0.3em] font-light text-white">
               {formatCardNumber(card.lastFour)}
+            </p>
+          </div>
+          
+          {/* Card Balance */}
+          <div className="w-full">
+            <p className="text-xs opacity-70 mb-1 uppercase tracking-wide">Available Balance</p>
+            <p className="text-xl font-bold text-white">
+              {new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: card.currency || 'USD',
+              }).format(card.balance || 0)}
             </p>
           </div>
         </div>
@@ -78,14 +89,16 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         </div>
       </div>
 
-      {/* Card Chip */}
-      <div className="absolute top-20 left-8">
-        <div className="w-12 h-9 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-lg shadow-md">
-          <div className="w-full h-full bg-gradient-to-br from-yellow-100/30 to-transparent rounded-lg flex items-center justify-center">
-            <div className="w-8 h-6 border border-yellow-600/30 rounded-sm"></div>
+      {/* Card Chip - Only for Physical Cards */}
+      {card.type === 'physical' && (
+        <div className="absolute top-20 left-8">
+          <div className="w-12 h-9 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-lg shadow-md">
+            <div className="w-full h-full bg-gradient-to-br from-yellow-100/30 to-transparent rounded-lg flex items-center justify-center">
+              <div className="w-8 h-6 border border-yellow-600/30 rounded-sm"></div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Card Type Indicator */}
       <div className="absolute bottom-6 right-8">
