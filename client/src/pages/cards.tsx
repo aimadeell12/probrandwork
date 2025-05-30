@@ -73,8 +73,8 @@ export default function Cards() {
         releaseText="Release to refresh"
       >
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-20 max-w-7xl relative z-10">
-            <div className="pt-8">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
+            <div className="pt-12">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="animate-pulse">
@@ -101,13 +101,13 @@ export default function Cards() {
         <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
         
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-20 max-w-7xl relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
         
         {/* Check if there are cards and not showing choose card view */}
         {Array.isArray(cards) && cards.length > 0 && !showChooseCard ? (
           <>
             {/* Header for existing cards */}
-            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 pt-8 gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 pt-12 gap-4">
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center sm:text-left">My Cards</h1>
               <Button
                 onClick={() => setShowChooseCard(true)}
@@ -274,7 +274,7 @@ export default function Cards() {
             </div>
             
             {/* Extra space for bottom navigation */}
-            <div className="mb-4"></div>
+            <div className="mb-24"></div>
           </>
         ) : (
           <CreateCardModal 
