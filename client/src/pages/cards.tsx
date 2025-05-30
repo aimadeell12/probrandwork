@@ -120,7 +120,7 @@ export default function Cards() {
 
             {/* Cards Carousel - Horizontal Scrolling */}
             <div className="relative">
-              <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 px-4 -mx-4 snap-x snap-mandatory">
+              <div className="flex gap-4 overflow-x-auto scrollbar-hide py-4 px-4 -mx-4 snap-x snap-mandatory">
                 {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card, index: number) => (
                   <div key={card.id} className="flex-shrink-0 w-80 sm:w-96 snap-center">
                     <div className="relative group">
