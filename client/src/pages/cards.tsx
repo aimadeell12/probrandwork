@@ -68,9 +68,9 @@ export default function Cards() {
     return (
       <PullToRefresh
         onRefresh={handleRefresh}
-        refreshingText="جاري التحديث..."
-        pullText="اسحب للتحديث"
-        releaseText="اترك للتحديث"
+        refreshingText="Refreshing..."
+        pullText="Pull to refresh"
+        releaseText="Release to refresh"
       >
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900 relative overflow-hidden">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
@@ -92,9 +92,9 @@ export default function Cards() {
   return (
     <PullToRefresh
       onRefresh={handleRefresh}
-      refreshingText="جاري التحديث..."
-      pullText="اسحب للتحديث"
-      releaseText="اترك للتحديث"
+      refreshingText="Refreshing..."
+      pullText="Pull to refresh"
+      releaseText="Release to refresh"
     >
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900 relative overflow-hidden">
         {/* Background decorative elements */}
@@ -108,7 +108,7 @@ export default function Cards() {
           <>
             {/* Header for existing cards */}
             <div className="flex flex-col sm:flex-row items-center justify-between mb-8 pt-12 gap-4">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center sm:text-right">بطاقاتي</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center sm:text-left">My Cards</h1>
               <Button
                 onClick={() => setShowChooseCard(true)}
                 className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full p-3 shadow-lg"
@@ -201,7 +201,7 @@ export default function Cards() {
 
                       {/* Card Transactions */}
                       <div className="mt-6 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 border border-white/30 dark:border-gray-700/30">
-                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">المعاملات الأخيرة</h4>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Recent Transactions</h4>
                         {transactionsLoading ? (
                           <div className="space-y-2">
                             {[1, 2, 3].map((i) => (
@@ -226,10 +226,10 @@ export default function Cards() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                        {transaction.description || transaction.merchant || 'معاملة'}
+                                        {transaction.description || transaction.merchant || 'Transaction'}
                                       </p>
                                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                                        {transaction.date ? new Date(transaction.date).toLocaleDateString('ar') : 'اليوم'}
+                                        {transaction.date ? new Date(transaction.date).toLocaleDateString('en') : 'Today'}
                                       </p>
                                     </div>
                                     <div className="flex-shrink-0">
@@ -249,7 +249,7 @@ export default function Cards() {
                             ) : (
                               <div className="text-center py-4">
                                 <Clock className="h-8 w-8 text-gray-400 dark:text-gray-600 mx-auto mb-2" />
-                                <p className="text-sm text-gray-500 dark:text-gray-400">لا توجد معاملات حديثة</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">No recent transactions</p>
                               </div>
                             )}
                           </>
