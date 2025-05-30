@@ -82,25 +82,25 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         </div>
 
         {/* Bottom Section - Card Holder, Expiry and CVV */}
-        <div className="mt-auto">
+        <div className="mt-auto space-y-2">
           {/* Card Holder Name */}
-          <div className="mb-2">
+          <div>
             <p className="text-xs font-medium text-white tracking-wide">
               {getCardHolderName()}
             </p>
           </div>
           
           {/* Expiry and CVV */}
-          <div className="flex justify-between items-end">
+          <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Valid Thru</p>
-              <p className="text-xs font-mono font-medium text-white">
+              <p className="text-xs opacity-70 uppercase tracking-wide leading-none">Valid Thru</p>
+              <p className="text-xs font-mono font-medium text-white mt-1">
                 {formatExpiry()}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">CVV</p>
-              <p className="text-xs font-mono font-medium text-white">
+              <p className="text-xs opacity-70 uppercase tracking-wide leading-none">CVV</p>
+              <p className="text-xs font-mono font-medium text-white mt-1">
                 {formatCVV()}
               </p>
             </div>
