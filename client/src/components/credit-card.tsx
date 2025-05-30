@@ -110,16 +110,7 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         </div>
       </div>
 
-      {/* Card Chip - Only for Physical Cards */}
-      {card.type === 'physical' && (
-        <div className="absolute top-20 left-8">
-          <div className="w-12 h-9 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-lg shadow-md">
-            <div className="w-full h-full bg-gradient-to-br from-yellow-100/30 to-transparent rounded-lg flex items-center justify-center">
-              <div className="w-8 h-6 border border-yellow-600/30 rounded-sm"></div>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Card Type Indicator */}
       <div className="absolute bottom-4 right-6">
