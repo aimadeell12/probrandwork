@@ -39,9 +39,9 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       </div>
 
       {/* Card Content */}
-      <div className="relative z-10 p-6 h-full flex flex-col text-white">
+      <div className="relative z-10 pt-4 px-6 pb-6 h-full flex flex-col text-white">
         {/* Top Section - Brand Name and Toggle */}
-        <div className="flex justify-between items-start mb-4">
+        <div className="flex justify-between items-start mb-3">
           <h2 className="text-xl font-bold tracking-wide text-white">PAYdota</h2>
           {onToggleVisibility && (
             <button
@@ -54,14 +54,14 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         </div>
 
         {/* Card Number Section */}
-        <div className="mb-4">
+        <div className="mb-3">
           <p className="text-lg font-mono tracking-[0.15em] font-light text-white whitespace-nowrap overflow-hidden text-ellipsis">
             {formatCardNumber(card.lastFour)}
           </p>
         </div>
         
         {/* Card Balance */}
-        <div className="mb-6">
+        <div className="mb-4">
           <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Available Balance</p>
           <p className="text-base font-semibold text-white">
             ${(Number(card.balance) || 0).toFixed(2)}
