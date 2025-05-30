@@ -53,24 +53,24 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
 
       {/* Card Content */}
       <div className="relative z-10 pt-4 px-6 pb-4 h-full flex flex-col text-white">
-        {/* Top Section - Brand Name and Toggle */}
-        <div className="flex justify-between items-start mb-4">
+        {/* Top Section - Brand Name */}
+        <div className="mb-4">
           <h2 className="text-lg font-bold tracking-wide text-white">PAYdota</h2>
+        </div>
+
+        {/* Card Number Section with Toggle */}
+        <div className="mb-4 flex items-center justify-between">
+          <p className="text-base font-mono tracking-[0.15em] font-light text-white whitespace-nowrap overflow-hidden text-ellipsis flex-1">
+            {formatCardNumber(card.lastFour)}
+          </p>
           {onToggleVisibility && (
             <button
               onClick={onToggleVisibility}
-              className="p-1.5 rounded-full hover:bg-white/20 transition-colors"
+              className="p-1.5 rounded-full hover:bg-white/20 transition-colors ml-2 flex-shrink-0"
             >
               {showDetails ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           )}
-        </div>
-
-        {/* Card Number Section */}
-        <div className="mb-4">
-          <p className="text-base font-mono tracking-[0.15em] font-light text-white whitespace-nowrap overflow-hidden text-ellipsis">
-            {formatCardNumber(card.lastFour)}
-          </p>
         </div>
         
         {/* Card Balance */}
@@ -120,10 +120,10 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       )}
 
       {/* Card Type Indicator */}
-      <div className="absolute bottom-6 right-8">
-        <div className="px-3 py-1 bg-white/10 rounded-lg backdrop-blur-sm">
+      <div className="absolute bottom-4 right-6">
+        <div className="px-2 py-1 bg-white/10 rounded backdrop-blur-sm">
           <span className="text-xs font-bold text-white uppercase tracking-wide">
-            {card.type === 'virtual' ? 'Virtual' : 'Physical'}
+            {card.type === 'virtual' ? 'VIRTUAL' : 'PHYSICAL'}
           </span>
         </div>
       </div>
