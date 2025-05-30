@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, ArrowUpRight, ArrowDownLeft, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,9 @@ export default function Cards() {
   const [showChooseCard, setShowChooseCard] = useState(false);
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  
+  const queryClient = useQueryClient();
 
   // Fetch cards
   const { data: cards = [], isLoading: cardsLoading } = useQuery({
@@ -21,6 +24,20 @@ export default function Cards() {
   const { data: transactions = [], isLoading: transactionsLoading } = useQuery({
     queryKey: ['/api/transactions'],
   });
+
+  // Pull to refresh function
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['/api/cards'] }),
+        queryClient.invalidateQueries({ queryKey: ['/api/transactions'] }),
+        queryClient.invalidateQueries({ queryKey: ['/api/wallet/balance'] }),
+      ]);
+    } finally {
+      setTimeout(() => setIsRefreshing(false), 500); // Small delay for visual feedback
+    }
+  };
 
   const toggleCardVisibility = (cardId: string) => {
     setShowCardNumbers(prev => ({ ...prev, [cardId]: !prev[cardId] }));
@@ -71,7 +88,52 @@ export default function Cards() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900 relative overflow-hidden">
+    <div 
+      className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900 relative overflow-hidden"
+      onTouchStart={(e) => {
+        const touch = e.touches[0];
+        const startY = touch.clientY;
+        const container = e.currentTarget;
+        
+        const handleTouchMove = (moveEvent: TouchEvent) => {
+          const currentTouch = moveEvent.touches[0];
+          const deltaY = currentTouch.clientY - startY;
+          
+          if (deltaY > 0 && container.scrollTop === 0 && deltaY > 80) {
+            container.style.transform = `translateY(${Math.min(deltaY * 0.5, 40)}px)`;
+            container.style.opacity = `${Math.max(0.7, 1 - deltaY * 0.002)}`;
+          }
+        };
+        
+        const handleTouchEnd = (endEvent: TouchEvent) => {
+          const touch = endEvent.changedTouches[0];
+          const deltaY = touch.clientY - startY;
+          
+          container.style.transform = '';
+          container.style.opacity = '';
+          
+          if (deltaY > 80 && container.scrollTop === 0) {
+            handleRefresh();
+          }
+          
+          document.removeEventListener('touchmove', handleTouchMove);
+          document.removeEventListener('touchend', handleTouchEnd);
+        };
+        
+        document.addEventListener('touchmove', handleTouchMove);
+        document.addEventListener('touchend', handleTouchEnd);
+      }}
+    >
+      {/* Refresh Indicator */}
+      {isRefreshing && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
+          <div className="flex items-center space-x-2">
+            <div className="animate-spin rounded-full h-4 w-4 border-2 border-purple-600 border-t-transparent"></div>
+            <span className="text-sm font-medium text-gray-900 dark:text-white">جاري التحديث...</span>
+          </div>
+        </div>
+      )}
+      
       {/* Background decorative elements */}
       <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
