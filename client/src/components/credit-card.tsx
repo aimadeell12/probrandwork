@@ -43,7 +43,7 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       {/* Card Background - Different colors based on card type */}
       <div className={`absolute inset-0 ${
         card.type === 'physical' 
-          ? 'bg-gradient-to-br from-gray-900 via-black to-gray-800'
+          ? 'bg-gradient-to-br from-gray-800 via-gray-900 to-gray-700'
           : 'bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700'
       }`}>
         {/* Subtle overlay effects */}
@@ -51,15 +51,32 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
           {/* Top right glow */}
           <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl ${
             card.type === 'physical' 
-              ? 'bg-gray-400/10'
+              ? 'bg-gray-300/15'
               : 'bg-white/10'
           }`}></div>
           {/* Bottom left glow */}
           <div className={`absolute bottom-0 left-0 w-24 h-24 rounded-full blur-2xl ${
             card.type === 'physical' 
-              ? 'bg-gray-300/5'
+              ? 'bg-gray-400/10'
               : 'bg-white/5'
           }`}></div>
+          
+          {/* Stars for physical cards */}
+          {card.type === 'physical' && (
+            <>
+              <div className="absolute top-4 left-12 w-1 h-1 bg-gray-300/30 rounded-full"></div>
+              <div className="absolute top-8 left-20 w-0.5 h-0.5 bg-gray-200/40 rounded-full"></div>
+              <div className="absolute top-12 left-16 w-1 h-1 bg-gray-400/25 rounded-full"></div>
+              <div className="absolute top-6 left-32 w-0.5 h-0.5 bg-gray-300/35 rounded-full"></div>
+              <div className="absolute top-16 left-28 w-1 h-1 bg-gray-200/30 rounded-full"></div>
+              <div className="absolute top-20 left-36 w-0.5 h-0.5 bg-gray-400/20 rounded-full"></div>
+              
+              <div className="absolute top-24 right-12 w-0.5 h-0.5 bg-gray-300/25 rounded-full"></div>
+              <div className="absolute top-28 right-20 w-1 h-1 bg-gray-200/30 rounded-full"></div>
+              <div className="absolute top-32 right-16 w-0.5 h-0.5 bg-gray-400/35 rounded-full"></div>
+              <div className="absolute top-36 right-28 w-1 h-1 bg-gray-300/20 rounded-full"></div>
+            </>
+          )}
         </div>
       </div>
 
