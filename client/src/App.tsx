@@ -26,6 +26,7 @@ import PaymentPassword from "@/pages/account/payment-password";
 import CustomerService from "@/pages/customer-service";
 import About from "@/pages/about";
 import Coupons from "@/pages/coupons";
+import Profile from "@/pages/profile";
 import Send from "@/pages/send";
 import Withdraw from "@/pages/withdraw";
 import Transactions from "@/pages/transactions";
@@ -119,6 +120,7 @@ function Router() {
             <Route path="/security-privacy" component={SecurityPrivacy} />
             <Route path="/about" component={About} />
             <Route path="/coupons" component={Coupons} />
+            <Route path="/profile" component={Profile} />
 
             {/* Deposit routes */}
             <Route path="/deposit/options" component={DepositOptions} />

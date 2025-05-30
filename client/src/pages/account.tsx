@@ -82,17 +82,21 @@ export default function Account() {
         {/* User Profile Card */}
         <Card className="bg-gradient-to-br from-purple-400 via-purple-500 to-pink-500 text-white mb-4 shadow-lg border-0 rounded-2xl overflow-hidden">
           <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
+            <button 
+              onClick={() => navigateTo("/profile")}
+              className="w-full flex items-center space-x-3 hover:bg-white/10 transition-colors rounded-lg p-1"
+            >
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                 <User className="h-6 w-6 text-white" />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 text-left">
                 <p className="text-white/90 text-sm font-medium mb-1">Hello!</p>
                 <p className="text-white text-lg font-semibold">
                   {formatPhoneNumber(user?.phone || "")}
                 </p>
               </div>
-            </div>
+              <ChevronRight className="h-5 w-5 text-white/70" />
+            </button>
           </CardContent>
         </Card>
 
