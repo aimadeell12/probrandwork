@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { cardApi } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient } from "@/lib/queryClient";
-import { CreditCard, Plus, Minus, MoreVertical, Settings, Lock, AlertTriangle, Snowflake, Play, Eye, EyeOff } from "lucide-react";
+import { CreditCard, Plus, Minus, MoreVertical, Settings, Lock, AlertTriangle, Snowflake, Play, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useLocation } from "wouter";
 import {
   DropdownMenu,
   DropdownMenuContent,

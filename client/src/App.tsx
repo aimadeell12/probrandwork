@@ -13,7 +13,7 @@ import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
 import Wallet from "@/pages/wallet";
 import Admin from "@/pages/admin";
-import Cards from "@/pages/cards";
+import Cards from "@/pages/cards-new";
 import Support from "@/pages/support";
 import Account from "@/pages/account";
 import Deposit from "@/pages/deposit";
