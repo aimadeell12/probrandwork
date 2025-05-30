@@ -174,7 +174,7 @@ export default function CardsNew() {
           <CardContent className="p-6 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Available Balance</p>
             <p className="text-3xl font-bold text-gray-900 dark:text-white">
-              ${(balance.balance / 100).toFixed(2)}
+              ${((balance as any)?.balance / 100 || 0).toFixed(2)}
             </p>
           </CardContent>
         </Card>
@@ -222,7 +222,7 @@ export default function CardsNew() {
                     <div className="flex justify-between items-center mb-4">
                       <div>
                         <h3 className="font-semibold text-gray-900 dark:text-white">
-                          {card.name || `${card.type} Card`}
+                          {card.holderName || `${card.type} Card`}
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">
                           {card.type} • {card.status}
@@ -230,7 +230,7 @@ export default function CardsNew() {
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold text-gray-900 dark:text-white">
-                          ${(card.balance / 100).toFixed(2)}
+                          ${((card.balance || 0) / 100).toFixed(2)}
                         </p>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
                           Available
@@ -243,7 +243,7 @@ export default function CardsNew() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => handleCopyCardNumber(card.cardNumber || "")}
+                        onClick={() => handleCopyCardNumber(card.lastFour || "")}
                         className="flex flex-col items-center p-3 h-auto border-purple-200 hover:bg-purple-50 hover:border-purple-300"
                       >
                         <Copy className="h-4 w-4 mb-1 text-purple-600" />
