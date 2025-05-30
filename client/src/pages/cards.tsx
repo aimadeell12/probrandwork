@@ -274,7 +274,7 @@ export default function Cards() {
             </div>
             
             {/* Extra space for bottom navigation */}
-            <div className="mb-24"></div>
+            <div className="mb-8"></div>
           </>
         ) : (
           <CreateCardModal 
