@@ -126,18 +126,7 @@ export default function Cards() {
                             ? "Frozen"
                             : "Active"}
                         </div>
-                        <h3 className={cn(
-                          "text-lg sm:text-xl font-semibold transition-all duration-300",
-                          card.status === "blocked" 
-                            ? "text-red-600 dark:text-red-400" 
-                            : card.status === "frozen"
-                            ? "text-blue-600 dark:text-blue-400"
-                            : "text-gray-900 dark:text-white"
-                        )}>
-                          {card.type === "virtual" ? "Virtual Card" : "Physical Card"}
-                          {card.status === "blocked" && " - BLOCKED"}
-                          {card.status === "frozen" && " - FROZEN"}
-                        </h3>
+
                         <p className={cn(
                           "text-sm transition-all duration-300",
                           card.status === "blocked" 
