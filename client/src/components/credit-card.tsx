@@ -73,24 +73,23 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
           )}
         </div>
         
-        {/* Card Balance */}
-        <div className="mb-4">
-          <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Available Balance</p>
-          <p className="text-sm font-semibold text-white">
-            ${(Number(card.balance) || 0).toFixed(2)}
-          </p>
-        </div>
-
-        {/* Bottom Section - Card Holder, Expiry and CVV */}
-        <div className="mt-auto space-y-2">
-          {/* Card Holder Name */}
+        {/* Card Holder and Balance Section */}
+        <div className="mb-4 flex justify-between items-start">
           <div>
-            <p className="text-xs font-medium text-white tracking-wide">
+            <p className="text-xs font-medium text-white tracking-wide mb-1">
               {getCardHolderName()}
             </p>
           </div>
-          
-          {/* Expiry and CVV */}
+          <div className="text-right">
+            <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Available Balance</p>
+            <p className="text-sm font-semibold text-white">
+              ${(Number(card.balance) || 0).toFixed(2)}
+            </p>
+          </div>
+        </div>
+
+        {/* Bottom Section - Expiry and CVV */}
+        <div className="mt-auto">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-xs opacity-70 uppercase tracking-wide leading-none">Valid Thru</p>
