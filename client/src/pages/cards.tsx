@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
+import { Plus, ArrowUpRight, ArrowDownLeft, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import CreateCardModal from "@/components/create-card-modal";
@@ -17,8 +17,39 @@ export default function Cards() {
     queryKey: ['/api/cards'],
   });
 
+  // Fetch transactions for each card
+  const { data: transactions = [], isLoading: transactionsLoading } = useQuery({
+    queryKey: ['/api/transactions'],
+  });
+
   const toggleCardVisibility = (cardId: string) => {
     setShowCardNumbers(prev => ({ ...prev, [cardId]: !prev[cardId] }));
+  };
+
+  // Filter transactions by card
+  const getCardTransactions = (cardId: string) => {
+    if (!Array.isArray(transactions)) return [];
+    return transactions.filter((transaction: any) => transaction.cardId === cardId || transaction.card_id === cardId).slice(0, 3);
+  };
+
+  const formatAmount = (amount: number, currency: string = 'USD') => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency,
+    }).format(amount);
+  };
+
+  const getTransactionIcon = (type: string) => {
+    switch (type) {
+      case 'withdrawal':
+      case 'payment':
+        return <ArrowUpRight className="h-4 w-4 text-red-500" />;
+      case 'deposit':
+      case 'refund':
+        return <ArrowDownLeft className="h-4 w-4 text-green-500" />;
+      default:
+        return <Clock className="h-4 w-4 text-gray-500" />;
+    }
   };
 
   if (cardsLoading) {
@@ -141,6 +172,63 @@ export default function Cards() {
                             ? "Card is temporarily frozen"
                             : "Ready to use"}
                         </p>
+                      </div>
+
+                      {/* Card Transactions */}
+                      <div className="mt-6 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 border border-white/30 dark:border-gray-700/30">
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">المعاملات الأخيرة</h4>
+                        {transactionsLoading ? (
+                          <div className="space-y-2">
+                            {[1, 2, 3].map((i) => (
+                              <div key={i} className="animate-pulse flex items-center gap-3">
+                                <div className="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-full"></div>
+                                <div className="flex-1">
+                                  <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-3/4 mb-1"></div>
+                                  <div className="h-2 bg-gray-200 dark:bg-gray-600 rounded w-1/2"></div>
+                                </div>
+                                <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-16"></div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <>
+                            {getCardTransactions(card.id).length > 0 ? (
+                              <div className="space-y-3">
+                                {getCardTransactions(card.id).map((transaction: any, index: number) => (
+                                  <div key={index} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/40 dark:hover:bg-gray-700/40 transition-colors">
+                                    <div className="flex-shrink-0">
+                                      {getTransactionIcon(transaction.type)}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                        {transaction.description || transaction.merchant || 'معاملة'}
+                                      </p>
+                                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                                        {transaction.date ? new Date(transaction.date).toLocaleDateString('ar') : 'اليوم'}
+                                      </p>
+                                    </div>
+                                    <div className="flex-shrink-0">
+                                      <span className={cn(
+                                        "text-sm font-semibold",
+                                        transaction.type === 'deposit' || transaction.type === 'refund'
+                                          ? "text-green-600 dark:text-green-400"
+                                          : "text-red-600 dark:text-red-400"
+                                      )}>
+                                        {transaction.type === 'deposit' || transaction.type === 'refund' ? '+' : '-'}
+                                        {formatAmount(Math.abs(transaction.amount || 0), transaction.currency || card.currency)}
+                                      </span>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="text-center py-4">
+                                <Clock className="h-8 w-8 text-gray-400 dark:text-gray-600 mx-auto mb-2" />
+                                <p className="text-sm text-gray-500 dark:text-gray-400">لا توجد معاملات حديثة</p>
+                              </div>
+                            )}
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
