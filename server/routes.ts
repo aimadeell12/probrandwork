@@ -2187,6 +2187,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Profile update endpoint - using same auth as other working endpoints
+  app.patch("/api/auth/profile", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
+      const updateData = req.body;
+      const updatedUser = await storage.updateUserProfile(userId, updateData);
+      
+      // Return updated user without sensitive fields
+      const { password, ...userWithoutPassword } = updatedUser;
+      res.json(userWithoutPassword);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
