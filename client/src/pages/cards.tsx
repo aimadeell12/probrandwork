@@ -340,18 +340,16 @@ export default function Cards() {
                   ))}
                 </div>
               )}
-            </div>
-            
-            {/* Extra space for bottom navigation */}
-            <div className="mb-24"></div>
           </>
         ) : (
-          <CreateCardModal 
-            open={showChooseCard} 
-            onOpenChange={(open) => {
-              setShowChooseCard(open);
-            }} 
-          />
+          <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+            <CreateCardModal 
+              open={showChooseCard} 
+              onOpenChange={(open) => {
+                setShowChooseCard(open);
+              }} 
+            />
+          </div>
         )}
         </div>
       </div>
