@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
-import { LanguageProvider } from "@/components/language-provider";
+import { LanguageProvider } from "@/hooks/useLanguage";
 import BottomNavigation from "@/components/bottom-navigation";
 import Welcome from "@/pages/welcome";
 import Login from "@/pages/login";

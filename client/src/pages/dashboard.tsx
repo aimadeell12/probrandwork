@@ -36,11 +36,11 @@ export default function Dashboard() {
     queryKey: ["/api/kyc/status"],
   });
 
-  const balance = walletData?.balance || 0;
-  const unreadCount = unreadData?.count || 0;
+  const balance = (walletData as any)?.balance || 0;
+  const unreadCount = (unreadData as any)?.count || 0;
 
   const handleRefresh = async () => {
-    triggerHaptic('impact', 'medium');
+    triggerHaptic('impact');
     await queryClient.invalidateQueries();
   };
 
@@ -58,7 +58,7 @@ export default function Dashboard() {
           >
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
-                {t("welcomeBack")}, {userInfo?.firstName || "User"}
+                {t("welcomeBack")}, {(userInfo as any)?.firstName || "User"}
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
                 {t("manageYourFinances")}
@@ -68,11 +68,17 @@ export default function Dashboard() {
               <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">
                 <Globe className="h-5 w-5" />
               </Button>
-              {kycStatus && (kycStatus as any).status === 'verified' && (
-                <Badge className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0">
-                  <Crown className="h-3 w-3 mr-1" />
-                  Verified
-                </Badge>
+{kycStatus && (kycStatus as any).status === 'verified' && (
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+                >
+                  <Badge className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0">
+                    <Crown className="h-3 w-3 mr-1" />
+                    Verified
+                  </Badge>
+                </motion.div>
               )}
               <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">
                 <Gift className="h-5 w-5" />
