@@ -184,63 +184,178 @@ export default function Services() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+    <motion.div 
+      className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
+      <motion.div 
+        className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"
+        animate={{ 
+          scale: [1, 1.1, 1],
+          rotate: [0, 180, 360]
+        }}
+        transition={{ 
+          duration: 20,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      ></motion.div>
+      <motion.div 
+        className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"
+        animate={{ 
+          scale: [1, 1.2, 1],
+          rotate: [360, 180, 0]
+        }}
+        transition={{ 
+          duration: 25,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      ></motion.div>
       
-      <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10">
+      <motion.div 
+        className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
         
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300"
+        <motion.div 
+          className="flex items-center gap-4 mb-8"
+          initial={{ x: -20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
-            <ArrowLeft className="h-6 w-6" />
-          </Button>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setLocation("/dashboard")}
+              className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300"
+            >
+              <ArrowLeft className="h-6 w-6" />
+            </Button>
+          </motion.div>
+          <motion.h1 
+            className="text-xl font-bold text-gray-900 dark:text-white"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
             Services Hub
-          </h1>
-        </div>
+          </motion.h1>
+        </motion.div>
         
         {/* Popular Services */}
-        <div className="mb-8">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Popular</h2>
-          <div className="grid grid-cols-3 gap-4">
+        <motion.div 
+          className="mb-8"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <motion.h2 
+            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.6 }}
+          >
+            Popular
+          </motion.h2>
+          <motion.div 
+            className="grid grid-cols-3 gap-4"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.7 }}
+          >
             {popularServices.map((service, index) => (
               <ServiceCard key={index} service={service} index={index} />
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Card Services */}
-        <div className="mb-8">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Card</h2>
-          <div className="grid grid-cols-2 gap-4">
+        <motion.div 
+          className="mb-8"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+        >
+          <motion.h2 
+            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.9 }}
+          >
+            Card
+          </motion.h2>
+          <motion.div 
+            className="grid grid-cols-2 gap-4"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 1.0 }}
+          >
             {cardServices.map((service, index) => (
               <ServiceCard key={index} service={service} index={index} />
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Transaction Services */}
-        <div className="mb-8">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Transaction</h2>
-          <div className="grid grid-cols-3 gap-4">
+        <motion.div 
+          className="mb-8"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.1 }}
+        >
+          <motion.h2 
+            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 1.2 }}
+          >
+            Transaction
+          </motion.h2>
+          <motion.div 
+            className="grid grid-cols-3 gap-4"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 1.3 }}
+          >
             {transactionServices.map((service, index) => (
-              <ServiceCard key={index} service={service} />
+              <ServiceCard key={index} service={service} index={index} />
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Banking Services */}
-        <div className="mb-8">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Banking</h2>
-          <div className="grid grid-cols-3 gap-4">
+        <motion.div 
+          className="mb-8"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.4 }}
+        >
+          <motion.h2 
+            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 1.5 }}
+          >
+            Banking
+          </motion.h2>
+          <motion.div 
+            className="grid grid-cols-3 gap-4"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 1.6 }}
+          >
             <ServiceCard 
               service={{
                 icon: Building2,
@@ -250,21 +365,39 @@ export default function Services() {
                 iconColor: "text-white",
                 href: "/bank-transfer"
               }}
+              index={0}
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Support Services */}
-        <div className="mb-8">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Support</h2>
-          <div className="grid grid-cols-3 gap-4">
+        <motion.div 
+          className="mb-8"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.7 }}
+        >
+          <motion.h2 
+            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 1.8 }}
+          >
+            Support
+          </motion.h2>
+          <motion.div 
+            className="grid grid-cols-3 gap-4"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 1.9 }}
+          >
             {supportServices.map((service, index) => (
-              <ServiceCard key={index} service={service} />
+              <ServiceCard key={index} service={service} index={index} />
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
