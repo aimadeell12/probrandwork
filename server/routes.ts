@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import path from "path";
 import { storage } from "./storage";
 import { setupSimpleAuth, requireAuth } from "./simpleAuth";
+import { setupGoogleAuth } from "./googleAuth";
 import { reapService } from "./reap";
 import { binancePayService } from "./binance";
 import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema } from "@shared/schema";
@@ -40,6 +41,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Auth middleware
   setupSimpleAuth(app);
+  setupGoogleAuth(app);
 
   // Banks routes
   app.get("/api/banks", async (req, res) => {
