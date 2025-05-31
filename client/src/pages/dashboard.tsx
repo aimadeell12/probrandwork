@@ -9,6 +9,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
 import PullToRefresh from "@/components/pull-to-refresh";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -31,224 +32,231 @@ export default function Dashboard() {
   });
 
   // Fetch KYC status
-  const { data: kycData } = useQuery({
+  const { data: kycStatus } = useQuery({
     queryKey: ["/api/kyc/status"],
   });
 
-  const balance = (walletData as any)?.balance || 5.00;
-  const unreadCount = (unreadData as any)?.count || 0;
-  const kycStatus = kycData;
-  const isAdmin = (userInfo as any)?.role === 'admin';
+  const balance = walletData?.balance || 0;
+  const unreadCount = unreadData?.count || 0;
 
-  // Refresh data function for pull-to-refresh
   const handleRefresh = async () => {
-    triggerHaptic({ type: 'medium' });
-    await Promise.all([
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] }),
-      queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] }),
-      queryClient.invalidateQueries({ queryKey: ["/api/notifications/unread-count"] }),
-      queryClient.invalidateQueries({ queryKey: ["/api/kyc/status"] }),
-    ]);
+    triggerHaptic('impact', 'medium');
+    await queryClient.invalidateQueries();
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
-      
-      {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
-      
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-purple-100 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10 max-w-7xl mx-auto">
-        
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8 status-bar-safe">
-          <div className="flex items-center gap-4">
-            <Badge variant="secondary" className="bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full">
-              {t("wallet")}
-            </Badge>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20">
           
-          <div className="flex items-center gap-2">
-            {isAdmin && (
-              <Link href="/admin-panel">
-                <Button variant="ghost" size="icon" className="text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30 native-button haptic-light touch-target" title="Admin Panel">
-                  <Crown className="h-5 w-5" />
-                </Button>
-              </Link>
-            )}
-            <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">
-              <Gift className="h-5 w-5" />
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="text-gray-600 dark:text-gray-400 relative native-button haptic-light touch-target"
-              onClick={() => setIsNotificationCenterOpen(true)}
-            >
-              <Bell className="h-5 w-5" />
-              {unreadCount > 0 && (
-                <Badge 
-                  variant="destructive" 
-                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs"
-                >
-                  {unreadCount > 99 ? "99+" : unreadCount}
+          {/* Header */}
+          <motion.div 
+            className="flex items-center justify-between mb-8"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div>
+              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
+                {t("welcomeBack")}, {userInfo?.firstName || "User"}
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">
+                {t("manageYourFinances")}
+              </p>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">
+                <Globe className="h-5 w-5" />
+              </Button>
+              {kycStatus && (kycStatus as any).status === 'verified' && (
+                <Badge className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0">
+                  <Crown className="h-3 w-3 mr-1" />
+                  Verified
                 </Badge>
               )}
-            </Button>
-          </div>
-        </div>
-
-        {/* Main Content - Desktop Layout */}
-        <div className="lg:grid lg:grid-cols-3 lg:gap-8 space-y-8 lg:space-y-0">
-          
-          {/* Left Column - Main Wallet Info */}
-          <div className="lg:col-span-2 space-y-6">
-            
-            {/* Currency Selector */}
-            <div className="mb-6">
-              <Button variant="outline" className="bg-purple-100 dark:bg-purple-900/30 border-purple-200 dark:border-purple-700 text-purple-700 dark:text-purple-300 rounded-2xl px-4 py-2">
-                <span className="text-purple-600 mr-2">$</span>
-                {t("usd")}
-                <ChevronDown className="h-4 w-4 ml-2" />
+              <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">
+                <Gift className="h-5 w-5" />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-gray-600 dark:text-gray-400 relative native-button haptic-light touch-target"
+                onClick={() => setIsNotificationCenterOpen(true)}
+              >
+                <Bell className="h-5 w-5" />
+                {unreadCount > 0 && (
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs"
+                  >
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </Badge>
+                )}
               </Button>
             </div>
+          </motion.div>
 
-            {/* Balance Section */}
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-gray-600 dark:text-gray-400 text-sm">{t("totalBalance")}</span>
-                <Info className="h-4 w-4 text-gray-400" />
-              </div>
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-8">
-                $ {balance.toFixed(2)}
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="grid grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-12">
-              <Link href="/deposit">
-                <div className="flex flex-col items-center cursor-pointer native-button haptic-medium touch-target">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <Plus className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t('deposit')}</span>
-                </div>
-              </Link>
+          {/* Main Content */}
+          <motion.div 
+            className="lg:grid lg:grid-cols-3 lg:gap-8 space-y-8 lg:space-y-0"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            
+            {/* Left Column - Main Wallet Info */}
+            <motion.div 
+              className="lg:col-span-2 space-y-6"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
               
-              <Link href="/withdraw">
-                <div className="flex flex-col items-center cursor-pointer native-button haptic-medium touch-target">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <Minus className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t('withdraw')}</span>
-                </div>
-              </Link>
-              
-              <Link href="/send">
-                <div className="flex flex-col items-center cursor-pointer native-button haptic-medium touch-target">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <ArrowRight className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t('send')}</span>
-                </div>
-              </Link>
-              
-              <Link href="/services">
-                <div className="flex flex-col items-center cursor-pointer native-button haptic-medium touch-target">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <Grid3X3 className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">Hub</span>
-                </div>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Column - Status Cards & Quick Actions */}
-          <div className="lg:col-span-1 space-y-6">
-
-        {/* KYC Status Card */}
-        {kycStatus && (kycStatus as any).status !== 'verified' && (
-          <Card className="bg-white/95 dark:bg-gray-800/95 ios-blur border border-white/30 shadow-xl rounded-3xl mb-6 native-card">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    (kycStatus as any).status === 'pending' ? 'bg-yellow-100 dark:bg-yellow-900/30' :
-                    (kycStatus as any).status === 'rejected' ? 'bg-red-100 dark:bg-red-900/30' :
-                    'bg-green-100 dark:bg-green-900/30'
-                  }`}>
-                    <Info className={`h-6 w-6 ${
-                      (kycStatus as any).status === 'pending' ? 'text-yellow-600 dark:text-yellow-400' :
-                      (kycStatus as any).status === 'rejected' ? 'text-red-600 dark:text-red-400' :
-                      'text-green-600 dark:text-green-400'
-                    }`} />
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="font-medium text-gray-900 dark:text-white">
-                      {(kycStatus as any).status === 'pending' ? 'Identity Verification Submitted' :
-                       (kycStatus as any).status === 'rejected' ? 'Identity Verification Rejected' :
-                       'Identity Verification Completed'}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {(kycStatus as any).status === 'pending' ? 'Your KYC verification is currently under review' :
-                       (kycStatus as any).status === 'rejected' ? 'Your KYC verification was rejected. Please resubmit.' :
-                       'Your identity has been successfully verified'}
-                    </p>
-                    <Badge variant="secondary" className={
-                      (kycStatus as any).status === 'pending' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300' :
-                      (kycStatus as any).status === 'rejected' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' :
-                      'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                    }>
-                      {(kycStatus as any).status === 'pending' ? 'Under Review' : 
-                       (kycStatus as any).status === 'verified' ? 'Verified' : 'Rejected'}
-                    </Badge>
-                  </div>
-                </div>
-                <Button variant="ghost" size="icon" className="native-button haptic-light touch-target">
-                  <X className="h-4 w-4" />
+              {/* Currency Selector */}
+              <motion.div 
+                className="mb-6"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button variant="outline" className="bg-purple-100 dark:bg-purple-900/30 border-purple-200 dark:border-purple-700 text-purple-700 dark:text-purple-300 rounded-2xl px-4 py-2">
+                  <span className="text-purple-600 mr-2">$</span>
+                  {t("usd")}
+                  <ChevronDown className="h-4 w-4 ml-2" />
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+              </motion.div>
 
-        {/* Notifications Card - Only show if no KYC submitted */}
-        {!kycStatus && (
-          <Card className="bg-white/95 dark:bg-gray-800/95 ios-blur border border-white/30 shadow-xl rounded-3xl mb-6 native-card">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center">
-                    <div className="w-8 h-5 bg-gray-300 dark:bg-gray-600 rounded"></div>
-                  </div>
-                  <div className="space-y-2">
-                    <Link href="/kyc-verification">
-                      <div className="cursor-pointer native-button haptic-medium">
-                        <h3 className="font-medium text-gray-900 dark:text-white">{t('guidanceForBeginnersTitle')}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('pleaseVerifyIdentity')}</p>
-                        <p className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700">{t('clickToVerify')}</p>
+              {/* Balance Section */}
+              <motion.div 
+                className="mb-8"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-gray-600 dark:text-gray-400">{t("totalBalance")}</span>
+                  <Info className="h-4 w-4 text-gray-400" />
+                </div>
+                <motion.h2 
+                  className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+                  key={balance}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  ${balance.toLocaleString()}
+                </motion.h2>
+                
+                {/* Quick Actions */}
+                <div className="grid grid-cols-4 gap-3 lg:gap-4">
+                  <Link href="/deposit">
+                    <motion.div 
+                      className="text-center cursor-pointer native-button haptic-light"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-green-200/30 dark:border-green-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <Plus className="h-6 w-6 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
                       </div>
-                    </Link>
-                  </div>
+                      <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t("deposit")}</span>
+                    </motion.div>
+                  </Link>
+                  
+                  <Link href="/withdraw">
+                    <motion.div 
+                      className="text-center cursor-pointer native-button haptic-light"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-red-200/30 dark:border-red-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <Minus className="h-6 w-6 lg:h-8 lg:w-8 text-red-600 dark:text-red-400" />
+                      </div>
+                      <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t("withdraw")}</span>
+                    </motion.div>
+                  </Link>
+                  
+                  <Link href="/qr">
+                    <motion.div 
+                      className="text-center cursor-pointer native-button haptic-light"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-blue-200/30 dark:border-blue-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <QrCode className="h-6 w-6 lg:h-8 lg:w-8 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">QR</span>
+                    </motion.div>
+                  </Link>
+                  
+                  <Link href="/hub">
+                    <motion.div 
+                      className="text-center cursor-pointer native-button haptic-light"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <Grid3X3 className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+                      </div>
+                      <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">Hub</span>
+                    </motion.div>
+                  </Link>
                 </div>
-                <Button variant="ghost" size="icon" className="text-gray-400 native-button haptic-light touch-target">
-                  <X className="h-5 w-5" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+              </motion.div>
+            </motion.div>
 
-          </div>
-        </div>
+            {/* Right Column - Status Cards & Quick Actions */}
+            <motion.div 
+              className="lg:col-span-1 space-y-6"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+            >
+
+              {/* KYC Status Card */}
+              <AnimatePresence>
+                {kycStatus && (kycStatus as any).status !== 'verified' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Card className="bg-white/95 dark:bg-gray-800/95 ios-blur border border-white/30 shadow-xl rounded-3xl mb-6 native-card">
+                      <CardContent className="p-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-full">
+                            <Info className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
+                              {t("verifyIdentity")}
+                            </h3>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                              Complete verification to unlock all features
+                            </p>
+                          </div>
+                          <Link href="/kyc">
+                            <Button size="sm" className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 native-button haptic-medium">
+                              <ArrowRight className="h-4 w-4" />
+                            </Button>
+                          </Link>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
 
           {/* Notification Center */}
-          <NotificationCenter 
-            isOpen={isNotificationCenterOpen}
-            onClose={() => setIsNotificationCenterOpen(false)}
-          />
+          <AnimatePresence>
+            {isNotificationCenterOpen && (
+              <NotificationCenter 
+                isOpen={isNotificationCenterOpen}
+                onClose={() => setIsNotificationCenterOpen(false)}
+              />
+            )}
+          </AnimatePresence>
         </div>
       </PullToRefresh>
     </div>

@@ -1,623 +1,311 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-type Language = "ar" | "en";
-
-interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
-}
-
-export const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-export function useLanguage() {
-  const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error("useLanguage must be used within a LanguageProvider");
-  }
-  return context;
-}
-
-// Translation dictionary
 const translations = {
-  ar: {
-    // Navigation
-    home: "الرئيسية",
-    cards: "البطاقات",
-    support: "الدعم",
-    account: "حسابي",
-    transactions: "المعاملات",
-    
-    // Home page
-    wallet: "المحفظة",
-    totalBalance: "الرصيد الإجمالي",
-    usd: "دولار أمريكي",
-    deposit: "إيداع",
-    withdraw: "سحب",
-    send: "إرسال",
-    scan: "مسح",
-    guidanceForBeginnersTitle: "إرشادات للمبتدئين",
-    
-    // Cards page
-    myCards: "بطاقاتي",
-    loadingCards: "جاري تحميل البطاقات...",
-    virtualCard: "بطاقة افتراضية",
-    physicalCard: "بطاقة فعلية",
-    
-    // Transactions page
-    transactionsTitle: "المعاملات",
-    searchTransactions: "البحث في المعاملات...",
-    all: "الكل",
-    sendTransaction: "إرسال",
-    receiveTransaction: "استلام", 
-    depositTransaction: "إيداع",
-    withdrawTransaction: "سحب",
-    totalIncome: "إجمالي الواردات",
-    totalExpense: "إجمالي الصادرات",
-    loadingTransactions: "جارٍ تحميل المعاملات...",
-    noTransactions: "لا توجد معاملات",
-    noTransactionsDesc: "لم تقم بأي معاملات بعد",
-    noSearchResults: "لم يتم العثور على معاملات تطابق البحث",
-    quickStats: "إحصائيات سريعة",
-    thisMonth: "معاملات هذا الشهر",
-    averageTransaction: "متوسط قيمة المعاملة", 
-    largestTransaction: "أكبر معاملة",
-    completed: "مكتملة",
-    pending: "معلقة",
-    failed: "فاشلة",
-    unknown: "غير معروف",
-    noDescription: "لا يوجد وصف",
-    
-    // Withdraw page
-    withdrawMoney: "سحب أموال",
-    withdrawTitle: "سحب مبلغ",
-    withdrawFrom: "البطاقة المسحوب منها",
-    withdrawalMethod: "طريقة السحب",
-    bankTransfer: "تحويل بنكي",
-    instantTransfer: "تحويل فوري",
-    atmWithdrawal: "سحب من الصراف",
-    bankTransferDesc: "تحويل إلى حساب بنكي",
-    instantTransferDesc: "تحويل فوري إلى البنك",
-    atmWithdrawalDesc: "سحب نقدي من أي صراف آلي",
-    processingTimeBank: "1-3 أيام عمل",
-    processingTimeInstant: "خلال دقائق",
-    processingTimeAtm: "فوري",
-    bankAccountNumber: "رقم الحساب البنكي",
-    withdrawDescription: "وصف السحب (اختياري)",
-    withdrawReason: "سبب السحب...",
-    requestedAmount: "المبلغ المطلوب",
-    withdrawalFee: "رسوم",
-    amountReceived: "المبلغ المستلم",
-    confirmWithdraw: "تأكيد السحب",
-    processing: "جارٍ المعالجة...",
-    withdrawalLimits: "حدود السحب",
-    dailyLimit: "الحد اليومي",
-    monthlyLimit: "الحد الشهري",
-    usedToday: "تم استخدامه اليوم",
-    
-    // Cards page
-    myCards: "بطاقاتي",
-    addNewCard: "إضافة بطاقة جديدة",
-    noCards: "لا توجد بطاقات",
-    noCardsDesc: "لم تقم بإضافة أي بطاقات بعد",
-    createFirstCard: "إنشاء أول بطاقة",
-    cardBalance: "رصيد البطاقة",
-    cardStatus: "حالة البطاقة",
-    activeCard: "نشطة",
-    blockedCard: "محظورة",
-    expiredCard: "منتهية الصلاحية",
-    cardDetails: "تفاصيل البطاقة",
-    viewTransactions: "عرض المعاملات",
-    blockCard: "حظر البطاقة",
-    unblockCard: "إلغاء حظر البطاقة",
-    
-    // Deposit page
-    depositMoney: "إيداع أموال",
-    selectCurrency: "اختر العملة",
-    depositInformation: "معلومات الإيداع",
-    selectCurrencyToView: "• اختر عملة لعرض خيارات الإيداع",
-    minimumDepositApply: "• قد تنطبق حدود دنيا للإيداع",
-    processingTimesVary: "• أوقات المعالجة تختلف حسب العملة والشبكة",
-    availableBalance: "الرصيد المتاح",
-    amountInDollars: "المبلغ بالدولار",
-    confirmDeposit: "تأكيد الإيداع",
-    processingDeposit: "جارٍ المعالجة...",
-    depositSuccess: "تم الإيداع بنجاح",
-    depositError: "خطأ في الإيداع",
-    invalidAmount: "مبلغ غير صحيح",
-    enterValidAmount: "يرجى إدخال مبلغ صحيح",
-    
-    // Send page
-    sendMoney: "إرسال أموال",
-    sendTo: "إرسال إلى",
-    emailAddress: "البريد الإلكتروني",
-    phoneNumber: "رقم الهاتف",
-    amount: "المبلغ",
-    optionalNote: "ملاحظة (اختيارية)",
-    addNote: "إضافة ملاحظة...",
-    confirmSend: "تأكيد الإرسال",
-    sending: "جارٍ الإرسال...",
-    sendSuccess: "تم الإرسال بنجاح",
-    sendError: "خطأ في الإرسال",
-    enterRecipient: "يرجى إدخال المستلم",
-    validEmailOrPhone: "يجب إدخال بريد إلكتروني أو رقم هاتف صحيح",
-    insufficientFunds: "رصيد غير كافي",
-    insufficientBalance: "الرصيد المتاح غير كافي لهذه العملية",
-    
-    // Scan page
-    scanCode: "مسح الكود",
-    howToUse: "كيفية الاستخدام",
-    showQRCode: "اطلب من المرسل إليه إظهار كود QR",
-    clearCode: "تأكد من وضوح الكود وعدم وجود ظلال",
-    pointCamera: "وجه الكاميرا نحو الكود",
-    centerCode: "ضع الكود في وسط الشاشة",
-    confirmDetails: "تأكد من المعلومات وأرسل",
-    reviewAmount: "راجع المبلغ والمستقبل قبل الإرسال",
-    startScan: "بدء المسح",
-    cancelScan: "إلغاء المسح",
-    scanning: "جارٍ المسح...",
-    scanSuccess: "تم مسح الكود بنجاح",
-    paymentInfoFound: "تم العثور على معلومات الدفع",
-    manualSend: "إرسال يدوي",
-    placeCodeInArea: "ضع الكود في المنطقة المحددة",
-    
-    // Account page
-    myAccount: "حسابي",
-    accountSettings: "إعدادات الحساب",
-    editPreferences: "تحرير التفضيلات",
-    securityPrivacy: "الأمان والخصوصية",
-    managePasswords: "إدارة كلمات المرور",
-    cardManagement: "إدارة البطاقات",
-    manageCards: "إدارة البطاقات",
-    notifications: "الإشعارات",
-    customizeAlerts: "تخصيص التنبيهات",
-    helpSupport: "المساعدة والدعم",
-    helpSupportDesc: "الحصول على المساعدة والدعم الفني",
-    logout: "تسجيل الخروج",
-    activeAccount: "حساب مفعل",
-    quickInfo: "معلومات سريعة",
-    email: "البريد الإلكتروني",
-    address: "العنوان",
-    riyadhSA: "الرياض، المملكة العربية السعودية",
-    user: "مستخدم",
-    
-    // Common
-    comingSoon: "قريباً",
-    comingSoonDesc: "هذه الميزة ستكون متاحة قريباً",
-    error: "خطأ",
-    logoutError: "حدث خطأ أثناء تسجيل الخروج",
-    language: "اللغة",
-    totalBalance: "الرصيد الإجمالي",
-    selectAppLanguage: "اختر لغة التطبيق المفضلة",
-    verifyIdentity: "يرجى التحقق من هويتك",
-    clickToVerify: "انقل للتحقق",
-    
-    // Deposit translations
-    depositAmount: "المبلغ المراد إيداعه",
-    paymentMethod: "طريقة الدفع",
-    creditCard: "بطاقة ائتمان",
-    bankTransfer: "تحويل بنكي",
-    depositButton: "إيداع",
-    
-    // Withdraw translations
-    withdrawMoney: "سحب أموال",
-    withdrawAmount: "المبلغ المراد سحبه",
-    withdrawButton: "سحب",
-    processingWithdraw: "جاري السحب...",
-    withdrawSuccess: "تم السحب بنجاح",
-    withdrawError: "خطأ في السحب",
-    insufficientFunds: "رصيد غير كافي",
-    amountTooSmall: "مبلغ صغير جداً",
-    withdrawMethod: "طريقة السحب",
-    workingDays13: "1-3 أيام عمل",
-    workingDays35: "3-5 أيام عمل",
-    
-    // Cards translations
-    myCards: "بطاقاتي",
-    createCard: "إنشاء بطاقة",
-    virtualCard: "بطاقة افتراضية",
-    physicalCard: "بطاقة فيزيائية",
-    cardCreated: "تم إنشاء البطاقة بنجاح",
-    cardCreationError: "خطأ في إنشاء البطاقة",
-    customizable: "قابلة للتخصيص",
-    chooseCard: "اختر البطاقة",
-    
-    // Dashboard guidance section
-    guidanceForBeginnersTitle: "إرشادات للمبتدئين",
-    pleaseVerifyIdentity: "يرجى التحقق من هويتك",
-    clickToVerify: "انقر للتحقق",
-    wallet: "المحفظة",
-    usd: "دولار أمريكي",
-    
-    // KYC Verification translations
-    identityVerification: "التحقق من الهوية",
-    personalInformation: "المعلومات الشخصية",
-    documentVerification: "التحقق من الوثائق",
-    fullName: "الاسم الكامل",
-    enterFullName: "أدخل الاسم الكامل",
-    dateOfBirth: "تاريخ الميلاد",
-    idNumber: "رقم الهوية",
-    enterIdNumber: "أدخل رقم الهوية",
-    phoneNumber: "رقم الهاتف",
-    enterPhoneNumber: "أدخل رقم الهاتف",
-    email: "البريد الإلكتروني",
-    enterEmail: "أدخل البريد الإلكتروني",
-    continue: "متابعة",
-    idFront: "وجه بطاقة الهوية",
-    idBack: "ظهر بطاقة الهوية",
-    selfiePhoto: "صورة سيلفي",
-    captured: "تم التقاط",
-    takePhoto: "التقاط صورة",
-    upload: "Upload File",
-    retake: "إعادة التقاط",
-    capture: "التقاط",
-    cancel: "إلغاء",
-    reviewInformation: "مراجعة المعلومات",
-    verificationPending: "التحقق معلق",
-    verificationPendingDesc: "يرجى إكمال جميع الخطوات المطلوبة",
-    verificationInReview: "قيد المراجعة",
-    verificationInReviewDesc: "نحن نراجع معلوماتك، سيتم إعلامك قريباً",
-    verificationComplete: "تم التحقق بنجاح",
-    verificationCompleteDesc: "تم التحقق من هويتك بنجاح",
-    verificationRejected: "تم رفض التحقق",
-    verificationRejectedDesc: "يرجى مراجعة المعلومات والمحاولة مرة أخرى",
-    submittedInformation: "المعلومات المرسلة",
-    documentsSubmitted: "الوثائق المرسلة",
-    submitVerification: "إرسال التحقق",
-    continueToDashboard: "متابعة إلى لوحة التحكم",
-    personal: "شخصي",
-    documents: "الوثائق",
-    review: "مراجعة",
-    country: "الدولة",
-    selectCountry: "اختر دولتك",
-    selectCountryDesc: "اختر الدولة التي تحمل جنسيتها لمتابعة عملية التحقق",
-    selectedCountry: "الدولة المختارة",
-    
-    // Registration page translations
-    joinUs: "انضم إلينا",
-    createNewAccount: "إنشاء حساب جديد",
-    firstName: "الاسم الأول",
-    lastName: "اسم العائلة",
-    fullName: "الاسم الكامل",
-    email: "البريد الإلكتروني",
-    password: "كلمة المرور",
-    confirmPassword: "تأكيد كلمة المرور",
-    enterFirstName: "أدخل الاسم الأول",
-    enterLastName: "أدخل اسم العائلة",
-    enterFullName: "أدخل اسمك الكامل",
-    enterEmail: "أدخل بريدك الإلكتروني",
-    enterPassword: "أدخل كلمة المرور",
-    reenterPassword: "أعد إدخال كلمة المرور",
-    creatingAccount: "جاري إنشاء الحساب...",
-    createAccount: "إنشاء حساب جديد",
-    referralCode: "كود الإحالة",
-    optional: "اختياري",
-    enterReferralCode: "أدخل كود الإحالة",
-    referralCodeHelp: "إذا تم دعوتك من قبل صديق، أدخل كود الإحالة الخاص به للحصول على مكافآت",
-    alreadyHaveAccount: "لديك حساب بالفعل؟",
-    signIn: "تسجيل الدخول",
-    backToHome: "العودة للصفحة الرئيسية",
-    
-    // Registration validation messages
-    incompleteData: "بيانات ناقصة",
-    fillAllFields: "يرجى ملء جميع الحقول",
-    passwordMismatch: "كلمات المرور غير متطابقة",
-    checkPasswordMatch: "يرجى التأكد من تطابق كلمة المرور",
-    weakPassword: "كلمة مرور ضعيفة",
-    passwordMinLength: "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
-    welcome: "مرحباً بك!",
-    accountCreated: "تم إنشاء حسابك بنجاح",
-    accountCreationError: "خطأ في إنشاء الحساب",
-    tryAgain: "يرجى المحاولة مرة أخرى",
-    accountCreationFailed: "فشل في إنشاء الحساب",
-    
-    // Login page translations
-    welcomeBack: "مرحباً بعودتك",
-    signInTitle: "تسجيل الدخول",
-    username: "اسم المستخدم",
-    enterUsername: "أدخل اسم المستخدم",
-    signingIn: "جاري تسجيل الدخول...",
-    loginFailed: "فشل في تسجيل الدخول",
-    welcomeBackSuccess: "مرحباً بعودتك!",
-    loginSuccessful: "تم تسجيل الدخول بنجاح",
-    loginError: "خطأ في تسجيل الدخول",
-    checkCredentials: "يرجى التحقق من البيانات المدخلة",
-    dontHaveAccount: "ليس لديك حساب؟",
-    
-    // Transactions translations
-    allTransactions: "جميع المعاملات",
-    searchTransactions: "البحث في المعاملات",
-    filterTransactions: "تصفية المعاملات",
-    noTransactions: "لا توجد معاملات",
-    completed: "مكتمل",
-    pending: "معلق",
-    failed: "فشل",
-    
-
-  },
   en: {
     // Navigation
     home: "Home",
     cards: "Cards",
-    support: "Support",
-    account: "Account",
     transactions: "Transactions",
-    
-    // Home page
-    wallet: "Wallet",
-    totalBalance: "Total Balance",
-    usd: "USD",
-    deposit: "Deposit",
-    withdraw: "Withdraw",
-    send: "Send",
-    scan: "Scan",
-    guidanceForBeginnersTitle: "Guidance for Beginners",
-    
-    // Transactions page
-    transactionsTitle: "Transactions",
-    searchTransactions: "Search transactions...",
-    all: "All",
-    sendTransaction: "Send",
-    receiveTransaction: "Receive", 
-    depositTransaction: "Deposit",
-    withdrawTransaction: "Withdraw",
-    totalIncome: "Total Income",
-    totalExpense: "Total Expense",
-    loadingTransactions: "Loading transactions...",
-    noTransactions: "No Transactions",
-    noTransactionsDesc: "You haven't made any transactions yet",
-    noSearchResults: "No transactions found matching your search",
-    quickStats: "Quick Stats",
-    thisMonth: "This month's transactions",
-    averageTransaction: "Average transaction value", 
-    largestTransaction: "Largest transaction",
-    completed: "Completed",
-    pending: "Pending",
-    failed: "Failed",
-    unknown: "Unknown",
-    noDescription: "No description",
-    
-    // Withdraw page
-    withdrawMoney: "Withdraw Money",
-    withdrawTitle: "Withdraw Amount",
-    withdrawFrom: "Withdraw From Card",
-    withdrawalMethod: "Withdrawal Method",
-    bankTransfer: "Bank Transfer",
-    instantTransfer: "Instant Transfer",
-    atmWithdrawal: "ATM Withdrawal",
-    bankTransferDesc: "Transfer to bank account",
-    instantTransferDesc: "Instant transfer to bank",
-    atmWithdrawalDesc: "Cash withdrawal from any ATM",
-    processingTimeBank: "1-3 business days",
-    processingTimeInstant: "Within minutes",
-    processingTimeAtm: "Instant",
-    bankAccountNumber: "Bank Account Number",
-    withdrawDescription: "Withdrawal Description (Optional)",
-    withdrawReason: "Withdrawal reason...",
-    requestedAmount: "Requested Amount",
-    withdrawalFee: "Fee",
-    amountReceived: "Amount Received",
-    confirmWithdraw: "Confirm Withdrawal",
-    processing: "Processing...",
-    withdrawalLimits: "Withdrawal Limits",
-    dailyLimit: "Daily Limit",
-    monthlyLimit: "Monthly Limit",
-    usedToday: "Used Today",
-    
-    // Cards page
-    myCards: "My Cards",
-    addNewCard: "Add New Card",
-    noCards: "No Cards",
-    noCardsDesc: "You haven't added any cards yet",
-    createFirstCard: "Create First Card",
-    cardBalance: "Card Balance",
-    cardStatus: "Card Status",
-    activeCard: "Active",
-    blockedCard: "Blocked",
-    expiredCard: "Expired",
-    cardDetails: "Card Details",
-    viewTransactions: "View Transactions",
-    blockCard: "Block Card",
-    unblockCard: "Unblock Card",
-    
-    // Deposit page
-    depositMoney: "Deposit Money",
-    selectCurrency: "Select Currency",
-    depositInformation: "Deposit Information",
-    selectCurrencyToView: "• Select a currency to view deposit options",
-    minimumDepositApply: "• Minimum deposit amounts may apply",
-    processingTimesVary: "• Processing times vary by currency and network",
-    availableBalance: "Available Balance",
-    amountInDollars: "Amount in Dollars",
-    confirmDeposit: "Confirm Deposit",
-    processingDeposit: "Processing...",
-    depositSuccess: "Deposit Successful",
-    depositError: "Deposit Error",
-    invalidAmount: "Invalid Amount",
-    enterValidAmount: "Please enter a valid amount",
-    
-    // Send page
-    sendMoney: "Send Money",
-    sendTo: "Send To",
-    emailAddress: "Email Address",
-    phoneNumber: "Phone Number",
-    amount: "Amount",
-    optionalNote: "Note (Optional)",
-    addNote: "Add note...",
-    confirmSend: "Confirm Send",
-    sending: "Sending...",
-    sendSuccess: "Transfer Successful",
-    sendError: "Transfer Error",
-    enterRecipient: "Please enter recipient",
-    validEmailOrPhone: "Please enter a valid email or phone number",
-    insufficientFunds: "Insufficient Funds",
-    insufficientBalance: "Available balance is insufficient for this operation",
-    
-    // Scan page
-    scanCode: "Scan Code",
-    howToUse: "How to Use",
-    showQRCode: "Ask recipient to show QR code",
-    clearCode: "Make sure the code is clear and no shadows",
-    pointCamera: "Point camera towards the code",
-    centerCode: "Place the code in the center of screen",
-    confirmDetails: "Confirm details and send",
-    reviewAmount: "Review amount and recipient before sending",
-    startScan: "Start Scan",
-    cancelScan: "Cancel Scan",
-    scanning: "Scanning...",
-    scanSuccess: "QR Code Scanned Successfully",
-    paymentInfoFound: "Payment information found",
-    manualSend: "Manual Send",
-    placeCodeInArea: "Place code in the designated area",
-    
-    // Account page
-    myAccount: "My Account",
-    accountSettings: "Account Settings",
-    editPreferences: "Edit Preferences",
-    securityPrivacy: "Security & Privacy",
-    managePasswords: "Manage Passwords",
-    cardManagement: "Card Management",
-    manageCards: "Manage Cards",
-    notifications: "Notifications",
-    customizeAlerts: "Customize Alerts",
-    helpSupport: "Help & Support",
-    helpSupportDesc: "Get help and technical support",
+    account: "Account",
+    settings: "Settings",
     logout: "Logout",
-    activeAccount: "Active Account",
-    quickInfo: "Quick Info",
-    phoneNumber: "Phone Number",
-    email: "Email",
-    address: "Address",
-    riyadhSA: "Riyadh, Saudi Arabia",
-    user: "User",
     
-    // Registration page translations
-    joinUs: "Join Us",
-    createNewAccount: "Create New Account",
+    // Dashboard
+    welcomeBack: "Welcome Back",
+    totalBalance: "Total Balance",
+    availableBalance: "Available Balance",
+    monthlySpending: "Monthly Spending",
+    manageYourFinances: "Manage your finances with ease",
+    
+    // Cards
+    cardBalance: "Card Balance",
+    cardNumber: "Card Number",
+    expiryDate: "Expiry Date",
+    cvv: "CVV",
+    
+    // Transactions
+    recentTransactions: "Recent Transactions",
+    viewAll: "View All",
+    deposit: "Deposit",
+    withdrawal: "Withdraw",
+    withdraw: "Withdraw",
+    transfer: "Transfer",
+    
+    // Profile
+    profile: "Profile",
+    editProfile: "Edit Profile",
+    personalInfo: "Personal Information",
     firstName: "First Name",
     lastName: "Last Name",
     fullName: "Full Name",
     email: "Email",
+    phone: "Phone",
+    phoneNumber: "Phone Number",
+    address: "Address",
+    
+    // Auth
+    login: "Login",
+    register: "Register",
+    username: "Username",
     password: "Password",
     confirmPassword: "Confirm Password",
-    enterFirstName: "Enter your first name",
-    enterLastName: "Enter your last name",
-    enterFullName: "Enter your full name",
-    enterEmail: "Enter your email address",
-    enterPassword: "Enter your password",
-    reenterPassword: "Re-enter your password",
-    creatingAccount: "Creating account...",
-    createAccount: "Create New Account",
-    referralCode: "Referral Code",
-    optional: "optional",
-    enterReferralCode: "Enter referral code",
-    referralCodeHelp: "If you were invited by a friend, enter their referral code to get rewards",
-    alreadyHaveAccount: "Already have an account?",
-    signIn: "Sign In",
-    backToHome: "Back to Home",
     
-    // Registration validation messages
-    incompleteData: "Incomplete Data",
-    fillAllFields: "Please fill in all fields",
-    passwordMismatch: "Passwords Don't Match",
-    checkPasswordMatch: "Please make sure passwords match",
-    weakPassword: "Weak Password",
-    passwordMinLength: "Password must be at least 6 characters long",
-    welcome: "Welcome!",
-    accountCreated: "Your account has been created successfully",
-    accountCreationError: "Account Creation Error",
-    tryAgain: "Please try again",
-    accountCreationFailed: "Failed to create account",
-
-    // Login page translations
-    welcomeBack: "Welcome Back",
-    signInTitle: "Sign In",
-    username: "Username",
-    enterUsername: "Enter your username",
-    signingIn: "Signing in...",
-    loginFailed: "Login failed",
-    welcomeBackSuccess: "Welcome back!",
-    loginSuccessful: "Login successful",
-    loginError: "Login Error",
-    checkCredentials: "Please check your credentials",
-    dontHaveAccount: "Don't have an account?",
-
     // Common
-    comingSoon: "Coming Soon",
-    comingSoonDesc: "This feature will be available soon",
+    save: "Save",
+    cancel: "Cancel",
+    edit: "Edit",
+    delete: "Delete",
+    loading: "Loading...",
     error: "Error",
-    logoutError: "An error occurred while logging out",
-    language: "Language",
-    totalBalance: "Total Balance",
-    selectAppLanguage: "Choose your preferred app language",
-    verifyIdentity: "Please verify your identity",
-    clickToVerify: "Click to verify",
+    success: "Success",
     
-    // Deposit translations
-    depositAmount: "Amount to Deposit",
+    // KYC
+    verifyIdentity: "Verify Identity",
+    uploadDocuments: "Upload Documents",
+    documentType: "Document Type",
+    nationalId: "National ID",
+    passport: "Passport",
+    drivingLicense: "Driving License",
+    
+    // Notifications
+    notifications: "Notifications",
+    markAsRead: "Mark as Read",
+    noNotifications: "No Notifications",
+    
+    // Cards section
+    createCard: "Create New Card",
+    virtualCard: "Virtual Card",
+    physicalCard: "Physical Card",
+    cardType: "Card Type",
+    cardDesign: "Card Design",
+    blue: "Blue",
+    purple: "Purple",
+    black: "Black",
+    gold: "Gold",
+    createCardButton: "Create Card",
+    cardCreated: "Card created successfully",
+    cardCreationFailed: "Failed to create card",
+    
+    // Deposit section
+    depositMoney: "Deposit Money",
+    depositAmount: "Deposit Amount",
+    selectPaymentMethod: "Select Payment Method",
     paymentMethod: "Payment Method",
     creditCard: "Credit Card",
     bankTransfer: "Bank Transfer",
     depositButton: "Deposit",
+    depositSuccess: "Deposit successful",
+    depositFailed: "Deposit failed",
+    minimumDeposit: "Minimum Deposit",
+    maximumDeposit: "Maximum Deposit",
     
-    // Withdraw translations
+    // Withdraw section
     withdrawMoney: "Withdraw Money",
     withdrawAmount: "Amount to Withdraw",
     withdrawButton: "Withdraw",
-    processingWithdraw: "Processing...",
-    withdrawSuccess: "Withdrawal Successful",
-    withdrawError: "Withdrawal Error",
-    amountTooSmall: "Amount Too Small",
-    withdrawMethod: "Withdrawal Method",
-    workingDays13: "1-3 business days",
-    workingDays35: "3-5 business days",
     
-    // Cards translations
-    createCard: "Create Card",
-    virtualCard: "Virtual Card",
-    physicalCard: "Physical Card",
-    cardCreated: "Card Created Successfully",
-    cardCreationError: "Card Creation Error",
-    customizable: "Customizable",
-    chooseCard: "Choose Card",
+    // Bank Transfer section
+    selectBank: "Select Bank",
+    bankName: "Bank Name",
+    accountNumber: "Account Number",
+    routingNumber: "Routing Number",
+    swiftCode: "SWIFT Code",
+    transferAmount: "Transfer Amount",
+    transferDescription: "Transfer Description",
+    submitTransfer: "Submit Transfer",
+    transferSubmitted: "Transfer submitted",
+    transferFailed: "Transfer failed",
     
-    // Additional translations
+    // Security
+    security: "Security",
+    twoFactorAuth: "Two-Factor Authentication",
+    biometricAuth: "Biometric Authentication",
+    loginNotifications: "Login Notifications",
+    deviceTracking: "Device Tracking",
+    changePassword: "Change Password",
+    currentPassword: "Current Password",
+    newPassword: "New Password",
+    securitySettings: "Security Settings",
+    
+    // Support
+    support: "Support",
+    contactSupport: "Contact Support",
+    faq: "FAQ",
+    helpCenter: "Help Center",
+    reportIssue: "Report Issue",
+    
+    // Language settings
+    language: "Language",
+    arabic: "Arabic",
+    english: "English",
+    selectLanguage: "Select Language",
+    selectAppLanguage: "Choose your preferred app language",
+    
+    // Error messages
+    internetConnection: "Please check your internet connection",
+    serverError: "Server error",
+    invalidCredentials: "Invalid credentials",
+    sessionExpired: "Session expired",
+    
+    // Success messages
+    profileUpdated: "Profile updated",
+    passwordChanged: "Password changed",
+    settingsSaved: "Settings saved",
+    
+    // User profile fields
+    dateOfBirth: "Date of Birth",
+    nationality: "Nationality",
+    occupation: "Occupation",
+    city: "City",
+    postalCode: "Postal Code",
+    country: "Country",
+    idDocumentType: "ID Document Type",
+    idDocumentNumber: "ID Document Number",
+    
+    // Countries
+    morocco: "Morocco",
+    saudiArabia: "Saudi Arabia",
+    uae: "UAE",
+    egypt: "Egypt",
+    jordan: "Jordan",
+    lebanon: "Lebanon",
+    kuwait: "Kuwait",
+    qatar: "Qatar",
+    bahrain: "Bahrain",
+    oman: "Oman",
+    
+    // ID Document Types
+    nationalIdCard: "National ID Card",
+    residencePermit: "Residence Permit",
+    
+    // Card status
+    active: "Active",
+    activeAccount: "Active Account",
+    quickInfo: "Quick Info",
+    inactive: "Inactive",
+    blocked: "Blocked",
+    expired: "Expired",
+    
+    // Transaction types
+    income: "Income",
+    expense: "Expense",
+    refund: "Refund",
+    
+    // Verification levels
+    unverified: "Unverified",
+    basic: "Basic",
+    enhanced: "Enhanced",
+    premium: "Premium",
+    
+    // Bank transfer statuses
+    submitted: "Submitted",
+    processing: "Processing",
+    approved: "Approved",
+    rejected: "Rejected",
+    
+    // Time periods
+    today: "Today",
+    yesterday: "Yesterday",
+    thisWeek: "This Week",
+    thisMonth: "This Month",
+    thisYear: "This Year",
+    
+    // Login and Registration
+    signIn: "Sign In",
+    signUp: "Sign Up",
+    forgotPassword: "Forgot Password?",
+    rememberMe: "Remember Me",
+    alreadyHaveAccount: "Already have an account?",
+    termsAndConditions: "Terms and Conditions",
+    privacyPolicy: "Privacy Policy",
+    agreeToTerms: "I agree to the Terms and Conditions",
+    createAccount: "Create Account",
+    backToLogin: "Back to Login",
+    
+    // Google OAuth
+    continueWithGoogle: "Continue with Google",
+    googleSignIn: "Sign in with Google",
+    googleSignUp: "Sign up with Google",
+    
+    // Registration Success/Error messages
+    registrationSuccess: "Account created successfully",
+    registrationFailed: "Failed to create account",
+    userAlreadyExists: "User already exists",
+    accountCreated: "Account created",
+    
+    // Login Success/Error messages
+    loginFailed: "Login failed",
+    welcomeBackSuccess: "Welcome back!",
+    loginSuccessful: "Login successful",
+    loginError: "Login error",
+    checkCredentials: "Please check your credentials",
+    dontHaveAccount: "Don't have an account?",
+    
+    // Transactions translations
     allTransactions: "All Transactions",
+    searchTransactions: "Search Transactions",
     filterTransactions: "Filter Transactions",
+    noTransactions: "No Transactions",
+    completed: "Completed",
+    pending: "Pending",
+    failed: "Failed",
     
-    // 404 Page translations
-    pageNotFound: "Page Not Found",
-    pageNotFoundDescription: "Sorry, the page you are looking for does not exist or has been moved to another location",
-    goHome: "Go Home",
-    goBack: "Go Back",
-
+    // Form validation
+    fieldRequired: "This field is required",
+    invalidEmail: "Please enter a valid email address",
+    passwordTooShort: "Password must be at least 6 characters",
+    passwordsMustMatch: "Passwords must match",
+    phoneInvalid: "Please enter a valid phone number",
+    enterFirstName: "Enter your first name",
+    enterLastName: "Enter your last name",
+    enterEmail: "Enter your email",
+    enterPassword: "Enter password",
+    reenterPassword: "Re-enter password",
+    
+    // Update messages
+    updateSuccess: "Updated successfully",
+    updateError: "Update failed",
+    profileUpdateSuccess: "Profile updated successfully",
+    profileUpdateError: "Failed to update profile",
+    
+    // Logout messages
+    logoutSuccess: "Logged out successfully",
+    logoutError: "An error occurred while logging out",
+    
+    // Currency
+    usd: "USD"
   }
 };
 
-export function useLanguageHook() {
-  const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem("language");
-    return (saved as Language) || "en";
-  });
+type Language = keyof typeof translations;
+type TranslationKey = keyof typeof translations.en;
 
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    localStorage.setItem("language", lang);
-    
-    // Update document direction
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-    document.documentElement.lang = lang;
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: TranslationKey) => string;
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [language, setLanguage] = useState<Language>("en");
+
+  const t = (key: TranslationKey): string => {
+    return translations[language][key] || translations.en[key] || key;
   };
 
-  const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations.ar] || "";
-  };
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
 
-  useEffect(() => {
-    // Set initial document direction
-    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
-    document.documentElement.lang = language;
-  }, [language]);
-
-  return { language, setLanguage, t };
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error("useLanguage must be used within a LanguageProvider");
+  }
+  return context;
 }
