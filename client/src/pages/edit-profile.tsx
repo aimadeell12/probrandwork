@@ -120,8 +120,8 @@ export default function EditProfile() {
     onError: (error) => {
       console.error("Update profile error:", error);
       toast({
-        title: "خطأ في التحديث",
-        description: "حدث خطأ أثناء حفظ البيانات",
+        title: "Update Failed",
+        description: "Failed to update profile. Please try again.",
         variant: "destructive",
       });
     },
@@ -129,18 +129,13 @@ export default function EditProfile() {
 
   const onSubmit = (data: ProfileFormData) => {
     console.log("Form submitted with data:", data);
-    // Send only non-empty fields
-    const filteredData = Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => value !== "")
-    );
-    console.log("Filtered data:", filteredData);
-    updateProfileMutation.mutate(filteredData);
+    updateProfileMutation.mutate(data);
   };
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
-        <div className="text-center">جاري التحميل...</div>
+        <div className="text-center">Loading...</div>
       </div>
     );
   }
@@ -160,7 +155,7 @@ export default function EditProfile() {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              تعديل الملف الشخصي
+              Edit Profile
             </h1>
           </div>
         </div>
