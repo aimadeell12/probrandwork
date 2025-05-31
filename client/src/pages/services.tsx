@@ -8,6 +8,7 @@ import { ArrowLeft, Gift, Mail, CreditCard, Wallet,
 import { Link, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/useLanguage";
+import { motion } from "framer-motion";
 
 export default function Services() {
   const [, setLocation] = useLocation();
@@ -137,21 +138,47 @@ export default function Services() {
     }
   ];
 
-  const ServiceCard = ({ service }: { service: any }) => {
+  const ServiceCard = ({ service, index }: { service: any; index: number }) => {
     const Icon = service.icon;
     
     return (
       <Link href={service.href}>
-        <div className="flex flex-col items-center cursor-pointer transform hover:scale-105 transition-all duration-200">
-          <div className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl">
-            <div className={`w-10 h-10 ${service.color} rounded-2xl flex items-center justify-center`}>
+        <motion.div 
+          className="flex flex-col items-center cursor-pointer"
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ 
+            duration: 0.4, 
+            delay: index * 0.1,
+            type: "spring",
+            stiffness: 100
+          }}
+          whileHover={{ scale: 1.05, y: -5 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <motion.div 
+            className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg"
+            whileHover={{ 
+              shadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              rotate: 5
+            }}
+          >
+            <motion.div 
+              className={`w-10 h-10 ${service.color} rounded-2xl flex items-center justify-center`}
+              whileHover={{ scale: 1.1 }}
+            >
               <Icon className={`h-5 w-5 ${service.iconColor}`} />
-            </div>
-          </div>
-          <span className="text-sm text-gray-700 dark:text-gray-300 font-medium text-center">
+            </motion.div>
+          </motion.div>
+          <motion.span 
+            className="text-sm text-gray-700 dark:text-gray-300 font-medium text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: index * 0.1 + 0.2 }}
+          >
             {service.title}
-          </span>
-        </div>
+          </motion.span>
+        </motion.div>
       </Link>
     );
   };
@@ -185,7 +212,7 @@ export default function Services() {
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Popular</h2>
           <div className="grid grid-cols-3 gap-4">
             {popularServices.map((service, index) => (
-              <ServiceCard key={index} service={service} />
+              <ServiceCard key={index} service={service} index={index} />
             ))}
           </div>
         </div>
@@ -195,7 +222,7 @@ export default function Services() {
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Card</h2>
           <div className="grid grid-cols-2 gap-4">
             {cardServices.map((service, index) => (
-              <ServiceCard key={index} service={service} />
+              <ServiceCard key={index} service={service} index={index} />
             ))}
           </div>
         </div>

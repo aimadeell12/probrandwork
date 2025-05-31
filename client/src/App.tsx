@@ -144,6 +144,7 @@ function Router() {
             <Route path="/bank-transfer" component={BankTransfer} />
             <Route path="/binance-pay" component={BinancePay} />
             <Route path="/services" component={Services} />
+            <Route path="/hub" component={Services} />
             <Route path="/camera-test" component={CameraTest} />
             <Route path="/webhooks" component={Webhooks} />
 
