@@ -15,19 +15,19 @@ import { apiRequest } from "@/lib/queryClient";
 
 // Schema for profile form
 const profileSchema = z.object({
-  firstName: z.string().min(1, "الاسم الأول مطلوب"),
-  lastName: z.string().min(1, "اسم العائلة مطلوب"),
-  email: z.string().email("البريد الإلكتروني غير صحيح"),
-  phone: z.string().min(10, "رقم الهاتف يجب أن يكون صحيحاً"),
-  address: z.string().min(5, "العنوان مطلوب"),
-  city: z.string().min(2, "اسم المدينة مطلوب"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(10, "Phone number must be valid"),
+  address: z.string().min(5, "Address is required"),
+  city: z.string().min(2, "City name is required"),
   postalCode: z.string().optional(),
-  country: z.string().min(2, "الدولة مطلوبة"),
-  dateOfBirth: z.string().min(10, "تاريخ الميلاد مطلوب"),
-  nationality: z.string().min(2, "الجنسية مطلوبة"),
-  idDocumentType: z.string().min(1, "نوع الهوية مطلوب"),
-  idDocumentNumber: z.string().min(5, "رقم الهوية مطلوب"),
-  occupation: z.string().min(2, "المهنة مطلوبة"),
+  country: z.string().min(2, "Country is required"),
+  dateOfBirth: z.string().min(10, "Date of birth is required"),
+  nationality: z.string().min(2, "Nationality is required"),
+  idDocumentType: z.string().min(1, "ID document type is required"),
+  idDocumentNumber: z.string().min(5, "ID document number is required"),
+  occupation: z.string().min(2, "Occupation is required"),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
@@ -113,8 +113,8 @@ export default function EditProfile() {
       await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
       
       toast({
-        title: "تم التحديث بنجاح",
-        description: "تم حفظ بياناتك الشخصية",
+        title: "Profile Updated",
+        description: "Your personal information has been saved successfully",
       });
     },
     onError: (error) => {
