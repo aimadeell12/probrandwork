@@ -33,6 +33,7 @@ export const users = pgTable("users", {
   email: varchar("email").unique(),
   username: varchar("username").unique(),
   password: varchar("password"), // for local auth
+  googleId: varchar("google_id").unique(), // for Google OAuth
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
