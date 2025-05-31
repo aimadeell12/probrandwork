@@ -65,22 +65,6 @@ export default function EditProfile() {
   useEffect(() => {
     console.log("🔄 User data changed:", user);
     if (user) {
-      console.log("🔄 Resetting form with user data:", {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        phone: user.phone,
-        address: user.address,
-        city: user.city,
-        postalCode: user.postalCode,
-        country: user.country,
-        dateOfBirth: user.dateOfBirth,
-        nationality: user.nationality,
-        idDocumentType: user.idDocumentType,
-        idDocumentNumber: user.idDocumentNumber,
-        occupation: user.occupation,
-      });
-      
       form.reset({
         firstName: user.firstName || "",
         lastName: user.lastName || "",
@@ -96,8 +80,6 @@ export default function EditProfile() {
         idDocumentNumber: user.idDocumentNumber || "",
         occupation: user.occupation || "",
       });
-    } else {
-      console.log("❌ No user data available");
     }
   }, [user, form]);
 
