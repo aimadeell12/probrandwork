@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useLanguage } from '@/hooks/useLanguage';
 import { LanguageToggle } from '@/components/language-toggle';
+import { motion } from 'framer-motion';
 
 export default function Register() {
   const [, setLocation] = useLocation();
