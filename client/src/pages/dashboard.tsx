@@ -81,7 +81,7 @@ export default function Dashboard() {
                   <Link href="/account/kyc">
                     <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 cursor-pointer hover:from-orange-600 hover:to-red-600 transition-all duration-200">
                       <AlertTriangle className="h-3 w-3 mr-1" />
-                      {t.unverified}
+                      unverified
                     </Badge>
                   </Link>
                 </motion.div>
