@@ -30,12 +30,21 @@ export function setupSimpleAuth(app: Express) {
       // Try to find user by username, email, or phone
       let user = await storage.getUserByUsername(username);
       
-      // If not found by username, try email
+      // If not found by username, try email (case insensitive)
       if (!user) {
         user = await storage.getUserByEmail(username);
+        if (!user) {
+          // Try case insensitive email search
+          try {
+            const users = await storage.getAllUsers();
+            user = users.find(u => u.email && u.email.toLowerCase() === username.toLowerCase());
+          } catch (error) {
+            console.error("Error searching by email:", error);
+          }
+        }
       }
       
-      // If not found by email, try phone (assuming phone is stored in phone field)
+      // If not found by email, try phone
       if (!user) {
         try {
           const users = await storage.getAllUsers();
