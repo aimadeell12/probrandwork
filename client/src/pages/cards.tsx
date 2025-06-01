@@ -342,14 +342,72 @@ export default function Cards() {
               )}
           </>
         ) : (
-          <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+          <>
+            {/* Empty State - No Cards */}
+            <motion.div 
+              className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <motion.div
+                className="w-32 h-32 mb-8 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-full flex items-center justify-center"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <motion.div
+                  className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center"
+                  initial={{ rotate: -10 }}
+                  animate={{ rotate: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
+                  <Plus className="w-8 h-8 text-white" />
+                </motion.div>
+              </motion.div>
+              
+              <motion.h1 
+                className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                No Cards Yet
+              </motion.h1>
+              
+              <motion.p 
+                className="text-gray-600 dark:text-gray-400 mb-8 max-w-md"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
+              >
+                Create your first card to start managing your finances and making secure payments online or in-store.
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 1.0 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  onClick={() => setShowChooseCard(true)}
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full shadow-lg font-medium"
+                >
+                  <Plus className="w-5 h-5 mr-2" />
+                  Create Your First Card
+                </Button>
+              </motion.div>
+            </motion.div>
+
             <CreateCardModal 
               open={showChooseCard} 
               onOpenChange={(open) => {
                 setShowChooseCard(open);
               }} 
             />
-          </div>
+          </>
         )}
         </div>
       </div>
