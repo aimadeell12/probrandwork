@@ -41,6 +41,8 @@ export interface IStorage {
   linkGoogleAccount(userId: string, googleId: string): Promise<void>;
   updateUserProfile(userId: string, updates: Partial<User>): Promise<User>;
   getAllUsers(): Promise<User[]>;
+  getWalletBalance(userId: string): Promise<number>;
+  updateWalletBalance(userId: string, amount: number): Promise<void>;
   
   // Card operations
   getCardsByUserId(userId: string): Promise<Card[]>;
@@ -377,6 +379,22 @@ export class DatabaseStorage implements IStorage {
       uploadedAt: new Date()
     }).returning();
     return newDocument;
+  }
+
+  // Wallet operations
+  async getWalletBalance(userId: string): Promise<number> {
+    const user = await this.getUser(userId);
+    return user ? parseFloat(user.walletBalance || "0") : 0;
+  }
+
+  async updateWalletBalance(userId: string, amount: number): Promise<void> {
+    await db
+      .update(users)
+      .set({ 
+        walletBalance: amount.toString(),
+        updatedAt: new Date() 
+      })
+      .where(eq(users.id, userId));
   }
 }
 
