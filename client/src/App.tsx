@@ -12,7 +12,7 @@ import Register from "@/pages/register";
 import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
 import Wallet from "@/pages/wallet";
-import Admin from "@/pages/admin";
+
 import Cards from "@/pages/cards";
 import Support from "@/pages/support";
 import Account from "@/pages/account";
@@ -100,7 +100,7 @@ function Router() {
             <Route path="/admin/currency" component={AdminCurrency} />
             <Route path="/admin/community" component={AdminCommunity} />
             <Route path="/admin-panel" component={AdminNavigation} />
-            <Route path="/admin" component={Admin} />
+            <Route path="/admin" component={AdminNavigation} />
 
             {/* Account routes */}
             <Route path="/account/settings" component={AccountSettings} />
