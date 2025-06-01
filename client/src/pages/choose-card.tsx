@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { cardApi } from "@/lib/api";
 import { CreditCard, Smartphone, Wifi, ShoppingBag, Check, ArrowLeft } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLocation } from "wouter";
 
@@ -103,10 +102,8 @@ export default function ChooseCard() {
     const isLight = design.gradient.includes("gray-100") || design.gradient.includes("slate-300") || design.gradient.includes("pink-300");
     
     return (
-      <motion.div
-        className="relative group cursor-pointer"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+      <div
+        className="relative group cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200"
         onClick={() => setSelectedDesign(design.id)}
       >
         <div className={cn(
@@ -134,45 +131,30 @@ export default function ChooseCard() {
           
           {/* Selection Indicator */}
           {selectedDesign === design.id && (
-            <motion.div
-              className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-            >
+            <div className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center transform scale-100 transition-transform duration-200">
               <Check className="w-4 h-4 text-purple-600" />
-            </motion.div>
+            </div>
           )}
         </div>
         <p className="text-center mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">
           {design.name}
         </p>
-      </motion.div>
+      </div>
     );
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
       {/* Background decorative elements */}
-      <motion.div 
-        className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-      />
-      <motion.div 
-        className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
-      />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+      </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-4xl relative z-10">
         {/* Header */}
-        <motion.div 
-          className="flex items-center gap-4 mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
+        <div className="flex items-center gap-4 mb-8">
           <Button
             variant="ghost"
             size="sm"
@@ -190,23 +172,17 @@ export default function ChooseCard() {
               Choose your card type and design
             </p>
           </div>
-        </motion.div>
+        </div>
 
         <div className="space-y-8">
           {/* Step 1: Card Type Selection */}
           {!selectedCardType && (
-            <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
+            <div className="space-y-6 opacity-100 transform translate-y-0 transition-all duration-300">
               <h2 className="text-xl font-semibold text-center text-gray-900 dark:text-white">Choose Card Type</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Virtual Card Option */}
-                <motion.div
-                  className="relative p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-500 transition-colors bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                <div
+                  className="relative p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-500 transition-colors bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:scale-102 transition-transform duration-200"
                   onClick={() => setSelectedCardType("virtual")}
                 >
                   <div className="text-center space-y-4">
@@ -228,13 +204,11 @@ export default function ChooseCard() {
                       </span>
                     </div>
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Physical Card Option */}
-                <motion.div
-                  className="relative p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-500 transition-colors bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                <div
+                  className="relative p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-500 transition-colors bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:scale-102 transition-transform duration-200"
                   onClick={() => setSelectedCardType("physical")}
                 >
                   <div className="text-center space-y-4">
@@ -248,124 +222,119 @@ export default function ChooseCard() {
                     <div className="flex justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                       <span className="flex items-center gap-2">
                         <CreditCard className="w-4 h-4" />
-                        In-store Payments
+                        In-Store
                       </span>
                       <span className="flex items-center gap-2">
-                        <CreditCard className="w-4 h-4" />
-                        ATM Withdrawals
+                        <ShoppingBag className="w-4 h-4" />
+                        ATM Access
                       </span>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* Step 2: Design Selection */}
           {selectedCardType && (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key="design-selection"
-                className="space-y-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-              >
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    Choose {selectedCardType === "virtual" ? "Virtual" : "Physical"} Card Design
-                  </h2>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setSelectedCardType(null)}
-                  >
-                    Back to Type Selection
-                  </Button>
-                </div>
+            <div className="space-y-6 opacity-100 transform translate-y-0 transition-all duration-300">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Choose {selectedCardType === "virtual" ? "Virtual" : "Physical"} Card Design
+                </h2>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSelectedCardType(null)}
+                >
+                  Back to Type Selection
+                </Button>
+              </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {cardDesigns[selectedCardType].map((design) => (
-                    <CardDesignPreview
-                      key={design.id}
-                      design={design}
-                      type={selectedCardType}
-                    />
-                  ))}
-                </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {cardDesigns[selectedCardType].map((design) => (
+                  <CardDesignPreview
+                    key={design.id}
+                    design={design}
+                    type={selectedCardType}
+                  />
+                ))}
+              </div>
 
-                {/* Card Details Form */}
-                <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl p-6 border border-white/30 dark:border-gray-700/30">
-                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Card Details</h3>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="holderName">Cardholder Name</Label>
-                        <Input
-                          id="holderName"
-                          value={formData.holderName}
-                          onChange={(e) => handleInputChange("holderName", e.target.value)}
-                          placeholder="Full Name"
-                          required
-                          className="bg-white/80 dark:bg-gray-700/80"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="currency">Currency</Label>
-                        <Select 
-                          value={formData.currency} 
-                          onValueChange={(value) => handleInputChange("currency", value)}
-                          required
-                        >
-                          <SelectTrigger className="bg-white/80 dark:bg-gray-700/80">
-                            <SelectValue placeholder="Select Currency" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="USD">US Dollar (USD)</SelectItem>
-                            <SelectItem value="EUR">Euro (EUR)</SelectItem>
-                            <SelectItem value="GBP">British Pound (GBP)</SelectItem>
-                            <SelectItem value="SAR">Saudi Riyal (SAR)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
+              {/* Step 3: Card Details Form */}
+              <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl">
+                <h3 className="text-lg font-semibold mb-6 text-gray-900 dark:text-white">Card Details</h3>
+                
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="holderName">Cardholder Name</Label>
+                      <Input
+                        id="holderName"
+                        placeholder="Enter cardholder name"
+                        value={formData.holderName}
+                        onChange={(e) => handleInputChange("holderName", e.target.value)}
+                        className="bg-white/50 dark:bg-gray-900/50"
+                      />
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="creditLimit">Credit Limit</Label>
-                      <Input
-                        id="creditLimit"
-                        type="number"
-                        value={formData.creditLimit}
-                        onChange={(e) => handleInputChange("creditLimit", e.target.value)}
-                        placeholder="5000"
-                        min="100"
-                        max="100000"
-                        required
-                        className="bg-white/80 dark:bg-gray-700/80"
-                      />
+                      <Select 
+                        value={formData.creditLimit} 
+                        onValueChange={(value) => handleInputChange("creditLimit", value)}
+                      >
+                        <SelectTrigger className="bg-white/50 dark:bg-gray-900/50">
+                          <SelectValue placeholder="Select credit limit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1000">$1,000</SelectItem>
+                          <SelectItem value="2500">$2,500</SelectItem>
+                          <SelectItem value="5000">$5,000</SelectItem>
+                          <SelectItem value="10000">$10,000</SelectItem>
+                          <SelectItem value="25000">$25,000</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
 
-                    <div className="flex justify-end gap-3 pt-4">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => setLocation("/cards")}
+                    <div className="space-y-2">
+                      <Label htmlFor="currency">Currency</Label>
+                      <Select 
+                        value={formData.currency} 
+                        onValueChange={(value) => handleInputChange("currency", value)}
                       >
-                        Cancel
-                      </Button>
-                      <Button
-                        type="submit"
-                        disabled={createCardMutation.isPending}
-                        className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                      >
-                        {createCardMutation.isPending ? "Creating..." : "Create Card"}
-                      </Button>
+                        <SelectTrigger className="bg-white/50 dark:bg-gray-900/50">
+                          <SelectValue placeholder="Select currency" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="USD">USD - US Dollar</SelectItem>
+                          <SelectItem value="EUR">EUR - Euro</SelectItem>
+                          <SelectItem value="GBP">GBP - British Pound</SelectItem>
+                          <SelectItem value="MAD">MAD - Moroccan Dirham</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
-                  </form>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                  </div>
+
+                  <div className="flex gap-4 pt-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setLocation("/cards")}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={createCardMutation.isPending}
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                    >
+                      {createCardMutation.isPending ? "Creating..." : "Create Card"}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </div>
           )}
         </div>
       </div>
