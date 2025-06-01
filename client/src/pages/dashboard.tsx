@@ -162,30 +162,28 @@ export default function Dashboard() {
 
               {/* KYC Status Card */}
               {kycStatus && (kycStatus as any).status !== 'verified' && (
-                <div>
-                  <Card className="bg-white/95 dark:bg-gray-800/95 ios-blur border border-white/30 shadow-xl rounded-3xl mb-6 native-card">
-                    <CardContent className="p-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-full">
-                          <Info className="h-5 w-5 text-orange-600 dark:text-orange-400" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                            {t("verifyIdentity")}
-                          </h3>
-                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                            Complete verification to unlock all features
-                          </p>
-                        </div>
-                        <Link href="/kyc">
-                          <Button size="sm" className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 native-button haptic-medium">
-                            <ArrowRight className="h-4 w-4" />
-                          </Button>
-                        </Link>
+                <Card className="bg-white/95 dark:bg-gray-800/95 ios-blur border border-white/30 shadow-xl rounded-3xl mb-6 native-card">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-full">
+                        <Info className="h-5 w-5 text-orange-600 dark:text-orange-400" />
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
+                          {t("verifyIdentity")}
+                        </h3>
+                        <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                          Complete verification to unlock all features
+                        </p>
+                      </div>
+                      <Link href="/kyc">
+                        <Button size="sm" className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 native-button haptic-medium">
+                          <ArrowRight className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
               )}
             </div>
           </div>

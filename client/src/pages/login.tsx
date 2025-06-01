@@ -41,7 +41,7 @@ export default function Login() {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       // إعادة التوجيه بعد تحديث البيانات
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        setLocation('/dashboard');
       }, 200);
     },
     onError: (error: any) => {
