@@ -274,6 +274,91 @@ const translations = {
     
     // Currency
     usd: "USD"
+  },
+  ar: {
+    // Navigation
+    home: "الرئيسية",
+    cards: "البطاقات",
+    transactions: "المعاملات",
+    account: "الحساب",
+    settings: "الإعدادات",
+    logout: "تسجيل الخروج",
+    
+    // Dashboard
+    welcomeBack: "مرحباً بعودتك",
+    totalBalance: "الرصيد الإجمالي",
+    availableBalance: "الرصيد المتاح",
+    monthlySpending: "الإنفاق الشهري",
+    manageYourFinances: "إدارة أموالك بسهولة",
+    
+    // Cards
+    cardBalance: "رصيد البطاقة",
+    cardNumber: "رقم البطاقة",
+    expiryDate: "تاريخ الانتهاء",
+    cvv: "رمز الأمان",
+    
+    // Transactions
+    recentTransactions: "المعاملات الأخيرة",
+    viewAll: "عرض الكل",
+    deposit: "إيداع",
+    withdrawal: "سحب",
+    withdraw: "سحب",
+    transfer: "تحويل",
+    
+    // Profile
+    profile: "الملف الشخصي",
+    editProfile: "تعديل الملف الشخصي",
+    personalInfo: "المعلومات الشخصية",
+    firstName: "الاسم الأول",
+    lastName: "اسم العائلة",
+    fullName: "الاسم الكامل",
+    email: "البريد الإلكتروني",
+    phone: "الهاتف",
+    phoneNumber: "رقم الهاتف",
+    address: "العنوان",
+    
+    // Auth
+    login: "تسجيل الدخول",
+    register: "إنشاء حساب",
+    username: "اسم المستخدم",
+    password: "كلمة المرور",
+    confirmPassword: "تأكيد كلمة المرور",
+    
+    // Common
+    save: "حفظ",
+    cancel: "إلغاء",
+    edit: "تعديل",
+    delete: "حذف",
+    loading: "جارٍ التحميل...",
+    error: "خطأ",
+    success: "نجح",
+    
+    // KYC
+    verifyIdentity: "التحقق من الهوية",
+    uploadDocuments: "تحميل المستندات",
+    documentType: "نوع المستند",
+    
+    // Language settings
+    language: "اللغة",
+    arabic: "العربية",
+    english: "الإنجليزية",
+    selectLanguage: "اختر اللغة",
+    selectAppLanguage: "اختر لغة التطبيق المفضلة",
+    languageChanged: "تم تغيير اللغة بنجاح",
+    
+    // Error messages
+    internetConnection: "يرجى التحقق من اتصال الإنترنت",
+    serverError: "خطأ في الخادم",
+    invalidCredentials: "بيانات اعتماد غير صحيحة",
+    sessionExpired: "انتهت صلاحية الجلسة",
+    
+    // Success messages
+    profileUpdated: "تم تحديث الملف الشخصي",
+    passwordChanged: "تم تغيير كلمة المرور",
+    settingsSaved: "تم حفظ الإعدادات",
+    
+    // Currency
+    usd: "دولار أمريكي"
   }
 };
 
@@ -292,7 +377,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
 
   const t = (key: TranslationKey): string => {
-    return translations[language][key] || translations.en[key] || key;
+    try {
+      const translation = translations[language as keyof typeof translations];
+      return (translation as any)?.[key] || translations.en[key] || key;
+    } catch (error) {
+      console.warn('Translation error for key:', key);
+      return translations.en[key] || key;
+    }
   };
 
   const value = { language, setLanguage, t };
