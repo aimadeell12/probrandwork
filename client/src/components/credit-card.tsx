@@ -38,26 +38,59 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
     return `${firstName} ${lastName}`.trim().toUpperCase() || "CARD HOLDER";
   };
 
+  const getCardDesign = () => {
+    const design = card.design || 'blue';
+    
+    if (card.type === 'virtual') {
+      switch (design) {
+        case 'blue':
+          return 'bg-gradient-to-br from-blue-500 to-cyan-500';
+        case 'purple':
+          return 'bg-gradient-to-br from-purple-500 to-pink-500';
+        case 'black':
+          return 'bg-gradient-to-br from-gray-800 to-gray-900';
+        case 'gold':
+          return 'bg-gradient-to-br from-yellow-400 to-orange-500';
+        default:
+          return 'bg-gradient-to-br from-blue-500 to-cyan-500';
+      }
+    } else {
+      switch (design) {
+        case 'classic':
+          return 'bg-gradient-to-br from-gray-100 to-gray-200';
+        case 'premium':
+          return 'bg-gradient-to-br from-gray-900 to-black';
+        case 'platinum':
+          return 'bg-gradient-to-br from-slate-300 to-slate-400';
+        case 'rose':
+          return 'bg-gradient-to-br from-pink-300 to-rose-400';
+        default:
+          return 'bg-gradient-to-br from-gray-800 to-gray-900';
+      }
+    }
+  };
+
+  const isLightDesign = () => {
+    const design = card.design || 'blue';
+    return card.type === 'physical' && ['classic', 'platinum', 'rose'].includes(design);
+  };
+
   return (
     <div className="relative w-full aspect-[1.6/1] rounded-3xl overflow-hidden shadow-2xl mx-auto max-w-sm">
-      {/* Card Background - Different colors based on card type */}
-      <div className={`absolute inset-0 ${
-        card.type === 'physical' 
-          ? 'bg-gradient-to-br from-gray-800 via-gray-900 to-gray-700'
-          : 'bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700'
-      }`}>
+      {/* Card Background - Different colors based on card design */}
+      <div className={`absolute inset-0 ${getCardDesign()}`}>
         {/* Subtle overlay effects */}
         <div className="absolute inset-0">
           {/* Top right glow */}
           <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl ${
-            card.type === 'physical' 
-              ? 'bg-gray-300/15'
+            isLightDesign() 
+              ? 'bg-gray-500/15'
               : 'bg-white/10'
           }`}></div>
           {/* Bottom left glow */}
           <div className={`absolute bottom-0 left-0 w-24 h-24 rounded-full blur-2xl ${
-            card.type === 'physical' 
-              ? 'bg-gray-400/10'
+            isLightDesign() 
+              ? 'bg-gray-600/10'
               : 'bg-white/5'
           }`}></div>
           
@@ -81,15 +114,15 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       </div>
 
       {/* Card Content */}
-      <div className="relative z-10 pt-4 px-6 pb-4 h-full flex flex-col text-white">
+      <div className={`relative z-10 pt-4 px-6 pb-4 h-full flex flex-col ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>
         {/* Top Section - Brand Name */}
         <div className="mb-4">
-          <h2 className="text-lg font-bold tracking-wide text-white">PAYdota</h2>
+          <h2 className={`text-lg font-bold tracking-wide ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>PAYdota</h2>
         </div>
 
         {/* Card Number Section with Toggle */}
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-base font-mono tracking-[0.15em] font-light text-white whitespace-nowrap overflow-hidden text-ellipsis flex-1">
+          <p className={`text-base font-mono tracking-[0.15em] font-light whitespace-nowrap overflow-hidden text-ellipsis flex-1 ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>
             {formatCardNumber(card.lastFour)}
           </p>
           {onToggleVisibility && (
@@ -105,13 +138,13 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         {/* Card Holder and Balance Section */}
         <div className="mb-4 flex justify-between items-start">
           <div>
-            <p className="text-xs font-medium text-white tracking-wide mb-1">
+            <p className={`text-xs font-medium tracking-wide mb-1 ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>
               {getCardHolderName()}
             </p>
           </div>
           <div className="text-right">
-            <p className="text-xs opacity-60 mb-1 uppercase tracking-wide">Available Balance</p>
-            <p className="text-sm font-semibold text-white">
+            <p className={`text-xs opacity-60 mb-1 uppercase tracking-wide ${isLightDesign() ? 'text-gray-700' : 'text-white'}`}>Available Balance</p>
+            <p className={`text-sm font-semibold ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>
               ${(Number(card.balance) || 0).toFixed(2)}
             </p>
           </div>
@@ -121,14 +154,14 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         <div className="mt-auto pb-2">
           <div className="flex justify-between items-start mb-2">
             <div>
-              <p className="text-xs opacity-70 uppercase tracking-wide leading-none">Valid Thru</p>
-              <p className="text-xs font-mono font-medium text-white mt-1">
+              <p className={`text-xs opacity-70 uppercase tracking-wide leading-none ${isLightDesign() ? 'text-gray-700' : 'text-white'}`}>Valid Thru</p>
+              <p className={`text-xs font-mono font-medium mt-1 ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>
                 {formatExpiry()}
               </p>
             </div>
             <div className="text-center">
-              <p className="text-xs opacity-70 uppercase tracking-wide leading-none">CVV</p>
-              <p className="text-xs font-mono font-medium text-white mt-1">
+              <p className={`text-xs opacity-70 uppercase tracking-wide leading-none ${isLightDesign() ? 'text-gray-700' : 'text-white'}`}>CVV</p>
+              <p className={`text-xs font-mono font-medium mt-1 ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>
                 {formatCVV()}
               </p>
             </div>

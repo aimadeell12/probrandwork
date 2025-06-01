@@ -167,7 +167,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           balance: "1000",
           expiryMonth: 12,
           expiryYear: 2028,
-          design: "blue"
+          design: cardData.design || "blue"
         });
         
         // Deduct cost from wallet balance
