@@ -56,14 +56,7 @@ export default function Dashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
-                {t("welcomeBack")}, {(userInfo as any)?.firstName || "User"}
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">
-                {t("manageYourFinances")}
-              </p>
-            </div>
+            <div></div>
             <div className="flex items-center space-x-3">
               <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">
                 <Globe className="h-5 w-5" />
