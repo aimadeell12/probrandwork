@@ -35,6 +35,7 @@ import Currency from "@/pages/account/currency";
 import Help from "@/pages/account/help";
 import Community from "@/pages/account/community";
 import PriorityCards from "@/pages/cards/priority";
+import ChooseCard from "@/pages/choose-card";
 
 import KYCVerification from "@/pages/kyc-verification-new";
 import KycManagement from "@/pages/kyc-management";
@@ -59,7 +60,8 @@ function Router() {
 
   // صفحات التحقق من الهوية التي يجب إخفاء الشريط السفلي منها
   const kycPages = [
-    '/kyc-verification'
+    '/kyc-verification',
+    '/choose-card'
   ];
 
   const shouldHideBottomNav = kycPages.includes(location);
@@ -123,6 +125,7 @@ function Router() {
 
             {/* Cards routes */}
             <Route path="/cards/priority" component={PriorityCards} />
+            <Route path="/choose-card" component={ChooseCard} />
             <Route path="/cards" component={Cards} />
 
             {/* Other specific routes */}

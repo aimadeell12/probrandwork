@@ -3,16 +3,16 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, ArrowUpRight, ArrowDownLeft, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import CreateCardModal from "@/components/create-card-modal";
 import { CreditCard as CreditCardComponent } from "@/components/credit-card";
 import PullToRefresh from "@/components/pull-to-refresh";
 import type { Card } from "shared/schema";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "wouter";
 
 export default function Cards() {
-  const [showChooseCard, setShowChooseCard] = useState(false);
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
+  const [, setLocation] = useLocation();
   
   const queryClient = useQueryClient();
 
@@ -401,12 +401,7 @@ export default function Cards() {
               </motion.div>
             </motion.div>
 
-            <CreateCardModal 
-              open={showChooseCard} 
-              onOpenChange={(open) => {
-                setShowChooseCard(open);
-              }} 
-            />
+
           </>
         )}
         </div>
