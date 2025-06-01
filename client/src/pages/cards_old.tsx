@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CreditCard as CreditCardComponent } from "@/components/credit-card";
 import PullToRefresh from "@/components/pull-to-refresh";
 import type { Card } from "shared/schema";
+
 import { useLocation } from "wouter";
 
 export default function Cards() {
@@ -98,8 +99,18 @@ export default function Cards() {
     >
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
         {/* Background decorative elements */}
-        <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
+        <motion.div 
+          className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+        ></motion.div>
+        <motion.div 
+          className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
+        ></motion.div>
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
         
@@ -107,23 +118,44 @@ export default function Cards() {
         {Array.isArray(cards) && cards.length > 0 ? (
           <>
             {/* Header for existing cards */}
-            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 pt-12 gap-4">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center sm:text-left">
+            <motion.div 
+              className="flex flex-col sm:flex-row items-center justify-between mb-8 pt-12 gap-4"
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <motion.h1 
+                className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center sm:text-left"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
                 My Cards
-              </h1>
-              <div>
+              </motion.h1>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <Button
                   onClick={() => setLocation("/choose-card")}
                   className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full p-3 shadow-lg"
                 >
                   <Plus className="h-5 w-5" />
                 </Button>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Card Type Filter */}
-            <div className="flex bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full p-1 mb-8 max-w-xs mx-auto shadow-lg border border-white/30">
-              <button
+            <motion.div 
+              className="flex bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full p-1 mb-8 max-w-xs mx-auto shadow-lg border border-white/30"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
+              <motion.button
                 onClick={() => setSelectedCardType("virtual")}
                 className={cn(
                   "flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-medium transition-all",
@@ -131,10 +163,12 @@ export default function Cards() {
                     ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                 )}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 Virtual Card
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 onClick={() => setSelectedCardType("physical")}
                 className={cn(
                   "flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-medium transition-all",
@@ -142,28 +176,54 @@ export default function Cards() {
                     ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                 )}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 Physical Card
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
             {/* Cards Carousel - Horizontal Scrolling */}
-            <div className="relative">
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+            >
               <div className="flex gap-4 overflow-x-auto scrollbar-hide py-4 px-4 -mx-4 snap-x snap-mandatory">
-                {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card, index: number) => (
-                  <div 
-                    key={card.id} 
-                    className="flex-shrink-0 w-80 sm:w-96 snap-center"
-                  >
-                    <div className="relative group">
-                      {/* Card Visual */}
-                      <div className="relative w-full">
-                        <CreditCardComponent 
-                          card={card} 
-                          showDetails={showCardNumbers[card.id] || false}
-                          onToggleVisibility={() => toggleCardVisibility(card.id)}
-                        />
-                      </div>
+                <AnimatePresence>
+                  {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card, index: number) => (
+                    <motion.div 
+                      key={card.id} 
+                      className="flex-shrink-0 w-80 sm:w-96 snap-center"
+                      initial={{ opacity: 0, x: 50, scale: 0.9 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0, x: -50, scale: 0.9 }}
+                      transition={{ 
+                        duration: 0.5, 
+                        delay: index * 0.1,
+                        type: "spring",
+                        stiffness: 100
+                      }}
+                      whileHover={{ y: -8 }}
+                    >
+                      <motion.div 
+                        className="relative group"
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {/* Card Visual */}
+                        <motion.div 
+                          className="relative w-full"
+                          whileHover={{ rotateY: 5 }}
+                          style={{ transformStyle: "preserve-3d" }}
+                        >
+                          <CreditCardComponent 
+                            card={card} 
+                            showDetails={showCardNumbers[card.id] || false}
+                            onToggleVisibility={() => toggleCardVisibility(card.id)}
+                          />
+                        </motion.div>
 
                       {/* Card info */}
                       <div className="text-center mt-4 space-y-2">
@@ -262,31 +322,75 @@ export default function Cards() {
                           </>
                         )}
                       </div>
-                    </div>
-                  </div>
-                ))}
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
-            </div>
-            
-            {/* Cards Count Text */}
-            <div className="text-center text-gray-600 dark:text-gray-400 text-sm mt-6">
-              {cards.filter((card: Card) => card.type === selectedCardType).length} {selectedCardType} card{cards.filter((card: Card) => card.type === selectedCardType).length !== 1 ? 's' : ''}
-            </div>
+            </motion.div>
+              
+              {/* Card indicators */}
+              {cards.filter((card: Card) => card.type === selectedCardType).length > 1 && (
+                <div className="flex justify-center mt-6 space-x-2">
+                  {cards.filter((card: Card) => card.type === selectedCardType).map((_, index) => (
+                    <div 
+                      key={index}
+                      className="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"
+                    />
+                  ))}
+                </div>
+              )}
           </>
         ) : (
-          /* No Cards State */
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="text-center space-y-6 max-w-md mx-auto px-4">
+          <>
+            {/* Empty State - No Cards */}
+            <motion.div 
+              className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <motion.div
+                className="w-32 h-32 mb-8 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-full flex items-center justify-center"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <motion.div
+                  className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center"
+                  initial={{ rotate: -10 }}
+                  animate={{ rotate: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
+                  <Plus className="w-8 h-8 text-white" />
+                </motion.div>
+              </motion.div>
               
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              <motion.h1 
+                className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
                 No Cards Yet
-              </h1>
+              </motion.h1>
               
-              <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md">
+              <motion.p 
+                className="text-gray-600 dark:text-gray-400 mb-8 max-w-md"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
+              >
                 Create your first card to start managing your finances and making secure payments online or in-store.
-              </p>
+              </motion.p>
               
-              <div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 1.0 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <Button
                   onClick={() => setLocation("/choose-card")}
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full shadow-lg font-medium"
@@ -294,9 +398,11 @@ export default function Cards() {
                   <Plus className="w-5 h-5 mr-2" />
                   Create Your First Card
                 </Button>
-              </div>
-            </div>
-          </div>
+              </motion.div>
+            </motion.div>
+
+
+          </>
         )}
         </div>
       </div>
