@@ -78,7 +78,7 @@ export default function Dashboard() {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
                 >
-                  <Link href="/account/kyc">
+                  <Link href="/kyc-verification">
                     <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 cursor-pointer hover:from-orange-600 hover:to-red-600 transition-all duration-200">
                       <AlertTriangle className="h-3 w-3 mr-1" />
                       unverified
