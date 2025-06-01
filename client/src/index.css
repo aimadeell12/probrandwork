@@ -272,7 +272,7 @@
 
   /* Bottom navigation safe area */
   .bottom-nav-safe {
-    padding-bottom: max(env(safe-area-inset-bottom), 16px);
+    padding-bottom: max(env(safe-area-inset-bottom), 8px);
   }
 
   /* iOS-style blur effects */
