@@ -100,15 +100,18 @@ export const useNativeInteractions = () => {
 
     // إيقاف التحديد الطويل
     document.addEventListener('selectstart', (e) => {
-      if ((e.target as HTMLElement).closest('.native-button, .native-card')) {
+      const target = e.target as HTMLElement;
+      if (target && typeof target.closest === 'function' && 
+          target.closest('.native-button, .native-card')) {
         e.preventDefault();
       }
     });
 
     // منع السحب على الصور والروابط
     document.addEventListener('dragstart', (e) => {
-      if ((e.target as HTMLElement).tagName === 'IMG' || 
-          (e.target as HTMLElement).closest('a, button')) {
+      const target = e.target as HTMLElement;
+      if (target && (target.tagName === 'IMG' || 
+          (typeof target.closest === 'function' && target.closest('a, button')))) {
         e.preventDefault();
       }
     });
