@@ -10,6 +10,7 @@ import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
 import PullToRefresh from "@/components/pull-to-refresh";
 
+
 export default function Dashboard() {
   const { t } = useLanguage();
   const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState(false);
@@ -39,7 +40,7 @@ export default function Dashboard() {
   const unreadCount = (unreadData as any)?.count || 0;
 
   const handleRefresh = async () => {
-    triggerHaptic();
+    triggerHaptic({ intensity: 'medium' });
     await queryClient.invalidateQueries();
   };
 
@@ -107,96 +108,137 @@ export default function Dashboard() {
               </div>
 
               {/* Balance Section */}
-              <div className="mb-8">
+              <motion.div 
+                className="mb-8"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-gray-600 dark:text-gray-400">{t("totalBalance")}</span>
                   <Info className="h-4 w-4 text-gray-400" />
                 </div>
-                <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                <motion.h2 
+                  className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+                  key={balance}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
                   ${balance.toLocaleString()}
-                </h2>
+                </motion.h2>
                 
                 {/* Quick Actions */}
                 <div className="grid grid-cols-4 gap-3 lg:gap-4">
                   <Link href="/deposit">
-                    <div className="text-center cursor-pointer native-button haptic-light">
+                    <motion.div 
+                      className="text-center cursor-pointer native-button haptic-light"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
                       <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-green-200/30 dark:border-green-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                         <Plus className="h-6 w-6 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
                       </div>
                       <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t("deposit")}</span>
-                    </div>
+                    </motion.div>
                   </Link>
                   
                   <Link href="/withdraw">
-                    <div className="text-center cursor-pointer native-button haptic-light">
+                    <motion.div 
+                      className="text-center cursor-pointer native-button haptic-light"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
                       <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-red-200/30 dark:border-red-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                         <Minus className="h-6 w-6 lg:h-8 lg:w-8 text-red-600 dark:text-red-400" />
                       </div>
                       <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t("withdraw")}</span>
-                    </div>
+                    </motion.div>
                   </Link>
                   
                   <Link href="/qr">
-                    <div className="text-center cursor-pointer native-button haptic-light">
+                    <motion.div 
+                      className="text-center cursor-pointer native-button haptic-light"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
                       <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-blue-200/30 dark:border-blue-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                         <QrCode className="h-6 w-6 lg:h-8 lg:w-8 text-blue-600 dark:text-blue-400" />
                       </div>
                       <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">QR</span>
-                    </div>
+                    </motion.div>
                   </Link>
                   
                   <Link href="/hub">
-                    <div className="text-center cursor-pointer native-button haptic-light">
+                    <motion.div 
+                      className="text-center cursor-pointer native-button haptic-light"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
                       <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                         <Grid3X3 className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
                       </div>
                       <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">Hub</span>
-                    </div>
+                    </motion.div>
                   </Link>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Right Column - Status Cards & Quick Actions */}
-            <div className="lg:col-span-1 space-y-6">
+            <motion.div 
+              className="lg:col-span-1 space-y-6"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+            >
 
               {/* KYC Status Card */}
-              {kycStatus && (kycStatus as any).status !== 'verified' && (
-                <div>
-                  <Card className="bg-white/95 dark:bg-gray-800/95 ios-blur border border-white/30 shadow-xl rounded-3xl mb-6 native-card">
-                    <CardContent className="p-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-full">
-                          <Info className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+              <AnimatePresence>
+                {kycStatus && (kycStatus as any).status !== 'verified' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Card className="bg-white/95 dark:bg-gray-800/95 ios-blur border border-white/30 shadow-xl rounded-3xl mb-6 native-card">
+                      <CardContent className="p-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-full">
+                            <Info className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
+                              {t("verifyIdentity")}
+                            </h3>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                              Complete verification to unlock all features
+                            </p>
+                          </div>
+                          <Link href="/kyc">
+                            <Button size="sm" className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 native-button haptic-medium">
+                              <ArrowRight className="h-4 w-4" />
+                            </Button>
+                          </Link>
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                            {t("verifyIdentity")}
-                          </h3>
-                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                            Complete verification to unlock all features
-                          </p>
-                        </div>
-                        <Link href="/kyc">
-                          <Button size="sm" className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 native-button haptic-medium">
-                            <ArrowRight className="h-4 w-4" />
-                          </Button>
-                        </Link>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              )}
-            </div>
-          </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
 
           {/* Notification Center */}
-          {isNotificationCenterOpen && (
-            <NotificationCenter 
-              isOpen={isNotificationCenterOpen}
-              onClose={() => setIsNotificationCenterOpen(false)}
-            />
-          )}
+          <AnimatePresence>
+            {isNotificationCenterOpen && (
+              <NotificationCenter 
+                isOpen={isNotificationCenterOpen}
+                onClose={() => setIsNotificationCenterOpen(false)}
+              />
+            )}
+          </AnimatePresence>
         </div>
       </PullToRefresh>
     </div>
