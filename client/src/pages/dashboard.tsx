@@ -58,9 +58,6 @@ export default function Dashboard() {
           >
             <div></div>
             <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">
-                <Globe className="h-5 w-5" />
-              </Button>
               {kycStatus && (kycStatus as any).status === 'verified' ? (
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
