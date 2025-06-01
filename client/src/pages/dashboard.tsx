@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Minus, ArrowRight, QrCode, X, ChevronDown, Info, Gift, Bell, Globe, Crown, Grid3X3 } from "lucide-react";
+import { Plus, Minus, ArrowRight, QrCode, X, ChevronDown, Info, Gift, Bell, Globe, Crown, Grid3X3, AlertTriangle } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
@@ -61,7 +61,7 @@ export default function Dashboard() {
               <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">
                 <Globe className="h-5 w-5" />
               </Button>
-{kycStatus && (kycStatus as any).status === 'verified' && (
+              {kycStatus && (kycStatus as any).status === 'verified' ? (
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -69,8 +69,21 @@ export default function Dashboard() {
                 >
                   <Badge className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0">
                     <Crown className="h-3 w-3 mr-1" />
-                    Verified
+                    {t.verified}
                   </Badge>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+                >
+                  <Link href="/account/kyc">
+                    <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 cursor-pointer hover:from-orange-600 hover:to-red-600 transition-all duration-200">
+                      <AlertTriangle className="h-3 w-3 mr-1" />
+                      {t.unverified}
+                    </Badge>
+                  </Link>
                 </motion.div>
               )}
               <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400 native-button haptic-light touch-target">

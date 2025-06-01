@@ -272,6 +272,10 @@ const translations = {
     logoutSuccess: "Logged out successfully",
     logoutError: "An error occurred while logging out",
     
+    // Verification status
+    verified: "Verified",
+    unverified: "Unverified",
+    
     // Login/Auth additional
     loginWith: "Login with",
     enterEmail: "Enter your email",
@@ -385,6 +389,10 @@ const translations = {
     profileUpdated: "تم تحديث الملف الشخصي",
     passwordChanged: "تم تغيير كلمة المرور",
     settingsSaved: "تم حفظ الإعدادات",
+    
+    // Verification status
+    verified: "محقق",
+    unverified: "غير محقق",
     
     // Login/Auth additional
     loginWith: "تسجيل الدخول بواسطة",
