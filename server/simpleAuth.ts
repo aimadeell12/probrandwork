@@ -80,7 +80,7 @@ export function setupSimpleAuth(app: Express) {
   // Register route
   app.post("/api/auth/register", async (req, res) => {
     try {
-      const { username, password, email } = req.body;
+      const { username, password, email, phone, firstName, lastName } = req.body;
       
       if (!username || !password) {
         return res.status(400).json({ message: "Username and password required" });
@@ -92,15 +92,26 @@ export function setupSimpleAuth(app: Express) {
         return res.status(400).json({ message: "Username already exists" });
       }
 
+      // Check if email exists
+      if (email) {
+        const existingEmailUser = await storage.getUserByEmail(email);
+        if (existingEmailUser) {
+          return res.status(400).json({ message: "Email already exists" });
+        }
+      }
+
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Create user
+      // Create user with all data
       const user = await storage.createLocalUser({
         id: crypto.randomUUID(),
         username,
         password: hashedPassword,
         email: email || null,
+        phone: phone || null,
+        firstName: firstName || null,
+        lastName: lastName || null,
         authType: "local",
         role: "user"
       });

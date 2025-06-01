@@ -420,8 +420,8 @@ export default function Register() {
                         }}
                         className="h-10 pl-3 pr-8 bg-gray-50 dark:bg-gray-600 border-r border-purple-200 dark:border-purple-700 text-sm font-medium appearance-none cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 transition-colors"
                       >
-                        {countries.map((country) => (
-                          <option key={country.code} value={country.code}>
+                        {countries.map((country, index) => (
+                          <option key={`${country.code}-${country.name}-${index}`} value={country.code}>
                             {country.flag} {country.code}
                           </option>
                         ))}
