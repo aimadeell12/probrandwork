@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CreditCard as CreditCardComponent } from "@/components/credit-card";
 import PullToRefresh from "@/components/pull-to-refresh";
 import type { Card } from "shared/schema";
-import { motion, AnimatePresence } from "framer-motion";
+
 import { useLocation } from "wouter";
 
 export default function Cards() {

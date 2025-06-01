@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useLanguage } from '@/hooks/useLanguage';
 import { LanguageToggle } from '@/components/language-toggle';
-import { motion } from 'framer-motion';
+
 
 export default function Login() {
   const [, setLocation] = useLocation();
@@ -74,65 +74,30 @@ export default function Login() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
       
       {/* Background decorative elements */}
-      <motion.div 
-        className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-      ></motion.div>
-      <motion.div 
-        className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
-      ></motion.div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
       
       <div className="px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
         
         {/* Header */}
-        <motion.div 
-          className="pt-4 sm:pt-6 text-center relative"
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
+        <div className="pt-4 sm:pt-6 text-center relative">
           {/* Language Toggle */}
-          <motion.div 
-            className="absolute top-2 right-2 z-20"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-          >
+          <div className="absolute top-2 right-2 z-20">
             <LanguageToggle className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-lg border-purple-200/30" />
-          </motion.div>
-          <motion.h1 
-            className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide pt-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
+          </div>
+          <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide pt-8">
             {t('welcomeBack')}
-          </motion.h1>
-          <motion.h2 
-            className="text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
+          </h1>
+          <h2 className="text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">
             Sign In
-          </motion.h2>
-        </motion.div>
+          </h2>
+        </div>
 
         {/* Login Form */}
         <div className="flex-1 flex items-center justify-center py-1 sm:py-2 relative">
           
           {/* Login Form Card */}
-          <motion.div 
-            className="w-full max-w-sm mx-auto"
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.8, type: "spring", stiffness: 100 }}
-          >
+          <div className="w-full max-w-sm mx-auto">
             <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 sm:p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
@@ -246,30 +211,20 @@ export default function Login() {
 
               </form>
             </Card>
-          </motion.div>
+          </div>
         </div>
 
         {/* Back to Welcome */}
-        <motion.div 
-          className="w-full max-w-sm mx-auto pb-1"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-        >
+        <div className="w-full max-w-sm mx-auto pb-1">
           <Link href="/">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <Button 
+              variant="outline" 
+              className="w-full h-10 sm:h-12 border-2 border-purple-300/60 dark:border-purple-400/60 text-purple-700 dark:text-purple-300 text-sm sm:text-base font-semibold rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95 shadow-xl hover:shadow-2xl transition-all duration-200 backdrop-blur-sm"
             >
-              <Button 
-                variant="outline" 
-                className="w-full h-10 sm:h-12 border-2 border-purple-300/60 dark:border-purple-400/60 text-purple-700 dark:text-purple-300 text-sm sm:text-base font-semibold rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95 shadow-xl hover:shadow-2xl transition-all duration-200 backdrop-blur-sm"
-              >
-                Back to Home
-              </Button>
-            </motion.div>
+              Back to Home
+            </Button>
           </Link>
-        </motion.div>
+        </div>
 
       </div>
     </div>
