@@ -16,6 +16,7 @@ export default function Login() {
   const { toast } = useToast();
   const { t } = useLanguage();
   const queryClient = useQueryClient();
+  const [loginType, setLoginType] = useState<'email' | 'phone'>('email');
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -135,18 +136,49 @@ export default function Login() {
             <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 sm:p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
-                {/* Username Field */}
+                {/* Login Type Toggle */}
+                <div className="space-y-3">
+                  <Label className="text-gray-700 dark:text-gray-300 font-medium">
+                    {t('loginWith')}
+                  </Label>
+                  <div className="flex bg-gray-100 dark:bg-gray-700 rounded-xl p-1">
+                    <button
+                      type="button"
+                      onClick={() => setLoginType('email')}
+                      className={`flex-1 py-2.5 px-4 text-sm font-medium rounded-lg transition-all duration-200 ${
+                        loginType === 'email'
+                          ? 'bg-white dark:bg-gray-600 text-purple-600 dark:text-purple-400 shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                      }`}
+                    >
+                      {t('email')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLoginType('phone')}
+                      className={`flex-1 py-2.5 px-4 text-sm font-medium rounded-lg transition-all duration-200 ${
+                        loginType === 'phone'
+                          ? 'bg-white dark:bg-gray-600 text-purple-600 dark:text-purple-400 shadow-sm'
+                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                      }`}
+                    >
+                      {t('phone')}
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Email/Phone Field */}
                 <div className="space-y-2">
                   <Label htmlFor="username" className="text-gray-700 dark:text-gray-300 font-medium">
-                    {t('username')}
+                    {loginType === 'email' ? t('email') : t('phoneNumber')}
                   </Label>
                   <Input
                     id="username"
-                    type="text"
+                    type={loginType === 'email' ? 'email' : 'tel'}
                     value={formData.username}
                     onChange={(e) => handleInputChange('username', e.target.value)}
                     className="w-full h-12 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
-                    placeholder={t('enterUsername')}
+                    placeholder={loginType === 'email' ? t('enterEmail') : t('enterPhoneNumber')}
                     required
                   />
                 </div>

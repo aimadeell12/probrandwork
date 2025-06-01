@@ -272,6 +272,18 @@ const translations = {
     logoutSuccess: "Logged out successfully",
     logoutError: "An error occurred while logging out",
     
+    // Login/Auth additional
+    loginWith: "Login with",
+    enterEmail: "Enter your email",
+    enterPhoneNumber: "Enter your phone number",
+    enterUsername: "Enter username",
+    enterPassword: "Enter password",
+    signingIn: "Signing in...",
+    signInTitle: "Sign In",
+    createNewAccount: "Create new account",
+    missingData: "Missing data",
+    fillAllFields: "Please fill all fields",
+    
     // Currency
     usd: "USD"
   },
@@ -356,6 +368,18 @@ const translations = {
     profileUpdated: "تم تحديث الملف الشخصي",
     passwordChanged: "تم تغيير كلمة المرور",
     settingsSaved: "تم حفظ الإعدادات",
+    
+    // Login/Auth additional
+    loginWith: "تسجيل الدخول بواسطة",
+    enterEmail: "أدخل بريدك الإلكتروني",
+    enterPhoneNumber: "أدخل رقم هاتفك",
+    enterUsername: "أدخل اسم المستخدم",
+    enterPassword: "أدخل كلمة المرور",
+    signingIn: "جاري تسجيل الدخول...",
+    signInTitle: "تسجيل الدخول",
+    createNewAccount: "إنشاء حساب جديد",
+    missingData: "بيانات مفقودة",
+    fillAllFields: "يرجى ملء جميع الحقول",
     
     // Currency
     usd: "دولار أمريكي"
