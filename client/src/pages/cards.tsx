@@ -114,8 +114,8 @@ export default function Cards() {
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
         
-        {/* Check if there are cards and not showing choose card view */}
-        {Array.isArray(cards) && cards.length > 0 && !showChooseCard ? (
+        {/* Check if there are cards */}
+        {Array.isArray(cards) && cards.length > 0 ? (
           <>
             {/* Header for existing cards */}
             <motion.div 
@@ -140,7 +140,7 @@ export default function Cards() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button
-                  onClick={() => setShowChooseCard(true)}
+                  onClick={() => setLocation("/choose-card")}
                   className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full p-3 shadow-lg"
                 >
                   <Plus className="h-5 w-5" />
@@ -392,7 +392,7 @@ export default function Cards() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button
-                  onClick={() => setShowChooseCard(true)}
+                  onClick={() => setLocation("/choose-card")}
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full shadow-lg font-medium"
                 >
                   <Plus className="w-5 h-5 mr-2" />
