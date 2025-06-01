@@ -27,7 +27,24 @@ export function setupSimpleAuth(app: Express) {
         return res.status(400).json({ message: "Username and password required" });
       }
 
-      const user = await storage.getUserByUsername(username);
+      // Try to find user by username, email, or phone
+      let user = await storage.getUserByUsername(username);
+      
+      // If not found by username, try email
+      if (!user) {
+        user = await storage.getUserByEmail(username);
+      }
+      
+      // If not found by email, try phone (assuming phone is stored in phone field)
+      if (!user) {
+        try {
+          const users = await storage.getAllUsers();
+          user = users.find(u => u.phone === username);
+        } catch (error) {
+          console.error("Error searching by phone:", error);
+        }
+      }
+
       if (!user || !user.password) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
