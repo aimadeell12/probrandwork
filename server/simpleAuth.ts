@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { storage } from "./storage";
+import { storage } from "./database-storage";
 import type { Express, RequestHandler } from "express";
 
 // Extend session data type

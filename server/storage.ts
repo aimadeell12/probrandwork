@@ -26,6 +26,7 @@ import {
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, count, sql } from "drizzle-orm";
+import { v4 as uuidv4 } from 'uuid';
 
 // Interface for storage operations
 export interface IStorage {

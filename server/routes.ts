@@ -1,7 +1,7 @@
 import express, { type Express } from "express";
 import { createServer, type Server } from "http";
 import path from "path";
-import { storage } from "./storage";
+import { storage } from "./database-storage";
 import { setupSimpleAuth, requireAuth } from "./simpleAuth";
 import { setupGoogleAuth } from "./googleAuth";
 import { reapService } from "./reap";
