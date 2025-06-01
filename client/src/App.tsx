@@ -9,10 +9,8 @@ import BottomNavigation from "@/components/bottom-navigation";
 import Welcome from "@/pages/welcome";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
-import Home from "@/pages/home";
 import Dashboard from "@/pages/dashboard";
 import Wallet from "@/pages/wallet";
-
 import Cards from "@/pages/cards";
 import Support from "@/pages/support";
 import Account from "@/pages/account";
@@ -23,7 +21,6 @@ import SecurityPrivacy from "@/pages/security-privacy";
 import Notifications from "@/pages/notifications";
 import LanguageSettings from "@/pages/account/language";
 import PaymentPassword from "@/pages/account/payment-password";
-import CustomerService from "@/pages/customer-service";
 import About from "@/pages/about";
 import Coupons from "@/pages/coupons";
 import Profile from "@/pages/profile";
@@ -31,7 +28,6 @@ import Send from "@/pages/send";
 import Withdraw from "@/pages/withdraw";
 import Transactions from "@/pages/transactions";
 import EditProfile from "@/pages/edit-profile";
-import Webhooks from "@/pages/webhooks";
 import Services from "@/pages/services";
 import Referral from "@/pages/account/referral";
 import Vouchers from "@/pages/account/vouchers";
@@ -116,7 +112,6 @@ function Router() {
             <Route path="/account" component={Account} />
             
             {/* Additional pages */}
-            <Route path="/customer-service" component={CustomerService} />
             <Route path="/security-privacy" component={SecurityPrivacy} />
             <Route path="/about" component={About} />
             <Route path="/coupons" component={Coupons} />
@@ -132,7 +127,6 @@ function Router() {
 
             {/* Other specific routes */}
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/home" component={Dashboard} />
             <Route path="/wallet" component={Wallet} />
             <Route path="/support" component={Support} />
             <Route path="/send" component={Send} />
@@ -146,7 +140,6 @@ function Router() {
             <Route path="/services" component={Services} />
             <Route path="/hub" component={Services} />
             <Route path="/camera-test" component={CameraTest} />
-            <Route path="/webhooks" component={Webhooks} />
 
             {/* Root route - last */}
             <Route path="/" component={Dashboard} />
