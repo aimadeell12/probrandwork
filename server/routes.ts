@@ -109,10 +109,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      console.log("📋 Received card creation request body:", req.body);
+      
       const cardData = insertCardSchema.parse({
         ...req.body,
         userId,
       });
+      
+      console.log("📋 Parsed card data:", cardData);
 
       // Get user data for real KYC information
       const user = await storage.getUser(userId);
