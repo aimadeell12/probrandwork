@@ -284,6 +284,23 @@ const translations = {
     missingData: "Missing data",
     fillAllFields: "Please fill all fields",
     
+    // Registration additional
+    welcome: "Welcome",
+    accountCreationError: "Account creation error",
+    tryAgain: "Try again",
+    incompleteData: "Incomplete data",
+    passwordMismatch: "Password mismatch",
+    checkPasswordMatch: "Check password match",
+    weakPassword: "Weak password",
+    passwordMinLength: "Password minimum length",
+    joinUs: "Join us",
+    referralCode: "Referral code",
+    optional: "Optional",
+    enterReferralCode: "Enter referral code",
+    referralCodeHelp: "Referral code help",
+    creatingAccount: "Creating account",
+    backToHome: "Back to home",
+    
     // Currency
     usd: "USD"
   },
@@ -380,6 +397,23 @@ const translations = {
     createNewAccount: "إنشاء حساب جديد",
     missingData: "بيانات مفقودة",
     fillAllFields: "يرجى ملء جميع الحقول",
+    
+    // Registration additional
+    welcome: "مرحباً",
+    accountCreationError: "خطأ في إنشاء الحساب",
+    tryAgain: "حاول مرة أخرى",
+    incompleteData: "بيانات ناقصة",
+    passwordMismatch: "كلمات المرور غير متطابقة",
+    checkPasswordMatch: "تأكد من تطابق كلمات المرور",
+    weakPassword: "كلمة مرور ضعيفة",
+    passwordMinLength: "كلمة المرور قصيرة جداً",
+    joinUs: "انضم إلينا",
+    referralCode: "كود الإحالة",
+    optional: "اختياري",
+    enterReferralCode: "أدخل كود الإحالة",
+    referralCodeHelp: "مساعدة كود الإحالة",
+    creatingAccount: "جاري إنشاء الحساب...",
+    backToHome: "العودة للرئيسية",
     
     // Currency
     usd: "دولار أمريكي"

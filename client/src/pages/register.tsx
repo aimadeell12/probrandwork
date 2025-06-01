@@ -20,19 +20,44 @@ export default function Register() {
     firstName: '',
     lastName: '',
     email: '',
+    phone: '',
     password: '',
     confirmPassword: '',
     referralCode: ''
   });
 
+  const [selectedCountry, setSelectedCountry] = useState({
+    code: '+212',
+    flag: '🇲🇦',
+    name: 'Morocco'
+  });
+
+  const countries = [
+    { code: '+212', flag: '🇲🇦', name: 'Morocco' },
+    { code: '+966', flag: '🇸🇦', name: 'Saudi Arabia' },
+    { code: '+971', flag: '🇦🇪', name: 'UAE' },
+    { code: '+20', flag: '🇪🇬', name: 'Egypt' },
+    { code: '+962', flag: '🇯🇴', name: 'Jordan' },
+    { code: '+961', flag: '🇱🇧', name: 'Lebanon' },
+    { code: '+965', flag: '🇰🇼', name: 'Kuwait' },
+    { code: '+974', flag: '🇶🇦', name: 'Qatar' },
+    { code: '+973', flag: '🇧🇭', name: 'Bahrain' },
+    { code: '+968', flag: '🇴🇲', name: 'Oman' },
+    { code: '+1', flag: '🇺🇸', name: 'United States' },
+    { code: '+44', flag: '🇬🇧', name: 'United Kingdom' },
+    { code: '+33', flag: '🇫🇷', name: 'France' },
+    { code: '+49', flag: '🇩🇪', name: 'Germany' }
+  ];
+
   const registerMutation = useMutation({
-    mutationFn: async (data: { firstName: string; lastName: string; email: string; password: string; referralCode?: string }) => {
+    mutationFn: async (data: { firstName: string; lastName: string; email: string; phone: string; password: string; referralCode?: string }) => {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           username: data.email, // Use email as username
           email: data.email,
+          phone: data.phone,
           password: data.password,
           firstName: data.firstName,
           lastName: data.lastName
@@ -67,7 +92,7 @@ export default function Register() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.confirmPassword) {
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.password || !formData.confirmPassword) {
       toast({
         title: t('incompleteData'),
         description: t('fillAllFields'),
@@ -98,6 +123,7 @@ export default function Register() {
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,
+      phone: selectedCountry.code + formData.phone,
       password: formData.password,
       referralCode: formData.referralCode || undefined
     });
@@ -184,6 +210,51 @@ export default function Register() {
                     placeholder={t('enterEmail')}
                     required
                   />
+                </div>
+
+                {/* Phone Number Field */}
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className="text-gray-700 dark:text-gray-300 font-medium">
+                    {t('phoneNumber')}
+                  </Label>
+                  <div className="flex rounded-xl border border-purple-200 dark:border-purple-700 bg-white/80 dark:bg-gray-700/80 overflow-hidden">
+                    {/* Country Code Selector */}
+                    <div className="relative">
+                      <select
+                        value={selectedCountry.code}
+                        onChange={(e) => {
+                          const country = countries.find(c => c.code === e.target.value);
+                          if (country) setSelectedCountry(country);
+                        }}
+                        className="h-10 pl-3 pr-8 bg-gray-50 dark:bg-gray-600 border-r border-purple-200 dark:border-purple-700 text-sm font-medium appearance-none cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 transition-colors"
+                      >
+                        {countries.map((country) => (
+                          <option key={country.code} value={country.code}>
+                            {country.flag} {country.code}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
+                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    {/* Phone Number Input */}
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                      className="flex-1 h-10 border-0 focus:ring-0 focus:ring-offset-0 bg-transparent"
+                      placeholder={t('enterPhoneNumber')}
+                      required
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {selectedCountry.flag} {selectedCountry.name} ({selectedCountry.code})
+                  </p>
                 </div>
 
                 {/* Password Field */}
