@@ -192,7 +192,6 @@ const translations = {
     refund: "Refund",
     
     // Verification levels
-    unverified: "Unverified",
     basic: "Basic",
     enhanced: "Enhanced",
     premium: "Premium",
@@ -258,8 +257,6 @@ const translations = {
     phoneInvalid: "Please enter a valid phone number",
     enterFirstName: "Enter your first name",
     enterLastName: "Enter your last name",
-    enterEmail: "Enter your email",
-    enterPassword: "Enter password",
     reenterPassword: "Re-enter password",
     
     // Update messages
@@ -306,7 +303,10 @@ const translations = {
     backToHome: "Back to home",
     
     // Currency
-    usd: "USD"
+    usd: "USD",
+    
+    // Quick Actions
+    hub: "Hub"
   },
   ar: {
     // Navigation
@@ -424,7 +424,10 @@ const translations = {
     backToHome: "العودة للرئيسية",
     
     // Currency
-    usd: "دولار أمريكي"
+    usd: "دولار أمريكي",
+    
+    // Quick Actions
+    hub: "المركز"
   }
 };
 
@@ -440,7 +443,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<Language>("ar");
 
   const t = (key: TranslationKey): string => {
     try {
