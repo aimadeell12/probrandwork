@@ -443,7 +443,21 @@ const translations = {
     usd: "دولار أمريكي",
     
     // Quick Actions
-    hub: "المركز"
+    hub: "المركز",
+    
+    // Cards Management
+    manageCards: "إدارة البطاقات",
+    viewAndManageCards: "عرض وإدارة بطاقاتك",
+    requestNewCard: "طلب بطاقة جديدة",
+    getInstantCard: "احصل على بطاقة فورية",
+    request: "طلب",
+    
+    // Quick Services
+    quickServices: "الخدمات السريعة",
+    transfer: "تحويل",
+    bills: "الفواتير",
+    analytics: "تحليلات",
+    wallet: "المحفظة"
   }
 };
 

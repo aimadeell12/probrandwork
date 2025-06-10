@@ -324,7 +324,7 @@ export default function Dashboard() {
                 <CardHeader className="pb-4">
                   <CardTitle className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <CreditCard className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                    البطاقات
+                    {t("cards")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -336,8 +336,8 @@ export default function Dashboard() {
                             <CreditCard className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                           </div>
                           <div>
-                            <p className="font-semibold text-gray-900 dark:text-white">إدارة البطاقات</p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">عرض وإدارة بطاقاتك</p>
+                            <p className="font-semibold text-gray-900 dark:text-white">{t("manageCards")}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">{t("viewAndManageCards")}</p>
                           </div>
                         </div>
                         <ArrowRight className="h-5 w-5 text-gray-400" />
@@ -350,12 +350,12 @@ export default function Dashboard() {
                           <Plus className="h-5 w-5 text-green-600 dark:text-green-400" />
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-900 dark:text-white">طلب بطاقة جديدة</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">احصل على بطاقة فورية</p>
+                          <p className="font-semibold text-gray-900 dark:text-white">{t("requestNewCard")}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{t("getInstantCard")}</p>
                         </div>
                       </div>
                       <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
-                        طلب
+                        {t("request")}
                       </Button>
                     </div>
                   </div>
@@ -367,7 +367,7 @@ export default function Dashboard() {
                 <CardHeader className="pb-4">
                   <CardTitle className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                     <Star className="h-5 w-5 text-yellow-500" />
-                    الخدمات السريعة
+                    {t("quickServices")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -377,7 +377,7 @@ export default function Dashboard() {
                         <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
                           <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                         </div>
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">تحويل</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">{t("transfer")}</p>
                       </div>
                     </Link>
                     
@@ -386,7 +386,7 @@ export default function Dashboard() {
                         <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
                           <Activity className="h-6 w-6 text-green-600 dark:text-green-400" />
                         </div>
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">الفواتير</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">{t("bills")}</p>
                       </div>
                     </Link>
                     
@@ -395,7 +395,7 @@ export default function Dashboard() {
                         <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
                           <BarChart3 className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                         </div>
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">تحليلات</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">{t("analytics")}</p>
                       </div>
                     </Link>
                     
@@ -404,7 +404,7 @@ export default function Dashboard() {
                         <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
                           <Wallet className="h-6 w-6 text-orange-600 dark:text-orange-400" />
                         </div>
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">المحفظة</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">{t("wallet")}</p>
                       </div>
                     </Link>
                   </div>
