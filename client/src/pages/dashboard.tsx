@@ -71,10 +71,10 @@ export default function Dashboard() {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 space-y-4 lg:space-y-0">
             <div className="hidden lg:block">
               <h1 className="text-2xl xl:text-3xl font-bold text-gray-900 dark:text-white">
-                مرحباً بك في PAYdota
+                {t("welcomeBack")} PAYdota
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
-                إدارة أموالك بسهولة وأمان
+                {t("manageYourFinances")}
               </p>
             </div>
             
@@ -245,11 +245,11 @@ export default function Dashboard() {
                   <CardHeader className="pb-4">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">
-                        المعاملات الأخيرة
+                        {t("recentTransactions")}
                       </CardTitle>
                       <Link href="/transactions">
                         <Button variant="ghost" className="text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20">
-                          <span className="ml-2">عرض الكل</span>
+                          <span className="ml-2">{t("viewAll")}</span>
                           <ArrowRight className="h-4 w-4" />
                         </Button>
                       </Link>
@@ -306,7 +306,7 @@ export default function Dashboard() {
                           {t("verifyIdentity")}
                         </h3>
                         <p className="text-white/80 text-sm">
-                          أكمل التحقق لإلغاء القيود
+                          {t("completeVerification")}
                         </p>
                       </div>
                       <Link href="/kyc">

@@ -61,6 +61,7 @@ const translations = {
     
     // KYC
     verifyIdentity: "Verify Identity",
+    completeVerification: "Complete verification to unlock all features",
     uploadDocuments: "Upload Documents",
     documentType: "Document Type",
     nationalId: "National ID",
@@ -306,7 +307,21 @@ const translations = {
     usd: "USD",
     
     // Quick Actions
-    hub: "Hub"
+    hub: "Hub",
+    
+    // Cards Management
+    manageCards: "Manage Cards",
+    viewAndManageCards: "View and manage your cards",
+    requestNewCard: "Request New Card",
+    getInstantCard: "Get instant card",
+    request: "Request",
+    
+    // Quick Services
+    quickServices: "Quick Services",
+    transfer: "Transfer",
+    bills: "Bills",
+    analytics: "Analytics",
+    wallet: "Wallet"
   },
   ar: {
     // Navigation
@@ -368,6 +383,7 @@ const translations = {
     
     // KYC
     verifyIdentity: "التحقق من الهوية",
+    completeVerification: "أكمل التحقق لإلغاء القيود",
     uploadDocuments: "تحميل المستندات",
     documentType: "نوع المستند",
     
