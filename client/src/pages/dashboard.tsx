@@ -212,7 +212,7 @@ export default function Dashboard() {
                         <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-white/30 group-hover:scale-105 transition-all duration-300">
                           <Grid3X3 className="h-8 w-8 lg:h-10 lg:w-10 text-white" />
                         </div>
-                        <span className="text-sm lg:text-base text-white/90 font-medium">Hub</span>
+                        <span className="text-sm lg:text-base text-white/90 font-medium">المركز</span>
                       </div>
                     </Link>
                   </div>
