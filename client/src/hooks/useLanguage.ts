@@ -333,6 +333,7 @@ const translations = {
     balance: "Balance",
     noRecentTransactions: "No recent transactions",
     createTestTransactions: "Create Test Transactions",
+    acceptTerms: "Accept Terms",
     noCardsYet: "No cards yet",
     noCardsDesc: "You don't have any cards yet",
     createFirstCard: "Create your first card"
@@ -483,6 +484,7 @@ const translations = {
     balance: "الرصيد",
     noRecentTransactions: "لا توجد معاملات حديثة",
     createTestTransactions: "إنشاء معاملات تجريبية",
+    acceptTerms: "قبول الشروط",
     noCardsYet: "لا توجد بطاقات بعد",
     noCardsDesc: "ليس لديك أي بطاقات بعد",
     createFirstCard: "إنشاء بطاقتك الأولى"

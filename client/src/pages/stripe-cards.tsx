@@ -387,24 +387,40 @@ export default function StripeCards() {
                                 </p>
                               </div>
 
-                              {/* Create Test Transactions Button */}
+                              {/* Stripe Actions */}
                               {card.stripeCardId && (
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
-                                  className="mb-4"
-                                  onClick={async () => {
-                                    try {
-                                      await apiRequest("POST", "/api/transactions/create-stripe-test", { cardId: card.id });
-                                      // Refresh transactions
-                                      window.location.reload();
-                                    } catch (error) {
-                                      console.error("Failed to create test transactions:", error);
-                                    }
-                                  }}
-                                >
-                                  {t('createTestTransactions') || 'Create Test Transactions'}
-                                </Button>
+                                <div className="flex gap-2 mb-4">
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={async () => {
+                                      try {
+                                        await apiRequest("POST", "/api/transactions/create-stripe-test", { cardId: card.id });
+                                        window.location.reload();
+                                      } catch (error) {
+                                        console.error("Failed to create test transactions:", error);
+                                      }
+                                    }}
+                                  >
+                                    {t('createTestTransactions') || 'Create Test Transactions'}
+                                  </Button>
+                                  
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={async () => {
+                                      try {
+                                        const response = await apiRequest("POST", "/api/stripe/accept-terms");
+                                        console.log("Terms acceptance result:", response);
+                                        window.location.reload();
+                                      } catch (error) {
+                                        console.error("Failed to accept terms:", error);
+                                      }
+                                    }}
+                                  >
+                                    {t('acceptTerms') || 'Accept Terms'}
+                                  </Button>
+                                </div>
                               )}
 
                               {/* Transactions List */}
