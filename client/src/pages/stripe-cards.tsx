@@ -102,22 +102,22 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
           {/* Card Number */}
           <div className="my-4">
             <p className="text-lg font-mono tracking-wider">
-              {formatCardNumber(card.cardNumber || '')}
+              {formatCardNumber(card.cardNumber || `****-****-****-${card.lastFour || '****'}`)}
             </p>
           </div>
 
           {/* Footer */}
           <div className="flex justify-between items-end">
             <div>
-              <p className="text-xs opacity-75">CARDHOLDER</p>
+              <p className="text-xs opacity-75">حامل البطاقة</p>
               <p className="text-sm font-semibold truncate max-w-[150px]">
-                {card.holderName}
+                {card.holderName || 'حامل البطاقة'}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xs opacity-75">EXPIRES</p>
+              <p className="text-xs opacity-75">انتهاء الصلاحية</p>
               <p className="text-sm font-mono">
-                {showDetails 
+                {showDetails && card.expiryMonth && card.expiryYear
                   ? `${String(card.expiryMonth).padStart(2, '0')}/${String(card.expiryYear).slice(-2)}`
                   : '••/••'
                 }
@@ -126,7 +126,7 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
             {showDetails && (
               <div className="text-right">
                 <p className="text-xs opacity-75">CVV</p>
-                <p className="text-sm font-mono">{card.cvv}</p>
+                <p className="text-sm font-mono">{card.cvv || '•••'}</p>
               </div>
             )}
           </div>
@@ -231,7 +231,7 @@ export default function StripeCards() {
           <div className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-white/20 p-4">
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {t("cards")}
+                البطاقات
               </h1>
               <Button
                 onClick={() => setLocation("/choose-card")}
@@ -239,7 +239,7 @@ export default function StripeCards() {
                 className="bg-purple-600 hover:bg-purple-700 text-white shadow-lg"
               >
                 <Plus className="h-4 w-4 mr-2" />
-                {t("addCard")}
+                إضافة بطاقة
               </Button>
             </div>
 
@@ -254,7 +254,7 @@ export default function StripeCards() {
                     : "text-gray-600 dark:text-gray-400"
                 )}
               >
-                {t("virtualCards")}
+                البطاقات الافتراضية
               </button>
               <button
                 onClick={() => setSelectedCardType("physical")}
@@ -265,7 +265,7 @@ export default function StripeCards() {
                     : "text-gray-600 dark:text-gray-400"
                 )}
               >
-                {t("physicalCards")}
+                البطاقات الفيزيائية
               </button>
             </div>
           </div>
@@ -339,10 +339,10 @@ export default function StripeCards() {
                             <div className="p-4">
                               <div className="flex items-center justify-between mb-4">
                                 <h3 className="font-semibold text-gray-900 dark:text-white">
-                                  {t("recentTransactions")}
+                                  المعاملات الأخيرة
                                 </h3>
                                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                                  {t("balance")}: {formatAmount(parseFloat(card.balance || "0"), card.currency)}
+                                  الرصيد: {formatAmount(parseFloat(card.balance || "0"), card.currency)}
                                 </p>
                               </div>
 
