@@ -151,24 +151,40 @@ export class DatabaseStorage implements IStorage {
   }
   
   async updateUserProfile(userId: string, updates: Partial<User>): Promise<User> {
-    console.log("updateUserProfile called with:", { userId, updates });
+    console.log("📝 [STORAGE] updateUserProfile called with:", { userId, updates });
     
     // Ensure we're not updating sensitive fields unexpectedly
     const { id, password, authType, role, createdAt, ...safeUpdates } = updates;
     
-    console.log("Safe updates to apply:", safeUpdates);
+    console.log("📝 [STORAGE] Safe updates to apply:", safeUpdates);
     
-    const [updatedUser] = await db
-      .update(users)
-      .set({
-        ...safeUpdates,
-        updatedAt: new Date(),
-      })
-      .where(eq(users.id, userId))
-      .returning();
-    
-    console.log("User updated successfully:", updatedUser);
-    return updatedUser;
+    try {
+      const [updatedUser] = await db
+        .update(users)
+        .set({
+          ...safeUpdates,
+          updatedAt: new Date(),
+        })
+        .where(eq(users.id, userId))
+        .returning();
+      
+      if (!updatedUser) {
+        throw new Error(`No user found with ID: ${userId}`);
+      }
+      
+      console.log("✅ [STORAGE] User updated successfully:", updatedUser);
+      return updatedUser;
+      
+    } catch (dbError) {
+      console.error("❌ [STORAGE] Database error during profile update:", dbError);
+      console.error("❌ [STORAGE] Error details:", {
+        userId,
+        updates: safeUpdates,
+        error: dbError.message,
+        stack: dbError.stack
+      });
+      throw new Error(`Database update failed: ${dbError.message}`);
+    }
   }
 
   // Card operations

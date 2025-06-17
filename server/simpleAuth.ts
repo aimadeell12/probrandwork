@@ -183,16 +183,31 @@ export function setupSimpleAuth(app: Express) {
         return res.status(401).json({ message: "Unauthorized" });
       }
       
+      // Validate that user exists first
+      const existingUser = await storage.getUser(userId);
+      if (!existingUser) {
+        console.log("❌ [PROFILE UPDATE] User not found in database");
+        return res.status(404).json({ message: "User not found" });
+      }
+      
       const updateData = req.body;
       console.log("🚀 [PROFILE UPDATE] Calling storage.updateUserProfile...");
+      console.log("🚀 [PROFILE UPDATE] Existing user before update:", JSON.stringify(existingUser, null, 2));
       
       const updatedUser = await storage.updateUserProfile(userId, updateData);
       
       console.log("✅ [PROFILE UPDATE] Success! Updated user:", JSON.stringify(updatedUser, null, 2));
-      res.json(updatedUser);
-    } catch (error) {
+      
+      // Return user without sensitive fields
+      const { password, ...userWithoutPassword } = updatedUser;
+      res.json(userWithoutPassword);
+    } catch (error: any) {
       console.error("❌ [PROFILE UPDATE] Error:", error);
-      res.status(500).json({ message: "Internal server error" });
+      console.error("❌ [PROFILE UPDATE] Error stack:", error?.stack);
+      res.status(500).json({ 
+        message: "Failed to update profile. Please try again.",
+        error: process.env.NODE_ENV === 'development' ? error?.message : undefined
+      });
     }
   });
 
