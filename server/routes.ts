@@ -99,6 +99,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get sensitive card details from Stripe
+  app.get("/api/cards/:cardId/details", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const { cardId } = req.params;
+      const card = await storage.getCardById(cardId);
+      
+      if (!card || card.userId !== userId) {
+        return res.status(404).json({ message: "Card not found" });
+      }
+
+      if (!card.stripeCardId) {
+        return res.status(400).json({ message: "Card is not a Stripe card" });
+      }
+
+      // Get sensitive details from Stripe
+      const stripeCard = await stripe.issuing.cards.retrieve(card.stripeCardId, {
+        expand: ['number', 'cvc']
+      });
+
+      res.json({
+        number: stripeCard.number,
+        cvc: stripeCard.cvc,
+        expMonth: stripeCard.exp_month,
+        expYear: stripeCard.exp_year,
+        last4: stripeCard.last4
+      });
+    } catch (error: any) {
+      console.error("Error fetching card details:", error);
+      res.status(500).json({ message: "Failed to fetch card details", error: error.message });
+    }
+  });
+
   app.post("/api/cards", requireAuth, async (req: any, res) => {
     try {
       const userId = req.session?.userId;
@@ -185,6 +222,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
         });
 
+        // Get sensitive card details (number and CVC)
+        const cardDetails = await stripe.issuing.cards.retrieve(stripeCard.id, {
+          expand: ['number', 'cvc']
+        });
+
         // Generate expiry date (4 years from now)
         const now = new Date();
         const expiryYear = now.getFullYear() + 4;
@@ -197,13 +239,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           holderName: cardholder.name,
           stripeCardId: stripeCard.id,
           stripeCardHolderId: cardholder.id,
-          cardNumber: stripeCard.number,
-          cvv: stripeCard.cvc,
+          cardNumber: cardDetails.number,
+          cvv: cardDetails.cvc,
+          lastFour: cardDetails.last4,
           brand: stripeCard.brand,
           currency: cardData.currency || "USD",
           spendingLimit: "1000.00",
-          expiryMonth,
-          expiryYear,
           design: cardData.design || "blue",
           status: "active"
         });

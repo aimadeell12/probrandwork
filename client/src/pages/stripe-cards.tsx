@@ -102,7 +102,10 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
           {/* Card Number */}
           <div className="my-4">
             <p className="text-lg font-mono tracking-wider">
-              {formatCardNumber(card.cardNumber || `****-****-****-${card.lastFour || '****'}`)}
+              {showDetails 
+                ? formatCardNumber(card.cardNumber || `****-****-****-${card.lastFour || '****'}`)
+                : formatCardNumber(`****-****-****-${card.lastFour || '****'}`)
+              }
             </p>
           </div>
 
