@@ -47,6 +47,7 @@ export interface IStorage {
   getCard(id: string): Promise<Card | undefined>;
   createCard(card: InsertCard): Promise<Card>;
   updateCard(id: string, updates: Partial<Card>): Promise<Card>;
+  updateCardStripeInfo(cardId: string, stripeCardId: string, stripeCardholderId: string): Promise<Card>;
   deleteCard(id: string): Promise<void>;
   
   // Transaction operations

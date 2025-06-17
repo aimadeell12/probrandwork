@@ -6,6 +6,7 @@ import { setupSimpleAuth, requireAuth } from "./simpleAuth";
 import { setupGoogleAuth } from "./googleAuth";
 import { reapService } from "./reap";
 import { binancePayService } from "./binance";
+import { stripeIssuingService } from "./stripe-issuing";
 import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
