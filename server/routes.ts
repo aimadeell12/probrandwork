@@ -1134,18 +1134,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
             });
 
             // Convert Stripe transactions to our format
-            const formattedTransactions = stripeTransactions.data.map(txn => ({
-              id: txn.id,
-              cardId: card.id,
-              type: txn.type === 'capture' ? 'purchase' : txn.type,
-              status: txn.dispute ? 'disputed' : 'completed',
-              amount: (txn.amount / 100).toString(), // Convert from cents
-              currency: txn.currency.toUpperCase(),
-              merchant: txn.merchant?.name || 'Unknown Merchant',
-              description: txn.merchant?.name || txn.type,
-              createdAt: new Date(txn.created * 1000).toISOString(),
-              stripeTransactionId: txn.id
-            }));
+            const formattedTransactions = stripeTransactions.data.map(txn => {
+              // Log the full transaction for debugging
+              console.log("📋 Full Stripe transaction data:", JSON.stringify(txn, null, 2));
+              
+              // Extract merchant information from various possible locations
+              let merchantName = 'Unknown Merchant';
+              let merchantCategory = '';
+              
+              // Check different locations for merchant data
+              if (txn.merchant_data?.name) {
+                merchantName = txn.merchant_data.name;
+                merchantCategory = txn.merchant_data.category || '';
+              } else if (txn.authorization?.merchant_data?.name) {
+                merchantName = txn.authorization.merchant_data.name;
+                merchantCategory = txn.authorization.merchant_data.category || '';
+              } else if (txn.purchase_details?.flight?.departure_at) {
+                merchantName = 'Flight Purchase';
+              } else if (txn.purchase_details?.fuel?.type) {
+                merchantName = 'Fuel Station';
+              } else if (txn.purchase_details?.lodging?.check_in_at) {
+                merchantName = 'Hotel/Lodging';
+              } else {
+                // Fallback: try to extract from any available fields
+                merchantName = txn.description || 
+                             txn.merchant?.name || 
+                             `Transaction ${txn.id.slice(-4)}`;
+              }
+              
+              // Create Arabic descriptions for merchant categories
+              const categoryMap: Record<string, string> = {
+                'fast_food_restaurants': 'مطعم وجبات سريعة',
+                'grocery_stores': 'متجر بقالة', 
+                'gas_stations': 'محطة وقود',
+                'clothing_stores': 'متجر ملابس',
+                'department_stores': 'متجر متعدد الأقسام',
+                'electronic_stores': 'متجر إلكترونيات',
+                'miscellaneous_stores': 'متجر متنوع',
+                'transportation': 'نقل ومواصلات',
+                'online_services': 'خدمات إلكترونية',
+                'restaurants': 'مطعم',
+                'retail': 'تجارة تجزئة',
+                'entertainment': 'ترفيه',
+                'health_care': 'رعاية صحية',
+                'automotive': 'سيارات'
+              };
+              
+              // Create description with category if available
+              let description = merchantName;
+              if (merchantCategory && categoryMap[merchantCategory]) {
+                description = `${merchantName} - ${categoryMap[merchantCategory]}`;
+              } else if (merchantCategory) {
+                description = `${merchantName} - ${merchantCategory.replace(/_/g, ' ')}`;
+              }
+              
+              // Log what we extracted
+              console.log(`🏪 Extracted merchant: "${merchantName}", category: "${merchantCategory}"`);
+              
+              return {
+                id: txn.id,
+                cardId: card.id,
+                type: txn.type === 'capture' ? 'purchase' : txn.type,
+                status: txn.dispute ? 'disputed' : 'completed',
+                amount: (txn.amount / 100).toString(),
+                currency: txn.currency.toUpperCase(),
+                merchant: merchantName,
+                description: description,
+                createdAt: new Date(txn.created * 1000).toISOString(),
+                stripeTransactionId: txn.id
+              };
+            });
 
             allTransactions.push(...formattedTransactions);
           } catch (stripeError) {
