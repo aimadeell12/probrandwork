@@ -174,33 +174,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
       try {
         console.log("Creating card with Stripe Issuing with automatic terms acceptance...");
         
-        // Create Stripe cardholder with minimal requirements for test mode
-        console.log("Creating Stripe cardholder for test environment...");
+        // Create Stripe cardholder using real user information
+        console.log("Creating Stripe cardholder with user's real information...");
+        
+        // Parse user's date of birth if available
+        let dobDay = 1, dobMonth = 1, dobYear = 1990;
+        if (user.dateOfBirth) {
+          const dob = new Date(user.dateOfBirth);
+          dobDay = dob.getDate();
+          dobMonth = dob.getMonth() + 1;
+          dobYear = dob.getFullYear();
+        }
+        
         const cardholder = await stripe.issuing.cardholders.create({
-          name: `${user.firstName || 'Test'} ${user.lastName || 'User'}`.trim(),
-          email: user.email || `testuser${Date.now()}@paydota.com`,
+          name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email?.split('@')[0] || 'User',
+          email: user.email || `user${user.id}@paydota.com`,
+          phone_number: user.phone || undefined,
           type: 'individual',
           individual: {
-            first_name: user.firstName || 'Test', 
+            first_name: user.firstName || user.email?.split('@')[0] || 'User', 
             last_name: user.lastName || 'User',
             dob: {
-              day: 15,
-              month: 6, 
-              year: 1995
+              day: dobDay,
+              month: dobMonth, 
+              year: dobYear
             }
           },
           billing: {
             address: {
-              line1: '8206 Louisiana Blvd Ne, Ste A 6342',
-              city: 'Albuquerque',
-              state: 'NM',
-              country: 'US',
-              postal_code: '87113'
+              line1: user.address || 'No address provided',
+              city: user.city || 'Unknown',
+              state: user.city || 'Unknown',
+              country: user.country || 'US',
+              postal_code: user.postalCode || '00000'
             }
           },
           metadata: {
             platform: 'PayDota',
-            test_mode: 'true'
+            user_id: user.id,
+            user_phone: user.phone || 'not_provided'
           }
         });
 
@@ -285,12 +297,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           stripeCardHolderId: cardholder.id,
           cardNumber: cardDetails.number,
           cvv: cardDetails.cvc,
-          lastFour: cardDetails.last4,
           brand: stripeCard.brand,
           currency: cardData.currency || "USD",
           spendingLimit: "1000.00",
           design: cardData.design || "blue",
-          status: "active"
+          status: "active",
+          expiryMonth: expiryMonth,
+          expiryYear: expiryYear
         });
         
         // Deduct cost from wallet balance

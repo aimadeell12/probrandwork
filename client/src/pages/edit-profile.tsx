@@ -67,19 +67,19 @@ export default function EditProfile() {
     console.log("🔄 User data changed:", user);
     if (user) {
       form.reset({
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        address: user.address || "",
-        city: user.city || "",
-        postalCode: user.postalCode || "",
-        country: user.country || "MAR",
-        dateOfBirth: user.dateOfBirth || "",
-        nationality: user.nationality || "Moroccan",
-        idDocumentType: user.idDocumentType || "National ID",
-        idDocumentNumber: user.idDocumentNumber || "",
-        occupation: user.occupation || "",
+        firstName: (user as any).firstName || "",
+        lastName: (user as any).lastName || "",
+        email: (user as any).email || "",
+        phone: (user as any).phone || "",
+        address: (user as any).address || "",
+        city: (user as any).city || "",
+        postalCode: (user as any).postalCode || "",
+        country: (user as any).country || "MAR",
+        dateOfBirth: (user as any).dateOfBirth || "",
+        nationality: (user as any).nationality || "Moroccan",
+        idDocumentType: (user as any).idDocumentType || "National ID",
+        idDocumentNumber: (user as any).idDocumentNumber || "",
+        occupation: (user as any).occupation || "",
       });
     }
   }, [user, form]);
