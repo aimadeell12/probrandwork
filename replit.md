@@ -111,6 +111,9 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Static Assets**: Served from built `dist/public` directory
 
 ## Changelog
+- June 17, 2025: Fixed transaction display issues - handle string/number amounts from Stripe API
+- June 17, 2025: Improved Stripe cardholder verification with better error handling
+- June 17, 2025: Added Accept Terms button for manual terms acceptance
 - June 17, 2025: Integrated Stripe Issuing with real card numbers and transactions
 - June 17, 2025: Added automatic terms acceptance for Stripe card creation
 - June 17, 2025: Implemented real-time transaction fetching from Stripe API

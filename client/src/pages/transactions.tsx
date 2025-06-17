@@ -143,7 +143,7 @@ export default function Transactions() {
               <p className="text-lg font-semibold text-green-600">
                 ${filteredTransactions
                   .filter(t => t.type === 'deposit' || t.type === 'receive')
-                  .reduce((sum, t) => sum + (t.amount || 0), 0)
+                  .reduce((sum, t) => sum + (typeof t.amount === 'string' ? parseFloat(t.amount) : t.amount || 0), 0)
                   .toFixed(2)}
               </p>
             </CardContent>
@@ -159,7 +159,7 @@ export default function Transactions() {
               <p className="text-lg font-semibold text-red-600">
                 ${filteredTransactions
                   .filter(t => t.type === 'send' || t.type === 'withdraw')
-                  .reduce((sum, t) => sum + (t.amount || 0), 0)
+                  .reduce((sum, t) => sum + (typeof t.amount === 'string' ? parseFloat(t.amount) : t.amount || 0), 0)
                   .toFixed(2)}
               </p>
             </CardContent>
@@ -205,7 +205,7 @@ export default function Transactions() {
                           : 'text-red-600'
                       }`}>
                         {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}
-                        ${transaction.amount?.toFixed(2)}
+                        ${typeof transaction.amount === 'string' ? transaction.amount : transaction.amount?.toFixed(2)}
                       </p>
                       {getTransactionStatusBadge(transaction.status)}
                     </div>
