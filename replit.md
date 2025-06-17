@@ -37,10 +37,11 @@ The application supports multiple authentication methods:
 - **Session Management**: PostgreSQL-backed sessions with configurable TTL
 
 ### Payment Integration
+- **Stripe Issuing**: Primary card issuing and management platform
 - **Stripe**: Card payments and subscription management
 - **Binance Pay**: Cryptocurrency payment processing
-- **Lithic**: Card issuing and management platform
-- **Reap**: Additional card services provider
+- **Lithic**: Legacy card issuing platform (deprecated)
+- **Reap**: Legacy card services provider (deprecated)
 
 ### KYC System
 - **Document Verification**: Multi-step process with image capture
@@ -130,6 +131,13 @@ The application supports multiple authentication methods:
 ```
 Changelog:
 - June 17, 2025. Initial setup
+- June 17, 2025. Integrated Stripe Issuing for card creation and management
+  * Added Stripe Issuing service for virtual and physical card creation
+  * Updated database schema with Stripe card fields
+  * Created comprehensive Stripe Cards management interface
+  * Implemented card status management (freeze/unfreeze)
+  * Added real-time transaction monitoring through Stripe
+  * Deprecated Lithic and Reap integrations in favor of Stripe Issuing
 ```
 
 ## User Preferences
