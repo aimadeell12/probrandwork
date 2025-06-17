@@ -70,18 +70,22 @@ export const users = pgTable("users", {
 export const cards = pgTable("cards", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: varchar("user_id").notNull().references(() => users.id),
+  stripeCardId: varchar("stripe_card_id").unique(),
+  stripeCardholderId: varchar("stripe_cardholder_id"),
   lithicCardId: varchar("lithic_card_id").unique(),
   reapCardId: varchar("reap_card_id").unique(),
   holderName: varchar("holder_name").notNull(),
   lastFour: varchar("last_four", { length: 4 }),
-  type: varchar("type").notNull(), // credit, debit, prepaid
-  status: varchar("status").notNull().default("pending"), // pending, active, suspended, closed
+  type: varchar("type").notNull(), // virtual, physical
+  status: varchar("status").notNull().default("pending"), // pending, active, inactive, canceled
   balance: decimal("balance", { precision: 12, scale: 2 }).default("0.00"),
   creditLimit: decimal("credit_limit", { precision: 12, scale: 2 }),
   currency: varchar("currency", { length: 3 }).notNull().default("USD"),
   design: varchar("design").notNull().default("blue"),
   expiryMonth: integer("expiry_month").notNull(),
   expiryYear: integer("expiry_year").notNull(),
+  brand: varchar("brand").default("visa"), // visa, mastercard
+  cardNumber: varchar("card_number"), // Full card number (encrypted for virtual cards)
   internationalEnabled: boolean("international_enabled").default(true),
   onlineEnabled: boolean("online_enabled").default(true),
   notificationsEnabled: boolean("notifications_enabled").default(false),
