@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { Plus, ArrowUpRight, ArrowDownLeft, Clock, Eye, EyeOff, Pause, Play, Lock, Unlock, Trash2 } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Plus, ArrowUpRight, ArrowDownLeft, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { CreditCard as CreditCardComponent } from "@/components/credit-card";
 import PullToRefresh from "@/components/pull-to-refresh";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
 import type { Card } from "shared/schema";
 import { useLocation } from "wouter";
 
@@ -14,56 +12,8 @@ export default function Cards() {
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
   const [, setLocation] = useLocation();
-  const { toast } = useToast();
   
   const queryClient = useQueryClient();
-
-  // Stripe card mutations
-  const suspendCardMutation = useMutation({
-    mutationFn: (cardId: string) => apiRequest("POST", `/api/stripe/cards/${cardId}/suspend`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/cards'] });
-      toast({ title: "Card suspended successfully" });
-    },
-    onError: (error: any) => {
-      toast({ 
-        title: "Failed to suspend card", 
-        description: error.message,
-        variant: "destructive" 
-      });
-    }
-  });
-
-  const activateCardMutation = useMutation({
-    mutationFn: (cardId: string) => apiRequest("POST", `/api/stripe/cards/${cardId}/activate`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/cards'] });
-      toast({ title: "Card activated successfully" });
-    },
-    onError: (error: any) => {
-      toast({ 
-        title: "Failed to activate card", 
-        description: error.message,
-        variant: "destructive" 
-      });
-    }
-  });
-
-  const createCardMutation = useMutation({
-    mutationFn: (data: { type: 'virtual' | 'physical'; holderName: string }) => 
-      apiRequest("POST", "/api/stripe/cards", data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/cards'] });
-      toast({ title: "Card created successfully" });
-    },
-    onError: (error: any) => {
-      toast({ 
-        title: "Failed to create card", 
-        description: error.message,
-        variant: "destructive" 
-      });
-    }
-  });
 
   // Fetch cards
   const { data: cards = [], isLoading: cardsLoading } = useQuery({
@@ -163,7 +113,7 @@ export default function Cards() {
               </h1>
               <div>
                 <Button
-                  onClick={() => setLocation("/cards/stripe")}
+                  onClick={() => setLocation("/choose-card")}
                   className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full p-3 shadow-lg"
                 >
                   <Plus className="h-5 w-5" />
@@ -219,81 +169,41 @@ export default function Cards() {
                       <div className="text-center mt-4 space-y-2">
                         <div className={cn(
                           "inline-flex items-center gap-2 text-sm transition-all duration-300",
-                          card.status === "blocked" || card.status === "canceled"
+                          card.status === "blocked" 
                             ? "text-red-600 dark:text-red-400" 
-                            : card.status === "inactive"
+                            : card.status === "frozen"
                             ? "text-blue-600 dark:text-blue-400"
                             : "text-gray-600 dark:text-gray-400"
                         )}>
                           <div className={cn(
                             "w-4 h-4 rounded-full",
-                            card.status === "blocked" || card.status === "canceled"
+                            card.status === "blocked"
                               ? "bg-gradient-to-r from-red-500 to-red-600"
-                              : card.status === "inactive"
+                              : card.status === "frozen"
                               ? "bg-gradient-to-r from-blue-500 to-cyan-500"
-                              : "bg-gradient-to-r from-green-500 to-blue-500"
+                              : "bg-gradient-to-r from-purple-500 to-blue-500"
                           )}></div>
-                          {card.status === "blocked" || card.status === "canceled"
-                            ? "Suspended" 
-                            : card.status === "inactive"
-                            ? "Inactive"
+                          {card.status === "blocked" 
+                            ? "Blocked" 
+                            : card.status === "frozen"
+                            ? "Frozen"
                             : "Active"}
                         </div>
 
                         <p className={cn(
                           "text-sm transition-all duration-300",
-                          card.status === "blocked" || card.status === "canceled"
+                          card.status === "blocked" 
                             ? "text-red-500 dark:text-red-400" 
-                            : card.status === "inactive"
+                            : card.status === "frozen"
                             ? "text-blue-500 dark:text-blue-400"
                             : "text-gray-600 dark:text-gray-400"
                         )}>
-                          {card.status === "blocked" || card.status === "canceled"
-                            ? "Card is suspended" 
-                            : card.status === "inactive"
-                            ? "Card needs activation"
+                          {card.status === "blocked" 
+                            ? "Card is permanently blocked" 
+                            : card.status === "frozen"
+                            ? "Card is temporarily frozen"
                             : "Ready to use"}
                         </p>
-
-                        {/* Card Control Buttons */}
-                        <div className="flex justify-center gap-2 mt-4">
-                          {card.stripeCardId && (
-                            <>
-                              {card.status === "active" ? (
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => suspendCardMutation.mutate(card.id)}
-                                  disabled={suspendCardMutation.isPending}
-                                  className="text-xs"
-                                >
-                                  <Pause className="h-3 w-3 mr-1" />
-                                  Suspend
-                                </Button>
-                              ) : (
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => activateCardMutation.mutate(card.id)}
-                                  disabled={activateCardMutation.isPending}
-                                  className="text-xs"
-                                >
-                                  <Play className="h-3 w-3 mr-1" />
-                                  Activate
-                                </Button>
-                              )}
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => setLocation(`/cards/stripe?cardId=${card.id}`)}
-                                className="text-xs"
-                              >
-                                <Eye className="h-3 w-3 mr-1" />
-                                Details
-                              </Button>
-                            </>
-                          )}
-                        </div>
                       </div>
 
                       {/* Card Transactions */}
@@ -378,7 +288,7 @@ export default function Cards() {
               
               <div>
                 <Button
-                  onClick={() => setLocation("/cards/stripe")}
+                  onClick={() => setLocation("/choose-card")}
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full shadow-lg font-medium"
                 >
                   <Plus className="w-5 h-5 mr-2" />

@@ -4,8 +4,8 @@ import path from "path";
 import { storage } from "./database-storage";
 import { setupSimpleAuth, requireAuth } from "./simpleAuth";
 import { setupGoogleAuth } from "./googleAuth";
+import { reapService } from "./reap";
 import { binancePayService } from "./binance";
-import { stripeIssuingService } from "./stripe-issuing";
 import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
@@ -124,39 +124,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Create card with Stripe Issuing
+      // Create card with Reap API using corrected format
       try {
-        console.log("Creating card with Stripe Issuing...");
+        console.log("Creating card with Reap API using corrected format...");
         
-        const holderName = user.firstName && user.lastName 
-          ? `${user.firstName} ${user.lastName}`.trim()
-          : user.username || "Card Holder";
-
-        const stripeCardData = {
-          holderName,
-          type: cardData.type as 'virtual' | 'physical',
-          currency: cardData.currency || "USD"
+        // بيانات sandbox محددة كما في المثال
+        const reapCardData = {
+          cardType: cardData.type === "virtual" ? "Virtual" : "Physical" as "Virtual" | "Physical",
+          customerType: "Consumer" as const,
+          kyc: {
+            firstName: "Chris",
+            lastName: "Meyer", 
+            dob: "2000-01-01",
+            residentialAddress: {
+              line1: "Test",
+              line2: "Test",
+              city: "HK",
+              country: "HKG"
+            },
+            idDocumentType: "TaxIDNumber",
+            idDocumentNumber: "123456"
+          },
+          preferredCardName: "Chris Meyer",
+          meta: {
+            otpPhoneNumber: {
+              dialCode: "852",
+              phoneNumber: "60254458"
+            },
+            id: "123456",
+            email: "abc@gmail.com"
+          }
         };
 
-        console.log("📋 Creating Stripe Issuing card:", JSON.stringify(stripeCardData, null, 2));
+        console.log("📋 Sending corrected data to Reap API:", JSON.stringify(reapCardData, null, 2));
+        console.log("🔍 API Key being used:", process.env.REAP_API_KEY?.substring(0, 10) + "...");
+        console.log("🌐 Request URL will be:", `https://api.reap.global/api/v1/cards`);
         
-        const stripeCard = await stripeIssuingService.createCard(stripeCardData);
+        const reapCard = await reapService.createCard(reapCardData);
         
         const newCard = await storage.createCard({
           userId,
           type: cardData.type,
-          holderName,
+          holderName: `${user.firstName} ${user.lastName}`.trim(),
+          reapCardId: reapCard.id,
           currency: cardData.currency || "USD",
-          design: cardData.design || "blue",
-          expiryMonth: stripeCard.exp_month,
-          expiryYear: stripeCard.exp_year,
-          lastFour: stripeCard.last4,
-          brand: stripeCard.brand,
-          status: "active"
+          balance: "1000",
+          expiryMonth: 12,
+          expiryYear: 2028,
+          design: cardData.design || "blue"
         });
-
-        // Update card with Stripe information
-        await storage.updateCardStripeInfo(newCard.id, stripeCard.id, stripeCard.cardholder.id);
         
         // Deduct cost from wallet balance
         const cardCost = cardData.type === "virtual" ? 50 : 100;
@@ -164,14 +180,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await storage.updateWalletBalance(userId, currentBalance - cardCost);
         }
         
-        return res.status(201).json({
-          ...newCard,
-          stripeCardId: stripeCard.id,
-          stripeCardholderId: stripeCard.cardholder.id
-        });
+        return res.status(201).json(newCard);
       } catch (error: any) {
-        console.error("Error creating Stripe card:", error);
-        return res.status(500).json({ message: "Failed to create card with Stripe Issuing" });
+        console.error("Error creating Reap card:", error);
+        return res.status(500).json({ message: "Failed to create card with Reap API" });
       }
     } catch (error) {
       console.error("Error creating card:", error);
@@ -194,9 +206,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      // Activate with Stripe Issuing API
-      if (card.stripeCardId) {
-        await stripeIssuingService.updateCardStatus(card.stripeCardId, 'active');
+      // Activate with Reap API
+      if (card.reapCardId) {
+        await reapService.updateCardStatus(card.reapCardId, "active");
       }
 
       // Update database
@@ -251,10 +263,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`📋 Found card for freezing:`, card);
 
-      // Freeze with Stripe Issuing API
-      if (card.stripeCardId) {
-        console.log(`🌐 Freezing card in Stripe: ${card.stripeCardId}`);
-        await stripeIssuingService.updateCardStatus(card.stripeCardId, 'inactive');
+      // Freeze with Reap API
+      if (card.reapCardId) {
+        console.log(`🌐 Freezing card in Reap API: ${card.reapCardId}`);
+        await reapService.freezeCard(card.reapCardId);
       }
 
       // Update database
@@ -286,10 +298,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`📋 Found card for unfreezing:`, card);
 
-      // Unfreeze with Stripe Issuing API
-      if (card.stripeCardId) {
-        console.log(`🌐 Unfreezing card in Stripe: ${card.stripeCardId}`);
-        await stripeIssuingService.updateCardStatus(card.stripeCardId, 'active');
+      // Unfreeze with Reap API
+      if (card.reapCardId) {
+        console.log(`🌐 Unfreezing card in Reap API: ${card.reapCardId}`);
+        await reapService.unfreezeCard(card.reapCardId);
       }
 
       // Update database to active status
@@ -322,26 +334,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       //   return res.status(403).json({ message: "Access denied" });
       // }
 
-      // Fetch transactions from Stripe Issuing or Reap API
-      if (card.stripeCardId) {
+      // If card has Reap card ID, fetch transactions from Reap API
+      if (card.reapCardId) {
         try {
-          const stripeTransactions = await stripeIssuingService.getCardTransactions(card.stripeCardId);
-          const formattedTransactions = stripeTransactions.map(tx => ({
-            id: tx.id,
-            amount: (tx.amount / 100).toString(), // Convert from cents
-            currency: tx.currency.toUpperCase(),
-            merchant: tx.merchant?.name || 'Unknown Merchant',
-            description: tx.description || '',
-            status: tx.status,
-            type: tx.type,
-            createdAt: new Date(tx.created * 1000).toISOString()
-          }));
-          res.json(formattedTransactions);
+          const reapTransactions = await reapService.getCardTransactions(card.reapCardId);
+          res.json(reapTransactions);
         } catch (error) {
-          console.error("Error fetching Stripe transactions:", error);
-          res.json([]);
+          console.error("Error fetching Reap transactions:", error);
+          res.json([]); // Return empty array if Reap API fails
         }
       } else {
+        // Return empty array for cards without Reap integration
         res.json([]);
       }
     } catch (error) {
@@ -368,20 +371,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      // Process deposit with Stripe Issuing (funding through authorization controls)
+      // Process deposit with Lithic
+      const transfer = await reapService.addFunds(card.reapCardId || "", amount);
+
       // Create transaction record
       await storage.createTransaction({
         cardId: cardId,
-        amount: amount.toString(),
+        amount: amount,
         type: "deposit",
-        currency: "USD",
         description: "Wallet deposit",
         status: "completed",
-        merchant: "Wallet System",
+        merchantName: "Wallet System",
       });
 
       res.json({
         success: true,
+        transfer,
         message: "Deposit processed successfully"
       });
     } catch (error) {
@@ -407,26 +412,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      // Check balance first (simplified for Stripe Issuing)
-      const currentBalance = parseFloat(card.balance || "0");
-      if (currentBalance < amount) {
+      // Check balance first
+      const balance = await reapService.getCardBalance(card.reapCardId || "");
+      if (balance < amount) {
         return res.status(400).json({ message: "Insufficient funds" });
       }
 
-      // Process withdrawal with Stripe Issuing (authorization controls)
+      // Process withdrawal with Reap
+      const transfer = await reapService.addFunds(card.reapCardId || "", -amount);
+
       // Create transaction record
       await storage.createTransaction({
         cardId: cardId,
-        amount: (-amount).toString(), // Negative for withdrawal
+        amount: -amount, // Negative for withdrawal
         type: "withdrawal",
-        currency: "USD",
         description: "Wallet withdrawal",
         status: "completed",
-        merchant: "Wallet System",
+        merchantName: "Wallet System",
       });
 
       res.json({
         success: true,
+        transfer,
         message: "Withdrawal processed successfully"
       });
     } catch (error) {
@@ -463,8 +470,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log("💳 Processing Reap API call for card:", card.reapCardId);
       
-      // Process with Stripe Issuing (funding handled through authorization controls)
-      console.log("✅ Processing transfer with Stripe Issuing");
+      // Process with Reap API
+      const transfer = await reapService.addFunds(card.reapCardId || "", amount);
+      
+      console.log("✅ Reap API response:", transfer);
 
       // Create transaction record
       await storage.createTransaction({
@@ -479,6 +488,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({
         success: true,
+        transfer,
         message: amount > 0 ? "Funds added successfully" : "Funds withdrawn successfully"
       });
     } catch (error) {
@@ -500,7 +510,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      const balance = parseFloat(card.balance || "0");
+      const balance = await reapService.getCardBalance(card.reapCardId || "");
       
       res.json({ balance });
     } catch (error) {
@@ -659,12 +669,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create transaction record
       await storage.createTransaction({
         cardId: primaryCard.id,
-        amount: amount.toString(),
+        amount: amount,
         type: "deposit",
-        currency: "USD",
         description: "Wallet deposit",
         status: "completed",
-        merchant: "Deposit System",
+        merchantName: "Deposit System",
       });
 
       res.json({
@@ -698,12 +707,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create transaction record
       await storage.createTransaction({
         cardId: primaryCard.id,
-        amount: (-amount).toString(), // Negative for withdrawal
+        amount: -amount, // Negative for withdrawal
         type: "withdrawal",
-        currency: "USD",
         description: "Wallet withdrawal",
         status: "completed",
-        merchant: "Withdrawal System",
+        merchantName: "Withdrawal System",
       });
 
       res.json({
@@ -741,12 +749,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create transaction record
       await storage.createTransaction({
         cardId: primaryCard.id,
-        amount: (-amount).toString(), // Negative for sending
+        amount: -amount, // Negative for sending
         type: "transfer",
-        currency: "USD",
         description: `Transfer to ${recipient}${note ? `: ${note}` : ''}`,
         status: "completed",
-        merchant: "Transfer System",
+        merchantName: "Transfer System",
       });
 
       res.json({
@@ -892,8 +899,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Subscribe URL is required" });
       }
 
-      // Stripe Issuing webhooks handled through Stripe dashboard
-      const subscription = { message: "Stripe webhooks configured" };
+      const subscription = await reapService.subscribeToWebhook(subscribeUrl);
       res.json({
         message: "Webhook subscription successful",
         subscription
@@ -909,7 +915,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/webhooks", requireAuth, async (req: any, res) => {
     try {
-      const subscriptions = []; // Stripe webhooks managed through dashboard
+      const subscriptions = await reapService.getWebhookSubscriptions();
       res.json(subscriptions);
     } catch (error) {
       console.error("Error fetching webhook subscriptions:", error);
@@ -923,7 +929,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.delete("/api/webhooks/:id", requireAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
-      // Stripe webhooks managed through dashboard - no deletion needed
+      await reapService.deleteWebhookSubscription(id);
       res.json({ message: "Webhook subscription deleted successfully" });
     } catch (error) {
       console.error("Error deleting webhook subscription:", error);

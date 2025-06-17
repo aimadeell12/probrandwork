@@ -199,22 +199,15 @@ export class DatabaseStorage implements IStorage {
     return card || undefined;
   }
 
-  async createCard(card: InsertCard): Promise<Card> {    
-    const [newCard] = await db.insert(cards).values(card).returning();
+  async createCard(card: InsertCard): Promise<Card> {
+    const cardData = {
+      ...card,
+      expiryMonth: card.expiryMonth || 12,
+      expiryYear: card.expiryYear || 2028
+    };
+    
+    const [newCard] = await db.insert(cards).values(cardData).returning();
     return newCard;
-  }
-
-  async updateCardStripeInfo(cardId: string, stripeCardId: string, stripeCardholderId: string): Promise<Card> {
-    const [updatedCard] = await db
-      .update(cards)
-      .set({ 
-        stripeCardId, 
-        stripeCardholderId,
-        updatedAt: new Date() 
-      })
-      .where(eq(cards.id, cardId))
-      .returning();
-    return updatedCard;
   }
 
   async updateCard(id: string, updates: Partial<Card>): Promise<Card> {
