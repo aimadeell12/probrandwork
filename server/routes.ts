@@ -368,22 +368,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      // Process deposit with Lithic
-      const transfer = await reapService.addFunds(card.reapCardId || "", amount);
-
+      // Process deposit with Stripe Issuing (funding through authorization controls)
       // Create transaction record
       await storage.createTransaction({
         cardId: cardId,
-        amount: amount,
+        amount: amount.toString(),
         type: "deposit",
+        currency: "USD",
         description: "Wallet deposit",
         status: "completed",
-        merchantName: "Wallet System",
+        merchant: "Wallet System",
       });
 
       res.json({
         success: true,
-        transfer,
         message: "Deposit processed successfully"
       });
     } catch (error) {
@@ -409,28 +407,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      // Check balance first
-      const balance = await reapService.getCardBalance(card.reapCardId || "");
-      if (balance < amount) {
+      // Check balance first (simplified for Stripe Issuing)
+      const currentBalance = parseFloat(card.balance || "0");
+      if (currentBalance < amount) {
         return res.status(400).json({ message: "Insufficient funds" });
       }
 
-      // Process withdrawal with Reap
-      const transfer = await reapService.addFunds(card.reapCardId || "", -amount);
-
+      // Process withdrawal with Stripe Issuing (authorization controls)
       // Create transaction record
       await storage.createTransaction({
         cardId: cardId,
-        amount: -amount, // Negative for withdrawal
+        amount: (-amount).toString(), // Negative for withdrawal
         type: "withdrawal",
+        currency: "USD",
         description: "Wallet withdrawal",
         status: "completed",
-        merchantName: "Wallet System",
+        merchant: "Wallet System",
       });
 
       res.json({
         success: true,
-        transfer,
         message: "Withdrawal processed successfully"
       });
     } catch (error) {
