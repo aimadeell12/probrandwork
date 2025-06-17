@@ -698,8 +698,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create transaction record
       await storage.createTransaction({
         cardId: primaryCard.id,
-        amount: -amount, // Negative for withdrawal
+        amount: (-amount).toString(), // Negative for withdrawal
         type: "withdrawal",
+        currency: "USD",
         description: "Wallet withdrawal",
         status: "completed",
         merchant: "Withdrawal System",
@@ -740,8 +741,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create transaction record
       await storage.createTransaction({
         cardId: primaryCard.id,
-        amount: -amount, // Negative for sending
+        amount: (-amount).toString(), // Negative for sending
         type: "transfer",
+        currency: "USD",
         description: `Transfer to ${recipient}${note ? `: ${note}` : ''}`,
         status: "completed",
         merchant: "Transfer System",
