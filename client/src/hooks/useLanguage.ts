@@ -336,7 +336,21 @@ const translations = {
     acceptTerms: "Accept Terms",
     noCardsYet: "No cards yet",
     noCardsDesc: "You don't have any cards yet",
-    createFirstCard: "Create your first card"
+    createFirstCard: "Create your first card",
+    
+    // Card statuses
+    active: "Active",
+    pending: "Pending",
+    blocked: "Blocked",
+    frozen: "Frozen",
+    suspended: "Suspended",
+    
+    // Card status descriptions
+    cardIsActive: "Ready to use",
+    cardIsPending: "Card is pending",
+    cardIsBlocked: "Card is permanently blocked",
+    cardIsFrozen: "Card is temporarily frozen",
+    cardIsSuspended: "Card is suspended"
   },
   ar: {
     // Navigation
@@ -487,7 +501,21 @@ const translations = {
     acceptTerms: "قبول الشروط",
     noCardsYet: "لا توجد بطاقات بعد",
     noCardsDesc: "ليس لديك أي بطاقات بعد",
-    createFirstCard: "إنشاء بطاقتك الأولى"
+    createFirstCard: "إنشاء بطاقتك الأولى",
+    
+    // Card statuses
+    active: "نشطة",
+    pending: "في الانتظار",
+    blocked: "محجوبة",
+    frozen: "مجمدة",
+    suspended: "معلقة",
+    
+    // Card status descriptions
+    cardIsActive: "البطاقة جاهزة للاستخدام",
+    cardIsPending: "البطاقة في الانتظار",
+    cardIsBlocked: "البطاقة محجوبة نهائياً",
+    cardIsFrozen: "البطاقة مجمدة مؤقتاً",
+    cardIsSuspended: "البطاقة معلقة"
   }
 };
 

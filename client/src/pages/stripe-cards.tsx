@@ -113,7 +113,7 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
             <div>
               <p className="text-sm opacity-90 font-medium">PayDota</p>
               <Badge className={cn("mt-1", getStatusColor(card.status))}>
-                {card.status}
+                {t(card.status as any)}
               </Badge>
             </div>
             <div className="flex items-center gap-2">

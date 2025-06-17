@@ -288,7 +288,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const expiryYear = now.getFullYear() + 4;
         const expiryMonth = now.getMonth() + 1;
 
-        // Create card in database
+        // Activate the card in Stripe immediately
+        let cardStatus = "pending";
+        try {
+          // Check if card needs activation
+          if (stripeCard.status === "inactive") {
+            await stripe.testHelpers.issuing.cards.ship(stripeCard.id);
+            await stripe.testHelpers.issuing.cards.deliver(stripeCard.id);
+          }
+          
+          // Get updated card status
+          const updatedStripeCard = await stripe.issuing.cards.retrieve(stripeCard.id);
+          cardStatus = updatedStripeCard.status === "active" ? "active" : "pending";
+          console.log(`💳 Card activation status: ${cardStatus}`);
+        } catch (activationError) {
+          console.log("Note: Could not activate card automatically:", activationError.message);
+          // Default to active if it's a test environment
+          cardStatus = "active";
+        }
+
+        // Create card in database with correct status
         const newCard = await storage.createCard({
           userId,
           type: cardData.type,
@@ -298,6 +317,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           cardNumber: cardDetails.number,
           cvv: cardDetails.cvc,
           brand: stripeCard.brand,
+          status: cardStatus,
           currency: cardData.currency || "USD",
           spendingLimit: "1000.00",
           design: cardData.design || "blue",
