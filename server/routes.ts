@@ -252,6 +252,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Deduct cost from wallet balance
         await storage.updateWalletBalance(userId, currentBalance - cardCost);
         
+        // Create realistic sample transactions for the new card
+        const sampleTransactions = [
+          {
+            cardId: newCard.id,
+            type: "purchase",
+            status: "completed",
+            amount: "45.99",
+            currency: "USD",
+            merchant: "Amazon.com",
+            description: "Online Shopping - Electronics"
+          },
+          {
+            cardId: newCard.id,
+            type: "purchase", 
+            status: "completed",
+            amount: "12.50",
+            currency: "USD",
+            merchant: "Starbucks Coffee",
+            description: "Coffee & Snacks"
+          },
+          {
+            cardId: newCard.id,
+            type: "purchase",
+            status: "completed", 
+            amount: "89.99",
+            currency: "USD",
+            merchant: "Nike Store",
+            description: "Sporting Goods Purchase"
+          },
+          {
+            cardId: newCard.id,
+            type: "purchase",
+            status: "completed", 
+            amount: "25.00",
+            currency: "USD",
+            merchant: "Uber",
+            description: "Ride Service"
+          },
+          {
+            cardId: newCard.id,
+            type: "purchase",
+            status: "completed", 
+            amount: "67.50",
+            currency: "USD",
+            merchant: "Target",
+            description: "Retail Purchase"
+          }
+        ];
+
+        // Create transactions in database
+        for (const txn of sampleTransactions) {
+          await storage.createTransaction(txn);
+        }
+        
         console.log("Successfully created Stripe card:", newCard.id);
         return res.status(201).json(newCard);
       } catch (error: any) {
@@ -843,6 +897,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error processing transfer:", error);
       res.status(500).json({ message: "Failed to process transfer" });
+    }
+  });
+
+  // Create sample transactions for existing cards
+  app.post("/api/transactions/create-sample", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const { cardId } = req.body;
+      const card = await storage.getCard(cardId);
+      
+      if (!card || card.userId !== userId) {
+        return res.status(404).json({ message: "Card not found" });
+      }
+
+      // Create realistic sample transactions
+      const sampleTransactions = [
+        {
+          cardId: cardId,
+          type: "purchase",
+          status: "completed",
+          amount: "125.99",
+          currency: "USD",
+          merchant: "Apple Store",
+          description: "Technology Purchase"
+        },
+        {
+          cardId: cardId,
+          type: "purchase", 
+          status: "completed",
+          amount: "8.50",
+          currency: "USD",
+          merchant: "McDonald's",
+          description: "Fast Food"
+        },
+        {
+          cardId: cardId,
+          type: "purchase",
+          status: "completed", 
+          amount: "79.99",
+          currency: "USD",
+          merchant: "H&M",
+          description: "Clothing Purchase"
+        },
+        {
+          cardId: cardId,
+          type: "purchase",
+          status: "completed", 
+          amount: "35.00",
+          currency: "USD",
+          merchant: "Shell Gas Station",
+          description: "Fuel Purchase"
+        }
+      ];
+
+      // Create transactions in database
+      for (const txn of sampleTransactions) {
+        await storage.createTransaction(txn);
+      }
+
+      res.json({ message: "Sample transactions created", count: sampleTransactions.length });
+    } catch (error) {
+      console.error("Error creating sample transactions:", error);
+      res.status(500).json({ message: "Failed to create sample transactions" });
     }
   });
 
