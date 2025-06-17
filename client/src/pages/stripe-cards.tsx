@@ -423,7 +423,7 @@ export default function StripeCards() {
                                             </div>
                                             <div>
                                               <p className="font-medium text-gray-900 dark:text-white text-sm">
-                                                {transaction.merchant || transaction.description}
+                                                {transaction.merchant || transaction.description || 'معاملة'}
                                               </p>
                                               <p className="text-xs text-gray-500 dark:text-gray-400">
                                                 {new Date(transaction.createdAt).toLocaleDateString()}

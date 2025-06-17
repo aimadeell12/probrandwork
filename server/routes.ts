@@ -1135,9 +1135,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
             // Convert Stripe transactions to our format
             const formattedTransactions = stripeTransactions.data.map(txn => {
-              // Log the full transaction for debugging
-              console.log("📋 Full Stripe transaction data:", JSON.stringify(txn, null, 2));
-              
               // Extract merchant information from various possible locations
               let merchantName = 'Unknown Merchant';
               let merchantCategory = '';
@@ -1169,9 +1166,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 'gas_stations': 'محطة وقود',
                 'clothing_stores': 'متجر ملابس',
                 'department_stores': 'متجر متعدد الأقسام',
-                'electronic_stores': 'متجر إلكترونيات',
+                'electronics_stores': 'متجر إلكترونيات',
                 'miscellaneous_stores': 'متجر متنوع',
-                'transportation': 'نقل ومواصلات',
+                'transportation_services': 'نقل ومواصلات',
                 'online_services': 'خدمات إلكترونية',
                 'restaurants': 'مطعم',
                 'retail': 'تجارة تجزئة',
@@ -1187,9 +1184,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
               } else if (merchantCategory) {
                 description = `${merchantName} - ${merchantCategory.replace(/_/g, ' ')}`;
               }
-              
-              // Log what we extracted
-              console.log(`🏪 Extracted merchant: "${merchantName}", category: "${merchantCategory}"`);
               
               return {
                 id: txn.id,

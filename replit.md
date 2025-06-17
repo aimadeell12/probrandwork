@@ -111,6 +111,9 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Static Assets**: Served from built `dist/public` directory
 
 ## Changelog
+- June 17, 2025: Fixed transaction display to show real merchant names from Stripe API (tttt, facebook, Rocket Rides, Apple Store)
+- June 17, 2025: Added Arabic category translations for merchant types (نقل ومواصلات, متجر إلكترونيات)
+- June 17, 2025: Updated all transaction displays across cards, stripe-cards, and transactions pages
 - June 17, 2025: Removed "Create Test Transactions" and "Accept Terms" buttons from cards interface per user request
 - June 17, 2025: Successfully implemented card creation with real user information - confirmed working with user "Aimad Aimad"
 - June 17, 2025: Fixed Stripe card creation to use real user information (name, phone, email, date of birth)

@@ -233,7 +233,7 @@ export default function Cards() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                        {transaction.description || transaction.merchant || 'Transaction'}
+                                        {transaction.merchant || transaction.description || 'معاملة'}
                                       </p>
                                       <p className="text-xs text-gray-500 dark:text-gray-400">
                                         {transaction.date ? new Date(transaction.date).toLocaleDateString('en') : 'Today'}

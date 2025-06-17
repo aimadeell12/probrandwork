@@ -188,10 +188,10 @@ export default function Transactions() {
                       </div>
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white">
-                          {getTransactionTypeLabel(transaction.type)}
+                          {transaction.merchant || transaction.description || getTransactionTypeLabel(transaction.type)}
                         </p>
                         <p className="text-sm text-gray-600 dark:text-gray-300">
-                          {transaction.description || "لا يوجد وصف"}
+                          {transaction.description && transaction.merchant ? transaction.description : getTransactionTypeLabel(transaction.type)}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
                           {new Date(transaction.createdAt).toLocaleDateString('ar-SA')}
