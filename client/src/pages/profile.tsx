@@ -57,21 +57,28 @@ export default function Profile() {
   const handleSave = async () => {
     setIsLoading(true);
     try {
-      await apiRequest('/api/user/profile', {
-        method: 'PUT',
-        body: formData
-      });
-
+      console.log("🚀 [PROFILE] Saving profile data:", formData);
+      
+      const result = await apiRequest("PATCH", "/api/auth/profile", formData);
+      
+      console.log("✅ [PROFILE] Profile updated successfully:", result);
+      
       toast({
-        title: "Success",
-        description: "Profile updated successfully",
+        title: "تم التحديث",
+        description: "تم تحديث ملفك الشخصي بنجاح",
       });
 
       setIsEditing(false);
-    } catch (error) {
+      // Refresh user data
+      window.location.reload();
+    } catch (error: any) {
+      console.error("❌ [PROFILE] Error updating profile:", error);
+      
+      const errorMessage = error?.message || "فشل في تحديث الملف الشخصي. حاول مرة أخرى.";
+      
       toast({
-        title: "Error",
-        description: "Failed to update profile. Please try again.",
+        title: "خطأ",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
