@@ -26,7 +26,7 @@ import {
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, count, sql } from "drizzle-orm";
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 // Interface for storage operations
 export interface IStorage {
@@ -123,13 +123,6 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId));
   }
 
-  async getAllUsers(): Promise<User[]> {
-    return await db
-      .select()
-      .from(users)
-      .orderBy(desc(users.createdAt));
-  }
-
   async createLocalUser(userData: any): Promise<User> {
     const [user] = await db.insert(users).values(userData).returning();
     return user;
@@ -175,15 +168,15 @@ export class DatabaseStorage implements IStorage {
       console.log("✅ [STORAGE] User updated successfully:", updatedUser);
       return updatedUser;
       
-    } catch (dbError) {
+    } catch (dbError: any) {
       console.error("❌ [STORAGE] Database error during profile update:", dbError);
       console.error("❌ [STORAGE] Error details:", {
         userId,
         updates: safeUpdates,
-        error: dbError.message,
-        stack: dbError.stack
+        error: dbError?.message,
+        stack: dbError?.stack
       });
-      throw new Error(`Database update failed: ${dbError.message}`);
+      throw new Error(`Database update failed: ${dbError?.message || 'Unknown error'}`);
     }
   }
 
