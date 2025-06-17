@@ -197,11 +197,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           stripeCardId: stripeCard.id,
           stripeCardHolderId: cardholder.id,
           cardNumber: stripeCard.number,
-          lastFour: stripeCard.last4,
           cvv: stripeCard.cvc,
           brand: stripeCard.brand,
           currency: cardData.currency || "USD",
-          balance: "0.00",
           spendingLimit: "1000.00",
           expiryMonth,
           expiryYear,
@@ -238,13 +236,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Card not found" });
       }
 
-      if (card.userId !== req.user.id) {
+      if (card.userId !== req.session?.userId) {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      // Activate with Reap API
-      if (card.reapCardId) {
-        await reapService.updateCardStatus(card.reapCardId, "active");
+      // Activate with Stripe Issuing
+      if (card.stripeCardId) {
+        await stripe.issuing.cards.update(card.stripeCardId, {
+          status: 'active'
+        });
       }
 
       // Update database

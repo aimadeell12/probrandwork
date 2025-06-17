@@ -11,7 +11,7 @@ import Login from "@/pages/login";
 import Register from "@/pages/register";
 import Dashboard from "@/pages/dashboard";
 import Wallet from "@/pages/wallet";
-import Cards from "@/pages/cards";
+import Cards from "@/pages/stripe-cards";
 import Support from "@/pages/support";
 import Account from "@/pages/account";
 import Deposit from "@/pages/deposit";
