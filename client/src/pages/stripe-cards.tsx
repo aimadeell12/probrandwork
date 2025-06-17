@@ -438,7 +438,12 @@ export default function StripeCards() {
                                 </div>
                               ) : (
                                 <>
-                                  {transactions.filter((tx: any) => tx.cardId === card.id).slice(0, 3).length > 0 ? (
+                                  {(() => {
+                                    const cardTransactions = transactions.filter((tx: any) => tx.cardId === card.id);
+                                    console.log(`Card ${card.id} transactions:`, cardTransactions);
+                                    console.log('All transactions:', transactions);
+                                    return cardTransactions.slice(0, 3).length > 0;
+                                  })() ? (
                                     <div className="space-y-3">
                                       {transactions.filter((tx: any) => tx.cardId === card.id).slice(0, 3).map((transaction: any) => (
                                         <div key={transaction.id} className="flex items-center justify-between">
@@ -471,7 +476,7 @@ export default function StripeCards() {
                                               : "text-red-600 dark:text-red-400"
                                           )}>
                                             {transaction.type === 'deposit' || transaction.type === 'refund' ? '+' : '-'}
-                                            {formatAmount(Math.abs(transaction.amount || 0), transaction.currency || card.currency)}
+                                            ${typeof transaction.amount === 'string' ? transaction.amount : transaction.amount?.toFixed(2) || '0.00'}
                                           </span>
                                         </div>
                                       ))}
