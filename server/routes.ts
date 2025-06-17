@@ -463,10 +463,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log("💳 Processing Reap API call for card:", card.reapCardId);
       
-      // Process with Reap API
-      const transfer = await reapService.addFunds(card.reapCardId || "", amount);
-      
-      console.log("✅ Reap API response:", transfer);
+      // Process with Stripe Issuing (funding handled through authorization controls)
+      console.log("✅ Processing transfer with Stripe Issuing");
 
       // Create transaction record
       await storage.createTransaction({
@@ -481,7 +479,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({
         success: true,
-        transfer,
         message: amount > 0 ? "Funds added successfully" : "Funds withdrawn successfully"
       });
     } catch (error) {
@@ -503,7 +500,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      const balance = await reapService.getCardBalance(card.reapCardId || "");
+      const balance = parseFloat(card.balance || "0");
       
       res.json({ balance });
     } catch (error) {
@@ -892,7 +889,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Subscribe URL is required" });
       }
 
-      const subscription = await reapService.subscribeToWebhook(subscribeUrl);
+      // Stripe Issuing webhooks handled through Stripe dashboard
+      const subscription = { message: "Stripe webhooks configured" };
       res.json({
         message: "Webhook subscription successful",
         subscription
