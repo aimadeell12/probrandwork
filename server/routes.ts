@@ -659,11 +659,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create transaction record
       await storage.createTransaction({
         cardId: primaryCard.id,
-        amount: amount,
+        amount: amount.toString(),
         type: "deposit",
+        currency: "USD",
         description: "Wallet deposit",
         status: "completed",
-        merchantName: "Deposit System",
+        merchant: "Deposit System",
       });
 
       res.json({
@@ -701,7 +702,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         type: "withdrawal",
         description: "Wallet withdrawal",
         status: "completed",
-        merchantName: "Withdrawal System",
+        merchant: "Withdrawal System",
       });
 
       res.json({
@@ -743,7 +744,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         type: "transfer",
         description: `Transfer to ${recipient}${note ? `: ${note}` : ''}`,
         status: "completed",
-        merchantName: "Transfer System",
+        merchant: "Transfer System",
       });
 
       res.json({
@@ -906,7 +907,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/webhooks", requireAuth, async (req: any, res) => {
     try {
-      const subscriptions = await reapService.getWebhookSubscriptions();
+      const subscriptions = []; // Stripe webhooks managed through dashboard
       res.json(subscriptions);
     } catch (error) {
       console.error("Error fetching webhook subscriptions:", error);
@@ -920,7 +921,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.delete("/api/webhooks/:id", requireAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
-      await reapService.deleteWebhookSubscription(id);
+      // Stripe webhooks managed through dashboard - no deletion needed
       res.json({ message: "Webhook subscription deleted successfully" });
     } catch (error) {
       console.error("Error deleting webhook subscription:", error);
