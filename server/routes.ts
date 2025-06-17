@@ -125,55 +125,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Create card with Reap API using corrected format
+      // Create card with Stripe Issuing
       try {
-        console.log("Creating card with Reap API using corrected format...");
+        console.log("Creating card with Stripe Issuing...");
         
-        // بيانات sandbox محددة كما في المثال
-        const reapCardData = {
-          cardType: cardData.type === "virtual" ? "Virtual" : "Physical" as "Virtual" | "Physical",
-          customerType: "Consumer" as const,
-          kyc: {
-            firstName: "Chris",
-            lastName: "Meyer", 
-            dob: "2000-01-01",
-            residentialAddress: {
-              line1: "Test",
-              line2: "Test",
-              city: "HK",
-              country: "HKG"
-            },
-            idDocumentType: "TaxIDNumber",
-            idDocumentNumber: "123456"
-          },
-          preferredCardName: "Chris Meyer",
-          meta: {
-            otpPhoneNumber: {
-              dialCode: "852",
-              phoneNumber: "60254458"
-            },
-            id: "123456",
-            email: "abc@gmail.com"
-          }
+        const holderName = user.firstName && user.lastName 
+          ? `${user.firstName} ${user.lastName}`.trim()
+          : user.username || "Card Holder";
+
+        const stripeCardData = {
+          holderName,
+          type: cardData.type as 'virtual' | 'physical',
+          currency: cardData.currency || "USD"
         };
 
-        console.log("📋 Sending corrected data to Reap API:", JSON.stringify(reapCardData, null, 2));
-        console.log("🔍 API Key being used:", process.env.REAP_API_KEY?.substring(0, 10) + "...");
-        console.log("🌐 Request URL will be:", `https://api.reap.global/api/v1/cards`);
+        console.log("📋 Creating Stripe Issuing card:", JSON.stringify(stripeCardData, null, 2));
         
-        const reapCard = await reapService.createCard(reapCardData);
+        const stripeCard = await stripeIssuingService.createCard(stripeCardData);
         
         const newCard = await storage.createCard({
           userId,
           type: cardData.type,
-          holderName: `${user.firstName} ${user.lastName}`.trim(),
-          reapCardId: reapCard.id,
+          holderName,
           currency: cardData.currency || "USD",
-          balance: "1000",
-          expiryMonth: 12,
-          expiryYear: 2028,
-          design: cardData.design || "blue"
+          design: cardData.design || "blue",
+          expiryMonth: stripeCard.exp_month,
+          expiryYear: stripeCard.exp_year,
+          lastFour: stripeCard.last4,
+          brand: stripeCard.brand,
+          status: "active"
         });
+
+        // Update card with Stripe information
+        await storage.updateCardStripeInfo(newCard.id, stripeCard.id, stripeCard.cardholder.id);
         
         // Deduct cost from wallet balance
         const cardCost = cardData.type === "virtual" ? 50 : 100;
@@ -181,10 +165,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await storage.updateWalletBalance(userId, currentBalance - cardCost);
         }
         
-        return res.status(201).json(newCard);
+        return res.status(201).json({
+          ...newCard,
+          stripeCardId: stripeCard.id,
+          stripeCardholderId: stripeCard.cardholder.id
+        });
       } catch (error: any) {
-        console.error("Error creating Reap card:", error);
-        return res.status(500).json({ message: "Failed to create card with Reap API" });
+        console.error("Error creating Stripe card:", error);
+        return res.status(500).json({ message: "Failed to create card with Stripe Issuing" });
       }
     } catch (error) {
       console.error("Error creating card:", error);
@@ -264,8 +252,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`📋 Found card for freezing:`, card);
 
-      // Freeze with Reap API
-      if (card.reapCardId) {
+      // Freeze with Stripe Issuing API
+      if (card.stripeCardId) {
+        console.log(`🌐 Freezing card in Stripe: ${card.stripeCardId}`);
+        await stripeIssuingService.updateCardStatus(card.stripeCardId, 'inactive');
+      } else if (card.reapCardId) {
         console.log(`🌐 Freezing card in Reap API: ${card.reapCardId}`);
         await reapService.freezeCard(card.reapCardId);
       }
@@ -299,8 +290,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`📋 Found card for unfreezing:`, card);
 
-      // Unfreeze with Reap API
-      if (card.reapCardId) {
+      // Unfreeze with Stripe Issuing API
+      if (card.stripeCardId) {
+        console.log(`🌐 Unfreezing card in Stripe: ${card.stripeCardId}`);
+        await stripeIssuingService.updateCardStatus(card.stripeCardId, 'active');
+      } else if (card.reapCardId) {
         console.log(`🌐 Unfreezing card in Reap API: ${card.reapCardId}`);
         await reapService.unfreezeCard(card.reapCardId);
       }
@@ -335,17 +329,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       //   return res.status(403).json({ message: "Access denied" });
       // }
 
-      // If card has Reap card ID, fetch transactions from Reap API
-      if (card.reapCardId) {
+      // Fetch transactions from Stripe Issuing or Reap API
+      if (card.stripeCardId) {
+        try {
+          const stripeTransactions = await stripeIssuingService.getCardTransactions(card.stripeCardId);
+          const formattedTransactions = stripeTransactions.map(tx => ({
+            id: tx.id,
+            amount: (tx.amount / 100).toString(), // Convert from cents
+            currency: tx.currency.toUpperCase(),
+            merchant: tx.merchant?.name || 'Unknown Merchant',
+            description: tx.description || '',
+            status: tx.status,
+            type: tx.type,
+            createdAt: new Date(tx.created * 1000).toISOString()
+          }));
+          res.json(formattedTransactions);
+        } catch (error) {
+          console.error("Error fetching Stripe transactions:", error);
+          res.json([]);
+        }
+      } else if (card.reapCardId) {
         try {
           const reapTransactions = await reapService.getCardTransactions(card.reapCardId);
           res.json(reapTransactions);
         } catch (error) {
           console.error("Error fetching Reap transactions:", error);
-          res.json([]); // Return empty array if Reap API fails
+          res.json([]);
         }
       } else {
-        // Return empty array for cards without Reap integration
         res.json([]);
       }
     } catch (error) {

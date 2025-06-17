@@ -36,6 +36,7 @@ import Help from "@/pages/account/help";
 import Community from "@/pages/account/community";
 import PriorityCards from "@/pages/cards/priority";
 import ChooseCard from "@/pages/choose-card";
+import StripeCards from "@/pages/stripe-cards";
 
 import KYCVerification from "@/pages/kyc-verification-new";
 import KycManagement from "@/pages/kyc-management";
@@ -125,6 +126,7 @@ function Router() {
 
             {/* Cards routes */}
             <Route path="/cards/priority" component={PriorityCards} />
+            <Route path="/cards/stripe" component={StripeCards} />
             <Route path="/choose-card" component={ChooseCard} />
             <Route path="/cards" component={Cards} />
 
