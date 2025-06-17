@@ -86,10 +86,19 @@ export default function EditProfile() {
 
   // Update profile mutation
   const updateProfileMutation = useMutation({
-    mutationFn: (data: ProfileFormData) =>
-      apiRequest("PATCH", `/api/auth/profile`, data),
+    mutationFn: async (data: ProfileFormData) => {
+      console.log("🚀 [FRONTEND] Starting profile update with data:", data);
+      try {
+        const result = await apiRequest("PATCH", `/api/auth/profile`, data);
+        console.log("✅ [FRONTEND] Profile update API response:", result);
+        return result;
+      } catch (error) {
+        console.error("❌ [FRONTEND] Profile update API error:", error);
+        throw error;
+      }
+    },
     onSuccess: async (updatedUser) => {
-      console.log("Profile update successful, updated user:", updatedUser);
+      console.log("✅ [FRONTEND] Profile update successful, updated user:", updatedUser);
       
       // Invalidate and refetch user data immediately
       await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
@@ -100,11 +109,20 @@ export default function EditProfile() {
         description: "Your personal information has been saved successfully",
       });
     },
-    onError: (error) => {
-      console.error("Update profile error:", error);
+    onError: (error: any) => {
+      console.error("❌ [FRONTEND] Update profile error:", error);
+      console.error("❌ [FRONTEND] Error details:", {
+        message: error?.message,
+        response: error?.response,
+        data: error?.response?.data,
+        status: error?.response?.status
+      });
+      
+      const errorMessage = error?.response?.data?.message || error?.message || "Failed to update profile. Please try again.";
+      
       toast({
         title: "Update Failed",
-        description: "Failed to update profile. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     },
