@@ -332,6 +332,7 @@ const translations = {
     recentTransactions: "Recent Transactions",
     balance: "Balance",
     noRecentTransactions: "No recent transactions",
+    createTestTransactions: "Create Test Transactions",
     noCardsYet: "No cards yet",
     noCardsDesc: "You don't have any cards yet",
     createFirstCard: "Create your first card"
