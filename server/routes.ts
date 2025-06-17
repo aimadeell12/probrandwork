@@ -108,7 +108,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const { cardId } = req.params;
-      const card = await storage.getCardById(cardId);
+      const card = await storage.getCard(cardId);
       
       if (!card || card.userId !== userId) {
         return res.status(404).json({ message: "Card not found" });

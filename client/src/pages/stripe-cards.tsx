@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { Plus, ArrowUpRight, ArrowDownLeft, Clock, Eye, EyeOff, MoreVertical, Snowflake, Unlock, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,6 +21,31 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
   onToggleVisibility: () => void;
 }) => {
   const { t } = useLanguage();
+  const [cardDetails, setCardDetails] = useState<any>(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
+
+  // Fetch real card details from Stripe when showing details
+  const fetchCardDetails = async () => {
+    if (!card.stripeCardId || cardDetails) return;
+    
+    setLoadingDetails(true);
+    try {
+      const response = await apiRequest("GET", `/api/cards/${card.id}/details`);
+      const details = await response.json();
+      setCardDetails(details);
+    } catch (error) {
+      console.error("Failed to fetch card details:", error);
+    } finally {
+      setLoadingDetails(false);
+    }
+  };
+
+  // Fetch details when showDetails becomes true
+  useEffect(() => {
+    if (showDetails && card.stripeCardId) {
+      fetchCardDetails();
+    }
+  }, [showDetails, card.stripeCardId]);
   
   const getCardGradient = (design: string) => {
     switch (design) {
@@ -102,10 +127,15 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
           {/* Card Number */}
           <div className="my-4">
             <p className="text-lg font-mono tracking-wider">
-              {showDetails 
-                ? formatCardNumber(card.cardNumber || `****-****-****-${card.lastFour || '****'}`)
-                : formatCardNumber(`****-****-****-${card.lastFour || '****'}`)
-              }
+              {showDetails && cardDetails?.number ? (
+                loadingDetails ? (
+                  <span className="animate-pulse">Loading...</span>
+                ) : (
+                  formatCardNumber(cardDetails.number)
+                )
+              ) : (
+                formatCardNumber(`****-****-****-${cardDetails?.last4 || card.lastFour || '****'}`)
+              )}
             </p>
           </div>
 
