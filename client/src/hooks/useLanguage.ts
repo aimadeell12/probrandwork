@@ -321,7 +321,20 @@ const translations = {
     transfer: "Transfer",
     bills: "Bills",
     analytics: "Analytics",
-    wallet: "Wallet"
+    wallet: "Wallet",
+    
+    // Card Management
+    addCard: "Add Card",
+    virtualCards: "Virtual Cards",
+    physicalCards: "Physical Cards",
+    cardHolder: "Card Holder",
+    expires: "Expires",
+    recentTransactions: "Recent Transactions",
+    balance: "Balance",
+    noRecentTransactions: "No recent transactions",
+    noCardsYet: "No cards yet",
+    noCardsDesc: "You don't have any cards yet",
+    createFirstCard: "Create your first card"
   },
   ar: {
     // Navigation
@@ -457,7 +470,20 @@ const translations = {
     transfer: "تحويل",
     bills: "الفواتير",
     analytics: "تحليلات",
-    wallet: "المحفظة"
+    wallet: "المحفظة",
+    
+    // Card Management
+    addCard: "إضافة بطاقة",
+    virtualCards: "البطاقات الافتراضية",
+    physicalCards: "البطاقات الفيزيائية",
+    cardHolder: "حامل البطاقة",
+    expires: "انتهاء الصلاحية",
+    recentTransactions: "المعاملات الأخيرة",
+    balance: "الرصيد",
+    noRecentTransactions: "لا توجد معاملات حديثة",
+    noCardsYet: "لا توجد بطاقات بعد",
+    noCardsDesc: "ليس لديك أي بطاقات بعد",
+    createFirstCard: "إنشاء بطاقتك الأولى"
   }
 };
 
