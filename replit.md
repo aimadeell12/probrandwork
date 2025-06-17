@@ -111,6 +111,9 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Static Assets**: Served from built `dist/public` directory
 
 ## Changelog
+- June 17, 2025: Implemented automatic card activation - new cards are now set to "active" status upon creation
+- June 17, 2025: Added Arabic translations for card statuses (نشطة, مجمدة, محجوبة) with proper display across all card interfaces
+- June 17, 2025: Enhanced card status management with real-time updates and Arabic language support
 - June 17, 2025: Fixed transaction display to show real merchant names from Stripe API (tttt, facebook, Rocket Rides, Apple Store)
 - June 17, 2025: Added Arabic category translations for merchant types (نقل ومواصلات, متجر إلكترونيات)
 - June 17, 2025: Updated all transaction displays across cards, stripe-cards, and transactions pages

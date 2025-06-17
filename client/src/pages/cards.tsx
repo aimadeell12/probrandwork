@@ -183,11 +183,7 @@ export default function Cards() {
                               ? "bg-gradient-to-r from-blue-500 to-cyan-500"
                               : "bg-gradient-to-r from-purple-500 to-blue-500"
                           )}></div>
-                          {card.status === "blocked" 
-                            ? "Blocked" 
-                            : card.status === "frozen"
-                            ? "Frozen"
-                            : "Active"}
+                          {t(card.status as any)}
                         </div>
 
                         <p className={cn(
