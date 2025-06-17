@@ -158,10 +158,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           },
           billing: {
             address: {
-              line1: user.address || '123 Main St',
-              city: user.city || 'City',
+              line1: user.address || '8206 Louisiana Blvd Ne, Ste A 6342',
+              city: user.city || 'Albuquerque',
+              state: 'NM',
               country: 'US',
-              postal_code: user.postalCode || '12345'
+              postal_code: user.postalCode || '87113'
             }
           }
         });
