@@ -150,16 +150,24 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
             <div className="text-right">
               <p className="text-xs opacity-75">{t("expires")}</p>
               <p className="text-sm font-mono">
-                {showDetails && card.expiryMonth && card.expiryYear
-                  ? `${String(card.expiryMonth).padStart(2, '0')}/${String(card.expiryYear).slice(-2)}`
-                  : '••/••'
-                }
+                {showDetails ? (
+                  loadingDetails ? '••/••' : (
+                    cardDetails?.expMonth && cardDetails?.expYear ? 
+                      `${String(cardDetails.expMonth).padStart(2, '0')}/${String(cardDetails.expYear).slice(-2)}` :
+                      (card.expiryMonth && card.expiryYear ? 
+                        `${String(card.expiryMonth).padStart(2, '0')}/${String(card.expiryYear).slice(-2)}` :
+                        '••/••'
+                      )
+                  )
+                ) : '••/••'}
               </p>
             </div>
             {showDetails && (
               <div className="text-right">
                 <p className="text-xs opacity-75">CVV</p>
-                <p className="text-sm font-mono">{card.cvv || '•••'}</p>
+                <p className="text-sm font-mono">
+                  {loadingDetails ? '•••' : (cardDetails?.cvc || '•••')}
+                </p>
               </div>
             )}
           </div>
