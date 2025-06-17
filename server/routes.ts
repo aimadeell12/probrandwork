@@ -202,11 +202,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           },
           billing: {
             address: {
-              line1: user.address || 'No address provided',
-              city: user.city || 'Unknown',
-              state: user.city || 'Unknown',
-              country: user.country || 'US',
-              postal_code: user.postalCode || '00000'
+              line1: '8206 Louisiana Blvd Ne, Ste A 6342',
+              city: 'Albuquerque',
+              state: 'NM',
+              country: 'US',
+              postal_code: '87113'
             }
           },
           metadata: {
@@ -301,7 +301,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           currency: cardData.currency || "USD",
           spendingLimit: "1000.00",
           design: cardData.design || "blue",
-          status: "active",
           expiryMonth: expiryMonth,
           expiryYear: expiryYear
         });

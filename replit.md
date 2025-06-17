@@ -111,6 +111,9 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Static Assets**: Served from built `dist/public` directory
 
 ## Changelog
+- June 17, 2025: Fixed Stripe card creation to use real user information (name, phone, email, date of birth)
+- June 17, 2025: Fixed country code issue - now uses US address for all virtual cards (8206 Louisiana Blvd Ne, Albuquerque, NM 87113, US)
+- June 17, 2025: Updated cardholder creation with actual user data instead of hardcoded test values
 - June 17, 2025: Fixed card number display - now shows proper Stripe card numbers without random placeholders
 - June 17, 2025: Enabled real Stripe transactions display in both transactions page and cards page
 - June 17, 2025: Fixed transaction display issues - handle string/number amounts from Stripe API
