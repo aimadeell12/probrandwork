@@ -91,8 +91,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
       }
+      
       const cards = await storage.getCardsByUserId(userId);
-      res.json(cards);
+      
+      // Sync status with Stripe for each card
+      const syncedCards = [];
+      for (const card of cards) {
+        if (card.stripeCardId) {
+          try {
+            const stripeCard = await stripe.issuing.cards.retrieve(card.stripeCardId);
+            console.log(`🔄 Stripe card ${card.id} status: ${stripeCard.status}, Platform: ${card.status}`);
+            
+            // Map Stripe status to our status
+            let newStatus = card.status;
+            if (stripeCard.status === 'active' && card.status !== 'active') {
+              newStatus = 'active';
+              console.log(`✅ Activating card ${card.id} (Stripe is active)`);
+            } else if (stripeCard.status === 'inactive' && card.status === 'active') {
+              newStatus = 'pending';
+              console.log(`⏳ Setting card ${card.id} to pending (Stripe inactive)`);
+            } else if (stripeCard.status === 'canceled' && card.status !== 'blocked') {
+              newStatus = 'blocked';
+              console.log(`🚫 Blocking card ${card.id} (Stripe canceled)`);
+            }
+            
+            // Update database if status changed
+            if (newStatus !== card.status) {
+              const updatedCard = await storage.updateCard(card.id, { status: newStatus });
+              syncedCards.push(updatedCard);
+              console.log(`🔄 Updated card ${card.id}: ${card.status} → ${newStatus}`);
+            } else {
+              syncedCards.push(card);
+            }
+          } catch (stripeError) {
+            console.log(`⚠️ Could not sync status for card ${card.id}:`, stripeError.message);
+            syncedCards.push(card);
+          }
+        } else {
+          syncedCards.push(card);
+        }
+      }
+      
+      res.json(syncedCards);
     } catch (error) {
       console.error("Error fetching cards:", error);
       res.status(500).json({ message: "Failed to fetch cards" });
