@@ -481,6 +481,7 @@ const translations = {
     recentTransactions: "المعاملات الأخيرة",
     balance: "الرصيد",
     noRecentTransactions: "لا توجد معاملات حديثة",
+    createTestTransactions: "إنشاء معاملات تجريبية",
     noCardsYet: "لا توجد بطاقات بعد",
     noCardsDesc: "ليس لديك أي بطاقات بعد",
     createFirstCard: "إنشاء بطاقتك الأولى"

@@ -387,6 +387,26 @@ export default function StripeCards() {
                                 </p>
                               </div>
 
+                              {/* Create Test Transactions Button */}
+                              {card.stripeCardId && (
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="mb-4"
+                                  onClick={async () => {
+                                    try {
+                                      await apiRequest("POST", "/api/transactions/create-stripe-test", { cardId: card.id });
+                                      // Refresh transactions
+                                      window.location.reload();
+                                    } catch (error) {
+                                      console.error("Failed to create test transactions:", error);
+                                    }
+                                  }}
+                                >
+                                  {t('createTestTransactions') || 'Create Test Transactions'}
+                                </Button>
+                              )}
+
                               {/* Transactions List */}
                               {transactionsLoading ? (
                                 <div className="space-y-3">

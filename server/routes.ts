@@ -301,7 +301,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
         ];
 
-        // Create transactions in database
+        // Create test transactions in Stripe for the new card
+        try {
+          const testTransactions = [
+            { amount: 4599, merchant: 'Amazon' },
+            { amount: 1250, merchant: 'Starbucks' },
+            { amount: 8999, merchant: 'Nike Store' },
+            { amount: 2500, merchant: 'Uber' },
+            { amount: 6750, merchant: 'Target' }
+          ];
+
+          for (const testTxn of testTransactions) {
+            try {
+              // Create authorization using Stripe Test API
+              await stripe.testHelpers.issuing.transactions.createForceCapture({
+                card: stripeCard.id,
+                amount: testTxn.amount,
+                currency: 'usd',
+                merchant_data: {
+                  category: 'miscellaneous_stores',
+                  name: testTxn.merchant,
+                  city: 'San Francisco',
+                  state: 'CA',
+                  country: 'US'
+                }
+              });
+            } catch (testError) {
+              console.log(`Note: Could not create test transaction for ${testTxn.merchant}:`, testError.message);
+            }
+          }
+        } catch (testingError) {
+          console.log("Note: Test transaction creation failed, this is normal for live keys:", testingError.message);
+        }
+
+        // Also create transactions in database as backup
         for (const txn of sampleTransactions) {
           await storage.createTransaction(txn);
         }
@@ -900,8 +933,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Create sample transactions for existing cards
-  app.post("/api/transactions/create-sample", requireAuth, async (req: any, res) => {
+  // Create test transactions in Stripe for existing cards
+  app.post("/api/transactions/create-stripe-test", requireAuth, async (req: any, res) => {
     try {
       const userId = req.session?.userId;
       if (!userId) {
@@ -915,55 +948,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Card not found" });
       }
 
-      // Create realistic sample transactions
-      const sampleTransactions = [
-        {
-          cardId: cardId,
-          type: "purchase",
-          status: "completed",
-          amount: "125.99",
-          currency: "USD",
-          merchant: "Apple Store",
-          description: "Technology Purchase"
-        },
-        {
-          cardId: cardId,
-          type: "purchase", 
-          status: "completed",
-          amount: "8.50",
-          currency: "USD",
-          merchant: "McDonald's",
-          description: "Fast Food"
-        },
-        {
-          cardId: cardId,
-          type: "purchase",
-          status: "completed", 
-          amount: "79.99",
-          currency: "USD",
-          merchant: "H&M",
-          description: "Clothing Purchase"
-        },
-        {
-          cardId: cardId,
-          type: "purchase",
-          status: "completed", 
-          amount: "35.00",
-          currency: "USD",
-          merchant: "Shell Gas Station",
-          description: "Fuel Purchase"
-        }
-      ];
-
-      // Create transactions in database
-      for (const txn of sampleTransactions) {
-        await storage.createTransaction(txn);
+      if (!card.stripeCardId) {
+        return res.status(400).json({ message: "Not a Stripe card" });
       }
 
-      res.json({ message: "Sample transactions created", count: sampleTransactions.length });
+      // Create test transactions using Stripe Test Helpers
+      const testTransactions = [
+        { amount: 12599, merchant: 'Apple Store', category: 'electronics_stores' },
+        { amount: 850, merchant: 'McDonald\'s', category: 'quick_service_restaurants' },
+        { amount: 7999, merchant: 'H&M', category: 'clothing_stores' },
+        { amount: 3500, merchant: 'Shell', category: 'gas_stations' },
+        { amount: 4599, merchant: 'Amazon', category: 'miscellaneous_stores' }
+      ];
+
+      let createdCount = 0;
+      for (const testTxn of testTransactions) {
+        try {
+          await stripe.testHelpers.issuing.transactions.createForceCapture({
+            card: card.stripeCardId,
+            amount: testTxn.amount,
+            currency: 'usd',
+            merchant_data: {
+              category: testTxn.category,
+              name: testTxn.merchant,
+              city: 'San Francisco',
+              state: 'CA',
+              country: 'US'
+            }
+          });
+          createdCount++;
+          console.log(`✅ Created Stripe test transaction: ${testTxn.merchant} - $${testTxn.amount/100}`);
+        } catch (testError: any) {
+          console.log(`❌ Failed to create test transaction for ${testTxn.merchant}:`, testError.message);
+        }
+      }
+
+      res.json({ 
+        message: "Stripe test transactions created", 
+        created: createdCount,
+        total: testTransactions.length 
+      });
     } catch (error) {
-      console.error("Error creating sample transactions:", error);
-      res.status(500).json({ message: "Failed to create sample transactions" });
+      console.error("Error creating Stripe test transactions:", error);
+      res.status(500).json({ message: "Failed to create Stripe test transactions" });
     }
   });
 
@@ -974,18 +1001,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      // Get all user's cards and their transactions
+      // Get all user's cards
       const cards = await storage.getCardsByUserId(userId);
       let allTransactions = [];
 
       for (const card of cards) {
-        const transactions = await storage.getTransactionsByCardId(card.id);
-        allTransactions.push(...transactions);
+        if (card.stripeCardId) {
+          try {
+            // Fetch real transactions from Stripe Issuing
+            const stripeTransactions = await stripe.issuing.transactions.list({
+              card: card.stripeCardId,
+              limit: 10
+            });
+
+            // Convert Stripe transactions to our format
+            const formattedTransactions = stripeTransactions.data.map(txn => ({
+              id: txn.id,
+              cardId: card.id,
+              type: txn.type === 'capture' ? 'purchase' : txn.type,
+              status: txn.dispute ? 'disputed' : 'completed',
+              amount: (txn.amount / 100).toString(), // Convert from cents
+              currency: txn.currency.toUpperCase(),
+              merchant: txn.merchant?.name || 'Unknown Merchant',
+              description: txn.merchant?.name || txn.type,
+              createdAt: new Date(txn.created * 1000).toISOString(),
+              stripeTransactionId: txn.id
+            }));
+
+            allTransactions.push(...formattedTransactions);
+          } catch (stripeError) {
+            console.error(`Error fetching Stripe transactions for card ${card.id}:`, stripeError);
+            // Fallback to database transactions if Stripe fails
+            const dbTransactions = await storage.getTransactionsByCardId(card.id);
+            allTransactions.push(...dbTransactions);
+          }
+        } else {
+          // For non-Stripe cards, get from database
+          const dbTransactions = await storage.getTransactionsByCardId(card.id);
+          allTransactions.push(...dbTransactions);
+        }
       }
 
       // Sort by date (newest first)
       allTransactions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
+      console.log(`📊 Returning ${allTransactions.length} transactions (real Stripe data) for user ${userId}`);
       res.json(allTransactions);
     } catch (error) {
       console.error("Error fetching transactions:", error);
