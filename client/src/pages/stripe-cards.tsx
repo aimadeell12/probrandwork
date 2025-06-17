@@ -65,10 +65,18 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
   };
 
   const formatCardNumber = (number: string) => {
-    if (!showDetails) {
-      return `•••• •••• •••• ${card.lastFour}`;
+    // If we have real card details from Stripe, use them
+    if (showDetails && cardDetails?.number && !loadingDetails) {
+      return cardDetails.number.replace(/(.{4})/g, '$1 ').trim();
     }
-    return number.replace(/(.{4})/g, '$1 ').trim();
+    
+    // If loading, show loading state
+    if (showDetails && loadingDetails) {
+      return "•••• •••• •••• ••••";
+    }
+    
+    // Default masked view
+    return `•••• •••• •••• ${cardDetails?.last4 || card.lastFour || '••••'}`;
   };
 
   const getStatusColor = (status: string) => {
@@ -127,15 +135,7 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
           {/* Card Number */}
           <div className="my-4">
             <p className="text-lg font-mono tracking-wider">
-              {showDetails && cardDetails?.number ? (
-                loadingDetails ? (
-                  <span className="animate-pulse">Loading...</span>
-                ) : (
-                  formatCardNumber(cardDetails.number)
-                )
-              ) : (
-                formatCardNumber(`****-****-****-${cardDetails?.last4 || card.lastFour || '****'}`)
-              )}
+              {formatCardNumber('')}
             </p>
           </div>
 
@@ -438,12 +438,7 @@ export default function StripeCards() {
                                 </div>
                               ) : (
                                 <>
-                                  {(() => {
-                                    const cardTransactions = transactions.filter((tx: any) => tx.cardId === card.id);
-                                    console.log(`Card ${card.id} transactions:`, cardTransactions);
-                                    console.log('All transactions:', transactions);
-                                    return cardTransactions.slice(0, 3).length > 0;
-                                  })() ? (
+                                  {transactions.filter((tx: any) => tx.cardId === card.id).slice(0, 3).length > 0 ? (
                                     <div className="space-y-3">
                                       {transactions.filter((tx: any) => tx.cardId === card.id).slice(0, 3).map((transaction: any) => (
                                         <div key={transaction.id} className="flex items-center justify-between">

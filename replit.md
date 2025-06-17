@@ -111,6 +111,8 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Static Assets**: Served from built `dist/public` directory
 
 ## Changelog
+- June 17, 2025: Fixed card number display - now shows proper Stripe card numbers without random placeholders
+- June 17, 2025: Enabled real Stripe transactions display in both transactions page and cards page
 - June 17, 2025: Fixed transaction display issues - handle string/number amounts from Stripe API
 - June 17, 2025: Improved Stripe cardholder verification with better error handling
 - June 17, 2025: Added Accept Terms button for manual terms acceptance
