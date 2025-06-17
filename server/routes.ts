@@ -4,7 +4,6 @@ import path from "path";
 import { storage } from "./database-storage";
 import { setupSimpleAuth, requireAuth } from "./simpleAuth";
 import { setupGoogleAuth } from "./googleAuth";
-import { reapService } from "./reap";
 import { binancePayService } from "./binance";
 import { stripeIssuingService } from "./stripe-issuing";
 import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema } from "@shared/schema";
@@ -195,9 +194,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      // Activate with Reap API
-      if (card.reapCardId) {
-        await reapService.updateCardStatus(card.reapCardId, "active");
+      // Activate with Stripe Issuing API
+      if (card.stripeCardId) {
+        await stripeIssuingService.updateCardStatus(card.stripeCardId, 'active');
       }
 
       // Update database
@@ -256,9 +255,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (card.stripeCardId) {
         console.log(`🌐 Freezing card in Stripe: ${card.stripeCardId}`);
         await stripeIssuingService.updateCardStatus(card.stripeCardId, 'inactive');
-      } else if (card.reapCardId) {
-        console.log(`🌐 Freezing card in Reap API: ${card.reapCardId}`);
-        await reapService.freezeCard(card.reapCardId);
       }
 
       // Update database
@@ -294,9 +290,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (card.stripeCardId) {
         console.log(`🌐 Unfreezing card in Stripe: ${card.stripeCardId}`);
         await stripeIssuingService.updateCardStatus(card.stripeCardId, 'active');
-      } else if (card.reapCardId) {
-        console.log(`🌐 Unfreezing card in Reap API: ${card.reapCardId}`);
-        await reapService.unfreezeCard(card.reapCardId);
       }
 
       // Update database to active status
@@ -346,14 +339,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           res.json(formattedTransactions);
         } catch (error) {
           console.error("Error fetching Stripe transactions:", error);
-          res.json([]);
-        }
-      } else if (card.reapCardId) {
-        try {
-          const reapTransactions = await reapService.getCardTransactions(card.reapCardId);
-          res.json(reapTransactions);
-        } catch (error) {
-          console.error("Error fetching Reap transactions:", error);
           res.json([]);
         }
       } else {
