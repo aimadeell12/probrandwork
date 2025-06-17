@@ -141,6 +141,9 @@ Changelog:
   * Fixed all database schema errors and type mismatches
   * Migrated all transaction processing to Stripe-compatible format
   * Removed legacy webhook endpoints in favor of Stripe webhook system
+  * Updated main cards page (/cards) to use Stripe Issuing exclusively
+  * Added card control buttons (suspend/activate) to main interface
+  * Redirected all card creation flows to Stripe Cards interface
 ```
 
 ## User Preferences
