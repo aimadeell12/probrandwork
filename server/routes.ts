@@ -13,6 +13,15 @@ import connectPg from "connect-pg-simple";
 import { db } from "./db";
 import * as schema from "@shared/schema";
 import { eq, desc, and, sql, isNull } from "drizzle-orm";
+import Stripe from "stripe";
+
+// Initialize Stripe
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2025-05-28.basil",
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup session middleware first
@@ -124,66 +133,93 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Create card with Reap API using corrected format
+      // Create card with Stripe Issuing
       try {
-        console.log("Creating card with Reap API using corrected format...");
+        console.log("Creating card with Stripe Issuing...");
         
-        // بيانات sandbox محددة كما في المثال
-        const reapCardData = {
-          cardType: cardData.type === "virtual" ? "Virtual" : "Physical" as "Virtual" | "Physical",
-          customerType: "Consumer" as const,
-          kyc: {
-            firstName: "Chris",
-            lastName: "Meyer", 
-            dob: "2000-01-01",
-            residentialAddress: {
-              line1: "Test",
-              line2: "Test",
-              city: "HK",
-              country: "HKG"
-            },
-            idDocumentType: "TaxIDNumber",
-            idDocumentNumber: "123456"
+        // Create Stripe cardholder first
+        const cardholder = await stripe.issuing.cardholders.create({
+          name: `${user.firstName || 'User'} ${user.lastName || 'Name'}`.trim(),
+          email: user.email || undefined,
+          phone_number: user.phone || undefined,
+          type: 'individual',
+          individual: {
+            first_name: user.firstName || 'User',
+            last_name: user.lastName || 'Name',
+            dob: user.dateOfBirth ? {
+              day: parseInt(user.dateOfBirth.split('-')[2]),
+              month: parseInt(user.dateOfBirth.split('-')[1]),
+              year: parseInt(user.dateOfBirth.split('-')[0])
+            } : {
+              day: 1,
+              month: 1,
+              year: 1990
+            }
           },
-          preferredCardName: "Chris Meyer",
-          meta: {
-            otpPhoneNumber: {
-              dialCode: "852",
-              phoneNumber: "60254458"
-            },
-            id: "123456",
-            email: "abc@gmail.com"
+          billing: {
+            address: {
+              line1: user.address || '123 Main St',
+              city: user.city || 'City',
+              country: 'US',
+              postal_code: user.postalCode || '12345'
+            }
           }
-        };
+        });
 
-        console.log("📋 Sending corrected data to Reap API:", JSON.stringify(reapCardData, null, 2));
-        console.log("🔍 API Key being used:", process.env.REAP_API_KEY?.substring(0, 10) + "...");
-        console.log("🌐 Request URL will be:", `https://api.reap.global/api/v1/cards`);
-        
-        const reapCard = await reapService.createCard(reapCardData);
-        
+        // Create Stripe card
+        const stripeCard = await stripe.issuing.cards.create({
+          cardholder: cardholder.id,
+          type: cardData.type === 'virtual' ? 'virtual' : 'physical',
+          currency: (cardData.currency || 'USD').toLowerCase(),
+          spending_controls: {
+            spending_limits: [{
+              amount: 100000, // $1000 limit
+              categories: [],
+              interval: 'monthly'
+            }]
+          },
+          metadata: {
+            user_id: userId,
+            design: cardData.design || 'blue'
+          }
+        });
+
+        // Generate expiry date (4 years from now)
+        const now = new Date();
+        const expiryYear = now.getFullYear() + 4;
+        const expiryMonth = now.getMonth() + 1;
+
+        // Create card in database
         const newCard = await storage.createCard({
           userId,
           type: cardData.type,
-          holderName: `${user.firstName} ${user.lastName}`.trim(),
-          reapCardId: reapCard.id,
+          holderName: cardholder.name,
+          stripeCardId: stripeCard.id,
+          stripeCardHolderId: cardholder.id,
+          cardNumber: stripeCard.number,
+          lastFour: stripeCard.last4,
+          cvv: stripeCard.cvc,
+          brand: stripeCard.brand,
           currency: cardData.currency || "USD",
-          balance: "1000",
-          expiryMonth: 12,
-          expiryYear: 2028,
-          design: cardData.design || "blue"
+          balance: "0.00",
+          spendingLimit: "1000.00",
+          expiryMonth,
+          expiryYear,
+          design: cardData.design || "blue",
+          status: "active"
         });
         
         // Deduct cost from wallet balance
-        const cardCost = cardData.type === "virtual" ? 50 : 100;
-        if (currentBalance >= cardCost) {
-          await storage.updateWalletBalance(userId, currentBalance - cardCost);
-        }
+        await storage.updateWalletBalance(userId, currentBalance - cardCost);
         
+        console.log("Successfully created Stripe card:", newCard.id);
         return res.status(201).json(newCard);
       } catch (error: any) {
-        console.error("Error creating Reap card:", error);
-        return res.status(500).json({ message: "Failed to create card with Reap API" });
+        console.error("Error creating Stripe card:", error);
+        return res.status(500).json({ 
+          message: "Failed to create card with Stripe Issuing",
+          error: error.message 
+        });
       }
     } catch (error) {
       console.error("Error creating card:", error);

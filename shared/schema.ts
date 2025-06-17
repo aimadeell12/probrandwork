@@ -70,21 +70,36 @@ export const users = pgTable("users", {
 export const cards = pgTable("cards", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: varchar("user_id").notNull().references(() => users.id),
+  // External provider IDs
   lithicCardId: varchar("lithic_card_id").unique(),
   reapCardId: varchar("reap_card_id").unique(),
+  stripeCardId: varchar("stripe_card_id").unique(),
+  stripeCardHolderId: varchar("stripe_cardholder_id"),
+  // Card details
   holderName: varchar("holder_name").notNull(),
+  cardNumber: varchar("card_number"), // Full card number (encrypted in production)
   lastFour: varchar("last_four", { length: 4 }),
-  type: varchar("type").notNull(), // credit, debit, prepaid
-  status: varchar("status").notNull().default("pending"), // pending, active, suspended, closed
+  cvv: varchar("cvv", { length: 4 }),
+  type: varchar("type").notNull(), // virtual, physical
+  cardType: varchar("card_type").notNull().default("debit"), // debit, credit, prepaid
+  brand: varchar("brand").default("visa"), // visa, mastercard
+  status: varchar("status").notNull().default("pending"), // pending, active, suspended, closed, inactive
   balance: decimal("balance", { precision: 12, scale: 2 }).default("0.00"),
-  creditLimit: decimal("credit_limit", { precision: 12, scale: 2 }),
+  spendingLimit: decimal("spending_limit", { precision: 12, scale: 2 }),
   currency: varchar("currency", { length: 3 }).notNull().default("USD"),
   design: varchar("design").notNull().default("blue"),
   expiryMonth: integer("expiry_month").notNull(),
   expiryYear: integer("expiry_year").notNull(),
+  // Card controls
   internationalEnabled: boolean("international_enabled").default(true),
   onlineEnabled: boolean("online_enabled").default(true),
-  notificationsEnabled: boolean("notifications_enabled").default(false),
+  contactlessEnabled: boolean("contactless_enabled").default(true),
+  atmWithdrawalsEnabled: boolean("atm_withdrawals_enabled").default(true),
+  notificationsEnabled: boolean("notifications_enabled").default(true),
+  // Shipping info for physical cards
+  shippingAddress: jsonb("shipping_address"),
+  trackingNumber: varchar("tracking_number"),
+  shipmentStatus: varchar("shipment_status"), // pending, shipped, delivered
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
