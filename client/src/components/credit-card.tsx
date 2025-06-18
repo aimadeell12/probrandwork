@@ -19,9 +19,24 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
     queryKey: ['/api/auth/user'],
   });
 
+  // Fetch card details using React Query for better state management
+  const { data: stripeCardDetails, isLoading: isLoadingStripeDetails } = useQuery({
+    queryKey: ['/api/cards', card.id, 'details'],
+    queryFn: async () => {
+      if (!card.stripeCardId) return null;
+      const response = await apiRequest("GET", `/api/cards/${card.id}/details`);
+      if (!response.ok) throw new Error('Failed to fetch card details');
+      return response.json();
+    },
+    enabled: showDetails && !!card.stripeCardId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+  });
+
   // Fetch real card details from Stripe when showing details
   const fetchCardDetails = async () => {
-    if (!card.stripeCardId || cardDetails) return;
+    if (!card.stripeCardId) return;
+    if (cardDetails) return; // Don't fetch again if we already have details
     
     setLoadingDetails(true);
     try {
@@ -32,12 +47,14 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       if (response.ok) {
         const details = await response.json();
         console.log("🌐 [API] Success response:", details);
+        console.log("💳 Setting card details state:", details);
         setCardDetails(details);
       } else {
-        console.error("Failed to fetch card details:", await response.json());
+        const errorData = await response.json();
+        console.error("Failed to fetch card details:", errorData);
       }
     } catch (error) {
-      console.error("Failed to fetch card details:", error);
+      console.error("Error fetching card details:", error);
     } finally {
       setLoadingDetails(false);
     }
@@ -45,25 +62,53 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
 
   // Fetch details when showDetails becomes true
   useEffect(() => {
-    if (showDetails && card.stripeCardId) {
+    if (showDetails && card.stripeCardId && !cardDetails) {
+      console.log(`🔄 Fetching card details for card ${card.id}`);
       fetchCardDetails();
     }
   }, [showDetails, card.stripeCardId]);
 
+  // Reset card details when showDetails becomes false
+  useEffect(() => {
+    if (!showDetails && cardDetails) {
+      console.log(`🔄 Resetting card details for card ${card.id}`);
+      setCardDetails(null);
+    }
+  }, [showDetails]);
+
   const formatCardNumber = (lastFour: string | null) => {
-    // If we have real card details from Stripe, use them
+    console.log('🔍 Card Details Debug:', {
+      showDetails,
+      cardDetails,
+      loadingDetails,
+      cardId: card.id,
+      stripeCardId: card.stripeCardId
+    });
+
+    // If we have real card details from Stripe and showing details, use them
     if (showDetails && cardDetails?.number && !loadingDetails) {
-      return cardDetails.number.replace(/(.{4})/g, '$1 ').trim();
+      // Format the full card number with spaces every 4 digits
+      const number = cardDetails.number.toString();
+      const formatted = number.replace(/(.{4})/g, '$1 ').trim();
+      console.log('💳 Displaying full card number:', formatted);
+      return formatted;
     }
     
-    // If loading, show loading state
+    // If loading details, show loading dots
     if (showDetails && loadingDetails) {
+      console.log('⏳ Loading card details...');
       return "•••• •••• •••• ••••";
     }
     
-    // Default masked view
-    if (!lastFour) return "•••• •••• •••• ••••";
-    return "•••• •••• •••• " + lastFour;
+    // Default masked view - show only last 4 digits
+    if (!lastFour) {
+      console.log('❌ No last four digits available');
+      return "•••• •••• •••• ••••";
+    }
+    
+    const masked = "•••• •••• •••• " + lastFour;
+    console.log('🔒 Showing masked card number:', masked);
+    return masked;
   };
 
   const formatExpiry = () => {
