@@ -94,38 +94,37 @@ export default function Dashboard() {
       description: "إدارة بطاقاتك المصرفية",
       icon: CreditCard,
       href: "/cards",
-      color: "from-blue-600 to-purple-600"
+      color: "bg-blue-600"
     },
     {
       title: "المعاملات",
       description: "تاريخ المعاملات المالية", 
       icon: Activity,
       href: "/transactions",
-      color: "from-green-600 to-emerald-600"
+      color: "bg-gray-600"
     },
     {
       title: "الإعدادات",
       description: "إعدادات الحساب",
       icon: Settings,
       href: "/account",
-      color: "from-orange-600 to-red-600"
+      color: "bg-gray-700"
     },
     {
       title: "المساعدة",
       description: "الدعم والأسئلة الشائعة",
       icon: Shield,
       href: "/account/help",
-      color: "from-purple-600 to-pink-600"
+      color: "bg-blue-700"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-blue-950 relative">
-      {/* Modern floating background elements */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900 relative">
+      {/* Simple background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-400/20 to-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-emerald-400/20 to-blue-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-purple-400/10 to-pink-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
       </div>
 
       <PullToRefresh onRefresh={handleRefresh}>
@@ -153,13 +152,13 @@ export default function Dashboard() {
             
             <div className="flex items-center gap-2">
               {kycStatus && (kycStatus as any).status === 'verified' ? (
-                <Badge className="bg-gradient-to-r from-emerald-500 to-green-600 text-white border-0">
+                <Badge className="bg-blue-600 text-white border-0">
                   <Crown className="h-3 w-3 mr-1" />
                   موثق
                 </Badge>
               ) : (
                 <Link href="/kyc-verification">
-                  <Badge className="bg-gradient-to-r from-amber-500 to-orange-600 text-white border-0 cursor-pointer hover:from-amber-600 hover:to-orange-700 transition-all">
+                  <Badge className="bg-gray-600 text-white border-0 cursor-pointer hover:bg-gray-700 transition-all">
                     <AlertTriangle className="h-3 w-3 mr-1" />
                     غير موثق
                   </Badge>
@@ -192,10 +191,9 @@ export default function Dashboard() {
             transition={{ delay: 0.1 }}
             className="mb-8"
           >
-            <Card className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 dark:from-blue-800 dark:via-purple-800 dark:to-indigo-900 text-white border-0 shadow-2xl rounded-3xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20"></div>
-              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-white/20 to-transparent rounded-full blur-2xl"></div>
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-white/10 to-transparent rounded-full blur-xl"></div>
+            <Card className="bg-blue-600 dark:bg-blue-800 text-white border-0 shadow-2xl rounded-3xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-black/10"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
               
               <CardContent className="p-8 relative z-10">
                 <div className="flex items-center justify-between mb-8">
@@ -269,7 +267,7 @@ export default function Dashboard() {
                   >
                     <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-white/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
                       <CardContent className="p-6 text-center">
-                        <div className={`w-12 h-12 bg-gradient-to-r ${service.color} rounded-2xl flex items-center justify-center mx-auto mb-3`}>
+                        <div className={`w-12 h-12 ${service.color} rounded-2xl flex items-center justify-center mx-auto mb-3`}>
                           <service.icon className="h-6 w-6 text-white" />
                         </div>
                         <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{service.title}</h4>
@@ -348,23 +346,23 @@ export default function Dashboard() {
             className="mb-6"
           >
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-              <Card className="bg-gradient-to-r from-emerald-500 to-green-600 text-white border-0">
+              <Card className="bg-blue-600 text-white border-0">
                 <CardContent className="p-4 text-center">
                   <TrendingUp className="h-8 w-8 mx-auto mb-2" />
                   <p className="text-sm opacity-90">الدخل الشهري</p>
-                  <p className="text-xl font-bold">+$${Math.floor(balance * 0.15)}</p>
+                  <p className="text-xl font-bold">+${Math.floor(balance * 0.15)}</p>
                 </CardContent>
               </Card>
               
-              <Card className="bg-gradient-to-r from-red-500 to-pink-600 text-white border-0">
+              <Card className="bg-gray-600 text-white border-0">
                 <CardContent className="p-4 text-center">
                   <TrendingUp className="h-8 w-8 mx-auto mb-2 rotate-180" />
                   <p className="text-sm opacity-90">المصروفات</p>
-                  <p className="text-xl font-bold">-$${Math.floor(balance * 0.08)}</p>
+                  <p className="text-xl font-bold">-${Math.floor(balance * 0.08)}</p>
                 </CardContent>
               </Card>
               
-              <Card className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-0 col-span-2 lg:col-span-1">
+              <Card className="bg-gray-700 text-white border-0 col-span-2 lg:col-span-1">
                 <CardContent className="p-4 text-center">
                   <PiggyBank className="h-8 w-8 mx-auto mb-2" />
                   <p className="text-sm opacity-90">الهدف الادخاري</p>
@@ -383,22 +381,22 @@ export default function Dashboard() {
                 exit={{ opacity: 0, y: -20 }}
                 className="mt-6"
               >
-                <Card className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-800/50">
+                <Card className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center">
-                        <Shield className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                      <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center">
+                        <Shield className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-amber-900 dark:text-amber-100 mb-1">
+                        <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-1">
                           أكمل التحقق من الهوية
                         </h3>
-                        <p className="text-sm text-amber-700 dark:text-amber-300">
+                        <p className="text-sm text-blue-700 dark:text-blue-300">
                           لفتح جميع المزايا والخدمات المصرفية
                         </p>
                       </div>
                       <Link href="/kyc-verification">
-                        <Button className="bg-amber-600 hover:bg-amber-700 text-white">
+                        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                           ابدأ الآن
                           <ArrowRight className="h-4 w-4 mr-2" />
                         </Button>
