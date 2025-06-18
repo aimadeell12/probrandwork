@@ -318,7 +318,6 @@ const translations = {
     
     // Quick Services
     quickServices: "Quick Services",
-    transfer: "Transfer",
     bills: "Bills",
     analytics: "Analytics",
     wallet: "Wallet",
@@ -329,7 +328,6 @@ const translations = {
     physicalCards: "Physical Cards",
     cardHolder: "Card Holder",
     expires: "Expires",
-    recentTransactions: "Recent Transactions",
     balance: "Balance",
     noRecentTransactions: "No recent transactions",
     createTestTransactions: "Create Test Transactions",
@@ -494,7 +492,6 @@ const translations = {
     physicalCards: "البطاقات الفيزيائية",
     cardHolder: "حامل البطاقة",
     expires: "انتهاء الصلاحية",
-    recentTransactions: "المعاملات الأخيرة",
     balance: "الرصيد",
     noRecentTransactions: "لا توجد معاملات حديثة",
     createTestTransactions: "إنشاء معاملات تجريبية",

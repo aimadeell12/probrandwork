@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import type { Card } from "shared/schema";
 
 interface CreditCardProps {
@@ -10,24 +11,106 @@ interface CreditCardProps {
 }
 
 export function CreditCard({ card, showDetails = false, onToggleVisibility }: CreditCardProps) {
+  const [cardDetails, setCardDetails] = useState<any>(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
+
   // Fetch user data for card holder name
   const { data: user } = useQuery({
     queryKey: ['/api/auth/user'],
   });
 
+  // Fetch real card details from Stripe when showing details
+  const fetchCardDetails = async () => {
+    if (!card.stripeCardId || cardDetails) return;
+    
+    setLoadingDetails(true);
+    try {
+      console.log(`🌐 [API] Making GET request to /api/cards/${card.id}/details`, '');
+      const response = await apiRequest("GET", `/api/cards/${card.id}/details`);
+      console.log(`🌐 [API] Response status: ${response.status} for GET /api/cards/${card.id}/details`);
+      
+      if (response.ok) {
+        const details = await response.json();
+        console.log("🌐 [API] Success response:", details);
+        setCardDetails(details);
+      } else {
+        console.error("Failed to fetch card details:", await response.json());
+      }
+    } catch (error) {
+      console.error("Failed to fetch card details:", error);
+    } finally {
+      setLoadingDetails(false);
+    }
+  };
+
+  // Fetch details when showDetails becomes true
+  useEffect(() => {
+    if (showDetails && card.stripeCardId) {
+      fetchCardDetails();
+    }
+  }, [showDetails, card.stripeCardId]);
+
   const formatCardNumber = (lastFour: string | null) => {
+    // If we have real card details from Stripe, use them
+    if (showDetails && cardDetails?.number && !loadingDetails) {
+      return cardDetails.number.replace(/(.{4})/g, '$1 ').trim();
+    }
+    
+    // If loading, show loading state
+    if (showDetails && loadingDetails) {
+      return "•••• •••• •••• ••••";
+    }
+    
+    // Default masked view
     if (!lastFour) return "•••• •••• •••• ••••";
-    if (!showDetails) return "•••• •••• •••• " + lastFour;
     return "•••• •••• •••• " + lastFour;
   };
 
   const formatExpiry = () => {
+    // If we have real card details from Stripe, use them
+    if (showDetails && cardDetails?.expMonth && cardDetails?.expYear && !loadingDetails) {
+      const month = cardDetails.expMonth.toString().padStart(2, '0');
+      const year = cardDetails.expYear.toString().slice(-2);
+      return `${month}/${year}`;
+    }
+    
+    // If loading, show loading state
+    if (showDetails && loadingDetails) {
+      return "**/**";
+    }
+    
+    // Default masked view
     if (!showDetails) return "**/**";
-    return "12/27";
+    
+    // Use card data if available
+    if (card.expiryMonth && card.expiryYear) {
+      const month = card.expiryMonth.toString().padStart(2, '0');
+      const year = card.expiryYear.toString().slice(-2);
+      return `${month}/${year}`;
+    }
+    
+    return "**/**";
   };
 
   const formatCVV = () => {
+    // If we have real card details from Stripe, use them
+    if (showDetails && cardDetails?.cvc && !loadingDetails) {
+      return cardDetails.cvc;
+    }
+    
+    // If loading, show loading state
+    if (showDetails && loadingDetails) {
+      return "***";
+    }
+    
+    // Default masked view
     if (!showDetails) return "***";
+    
+    // Use card data if available
+    if (card.cvv) {
+      return card.cvv;
+    }
+    
     return "***";
   };
 
