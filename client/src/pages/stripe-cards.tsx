@@ -30,14 +30,9 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
     
     setLoadingDetails(true);
     try {
-      const response = await apiRequest("GET", `/api/cards/${card.id}/details`);
-      if (response.ok) {
-        const details = await response.json();
-        console.log(`💳 [Stripe Card ${card.id}] Fetched details:`, details);
-        setCardDetails(details);
-      } else {
-        console.error("Failed to fetch card details - bad response");
-      }
+      const details = await apiRequest("GET", `/api/cards/${card.id}/details`);
+      console.log(`💳 [Stripe Card ${card.id}] Fetched details:`, details);
+      setCardDetails(details);
     } catch (error) {
       console.error("Failed to fetch card details:", error);
     } finally {
