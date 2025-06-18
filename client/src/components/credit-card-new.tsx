@@ -45,8 +45,6 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
     fetchCardDetails();
   }, [showDetails, card.stripeCardId, card.id]);
 
-
-
   const formatCardNumber = (lastFour: string | null) => {
     // If we have real card details from Stripe and showing details, use them
     if (showDetails && cardDetails?.number && !loadingDetails) {
@@ -258,8 +256,6 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
           </div>
         </div>
       </div>
-
-
 
       {/* Card Type Indicator */}
       <div className="absolute bottom-4 right-6">

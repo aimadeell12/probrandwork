@@ -26,13 +26,18 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
 
   // Fetch real card details from Stripe when showing details
   const fetchCardDetails = async () => {
-    if (!card.stripeCardId || cardDetails) return;
+    if (!card.stripeCardId) return;
     
     setLoadingDetails(true);
     try {
       const response = await apiRequest("GET", `/api/cards/${card.id}/details`);
-      const details = await response.json();
-      setCardDetails(details);
+      if (response.ok) {
+        const details = await response.json();
+        console.log(`💳 [Stripe Card ${card.id}] Fetched details:`, details);
+        setCardDetails(details);
+      } else {
+        console.error("Failed to fetch card details - bad response");
+      }
     } catch (error) {
       console.error("Failed to fetch card details:", error);
     } finally {
@@ -40,10 +45,12 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
     }
   };
 
-  // Fetch details when showDetails becomes true
+  // Fetch details when showDetails becomes true or clear when false
   useEffect(() => {
     if (showDetails && card.stripeCardId) {
       fetchCardDetails();
+    } else if (!showDetails) {
+      setCardDetails(null);
     }
   }, [showDetails, card.stripeCardId]);
   
@@ -65,9 +72,10 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
   };
 
   const formatCardNumber = (number: string) => {
-    // If we have real card details from Stripe, use them
+    // If we have real card details from Stripe and showing details, use them
     if (showDetails && cardDetails?.number && !loadingDetails) {
-      return cardDetails.number.replace(/(.{4})/g, '$1 ').trim();
+      const fullNumber = cardDetails.number.toString();
+      return fullNumber.replace(/(.{4})/g, '$1 ').trim();
     }
     
     // If loading, show loading state
@@ -75,8 +83,9 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
       return "•••• •••• •••• ••••";
     }
     
-    // Default masked view
-    return `•••• •••• •••• ${cardDetails?.last4 || card.lastFour || '••••'}`;
+    // Default masked view - show only last 4 digits
+    const lastFour = cardDetails?.last4 || card.lastFour || '••••';
+    return `•••• •••• •••• ${lastFour}`;
   };
 
   const getStatusColor = (status: string) => {
