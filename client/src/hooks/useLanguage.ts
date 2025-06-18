@@ -336,13 +336,6 @@ const translations = {
     noCardsDesc: "You don't have any cards yet",
     createFirstCard: "Create your first card",
     
-    // Card statuses
-    active: "Active",
-    pending: "Pending",
-    blocked: "Blocked",
-    frozen: "Frozen",
-    suspended: "Suspended",
-    
     // Card status descriptions
     cardIsActive: "Ready to use",
     cardIsPending: "Card is pending",
@@ -481,7 +474,6 @@ const translations = {
     
     // Quick Services
     quickServices: "الخدمات السريعة",
-    transfer: "تحويل",
     bills: "الفواتير",
     analytics: "تحليلات",
     wallet: "المحفظة",
@@ -499,13 +491,6 @@ const translations = {
     noCardsYet: "لا توجد بطاقات بعد",
     noCardsDesc: "ليس لديك أي بطاقات بعد",
     createFirstCard: "إنشاء بطاقتك الأولى",
-    
-    // Card statuses
-    active: "نشطة",
-    pending: "في الانتظار",
-    blocked: "محجوبة",
-    frozen: "مجمدة",
-    suspended: "معلقة",
     
     // Card status descriptions
     cardIsActive: "البطاقة جاهزة للاستخدام",
