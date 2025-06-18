@@ -111,6 +111,10 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Static Assets**: Served from built `dist/public` directory
 
 ## Changelog
+- June 18, 2025: Successfully fixed card number display issue - real Stripe card numbers (4000009990000146) now display when eye icon is clicked
+- June 18, 2025: Fixed API response handling in card details fetching logic
+- June 18, 2025: Implemented proper state management for card visibility toggle functionality
+- June 18, 2025: Enhanced card components with improved debugging and error handling
 - June 17, 2025: Implemented automatic card activation - new cards are now set to "active" status upon creation
 - June 17, 2025: Added Arabic translations for card statuses (نشطة, مجمدة, محجوبة) with proper display across all card interfaces
 - June 17, 2025: Enhanced card status management with real-time updates and Arabic language support

@@ -18,7 +18,6 @@ interface CreateCardModalProps {
 
 export default function CreateCardModal({ open, onOpenChange }: CreateCardModalProps) {
   const [formData, setFormData] = useState({
-    holderName: "",
     type: "",
     creditLimit: "5000",
     currency: "USD",
@@ -71,7 +70,6 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
 
   const resetForm = () => {
     setFormData({
-      holderName: "",
       type: "",
       creditLimit: "5000",
       currency: "USD",
@@ -284,18 +282,6 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
                 {/* Card Details Form */}
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="holderName">Cardholder Name</Label>
-                      <Input
-                        id="holderName"
-                        value={formData.holderName}
-                        onChange={(e) => handleInputChange("holderName", e.target.value)}
-                        placeholder="Full Name"
-                        required
-                        className="form-input"
-                      />
-                    </div>
-                    
                     <div className="space-y-2">
                       <Label htmlFor="currency">Currency</Label>
                       <Select 

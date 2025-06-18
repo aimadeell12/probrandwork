@@ -13,7 +13,6 @@ import { useLocation } from "wouter";
 export default function ChooseCard() {
   const [, setLocation] = useLocation();
   const [formData, setFormData] = useState({
-    holderName: "",
     type: "",
     creditLimit: "5000",
     currency: "USD",
@@ -75,14 +74,7 @@ export default function ChooseCard() {
       return;
     }
 
-    if (!formData.holderName.trim()) {
-      toast({
-        title: "Name Required",
-        description: "Please enter cardholder name",
-        variant: "destructive",
-      });
-      return;
-    }
+
 
     createCardMutation.mutate({
       ...formData,
@@ -267,16 +259,6 @@ export default function ChooseCard() {
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="holderName">Cardholder Name</Label>
-                      <Input
-                        id="holderName"
-                        placeholder="Enter cardholder name"
-                        value={formData.holderName}
-                        onChange={(e) => handleInputChange("holderName", e.target.value)}
-                        className="bg-white/50 dark:bg-gray-900/50"
-                      />
-                    </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="creditLimit">Credit Limit</Label>
