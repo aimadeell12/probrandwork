@@ -94,14 +94,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
       return;
     }
 
-    if (!formData.holderName.trim()) {
-      toast({
-        title: "Name Required",
-        description: "Please enter cardholder name",
-        variant: "destructive",
-      });
-      return;
-    }
+
 
     createCardMutation.mutate({
       ...formData,
