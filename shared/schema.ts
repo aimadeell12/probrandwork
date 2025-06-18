@@ -76,7 +76,7 @@ export const cards = pgTable("cards", {
   stripeCardId: varchar("stripe_card_id").unique(),
   stripeCardHolderId: varchar("stripe_cardholder_id"),
   // Card details
-  holderName: varchar("holder_name").notNull(),
+  holderName: varchar("holder_name"),
   cardNumber: varchar("card_number"), // Full card number (encrypted in production)
   lastFour: varchar("last_four", { length: 4 }),
   cvv: varchar("cvv", { length: 4 }),
@@ -335,6 +335,7 @@ export const registerSchema = z.object({
 export const insertCardSchema = createInsertSchema(cards).omit({
   id: true,
   lithicCardId: true,
+  holderName: true,
   lastFour: true,
   status: true,
   balance: true,
