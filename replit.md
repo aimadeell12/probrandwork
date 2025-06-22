@@ -113,6 +113,11 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Static Assets**: Served from built `dist/public` directory
 
 ## Changelog
+- June 22, 2025: Added Expo integration for enhanced React Native for Web development experience
+- June 22, 2025: Created Expo configuration files (app.json, expo.json, expo-web.config.js) for cross-platform builds
+- June 22, 2025: Updated GitHub Actions workflows to support Expo web and mobile builds
+- June 22, 2025: Implemented Expo-compatible app structure with simplified routing
+- June 22, 2025: Added Expo CLI commands and webpack configuration for improved development workflow
 - June 22, 2025: Implemented React Native for Web architecture with GitHub Actions deployment system
 - June 22, 2025: Created native components structure for cross-platform compatibility
 - June 22, 2025: Added GitHub Actions workflow for automated web deployment and mobile builds

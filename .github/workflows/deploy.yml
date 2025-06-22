@@ -77,7 +77,13 @@ jobs:
       
     - name: Build for Web (Expo)
       run: |
-        npx expo export --platform web
+        npx expo export --platform web --output-dir dist/expo
+        
+    - name: Build Native Web Bundle
+      run: |
+        npx expo start --web --non-interactive &
+        sleep 10
+        kill %1 || true
         
     - name: Upload Mobile Web Build
       uses: actions/upload-artifact@v4
