@@ -5,13 +5,29 @@ export { default as TouchableOpacity } from './TouchableOpacity';
 export { default as ScrollView } from './ScrollView';
 export { default as TextInput } from './TextInput';
 
-// Re-export common React Native components as web equivalents
-export const SafeAreaView = View;
-export const StatusBar = () => null; // Web doesn't need status bar
-export const FlatList = ScrollView; // Simplified for web
-export const Image = ({ source, style, ...props }: any) => (
-  <img src={typeof source === 'string' ? source : source?.uri} style={style} {...props} />
-);
+// Additional React Native components for web
+import React from 'react';
+import ViewComponent from './View';
+import ScrollViewComponent from './ScrollView';
+
+export const SafeAreaView = ViewComponent;
+export const StatusBar = () => null;
+export const FlatList = ScrollViewComponent;
+
+interface ImageProps {
+  source: string | { uri: string };
+  style?: React.CSSProperties;
+  [key: string]: any;
+}
+
+export const Image: React.FC<ImageProps> = ({ source, style, ...props }) => {
+  const src = typeof source === 'string' ? source : source?.uri;
+  return React.createElement('img', {
+    src,
+    style,
+    ...props
+  });
+};
 
 // Platform detection
 export const Platform = {
