@@ -7,12 +7,14 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 ## System Architecture
 
 ### Frontend Architecture
-- **Framework**: React 18 with TypeScript
-- **Routing**: Wouter for client-side routing
+- **Framework**: React 18 with TypeScript + React Native for Web
+- **Native Components**: Custom React Native Web implementation for cross-platform compatibility
+- **Routing**: Wouter for client-side routing (Web) + React Native Navigation (Mobile)
 - **State Management**: TanStack Query (React Query) for server state management
-- **UI Framework**: Tailwind CSS with shadcn/ui components
-- **Build Tool**: Vite for fast development and optimized builds
-- **Form Handling**: React Hook Form with Zod validation
+- **UI Framework**: Tailwind CSS with shadcn/ui components + React Native StyleSheet
+- **Build Tool**: Vite for web development + Expo/Metro for mobile builds
+- **Form Handling**: React Hook Form with Zod validation + React Native TextInput
+- **Cross-Platform**: Supports Web, iOS, and Android from single codebase
 
 ### Backend Architecture
 - **Runtime**: Node.js with Express.js server
