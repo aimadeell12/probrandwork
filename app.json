@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "PayDota Banking",
+    "slug": "paydota-banking",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./client/public/icon-512.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./client/public/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0066CC"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.paydota.banking"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./client/public/adaptive-icon.png",
+        "backgroundColor": "#0066CC"
+      },
+      "package": "com.paydota.banking"
+    },
+    "web": {
+      "favicon": "./client/public/favicon.ico",
+      "bundler": "metro"
+    },
+    "platforms": ["ios", "android", "web"],
+    "scheme": "paydota"
+  }
+}
