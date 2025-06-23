@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/hooks/useLanguage";
+import { useEffect } from "react";
+import { initializeMobileApp } from "@/lib/capacitor";
 import BottomNavigation from "@/components/bottom-navigation";
 import Welcome from "@/pages/welcome";
 import Login from "@/pages/login";
@@ -156,6 +158,11 @@ function Router() {
 }
 
 function App() {
+  useEffect(() => {
+    // Initialize mobile app features when component mounts
+    initializeMobileApp();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
