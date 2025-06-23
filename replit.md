@@ -12,6 +12,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **State Management**: TanStack Query (React Query) for server state management
 - **UI Framework**: Tailwind CSS with shadcn/ui components
 - **Build Tool**: Vite for fast development and optimized builds
+- **Mobile Framework**: Capacitor for native mobile app conversion
 - **Form Handling**: React Hook Form with Zod validation
 
 ### Backend Architecture
@@ -93,24 +94,58 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Code Quality**: ESLint configuration (implicit)
 - **Styling**: PostCSS with Tailwind CSS and autoprefixer
 
+## Mobile App Architecture
+
+### Capacitor Integration
+- **Native Wrapper**: Capacitor for iOS and Android app conversion
+- **Build Target**: `dist/public` directory for web assets
+- **Native Plugins**: Status bar, splash screen, keyboard, haptics, device info, network status
+- **Mobile Features**: Touch feedback, safe area handling, native navigation
+
+### Mobile-Specific Features
+- **Status Bar Management**: Custom styling and background colors
+- **Splash Screen**: Auto-hide with customizable duration
+- **Keyboard Handling**: Automatic viewport adjustment
+- **Haptic Feedback**: Touch response for payment and card operations
+- **Native Toast**: System-level notifications
+- **Share Integration**: Native sharing capabilities
+
+### Build Configuration
+- **Mobile Build**: Separate Vite config for optimized mobile assets
+- **App Configuration**: `capacitor.config.ts` with app ID and platform settings
+- **Asset Management**: Icons and splash screens in `resources/` directory
+
 ## Deployment Strategy
 
-### Production Build
+### Web Application
 - **Frontend**: Vite builds optimized static assets to `dist/public`
 - **Backend**: esbuild bundles server code to `dist/index.js`
 - **Database**: Migrations applied via `drizzle-kit push`
 
+### Mobile Application
+- **GitHub Actions**: Automated CI/CD for Android and iOS builds
+- **Android**: APK generation with signing and Google Play upload
+- **iOS**: Archive creation with App Store Connect integration
+- **Release Management**: Automated versioning and distribution
+
 ### Environment Configuration
 - **Development**: `npm run dev` runs TSX with hot reload
 - **Production**: `npm run start` serves built application
+- **Mobile Development**: Platform-specific IDEs (Android Studio/Xcode)
 - **Database**: Environment-based connection string configuration
 
 ### Hosting Platform
-- **Platform**: Replit with autoscale deployment
+- **Web Platform**: Replit with autoscale deployment
 - **Port Configuration**: Internal port 5000, external port 80
 - **Static Assets**: Served from built `dist/public` directory
+- **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 23, 2025: Successfully implemented Capacitor mobile app conversion with complete GitHub Actions CI/CD pipeline
+- June 23, 2025: Added native mobile features including haptic feedback, status bar management, and keyboard handling
+- June 23, 2025: Created comprehensive mobile build scripts and automated deployment workflows for Android and iOS
+- June 23, 2025: Integrated Capacitor plugins for enhanced mobile user experience (toast, share, device info, network status)
+- June 23, 2025: Added mobile-specific CSS styles for safe areas, touch interactions, and native scrolling
 - June 18, 2025: Successfully fixed card number display issue - real Stripe card numbers (4000009990000146) now display when eye icon is clicked
 - June 18, 2025: Fixed API response handling in card details fetching logic
 - June 18, 2025: Implemented proper state management for card visibility toggle functionality
