@@ -34,7 +34,7 @@ jobs:
       run: npm run build
       
     - name: Copy keystore file
-      run: cp attached_assets/signing_1750723138194.keystore android/app/
+      run: cp attached_assets/signing_1750726650743.keystore android/app/signing.keystore
       
     - name: Sync Capacitor
       run: npx cap sync android
