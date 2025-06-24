@@ -90,27 +90,16 @@ export default function PullToRefresh({
         transition: isPulling ? 'none' : 'transform 0.3s ease-out'
       }}
     >
-      {/* مؤشر السحب للتحديث */}
+      {/* مؤشر السحب للتحديث - مخفي */}
       <div 
-        className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center text-center bg-gradient-to-b from-purple-50/90 via-white/80 to-pink-50/90 dark:from-gray-900/90 dark:via-gray-800/80 dark:to-purple-900/90 backdrop-blur-sm z-10"
+        className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center text-center bg-transparent z-10"
         style={{ 
           height: `${Math.min(pullDistance, threshold * 1.2)}px`,
-          opacity: refreshOpacity,
+          opacity: 0,
           transform: `translateY(-${Math.max(0, threshold * 1.2 - pullDistance)}px)`
         }}
       >
-        <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
-          <RefreshCw className={`h-5 w-5 ${iconRotation}`} />
-          <span className="text-sm font-medium">{getRefreshText()}</span>
-        </div>
-        
-        {/* شريط التقدم */}
-        <div className="w-16 h-1 bg-purple-200 dark:bg-purple-700 rounded-full mt-2 overflow-hidden">
-          <div 
-            className="h-full bg-purple-600 dark:bg-purple-400 transition-all duration-150"
-            style={{ width: `${Math.min(100, (pullDistance / threshold) * 100)}%` }}
-          />
-        </div>
+        {/* محتوى مخفي */}
       </div>
 
       {/* المحتوى الرئيسي */}
