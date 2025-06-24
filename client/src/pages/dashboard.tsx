@@ -248,7 +248,7 @@ export default function Dashboard() {
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-red-600 dark:text-red-400 text-sm">
-                        -{(transaction.amount / 100).toFixed(2)} ر.س
+                        -${(transaction.amount / 100).toFixed(2)}
                       </p>
                     </div>
                   </motion.div>
