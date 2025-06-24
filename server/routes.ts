@@ -6,14 +6,23 @@ import { setupSimpleAuth, requireAuth } from "./simpleAuth";
 import { setupGoogleAuth } from "./googleAuth";
 import { reapService } from "./reap";
 import { binancePayService } from "./binance";
-import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema } from "@shared/schema";
+import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema, insertAuthenticatorSchema, insertWebauthnChallengeSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { db } from "./db";
 import * as schema from "@shared/schema";
-import { eq, desc, and, sql, isNull } from "drizzle-orm";
+import { eq, desc, and, sql, isNull, lt } from "drizzle-orm";
 import Stripe from "stripe";
+import { 
+  generateRegistrationOptions,
+  verifyRegistrationResponse,
+  generateAuthenticationOptions,
+  verifyAuthenticationResponse,
+  type VerifiedRegistrationResponse,
+  type VerifiedAuthenticationResponse,
+} from '@simplewebauthn/server';
+import crypto from 'crypto';
 
 // Initialize Stripe
 if (!process.env.STRIPE_SECRET_KEY) {
