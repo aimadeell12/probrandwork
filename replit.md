@@ -141,6 +141,9 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 24, 2025: Created comprehensive GitHub Actions workflows for automated Android APK building and Google Play Store deployment
+- June 24, 2025: Added automated CI/CD pipeline with artifact upload, release creation, and Play Store publishing
+- June 24, 2025: Implemented bilingual (Arabic/English) release notes and metadata for app store deployment
 - June 24, 2025: Final resolution - Fixed Android platform conflicts by complete removal and clean re-initialization
 - June 24, 2025: Successfully configured capacitor.config.json (JSON format) instead of TypeScript configuration
 - June 24, 2025: Completed keystore integration and Android signing configuration for production deployment

@@ -1,0 +1,20 @@
+PayDota Mobile Banking App - Latest Release
+
+New Features:
+• Complete mobile banking experience
+• Virtual and physical card management
+• Real-time transaction monitoring  
+• Secure payment processing with Stripe
+• Multi-language support (Arabic/English)
+• Native mobile optimizations
+
+Improvements:
+• Enhanced security with biometric authentication
+• Improved performance and stability
+• Better user interface for mobile devices
+• Haptic feedback for better user experience
+
+Technical:
+• Built with Capacitor for native mobile experience
+• Secure keystore signing for production deployment
+• Real-time notifications and updates
