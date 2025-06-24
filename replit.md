@@ -31,9 +31,11 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 
 ### Authentication System
 - **Multi-provider Auth**: Supports local authentication, Google OAuth, and Replit authentication
+- **WebAuthn Integration**: Biometric authentication using fingerprint/face recognition with Capacitor compatibility
 - **Session Management**: Secure session handling with PostgreSQL storage
 - **Password Security**: bcryptjs for password hashing
 - **Authorization**: Role-based access control (user/admin)
+- **Device Management**: Authenticator registration and management for multiple devices
 
 ### Card Management
 - **Virtual & Physical Cards**: Support for both card types with different designs
@@ -141,6 +143,10 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 24, 2025: Implemented WebAuthn biometric authentication with Capacitor compatibility for secure login using fingerprint/face recognition
+- June 24, 2025: Added biometric setup interface in security settings with device management and registration capabilities
+- June 24, 2025: Created WebAuthn API endpoints for registration, authentication, and authenticator management
+- June 24, 2025: Integrated biometric login option in login page alongside traditional password authentication
 - June 24, 2025: Removed "Refreshing..." text and purple color from pull-to-refresh component per user request
 - June 24, 2025: Changed all page backgrounds to pure white color without gradients or dark mode variants per user request
 - June 24, 2025: Fixed background display issue - ensured full screen coverage using dynamic viewport height and proper CSS styling
