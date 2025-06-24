@@ -35,6 +35,15 @@ export const useMobile = () => {
   const [networkStatus, setNetworkStatus] = useState<NetworkStatus>({ connected: true, connectionType: 'unknown' });
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
 
+  const updateNetworkStatus = async () => {
+    try {
+      const network = await getNetworkStatus();
+      setNetworkStatus(network);
+    } catch (error) {
+      console.warn('Failed to update network status:', error);
+    }
+  };
+
   useEffect(() => {
     const initializeMobileFeatures = async () => {
       setIsNative(isNativePlatform);
@@ -52,6 +61,11 @@ export const useMobile = () => {
     };
 
     initializeMobileFeatures();
+
+    // Set up periodic network status checks for mobile
+    const interval = setInterval(updateNetworkStatus, 10000); // Check every 10 seconds
+
+    return () => clearInterval(interval);
   }, []);
 
   const vibrate = async (style: ImpactStyle = ImpactStyle.Medium) => {
@@ -94,6 +108,7 @@ export const useMobile = () => {
     
     // Utilities
     isOnline: networkStatus.connected,
+    updateNetworkStatus,
     isAndroid: platform === 'android',
     isIOS: platform === 'ios',
     isWeb: platform === 'web',

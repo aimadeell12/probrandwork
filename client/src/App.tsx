@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/hooks/useLanguage";
+import { useNetwork } from "@/hooks/useNetwork";
+import { OfflineError } from "@/components/OfflineError";
 import { useEffect } from "react";
 import { initializeMobileApp } from "@/lib/capacitor";
 import BottomNavigation from "@/components/bottom-navigation";
@@ -58,6 +60,7 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
+  const { isOnline, isLoading: networkLoading, checkNetwork } = useNetwork();
   const [location] = useLocation();
 
   // صفحات التحقق من الهوية التي يجب إخفاء الشريط السفلي منها
@@ -68,12 +71,17 @@ function Router() {
 
   const shouldHideBottomNav = kycPages.includes(location);
 
-  if (isLoading) {
+  if (isLoading || networkLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
+  }
+
+  // Show offline screen when not connected to internet
+  if (!isOnline) {
+    return <OfflineError onRetry={checkNetwork} />;
   }
 
   return (
