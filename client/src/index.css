@@ -26,25 +26,25 @@
 }
 
 .dark {
-  --background: 224 71% 4%; /* Dark blue-gray */
-  --foreground: 213 31% 91%; /* Light gray */
-  --muted: 223 47% 11%; /* Darker blue-gray */
-  --muted-foreground: 215.4 16.3% 56.9%; /* Medium gray */
-  --popover: 224 71% 4%; /* Dark blue-gray */
-  --popover-foreground: 215 20.2% 65.1%; /* Light gray */
-  --card: 224 71% 4%; /* Dark blue-gray */
-  --card-foreground: 213 31% 91%; /* Light gray */
-  --border: 216 34% 17%; /* Dark border */
-  --input: 0 0% 15%; /* Very dark gray for inputs */
-  --primary: 265 85% 60%; /* Purple primary for dark mode */
+  --background: 0 0% 100%; /* Pure white for dark mode too */
+  --foreground: 222 84% 4.9%; /* Dark text */
+  --muted: 210 40% 96%; /* Light muted */
+  --muted-foreground: 215 16% 46.9%; /* Medium gray */
+  --popover: 0 0% 100%; /* White popover */
+  --popover-foreground: 222 84% 4.9%; /* Dark text */
+  --card: 0 0% 100%; /* White cards */
+  --card-foreground: 222 84% 4.9%; /* Dark text */
+  --border: 214 32% 91%; /* Light border */
+  --input: 0 0% 100%; /* White inputs */
+  --primary: 265 85% 60%; /* Purple primary */
   --primary-foreground: 0 0% 100%; /* Pure white */
   --secondary: 160 84% 39%; /* Keep secondary green */
   --secondary-foreground: 0 0% 100%; /* Pure white */
-  --accent: 265 85% 70%; /* Purple accent for dark mode */
+  --accent: 265 85% 70%; /* Purple accent */
   --accent-foreground: 0 0% 100%; /* Pure white */
   --destructive: 0 62.8% 30.6%; /* Keep destructive red */
   --destructive-foreground: 0 0% 100%; /* Pure white */
-  --ring: 265 85% 60%; /* Purple ring for dark mode */
+  --ring: 265 85% 60%; /* Purple ring */
 }
 
 /* Mobile-specific styles for Capacitor */
