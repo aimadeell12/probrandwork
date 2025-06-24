@@ -52,7 +52,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen min-h-[100dvh] bg-gray-50 dark:bg-gray-900 w-full">
+    <div className="min-h-screen min-h-[100dvh] bg-white w-full">
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="p-4 pb-24 max-w-md mx-auto min-h-screen min-h-[100dvh]">
           
@@ -69,10 +69,10 @@ export default function Dashboard() {
                 </span>
               </div>
               <div>
-                <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <h1 className="text-lg font-semibold text-gray-900">
                   HELLO {userInfo ? (userInfo as any).firstName.toUpperCase() : 'AIMAD'}
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                <p className="text-gray-600 text-sm">
                   HAPPY TO SEE YOU :)
                 </p>
               </div>
@@ -81,7 +81,7 @@ export default function Dashboard() {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-gray-600 dark:text-gray-400 relative"
+              className="text-gray-600 relative"
               onClick={() => setIsNotificationCenterOpen(true)}
             >
               <Bell className="h-6 w-6" />
