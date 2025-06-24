@@ -19,11 +19,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
-# Capacitor rules
--keep @com.getcapacitor.annotation.CapacitorPlugin public class * {
-    @com.getcapacitor.annotation.PluginMethod public *;
-}
-
-# Keep PayDota specific classes
--keep class com.paydota.banking.** { *; }
