@@ -117,8 +117,8 @@ export default function Transactions() {
               size="sm"
               onClick={() => setSelectedFilter(filter.key)}
               className={selectedFilter === filter.key 
-                ? "whitespace-nowrap bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
-                : "whitespace-nowrap bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 hover:bg-purple-100 dark:hover:bg-purple-900/30"
+                ? "whitespace-nowrap bg-gray-900 text-white shadow-lg"
+                : "whitespace-nowrap bg-white border border-gray-200 hover:bg-gray-50"
               }
             >
               {filter.label}
@@ -134,7 +134,7 @@ export default function Transactions() {
                 <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
                   <ArrowDownLeft className="h-4 w-4 text-green-600" />
                 </div>
-                <span className="text-sm text-gray-600 dark:text-gray-300">إجمالي الدخل</span>
+                <span className="text-sm text-gray-600">إجمالي الدخل</span>
               </div>
               <p className="text-lg font-semibold text-green-600">
                 ${filteredTransactions
@@ -150,7 +150,7 @@ export default function Transactions() {
                 <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded-lg">
                   <ArrowUpRight className="h-4 w-4 text-red-600" />
                 </div>
-                <span className="text-sm text-gray-600 dark:text-gray-300">إجمالي المصروف</span>
+                <span className="text-sm text-gray-600">إجمالي المصروف</span>
               </div>
               <p className="text-lg font-semibold text-red-600">
                 ${filteredTransactions
@@ -166,12 +166,12 @@ export default function Transactions() {
         <div className="space-y-4">
           {isLoading ? (
             <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto"></div>
-              <p className="text-gray-600 dark:text-gray-300 mt-2">جارٍ تحميل المعاملات...</p>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+              <p className="text-gray-600 mt-2">جارٍ تحميل المعاملات...</p>
             </div>
           ) : filteredTransactions.length > 0 ? (
             filteredTransactions.map((transaction: any) => (
-              <Card key={transaction.id} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl hover:shadow-2xl transition-all duration-200">
+              <Card key={transaction.id} className="bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-200">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
