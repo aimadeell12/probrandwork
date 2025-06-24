@@ -147,7 +147,8 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - June 24, 2025: Fixed WebAuthn userID Buffer conversion issue and added proper HTTPS security context validation for biometric authentication
 - June 24, 2025: Replaced WebAuthn with native Capacitor biometric authentication using @capacitor-community/native-biometric for reliable mobile support
 - June 24, 2025: Added biometric setup interface in security settings with device management and registration capabilities
-- June 24, 2025: Created WebAuthn API endpoints for registration, authentication, and authenticator management
+- June 24, 2025: Created custom biometric authentication system for Capacitor with encrypted local storage and simulated biometric interface
+- June 24, 2025: Added comprehensive testing guide and mobile-specific biometric functionality that works only on native platforms
 - June 24, 2025: Integrated biometric login option in login page alongside traditional password authentication
 - June 24, 2025: Removed "Refreshing..." text and purple color from pull-to-refresh component per user request
 - June 24, 2025: Changed all page backgrounds to pure white color without gradients or dark mode variants per user request

@@ -83,19 +83,26 @@ export class BiometricFallback {
 
       content.innerHTML = `
         <div style="margin-bottom: 16px;">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #007AFF; margin: 0 auto;">
-            <path d="M12 10v4"></path>
-            <path d="M12 18h.01"></path>
-            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-            <path d="M9 9h6v2a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2V9z"></path>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #007AFF; margin: 0 auto; display: block;">
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="m3 21 7-7 7 7"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            <path d="M21 3.13a8 8 0 0 1 0 13.75"></path>
           </svg>
         </div>
-        <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600;">${options.title}</h3>
-        ${options.subtitle ? `<p style="margin: 0 0 16px 0; font-size: 14px; color: #666;">${options.subtitle}</p>` : ''}
-        <p style="margin: 0 0 20px 0; font-size: 14px; color: #333;">${options.reason}</p>
+        <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; text-align: center;">${options.title}</h3>
+        ${options.subtitle ? `<p style="margin: 0 0 16px 0; font-size: 14px; color: #666; text-align: center;">${options.subtitle}</p>` : ''}
+        <p style="margin: 0 0 20px 0; font-size: 14px; color: #333; text-align: center;">${options.reason}</p>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="width: 60px; height: 60px; border: 3px solid #007AFF; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; animation: pulse 2s infinite;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #007AFF;">
+              <path d="M17.81 4.47c-.08 0-.16-.02-.23-.06C15.66 3.42 14 3 12.01 3c-1.98 0-3.86.47-5.57 1.41-.24.13-.54.04-.68-.2-.13-.24-.04-.55.2-.68C7.82 2.52 9.86 2 12.01 2c2.13 0 3.99.47 6.03 1.52.25.13.34.43.21.67-.09.18-.26.28-.44.28zM3.5 9.72c-.1 0-.2-.03-.29-.09-.23-.16-.28-.47-.12-.7.99-1.4 2.25-2.5 3.75-3.27C9.98 4.04 14 4.03 17.15 5.65c1.5.77 2.76 1.86 3.75 3.25.16.22.11.54-.12.7-.23.16-.54.11-.7-.12-.9-1.26-2.04-2.25-3.39-2.94-2.87-1.47-6.54-1.47-9.4.01-1.36.69-2.5 1.68-3.4 2.96-.08.14-.23.21-.39.21z"/>
+            </svg>
+          </div>
+        </div>
         <div style="display: flex; gap: 12px;">
-          <button id="biometric-cancel" style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: white; font-size: 16px;">إلغاء</button>
-          <button id="biometric-auth" style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: #007AFF; color: white; font-size: 16px;">المصادقة</button>
+          <button id="biometric-cancel" style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: white; font-size: 16px; cursor: pointer;">إلغاء</button>
+          <button id="biometric-auth" style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: #007AFF; color: white; font-size: 16px; cursor: pointer;">تأكيد المصادقة</button>
         </div>
       `;
 

@@ -226,7 +226,10 @@ export default function BiometricSetup() {
             <div className="text-center py-6">
               <Smartphone className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500">
-                هذا الجهاز لا يدعم المصادقة البيومترية أو لم يتم تفعيلها في إعدادات النظام.
+                المصادقة البيومترية متاحة فقط في تطبيق PayDota المحمول. في بيئة التطوير الحالية (متصفح الويب)، لا يمكن الوصول للأجهزة البيومترية.
+              </p>
+              <p className="text-sm text-gray-400 mt-2">
+                قم ببناء التطبيق باستخدام Capacitor واختبره على جهاز محمول للاستفادة من هذه الميزة.
               </p>
             </div>
           )}
