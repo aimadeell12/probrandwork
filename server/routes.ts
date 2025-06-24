@@ -1758,70 +1758,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get user's authenticators
-  app.get("/api/webauthn/authenticators", requireAuth, async (req: any, res) => {
+  // Enable biometric authentication
+  app.patch("/api/user/biometric-enable", requireAuth, async (req: any, res) => {
     try {
       const userId = req.session?.userId;
+      const { deviceName, deviceId, platform } = req.body;
+
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      const authenticators = await db
-        .select({
-          id: schema.authenticators.id,
-          name: schema.authenticators.name,
-          credentialDeviceType: schema.authenticators.credentialDeviceType,
-          lastUsed: schema.authenticators.lastUsed,
-          createdAt: schema.authenticators.createdAt,
-        })
-        .from(schema.authenticators)
-        .where(eq(schema.authenticators.userId, userId));
+      // Update user profile to enable biometric
+      const updatedUser = await storage.updateUser(userId, {
+        biometricEnabled: true,
+        webauthnEnabled: true
+      });
 
-      res.json(authenticators);
+      // Log biometric device info (optional)
+      console.log(`Biometric enabled for user ${userId} on device: ${deviceName} (${platform})`);
+
+      res.json(updatedUser);
     } catch (error) {
-      console.error("Error fetching authenticators:", error);
-      res.status(500).json({ message: "Failed to fetch authenticators" });
+      console.error("Error enabling biometric:", error);
+      res.status(500).json({ message: "Failed to enable biometric authentication" });
     }
   });
 
-  // Delete authenticator
-  app.delete("/api/webauthn/authenticators/:id", requireAuth, async (req: any, res) => {
+  // Disable biometric authentication
+  app.patch("/api/user/biometric-disable", requireAuth, async (req: any, res) => {
     try {
       const userId = req.session?.userId;
-      const { id } = req.params;
 
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      await db
-        .delete(schema.authenticators)
-        .where(
-          and(
-            eq(schema.authenticators.id, id),
-            eq(schema.authenticators.userId, userId)
-          )
-        );
+      // Update user profile to disable biometric
+      const updatedUser = await storage.updateUser(userId, {
+        biometricEnabled: false,
+        webauthnEnabled: false
+      });
 
-      // Check if user has any remaining authenticators
-      const remainingAuth = await db
-        .select()
-        .from(schema.authenticators)
-        .where(eq(schema.authenticators.userId, userId))
-        .limit(1);
-
-      // If no authenticators left, disable WebAuthn
-      if (!remainingAuth.length) {
-        await db
-          .update(schema.users)
-          .set({ webauthnEnabled: false })
-          .where(eq(schema.users.id, userId));
-      }
-
-      res.json({ message: "Authenticator removed successfully" });
+      res.json(updatedUser);
     } catch (error) {
-      console.error("Error removing authenticator:", error);
-      res.status(500).json({ message: "Failed to remove authenticator" });
+      console.error("Error disabling biometric:", error);
+      res.status(500).json({ message: "Failed to disable biometric authentication" });
     }
   });
 

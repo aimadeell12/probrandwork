@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Fingerprint, Smartphone, Trash2, Plus, Shield, CheckCircle } from 'lucide-react';
-import { useWebAuthn } from '@/hooks/useWebAuthn';
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { apiRequest } from '@/lib/queryClient';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Fingerprint, Smartphone, Trash2, Plus, Shield, CheckCircle, Eye, EyeOff } from 'lucide-react';
+import { useBiometric } from '@/hooks/useBiometric';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
 import {
   AlertDialog,
@@ -28,64 +29,61 @@ interface Authenticator {
 }
 
 export default function BiometricSetup() {
-  const [isPlatformAvailable, setIsPlatformAvailable] = useState<boolean | null>(null);
+  const [isBiometricAvailable, setIsBiometricAvailable] = useState<boolean | null>(null);
+  const [showSetupForm, setShowSetupForm] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  
   const { 
-    isSupported, 
+    isNativePlatform,
     isLoading, 
-    checkPlatformAuthenticatorAvailability, 
-    registerBiometric 
-  } = useWebAuthn();
+    checkBiometricAvailability, 
+    setupBiometric,
+    removeBiometric
+  } = useBiometric();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Get user's authenticators
-  const { data: authenticators = [], isLoading: loadingAuth } = useQuery<Authenticator[]>({
-    queryKey: ['/api/webauthn/authenticators'],
-  });
-
-  // Delete authenticator mutation
-  const deleteAuthenticatorMutation = useMutation({
-    mutationFn: (id: string) => apiRequest('DELETE', `/api/webauthn/authenticators/${id}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/webauthn/authenticators'] });
-      toast({
-        title: "تم الحذف",
-        description: "تم حذف جهاز المصادقة بنجاح",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "خطأ",
-        description: "فشل في حذف جهاز المصادقة",
-        variant: "destructive"
-      });
-    }
+  // Get user profile to check biometric status
+  const { data: profile } = useQuery({
+    queryKey: ['/api/user/profile'],
   });
 
   useEffect(() => {
     const checkAvailability = async () => {
-      if (isSupported) {
-        // Check if we're in a secure context first
-        if (!window.isSecureContext) {
-          setIsPlatformAvailable(false);
-          return;
-        }
-        const available = await checkPlatformAuthenticatorAvailability();
-        setIsPlatformAvailable(available);
+      if (isNativePlatform) {
+        const available = await checkBiometricAvailability();
+        setIsBiometricAvailable(available);
+      } else {
+        setIsBiometricAvailable(false);
       }
     };
     checkAvailability();
-  }, [isSupported, checkPlatformAuthenticatorAvailability]);
+  }, [isNativePlatform, checkBiometricAvailability]);
 
-  const handleRegisterBiometric = async () => {
-    const success = await registerBiometric();
+  const handleSetupBiometric = async () => {
+    if (!credentials.email || !credentials.password) {
+      toast({
+        title: "بيانات ناقصة",
+        description: "يرجى إدخال البريد الإلكتروني وكلمة المرور",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const success = await setupBiometric(credentials);
     if (success) {
-      queryClient.invalidateQueries({ queryKey: ['/api/webauthn/authenticators'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/user/profile'] });
+      setShowSetupForm(false);
+      setCredentials({ email: '', password: '' });
     }
   };
 
-  const handleDeleteAuthenticator = (id: string) => {
-    deleteAuthenticatorMutation.mutate(id);
+  const handleRemoveBiometric = async () => {
+    const success = await removeBiometric();
+    if (success) {
+      queryClient.invalidateQueries({ queryKey: ['/api/user/profile'] });
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -98,7 +96,7 @@ export default function BiometricSetup() {
     });
   };
 
-  if (!isSupported) {
+  if (!isNativePlatform) {
     return (
       <Card>
         <CardHeader>
@@ -107,14 +105,14 @@ export default function BiometricSetup() {
             المصادقة البيومترية
           </CardTitle>
           <CardDescription>
-            غير مدعومة في هذا المتصفح
+            متاحة فقط في التطبيق المحمول
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-6">
             <Fingerprint className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-500">
-              المتصفح الحالي لا يدعم المصادقة البيومترية. يرجى استخدام متصفح حديث أو تطبيق PayDota المحمول.
+              المصادقة البيومترية متاحة فقط في تطبيق PayDota المحمول. يرجى تحميل التطبيق للاستفادة من هذه الميزة.
             </p>
           </div>
         </CardContent>
@@ -135,120 +133,107 @@ export default function BiometricSetup() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {isPlatformAvailable === null ? (
+          {isBiometricAvailable === null ? (
             <div className="text-center py-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
               <p className="text-gray-500 mt-2">جارٍ فحص توافق الجهاز...</p>
             </div>
-          ) : isPlatformAvailable ? (
+          ) : isBiometricAvailable ? (
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-green-600">
                 <CheckCircle className="h-5 w-5" />
                 <span>الجهاز يدعم المصادقة البيومترية</span>
               </div>
               
-              <Button 
-                onClick={handleRegisterBiometric}
-                disabled={isLoading}
-                className="w-full"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                {isLoading ? "جارٍ الإعداد..." : "إضافة مصادقة بيومترية جديدة"}
-              </Button>
+              {profile?.biometricEnabled ? (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-blue-600">
+                    <Shield className="h-5 w-5" />
+                    <span>المصادقة البيومترية مفعلة</span>
+                  </div>
+                  <Button 
+                    onClick={handleRemoveBiometric}
+                    disabled={isLoading}
+                    variant="destructive"
+                    className="w-full"
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    {isLoading ? "جارٍ الإزالة..." : "إزالة المصادقة البيومترية"}
+                  </Button>
+                </div>
+              ) : showSetupForm ? (
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="email">البريد الإلكتروني</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={credentials.email}
+                      onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
+                      placeholder="أدخل بريدك الإلكتروني"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="password">كلمة المرور</Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={credentials.password}
+                        onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
+                        placeholder="أدخل كلمة المرور"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={handleSetupBiometric}
+                      disabled={isLoading}
+                      className="flex-1"
+                    >
+                      {isLoading ? "جارٍ الإعداد..." : "تفعيل"}
+                    </Button>
+                    <Button 
+                      onClick={() => setShowSetupForm(false)}
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      إلغاء
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <Button 
+                  onClick={() => setShowSetupForm(true)}
+                  disabled={isLoading}
+                  className="w-full"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  إعداد المصادقة البيومترية
+                </Button>
+              )}
             </div>
           ) : (
             <div className="text-center py-6">
               <Smartphone className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500">
-                {!window.isSecureContext 
-                  ? "المصادقة البيومترية تتطلب اتصال آمن (HTTPS). ستعمل في التطبيق المحمول."
-                  : "هذا الجهاز لا يدعم المصادقة البيومترية أو لم يتم تفعيلها."
-                }
+                هذا الجهاز لا يدعم المصادقة البيومترية أو لم يتم تفعيلها في إعدادات النظام.
               </p>
             </div>
           )}
         </CardContent>
       </Card>
 
-      {/* Registered Authenticators */}
-      <Card>
-        <CardHeader>
-          <CardTitle>الأجهزة المسجلة</CardTitle>
-          <CardDescription>
-            الأجهزة التي يمكنك استخدامها لتسجيل الدخول
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {loadingAuth ? (
-            <div className="text-center py-4">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 mx-auto"></div>
-              <p className="text-gray-500 mt-2">جارٍ تحميل الأجهزة...</p>
-            </div>
-          ) : authenticators.length === 0 ? (
-            <div className="text-center py-6">
-              <Fingerprint className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500">لا توجد أجهزة مسجلة</p>
-              <p className="text-sm text-gray-400">قم بإضافة جهاز جديد للبدء</p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {authenticators.map((auth) => (
-                <div key={auth.id} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <Fingerprint className="h-5 w-5 text-blue-600" />
-                    <div>
-                      <h4 className="font-medium">{auth.name}</h4>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Badge variant="secondary" className="text-xs">
-                          {auth.credentialDeviceType === 'singleDevice' ? 'جهاز واحد' : 'متعدد الأجهزة'}
-                        </Badge>
-                        <span className="text-sm text-gray-500">
-                          تم الإنشاء: {formatDate(auth.createdAt)}
-                        </span>
-                      </div>
-                      {auth.lastUsed && (
-                        <span className="text-xs text-gray-400">
-                          آخر استخدام: {formatDate(auth.lastUsed)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>حذف جهاز المصادقة</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          هل أنت متأكد من حذف جهاز المصادقة "{auth.name}"؟ 
-                          لن تتمكن من استخدامه لتسجيل الدخول بعد الحذف.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>إلغاء</AlertDialogCancel>
-                        <AlertDialogAction 
-                          onClick={() => handleDeleteAuthenticator(auth.id)}
-                          className="bg-red-600 hover:bg-red-700"
-                        >
-                          حذف
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+
     </div>
   );
 }

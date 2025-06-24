@@ -10,7 +10,7 @@ import { apiRequest } from '@/lib/queryClient';
 import { useLanguage } from '@/hooks/useLanguage';
 import { LanguageToggle } from '@/components/language-toggle';
 import { Fingerprint } from 'lucide-react';
-import { useWebAuthn } from '@/hooks/useWebAuthn';
+import { useBiometric } from '@/hooks/useBiometric';
 import { Separator } from '@/components/ui/separator';
 
 
@@ -24,7 +24,7 @@ export default function Login() {
     username: '',
     password: ''
   });
-  const { isSupported: webauthnSupported, isLoading: webauthnLoading, authenticateWithBiometric } = useWebAuthn();
+  const { isNativePlatform, isLoading: biometricLoading, authenticateWithBiometric } = useBiometric();
 
   const loginMutation = useMutation({
     mutationFn: async (data: { username: string; password: string }) => {
@@ -58,16 +58,7 @@ export default function Login() {
   });
 
   const handleBiometricLogin = async () => {
-    if (!formData.username) {
-      toast({
-        title: "مطلوب معرف المستخدم",
-        description: "يرجى إدخال البريد الإلكتروني أو اسم المستخدم أولاً",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const user = await authenticateWithBiometric(formData.username);
+    const user = await authenticateWithBiometric();
     if (user) {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       setTimeout(() => {
@@ -197,7 +188,7 @@ export default function Login() {
                 </Button>
 
                 {/* Biometric Login Button */}
-                {webauthnSupported && (
+                {isNativePlatform && (
                   <>
                     <div className="relative my-4">
                       <Separator />
@@ -211,10 +202,10 @@ export default function Login() {
                       variant="outline"
                       className="w-full h-12 border-2 border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-300 rounded-xl"
                       onClick={handleBiometricLogin}
-                      disabled={webauthnLoading || !formData.username}
+                      disabled={biometricLoading}
                     >
                       <Fingerprint className="w-5 h-5 mr-2 text-purple-600" />
-                      {webauthnLoading ? "جارٍ المصادقة..." : "تسجيل الدخول بالبصمة"}
+                      {biometricLoading ? "جارٍ المصادقة..." : "تسجيل الدخول بالبصمة"}
                     </Button>
                   </>
                 )}
