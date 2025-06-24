@@ -11,35 +11,26 @@ export const useBiometric = () => {
   const isNativePlatform = Capacitor.isNativePlatform();
 
   const checkBiometricAvailability = async () => {
-    return await BiometricFallback.checkAvailability();
+    // Always return true for both web and native platforms
+    // Web will use simulated biometric authentication
+    return true;
   };
 
   const setupBiometric = async (userCredentials: { email: string; password: string }) => {
-    if (!isNativePlatform) {
-      toast({
-        title: "غير مدعوم",
-        description: "المصادقة البيومترية متاحة فقط في التطبيق المحمول",
-        variant: "destructive"
-      });
-      return false;
-    }
 
     setIsLoading(true);
     try {
-      // Check if biometric is available
-      const isAvailable = await checkBiometricAvailability();
-      if (!isAvailable) {
-        toast({
-          title: "غير متاح",
-          description: "المصادقة البيومترية غير متاحة على هذا الجهاز",
-          variant: "destructive"
-        });
-        return false;
-      }
-
       // Get device info for better identification
-      const deviceInfo = await Device.getInfo();
-      const deviceName = `${deviceInfo.model || 'Mobile Device'} - ${deviceInfo.platform}`;
+      let deviceName = 'Web Browser';
+      let deviceId = 'web-' + Date.now();
+      let platform = 'web';
+
+      if (isNativePlatform) {
+        const deviceInfo = await Device.getInfo();
+        deviceName = `${deviceInfo.model || 'Mobile Device'} - ${deviceInfo.platform}`;
+        deviceId = deviceInfo.identifier || 'unknown';
+        platform = deviceInfo.platform;
+      }
 
       // Store credentials in secure storage (we'll use local storage with encryption for demo)
       const encryptedCredentials = btoa(JSON.stringify(userCredentials));
@@ -48,8 +39,8 @@ export const useBiometric = () => {
       // Update user profile to enable biometric
       await apiRequest('PATCH', '/api/user/biometric-enable', {
         deviceName,
-        deviceId: deviceInfo.identifier || 'unknown',
-        platform: deviceInfo.platform
+        deviceId,
+        platform
       });
 
       toast({
@@ -85,14 +76,6 @@ export const useBiometric = () => {
   };
 
   const authenticateWithBiometric = async () => {
-    if (!isNativePlatform) {
-      toast({
-        title: "غير مدعوم",
-        description: "المصادقة البيومترية متاحة فقط في التطبيق المحمول",
-        variant: "destructive"
-      });
-      return null;
-    }
 
     setIsLoading(true);
     try {
@@ -160,9 +143,6 @@ export const useBiometric = () => {
   };
 
   const removeBiometric = async () => {
-    if (!isNativePlatform) {
-      return false;
-    }
 
     try {
       localStorage.removeItem('paydota_biometric_credentials');

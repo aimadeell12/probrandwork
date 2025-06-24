@@ -51,15 +51,11 @@ export default function BiometricSetup() {
 
   useEffect(() => {
     const checkAvailability = async () => {
-      if (isNativePlatform) {
-        const available = await checkBiometricAvailability();
-        setIsBiometricAvailable(available);
-      } else {
-        setIsBiometricAvailable(false);
-      }
+      const available = await checkBiometricAvailability();
+      setIsBiometricAvailable(available);
     };
     checkAvailability();
-  }, [isNativePlatform, checkBiometricAvailability]);
+  }, [checkBiometricAvailability]);
 
   const handleSetupBiometric = async () => {
     if (!credentials.email || !credentials.password) {
@@ -96,29 +92,7 @@ export default function BiometricSetup() {
     });
   };
 
-  if (!isNativePlatform) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
-            المصادقة البيومترية
-          </CardTitle>
-          <CardDescription>
-            متاحة فقط في التطبيق المحمول
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-6">
-            <Fingerprint className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500">
-              المصادقة البيومترية متاحة فقط في تطبيق PayDota المحمول. يرجى تحميل التطبيق للاستفادة من هذه الميزة.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+
 
   return (
     <div className="space-y-6">
@@ -226,10 +200,13 @@ export default function BiometricSetup() {
             <div className="text-center py-6">
               <Smartphone className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500">
-                المصادقة البيومترية متاحة فقط في تطبيق PayDota المحمول. في بيئة التطوير الحالية (متصفح الويب)، لا يمكن الوصول للأجهزة البيومترية.
+                هذا الجهاز لا يدعم المصادقة البيومترية أو لم يتم تفعيلها في إعدادات النظام.
               </p>
               <p className="text-sm text-gray-400 mt-2">
-                قم ببناء التطبيق باستخدام Capacitor واختبره على جهاز محمول للاستفادة من هذه الميزة.
+                {isNativePlatform 
+                  ? "تأكد من تفعيل البصمة أو معرف الوجه في إعدادات الجهاز."
+                  : "في متصفح الويب، سيتم محاكاة المصادقة البيومترية لأغراض العرض التوضيحي."
+                }
               </p>
             </div>
           )}

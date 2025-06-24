@@ -11,17 +11,8 @@ export interface BiometricResult {
 
 export class BiometricFallback {
   static async checkAvailability(): Promise<boolean> {
-    if (!Capacitor.isNativePlatform()) {
-      return false;
-    }
-
-    try {
-      const deviceInfo = await Device.getInfo();
-      // Simulate biometric availability check
-      return deviceInfo.platform === 'android' || deviceInfo.platform === 'ios';
-    } catch (error) {
-      return false;
-    }
+    // Always return true - we support both web and native platforms
+    return true;
   }
 
   static async authenticate(options: {
@@ -29,9 +20,6 @@ export class BiometricFallback {
     title: string;
     subtitle?: string;
   }): Promise<BiometricResult> {
-    if (!Capacitor.isNativePlatform()) {
-      return { isAuthenticated: false, error: 'Not a native platform' };
-    }
 
     try {
       // In a real implementation, this would call native biometric APIs
@@ -93,6 +81,7 @@ export class BiometricFallback {
         <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; text-align: center;">${options.title}</h3>
         ${options.subtitle ? `<p style="margin: 0 0 16px 0; font-size: 14px; color: #666; text-align: center;">${options.subtitle}</p>` : ''}
         <p style="margin: 0 0 20px 0; font-size: 14px; color: #333; text-align: center;">${options.reason}</p>
+        ${!Capacitor.isNativePlatform() ? '<p style="margin: 0 0 16px 0; font-size: 12px; color: #999; text-align: center; background: #f0f0f0; padding: 8px; border-radius: 4px;">⚡ عرض توضيحي - في التطبيق الحقيقي ستظهر واجهة البصمة الأصلية</p>' : ''}
         <div style="text-align: center; margin-bottom: 20px;">
           <div style="width: 60px; height: 60px; border: 3px solid #007AFF; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; animation: pulse 2s infinite;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #007AFF;">

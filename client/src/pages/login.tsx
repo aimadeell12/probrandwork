@@ -188,7 +188,7 @@ export default function Login() {
                 </Button>
 
                 {/* Biometric Login Button */}
-                {isNativePlatform && (
+                {(
                   <>
                     <div className="relative my-4">
                       <Separator />
@@ -208,6 +208,13 @@ export default function Login() {
                       {biometricLoading ? "جارٍ المصادقة..." : "تسجيل الدخول بالبصمة"}
                     </Button>
                   </>
+                ) && (
+                  <p className="text-xs text-gray-500 mt-2 text-center">
+                    {isNativePlatform 
+                      ? "استخدم بصمة الإصبع أو معرف الوجه لتسجيل دخول سريع"
+                      : "المصادقة البيومترية محاكية في بيئة الويب لأغراض العرض التوضيحي"
+                    }
+                  </p>
                 )}
 
                 {/* Divider */}
