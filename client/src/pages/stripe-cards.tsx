@@ -262,26 +262,28 @@ export default function StripeCards() {
 
   if (cardsLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900 flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
-      </div>
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <div className="animate-spin w-8 h-8 border-4 border-gray-900 border-t-transparent rounded-full" />
+        </div>
+      </PullToRefresh>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900">
+    <div className="min-h-screen bg-white">
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="max-w-md mx-auto relative">
           {/* Header */}
-          <div className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-white/20 p-4">
+          <div className="sticky top-0 z-50 bg-white border-b border-gray-200 p-4">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-2xl font-bold text-gray-900">
                 {t("cards")}
               </h1>
               <Button
                 onClick={() => setLocation("/choose-card")}
                 size="sm"
-                className="bg-purple-600 hover:bg-purple-700 text-white shadow-lg"
+                className="bg-gray-900 hover:bg-gray-800 text-white shadow-lg"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 {t("addCard")}
