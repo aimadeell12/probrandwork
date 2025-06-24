@@ -66,19 +66,14 @@ export default function Cards() {
 
   if (cardsLoading) {
     return (
-      <PullToRefresh
-        onRefresh={handleRefresh}
-        refreshingText="Refreshing..."
-        pullText="Pull to refresh"
-        releaseText="Release to refresh"
-      >
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="min-h-screen bg-white relative overflow-hidden">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
             <div className="pt-12">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="animate-pulse">
-                    <div className="w-full aspect-[1.6/1] bg-gray-200 dark:bg-gray-700 rounded-2xl max-w-sm mx-auto"></div>
+                    <div className="w-full aspect-[1.6/1] bg-gray-200 rounded-2xl max-w-sm mx-auto"></div>
                   </div>
                 ))}
               </div>
@@ -90,16 +85,9 @@ export default function Cards() {
   }
 
   return (
-    <PullToRefresh
-      onRefresh={handleRefresh}
-      refreshingText="Refreshing..."
-      pullText="Pull to refresh"
-      releaseText="Release to refresh"
-    >
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen bg-white relative overflow-hidden">
+        {/* Clean white background */}
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
         
@@ -274,11 +262,11 @@ export default function Cards() {
           <div className="flex items-center justify-center min-h-screen">
             <div className="text-center space-y-6 max-w-md mx-auto px-4">
               
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
                 No Cards Yet
               </h1>
               
-              <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md">
+              <p className="text-gray-600 mb-8 max-w-md">
                 Create your first card to start managing your finances and making secure payments online or in-store.
               </p>
               

@@ -67,13 +67,8 @@ export default function Cards() {
 
   if (cardsLoading) {
     return (
-      <PullToRefresh
-        onRefresh={handleRefresh}
-        refreshingText="Refreshing..."
-        pullText="Pull to refresh"
-        releaseText="Release to refresh"
-      >
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="min-h-screen bg-white relative overflow-hidden">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
             <div className="pt-12">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -91,13 +86,8 @@ export default function Cards() {
   }
 
   return (
-    <PullToRefresh
-      onRefresh={handleRefresh}
-      refreshingText="Refreshing..."
-      pullText="Pull to refresh"
-      releaseText="Release to refresh"
-    >
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen bg-white relative overflow-hidden">
         {/* Background decorative elements */}
         <motion.div 
           className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"
