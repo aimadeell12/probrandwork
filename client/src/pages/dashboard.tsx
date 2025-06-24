@@ -52,9 +52,9 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen min-h-[100dvh] bg-gray-50 dark:bg-gray-900 w-full">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="p-4 pb-24 max-w-md mx-auto">
+        <div className="p-4 pb-24 max-w-md mx-auto min-h-screen min-h-[100dvh]">
           
           {/* Header */}
           <motion.div 
