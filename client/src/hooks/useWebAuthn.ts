@@ -17,6 +17,11 @@ export const useWebAuthn = () => {
 
   const checkPlatformAuthenticatorAvailability = async () => {
     try {
+      // Check if we're in a secure context (HTTPS or localhost)
+      if (!window.isSecureContext) {
+        console.warn('WebAuthn requires a secure context (HTTPS)');
+        return false;
+      }
       return await platformAuthenticatorIsAvailable();
     } catch (error) {
       console.error('Error checking platform authenticator:', error);
@@ -29,6 +34,16 @@ export const useWebAuthn = () => {
       toast({
         title: "غير مدعوم",
         description: "المصادقة البيومترية غير مدعومة في هذا المتصفح",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    // Check secure context
+    if (!window.isSecureContext) {
+      toast({
+        title: "خطأ أمني",
+        description: "المصادقة البيومترية تتطلب اتصال آمن (HTTPS). يمكنك اختبارها في التطبيق المحمول.",
         variant: "destructive"
       });
       return false;
@@ -102,6 +117,16 @@ export const useWebAuthn = () => {
       toast({
         title: "غير مدعوم",
         description: "المصادقة البيومترية غير مدعومة في هذا المتصفح",
+        variant: "destructive"
+      });
+      return null;
+    }
+
+    // Check secure context
+    if (!window.isSecureContext) {
+      toast({
+        title: "خطأ أمني",
+        description: "المصادقة البيومترية تتطلب اتصال آمن (HTTPS). يمكنك اختبارها في التطبيق المحمول.",
         variant: "destructive"
       });
       return null;

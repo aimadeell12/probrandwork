@@ -65,6 +65,11 @@ export default function BiometricSetup() {
   useEffect(() => {
     const checkAvailability = async () => {
       if (isSupported) {
+        // Check if we're in a secure context first
+        if (!window.isSecureContext) {
+          setIsPlatformAvailable(false);
+          return;
+        }
         const available = await checkPlatformAuthenticatorAvailability();
         setIsPlatformAvailable(available);
       }
@@ -109,7 +114,7 @@ export default function BiometricSetup() {
           <div className="text-center py-6">
             <Fingerprint className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-500">
-              المتصفح الحالي لا يدعم المصادقة البيومترية. يرجى استخدام متصفح حديث.
+              المتصفح الحالي لا يدعم المصادقة البيومترية. يرجى استخدام متصفح حديث أو تطبيق PayDota المحمول.
             </p>
           </div>
         </CardContent>
@@ -155,7 +160,10 @@ export default function BiometricSetup() {
             <div className="text-center py-6">
               <Smartphone className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500">
-                هذا الجهاز لا يدعم المصادقة البيومترية أو لم يتم تفعيلها.
+                {!window.isSecureContext 
+                  ? "المصادقة البيومترية تتطلب اتصال آمن (HTTPS). ستعمل في التطبيق المحمول."
+                  : "هذا الجهاز لا يدعم المصادقة البيومترية أو لم يتم تفعيلها."
+                }
               </p>
             </div>
           )}
