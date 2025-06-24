@@ -108,7 +108,6 @@ function Router() {
             <Route path="/admin/currency" component={AdminCurrency} />
             <Route path="/admin/community" component={AdminCommunity} />
             <Route path="/admin-panel" component={AdminNavigation} />
-            <Route path="/admin" component={AdminNavigation} />
 
             {/* Account routes */}
             <Route path="/account/settings" component={AccountSettings} />
