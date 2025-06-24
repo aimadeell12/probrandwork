@@ -52,6 +52,10 @@ export const users = pgTable("users", {
   // Security settings
   twoFactorEnabled: boolean("two_factor_enabled").default(false),
   biometricEnabled: boolean("biometric_enabled").default(false),
+  pinEnabled: boolean("pin_enabled").default(false),
+  pinHash: varchar("pin_hash"), // Hashed 4-digit PIN
+  pinAttempts: integer("pin_attempts").default(0),
+  pinLockedUntil: timestamp("pin_locked_until"),
   loginNotifications: boolean("login_notifications").default(true),
   deviceTracking: boolean("device_tracking").default(false),
   // Notification settings
@@ -330,6 +334,18 @@ export const registerSchema = z.object({
   password: z.string().min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل"),
   firstName: z.string().min(1, "الاسم الأول مطلوب"),
   lastName: z.string().min(1, "الاسم الأخير مطلوب"),
+});
+
+export const pinSetupSchema = z.object({
+  pin: z.string().regex(/^\d{4}$/, "الرمز يجب أن يكون 4 أرقام"),
+  confirmPin: z.string().regex(/^\d{4}$/, "تأكيد الرمز يجب أن يكون 4 أرقام"),
+}).refine((data) => data.pin === data.confirmPin, {
+  message: "الرموز غير متطابقة",
+  path: ["confirmPin"],
+});
+
+export const pinVerifySchema = z.object({
+  pin: z.string().regex(/^\d{4}$/, "الرمز يجب أن يكون 4 أرقام"),
 });
 
 export const insertCardSchema = createInsertSchema(cards).omit({

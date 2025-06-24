@@ -42,6 +42,14 @@ export interface IStorage {
   linkGoogleAccount(userId: string, googleId: string): Promise<void>;
   updateUserProfile(userId: string, updates: Partial<User>): Promise<User>;
   
+  // PIN operations
+  setupPin(userId: string, pinHash: string): Promise<User>;
+  verifyPin(userId: string, pinHash: string): Promise<boolean>;
+  disablePin(userId: string): Promise<User>;
+  incrementPinAttempts(userId: string): Promise<void>;
+  resetPinAttempts(userId: string): Promise<void>;
+  lockPinTemporary(userId: string, lockUntil: Date): Promise<void>;
+  
   // Card operations
   getCardsByUserId(userId: string): Promise<Card[]>;
   getCard(id: string): Promise<Card | undefined>;
@@ -474,6 +482,113 @@ export class DatabaseStorage implements IStorage {
   async updateWalletBalance(userId: string, newBalance: number): Promise<void> {
     await db.update(users)
       .set({ walletBalance: newBalance.toString() })
+      .where(eq(users.id, userId));
+  }
+
+  // PIN operations
+  async setupPin(userId: string, pinHash: string): Promise<User> {
+    const [updatedUser] = await db
+      .update(users)
+      .set({
+        pinEnabled: true,
+        pinHash,
+        pinAttempts: 0,
+        pinLockedUntil: null,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return updatedUser;
+  }
+
+  async verifyPin(userId: string, pinHash: string): Promise<boolean> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, userId));
+    
+    if (!user || !user.pinEnabled || !user.pinHash) {
+      return false;
+    }
+
+    // Check if PIN is temporarily locked
+    if (user.pinLockedUntil && new Date() < user.pinLockedUntil) {
+      return false;
+    }
+
+    const isValid = user.pinHash === pinHash;
+    
+    if (isValid) {
+      // Reset attempts on successful verification
+      await this.resetPinAttempts(userId);
+    } else {
+      // Increment failed attempts
+      await this.incrementPinAttempts(userId);
+    }
+
+    return isValid;
+  }
+
+  async disablePin(userId: string): Promise<User> {
+    const [updatedUser] = await db
+      .update(users)
+      .set({
+        pinEnabled: false,
+        pinHash: null,
+        pinAttempts: 0,
+        pinLockedUntil: null,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return updatedUser;
+  }
+
+  async incrementPinAttempts(userId: string): Promise<void> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, userId));
+
+    if (!user) return;
+
+    const newAttempts = (user.pinAttempts || 0) + 1;
+    const updates: any = {
+      pinAttempts: newAttempts,
+      updatedAt: new Date(),
+    };
+
+    // Lock PIN for 30 minutes after 3 failed attempts
+    if (newAttempts >= 3) {
+      const lockUntil = new Date();
+      lockUntil.setMinutes(lockUntil.getMinutes() + 30);
+      updates.pinLockedUntil = lockUntil;
+    }
+
+    await db
+      .update(users)
+      .set(updates)
+      .where(eq(users.id, userId));
+  }
+
+  async resetPinAttempts(userId: string): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        pinAttempts: 0,
+        pinLockedUntil: null,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
+  }
+
+  async lockPinTemporary(userId: string, lockUntil: Date): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        pinLockedUntil: lockUntil,
+        updatedAt: new Date(),
+      })
       .where(eq(users.id, userId));
   }
 }
