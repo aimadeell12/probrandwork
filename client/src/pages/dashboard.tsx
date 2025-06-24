@@ -209,7 +209,7 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          {/* Platform Features */}
+          {/* Recent Transactions */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -217,129 +217,53 @@ export default function Dashboard() {
             className="mb-6"
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">مزايا المنصة</h3>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">Recent transactions</h3>
+              <Link href="/transactions">
+                <Button variant="ghost" size="sm" className="text-gray-600 dark:text-gray-400 font-medium">
+                  See more <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </Link>
             </div>
 
             <div className="space-y-0 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 }}
-                className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
-                    <Shield className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white text-sm">
-                      حماية مصرفية متقدمة
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      تشفير عالي المستوى وحماية شاملة
-                    </p>
-                  </div>
+              {Array.isArray(transactions) && transactions.length > 0 ? (
+                transactions.slice(0, 4).map((transaction: any, index: number) => (
+                  <motion.div 
+                    key={transaction.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 * index }}
+                    className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-8 bg-gray-900 dark:bg-gray-300 rounded-full"></div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white text-sm uppercase">
+                          {transaction.merchant?.name || 'معاملة مالية'}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {new Date(transaction.created).toLocaleDateString('ar-SA')}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-red-600 dark:text-red-400 text-sm">
+                        -{(transaction.amount / 100).toFixed(2)} ر.س
+                      </p>
+                    </div>
+                  </motion.div>
+                ))
+              ) : (
+                <div className="text-center p-8">
+                  <Activity className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
+                    لا توجد معاملات حتى الآن
+                  </p>
+                  <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">
+                    ابدأ بإنشاء بطاقة لرؤية المعاملات
+                  </p>
                 </div>
-                <div className="text-right">
-                  <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                    <CreditCard className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white text-sm">
-                      بطاقات ذكية متعددة
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      بطاقات افتراضية وفيزيائية بتصاميم حديثة
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-                className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center">
-                    <Zap className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white text-sm">
-                      تحويلات فورية
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      إرسال واستقبال الأموال بسرعة البرق
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-                className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center">
-                    <TrendingUp className="h-5 w-5 text-orange-600 dark:text-orange-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white text-sm">
-                      تحليلات مالية ذكية
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      تقارير مفصلة وإحصائيات تفاعلية
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 }}
-                className="flex items-center justify-between p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-pink-100 dark:bg-pink-900/30 rounded-full flex items-center justify-center">
-                    <Smartphone className="h-5 w-5 text-pink-600 dark:text-pink-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white text-sm">
-                      تطبيق محمول متقدم
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      واجهة سهلة الاستخدام وتجربة سلسة
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
-                </div>
-              </motion.div>
+              )}
             </div>
           </motion.div>
 
