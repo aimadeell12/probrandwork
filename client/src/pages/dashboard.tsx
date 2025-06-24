@@ -52,15 +52,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden fixed inset-0">
+    <div className="dashboard-fixed h-screen h-[100dvh] bg-white w-full">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
+        <div className="dashboard-content h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
           
           {/* Header - Fixed at top */}
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-between mb-6 pt-2 sticky top-0 bg-white z-10 pb-2"
+            className="dashboard-sticky flex items-center justify-between mb-4 pt-2 top-0 pb-2 border-b border-gray-100"
           >
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-gray-700 dark:bg-gray-300 rounded-full flex items-center justify-center">
@@ -101,7 +101,7 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-6 sticky top-16 bg-white z-10 py-2"
+            className="dashboard-sticky mb-4 top-16 py-2"
           >
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full p-1 flex">
               <Button
@@ -124,7 +124,7 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mb-6 text-center sticky top-32 bg-white z-10 py-4"
+            className="dashboard-sticky mb-4 text-center top-28 py-3 border-b border-gray-50"
           >
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Compte chèque</p>
             <div className="flex items-center justify-center gap-2 mb-6">
@@ -147,12 +147,12 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          {/* Quick Actions */}
+          {/* Quick Actions - Scrollable content starts here */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mb-8"
+            className="mb-6 mt-4"
           >
             <div className="grid grid-cols-4 gap-4">
               <Link href="/send">
@@ -209,12 +209,12 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          {/* Recent Transactions */}
+          {/* Recent Transactions - Scrollable */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mb-6"
+            className="mb-6 flex-1"
           >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">Recent transactions</h3>

@@ -212,8 +212,27 @@
   /* Sticky elements in dashboard */
   .dashboard-sticky {
     position: sticky;
-    background: white;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     z-index: 10;
+    border-radius: 0;
+  }
+
+  /* Smooth scrolling for dashboard content */
+  .dashboard-content {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .dashboard-content::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Prevent bounce effect on mobile */
+  .dashboard-fixed {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
   }
 
   .form-select {
