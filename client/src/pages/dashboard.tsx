@@ -227,7 +227,7 @@ export default function Dashboard() {
 
             <div className="space-y-0 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
               {Array.isArray(transactions) && transactions.length > 0 ? (
-                transactions.slice(0, 4).map((transaction: any, index: number) => (
+                transactions.slice(0, 2).map((transaction: any, index: number) => (
                   <motion.div 
                     key={transaction.id}
                     initial={{ opacity: 0, x: -20 }}
