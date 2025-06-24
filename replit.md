@@ -141,6 +141,8 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 24, 2025: Configured mobile app to connect to production server https://paydota.replit.app instead of localhost
+- June 24, 2025: Updated Capacitor configuration with secure HTTPS connection and proper server URL
 - June 24, 2025: Updated keystore configuration to use signing_1750726650743.keystore with password protection and my-key-alias
 - June 24, 2025: Modified all build scripts and GitHub Actions workflows to use new keystore with authentication
 - June 24, 2025: Created comprehensive GitHub Actions workflows for automated Android APK building and Google Play Store deployment

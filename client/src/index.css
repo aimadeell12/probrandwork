@@ -314,7 +314,19 @@
 
   /* Status bar compatibility */
   .status-bar-safe {
-    padding-top: max(env(safe-area-inset-top), 24px);
+    padding-top: max(env(safe-area-inset-top), 44px);
+  }
+
+  /* Global safe area for all pages */
+  .app-container {
+    padding-top: max(env(safe-area-inset-top), 44px);
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+    min-height: 100vh;
+  }
+
+  /* Alternative approach for fixed headers */
+  .fixed-header-safe {
+    top: max(env(safe-area-inset-top), 44px);
   }
 
   /* Bottom navigation safe area */

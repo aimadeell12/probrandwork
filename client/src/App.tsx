@@ -167,7 +167,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <TooltipProvider>
-          <div className="min-h-screen bg-background mobile-safe-area native-scroll">
+          <div className="min-h-screen bg-background app-container native-scroll">
             <Toaster />
             <Router />
           </div>

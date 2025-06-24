@@ -18,6 +18,7 @@ echo ""
 echo "📱 معلومات التطبيق:"
 echo "   - الاسم: PayDota"
 echo "   - المعرف: com.paydota.banking"
+echo "   - الخادم: https://paydota.replit.app"
 echo "   - keystore: signing.keystore (مع كلمة مرور) ✓"
 echo "   - الإضافات: 9 إضافات ✓"
 echo ""
