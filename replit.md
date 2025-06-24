@@ -141,7 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
-- June 24, 2025: Updated dashboard to display platform features instead of financial transactions per user request
+- June 24, 2025: Reverted dashboard to show real Stripe transactions instead of platform features per user request
 - June 24, 2025: Created clean banking dashboard design matching user-provided image with Account/Card toggle and platform advantages
 - June 24, 2025: Added comprehensive safe area handling for mobile status bar to prevent UI overlap on all pages
 - June 24, 2025: Updated status bar configuration to light style with proper overlay settings for better mobile UX
