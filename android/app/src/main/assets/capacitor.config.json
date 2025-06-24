@@ -19,8 +19,9 @@
 			"splashImmersive": true
 		},
 		"StatusBar": {
-			"style": "dark",
-			"backgroundColor": "#1a365d"
+			"style": "light",
+			"backgroundColor": "#ffffff",
+			"overlaysWebView": false
 		},
 		"Keyboard": {
 			"resize": "body",

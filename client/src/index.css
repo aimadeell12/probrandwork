@@ -319,9 +319,21 @@
 
   /* Global safe area for all pages */
   .app-container {
-    padding-top: max(env(safe-area-inset-top), 44px);
+    padding-top: max(env(safe-area-inset-top), 50px);
     padding-bottom: max(env(safe-area-inset-bottom), 0px);
     min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+  }
+
+  /* Page content safe area */
+  .page-content {
+    padding-top: max(env(safe-area-inset-top), 44px);
+  }
+
+  /* Header safe area for fixed headers */
+  .header-safe {
+    padding-top: max(env(safe-area-inset-top), 44px);
+    margin-top: calc(-1 * max(env(safe-area-inset-top), 44px));
   }
 
   /* Alternative approach for fixed headers */
