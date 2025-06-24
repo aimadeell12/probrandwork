@@ -48,16 +48,21 @@ jobs:
     - name: Sync Capacitor
       run: npx cap sync android
       
+    - name: Setup Keystore
+      run: |
+        # Copy keystore to Android project
+        cp attached_assets/signing_1750723138194.keystore android/app/
+        
     - name: Build Android APK
       run: |
         cd android
-        ./gradlew assembleDebug
+        ./gradlew assembleRelease
         
     - name: Upload Android APK
       uses: actions/upload-artifact@v4
       with:
         name: android-apk
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+        path: android/app/build/outputs/apk/release/app-release.apk
         
   build-ios:
     runs-on: macos-latest
