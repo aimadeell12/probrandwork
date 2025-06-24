@@ -11,7 +11,8 @@ import {
   Globe,
   User,
   Gift,
-  Phone
+  Phone,
+  Crown
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -223,6 +224,33 @@ export default function Account() {
             </button>
           </CardContent>
         </Card>
+
+        {/* Admin Panel - Only show for admin users */}
+        {user && user.role === "admin" && (
+          <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 dark:from-purple-900/20 dark:to-pink-900/20 backdrop-blur-sm border-purple-300/50 dark:border-purple-600/50 shadow-lg mb-3 rounded-xl overflow-hidden">
+            <CardContent className="p-0">
+              <button 
+                onClick={() => navigateTo("/admin-panel")}
+                className="w-full p-3 flex items-center justify-between hover:bg-purple-50/70 dark:hover:bg-purple-900/30 transition-colors"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="rounded-lg p-1.5 bg-gradient-to-r from-purple-600 to-pink-600">
+                    <Crown className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <span className="text-purple-700 dark:text-purple-300 font-semibold text-sm block">
+                      Admin Panel
+                    </span>
+                    <span className="text-purple-600/70 dark:text-purple-400/70 text-xs">
+                      Manage platform settings
+                    </span>
+                  </div>
+                </div>
+                <ChevronRight className="h-4 w-4 text-purple-500" />
+              </button>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Logout */}
         <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 dark:border-purple-700/30 shadow-lg rounded-xl overflow-hidden">
