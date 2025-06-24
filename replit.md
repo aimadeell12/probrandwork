@@ -144,6 +144,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 
 ## Changelog
 - June 24, 2025: Implemented WebAuthn biometric authentication with Capacitor compatibility for secure login using fingerprint/face recognition
+- June 24, 2025: Fixed WebAuthn userID Buffer conversion issue and added proper HTTPS security context validation for biometric authentication
 - June 24, 2025: Added biometric setup interface in security settings with device management and registration capabilities
 - June 24, 2025: Created WebAuthn API endpoints for registration, authentication, and authenticator management
 - June 24, 2025: Integrated biometric login option in login page alongside traditional password authentication
