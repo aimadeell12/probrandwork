@@ -1510,7 +1510,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const options = await generateRegistrationOptions({
         rpName,
         rpID,
-        userID: user.id,
+        userID: Buffer.from(user.id, 'utf-8'),
         userName: user.email || user.username || user.id,
         userDisplayName: `${user.firstName} ${user.lastName}`.trim() || user.username || user.email || user.id,
         attestationType: 'none',
