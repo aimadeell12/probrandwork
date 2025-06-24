@@ -14,9 +14,6 @@ import { db } from "./db";
 import * as schema from "@shared/schema";
 import { eq, desc, and, sql, isNull } from "drizzle-orm";
 import Stripe from "stripe";
-import { cache, memoizedStripeOperations, CACHE_KEYS } from "./cache";
-import { rateLimiter } from "./middleware/rateLimiter";
-import { compressionMiddleware } from "./middleware/compression";
 
 // Initialize Stripe
 if (!process.env.STRIPE_SECRET_KEY) {
@@ -27,10 +24,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Add performance middleware
-  app.use(rateLimiter(200, 60000)); // 200 requests per minute
-  app.use(compressionMiddleware());
-  
   // Setup session middleware first
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
   const pgStore = connectPg(session);
@@ -99,64 +92,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
       
-      // Check cache first
-      const cacheKey = CACHE_KEYS.USER_CARDS(userId);
-      const cachedCards = cache.get(cacheKey);
-      if (cachedCards) {
-        console.log(`💨 Returning cached cards for user ${userId}`);
-        return res.json(cachedCards);
-      }
-      
       const cards = await storage.getCardsByUserId(userId);
       
-      // Process cards in batches for better performance
+      // Sync status with Stripe for each card
       const syncedCards = [];
-      const batchSize = 3;
-      
-      for (let i = 0; i < cards.length; i += batchSize) {
-        const batch = cards.slice(i, i + batchSize);
-        const batchResults = await Promise.all(
-          batch.map(async (card) => {
-            if (card.stripeCardId) {
-              try {
-                const stripeCard = await stripe.issuing.cards.retrieve(card.stripeCardId);
-                console.log(`🔄 Stripe card ${card.id} status: ${stripeCard.status}, Platform: ${card.status}`);
-                
-                // Map Stripe status to our status
-                let newStatus = card.status;
-                if (stripeCard.status === 'active' && card.status !== 'active') {
-                  newStatus = 'active';
-                  console.log(`✅ Activating card ${card.id} (Stripe is active)`);
-                } else if (stripeCard.status === 'inactive' && card.status === 'active') {
-                  newStatus = 'pending';
-                  console.log(`⏳ Setting card ${card.id} to pending (Stripe inactive)`);
-                } else if (stripeCard.status === 'canceled' && card.status !== 'blocked') {
-                  newStatus = 'blocked';
-                  console.log(`🚫 Blocking card ${card.id} (Stripe canceled)`);
-                }
-                
-                // Update database if status changed
-                if (newStatus !== card.status) {
-                  const updatedCard = await storage.updateCard(card.id, { status: newStatus });
-                  console.log(`🔄 Updated card ${card.id}: ${card.status} → ${newStatus}`);
-                  return updatedCard;
-                } else {
-                  return card;
-                }
-              } catch (stripeError) {
-                console.log(`⚠️ Could not sync status for card ${card.id}:`, stripeError.message);
-                return card;
-              }
-            } else {
-              return card;
+      for (const card of cards) {
+        if (card.stripeCardId) {
+          try {
+            const stripeCard = await stripe.issuing.cards.retrieve(card.stripeCardId);
+            console.log(`🔄 Stripe card ${card.id} status: ${stripeCard.status}, Platform: ${card.status}`);
+            
+            // Map Stripe status to our status
+            let newStatus = card.status;
+            if (stripeCard.status === 'active' && card.status !== 'active') {
+              newStatus = 'active';
+              console.log(`✅ Activating card ${card.id} (Stripe is active)`);
+            } else if (stripeCard.status === 'inactive' && card.status === 'active') {
+              newStatus = 'pending';
+              console.log(`⏳ Setting card ${card.id} to pending (Stripe inactive)`);
+            } else if (stripeCard.status === 'canceled' && card.status !== 'blocked') {
+              newStatus = 'blocked';
+              console.log(`🚫 Blocking card ${card.id} (Stripe canceled)`);
             }
-          })
-        );
-        syncedCards.push(...batchResults);
+            
+            // Update database if status changed
+            if (newStatus !== card.status) {
+              const updatedCard = await storage.updateCard(card.id, { status: newStatus });
+              syncedCards.push(updatedCard);
+              console.log(`🔄 Updated card ${card.id}: ${card.status} → ${newStatus}`);
+            } else {
+              syncedCards.push(card);
+            }
+          } catch (stripeError) {
+            console.log(`⚠️ Could not sync status for card ${card.id}:`, stripeError.message);
+            syncedCards.push(card);
+          }
+        } else {
+          syncedCards.push(card);
+        }
       }
-      
-      // Cache the result for 1 minute
-      cache.set(cacheKey, syncedCards, 60000);
       
       res.json(syncedCards);
     } catch (error) {
@@ -836,19 +810,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
       
-      // Check cache first
-      const cacheKey = CACHE_KEYS.KYC_STATUS(userId);
-      const cachedKyc = cache.get(cacheKey);
-      if (cachedKyc !== null) {
-        console.log(`💨 Returning cached KYC status for user ${userId}`);
-        return res.json(cachedKyc);
-      }
-      
       const kycData = await storage.getKycVerificationByUserId(userId);
-      
-      // Cache KYC data for 2 minutes
-      cache.set(cacheKey, kycData || null, 120000);
-      
       res.json(kycData || null);
     } catch (error) {
       console.error("Error fetching KYC status:", error);
@@ -1218,26 +1180,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      // Check cache first
-      const cacheKey = CACHE_KEYS.USER_TRANSACTIONS(userId);
-      const cachedTransactions = cache.get(cacheKey);
-      if (cachedTransactions) {
-        console.log(`💨 Returning cached transactions for user ${userId}`);
-        return res.json(cachedTransactions);
-      }
-
-      // Get user's cards (limit to improve performance)
+      // Get all user's cards
       const cards = await storage.getCardsByUserId(userId);
-      const limitedCards = cards.slice(0, 3);
       let allTransactions = [];
 
-      for (const card of limitedCards) {
+      for (const card of cards) {
         if (card.stripeCardId) {
           try {
-            // Fetch transactions from Stripe with reduced limit
+            // Fetch real transactions from Stripe Issuing
             const stripeTransactions = await stripe.issuing.transactions.list({
               card: card.stripeCardId,
-              limit: 5, // Reduced from 10 to 5 for better performance
+              limit: 10
             });
 
             // Convert Stripe transactions to our format
@@ -1320,15 +1273,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      // Sort by date (newest first) and limit to 10 most recent
+      // Sort by date (newest first)
       allTransactions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      const limitedTransactions = allTransactions.slice(0, 10);
 
-      // Cache the result for 30 seconds
-      cache.set(cacheKey, limitedTransactions, 30000);
-
-      console.log(`📊 Returning ${limitedTransactions.length} transactions (optimized with cache) for user ${userId}`);
-      res.json(limitedTransactions);
+      console.log(`📊 Returning ${allTransactions.length} transactions (real Stripe data) for user ${userId}`);
+      res.json(allTransactions);
     } catch (error) {
       console.error("Error fetching transactions:", error);
       res.status(500).json({ message: "Failed to fetch transactions" });

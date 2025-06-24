@@ -62,8 +62,8 @@ export const useMobile = () => {
 
     initializeMobileFeatures();
 
-    // Set up periodic network status checks for mobile (reduced frequency)
-    const interval = setInterval(updateNetworkStatus, 60000); // Check every 60 seconds
+    // Set up periodic network status checks for mobile
+    const interval = setInterval(updateNetworkStatus, 10000); // Check every 10 seconds
 
     return () => clearInterval(interval);
   }, []);
