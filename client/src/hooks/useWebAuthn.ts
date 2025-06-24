@@ -80,6 +80,8 @@ export const useWebAuthn = () => {
         errorMessage = "هذا الجهاز لا يدعم المصادقة البيومترية";
       } else if (error.name === 'SecurityError') {
         errorMessage = "خطأ أمني - تأكد من أن الموقع يستخدم HTTPS";
+      } else if (error.message?.includes('Failed to generate registration options')) {
+        errorMessage = "خطأ في الخادم - يرجى المحاولة مرة أخرى";
       } else if (error.message) {
         errorMessage = error.message;
       }
