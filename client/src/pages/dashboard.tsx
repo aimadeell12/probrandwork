@@ -52,15 +52,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen min-h-[100dvh] bg-white w-full">
+    <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden fixed inset-0">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="p-4 pb-24 max-w-md mx-auto min-h-screen min-h-[100dvh]">
+        <div className="h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
           
-          {/* Header */}
+          {/* Header - Fixed at top */}
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-between mb-6 pt-2"
+            className="flex items-center justify-between mb-6 pt-2 sticky top-0 bg-white z-10 pb-2"
           >
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-gray-700 dark:bg-gray-300 rounded-full flex items-center justify-center">
@@ -96,12 +96,12 @@ export default function Dashboard() {
             </Button>
           </motion.div>
 
-          {/* Account/Card Toggle */}
+          {/* Account/Card Toggle - Fixed */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-6"
+            className="mb-6 sticky top-16 bg-white z-10 py-2"
           >
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full p-1 flex">
               <Button
@@ -119,12 +119,12 @@ export default function Dashboard() {
             </div>
           </motion.div>
 
-          {/* Balance Section */}
+          {/* Balance Section - Fixed */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mb-6 text-center"
+            className="mb-6 text-center sticky top-32 bg-white z-10 py-4"
           >
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Compte chèque</p>
             <div className="flex items-center justify-center gap-2 mb-6">

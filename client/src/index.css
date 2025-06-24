@@ -193,6 +193,29 @@
     display: none;  /* Chrome, Safari and Opera */
   }
 
+  /* Fixed dashboard layout */
+  .dashboard-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  .dashboard-content {
+    height: 100%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+
+  /* Sticky elements in dashboard */
+  .dashboard-sticky {
+    position: sticky;
+    background: white;
+    z-index: 10;
+  }
+
   .form-select {
     @apply w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-ring focus:border-transparent transition-colors bg-background;
   }

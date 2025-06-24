@@ -52,6 +52,7 @@ export const users = pgTable("users", {
   // Security settings
   twoFactorEnabled: boolean("two_factor_enabled").default(false),
   biometricEnabled: boolean("biometric_enabled").default(false),
+  pinEnabled: boolean("pin_enabled").default(false),
   loginNotifications: boolean("login_notifications").default(true),
   deviceTracking: boolean("device_tracking").default(false),
   // Notification settings
