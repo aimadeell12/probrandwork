@@ -16,6 +16,7 @@ import { eq, desc, and, sql, isNull } from "drizzle-orm";
 import Stripe from "stripe";
 import { cache, memoizedStripeOperations, CACHE_KEYS } from "./cache";
 import { rateLimiter } from "./middleware/rateLimiter";
+import { compressionMiddleware } from "./middleware/compression";
 
 // Initialize Stripe
 if (!process.env.STRIPE_SECRET_KEY) {
@@ -26,8 +27,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Add rate limiting
+  // Add performance middleware
   app.use(rateLimiter(200, 60000)); // 200 requests per minute
+  app.use(compressionMiddleware());
   
   // Setup session middleware first
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
@@ -97,45 +99,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
       
+      // Check cache first
+      const cacheKey = CACHE_KEYS.USER_CARDS(userId);
+      const cachedCards = cache.get(cacheKey);
+      if (cachedCards) {
+        console.log(`💨 Returning cached cards for user ${userId}`);
+        return res.json(cachedCards);
+      }
+      
       const cards = await storage.getCardsByUserId(userId);
       
-      // Sync status with Stripe for each card
+      // Process cards in batches for better performance
       const syncedCards = [];
-      for (const card of cards) {
-        if (card.stripeCardId) {
-          try {
-            const stripeCard = await stripe.issuing.cards.retrieve(card.stripeCardId);
-            console.log(`🔄 Stripe card ${card.id} status: ${stripeCard.status}, Platform: ${card.status}`);
-            
-            // Map Stripe status to our status
-            let newStatus = card.status;
-            if (stripeCard.status === 'active' && card.status !== 'active') {
-              newStatus = 'active';
-              console.log(`✅ Activating card ${card.id} (Stripe is active)`);
-            } else if (stripeCard.status === 'inactive' && card.status === 'active') {
-              newStatus = 'pending';
-              console.log(`⏳ Setting card ${card.id} to pending (Stripe inactive)`);
-            } else if (stripeCard.status === 'canceled' && card.status !== 'blocked') {
-              newStatus = 'blocked';
-              console.log(`🚫 Blocking card ${card.id} (Stripe canceled)`);
-            }
-            
-            // Update database if status changed
-            if (newStatus !== card.status) {
-              const updatedCard = await storage.updateCard(card.id, { status: newStatus });
-              syncedCards.push(updatedCard);
-              console.log(`🔄 Updated card ${card.id}: ${card.status} → ${newStatus}`);
+      const batchSize = 3;
+      
+      for (let i = 0; i < cards.length; i += batchSize) {
+        const batch = cards.slice(i, i + batchSize);
+        const batchResults = await Promise.all(
+          batch.map(async (card) => {
+            if (card.stripeCardId) {
+              try {
+                const stripeCard = await stripe.issuing.cards.retrieve(card.stripeCardId);
+                console.log(`🔄 Stripe card ${card.id} status: ${stripeCard.status}, Platform: ${card.status}`);
+                
+                // Map Stripe status to our status
+                let newStatus = card.status;
+                if (stripeCard.status === 'active' && card.status !== 'active') {
+                  newStatus = 'active';
+                  console.log(`✅ Activating card ${card.id} (Stripe is active)`);
+                } else if (stripeCard.status === 'inactive' && card.status === 'active') {
+                  newStatus = 'pending';
+                  console.log(`⏳ Setting card ${card.id} to pending (Stripe inactive)`);
+                } else if (stripeCard.status === 'canceled' && card.status !== 'blocked') {
+                  newStatus = 'blocked';
+                  console.log(`🚫 Blocking card ${card.id} (Stripe canceled)`);
+                }
+                
+                // Update database if status changed
+                if (newStatus !== card.status) {
+                  const updatedCard = await storage.updateCard(card.id, { status: newStatus });
+                  console.log(`🔄 Updated card ${card.id}: ${card.status} → ${newStatus}`);
+                  return updatedCard;
+                } else {
+                  return card;
+                }
+              } catch (stripeError) {
+                console.log(`⚠️ Could not sync status for card ${card.id}:`, stripeError.message);
+                return card;
+              }
             } else {
-              syncedCards.push(card);
+              return card;
             }
-          } catch (stripeError) {
-            console.log(`⚠️ Could not sync status for card ${card.id}:`, stripeError.message);
-            syncedCards.push(card);
-          }
-        } else {
-          syncedCards.push(card);
-        }
+          })
+        );
+        syncedCards.push(...batchResults);
       }
+      
+      // Cache the result for 1 minute
+      cache.set(cacheKey, syncedCards, 60000);
       
       res.json(syncedCards);
     } catch (error) {
@@ -1205,7 +1226,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.json(cachedTransactions);
       }
 
-      // Get user's cards (limit to 3 most recent for performance)
+      // Get user's cards (limit to improve performance)
       const cards = await storage.getCardsByUserId(userId);
       const limitedCards = cards.slice(0, 3);
       let allTransactions = [];
@@ -1213,8 +1234,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       for (const card of limitedCards) {
         if (card.stripeCardId) {
           try {
-            // Use memoized Stripe operations
-            const stripeTransactions = await memoizedStripeOperations.getTransactions(stripe, card.stripeCardId);
+            // Fetch transactions from Stripe with reduced limit
+            const stripeTransactions = await stripe.issuing.transactions.list({
+              card: card.stripeCardId,
+              limit: 5, // Reduced from 10 to 5 for better performance
+            });
 
             // Convert Stripe transactions to our format
             const formattedTransactions = stripeTransactions.data.map(txn => {
