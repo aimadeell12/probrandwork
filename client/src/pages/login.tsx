@@ -196,6 +196,29 @@ export default function Login() {
                   {loginMutation.isPending ? t('signingIn') : t('signInTitle')}
                 </Button>
 
+                {/* Biometric Login Button */}
+                {webauthnSupported && (
+                  <>
+                    <div className="relative my-4">
+                      <Separator />
+                      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-sm text-gray-500">
+                        أو
+                      </span>
+                    </div>
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full h-12 border-2 border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-300 rounded-xl"
+                      onClick={handleBiometricLogin}
+                      disabled={webauthnLoading || !formData.username}
+                    >
+                      <Fingerprint className="w-5 h-5 mr-2 text-purple-600" />
+                      {webauthnLoading ? "جارٍ المصادقة..." : "تسجيل الدخول بالبصمة"}
+                    </Button>
+                  </>
+                )}
+
                 {/* Divider */}
                 <div className="flex items-center justify-center pt-4">
                   <div className="w-full flex items-center">
