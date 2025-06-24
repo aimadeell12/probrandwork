@@ -21,6 +21,7 @@ import {
   verifyAuthenticationResponse,
   type VerifiedRegistrationResponse,
   type VerifiedAuthenticationResponse,
+  type AuthenticatorTransport,
 } from '@simplewebauthn/server';
 import crypto from 'crypto';
 
@@ -1471,6 +1472,356 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error processing webhook:", error);
       res.status(500).json({ message: "Error processing webhook" });
+    }
+  });
+
+  // WebAuthn Configuration
+  const rpName = 'PayDota Banking';
+  const rpID = process.env.NODE_ENV === 'production' ? 'paydota.replit.app' : 'localhost';
+  const origin = process.env.NODE_ENV === 'production' ? 'https://paydota.replit.app' : 'http://localhost:5000';
+
+  // WebAuthn Routes
+  
+  // Generate registration options for new authenticator
+  app.post("/api/webauthn/register/begin", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Get existing authenticators for excludeCredentials
+      const existingAuthenticators = await db
+        .select()
+        .from(schema.authenticators)
+        .where(eq(schema.authenticators.userId, userId));
+
+      const excludeCredentials = existingAuthenticators.map(auth => ({
+        id: auth.credentialID,
+        type: 'public-key' as const,
+        transports: auth.transports as AuthenticatorTransport[],
+      }));
+
+      const options = await generateRegistrationOptions({
+        rpName,
+        rpID,
+        userID: user.id,
+        userName: user.email || user.username || user.id,
+        userDisplayName: `${user.firstName} ${user.lastName}`.trim() || user.username || user.email || user.id,
+        attestationType: 'none',
+        excludeCredentials,
+        authenticatorSelection: {
+          residentKey: 'preferred',
+          userVerification: 'preferred',
+          authenticatorAttachment: 'platform', // For biometric authentication
+        },
+        supportedAlgorithmIDs: [-7, -257],
+      });
+
+      // Store the challenge temporarily
+      await db.insert(schema.webauthnChallenges).values({
+        userId,
+        challenge: options.challenge,
+        type: 'registration',
+        expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
+      });
+
+      // Clean up expired challenges
+      await db
+        .delete(schema.webauthnChallenges)
+        .where(lt(schema.webauthnChallenges.expiresAt, new Date()));
+
+      res.json(options);
+    } catch (error) {
+      console.error("Error generating registration options:", error);
+      res.status(500).json({ message: "Failed to generate registration options" });
+    }
+  });
+
+  // Verify registration response
+  app.post("/api/webauthn/register/finish", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const { response, expectedChallenge } = req.body;
+
+      if (!userId || !response) {
+        return res.status(400).json({ message: "Invalid request" });
+      }
+
+      // Get the stored challenge
+      const storedChallenge = await db
+        .select()
+        .from(schema.webauthnChallenges)
+        .where(
+          and(
+            eq(schema.webauthnChallenges.userId, userId),
+            eq(schema.webauthnChallenges.type, 'registration'),
+            eq(schema.webauthnChallenges.challenge, expectedChallenge)
+          )
+        )
+        .limit(1);
+
+      if (!storedChallenge.length) {
+        return res.status(400).json({ message: "Invalid or expired challenge" });
+      }
+
+      const verification = await verifyRegistrationResponse({
+        response,
+        expectedChallenge: storedChallenge[0].challenge,
+        expectedOrigin: origin,
+        expectedRPID: rpID,
+      });
+
+      if (verification.verified && verification.registrationInfo) {
+        const { credentialID, credentialPublicKey, counter } = verification.registrationInfo;
+
+        // Store the authenticator
+        await db.insert(schema.authenticators).values({
+          userId,
+          credentialID: Buffer.from(credentialID).toString('base64url'),
+          credentialPublicKey: Buffer.from(credentialPublicKey).toString('base64url'),
+          counter,
+          credentialDeviceType: verification.registrationInfo.credentialDeviceType,
+          credentialBackedUp: verification.registrationInfo.credentialBackedUp,
+          transports: response.response.transports,
+          name: req.body.deviceName || 'Biometric Device',
+        });
+
+        // Enable WebAuthn for the user
+        await db
+          .update(schema.users)
+          .set({ webauthnEnabled: true })
+          .where(eq(schema.users.id, userId));
+
+        // Clean up the challenge
+        await db
+          .delete(schema.webauthnChallenges)
+          .where(eq(schema.webauthnChallenges.id, storedChallenge[0].id));
+
+        res.json({ verified: true, message: "Biometric authentication enabled successfully" });
+      } else {
+        res.status(400).json({ verified: false, message: "Registration failed" });
+      }
+    } catch (error) {
+      console.error("Error verifying registration:", error);
+      res.status(500).json({ message: "Failed to verify registration" });
+    }
+  });
+
+  // Generate authentication options
+  app.post("/api/webauthn/authenticate/begin", async (req, res) => {
+    try {
+      const { userIdentifier } = req.body;
+
+      if (!userIdentifier) {
+        return res.status(400).json({ message: "User identifier required" });
+      }
+
+      // Find user by email or username
+      const user = await db
+        .select()
+        .from(schema.users)
+        .where(
+          userIdentifier.includes('@') 
+            ? eq(schema.users.email, userIdentifier)
+            : eq(schema.users.username, userIdentifier)
+        )
+        .limit(1);
+
+      if (!user.length || !user[0].webauthnEnabled) {
+        return res.status(404).json({ message: "WebAuthn not enabled for this user" });
+      }
+
+      // Get user's authenticators
+      const userAuthenticators = await db
+        .select()
+        .from(schema.authenticators)
+        .where(eq(schema.authenticators.userId, user[0].id));
+
+      if (!userAuthenticators.length) {
+        return res.status(404).json({ message: "No authenticators found" });
+      }
+
+      const allowCredentials = userAuthenticators.map(auth => ({
+        id: auth.credentialID,
+        type: 'public-key' as const,
+        transports: auth.transports as AuthenticatorTransport[],
+      }));
+
+      const options = await generateAuthenticationOptions({
+        rpID,
+        allowCredentials,
+        userVerification: 'preferred',
+      });
+
+      // Store the challenge
+      await db.insert(schema.webauthnChallenges).values({
+        userId: user[0].id,
+        challenge: options.challenge,
+        type: 'authentication',
+        expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
+      });
+
+      res.json({ ...options, userId: user[0].id });
+    } catch (error) {
+      console.error("Error generating authentication options:", error);
+      res.status(500).json({ message: "Failed to generate authentication options" });
+    }
+  });
+
+  // Verify authentication response
+  app.post("/api/webauthn/authenticate/finish", async (req, res) => {
+    try {
+      const { response, userId, expectedChallenge } = req.body;
+
+      if (!response || !userId || !expectedChallenge) {
+        return res.status(400).json({ message: "Invalid request" });
+      }
+
+      // Get the stored challenge
+      const storedChallenge = await db
+        .select()
+        .from(schema.webauthnChallenges)
+        .where(
+          and(
+            eq(schema.webauthnChallenges.userId, userId),
+            eq(schema.webauthnChallenges.type, 'authentication'),
+            eq(schema.webauthnChallenges.challenge, expectedChallenge)
+          )
+        )
+        .limit(1);
+
+      if (!storedChallenge.length) {
+        return res.status(400).json({ message: "Invalid or expired challenge" });
+      }
+
+      // Get the authenticator
+      const authenticator = await db
+        .select()
+        .from(schema.authenticators)
+        .where(
+          and(
+            eq(schema.authenticators.userId, userId),
+            eq(schema.authenticators.credentialID, response.id)
+          )
+        )
+        .limit(1);
+
+      if (!authenticator.length) {
+        return res.status(404).json({ message: "Authenticator not found" });
+      }
+
+      const verification = await verifyAuthenticationResponse({
+        response,
+        expectedChallenge: storedChallenge[0].challenge,
+        expectedOrigin: origin,
+        expectedRPID: rpID,
+        authenticator: {
+          credentialID: Buffer.from(authenticator[0].credentialID, 'base64url'),
+          credentialPublicKey: Buffer.from(authenticator[0].credentialPublicKey, 'base64url'),
+          counter: authenticator[0].counter,
+        },
+      });
+
+      if (verification.verified) {
+        // Update counter and last used
+        await db
+          .update(schema.authenticators)
+          .set({ 
+            counter: verification.authenticationInfo.newCounter,
+            lastUsed: new Date()
+          })
+          .where(eq(schema.authenticators.id, authenticator[0].id));
+
+        // Create session
+        req.session.userId = userId;
+        req.session.authMethod = 'webauthn';
+
+        // Clean up the challenge
+        await db
+          .delete(schema.webauthnChallenges)
+          .where(eq(schema.webauthnChallenges.id, storedChallenge[0].id));
+
+        const user = await storage.getUser(userId);
+        res.json({ verified: true, user });
+      } else {
+        res.status(400).json({ verified: false, message: "Authentication failed" });
+      }
+    } catch (error) {
+      console.error("Error verifying authentication:", error);
+      res.status(500).json({ message: "Failed to verify authentication" });
+    }
+  });
+
+  // Get user's authenticators
+  app.get("/api/webauthn/authenticators", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const authenticators = await db
+        .select({
+          id: schema.authenticators.id,
+          name: schema.authenticators.name,
+          credentialDeviceType: schema.authenticators.credentialDeviceType,
+          lastUsed: schema.authenticators.lastUsed,
+          createdAt: schema.authenticators.createdAt,
+        })
+        .from(schema.authenticators)
+        .where(eq(schema.authenticators.userId, userId));
+
+      res.json(authenticators);
+    } catch (error) {
+      console.error("Error fetching authenticators:", error);
+      res.status(500).json({ message: "Failed to fetch authenticators" });
+    }
+  });
+
+  // Delete authenticator
+  app.delete("/api/webauthn/authenticators/:id", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const { id } = req.params;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      await db
+        .delete(schema.authenticators)
+        .where(
+          and(
+            eq(schema.authenticators.id, id),
+            eq(schema.authenticators.userId, userId)
+          )
+        );
+
+      // Check if user has any remaining authenticators
+      const remainingAuth = await db
+        .select()
+        .from(schema.authenticators)
+        .where(eq(schema.authenticators.userId, userId))
+        .limit(1);
+
+      // If no authenticators left, disable WebAuthn
+      if (!remainingAuth.length) {
+        await db
+          .update(schema.users)
+          .set({ webauthnEnabled: false })
+          .where(eq(schema.users.id, userId));
+      }
+
+      res.json({ message: "Authenticator removed successfully" });
+    } catch (error) {
+      console.error("Error removing authenticator:", error);
+      res.status(500).json({ message: "Failed to remove authenticator" });
     }
   });
 
