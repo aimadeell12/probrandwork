@@ -88,19 +88,7 @@ export default function Cards() {
   return (
     <PullToRefresh onRefresh={handleRefresh}>
       <div className="min-h-screen bg-white relative overflow-hidden">
-        {/* Background decorative elements */}
-        <motion.div 
-          className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-        ></motion.div>
-        <motion.div 
-          className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
-        ></motion.div>
+        {/* Clean white background */}
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
         
