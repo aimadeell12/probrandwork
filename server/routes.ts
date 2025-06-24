@@ -14,6 +14,7 @@ import { db } from "./db";
 import * as schema from "@shared/schema";
 import { eq, desc, and, sql, isNull } from "drizzle-orm";
 import Stripe from "stripe";
+import { cache, memoizedStripeOperations, CACHE_KEYS } from "./cache";
 
 // Initialize Stripe
 if (!process.env.STRIPE_SECRET_KEY) {
@@ -810,7 +811,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
       
+      // Check cache first
+      const cacheKey = CACHE_KEYS.KYC_STATUS(userId);
+      const cachedKyc = cache.get(cacheKey);
+      if (cachedKyc !== null) {
+        console.log(`💨 Returning cached KYC status for user ${userId}`);
+        return res.json(cachedKyc);
+      }
+      
       const kycData = await storage.getKycVerificationByUserId(userId);
+      
+      // Cache KYC data for 2 minutes
+      cache.set(cacheKey, kycData || null, 120000);
+      
       res.json(kycData || null);
     } catch (error) {
       console.error("Error fetching KYC status:", error);

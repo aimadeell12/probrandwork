@@ -36,8 +36,8 @@ export const useNetwork = () => {
   useEffect(() => {
     checkNetworkStatus();
 
-    // Set up network status monitoring
-    const interval = setInterval(checkNetworkStatus, 5000); // Check every 5 seconds
+    // Set up network status monitoring (reduced frequency)
+    const interval = setInterval(checkNetworkStatus, 30000); // Check every 30 seconds
 
     // Listen for online/offline events in web environment
     const handleOnline = () => {
