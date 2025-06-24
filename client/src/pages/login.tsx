@@ -9,6 +9,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useLanguage } from '@/hooks/useLanguage';
 import { LanguageToggle } from '@/components/language-toggle';
+import { Fingerprint } from 'lucide-react';
+import { useWebAuthn } from '@/hooks/useWebAuthn';
+import { Separator } from '@/components/ui/separator';
 
 
 export default function Login() {
@@ -21,6 +24,7 @@ export default function Login() {
     username: '',
     password: ''
   });
+  const { isSupported: webauthnSupported, isLoading: webauthnLoading, authenticateWithBiometric } = useWebAuthn();
 
   const loginMutation = useMutation({
     mutationFn: async (data: { username: string; password: string }) => {
@@ -52,6 +56,25 @@ export default function Login() {
       });
     },
   });
+
+  const handleBiometricLogin = async () => {
+    if (!formData.username) {
+      toast({
+        title: "مطلوب معرف المستخدم",
+        description: "يرجى إدخال البريد الإلكتروني أو اسم المستخدم أولاً",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const user = await authenticateWithBiometric(formData.username);
+    if (user) {
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      setTimeout(() => {
+        setLocation('/dashboard');
+      }, 200);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
