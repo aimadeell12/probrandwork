@@ -4,7 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function Wallet() {
   return (
-    <div className="container mx-auto p-4">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">محفظتي</h1>
       <Card>
         <CardContent className="p-4">
@@ -14,6 +15,7 @@ export default function Wallet() {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }

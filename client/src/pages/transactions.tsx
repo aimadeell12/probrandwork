@@ -80,17 +80,13 @@ export default function Transactions() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden p-4 pb-20">
-      
-      {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-white relative overflow-hidden p-4 pb-20">
       
       <div className="max-w-md mx-auto relative z-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-6 pt-8">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("transactions")}</h1>
-          <Button variant="outline" size="icon" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 hover:bg-purple-50">
+          <h1 className="text-2xl font-bold text-gray-900">{t("transactions")}</h1>
+          <Button variant="outline" size="icon" className="bg-white border-gray-200 hover:bg-gray-50">
             <Filter className="h-4 w-4" />
           </Button>
         </div>
@@ -102,7 +98,7 @@ export default function Transactions() {
             placeholder={t("searchTransactions")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 focus:border-purple-500 rounded-2xl"
+            className="pl-10 bg-white border-gray-200 focus:border-gray-400 rounded-2xl"
           />
         </div>
 
