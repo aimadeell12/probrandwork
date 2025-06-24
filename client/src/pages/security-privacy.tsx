@@ -10,7 +10,6 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { userApi } from "@/lib/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import BiometricSetup from "@/components/biometric-setup";
 
 export default function SecurityPrivacy() {
   const { t } = useLanguage();
@@ -331,9 +330,6 @@ export default function SecurityPrivacy() {
             </Button>
           </CardContent>
         </Card>
-
-        {/* Biometric Authentication Setup */}
-        <BiometricSetup />
       </div>
     </div>
   );

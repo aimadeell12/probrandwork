@@ -52,7 +52,6 @@ export const users = pgTable("users", {
   // Security settings
   twoFactorEnabled: boolean("two_factor_enabled").default(false),
   biometricEnabled: boolean("biometric_enabled").default(false),
-  webauthnEnabled: boolean("webauthn_enabled").default(false),
   loginNotifications: boolean("login_notifications").default(true),
   deviceTracking: boolean("device_tracking").default(false),
   // Notification settings
@@ -65,31 +64,6 @@ export const users = pgTable("users", {
   walletBalance: decimal("wallet_balance", { precision: 10, scale: 2 }).default("100.00"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-// WebAuthn Authenticators table
-export const authenticators = pgTable("authenticators", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  credentialID: varchar("credential_id").notNull().unique(),
-  credentialPublicKey: text("credential_public_key").notNull(),
-  counter: integer("counter").notNull().default(0),
-  credentialDeviceType: varchar("credential_device_type").notNull(), // singleDevice, multiDevice
-  credentialBackedUp: boolean("credential_backed_up").notNull().default(false),
-  transports: jsonb("transports"), // Array of transport methods
-  name: varchar("name").notNull().default("Biometric Device"),
-  lastUsed: timestamp("last_used"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-// WebAuthn Challenges table for temporary storage
-export const webauthnChallenges = pgTable("webauthn_challenges", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  challenge: varchar("challenge").notNull(),
-  type: varchar("type").notNull(), // registration, authentication
-  expiresAt: timestamp("expires_at").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
 });
 
 // Cards table
