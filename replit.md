@@ -141,6 +141,11 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 24, 2025: Major performance optimization - added intelligent caching system with 60s cache for cards, 30s for transactions
+- June 24, 2025: Implemented batch processing for Stripe API calls to reduce load and improve response times
+- June 24, 2025: Added rate limiting (200 requests/minute) and request deduplication to prevent API abuse
+- June 24, 2025: Optimized React Query settings with 2-minute stale time and reduced aggressive refetching
+- June 24, 2025: Reduced network status checks from 5s to 30s intervals to improve battery life and performance
 - June 24, 2025: Added comprehensive offline error screen with Arabic/English support for mobile app internet connectivity issues
 - June 24, 2025: Implemented network status monitoring with automatic offline detection and retry functionality
 - June 24, 2025: Created responsive offline error page matching native mobile app design patterns

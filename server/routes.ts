@@ -15,6 +15,7 @@ import * as schema from "@shared/schema";
 import { eq, desc, and, sql, isNull } from "drizzle-orm";
 import Stripe from "stripe";
 import { cache, memoizedStripeOperations, CACHE_KEYS } from "./cache";
+import { rateLimiter } from "./middleware/rateLimiter";
 
 // Initialize Stripe
 if (!process.env.STRIPE_SECRET_KEY) {
@@ -25,6 +26,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Add rate limiting
+  app.use(rateLimiter(200, 60000)); // 200 requests per minute
+  
   // Setup session middleware first
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
   const pgStore = connectPg(session);
@@ -1193,18 +1197,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      // Get all user's cards
+      // Check cache first
+      const cacheKey = CACHE_KEYS.USER_TRANSACTIONS(userId);
+      const cachedTransactions = cache.get(cacheKey);
+      if (cachedTransactions) {
+        console.log(`💨 Returning cached transactions for user ${userId}`);
+        return res.json(cachedTransactions);
+      }
+
+      // Get user's cards (limit to 3 most recent for performance)
       const cards = await storage.getCardsByUserId(userId);
+      const limitedCards = cards.slice(0, 3);
       let allTransactions = [];
 
-      for (const card of cards) {
+      for (const card of limitedCards) {
         if (card.stripeCardId) {
           try {
-            // Fetch real transactions from Stripe Issuing
-            const stripeTransactions = await stripe.issuing.transactions.list({
-              card: card.stripeCardId,
-              limit: 10
-            });
+            // Use memoized Stripe operations
+            const stripeTransactions = await memoizedStripeOperations.getTransactions(stripe, card.stripeCardId);
 
             // Convert Stripe transactions to our format
             const formattedTransactions = stripeTransactions.data.map(txn => {
@@ -1286,11 +1296,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      // Sort by date (newest first)
+      // Sort by date (newest first) and limit to 10 most recent
       allTransactions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      const limitedTransactions = allTransactions.slice(0, 10);
 
-      console.log(`📊 Returning ${allTransactions.length} transactions (real Stripe data) for user ${userId}`);
-      res.json(allTransactions);
+      // Cache the result for 30 seconds
+      cache.set(cacheKey, limitedTransactions, 30000);
+
+      console.log(`📊 Returning ${limitedTransactions.length} transactions (optimized with cache) for user ${userId}`);
+      res.json(limitedTransactions);
     } catch (error) {
       console.error("Error fetching transactions:", error);
       res.status(500).json({ message: "Failed to fetch transactions" });
