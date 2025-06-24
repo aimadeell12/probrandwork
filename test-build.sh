@@ -40,8 +40,8 @@ echo "✅ تم بناء أصول الويب"
 # نسخ keystore
 echo ""
 echo "🔐 إعداد keystore..."
-if [ -f "attached_assets/signing_1750723138194.keystore" ]; then
-    cp attached_assets/signing_1750723138194.keystore android/app/
+if [ -f "attached_assets/signing_1750726650743.keystore" ]; then
+    cp attached_assets/signing_1750726650743.keystore android/app/signing.keystore
     echo "✅ تم نسخ keystore"
 else
     echo "❌ keystore غير موجود"

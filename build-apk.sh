@@ -18,7 +18,7 @@ echo ""
 echo "📱 معلومات التطبيق:"
 echo "   - الاسم: PayDota"
 echo "   - المعرف: com.paydota.banking"
-echo "   - keystore: مُكوّن ✓"
+echo "   - keystore: signing.keystore (مع كلمة مرور) ✓"
 echo "   - الإضافات: 9 إضافات ✓"
 echo ""
 echo "🔧 للبناء في Android Studio:"
