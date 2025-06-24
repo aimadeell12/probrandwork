@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 24, 2025: Removed "Refreshing..." text and purple color from pull-to-refresh component per user request
 - June 24, 2025: Changed all page backgrounds to pure white color without gradients or dark mode variants per user request
 - June 24, 2025: Fixed background display issue - ensured full screen coverage using dynamic viewport height and proper CSS styling
 - June 24, 2025: Updated transaction currency display to USD instead of SAR per user request
