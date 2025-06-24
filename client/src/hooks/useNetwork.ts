@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getNetworkStatus } from '@/lib/capacitor';
+import { networkSimulator } from '@/utils/networkSimulator';
 
 interface NetworkStatus {
   connected: boolean;
@@ -15,6 +16,13 @@ export const useNetwork = () => {
 
   const checkNetworkStatus = async () => {
     try {
+      // Check if we're simulating offline mode (for development)
+      if (networkSimulator.isSimulatingOffline()) {
+        setNetworkStatus(networkSimulator.getSimulatedStatus());
+        setIsLoading(false);
+        return;
+      }
+      
       const status = await getNetworkStatus();
       setNetworkStatus(status);
     } catch (error) {

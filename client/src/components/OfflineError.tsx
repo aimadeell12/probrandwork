@@ -25,30 +25,24 @@ export const OfflineError = ({ onRetry }: OfflineErrorProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8">
-      <div className="text-center max-w-sm mx-auto">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 safe-area-top safe-area-bottom">
+      <div className="text-center max-w-sm mx-auto w-full">
         {/* Error Icon */}
-        <div className="mb-8 flex justify-center">
-          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center">
-            <WifiOff className="w-10 h-10 text-red-500" />
+        <div className="mb-6 flex justify-center">
+          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+            <WifiOff className="w-8 h-8 text-gray-600" />
           </div>
         </div>
 
         {/* Error Title */}
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">
-          لا يمكن الوصول للصفحة
+        <h1 className="text-xl font-bold text-black mb-3">
+          Web page not available
         </h1>
 
         {/* Error Description */}
-        <div className="mb-6 space-y-3">
-          <p className="text-gray-600 text-base leading-relaxed">
-            لا يمكن تحميل صفحة الويب على العنوان
-          </p>
-          <p className="text-sm text-blue-600 font-medium bg-gray-50 p-2 rounded">
-            https://paydota.replit.app/
-          </p>
-          <p className="text-gray-600 text-base">
-            بسبب:
+        <div className="mb-6 space-y-3 text-right">
+          <p className="text-gray-800 text-sm leading-relaxed">
+            The web page at <span className="font-medium">https://paydota.replit.app/</span> could not be loaded because:
           </p>
         </div>
 
@@ -63,29 +57,29 @@ export const OfflineError = ({ onRetry }: OfflineErrorProps) => {
         <Button 
           onClick={handleRetry}
           disabled={isRetrying}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-md font-medium text-sm"
         >
           {isRetrying ? (
             <div className="flex items-center justify-center gap-2">
               <RefreshCw className="w-4 h-4 animate-spin" />
-              جاري المحاولة...
+              محاولة الاتصال...
             </div>
           ) : (
             <div className="flex items-center justify-center gap-2">
-              <Wifi className="w-4 h-4" />
+              <RefreshCw className="w-4 h-4" />
               إعادة المحاولة
             </div>
           )}
         </Button>
 
         {/* Additional Help Text */}
-        <div className="mt-6 text-center space-y-2">
-          <p className="text-sm text-gray-500">
-            تأكد من اتصالك بالإنترنت وحاول مرة أخرى
+        <div className="mt-6 text-center space-y-3">
+          <p className="text-sm text-gray-600">
+            تحقق من اتصالك بالإنترنت وحاول مرة أخرى
           </p>
-          <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
-            <div className="w-2 h-2 rounded-full bg-red-400"></div>
-            <span>غير متصل</span>
+          <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+            <div className="w-2 h-2 rounded-full bg-red-500"></div>
+            <span>لا يوجد اتصال بالإنترنت</span>
           </div>
         </div>
       </div>
