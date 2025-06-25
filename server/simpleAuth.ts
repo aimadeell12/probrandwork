@@ -157,6 +157,7 @@ export function setupSimpleAuth(app: Express) {
         lastName: user.lastName,
         email: user.email,
         phone: user.phone,
+        role: user.role,
         updatedAt: user.updatedAt
       });
       
