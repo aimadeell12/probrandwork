@@ -22,14 +22,13 @@
   display: none;
 }
 
-/* Fix Capacitor elastic scrolling and overscroll behavior */
+/* Allow scrolling but prevent elastic behavior on mobile */
 html, body {
-  overflow: hidden;
   overscroll-behavior: none;
-  -webkit-overflow-scrolling: touch;
-  position: fixed;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Additional scrollbar hiding for all browsers */
@@ -51,10 +50,12 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-/* Prevent elastic scrolling on iOS */
-body {
-  -webkit-overflow-scrolling: auto;
-  overflow-scrolling: auto;
+/* Main app container */
+#root {
+  width: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Prevent pull-to-refresh bounce effect */

@@ -156,11 +156,11 @@ export const shareContent = async (title: string, text: string, url?: string) =>
 // Prevent elastic scrolling behavior
 export const preventElasticScrolling = () => {
   if (isNativePlatform) {
-    // Prevent document body from scrolling
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
+    // Allow scrolling but prevent elastic behavior
+    document.body.style.overflowX = 'hidden';
+    document.body.style.overflowY = 'auto';
     document.body.style.width = '100%';
-    document.body.style.height = '100%';
+    document.body.style.height = '100vh';
     
     // Prevent elastic bounce on iOS
     document.addEventListener('touchmove', (e) => {
