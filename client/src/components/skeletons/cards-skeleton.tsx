@@ -61,9 +61,9 @@ export function CardsSkeleton() {
           
           {/* Loading indicator with text */}
           <div className="flex flex-col items-center justify-center py-8 mt-6">
-            <div className="animate-spin w-10 h-10 border-4 border-gray-200 border-t-purple-600 rounded-full mb-4"></div>
-            <p className="text-gray-600 text-base font-medium">Loading your cards...</p>
-            <p className="text-gray-400 text-sm mt-1">Please wait...</p>
+            <div className="animate-spin w-12 h-12 border-4 border-gray-200 border-t-purple-600 rounded-full mb-4"></div>
+            <p className="text-gray-800 text-lg font-semibold">Loading your cards...</p>
+            <p className="text-gray-500 text-sm mt-2">Please wait while we fetch your data</p>
           </div>
         </div>
       </div>

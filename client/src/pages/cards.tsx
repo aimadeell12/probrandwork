@@ -14,7 +14,6 @@ export default function Cards() {
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
   const [, setLocation] = useLocation();
   const [showSkeleton, setShowSkeleton] = useState(true);
-  const [hasDataLoaded, setHasDataLoaded] = useState(false);
   
   const queryClient = useQueryClient();
 
@@ -73,35 +72,20 @@ export default function Cards() {
 
 
 
-  // Component mount effect to force initial loading
+  // Force skeleton display for minimum time on every page visit
   useEffect(() => {
     setShowSkeleton(true);
-    setHasDataLoaded(false);
     
-    // Minimum display time for skeleton
-    const minTimer = setTimeout(() => {
-      if (!cardsLoading && !cardsFetching && !transactionsLoading && !transactionsFetching) {
-        setShowSkeleton(false);
-        setHasDataLoaded(true);
-      }
-    }, 2000); // Show for at least 2 seconds
+    // Always show skeleton for at least 2.5 seconds
+    const timer = setTimeout(() => {
+      setShowSkeleton(false);
+    }, 2500);
 
-    return () => clearTimeout(minTimer);
-  }, []); // Only run on mount
-
-  // Handle data loading completion
-  useEffect(() => {
-    if (!cardsLoading && !cardsFetching && !transactionsLoading && !transactionsFetching && cards && transactions) {
-      const timer = setTimeout(() => {
-        setShowSkeleton(false);
-        setHasDataLoaded(true);
-      }, 1000); // Additional delay after data loads
-      return () => clearTimeout(timer);
-    }
-  }, [cardsLoading, cardsFetching, transactionsLoading, transactionsFetching, cards, transactions]);
+    return () => clearTimeout(timer);
+  }, []); // Run only once when component mounts
 
   // Show skeleton loading screen
-  if (showSkeleton || !hasDataLoaded) {
+  if (showSkeleton) {
     return <CardsSkeleton />;
   }
 
