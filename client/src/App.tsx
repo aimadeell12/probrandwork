@@ -199,18 +199,42 @@ function Router() {
             <Route path="/dashboard">
               <ProtectedRoute><Dashboard /></ProtectedRoute>
             </Route>
-            <Route path="/wallet" component={Wallet} />
-            <Route path="/support" component={Support} />
-            <Route path="/send" component={Send} />
-            <Route path="/withdraw" component={Withdraw} />
-            <Route path="/transactions" component={Transactions} />
-            <Route path="/edit-profile" component={EditProfile} />
-            <Route path="/kyc-verification" component={KYCVerification} />
-            <Route path="/kyc-management" component={KycManagement} />
-            <Route path="/bank-transfer" component={BankTransfer} />
-            <Route path="/binance-pay" component={BinancePay} />
-            <Route path="/services" component={Services} />
-            <Route path="/hub" component={Services} />
+            <Route path="/wallet">
+              <ProtectedRoute><Wallet /></ProtectedRoute>
+            </Route>
+            <Route path="/support">
+              <ProtectedRoute><Support /></ProtectedRoute>
+            </Route>
+            <Route path="/send">
+              <ProtectedRoute><Send /></ProtectedRoute>
+            </Route>
+            <Route path="/withdraw">
+              <ProtectedRoute><Withdraw /></ProtectedRoute>
+            </Route>
+            <Route path="/transactions">
+              <ProtectedRoute><Transactions /></ProtectedRoute>
+            </Route>
+            <Route path="/edit-profile">
+              <ProtectedRoute><EditProfile /></ProtectedRoute>
+            </Route>
+            <Route path="/kyc-verification">
+              <ProtectedRoute><KYCVerification /></ProtectedRoute>
+            </Route>
+            <Route path="/kyc-management">
+              <ProtectedRoute><KycManagement /></ProtectedRoute>
+            </Route>
+            <Route path="/bank-transfer">
+              <ProtectedRoute><BankTransfer /></ProtectedRoute>
+            </Route>
+            <Route path="/binance-pay">
+              <ProtectedRoute><BinancePay /></ProtectedRoute>
+            </Route>
+            <Route path="/services">
+              <ProtectedRoute><Services /></ProtectedRoute>
+            </Route>
+            <Route path="/hub">
+              <ProtectedRoute><Services /></ProtectedRoute>
+            </Route>
             <Route path="/camera-test" component={CameraTest} />
 
             {/* Root route - last */}
