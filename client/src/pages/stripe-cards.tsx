@@ -260,15 +260,7 @@ export default function StripeCards() {
     }).format(amount);
   };
 
-  if (cardsLoading) {
-    return (
-      <PullToRefresh onRefresh={handleRefresh}>
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <div className="animate-spin w-8 h-8 border-4 border-gray-900 border-t-transparent rounded-full" />
-        </div>
-      </PullToRefresh>
-    );
-  }
+
 
   return (
     <div className="app-page bg-white">
