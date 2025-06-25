@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function ProfileSkeleton() {
   return (
-    <div className="app-page bg-white w-full">
+    <div className="fixed inset-0 w-full h-full bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 z-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-100 p-4 relative z-10">
         <div className="flex items-center justify-between">
