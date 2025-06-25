@@ -83,168 +83,91 @@ function Router() {
     return <OfflineError onRetry={checkNetwork} />;
   }
 
+  // If not authenticated, show limited routes
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Switch>
+          <Route path="/" component={Welcome} />
+          <Route path="/welcome" component={Welcome} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/camera-test" component={CameraTest} />
+          <Route path="/about" component={About} />
+          {/* Redirect all other routes to welcome page */}
+          <Route>
+            <Welcome />
+          </Route>
+        </Switch>
+      </>
+    );
+  }
+
   return (
     <>
       <Switch>
-        {!isAuthenticated ? (
-          <>
-            <Route path="/" component={Welcome} />
-            <Route path="/welcome" component={Welcome} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/camera-test" component={CameraTest} />
-            <Route path="/about" component={About} />
-          </>
-        ) : (
-          <>
+        {/* Protected routes - only for authenticated users */}
             {/* Admin routes - most specific first */}
-            <Route path="/admin/users">
-              <ProtectedRoute><UserManagement /></ProtectedRoute>
-            </Route>
-            <Route path="/admin/reports">
-              <ProtectedRoute><SystemReports /></ProtectedRoute>
-            </Route>
-            <Route path="/admin/settings">
-              <ProtectedRoute><AdminSettings /></ProtectedRoute>
-            </Route>
-            <Route path="/admin/bank-transfers">
-              <ProtectedRoute><AdminBankTransfers /></ProtectedRoute>
-            </Route>
-            <Route path="/admin/deposit-requests">
-              <ProtectedRoute><DepositRequests /></ProtectedRoute>
-            </Route>
-            <Route path="/admin/referrals">
-              <ProtectedRoute><AdminReferrals /></ProtectedRoute>
-            </Route>
-            <Route path="/admin/vouchers">
-              <ProtectedRoute><AdminVouchers /></ProtectedRoute>
-            </Route>
-            <Route path="/admin/currency">
-              <ProtectedRoute><AdminCurrency /></ProtectedRoute>
-            </Route>
-            <Route path="/admin/community">
-              <ProtectedRoute><AdminCommunity /></ProtectedRoute>
-            </Route>
-            <Route path="/admin-panel">
-              <ProtectedRoute><AdminNavigation /></ProtectedRoute>
-            </Route>
+            <Route path="/admin/users" component={UserManagement} />
+            <Route path="/admin/reports" component={SystemReports} />
+            <Route path="/admin/settings" component={AdminSettings} />
+            <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
+            <Route path="/admin/deposit-requests" component={DepositRequests} />
+            <Route path="/admin/referrals" component={AdminReferrals} />
+            <Route path="/admin/vouchers" component={AdminVouchers} />
+            <Route path="/admin/currency" component={AdminCurrency} />
+            <Route path="/admin/community" component={AdminCommunity} />
+            <Route path="/admin-panel" component={AdminNavigation} />
 
             {/* Account routes */}
-            <Route path="/account/settings">
-              <ProtectedRoute><AccountSettings /></ProtectedRoute>
-            </Route>
-            <Route path="/account/security">
-              <ProtectedRoute><SecurityPrivacy /></ProtectedRoute>
-            </Route>
-            <Route path="/account/notifications">
-              <ProtectedRoute><Notifications /></ProtectedRoute>
-            </Route>
-            <Route path="/account/language">
-              <ProtectedRoute><LanguageSettings /></ProtectedRoute>
-            </Route>
-            <Route path="/account/payment-password">
-              <ProtectedRoute><PaymentPassword /></ProtectedRoute>
-            </Route>
-            <Route path="/account/referral">
-              <ProtectedRoute><Referral /></ProtectedRoute>
-            </Route>
-            <Route path="/account/vouchers">
-              <ProtectedRoute><Vouchers /></ProtectedRoute>
-            </Route>
-            <Route path="/account/currency">
-              <ProtectedRoute><Currency /></ProtectedRoute>
-            </Route>
-            <Route path="/account/help">
-              <ProtectedRoute><Help /></ProtectedRoute>
-            </Route>
-            <Route path="/account/community">
-              <ProtectedRoute><Community /></ProtectedRoute>
-            </Route>
-            <Route path="/account">
-              <ProtectedRoute><Account /></ProtectedRoute>
-            </Route>
+            <Route path="/account/settings" component={AccountSettings} />
+            <Route path="/account/security" component={SecurityPrivacy} />
+            <Route path="/account/notifications" component={Notifications} />
+            <Route path="/account/language" component={LanguageSettings} />
+            <Route path="/account/payment-password" component={PaymentPassword} />
+            <Route path="/account/referral" component={Referral} />
+            <Route path="/account/vouchers" component={Vouchers} />
+            <Route path="/account/currency" component={Currency} />
+            <Route path="/account/help" component={Help} />
+            <Route path="/account/community" component={Community} />
+            <Route path="/account" component={Account} />
             
             {/* Additional pages */}
-            <Route path="/security-privacy">
-              <ProtectedRoute><SecurityPrivacy /></ProtectedRoute>
-            </Route>
+            <Route path="/security-privacy" component={SecurityPrivacy} />
             <Route path="/about" component={About} />
-            <Route path="/coupons">
-              <ProtectedRoute><Coupons /></ProtectedRoute>
-            </Route>
-            <Route path="/profile">
-              <ProtectedRoute><Profile /></ProtectedRoute>
-            </Route>
+            <Route path="/coupons" component={Coupons} />
+            <Route path="/profile" component={Profile} />
 
             {/* Deposit routes */}
-            <Route path="/deposit/options">
-              <ProtectedRoute><DepositOptions /></ProtectedRoute>
-            </Route>
-            <Route path="/deposit">
-              <ProtectedRoute><Deposit /></ProtectedRoute>
-            </Route>
+            <Route path="/deposit/options" component={DepositOptions} />
+            <Route path="/deposit" component={Deposit} />
 
             {/* Cards routes */}
-            <Route path="/cards/priority">
-              <ProtectedRoute><PriorityCards /></ProtectedRoute>
-            </Route>
-            <Route path="/choose-card">
-              <ProtectedRoute><ChooseCard /></ProtectedRoute>
-            </Route>
-            <Route path="/cards">
-              <ProtectedRoute><Cards /></ProtectedRoute>
-            </Route>
+            <Route path="/cards/priority" component={PriorityCards} />
+            <Route path="/choose-card" component={ChooseCard} />
+            <Route path="/cards" component={Cards} />
 
             {/* Other specific routes */}
-            <Route path="/dashboard">
-              <ProtectedRoute><Dashboard /></ProtectedRoute>
-            </Route>
-            <Route path="/wallet">
-              <ProtectedRoute><Wallet /></ProtectedRoute>
-            </Route>
-            <Route path="/support">
-              <ProtectedRoute><Support /></ProtectedRoute>
-            </Route>
-            <Route path="/send">
-              <ProtectedRoute><Send /></ProtectedRoute>
-            </Route>
-            <Route path="/withdraw">
-              <ProtectedRoute><Withdraw /></ProtectedRoute>
-            </Route>
-            <Route path="/transactions">
-              <ProtectedRoute><Transactions /></ProtectedRoute>
-            </Route>
-            <Route path="/edit-profile">
-              <ProtectedRoute><EditProfile /></ProtectedRoute>
-            </Route>
-            <Route path="/kyc-verification">
-              <ProtectedRoute><KYCVerification /></ProtectedRoute>
-            </Route>
-            <Route path="/kyc-management">
-              <ProtectedRoute><KycManagement /></ProtectedRoute>
-            </Route>
-            <Route path="/bank-transfer">
-              <ProtectedRoute><BankTransfer /></ProtectedRoute>
-            </Route>
-            <Route path="/binance-pay">
-              <ProtectedRoute><BinancePay /></ProtectedRoute>
-            </Route>
-            <Route path="/services">
-              <ProtectedRoute><Services /></ProtectedRoute>
-            </Route>
-            <Route path="/hub">
-              <ProtectedRoute><Services /></ProtectedRoute>
-            </Route>
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/wallet" component={Wallet} />
+            <Route path="/support" component={Support} />
+            <Route path="/send" component={Send} />
+            <Route path="/withdraw" component={Withdraw} />
+            <Route path="/transactions" component={Transactions} />
+            <Route path="/edit-profile" component={EditProfile} />
+            <Route path="/kyc-verification" component={KYCVerification} />
+            <Route path="/kyc-management" component={KycManagement} />
+            <Route path="/bank-transfer" component={BankTransfer} />
+            <Route path="/binance-pay" component={BinancePay} />
+            <Route path="/services" component={Services} />
+            <Route path="/hub" component={Services} />
             <Route path="/camera-test" component={CameraTest} />
 
-            {/* Root route - last */}
-            <Route path="/">
-              <ProtectedRoute><Dashboard /></ProtectedRoute>
-            </Route>
-          </>
-        )}
-        {/* 404 page for any unmatched routes */}
-        <Route component={NotFound} />
+            {/* Root route - redirect to dashboard */}
+            <Route path="/" component={Dashboard} />
+            
+            {/* 404 for authenticated users */}
+            <Route component={NotFound} />
       </Switch>
       {isAuthenticated && !shouldHideBottomNav && <BottomNavigation />}
     </>

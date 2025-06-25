@@ -13,21 +13,24 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading } = useAuth();
   const [location, setLocation] = useLocation();
 
-  // Show loading while checking authentication
-  if (isLoading) {
-    return <AppLoadingSkeleton />;
-  }
-
-  // If not authenticated, immediately redirect to login
-  if (!isAuthenticated) {
-    if (location !== "/login") {
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated && location !== "/login") {
       toast({
         title: "غير مصرح",
         description: "يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة",
         variant: "destructive",
       });
-      setLocation("/login");
+      window.location.href = "/login";
     }
+  }, [isAuthenticated, isLoading, location, toast]);
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return <AppLoadingSkeleton />;
+  }
+
+  // If not authenticated, redirect using window.location for immediate effect
+  if (!isAuthenticated) {
     return null;
   }
 
