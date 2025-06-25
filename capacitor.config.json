@@ -11,7 +11,7 @@
     "SplashScreen": {
       "launchShowDuration": 2000,
       "launchAutoHide": true,
-      "backgroundColor": "#1a365d",
+      "backgroundColor": "#9333EA",
       "androidSplashResourceName": "splash",
       "androidScaleType": "CENTER_CROP",
       "showSpinner": false,
@@ -22,6 +22,10 @@
       "style": "light",
       "backgroundColor": "#ffffff",
       "overlaysWebView": false
+    },
+    "NavigationBar": {
+      "backgroundColor": "#9333EA",
+      "navigationBarColor": "#9333EA"
     },
     "Keyboard": {
       "resize": "body",

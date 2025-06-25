@@ -24,6 +24,21 @@ export const setupStatusBar = async () => {
       await StatusBar.setStyle({ style: Style.Light });
       await StatusBar.setBackgroundColor({ color: '#ffffff' });
       await StatusBar.setOverlaysWebView({ overlay: false });
+      
+      // Set navigation bar color to match app theme
+      if (getPlatform() === 'android') {
+        // Add navigation bar styling for Android
+        const style = document.createElement('style');
+        style.textContent = `
+          :root {
+            --ion-safe-area-bottom: env(safe-area-inset-bottom);
+          }
+          body {
+            --ion-color-primary: #9333EA;
+          }
+        `;
+        document.head.appendChild(style);
+      }
     } catch (error) {
       console.warn('Status bar setup failed:', error);
     }
