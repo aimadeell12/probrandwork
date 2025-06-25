@@ -71,49 +71,51 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      {/* Mobile safe area for status bar */}
+      <div className="mobile-safe-area" />
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-2xl"></div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-48 sm:h-48 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 rounded-full blur-2xl"></div>
       
-      <div className="px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
+      <div className="px-4 sm:px-6 flex flex-col justify-between min-h-screen relative z-10 max-w-md mx-auto"
         
         {/* Header */}
-        <div className="pt-4 sm:pt-6 text-center relative">
+        <div className="pt-4 pb-2 text-center relative">
           {/* Language Toggle */}
-          <div className="absolute top-2 right-2 z-20">
-            <LanguageToggle className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-lg border-purple-200/30" />
+          <div className="absolute top-0 right-0 z-20">
+            <LanguageToggle className="bg-white/90 backdrop-blur-sm shadow-sm border-gray-200/30" />
           </div>
-          <h1 className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl lg:text-2xl mb-1 font-medium tracking-wide pt-8">
+          <h1 className="text-gray-600 text-base mb-1 font-medium tracking-wide pt-8">
             {t('welcomeBack')}
           </h1>
-          <h2 className="text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">
+          <h2 className="text-gray-900 text-xl font-bold mb-2 tracking-tight">
             Sign In
           </h2>
         </div>
 
         {/* Login Form */}
-        <div className="flex-1 flex items-center justify-center py-1 sm:py-2 relative">
+        <div className="flex-1 flex items-center justify-center py-2 relative">
           
           {/* Login Form Card */}
-          <div className="w-full max-w-sm mx-auto">
-            <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-2xl rounded-3xl p-6 sm:p-8">
+          <div className="w-full">
+            <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl p-6">
               <form onSubmit={handleSubmit} className="space-y-6">
                 
                 {/* Login Type Toggle */}
                 <div className="space-y-3">
-                  <Label className="text-gray-700 dark:text-gray-300 font-medium">
+                  <Label className="text-gray-700 font-medium">
                     {t('loginWith')}
                   </Label>
-                  <div className="flex bg-gray-100 dark:bg-gray-700 rounded-xl p-1">
+                  <div className="flex bg-gray-100 rounded-xl p-1">
                     <button
                       type="button"
                       onClick={() => setLoginType('email')}
                       className={`flex-1 py-2.5 px-4 text-sm font-medium rounded-lg transition-all duration-200 ${
                         loginType === 'email'
-                          ? 'bg-white dark:bg-gray-600 text-purple-600 dark:text-purple-400 shadow-sm'
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                          ? 'bg-white text-purple-600 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-800'
                       }`}
                     >
                       {t('email')}
@@ -123,8 +125,8 @@ export default function Login() {
                       onClick={() => setLoginType('phone')}
                       className={`flex-1 py-2.5 px-4 text-sm font-medium rounded-lg transition-all duration-200 ${
                         loginType === 'phone'
-                          ? 'bg-white dark:bg-gray-600 text-purple-600 dark:text-purple-400 shadow-sm'
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                          ? 'bg-white text-purple-600 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-800'
                       }`}
                     >
                       {t('phone')}
@@ -134,7 +136,7 @@ export default function Login() {
                 
                 {/* Email/Phone Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="username" className="text-gray-700 dark:text-gray-300 font-medium">
+                  <Label htmlFor="username" className="text-gray-700 font-medium">
                     {loginType === 'email' ? t('email') : t('phoneNumber')}
                   </Label>
                   <Input
@@ -142,7 +144,7 @@ export default function Login() {
                     type={loginType === 'email' ? 'email' : 'tel'}
                     value={formData.username}
                     onChange={(e) => handleInputChange('username', e.target.value)}
-                    className="w-full h-12 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
+                    className="w-full h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 bg-white"
                     placeholder={loginType === 'email' ? t('enterEmail') : t('enterPhoneNumber')}
                     required
                   />
@@ -150,7 +152,7 @@ export default function Login() {
 
                 {/* Password Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-gray-700 dark:text-gray-300 font-medium">
+                  <Label htmlFor="password" className="text-gray-700 font-medium">
                     {t('password')}
                   </Label>
                   <Input
@@ -158,7 +160,7 @@ export default function Login() {
                     type="password"
                     value={formData.password}
                     onChange={(e) => handleInputChange('password', e.target.value)}
-                    className="w-full h-12 rounded-xl border-purple-200 dark:border-purple-700 focus:border-purple-500 focus:ring-purple-500 bg-white/80 dark:bg-gray-700/80"
+                    className="w-full h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 bg-white"
                     placeholder={t('enterPassword')}
                     required
                   />
@@ -168,7 +170,7 @@ export default function Login() {
                 <Button
                   type="submit"
                   disabled={loginMutation.isPending}
-                  className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 border border-purple-500/20"
+                  className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                 >
                   {loginMutation.isPending ? t('signingIn') : t('signInTitle')}
                 </Button>
@@ -176,9 +178,9 @@ export default function Login() {
                 {/* Divider */}
                 <div className="flex items-center justify-center pt-4">
                   <div className="w-full flex items-center">
-                    <div className="flex-1 h-px bg-gradient-to-r from-purple-400/40 to-pink-400/40"></div>
+                    <div className="flex-1 h-px bg-gray-200"></div>
                     <span className="px-3 text-gray-500 text-sm">or</span>
-                    <div className="flex-1 h-px bg-gradient-to-l from-purple-400/40 to-pink-400/40"></div>
+                    <div className="flex-1 h-px bg-gray-200"></div>
                   </div>
                 </div>
 
@@ -186,7 +188,7 @@ export default function Login() {
                 <Button
                   type="button"
                   onClick={() => window.location.href = '/api/auth/google'}
-                  className="w-full h-12 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200 border border-gray-300 flex items-center justify-center space-x-3"
+                  className="w-full h-12 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-300 flex items-center justify-center space-x-3"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -199,10 +201,10 @@ export default function Login() {
 
                 {/* Sign Up Link */}
                 <div className="text-center pt-2">
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  <p className="text-gray-600 text-sm">
                     {t('dontHaveAccount')}{' '}
                     <Link href="/register">
-                      <span className="text-purple-600 dark:text-purple-400 font-medium hover:underline cursor-pointer">
+                      <span className="text-purple-600 font-medium hover:underline cursor-pointer">
                         {t('createNewAccount')}
                       </span>
                     </Link>
@@ -215,11 +217,11 @@ export default function Login() {
         </div>
 
         {/* Back to Welcome */}
-        <div className="w-full max-w-sm mx-auto pb-1">
+        <div className="w-full pb-2">
           <Link href="/">
             <Button 
               variant="outline" 
-              className="w-full h-10 sm:h-12 border-2 border-purple-300/60 dark:border-purple-400/60 text-purple-700 dark:text-purple-300 text-sm sm:text-base font-semibold rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white/95 dark:hover:bg-gray-700/95 shadow-xl hover:shadow-2xl transition-all duration-200 backdrop-blur-sm"
+              className="w-full h-12 border border-gray-200 text-gray-700 font-medium rounded-xl bg-white hover:bg-gray-50 shadow-md hover:shadow-lg transition-all duration-200"
             >
               Back to Home
             </Button>
