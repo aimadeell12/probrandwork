@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Fixed button spacing issue by using explicit div spacer instead of CSS space-y classes - now buttons have proper large visual separation
 - June 25, 2025: Increased spacing between LOG IN and OPEN A DIGITAL ACCOUNT buttons for better visual separation and user experience
 - June 25, 2025: Optimized Welcome page for all mobile screen sizes - improved card aspect ratio, responsive button layout, enhanced landscape support, simplified background design for better performance
 - June 25, 2025: Comprehensive mobile optimization for all screen sizes - added support for 320px-375px screens, landscape orientation, improved spacing and typography scaling, enhanced touch targets

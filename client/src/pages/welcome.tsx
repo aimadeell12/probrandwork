@@ -84,14 +84,17 @@ export default function Welcome() {
           </div>
         </div>
 
-        {/* Enhanced responsive buttons */}
-        <div className="w-full pb-3 sm:pb-4 space-y-12 sm:space-y-16">
+        {/* Enhanced responsive buttons with explicit spacing */}
+        <div className="w-full pb-3 sm:pb-4">
           <Link href="/login">
             <Button className="w-full h-12 sm:h-14 bg-purple-600 hover:bg-purple-700 text-white text-sm sm:text-base font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
               <span className="relative z-10 tracking-wide">LOG IN</span>
             </Button>
           </Link>
+
+          {/* Large spacing between buttons */}
+          <div className="h-8 sm:h-12"></div>
 
           <Link href="/register">
             <Button 

@@ -280,6 +280,15 @@ html {
     margin-top: 3rem;
   }
   
+  /* Fixed spacing for buttons */}
+  .h-8 {
+    height: 1.5rem;
+  }
+  
+  .h-12 {
+    height: 2rem;
+  }
+  
   .text-xl {
     font-size: 1rem;
   }
@@ -309,7 +318,11 @@ html {
   .leading-tight {
     line-height: 1.2;
   }
-}
+  
+  /* Fixed spacing for buttons */
+  .h-8 {
+    height: 1.5rem;
+  }
 
 /* Safe area handling */
 .safe-area-inset {
@@ -354,6 +367,15 @@ html {
   
   .space-y-16 > * + * {
     margin-top: 2.5rem;
+  }
+  
+  /* Compact spacing for landscape */
+  .h-8 {
+    height: 1rem;
+  }
+  
+  .h-12 {
+    height: 1.5rem;
   }
   
   .mobile-card {
