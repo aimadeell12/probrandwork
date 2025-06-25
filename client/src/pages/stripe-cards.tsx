@@ -463,11 +463,7 @@ export default function StripeCards() {
                     ))}
                   </div>
                 </div>
-                
-                {/* Cards Count */}
-                <div className="text-center text-gray-600 dark:text-gray-400 text-sm mt-6">
-                  {cards.filter((card: CardType) => card.type === selectedCardType).length} {selectedCardType} card{cards.filter((card: CardType) => card.type === selectedCardType).length !== 1 ? 's' : ''}
-                </div>
+
               </>
             ) : (
               /* No Cards State */
