@@ -50,7 +50,7 @@ export default function About() {
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            About PAYdota LLC
+            About <span className="text-purple-600">PAY</span><span className="text-gray-900 dark:text-white">dota</span> LLC
           </h1>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default function About() {
               <Heart className="h-8 w-8 text-white" />
             </div>
             <CardTitle className="text-gray-900 dark:text-white">
-              PayouCard v2.0.21
+              <span className="text-purple-600">PAY</span><span className="text-gray-900 dark:text-white">dota</span> LLC v2.0.21
             </CardTitle>
             <p className="text-gray-600 dark:text-gray-400 text-sm">
               Your trusted digital banking companion
@@ -159,7 +159,7 @@ export default function About() {
 
         {/* Copyright */}
         <div className="text-center text-xs text-gray-500 dark:text-gray-400">
-          © 2024 PAYdota LLC. All rights reserved.
+          © 2024 <span className="text-purple-600">PAY</span><span className="text-gray-500 dark:text-gray-400">dota</span> LLC. All rights reserved.
         </div>
       </div>
     </div>
