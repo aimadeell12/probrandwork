@@ -154,9 +154,6 @@ export default function ChooseCard() {
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
             Create New Card
           </h1>
-          <p className="text-lg text-gray-600 max-w-md mx-auto">
-            Choose your card type and design to get started
-          </p>
         </div>
 
         <div className="space-y-8">
@@ -165,7 +162,6 @@ export default function ChooseCard() {
             <div className="space-y-8 opacity-100 transform translate-y-0 transition-all duration-300">
               <div className="text-center">
                 <h2 className="text-2xl font-bold text-gray-900 mb-3">Choose Card Type</h2>
-                <p className="text-gray-600">Select the type of card that best fits your needs</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
                 {/* Virtual Card Option */}
