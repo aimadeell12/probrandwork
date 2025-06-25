@@ -326,183 +326,161 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-white relative safe-area-inset">
+    <div className="min-h-screen bg-white flex flex-col safe-area-inset">
       
-      <div className="px-3 sm:px-4 md:px-6 flex flex-col h-screen relative z-10 max-w-md mx-auto">
-        
-        {/* Header */}
-        <div className="pt-4 pb-3 text-center relative">
-          {/* Language Toggle */}
-          <div className="absolute top-4 right-0">
-            <LanguageToggle />
-          </div>
-          <h1 className="text-gray-600 text-base sm:text-lg mb-1 font-medium">
-            {t('joinUs')}
-          </h1>
-          <h2 className="text-gray-900 text-lg sm:text-xl font-bold tracking-tight">
-            {t('createNewAccount')}
-          </h2>
+      {/* Header */}
+      <div className="flex-none pt-8 pb-6 text-center relative px-6">
+        {/* Language Toggle */}
+        <div className="absolute top-8 right-6">
+          <LanguageToggle />
         </div>
+        <h1 className="text-gray-600 text-base mb-2 font-medium">
+          {t('joinUs')}
+        </h1>
+        <h2 className="text-gray-900 text-xl font-bold">
+          {t('createNewAccount')}
+        </h2>
+      </div>
 
-        {/* Register Form */}
-        <div className="flex-1 overflow-y-auto pb-4">
-          
-          {/* Register Form */}
-          <div className="w-full">
-            <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Register Form */}
+      <div className="flex-1 px-6 pb-6">
+        <div className="max-w-sm mx-auto">
+          <form onSubmit={handleSubmit} className="space-y-5">
                 
-                {/* First Name Field */}
-                <div className="space-y-1.5">
-                  <Label htmlFor="firstName" className="text-gray-700 font-medium text-sm">
-                    {t('firstName')}
-                  </Label>
-                  <Input
-                    id="firstName"
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className="w-full h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 bg-white text-base"
-                    placeholder={t('enterFirstName')}
-                    required
-                  />
-                </div>
+            {/* First Name Field */}
+            <div>
+              <Label htmlFor="firstName" className="text-gray-700 font-medium">
+                {t('firstName')}
+              </Label>
+              <Input
+                id="firstName"
+                type="text"
+                value={formData.firstName}
+                onChange={(e) => handleInputChange('firstName', e.target.value)}
+                className="w-full h-12 mt-2 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 bg-white text-base"
+                placeholder={t('enterFirstName')}
+                required
+              />
+            </div>
 
-                {/* Last Name Field */}
-                <div className="space-y-1.5">
-                  <Label htmlFor="lastName" className="text-gray-700 font-medium text-sm">
-                    {t('lastName')}
-                  </Label>
-                  <Input
-                    id="lastName"
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) => handleInputChange('lastName', e.target.value)}
-                    className="w-full h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 bg-white text-base"
-                    placeholder={t('enterLastName')}
-                    required
-                  />
-                </div>
+            {/* Last Name Field */}
+            <div>
+              <Label htmlFor="lastName" className="text-gray-700 font-medium">
+                {t('lastName')}
+              </Label>
+              <Input
+                id="lastName"
+                type="text"
+                value={formData.lastName}
+                onChange={(e) => handleInputChange('lastName', e.target.value)}
+                className="w-full h-12 mt-2 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 bg-white text-base"
+                placeholder={t('enterLastName')}
+                required
+              />
+            </div>
 
-                {/* Email Field */}
-                <div className="space-y-1.5">
-                  <Label htmlFor="email" className="text-gray-700 font-medium text-sm">
-                    {t('email')}
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="w-full h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 bg-white text-base"
-                    placeholder={t('enterEmail')}
-                    required
-                  />
-                </div>
+            {/* Email Field */}
+            <div>
+              <Label htmlFor="email" className="text-gray-700 font-medium">
+                {t('email')}
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+                className="w-full h-12 mt-2 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 bg-white text-base"
+                placeholder={t('enterEmail')}
+                required
+              />
+            </div>
 
-                {/* Phone Number Field */}
-                <div className="space-y-1.5">
-                  <Label htmlFor="phone" className="text-gray-700 font-medium text-sm">
-                    {t('phoneNumber')}
-                  </Label>
-                  <div className="flex rounded-xl border border-gray-200 bg-white overflow-hidden h-12">
-                    {/* Country Code Selector */}
-                    <div className="relative">
-                      <select
-                        value={selectedCountry.code}
-                        onChange={(e) => {
-                          const country = countries.find(c => c.code === e.target.value);
-                          if (country) setSelectedCountry(country);
-                        }}
-                        className="h-12 pl-3 pr-8 bg-gray-50 border-r border-gray-200 text-sm font-medium appearance-none cursor-pointer hover:bg-gray-100 transition-colors"
-                      >
-                        {countries.map((country, index) => (
-                          <option key={`${country.code}-${country.name}-${index}`} value={country.code}>
-                            {country.flag} {country.code}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
-                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </div>
-                    
-                    {/* Phone Number Input */}
-                    <Input
-                      id="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className="flex-1 h-12 border-0 focus:ring-0 focus:ring-offset-0 bg-transparent text-base"
-                      placeholder={t('enterPhoneNumber')}
-                      required
-                    />
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    {selectedCountry.flag} {selectedCountry.name} ({selectedCountry.code})
-                  </p>
-                </div>
-
-                {/* Password Field */}
-                <div className="space-y-1.5">
-                  <Label htmlFor="password" className="text-gray-700 font-medium text-sm">
-                    {t('password')}
-                  </Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={formData.password}
-                    onChange={(e) => handleInputChange('password', e.target.value)}
-                    className="w-full h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 bg-white text-base"
-                    placeholder={t('enterPassword')}
-                    required
-                  />
-                </div>
-
-                {/* Confirm Password Field */}
-                <div className="space-y-1.5">
-                  <Label htmlFor="confirmPassword" className="text-gray-700 font-medium text-sm">
-                    {t('confirmPassword')}
-                  </Label>
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    value={formData.confirmPassword}
-                    onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                    className="w-full h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 bg-white text-base"
-                    placeholder={t('reenterPassword')}
-                    required
-                  />
-                </div>
-
-                {/* Submit Button */}
-                <div className="pt-2">
-                  <Button
-                    type="submit"
-                    disabled={registerMutation.isPending}
-                    className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold rounded-xl text-base"
+            {/* Phone Number Field */}
+            <div>
+              <Label htmlFor="phone" className="text-gray-700 font-medium">
+                {t('phoneNumber')}
+              </Label>
+              <div className="flex rounded-xl border border-gray-200 bg-white overflow-hidden h-12 mt-2">
+                {/* Country Code Selector */}
+                <div className="relative">
+                  <select
+                    value={selectedCountry.code}
+                    onChange={(e) => {
+                      const country = countries.find(c => c.code === e.target.value);
+                      if (country) setSelectedCountry(country);
+                    }}
+                    className="h-12 pl-3 pr-8 bg-gray-50 border-r border-gray-200 text-sm font-medium appearance-none cursor-pointer hover:bg-gray-100 transition-colors"
                   >
-                    {registerMutation.isPending ? t('creatingAccount') : t('createAccount')}
-                  </Button>
+                    {countries.map((country, index) => (
+                      <option key={`${country.code}-${country.name}-${index}`} value={country.code}>
+                        {country.flag} {country.code}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
+                    <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
                 </div>
+                
+                {/* Phone Number Input */}
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  className="flex-1 h-12 border-0 focus:ring-0 focus:ring-offset-0 bg-transparent text-base"
+                  placeholder={t('enterPhoneNumber')}
+                  required
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                {selectedCountry.flag} {selectedCountry.name} ({selectedCountry.code})
+              </p>
+            </div>
 
-                {/* Login Link */}
-                <div className="text-center pt-4">
-                  <p className="text-gray-600 text-sm">
-                    {t('alreadyHaveAccount')}{' '}
-                    <Link href="/login">
-                      <span className="text-purple-600 font-medium hover:underline cursor-pointer">
-                        {t('signIn')}
-                      </span>
-                    </Link>
-                  </p>
-                </div>
+            {/* Password Field */}
+            <div>
+              <Label htmlFor="password" className="text-gray-700 font-medium">
+                {t('password')}
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                value={formData.password}
+                onChange={(e) => handleInputChange('password', e.target.value)}
+                className="w-full h-12 mt-2 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 bg-white text-base"
+                placeholder={t('enterPassword')}
+                required
+              />
+            </div>
 
-              </form>
-          </div>
+            {/* Submit Button */}
+            <div className="pt-3">
+              <Button
+                type="submit"
+                disabled={registerMutation.isPending}
+                className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl"
+              >
+                {registerMutation.isPending ? t('creatingAccount') : t('createAccount')}
+              </Button>
+            </div>
+
+            {/* Login Link */}
+            <div className="text-center pt-6">
+              <p className="text-gray-600 text-sm">
+                {t('alreadyHaveAccount')}{' '}
+                <Link href="/login">
+                  <span className="text-purple-600 font-medium hover:underline cursor-pointer">
+                    {t('signIn')}
+                  </span>
+                </Link>
+              </p>
+            </div>
+
+          </form>
         </div>
-
       </div>
     </div>
   );
