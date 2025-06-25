@@ -27,16 +27,16 @@ export default function ChooseCard() {
 
   const cardDesigns = {
     virtual: [
-      { id: "blue", name: "Ocean Blue", gradient: "from-blue-500 to-cyan-500" },
-      { id: "purple", name: "Royal Purple", gradient: "from-purple-500 to-pink-500" },
-      { id: "black", name: "Carbon Black", gradient: "from-gray-800 to-gray-900" },
-      { id: "gold", name: "Luxury Gold", gradient: "from-yellow-400 to-orange-500" },
+      { id: "purple", name: "Classic Purple", gradient: "from-purple-600 to-purple-700" },
+      { id: "purple-pink", name: "Purple Gradient", gradient: "from-purple-500 to-pink-500" },
+      { id: "dark-purple", name: "Dark Purple", gradient: "from-purple-800 to-purple-900" },
+      { id: "light-purple", name: "Light Purple", gradient: "from-purple-400 to-purple-500" },
     ],
     physical: [
-      { id: "classic", name: "Classic White", gradient: "from-gray-100 to-gray-200 text-gray-800" },
-      { id: "premium", name: "Premium Black", gradient: "from-gray-900 to-black" },
-      { id: "platinum", name: "Platinum Silver", gradient: "from-slate-300 to-slate-400 text-gray-800" },
-      { id: "rose", name: "Rose Gold", gradient: "from-pink-300 to-rose-400 text-gray-800" },
+      { id: "classic-purple", name: "Classic Purple", gradient: "from-purple-600 to-purple-700" },
+      { id: "premium-purple", name: "Premium Purple", gradient: "from-purple-800 to-purple-900" },
+      { id: "light-purple", name: "Light Purple", gradient: "from-purple-400 to-purple-500 text-white" },
+      { id: "gradient-purple", name: "Gradient Purple", gradient: "from-purple-500 to-pink-500" },
     ]
   };
 
@@ -91,44 +91,43 @@ export default function ChooseCard() {
   };
 
   const CardDesignPreview = ({ design, type }: { design: any; type: "virtual" | "physical" }) => {
-    const isLight = design.gradient.includes("gray-100") || design.gradient.includes("slate-300") || design.gradient.includes("pink-300");
     
     return (
       <div
-        className="relative group cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200"
+        className="relative group cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-300"
         onClick={() => setSelectedDesign(design.id)}
       >
         <div className={cn(
-          "relative w-full aspect-[1.6/1] rounded-xl p-4 transition-all duration-300",
+          "relative w-full aspect-[1.6/1] rounded-2xl p-4 transition-all duration-300 shadow-lg",
           `bg-gradient-to-br ${design.gradient}`,
-          selectedDesign === design.id ? "ring-4 ring-purple-500 ring-offset-2" : "hover:shadow-lg"
+          selectedDesign === design.id ? "ring-4 ring-purple-400 ring-offset-2 shadow-2xl shadow-purple-200" : "hover:shadow-xl hover:shadow-purple-100"
         )}>
           {/* Card Icons */}
           <div className="flex justify-between items-start h-full">
             <div className="flex flex-col justify-between h-full">
               {type === "virtual" ? (
-                <Smartphone className={cn("w-6 h-6", isLight ? "text-gray-700" : "text-white/80")} />
+                <Smartphone className="w-6 h-6 text-white/90" />
               ) : (
-                <CreditCard className={cn("w-6 h-6", isLight ? "text-gray-700" : "text-white/80")} />
+                <CreditCard className="w-6 h-6 text-white/90" />
               )}
-              <div className={cn("text-xs font-medium", isLight ? "text-gray-800" : "text-white/90")}>
+              <div className="text-xs font-bold text-white/95">
                 {type === "virtual" ? "VIRTUAL" : "PHYSICAL"}
               </div>
             </div>
             <div className="flex flex-col items-end justify-between h-full">
-              <Wifi className={cn("w-5 h-5", isLight ? "text-gray-600" : "text-white/60")} />
-              <div className={cn("text-xs", isLight ? "text-gray-700" : "text-white/70")}>PAYdota</div>
+              <Wifi className="w-5 h-5 text-white/70" />
+              <div className="text-xs font-semibold text-white/80">PAYdota</div>
             </div>
           </div>
           
           {/* Selection Indicator */}
           {selectedDesign === design.id && (
-            <div className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center transform scale-100 transition-transform duration-200">
-              <Check className="w-4 h-4 text-purple-600" />
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-purple-400 transform scale-100 transition-transform duration-200">
+              <Check className="w-5 h-5 text-purple-600" />
             </div>
           )}
         </div>
-        <p className="text-center mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <p className="text-center mt-3 text-sm font-semibold text-gray-800">
           {design.name}
         </p>
       </div>
@@ -136,55 +135,66 @@ export default function ChooseCard() {
   };
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-white relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-100/20 to-purple-50/10"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-4xl relative z-10">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <div className="text-center mb-12">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/cards")}
-            className="flex items-center gap-2"
+            className="absolute top-8 left-4 flex items-center gap-2 text-purple-600 hover:text-purple-700 hover:bg-purple-50"
           >
             <ArrowLeft className="w-4 h-4" />
             Back
           </Button>
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-              Create New Card
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
-              Choose your card type and design
-            </p>
+          <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-200">
+            <CreditCard className="w-8 h-8 text-white" />
           </div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+            Create New Card
+          </h1>
+          <p className="text-lg text-gray-600 max-w-md mx-auto">
+            Choose your card type and design to get started
+          </p>
         </div>
 
         <div className="space-y-8">
           {/* Step 1: Card Type Selection */}
           {!selectedCardType && (
-            <div className="space-y-6 opacity-100 transform translate-y-0 transition-all duration-300">
-              <h2 className="text-xl font-semibold text-center text-gray-900 dark:text-white">Choose Card Type</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-8 opacity-100 transform translate-y-0 transition-all duration-300">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">Choose Card Type</h2>
+                <p className="text-gray-600">Select the type of card that best fits your needs</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
                 {/* Virtual Card Option */}
                 <div
-                  className="relative p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-500 transition-colors bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:scale-102 transition-transform duration-200"
+                  className="group relative p-8 bg-white rounded-3xl cursor-pointer hover:shadow-2xl hover:shadow-purple-200 transition-all duration-300 border border-purple-100 hover:border-purple-300 hover:-translate-y-2"
                   onClick={() => setSelectedCardType("virtual")}
                 >
-                  <div className="text-center space-y-4">
-                    <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                      <Smartphone className="w-10 h-10 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative text-center space-y-6">
+                    <div className="w-24 h-24 mx-auto bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center shadow-xl shadow-purple-200 group-hover:scale-110 transition-transform duration-300">
+                      <Smartphone className="w-12 h-12 text-white" />
                     </div>
-                    <h3 className="font-semibold text-xl text-gray-900 dark:text-white">Virtual Card</h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      Instant digital card for online purchases and mobile payments
-                    </p>
-                    <div className="flex justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="flex items-center gap-2">
+                    <div>
+                      <h3 className="font-bold text-2xl text-gray-900 mb-3">Virtual Card</h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        Instant digital card for online purchases and mobile payments
+                      </p>
+                    </div>
+                    <div className="flex justify-center gap-6 text-sm text-purple-600">
+                      <span className="flex items-center gap-2 bg-purple-50 px-3 py-2 rounded-full">
                         <Wifi className="w-4 h-4" />
                         Online Payments
                       </span>
-                      <span className="flex items-center gap-2">
+                      <span className="flex items-center gap-2 bg-purple-50 px-3 py-2 rounded-full">
                         <ShoppingBag className="w-4 h-4" />
                         E-commerce
                       </span>
@@ -194,23 +204,26 @@ export default function ChooseCard() {
 
                 {/* Physical Card Option */}
                 <div
-                  className="relative p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-purple-500 transition-colors bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:scale-102 transition-transform duration-200"
+                  className="group relative p-8 bg-white rounded-3xl cursor-pointer hover:shadow-2xl hover:shadow-purple-200 transition-all duration-300 border border-purple-100 hover:border-purple-300 hover:-translate-y-2"
                   onClick={() => setSelectedCardType("physical")}
                 >
-                  <div className="text-center space-y-4">
-                    <div className="w-20 h-20 mx-auto bg-gradient-to-br from-gray-700 to-gray-900 rounded-xl flex items-center justify-center">
-                      <CreditCard className="w-10 h-10 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative text-center space-y-6">
+                    <div className="w-24 h-24 mx-auto bg-gradient-to-br from-purple-700 to-purple-800 rounded-2xl flex items-center justify-center shadow-xl shadow-purple-200 group-hover:scale-110 transition-transform duration-300">
+                      <CreditCard className="w-12 h-12 text-white" />
                     </div>
-                    <h3 className="font-semibold text-xl text-gray-900 dark:text-white">Physical Card</h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      Premium physical card for in-store and ATM transactions
-                    </p>
-                    <div className="flex justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="flex items-center gap-2">
+                    <div>
+                      <h3 className="font-bold text-2xl text-gray-900 mb-3">Physical Card</h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        Premium physical card for in-store and ATM transactions
+                      </p>
+                    </div>
+                    <div className="flex justify-center gap-6 text-sm text-purple-600">
+                      <span className="flex items-center gap-2 bg-purple-50 px-3 py-2 rounded-full">
                         <CreditCard className="w-4 h-4" />
                         In-Store
                       </span>
-                      <span className="flex items-center gap-2">
+                      <span className="flex items-center gap-2 bg-purple-50 px-3 py-2 rounded-full">
                         <ShoppingBag className="w-4 h-4" />
                         ATM Access
                       </span>
@@ -223,21 +236,23 @@ export default function ChooseCard() {
 
           {/* Step 2: Design Selection */}
           {selectedCardType && (
-            <div className="space-y-6 opacity-100 transform translate-y-0 transition-all duration-300">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Choose {selectedCardType === "virtual" ? "Virtual" : "Physical"} Card Design
-                </h2>
+            <div className="space-y-8 opacity-100 transform translate-y-0 transition-all duration-300">
+              <div className="text-center">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setSelectedCardType(null)}
+                  className="mb-6 border-purple-200 text-purple-600 hover:bg-purple-50"
                 >
-                  Back to Type Selection
+                  ← Back to Type Selection
                 </Button>
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                  Choose {selectedCardType === "virtual" ? "Virtual" : "Physical"} Card Design
+                </h2>
+                <p className="text-gray-600">Pick a design that reflects your style</p>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
                 {cardDesigns[selectedCardType].map((design) => (
                   <CardDesignPreview
                     key={design.id}
@@ -248,11 +263,11 @@ export default function ChooseCard() {
               </div>
 
               {/* Step 3: Card Details Form */}
-              <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl">
-                <h3 className="text-lg font-semibold mb-6 text-gray-900 dark:text-white">Card Details</h3>
+              <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-100 shadow-2xl shadow-purple-100/50 max-w-2xl mx-auto">
+                <h3 className="text-2xl font-bold mb-8 text-gray-900 text-center">Card Details</h3>
                 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
                     <div className="space-y-2">
                       <Label htmlFor="creditLimit">Credit Limit</Label>
@@ -260,7 +275,7 @@ export default function ChooseCard() {
                         value={formData.creditLimit} 
                         onValueChange={(value) => handleInputChange("creditLimit", value)}
                       >
-                        <SelectTrigger className="bg-white/50 dark:bg-gray-900/50">
+                        <SelectTrigger className="bg-white border-purple-200 focus:border-purple-500 h-12">
                           <SelectValue placeholder="Select credit limit" />
                         </SelectTrigger>
                         <SelectContent>
@@ -279,7 +294,7 @@ export default function ChooseCard() {
                         value={formData.currency} 
                         onValueChange={(value) => handleInputChange("currency", value)}
                       >
-                        <SelectTrigger className="bg-white/50 dark:bg-gray-900/50">
+                        <SelectTrigger className="bg-white border-purple-200 focus:border-purple-500 h-12">
                           <SelectValue placeholder="Select currency" />
                         </SelectTrigger>
                         <SelectContent>
@@ -292,18 +307,19 @@ export default function ChooseCard() {
                     </div>
                   </div>
 
-                  <div className="flex gap-4 pt-4">
+                  <div className="flex gap-4 pt-6">
                     <Button
                       type="button"
                       variant="outline"
                       onClick={() => setLocation("/cards")}
+                      className="flex-1 h-12 border-purple-200 text-purple-600 hover:bg-purple-50"
                     >
                       Cancel
                     </Button>
                     <Button
                       type="submit"
                       disabled={createCardMutation.isPending}
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                      className="flex-1 h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-lg shadow-purple-200"
                     >
                       {createCardMutation.isPending ? "Creating..." : "Create Card"}
                     </Button>
