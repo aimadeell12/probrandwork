@@ -74,6 +74,7 @@ function Router() {
 
   const shouldHideBottomNav = kycPages.includes(location);
 
+  // Show loading while checking authentication or network
   if (isLoading || networkLoading) {
     return <AppLoadingSkeleton />;
   }
@@ -81,6 +82,15 @@ function Router() {
   // Show offline screen when not connected to internet
   if (!isOnline) {
     return <OfflineError onRetry={checkNetwork} />;
+  }
+
+  // If authenticated and trying to access welcome/root, redirect immediately without showing content
+  if (isAuthenticated && (location === '/' || location === '/welcome')) {
+    // Use location.replace for immediate redirect without flash
+    if (typeof window !== 'undefined') {
+      window.location.replace('/dashboard');
+    }
+    return null; // Return nothing to prevent any flash
   }
 
   // If not authenticated, show limited routes
@@ -165,6 +175,14 @@ function Router() {
 
             {/* Root route - redirect to dashboard */}
             <Route path="/" component={Dashboard} />
+            
+            {/* Welcome route - redirect authenticated users to dashboard */}
+            <Route path="/welcome">
+              {() => {
+                window.location.href = '/dashboard';
+                return <AppLoadingSkeleton />;
+              }}
+            </Route>
             
             {/* 404 for authenticated users */}
             <Route component={NotFound} />

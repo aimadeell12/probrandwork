@@ -194,15 +194,8 @@ export class DatabaseStorage implements IStorage {
     return card;
   }
 
-  async createCard(card: InsertCard): Promise<Card> {
-    // Ensure required fields are present with defaults
-    const cardWithDefaults = {
-      ...card,
-      expiryMonth: card.expiryMonth || 12,
-      expiryYear: card.expiryYear || new Date().getFullYear() + 3
-    };
-    
-    const [newCard] = await db.insert(cards).values(cardWithDefaults).returning();
+  async createCard(card: any): Promise<Card> {
+    const [newCard] = await db.insert(cards).values(card).returning();
     return newCard;
   }
 

@@ -340,8 +340,6 @@ export const insertCardSchema = createInsertSchema(cards).omit({
   lastFour: true,
   status: true,
   balance: true,
-  expiryMonth: true,
-  expiryYear: true,
   createdAt: true,
   updatedAt: true,
 });
