@@ -9,6 +9,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
 import PullToRefresh from "@/components/pull-to-refresh";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -50,115 +51,172 @@ export default function Dashboard() {
     await queryClient.invalidateQueries();
   };
 
-  const userName = (userInfo as any)?.firstName || 'User';
-
   return (
-    <div className="h-screen h-[100dvh] bg-white w-full">
+    <div className="dashboard-fixed h-screen h-[100dvh] bg-white w-full">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
+        <div className="dashboard-content h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
           
-          {/* Header - Fixed */}
-          <div className="dashboard-sticky mb-6 flex items-center justify-between pt-4 pb-4 border-b border-gray-100">
-            <div className="flex-1">
-              <p className="text-sm text-gray-600 mb-1">Hello {userName}</p>
-              <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                Dashboard <Heart className="h-5 w-5 text-purple-500" fill="currentColor" />
-              </h1>
+          {/* Header - Fixed at top */}
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="dashboard-sticky flex items-center justify-between mb-4 pt-2 top-0 pb-2 border-b border-gray-100"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-gray-700 dark:bg-gray-300 rounded-full flex items-center justify-center">
+                <span className="text-white dark:text-gray-700 font-bold text-lg">
+                  {userInfo ? (userInfo as any).firstName.charAt(0) : 'A'}
+                </span>
+              </div>
+              <div>
+                <h1 className="text-lg font-semibold text-gray-900">
+                  HELLO {userInfo ? (userInfo as any).firstName.toUpperCase() : 'USER'}
+                </h1>
+                <div className="flex items-center gap-1 text-gray-600 text-sm">
+                  <span>HAPPY TO SEE YOU</span>
+                  <Heart className="h-4 w-4 text-purple-500 fill-purple-500" />
+                </div>
+              </div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-600 hover:bg-gray-200 rounded-full relative flex-shrink-0"
+            
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-gray-600 relative"
               onClick={() => setIsNotificationCenterOpen(true)}
             >
-              <Bell className="h-5 w-5" />
+              <Bell className="h-6 w-6" />
               {unreadCount > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs bg-red-500 text-white border-none p-0">
-                  {unreadCount > 9 ? '9+' : unreadCount}
+                <Badge 
+                  variant="destructive" 
+                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs"
+                >
+                  {unreadCount > 99 ? "99+" : unreadCount}
                 </Badge>
               )}
             </Button>
-          </div>
+          </motion.div>
 
           {/* Account/Card Toggle - Fixed */}
-          <div className="mb-6">
-            <div className="bg-gray-100 rounded-full p-1 flex">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="dashboard-sticky mb-4 top-16 py-2"
+          >
+            <div className="bg-gray-200 dark:bg-gray-700 rounded-full p-1 flex">
               <Button
                 variant="ghost"
-                className="flex-1 rounded-full bg-purple-500 text-white shadow-lg font-medium py-3"
+                className="flex-1 rounded-full bg-purple-500 text-white hover:bg-purple-600 font-medium"
               >
                 ACCOUNT
               </Button>
               <Button
                 variant="ghost"
-                className="flex-1 rounded-full text-gray-600 hover:bg-gray-300 font-medium py-3"
+                className="flex-1 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 font-medium"
               >
                 CARD
               </Button>
             </div>
-          </div>
+          </motion.div>
 
           {/* Balance Section - Fixed */}
-          <div className="mb-8 text-center">
-            <p className="text-gray-600 text-sm mb-3">Balance account</p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="dashboard-sticky mb-4 text-center top-28 py-3 border-b border-gray-50"
+          >
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Balance account</p>
             <div className="flex items-center justify-center gap-2 mb-6">
-              <h2 className="text-3xl font-bold text-gray-900">
+              <motion.h2 
+                key={balance}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-3xl font-bold text-gray-900 dark:text-white"
+              >
                 {isBalanceVisible ? `${balance.toLocaleString()} USD` : '******* USD'}
-              </h2>
+              </motion.h2>
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="text-gray-600 hover:bg-gray-200 rounded-full ml-2"
+                className="text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
                 onClick={() => setIsBalanceVisible(!isBalanceVisible)}
               >
                 {isBalanceVisible ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
               </Button>
             </div>
-          </div>
+          </motion.div>
 
           {/* Quick Actions - Scrollable content starts here */}
-          <div className="mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-6 mt-4"
+          >
             <div className="grid grid-cols-4 gap-4">
               <Link href="/send">
-                <div className="text-center cursor-pointer">
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-center cursor-pointer"
+                >
                   <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
                     <ArrowUpRight className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
                   <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Send</span>
-                </div>
+                </motion.div>
               </Link>
 
               <Link href="/pay">
-                <div className="text-center cursor-pointer">
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-center cursor-pointer"
+                >
                   <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
                     <Banknote className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
                   <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Pay</span>
-                </div>
+                </motion.div>
               </Link>
 
               <Link href="/cards">
-                <div className="text-center cursor-pointer">
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-center cursor-pointer"
+                >
                   <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
                     <CreditCard className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
-                  <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Cards</span>
-                </div>
+                  <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">BBAN</span>
+                </motion.div>
               </Link>
 
-              <Link href="/more">
-                <div className="text-center cursor-pointer">
+              <Link href="/account">
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-center cursor-pointer"
+                >
                   <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
                     <MoreHorizontal className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
                   <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">More</span>
-                </div>
+                </motion.div>
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Recent Transactions - Scrollable */}
-          <div className="mb-6 flex-1">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mb-6 flex-1"
+          >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">Recent transactions</h3>
               <Link href="/transactions">
@@ -171,18 +229,21 @@ export default function Dashboard() {
             <div className="space-y-0 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
               {Array.isArray(transactions) && transactions.length > 0 ? (
                 transactions.slice(0, 2).map((transaction: any, index: number) => (
-                  <div 
+                  <motion.div 
                     key={transaction.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 * index }}
                     className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-2 h-8 bg-gray-900 dark:bg-gray-300 rounded-full"></div>
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white text-sm uppercase">
-                          {transaction.merchant?.name || 'PAYMENT'}
+                          {transaction.merchant?.name || 'معاملة مالية'}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date(transaction.created).toLocaleDateString('en-US')}
+                          {new Date(transaction.created).toLocaleDateString('ar-SA')}
                         </p>
                       </div>
                     </div>
@@ -191,27 +252,28 @@ export default function Dashboard() {
                         -${(transaction.amount / 100).toFixed(2)}
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 ))
               ) : (
                 <div className="text-center p-8">
                   <Activity className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-500 dark:text-gray-400 text-sm">
-                    No transactions yet
+                    لا توجد معاملات حتى الآن
                   </p>
                   <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">
-                    Create a card to see transactions
+                    ابدأ بإنشاء بطاقة لرؤية المعاملات
                   </p>
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
 
         </div>
 
+        {/* Notification Center */}
         <NotificationCenter 
-          isOpen={isNotificationCenterOpen} 
-          onClose={() => setIsNotificationCenterOpen(false)} 
+          isOpen={isNotificationCenterOpen}
+          onClose={() => setIsNotificationCenterOpen(false)}
         />
       </PullToRefresh>
     </div>
