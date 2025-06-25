@@ -10,7 +10,6 @@ import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
 import PullToRefresh from "@/components/pull-to-refresh";
 
-
 export default function Dashboard() {
   const { t } = useLanguage();
   const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState(false);
@@ -51,63 +50,42 @@ export default function Dashboard() {
     await queryClient.invalidateQueries();
   };
 
+  const userName = (userInfo as any)?.firstName || 'User';
+
   return (
-    <div className="dashboard-fixed h-screen h-[100dvh] bg-white w-full">
+    <div className="h-screen h-[100dvh] bg-white w-full">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="dashboard-content h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
+        <div className="h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
           
-          {/* Header - Fixed at top */}
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="dashboard-sticky flex items-center justify-between mb-4 pt-2 top-0 pb-2 border-b border-gray-100"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gray-700 dark:bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-white dark:text-gray-700 font-bold text-lg">
-                  {userInfo ? (userInfo as any).firstName.charAt(0) : 'A'}
-                </span>
-              </div>
-              <div>
-                <h1 className="text-lg font-semibold text-gray-900">
-                  HELLO {userInfo ? (userInfo as any).firstName.toUpperCase() : 'USER'}
-                </h1>
-                <div className="flex items-center gap-1 text-gray-600 text-sm">
-                  <span>HAPPY TO SEE YOU</span>
-                  <Heart className="h-4 w-4 text-purple-500 fill-purple-500" />
-                </div>
-              </div>
+          {/* Header - Fixed */}
+          <div className="dashboard-sticky mb-4 flex items-center justify-between top-12 py-3 border-b border-gray-50">
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Hello {userName}</p>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                Dashboard <Heart className="h-5 w-5 text-purple-500" fill="currentColor" />
+              </h1>
             </div>
-            
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="text-gray-600 relative"
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full relative"
               onClick={() => setIsNotificationCenterOpen(true)}
             >
-              <Bell className="h-6 w-6" />
+              <Bell className="h-5 w-5" />
               {unreadCount > 0 && (
-                <Badge 
-                  variant="destructive" 
-                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs"
-                >
-                  {unreadCount > 99 ? "99+" : unreadCount}
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs bg-red-500 text-white border-none p-0">
+                  {unreadCount > 9 ? '9+' : unreadCount}
                 </Badge>
               )}
             </Button>
-          </motion.div>
+          </div>
 
           {/* Account/Card Toggle - Fixed */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="dashboard-sticky mb-4 top-16 py-2"
-          >
-            <div className="bg-gray-200 dark:bg-gray-700 rounded-full p-1 flex">
+          <div className="dashboard-sticky mb-4 top-16 py-2">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-full p-1 flex">
               <Button
                 variant="ghost"
-                className="flex-1 rounded-full bg-purple-500 text-white hover:bg-purple-600 font-medium"
+                className="flex-1 rounded-full bg-purple-500 text-white shadow-lg font-medium"
               >
                 ACCOUNT
               </Button>
@@ -118,7 +96,7 @@ export default function Dashboard() {
                 CARD
               </Button>
             </div>
-          </motion.div>
+          </div>
 
           {/* Balance Section - Fixed */}
           <div className="dashboard-sticky mb-4 text-center top-28 py-3 border-b border-gray-50">
@@ -136,7 +114,7 @@ export default function Dashboard() {
                 {isBalanceVisible ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
               </Button>
             </div>
-          </motion.div>
+          </div>
 
           {/* Quick Actions - Scrollable content starts here */}
           <div className="mb-6 mt-4">
@@ -147,7 +125,7 @@ export default function Dashboard() {
                     <ArrowUpRight className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
                   <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Send</span>
-                </motion.div>
+                </div>
               </Link>
 
               <Link href="/pay">
@@ -156,7 +134,7 @@ export default function Dashboard() {
                     <Banknote className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
                   <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Pay</span>
-                </motion.div>
+                </div>
               </Link>
 
               <Link href="/cards">
@@ -164,24 +142,20 @@ export default function Dashboard() {
                   <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
                     <CreditCard className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
-                  <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">BBAN</span>
-                </motion.div>
+                  <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Cards</span>
+                </div>
               </Link>
 
-              <Link href="/account">
-                <motion.div 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-center cursor-pointer"
-                >
+              <Link href="/more">
+                <div className="text-center cursor-pointer">
                   <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
                     <MoreHorizontal className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
                   <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">More</span>
-                </motion.div>
+                </div>
               </Link>
             </div>
-          </motion.div>
+          </div>
 
           {/* Recent Transactions - Scrollable */}
           <div className="mb-6 flex-1">
@@ -205,10 +179,10 @@ export default function Dashboard() {
                       <div className="w-2 h-8 bg-gray-900 dark:bg-gray-300 rounded-full"></div>
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white text-sm uppercase">
-                          {transaction.merchant?.name || 'معاملة مالية'}
+                          {transaction.merchant?.name || 'PAYMENT'}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date(transaction.created).toLocaleDateString('ar-SA')}
+                          {new Date(transaction.created).toLocaleDateString('en-US')}
                         </p>
                       </div>
                     </div>
@@ -223,22 +197,21 @@ export default function Dashboard() {
                 <div className="text-center p-8">
                   <Activity className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-500 dark:text-gray-400 text-sm">
-                    لا توجد معاملات حتى الآن
+                    No transactions yet
                   </p>
                   <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">
-                    ابدأ بإنشاء بطاقة لرؤية المعاملات
+                    Create a card to see transactions
                   </p>
                 </div>
               )}
             </div>
-          </motion.div>
+          </div>
 
         </div>
 
-        {/* Notification Center */}
         <NotificationCenter 
-          isOpen={isNotificationCenterOpen}
-          onClose={() => setIsNotificationCenterOpen(false)}
+          isOpen={isNotificationCenterOpen} 
+          onClose={() => setIsNotificationCenterOpen(false)} 
         />
       </PullToRefresh>
     </div>
