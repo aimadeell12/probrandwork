@@ -66,9 +66,9 @@ export default function Dashboard() {
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="h-full flex flex-col max-w-md mx-auto overflow-hidden">
           {/* Fixed Header Area */}
-          <div className="flex-shrink-0 bg-white pt-safe-top">
+          <div className="flex-shrink-0 bg-white">
             {/* User Greeting - Fixed */}
-            <div className="flex items-center justify-between px-4 py-2">
+            <div className="flex items-center justify-between px-4 py-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-lg">
@@ -100,7 +100,7 @@ export default function Dashboard() {
             </div>
 
             {/* Account/Card Toggle - Fixed */}
-            <div className="px-4 mb-1">
+            <div className="px-4 mb-2">
               <div className="bg-gray-200 rounded-full p-1 flex">
                 <Button className="flex-1 rounded-full py-2 px-4 text-sm font-medium bg-purple-500 text-white">
                   ACCOUNT
@@ -115,7 +115,7 @@ export default function Dashboard() {
             </div>
 
             {/* Balance Section - Fixed */}
-            <div className="mb-1 text-center py-1 border-b border-gray-50">
+            <div className="mb-2 text-center py-2 border-b border-gray-50">
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Balance account</p>
               <div className="flex items-center justify-center gap-2 mb-2">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -134,52 +134,52 @@ export default function Dashboard() {
           </div>
 
           {/* Fixed Content Area - Completely Static */}
-          <div className="flex-shrink-0 p-4 overflow-hidden">
+          <div className="flex-shrink-0 p-3 overflow-hidden">
             {/* Quick Actions - Fixed */}
-            <div className="mb-4">
-              <div className="grid grid-cols-4 gap-4">
+            <div className="mb-3">
+              <div className="grid grid-cols-4 gap-3">
                 <Link href="/send">
                   <div className="text-center cursor-pointer">
-                    <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
-                      <ArrowUpRight className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+                    <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 shadow-lg border border-gray-200 dark:border-gray-700">
+                      <ArrowUpRight className="h-5 w-5 text-gray-700 dark:text-gray-300" />
                     </div>
-                    <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Send</span>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Send</span>
                   </div>
                 </Link>
 
                 <Link href="/pay">
                   <div className="text-center cursor-pointer">
-                    <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
-                      <CreditCard className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+                    <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 shadow-lg border border-gray-200 dark:border-gray-700">
+                      <CreditCard className="h-5 w-5 text-gray-700 dark:text-gray-300" />
                     </div>
-                    <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">Pay</span>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Pay</span>
                   </div>
                 </Link>
 
                 <Link href="/bban">
                   <div className="text-center cursor-pointer">
-                    <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
-                      <Building2 className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+                    <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 shadow-lg border border-gray-200 dark:border-gray-700">
+                      <Building2 className="h-5 w-5 text-gray-700 dark:text-gray-300" />
                     </div>
-                    <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">BBAN</span>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">BBAN</span>
                   </div>
                 </Link>
 
                 <Link href="/more">
                   <div className="text-center cursor-pointer">
-                    <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
-                      <MoreHorizontal className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+                    <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 shadow-lg border border-gray-200 dark:border-gray-700">
+                      <MoreHorizontal className="h-5 w-5 text-gray-700 dark:text-gray-300" />
                     </div>
-                    <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">More</span>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">More</span>
                   </div>
                 </Link>
               </div>
             </div>
 
             {/* Recent Transactions - Fixed */}
-            <div className="pb-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent transactions</h3>
+            <div className="pb-3">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Recent transactions</h3>
                 <Link href="/transactions">
                   <Button variant="ghost" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white flex items-center gap-1">
                     See more
