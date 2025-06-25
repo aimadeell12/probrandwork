@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 24, 2025: Fixed transactions page to be completely static with only transaction list scrollable, matching dashboard design
 - June 24, 2025: Fixed cards page layout to be completely static with sticky header and fixed sections like dashboard
 - June 24, 2025: Updated account page to show full user name in header, changed to white background like dashboard, and added pull-to-refresh functionality
 - June 24, 2025: Updated dashboard greeting to show actual user name and replaced ":)" with purple heart icon

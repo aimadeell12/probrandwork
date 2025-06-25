@@ -136,68 +136,57 @@ export default function Transactions() {
             ))}
           </div>
 
-        {/* Summary Cards */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                  <ArrowDownLeft className="h-4 w-4 text-green-600" />
-                </div>
-                <span className="text-sm text-gray-600">إجمالي الدخل</span>
+          {/* Transactions List - Scrollable */}
+          <div className="space-y-3">{isLoading ? (
+              <div className="text-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+                <p className="text-gray-600 mt-2">Loading transactions...</p>
               </div>
-              <p className="text-lg font-semibold text-green-600">
-                ${filteredTransactions
-                  .filter(t => t.type === 'deposit' || t.type === 'receive')
-                  .reduce((sum, t) => sum + (typeof t.amount === 'string' ? parseFloat(t.amount) : t.amount || 0), 0)
-                  .toFixed(2)}
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded-lg">
-                  <ArrowUpRight className="h-4 w-4 text-red-600" />
-                </div>
-                <span className="text-sm text-gray-600">إجمالي المصروف</span>
-              </div>
-              <p className="text-lg font-semibold text-red-600">
-                ${filteredTransactions
-                  .filter(t => t.type === 'send' || t.type === 'withdraw')
-                  .reduce((sum, t) => sum + (typeof t.amount === 'string' ? parseFloat(t.amount) : t.amount || 0), 0)
-                  .toFixed(2)}
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Transactions List */}
-        <div className="space-y-4">
-          {isLoading ? (
-            <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-              <p className="text-gray-600 mt-2">جارٍ تحميل المعاملات...</p>
-            </div>
-          ) : filteredTransactions.length > 0 ? (
-            filteredTransactions.map((transaction: any) => (
-              <Card key={transaction.id} className="bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-xl ${
-                        transaction.type === 'deposit' || transaction.type === 'receive'
-                          ? 'bg-green-100 dark:bg-green-900/30'
-                          : 'bg-red-100 dark:bg-red-900/30'
-                      }`}>
-                        {getTransactionIcon(transaction.type)}
+            ) : filteredTransactions.length > 0 ? (
+              filteredTransactions.map((transaction: any) => (
+                <Card key={transaction.id} className="bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded-xl ${
+                          transaction.type === 'deposit' || transaction.type === 'receive'
+                            ? 'bg-green-100'
+                            : 'bg-red-100'
+                        }`}>
+                          {getTransactionIcon(transaction.type)}
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">
+                            {transaction.merchant || transaction.description || getTransactionTypeLabel(transaction.type)}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            {new Date(transaction.created * 1000 || transaction.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-medium text-gray-900 dark:text-white">
-                          {transaction.merchant || transaction.description || getTransactionTypeLabel(transaction.type)}
+                      <div className="text-right">
+                        <p className={`font-semibold ${
+                          transaction.type === 'deposit' || transaction.type === 'receive'
+                            ? 'text-green-600'
+                            : 'text-red-600'
+                        }`}>
+                          {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}
+                          ${Math.abs(transaction.amount / 100).toFixed(2)}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
-                          {transaction.description && transaction.merchant ? transaction.description : getTransactionTypeLabel(transaction.type)}
+                        {getTransactionStatusBadge(transaction.status)}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Receipt className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                <p>No transactions found</p>
+              </div>
+            )}
+
+
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
                           {new Date(transaction.createdAt).toLocaleDateString('ar-SA')}
@@ -274,8 +263,8 @@ export default function Transactions() {
               </span>
             </div>
           </CardContent>
-        </Card>
-      </div>
+        </div>
+      </PullToRefresh>
     </div>
   );
 }
