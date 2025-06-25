@@ -58,17 +58,17 @@ export default function Dashboard() {
         <div className="h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
           
           {/* Header - Fixed */}
-          <div className="dashboard-sticky mb-4 flex items-center justify-between top-12 py-3 border-b border-gray-50">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Hello {userName}</p>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <div className="dashboard-sticky mb-6 flex items-center justify-between pt-4 pb-4 border-b border-gray-100">
+            <div className="flex-1">
+              <p className="text-sm text-gray-600 mb-1">Hello {userName}</p>
+              <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                 Dashboard <Heart className="h-5 w-5 text-purple-500" fill="currentColor" />
               </h1>
             </div>
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full relative"
+              className="text-gray-600 hover:bg-gray-200 rounded-full relative flex-shrink-0"
               onClick={() => setIsNotificationCenterOpen(true)}
             >
               <Bell className="h-5 w-5" />
@@ -81,17 +81,17 @@ export default function Dashboard() {
           </div>
 
           {/* Account/Card Toggle - Fixed */}
-          <div className="dashboard-sticky mb-4 top-16 py-2">
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-full p-1 flex">
+          <div className="mb-6">
+            <div className="bg-gray-100 rounded-full p-1 flex">
               <Button
                 variant="ghost"
-                className="flex-1 rounded-full bg-purple-500 text-white shadow-lg font-medium"
+                className="flex-1 rounded-full bg-purple-500 text-white shadow-lg font-medium py-3"
               >
                 ACCOUNT
               </Button>
               <Button
                 variant="ghost"
-                className="flex-1 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 font-medium"
+                className="flex-1 rounded-full text-gray-600 hover:bg-gray-300 font-medium py-3"
               >
                 CARD
               </Button>
@@ -99,16 +99,16 @@ export default function Dashboard() {
           </div>
 
           {/* Balance Section - Fixed */}
-          <div className="dashboard-sticky mb-4 text-center top-28 py-3 border-b border-gray-50">
-            <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Balance account</p>
+          <div className="mb-8 text-center">
+            <p className="text-gray-600 text-sm mb-3">Balance account</p>
             <div className="flex items-center justify-center gap-2 mb-6">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-3xl font-bold text-gray-900">
                 {isBalanceVisible ? `${balance.toLocaleString()} USD` : '******* USD'}
               </h2>
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
+                className="text-gray-600 hover:bg-gray-200 rounded-full ml-2"
                 onClick={() => setIsBalanceVisible(!isBalanceVisible)}
               >
                 {isBalanceVisible ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
@@ -117,7 +117,7 @@ export default function Dashboard() {
           </div>
 
           {/* Quick Actions - Scrollable content starts here */}
-          <div className="mb-6 mt-4">
+          <div className="mb-8">
             <div className="grid grid-cols-4 gap-4">
               <Link href="/send">
                 <div className="text-center cursor-pointer">
