@@ -54,14 +54,16 @@ export default function Dashboard() {
   return (
     <div className="dashboard-fixed h-screen h-[100dvh] bg-white w-full">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="dashboard-content h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
+        <div className="h-full flex flex-col max-w-md mx-auto">
           
-          {/* Header - Fixed at top */}
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="dashboard-sticky flex items-center justify-between mb-4 pt-2 top-0 pb-2 border-b border-gray-100"
-          >
+          {/* Fixed Header Section */}
+          <div className="flex-none p-4 bg-white" style={{ paddingTop: 'calc(1rem + env(safe-area-inset-top, 0px))' }}>
+            {/* Header - Fixed at top */}
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center justify-between mb-4 pt-2 pb-2 border-b border-gray-100"
+            >
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-gray-700 dark:bg-gray-300 rounded-full flex items-center justify-center">
                 <span className="text-white dark:text-gray-700 font-bold text-lg">
@@ -95,15 +97,15 @@ export default function Dashboard() {
                 </Badge>
               )}
             </Button>
-          </motion.div>
+            </motion.div>
 
-          {/* Account/Card Toggle - Fixed */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="dashboard-sticky mb-4 top-16 py-2"
-          >
+            {/* Account/Card Toggle - Fixed */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mb-4 py-2"
+            >
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full p-1 flex">
               <Button
                 variant="ghost"
@@ -118,15 +120,15 @@ export default function Dashboard() {
                 CARD
               </Button>
             </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Balance Section - Fixed */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="dashboard-sticky mb-4 text-center top-28 py-3 border-b border-gray-50"
-          >
+            {/* Balance Section - Fixed */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mb-4 text-center py-3 border-b border-gray-50"
+            >
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Balance account</p>
             <div className="flex items-center justify-center gap-2 mb-6">
               <motion.h2 
@@ -146,15 +148,18 @@ export default function Dashboard() {
                 {isBalanceVisible ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
               </Button>
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
-          {/* Quick Actions - Scrollable content starts here */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="mb-6 mt-4"
-          >
+          {/* Fixed Content Area */}
+          <div className="flex-1 flex flex-col p-4 pb-24">
+            {/* Quick Actions - Fixed */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mb-6"
+            >
             <div className="grid grid-cols-4 gap-4">
               <Link href="/send">
                 <motion.div 
@@ -208,15 +213,15 @@ export default function Dashboard() {
                 </motion.div>
               </Link>
             </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Recent Transactions - Scrollable */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mb-6 flex-1"
-          >
+            {/* Recent Transactions - Fixed */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="flex-1"
+            >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">Recent transactions</h3>
               <Link href="/transactions">
@@ -265,16 +270,16 @@ export default function Dashboard() {
                   </p>
                 </div>
               )}
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
+          </div>
 
+          {/* Notification Center */}
+          <NotificationCenter 
+            isOpen={isNotificationCenterOpen}
+            onClose={() => setIsNotificationCenterOpen(false)}
+          />
         </div>
-
-        {/* Notification Center */}
-        <NotificationCenter 
-          isOpen={isNotificationCenterOpen}
-          onClose={() => setIsNotificationCenterOpen(false)}
-        />
       </PullToRefresh>
     </div>
   );
