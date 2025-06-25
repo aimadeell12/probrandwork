@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function NotificationsSkeleton() {
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 z-[9999]" style={{ minHeight: '100vh', height: '100dvh' }}>
+    <div className="fixed inset-0 w-screen h-screen bg-white z-[9999]" style={{ minHeight: '100vh', height: '100dvh' }}>
       {/* Header */}
       <div className="bg-white border-b border-gray-100 p-4 relative z-10">
         <div className="flex items-center justify-between">

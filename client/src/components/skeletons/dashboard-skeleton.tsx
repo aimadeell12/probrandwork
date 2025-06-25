@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function DashboardSkeleton() {
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 overflow-hidden z-[9999]" style={{ minHeight: '100vh', height: '100dvh' }}>
+    <div className="fixed inset-0 w-screen h-screen bg-white overflow-hidden z-[9999]" style={{ minHeight: '100vh', height: '100dvh' }}>
       <div className="h-full flex flex-col max-w-md mx-auto overflow-hidden">
         {/* Fixed Header Area */}
         <div className="flex-shrink-0 bg-white pt-safe-top">
