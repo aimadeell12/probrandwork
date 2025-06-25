@@ -80,16 +80,17 @@ export default function PullToRefresh({
 
   return (
     <div className="relative h-full">
-      {/* مؤشر التحديث الثابت في الأعلى مع مراعاة شريط الحالة */}
+      {/* مؤشر التحديث الثابت في الأعلى مع مراعاة شريط الحالة - بدون خلفية */}
       {isRefreshing && (
         <div 
-          className="fixed left-0 right-0 h-8 flex items-center justify-center bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200"
+          className="fixed left-0 right-0 h-8 flex items-center justify-center z-50"
           style={{ 
-            top: 'env(safe-area-inset-top, 0px)',
-            paddingTop: 'env(safe-area-inset-top, 0px)'
+            top: 'calc(env(safe-area-inset-top, 0px) + 10px)'
           }}
         >
-          <RefreshCw className="h-4 w-4 text-purple-600 animate-spin" />
+          <div className="bg-purple-600 rounded-full p-2 shadow-lg">
+            <RefreshCw className="h-4 w-4 text-white animate-spin" />
+          </div>
         </div>
       )}
 
@@ -101,8 +102,7 @@ export default function PullToRefresh({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         style={{ 
-          paddingTop: isRefreshing ? 'calc(32px + env(safe-area-inset-top, 0px))' : 'env(safe-area-inset-top, 0px)',
-          transition: 'padding-top 0.3s ease-out'
+          paddingTop: 'env(safe-area-inset-top, 0px)'
         }}
       >
         {children}
