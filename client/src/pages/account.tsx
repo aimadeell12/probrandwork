@@ -78,7 +78,8 @@ export default function Account() {
   };
 
   return (
-    <div className="min-h-screen bg-white w-full pb-20">
+    <div className="h-screen h-[100dvh] bg-white w-full">
+      <div className="h-full pb-20 overflow-y-auto">
       <PullToRefresh onRefresh={handleRefresh}>
         {/* Header */}
         <div className="bg-white border-b border-gray-100 p-4 relative z-10">
@@ -300,6 +301,7 @@ export default function Account() {
         </Card>
         </div>
       </PullToRefresh>
+      </div>
     </div>
   );
 }
