@@ -328,9 +328,9 @@ export default function Register() {
     <div className="min-h-screen bg-white flex flex-col safe-area-inset">
       
       {/* Header */}
-      <div className="flex-none pt-4 pb-4 px-6">
+      <div className="flex-none pt-2 pb-3 px-6">
         {/* Language Toggle */}
-        <div className="flex justify-end mb-2">
+        <div className="flex justify-end mb-1">
           <LanguageToggle />
         </div>
         
