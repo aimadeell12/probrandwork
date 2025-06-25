@@ -10,7 +10,7 @@ import { OfflineError } from "@/components/OfflineError";
 import { useEffect } from "react";
 import { initializeMobileApp } from "@/lib/capacitor";
 import BottomNavigation from "@/components/bottom-navigation";
-import { AppLoadingSkeleton } from "@/components/skeletons";
+
 import Welcome from "@/pages/welcome";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
@@ -73,7 +73,7 @@ function Router() {
   const shouldHideBottomNav = kycPages.includes(location);
 
   if (isLoading || networkLoading) {
-    return <AppLoadingSkeleton />;
+    return null;
   }
 
   // Show offline screen when not connected to internet

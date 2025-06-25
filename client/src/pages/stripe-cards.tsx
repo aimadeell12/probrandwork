@@ -459,8 +459,27 @@ export default function StripeCards() {
 
               </>
             ) : (
-              /* Loading State */
-              <CardsSkeleton />
+              /* No Cards State */
+              <div className="flex items-center justify-center min-h-[60vh]">
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CreditCard className="h-10 w-10 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    {t("noCardsYet")}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm">
+                    {t("noCardsDesc")}
+                  </p>
+                  <Button
+                    onClick={() => setLocation("/choose-card")}
+                    className="bg-purple-600 hover:bg-purple-700 text-white"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    {t("createFirstCard")}
+                  </Button>
+                </div>
+              </div>
             )}
           </div>
         </div>
