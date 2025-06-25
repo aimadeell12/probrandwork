@@ -67,24 +67,24 @@ export default function Transactions() {
 
   const getTransactionTypeLabel = (type: string) => {
     switch (type) {
-      case "send": return "إرسال";
-      case "receive": return "استلام";
-      case "deposit": return "إيداع";
-      case "withdraw": return "سحب";
-      default: return "معاملة";
+      case "send": return "Send";
+      case "receive": return "Receive";
+      case "deposit": return "Deposit";
+      case "withdraw": return "Withdraw";
+      default: return "Transaction";
     }
   };
 
   const getTransactionStatusBadge = (status: string) => {
     switch (status) {
       case "completed":
-        return <Badge className="bg-green-100 text-green-800">مكتملة</Badge>;
+        return <Badge className="bg-green-100 text-green-800">Completed</Badge>;
       case "pending":
-        return <Badge className="bg-yellow-100 text-yellow-800">معلقة</Badge>;
+        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
       case "failed":
-        return <Badge className="bg-red-100 text-red-800">فاشلة</Badge>;
+        return <Badge className="bg-red-100 text-red-800">Failed</Badge>;
       default:
-        return <Badge className="bg-gray-100 text-gray-800">غير معروف</Badge>;
+        return <Badge className="bg-gray-100 text-gray-800">Unknown</Badge>;
     }
   };
 
@@ -137,7 +137,8 @@ export default function Transactions() {
           </div>
 
           {/* Transactions List - Scrollable */}
-          <div className="space-y-3">{isLoading ? (
+          <div className="space-y-3">
+            {isLoading ? (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
                 <p className="text-gray-600 mt-2">Loading transactions...</p>
@@ -185,84 +186,7 @@ export default function Transactions() {
                 <p>No transactions found</p>
               </div>
             )}
-
-
-                        </p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date(transaction.createdAt).toLocaleDateString('ar-SA')}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className={`font-semibold ${
-                        transaction.type === 'deposit' || transaction.type === 'receive' 
-                          ? 'text-green-600' 
-                          : 'text-red-600'
-                      }`}>
-                        {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}
-                        ${typeof transaction.amount === 'string' ? transaction.amount : transaction.amount?.toFixed(2)}
-                      </p>
-                      {getTransactionStatusBadge(transaction.status)}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
-          ) : (
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-              <CardContent className="p-8 text-center">
-                <Receipt className="h-12 w-12 mx-auto mb-4 text-gray-400 opacity-50" />
-                <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">لا توجد معاملات</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-                  {searchTerm ? "لم يتم العثور على معاملات تطابق البحث" : "لم تقم بأي معاملات بعد"}
-                </p>
-                {!searchTerm && (
-                  <div className="flex gap-2 justify-center">
-                    <Button size="sm" variant="outline" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 hover:bg-purple-50">إيداع</Button>
-                    <Button size="sm" variant="outline" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 hover:bg-purple-50">إرسال</Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
-        {/* Quick Stats */}
-        <Card className="mt-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
-              <div className="p-1 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                <DollarSign className="h-5 w-5 text-purple-600" />
-              </div>
-              إحصائيات سريعة
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-300">معاملات هذا الشهر</span>
-              <span className="font-semibold text-gray-900 dark:text-white">{filteredTransactions.length}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-300">متوسط قيمة المعاملة</span>
-              <span className="font-semibold text-gray-900 dark:text-white">
-                $
-                {filteredTransactions.length > 0 
-                  ? (filteredTransactions.reduce((sum: number, t: any) => sum + (t.amount || 0), 0) / filteredTransactions.length).toFixed(2)
-                  : "0.00"
-                }
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-300">أكبر معاملة</span>
-              <span className="font-semibold text-gray-900 dark:text-white">
-                $
-                {filteredTransactions.length > 0 
-                  ? Math.max(...filteredTransactions.map((t: any) => t.amount || 0)).toFixed(2)
-                  : "0.00"
-                }
-              </span>
-            </div>
-          </CardContent>
+          </div>
         </div>
       </PullToRefresh>
     </div>
