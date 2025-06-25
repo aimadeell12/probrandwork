@@ -15,7 +15,7 @@ export default function PullToRefresh({
   children,
   onRefresh,
   threshold = 60,
-  refreshingText = "Refreshing...",
+  refreshingText = "",
   pullText = "Pull to refresh",
   releaseText = "Release to refresh"
 }: PullToRefreshProps) {
@@ -90,16 +90,28 @@ export default function PullToRefresh({
         transition: isPulling ? 'none' : 'transform 0.3s ease-out'
       }}
     >
-      {/* مؤشر السحب للتحديث - مخفي */}
+      {/* مؤشر السحب للتحديث */}
       <div 
-        className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center text-center bg-transparent z-10"
+        className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center text-center bg-white z-10"
         style={{ 
           height: `${Math.min(pullDistance, threshold * 1.2)}px`,
-          opacity: 0,
+          opacity: refreshOpacity,
           transform: `translateY(-${Math.max(0, threshold * 1.2 - pullDistance)}px)`
         }}
       >
-        {/* محتوى مخفي */}
+        <div className="flex flex-col items-center gap-2 py-2">
+          <RefreshCw 
+            className={`h-6 w-6 text-purple-600 ${iconRotation}`}
+            style={{
+              transform: isRefreshing ? 'none' : `rotate(${pullDistance * 2}deg)`
+            }}
+          />
+          {pullDistance > 20 && (
+            <span className="text-sm text-purple-600 font-medium">
+              {getRefreshText()}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* المحتوى الرئيسي */}
