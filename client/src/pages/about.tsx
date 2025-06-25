@@ -50,7 +50,7 @@ export default function About() {
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            About PayouCard
+            About PAYdota LLC
           </h1>
         </div>
       </div>
@@ -159,7 +159,7 @@ export default function About() {
 
         {/* Copyright */}
         <div className="text-center text-xs text-gray-500 dark:text-gray-400">
-          © 2024 PayouCard. All rights reserved.
+          © 2024 PAYdota LLC. All rights reserved.
         </div>
       </div>
     </div>
