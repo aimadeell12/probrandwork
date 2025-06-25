@@ -55,13 +55,15 @@ export default function Transactions() {
   const getTransactionIcon = (type: string) => {
     switch (type) {
       case "send":
-      case "withdraw":
-        return <ArrowUpRight className="h-5 w-5 text-red-500" />;
-      case "deposit":
+        return <ArrowUpRight className="h-4 w-4 text-red-600" />;
       case "receive":
-        return <ArrowDownLeft className="h-5 w-5 text-green-500" />;
+        return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
+      case "deposit":
+        return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
+      case "withdraw":
+        return <ArrowUpRight className="h-4 w-4 text-red-600" />;
       default:
-        return <Receipt className="h-5 w-5 text-gray-500" />;
+        return <DollarSign className="h-4 w-4 text-gray-600" />;
     }
   };
 
@@ -91,101 +93,106 @@ export default function Transactions() {
   return (
     <div className="h-screen h-[100dvh] bg-white w-full">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
+        <div className="h-full flex flex-col max-w-md mx-auto">
           
-          {/* Header - Fixed at top */}
-          <div className="flex items-center justify-between mb-4 pt-2 pb-2 border-b border-gray-100">
-            <h1 className="text-xl font-semibold text-gray-900">Transactions</h1>
-            <Button variant="outline" size="icon" className="bg-white border-gray-200 hover:bg-gray-50">
-              <Filter className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Search - Fixed */}
-          <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
-            <Input
-              placeholder="Search transactions..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-white border-gray-200 focus:border-gray-400 rounded-2xl"
-            />
-          </div>
-
-          {/* Filter Buttons - Fixed */}
-          <div className="flex gap-2 mb-4 overflow-x-auto">
-            {[
-              { key: "all", label: "All" },
-              { key: "send", label: "Send" },
-              { key: "receive", label: "Receive" },
-              { key: "deposit", label: "Deposit" },
-              { key: "withdraw", label: "Withdraw" },
-            ].map((filter) => (
-              <Button
-                key={filter.key}
-                variant={selectedFilter === filter.key ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSelectedFilter(filter.key)}
-                className={selectedFilter === filter.key 
-                  ? "whitespace-nowrap bg-purple-500 text-white shadow-lg"
-                  : "whitespace-nowrap bg-white border border-gray-200 hover:bg-gray-50"
-                }
-              >
-                {filter.label}
+          {/* Fixed Header Area */}
+          <div className="flex-shrink-0 bg-white border-b border-gray-100 pt-safe-top">
+            {/* Header - Fixed */}
+            <div className="flex items-center justify-between px-4 py-4">
+              <h1 className="text-xl font-semibold text-gray-900">Transactions</h1>
+              <Button variant="outline" size="icon" className="bg-white border-gray-200 hover:bg-gray-50">
+                <Filter className="h-4 w-4" />
               </Button>
-            ))}
+            </div>
+
+            {/* Search - Fixed */}
+            <div className="relative px-4 mb-4">
+              <Search className="absolute left-7 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <Input
+                placeholder="Search transactions..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 bg-white border-gray-200 focus:border-gray-400 rounded-2xl"
+              />
+            </div>
+
+            {/* Filter Buttons - Fixed */}
+            <div className="flex gap-2 px-4 pb-4 overflow-x-auto">
+              {[
+                { key: "all", label: "All" },
+                { key: "send", label: "Send" },
+                { key: "receive", label: "Receive" },
+                { key: "deposit", label: "Deposit" },
+                { key: "withdraw", label: "Withdraw" },
+              ].map((filter) => (
+                <Button
+                  key={filter.key}
+                  variant={selectedFilter === filter.key ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedFilter(filter.key)}
+                  className={selectedFilter === filter.key 
+                    ? "whitespace-nowrap bg-purple-500 text-white shadow-lg"
+                    : "whitespace-nowrap bg-white border border-gray-200 hover:bg-gray-50"
+                  }
+                >
+                  {filter.label}
+                </Button>
+              ))}
+            </div>
           </div>
 
-          {/* Transactions List - Scrollable */}
-          <div className="space-y-3">
-            {isLoading ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-                <p className="text-gray-600 mt-2">Loading transactions...</p>
-              </div>
-            ) : filteredTransactions.length > 0 ? (
-              filteredTransactions.map((transaction: any) => (
-                <Card key={transaction.id} className="bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-xl ${
-                          transaction.type === 'deposit' || transaction.type === 'receive'
-                            ? 'bg-green-100'
-                            : 'bg-red-100'
-                        }`}>
-                          {getTransactionIcon(transaction.type)}
+          {/* Scrollable Transactions List */}
+          <div className="flex-1 overflow-y-auto p-4 pb-24">
+            <div className="space-y-3">
+              {isLoading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+                  <p className="text-gray-600 mt-2">Loading transactions...</p>
+                </div>
+              ) : filteredTransactions.length > 0 ? (
+                filteredTransactions.map((transaction: any) => (
+                  <Card key={transaction.id} className="bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className={`p-2 rounded-xl ${
+                            transaction.type === 'deposit' || transaction.type === 'receive'
+                              ? 'bg-green-100'
+                              : 'bg-red-100'
+                          }`}>
+                            {getTransactionIcon(transaction.type)}
+                          </div>
+                          <div>
+                            <p className="font-medium text-gray-900">
+                              {transaction.merchant || transaction.description || getTransactionTypeLabel(transaction.type)}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              {new Date(transaction.created * 1000 || transaction.createdAt).toLocaleDateString()}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium text-gray-900">
-                            {transaction.merchant || transaction.description || getTransactionTypeLabel(transaction.type)}
+                        <div className="text-right">
+                          <p className={`font-semibold ${
+                            transaction.type === 'deposit' || transaction.type === 'receive'
+                              ? 'text-green-600'
+                              : 'text-red-600'
+                          }`}>
+                            {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}
+                            ${Math.abs(transaction.amount / 100).toFixed(2)}
                           </p>
-                          <p className="text-sm text-gray-600">
-                            {new Date(transaction.created * 1000 || transaction.createdAt).toLocaleDateString()}
-                          </p>
+                          {getTransactionStatusBadge(transaction.status)}
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className={`font-semibold ${
-                          transaction.type === 'deposit' || transaction.type === 'receive'
-                            ? 'text-green-600'
-                            : 'text-red-600'
-                        }`}>
-                          {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}
-                          ${Math.abs(transaction.amount / 100).toFixed(2)}
-                        </p>
-                        {getTransactionStatusBadge(transaction.status)}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                <Receipt className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                <p>No transactions found</p>
-              </div>
-            )}
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <Receipt className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <p>No transactions found</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </PullToRefresh>
