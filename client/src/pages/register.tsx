@@ -285,19 +285,10 @@ export default function Register() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.password || !formData.confirmPassword) {
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.password) {
       toast({
         title: t('incompleteData'),
         description: t('fillAllFields'),
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      toast({
-        title: t('passwordMismatch'),
-        description: t('checkPasswordMatch'),
         variant: "destructive",
       });
       return;
