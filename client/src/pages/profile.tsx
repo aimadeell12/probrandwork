@@ -163,7 +163,10 @@ export default function Profile() {
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
               >
                 {isSaving ? (
-                  "Saving..."
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Saving...
+                  </>
                 ) : (
                   <>
                     <Save className="h-4 w-4 mr-2" />

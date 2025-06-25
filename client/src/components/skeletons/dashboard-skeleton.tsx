@@ -46,8 +46,8 @@ export function DashboardSkeleton() {
             <div className="grid grid-cols-4 gap-3">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="text-center">
-                  <Skeleton className="w-12 h-12 rounded-xl mx-auto mb-2" />
-                  <Skeleton className="h-3 w-12 mx-auto" />
+                  <Skeleton className="w-12 h-12 rounded-xl mx-auto mb-2 bg-gray-200" />
+                  <Skeleton className="h-3 w-12 mx-auto bg-gray-200" />
                 </div>
               ))}
             </div>
