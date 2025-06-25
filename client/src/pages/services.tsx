@@ -1,42 +1,28 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Gift, Mail, CreditCard, Wallet, 
-         ArrowUpDown, ArrowDownToLine, ArrowUpFromLine, 
-         Send, ArrowDown, QrCode, RefreshCw, Bell,
+import { ArrowLeft, Gift, Mail, CreditCard, 
+         ArrowDownLeft, Banknote, 
+         Send, ArrowUpRight, RefreshCw, Bell,
          GraduationCap, Users, MessageCircle, Building2,
-         Ticket, Crown, DollarSign, Star } from "lucide-react";
+         Ticket, Crown } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { useToast } from "@/hooks/use-toast";
-import { useLanguage } from "@/hooks/useLanguage";
-import { motion } from "framer-motion";
 
 export default function Services() {
   const [, setLocation] = useLocation();
-  const { toast } = useToast();
 
   const popularServices = [
     {
       icon: Mail,
       title: "Referral",
-      description: "Invite friends and earn rewards",
-      color: "bg-blue-600",
-      iconColor: "text-white",
       href: "/account/referral"
     },
     {
       icon: Gift,
       title: "Gift",
-      description: "Send gifts to friends", 
-      color: "bg-pink-600",
-      iconColor: "text-white",
       href: "/send"
     },
     {
       icon: Ticket,
       title: "Vouchers",
-      description: "Redeem vouchers and coupons",
-      color: "bg-orange-600",
-      iconColor: "text-white",
       href: "/account/vouchers"
     }
   ];
@@ -45,69 +31,45 @@ export default function Services() {
     {
       icon: CreditCard,
       title: "Apply",
-      description: "Apply for new cards",
-      color: "bg-purple-600",
-      iconColor: "text-white",
       href: "/cards"
     },
     {
       icon: Crown,
       title: "Priority",
-      description: "Priority card services",
-      color: "bg-yellow-600",
-      iconColor: "text-white",
       href: "/cards/priority"
     }
   ];
 
   const transactionServices = [
     {
-      icon: ArrowDownToLine,
+      icon: ArrowDownLeft,
       title: "Deposit",
-      description: "Add money to wallet",
-      color: "bg-emerald-600",
-      iconColor: "text-white",
       href: "/deposit"
     },
     {
-      icon: ArrowUpFromLine,
+      icon: Banknote,
       title: "Withdraw",
-      description: "Withdraw money",
-      color: "bg-rose-600",
-      iconColor: "text-white",
       href: "/withdraw"
     },
     {
-      icon: Send,
+      icon: ArrowUpRight,
       title: "Send",
-      description: "Send money to others",
-      color: "bg-blue-600",
-      iconColor: "text-white",
       href: "/send"
-    },
-    {
-      icon: ArrowDown,
-      title: "Receive",
-      description: "Receive payments",
-      color: "bg-purple-600",
-      iconColor: "text-white",
-      href: "/wallet"
     },
     {
       icon: RefreshCw,
       title: "Convert",
-      description: "Currency conversion",
-      color: "bg-orange-600",
-      iconColor: "text-white",
       href: "/account/currency"
     },
     {
       icon: Bell,
       title: "Alert",
-      description: "Transaction alerts",
-      color: "bg-amber-600",
-      iconColor: "text-white",
       href: "/account/notifications"
+    },
+    {
+      icon: Building2,
+      title: "Bank Transfer",
+      href: "/bank-transfer"
     }
   ];
 
@@ -115,289 +77,105 @@ export default function Services() {
     {
       icon: GraduationCap,
       title: "Learn",
-      description: "Educational resources",
-      color: "bg-indigo-600",
-      iconColor: "text-white",
       href: "/account/help"
     },
     {
       icon: Users,
       title: "Community",
-      description: "Join our community",
-      color: "bg-teal-600",
-      iconColor: "text-white",
       href: "/account/community"
     },
     {
       icon: MessageCircle,
       title: "Chat",
-      description: "Customer support",
-      color: "bg-gray-600",
-      iconColor: "text-white",
       href: "/support"
     }
   ];
 
-  const ServiceCard = ({ service, index }: { service: any; index: number }) => {
+  const ServiceCard = ({ service }: { service: any }) => {
     const Icon = service.icon;
     
     return (
       <Link href={service.href}>
-        <motion.div 
-          className="flex flex-col items-center cursor-pointer"
-          initial={{ opacity: 0, y: 20, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ 
-            duration: 0.4, 
-            delay: index * 0.1,
-            type: "spring",
-            stiffness: 100
-          }}
-          whileHover={{ scale: 1.05, y: -5 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <motion.div 
-            className="w-16 h-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg"
-            whileHover={{ 
-              shadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-              rotate: 5
-            }}
-          >
-            <motion.div 
-              className={`w-10 h-10 ${service.color} rounded-2xl flex items-center justify-center`}
-              whileHover={{ scale: 1.1 }}
-            >
-              <Icon className={`h-5 w-5 ${service.iconColor}`} />
-            </motion.div>
-          </motion.div>
-          <motion.span 
-            className="text-sm text-gray-700 dark:text-gray-300 font-medium text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: index * 0.1 + 0.2 }}
-          >
+        <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
+          <div className="w-16 h-16 bg-purple-100/80 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+            <Icon className="h-6 w-6 text-purple-600" />
+          </div>
+          <span className="text-xs text-gray-700 font-medium block">
             {service.title}
-          </motion.span>
-        </motion.div>
+          </span>
+        </div>
       </Link>
     );
   };
 
   return (
-    <motion.div 
-      className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-    >
-      
-      {/* Background decorative elements */}
-      <motion.div 
-        className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"
-        animate={{ 
-          scale: [1, 1.1, 1],
-          rotate: [0, 180, 360]
-        }}
-        transition={{ 
-          duration: 20,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-      ></motion.div>
-      <motion.div 
-        className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"
-        animate={{ 
-          scale: [1, 1.2, 1],
-          rotate: [360, 180, 0]
-        }}
-        transition={{ 
-          duration: 25,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-      ></motion.div>
-      
-      <motion.div 
-        className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
+    <div className="min-h-screen bg-white">
+      <div className="px-4 py-6 pb-20">
         
         {/* Header */}
-        <motion.div 
-          className="flex items-center gap-4 mb-8"
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setLocation("/dashboard")}
+            className="p-2 hover:bg-purple-100 text-gray-700"
           >
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setLocation("/dashboard")}
-              className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300"
-            >
-              <ArrowLeft className="h-6 w-6" />
-            </Button>
-          </motion.div>
-          <motion.h1 
-            className="text-xl font-bold text-gray-900 dark:text-white"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
+            <ArrowLeft className="h-6 w-6" />
+          </Button>
+          <h1 className="text-xl font-bold text-gray-900">
             Services Hub
-          </motion.h1>
-        </motion.div>
+          </h1>
+        </div>
         
         {/* Popular Services */}
-        <motion.div 
-          className="mb-8"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-        >
-          <motion.h2 
-            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.6 }}
-          >
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
             Popular
-          </motion.h2>
-          <motion.div 
-            className="grid grid-cols-3 gap-4"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.7 }}
-          >
+          </h2>
+          <div className="grid grid-cols-3 gap-4">
             {popularServices.map((service, index) => (
-              <ServiceCard key={index} service={service} index={index} />
+              <ServiceCard key={index} service={service} />
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* Card Services */}
-        <motion.div 
-          className="mb-8"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-        >
-          <motion.h2 
-            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.9 }}
-          >
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
             Card
-          </motion.h2>
-          <motion.div 
-            className="grid grid-cols-2 gap-4"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 1.0 }}
-          >
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
             {cardServices.map((service, index) => (
-              <ServiceCard key={index} service={service} index={index} />
+              <ServiceCard key={index} service={service} />
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* Transaction Services */}
-        <motion.div 
-          className="mb-8"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1.1 }}
-        >
-          <motion.h2 
-            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 1.2 }}
-          >
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
             Transaction
-          </motion.h2>
-          <motion.div 
-            className="grid grid-cols-3 gap-4"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 1.3 }}
-          >
+          </h2>
+          <div className="grid grid-cols-3 gap-4">
             {transactionServices.map((service, index) => (
-              <ServiceCard key={index} service={service} index={index} />
+              <ServiceCard key={index} service={service} />
             ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Banking Services */}
-        <motion.div 
-          className="mb-8"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1.4 }}
-        >
-          <motion.h2 
-            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 1.5 }}
-          >
-            Banking
-          </motion.h2>
-          <motion.div 
-            className="grid grid-cols-3 gap-4"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 1.6 }}
-          >
-            <ServiceCard 
-              service={{
-                icon: Building2,
-                title: "Bank Transfer",
-                description: "Transfer to bank accounts",
-                color: "bg-cyan-600",
-                iconColor: "text-white",
-                href: "/bank-transfer"
-              }}
-              index={0}
-            />
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* Support Services */}
-        <motion.div 
-          className="mb-8"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1.7 }}
-        >
-          <motion.h2 
-            className="text-lg font-bold text-gray-900 dark:text-white mb-4"
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 1.8 }}
-          >
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
             Support
-          </motion.h2>
-          <motion.div 
-            className="grid grid-cols-3 gap-4"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 1.9 }}
-          >
+          </h2>
+          <div className="grid grid-cols-3 gap-4">
             {supportServices.map((service, index) => (
-              <ServiceCard key={index} service={service} index={index} />
+              <ServiceCard key={index} service={service} />
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

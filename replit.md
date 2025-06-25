@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Updated Services page to match dashboard design - circular purple icons (80% opacity) with consistent styling and clean white background
 - June 25, 2025: Updated dashboard quick actions with proper routing - Send, Deposit, Withdraw, More (services) with functional links and appropriate icons
 - June 25, 2025: Updated dashboard quick actions to circular purple icons (80% opacity) with text below - unified purple design for Send/Pay/BBAN/More buttons
 - June 25, 2025: Removed cards.tsx file - now using only stripe-cards.tsx to eliminate conflicts and ensure consistent Cards page behavior
