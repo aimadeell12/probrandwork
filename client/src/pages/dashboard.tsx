@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Minus, ArrowRight, QrCode, ChevronDown, Info, Gift, Bell, Crown, Grid3X3, AlertTriangle, CreditCard, Wallet, Settings, Activity, TrendingUp, Eye, EyeOff, Copy, Send, Smartphone, DollarSign, PiggyBank, Zap, Shield, MapPin, Clock, MoreHorizontal, ArrowUpRight, ArrowDownLeft, Building2, Banknote } from "lucide-react";
+import { Plus, Minus, ArrowRight, QrCode, ChevronDown, Info, Gift, Bell, Crown, Grid3X3, AlertTriangle, CreditCard, Wallet, Settings, Activity, TrendingUp, Eye, EyeOff, Copy, Send, Smartphone, DollarSign, PiggyBank, Zap, Shield, MapPin, Clock, MoreHorizontal, ArrowUpRight, ArrowDownLeft, Building2, Banknote, Heart } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
@@ -70,11 +70,12 @@ export default function Dashboard() {
               </div>
               <div>
                 <h1 className="text-lg font-semibold text-gray-900">
-                  HELLO {userInfo ? (userInfo as any).firstName.toUpperCase() : 'AIMAD'}
+                  HELLO {userInfo ? (userInfo as any).firstName.toUpperCase() : 'USER'}
                 </h1>
-                <p className="text-gray-600 text-sm">
-                  HAPPY TO SEE YOU :)
-                </p>
+                <div className="flex items-center gap-1 text-gray-600 text-sm">
+                  <span>HAPPY TO SEE YOU</span>
+                  <Heart className="h-4 w-4 text-purple-500 fill-purple-500" />
+                </div>
               </div>
             </div>
             
