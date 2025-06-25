@@ -327,37 +327,29 @@ export default function Register() {
   };
 
   return (
-    <div 
-      className="min-h-screen bg-white flex flex-col safe-area-inset keyboard-adjust"
-      style={{ 
-        height: isKeyboardOpen ? `calc(100vh - ${keyboardHeight}px)` : '100vh',
-        transition: 'height 0.3s ease'
-      }}
-    >
+    <div className="min-h-screen bg-white flex flex-col safe-area-inset keyboard-adjust">
       
       {/* Header */}
-      <div className={`flex-none px-6 ${isKeyboardOpen ? 'pt-1 pb-2' : 'pt-2 pb-3'}`}>
+      <div className="flex-none pt-2 pb-3 px-6">
         {/* Language Toggle */}
         <div className="flex justify-end mb-1">
           <LanguageToggle />
         </div>
         
-        {!isKeyboardOpen && (
-          <div className="text-center">
-            <h1 className="text-gray-600 text-base mb-1 font-medium">
-              {t('joinUs')}
-            </h1>
-            <h2 className="text-gray-900 text-xl font-bold">
-              {t('createNewAccount')}
-            </h2>
-          </div>
-        )}
+        <div className="text-center">
+          <h1 className="text-gray-600 text-base mb-1 font-medium">
+            {t('joinUs')}
+          </h1>
+          <h2 className="text-gray-900 text-xl font-bold">
+            {t('createNewAccount')}
+          </h2>
+        </div>
       </div>
 
       {/* Register Form */}
       <div className="flex-1 px-6 pb-6 overflow-y-auto scroll-smooth">
         <div className="max-w-sm mx-auto">
-          <form onSubmit={handleSubmit} className={`min-h-0 ${isKeyboardOpen ? 'space-y-3' : 'space-y-5'}`}>
+          <form onSubmit={handleSubmit} className="space-y-5 min-h-0">
                 
             {/* First Name Field */}
             <div>

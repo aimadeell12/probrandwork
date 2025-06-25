@@ -141,7 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
-- June 25, 2025: Fixed keyboard overlap issue - added dynamic height adjustment, keyboard detection, and proper content scrolling when keyboard is open
+- June 25, 2025: Fixed keyboard plugin error - removed Capacitor dependency for web compatibility and improved mobile keyboard handling with viewport detection
 - June 25, 2025: Further reduced top spacing to minimal padding (pt-2) for maximum screen utilization
 - June 25, 2025: Improved language toggle button positioning and design - moved to top right with better icon and current language display
 - June 25, 2025: Removed country name display below phone number input field for cleaner interface
