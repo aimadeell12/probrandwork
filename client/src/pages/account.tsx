@@ -21,12 +21,22 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { LanguageToggle } from "@/components/language-toggle";
 import { useLocation } from "wouter";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNativeInteractions } from "@/hooks/useNativeInteractions";
+import PullToRefresh from "@/components/pull-to-refresh";
 
 export default function Account() {
   const { user } = useAuth();
   const { t } = useLanguage();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
+  const { triggerHaptic } = useNativeInteractions();
+  
+  // Fetch user info
+  const { data: userInfo } = useQuery({
+    queryKey: ["/api/auth/user"],
+  });
 
   const handleLogout = async () => {
     try {
@@ -48,6 +58,11 @@ export default function Account() {
     setLocation(path);
   };
 
+  const handleRefresh = async () => {
+    triggerHaptic();
+    await queryClient.invalidateQueries();
+  };
+
   // Format phone number with masking
   const formatPhoneNumber = (phone: string) => {
     if (!phone) return "Phone not set";
@@ -63,23 +78,19 @@ export default function Account() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden pb-20">
-      
-      {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
-      
-      {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
-        <div className="flex items-center justify-center">
-          <h1 className="text-xl font-medium text-gray-900 dark:text-white">
-            My
-          </h1>
+    <div className="min-h-screen bg-white w-full pb-20">
+      <PullToRefresh onRefresh={handleRefresh}>
+        {/* Header */}
+        <div className="bg-white border-b border-gray-100 p-4 relative z-10">
+          <div className="flex items-center justify-center">
+            <h1 className="text-xl font-medium text-gray-900">
+              {userInfo ? `${(userInfo as any).firstName} ${(userInfo as any).lastName}` : 'My Account'}
+            </h1>
+          </div>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-3 py-4 relative z-10 max-w-sm">
+        {/* Content */}
+        <div className="container mx-auto px-3 py-4 relative z-10 max-w-sm">
         
         {/* User Profile Card */}
         <Card className="bg-gradient-to-br from-purple-400 via-purple-500 to-pink-500 text-white mb-4 shadow-lg border-0 rounded-2xl overflow-hidden">
@@ -94,7 +105,7 @@ export default function Account() {
               <div className="flex-1 text-left">
                 <p className="text-white/90 text-sm font-medium mb-1">Hello!</p>
                 <p className="text-white text-lg font-semibold">
-                  {formatPhoneNumber(user?.phone || "")}
+                  {formatPhoneNumber(userInfo ? (userInfo as any).phone : "")}
                 </p>
               </div>
               <ChevronRight className="h-5 w-5 text-white/70" />
@@ -287,7 +298,8 @@ export default function Account() {
             </button>
           </CardContent>
         </Card>
-      </div>
+        </div>
+      </PullToRefresh>
     </div>
   );
 }

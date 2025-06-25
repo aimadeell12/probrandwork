@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 24, 2025: Updated account page to show full user name in header, changed to white background like dashboard, and added pull-to-refresh functionality
 - June 24, 2025: Updated dashboard greeting to show actual user name and replaced ":)" with purple heart icon
 - June 24, 2025: Added purple spinning refresh icon for pull-to-refresh functionality across all pages
 - June 24, 2025: Updated dashboard design - changed green ACCOUNT button to purple, "Compte chèque" to "Balance account", and currency from DH to USD
