@@ -61,7 +61,7 @@ export default function Dashboard() {
   return (
     <div className="h-screen h-[100dvh] bg-white w-full">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="h-full flex flex-col max-w-md mx-auto">
+        <div className="h-full flex flex-col max-w-md mx-auto pb-20">
           {/* Fixed Header Area */}
           <div className="flex-shrink-0 bg-white pt-safe-top">
             {/* User Greeting - Fixed */}

@@ -58,6 +58,16 @@ body::-webkit-scrollbar {
   overflow-y: auto;
 }
 
+/* Bottom navigation spacing */
+.bottom-nav-space {
+  padding-bottom: 5rem;
+}
+
+/* Safe area for bottom navigation */
+.bottom-nav-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 /* Prevent pull-to-refresh bounce effect */
 html {
   -ms-touch-action: pan-x pan-y;
