@@ -106,7 +106,7 @@ export default function Dashboard() {
             <div className="bg-gray-200 dark:bg-gray-700 rounded-full p-1 flex">
               <Button
                 variant="ghost"
-                className="flex-1 rounded-full bg-emerald-500 text-white hover:bg-emerald-600 font-medium"
+                className="flex-1 rounded-full bg-purple-500 text-white hover:bg-purple-600 font-medium"
               >
                 ACCOUNT
               </Button>
@@ -126,7 +126,7 @@ export default function Dashboard() {
             transition={{ delay: 0.2 }}
             className="dashboard-sticky mb-4 text-center top-28 py-3 border-b border-gray-50"
           >
-            <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Compte chèque</p>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Balance account</p>
             <div className="flex items-center justify-center gap-2 mb-6">
               <motion.h2 
                 key={balance}
@@ -134,7 +134,7 @@ export default function Dashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-3xl font-bold text-gray-900 dark:text-white"
               >
-                {isBalanceVisible ? `${balance.toLocaleString()} DH` : '******* DH'}
+                {isBalanceVisible ? `${balance.toLocaleString()} USD` : '******* USD'}
               </motion.h2>
               <Button 
                 variant="ghost" 
