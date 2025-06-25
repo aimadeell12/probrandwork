@@ -328,14 +328,14 @@ export default function Register() {
     <div className="min-h-screen bg-white flex flex-col safe-area-inset">
       
       {/* Header */}
-      <div className="flex-none pt-8 pb-6 px-6">
+      <div className="flex-none pt-4 pb-4 px-6">
         {/* Language Toggle */}
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-2">
           <LanguageToggle />
         </div>
         
         <div className="text-center">
-          <h1 className="text-gray-600 text-base mb-2 font-medium">
+          <h1 className="text-gray-600 text-base mb-1 font-medium">
             {t('joinUs')}
           </h1>
           <h2 className="text-gray-900 text-xl font-bold">

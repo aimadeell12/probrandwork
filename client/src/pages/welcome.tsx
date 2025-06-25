@@ -22,16 +22,16 @@ export default function Welcome() {
       <div className="lg:hidden px-3 sm:px-4 md:px-6 flex flex-col justify-between min-h-screen relative z-10 max-w-sm sm:max-w-md mx-auto safe-area-inset">
         
         {/* Language Toggle */}
-        <div className="flex justify-end mb-3 sm:mb-4 pt-4 sm:pt-6">
+        <div className="flex justify-end mb-2 pt-3 sm:pt-4">
           <LanguageToggle />
         </div>
         
         {/* Header Content - optimized for all mobile screens */}
         <div className="text-center">
-          <h1 className="text-gray-600 text-base sm:text-lg mb-1 sm:mb-2 font-light tracking-wide">
+          <h1 className="text-gray-600 text-base sm:text-lg mb-1 font-light tracking-wide">
             Banking account
           </h1>
-          <h2 className="text-gray-900 text-xl sm:text-2xl font-bold mb-3 sm:mb-4 tracking-tight">
+          <h2 className="text-gray-900 text-xl sm:text-2xl font-bold mb-2 sm:mb-3 tracking-tight">
             fully <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">online</span>
           </h2>
         </div>
