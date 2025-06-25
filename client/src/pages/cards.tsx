@@ -87,93 +87,102 @@ export default function Cards() {
   return (
     <div className="h-screen h-[100dvh] bg-white w-full">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
-        
-          {/* Header - Fixed at top */}
-          <div className="flex items-center justify-between mb-4 pt-2 pb-2 border-b border-gray-100">
-            <h1 className="text-xl font-semibold text-gray-900">
-              Cards
-            </h1>
-            <Button
-              onClick={() => setLocation("/choose-card")}
-              className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add Card
-            </Button>
-          </div>
+        <div className="h-full flex flex-col max-w-md mx-auto">
+          
+          {/* Fixed Header Section */}
+          <div className="flex-none p-4 bg-white border-b border-gray-100">
+            {/* Header - Fixed at top */}
+            <div className="flex items-center justify-between mb-4 pt-2 pb-2">
+              <h1 className="text-xl font-semibold text-gray-900">
+                Cards
+              </h1>
+              <Button
+                onClick={() => setLocation("/choose-card")}
+                className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Card
+              </Button>
+            </div>
 
-        {/* Check if there are cards */}
-        {Array.isArray(cards) && cards.length > 0 ? (
-          <>
             {/* Card Type Selector - Fixed */}
-            <div className="bg-gray-200 rounded-full p-1 mb-4 flex">
-              <button
-                onClick={() => setSelectedCardType("virtual")}
-                className={cn(
-                  "flex-1 rounded-full py-2 px-4 text-sm font-medium transition-colors",
-                  selectedCardType === "virtual"
-                    ? "bg-purple-500 text-white"
-                    : "text-gray-600 hover:bg-gray-300"
-                )}
-              >
-                Virtual Cards
-              </button>
-              <button
-                onClick={() => setSelectedCardType("physical")}
-                className={cn(
-                  "flex-1 rounded-full py-2 px-4 text-sm font-medium transition-colors",
-                  selectedCardType === "physical"
-                    ? "bg-purple-500 text-white"
-                    : "text-gray-600 hover:bg-gray-300"
-                )}
-              >
-                Physical Cards
-              </button>
-            </div>
-
-            {/* Cards List - Static */}
-            <div className="space-y-4 mb-6">
-              {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card) => (
-                <div key={card.id} className="w-full">
-                  <CreditCardComponent 
-                    card={card} 
-                    showDetails={showCardNumbers[card.id] || false}
-                    onToggleVisibility={() => toggleCardVisibility(card.id)}
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Recent Transactions Section */}
-            <div className="mt-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Recent Transactions</h3>
-                <span className="text-sm text-gray-500">Balance: $0.00</span>
+            {Array.isArray(cards) && cards.length > 0 && (
+              <div className="bg-gray-200 rounded-full p-1 flex">
+                <button
+                  onClick={() => setSelectedCardType("virtual")}
+                  className={cn(
+                    "flex-1 rounded-full py-2 px-4 text-sm font-medium transition-colors",
+                    selectedCardType === "virtual"
+                      ? "bg-purple-500 text-white"
+                      : "text-gray-600 hover:bg-gray-300"
+                  )}
+                >
+                  Virtual Cards
+                </button>
+                <button
+                  onClick={() => setSelectedCardType("physical")}
+                  className={cn(
+                    "flex-1 rounded-full py-2 px-4 text-sm font-medium transition-colors",
+                    selectedCardType === "physical"
+                      ? "bg-purple-500 text-white"
+                      : "text-gray-600 hover:bg-gray-300"
+                  )}
+                >
+                  Physical Cards
+                </button>
               </div>
-              <div className="text-center py-8 text-gray-500">
-                <p>No recent transactions</p>
-              </div>
-            </div>
-          </>
-        ) : (
-          {/* No cards state */}
-          <div className="flex flex-col items-center justify-center text-center py-12">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              No Cards Yet
-            </h2>
-            <p className="text-gray-600 mb-6 text-sm">
-              Create your first card to start managing your finances
-            </p>
-            <Button
-              onClick={() => setLocation("/choose-card")}
-              className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg font-medium"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Create Your First Card
-            </Button>
+            )}
           </div>
-        )}
+
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto p-4 pb-24">
+            {/* Check if there are cards */}
+            {Array.isArray(cards) && cards.length > 0 ? (
+              <>
+
+              {/* Cards List */}
+              <div className="space-y-4 mb-6">
+                {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card) => (
+                  <div key={card.id} className="w-full">
+                    <CreditCardComponent 
+                      card={card} 
+                      showDetails={showCardNumbers[card.id] || false}
+                      onToggleVisibility={() => toggleCardVisibility(card.id)}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Recent Transactions Section */}
+              <div className="mt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Recent Transactions</h3>
+                  <span className="text-sm text-gray-500">Balance: $0.00</span>
+                </div>
+                <div className="text-center py-8 text-gray-500">
+                  <p>No recent transactions</p>
+                </div>
+              </div>
+            </>
+            ) : (
+              {/* No cards state */}
+              <div className="flex flex-col items-center justify-center text-center py-12">
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                  No Cards Yet
+                </h2>
+                <p className="text-gray-600 mb-6 text-sm">
+                  Create your first card to start managing your finances
+                </p>
+                <Button
+                  onClick={() => setLocation("/choose-card")}
+                  className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg font-medium"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create Your First Card
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </PullToRefresh>
     </div>
