@@ -47,9 +47,9 @@ export default function Welcome() {
                     <span className="text-purple-300">PAY</span><span className="text-white">dota</span>
                   </div>
                   {/* Card logos */}
-                  <div className="flex -space-x-1 sm:-space-x-1.5">
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-500 rounded-full"></div>
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-400 rounded-full"></div>
+                  <div className="flex -space-x-1.5 sm:-space-x-2">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-red-500 rounded-full"></div>
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-400 rounded-full"></div>
                   </div>
                 </div>
                 
@@ -57,7 +57,7 @@ export default function Welcome() {
                 <div className="w-7 h-4 sm:w-9 sm:h-6 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-md shadow-inner"></div>
                 
                 {/* Card number */}
-                <div className="text-white font-mono text-base sm:text-lg font-bold tracking-wider">
+                <div className="text-white font-mono text-lg sm:text-xl font-bold tracking-wider">
                   4532 1234 5678 9012
                 </div>
                 
