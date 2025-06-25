@@ -24,8 +24,8 @@
       "overlaysWebView": false
     },
     "NavigationBar": {
-      "backgroundColor": "#9333EA",
-      "navigationBarColor": "#9333EA"
+      "backgroundColor": "#FFFFFF",
+      "navigationBarColor": "#FFFFFF"
     },
     "Keyboard": {
       "resize": "body",

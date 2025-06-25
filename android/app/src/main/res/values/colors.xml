@@ -7,7 +7,7 @@
     
     <!-- Status and Navigation Bar Colors -->
     <color name="statusBarColor">#FFFFFF</color>
-    <color name="navigationBarColor">#9333EA</color>
+    <color name="navigationBarColor">#FFFFFF</color>
     
     <!-- Background Colors -->
     <color name="backgroundColor">#FFFFFF</color>

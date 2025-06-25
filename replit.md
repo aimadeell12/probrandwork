@@ -141,7 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
-- June 25, 2025: Fixed Android system navigation bar color to match app's purple theme (#9333EA) for better visual consistency
+- June 25, 2025: Fixed Android system navigation bar color to white (#FFFFFF) to match app's background color for better visual consistency
 - June 25, 2025: Updated Android styles, Capacitor configuration, and splash screen to use purple brand colors
 - June 25, 2025: Added proper navigation bar styling for both light and dark themes in Android
 - June 25, 2025: Removed loading spinner from Cards page per user request - page now displays immediately without loading icons
