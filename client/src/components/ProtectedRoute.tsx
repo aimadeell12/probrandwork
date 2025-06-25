@@ -20,18 +20,18 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
         description: "يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة. جاري التوجيه...",
         variant: "destructive",
       });
-      setTimeout(() => {
-        setLocation("/login");
-      }, 500);
+      setLocation("/login");
     }
   }, [isAuthenticated, isLoading, toast, setLocation]);
 
+  // Show loading while checking authentication
   if (isLoading) {
     return <AppLoadingSkeleton />;
   }
 
+  // If not authenticated, redirect (useEffect will handle the redirect)
   if (!isAuthenticated) {
-    return <AppLoadingSkeleton />;
+    return null; // Return nothing while redirecting
   }
 
   return <>{children}</>;

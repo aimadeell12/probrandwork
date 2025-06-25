@@ -93,6 +93,7 @@ function Router() {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/camera-test" component={CameraTest} />
+            <Route path="/about" component={About} />
           </>
         ) : (
           <>
@@ -213,10 +214,19 @@ function Router() {
             <Route path="/camera-test" component={CameraTest} />
 
             {/* Root route - last */}
-            <Route path="/" component={Dashboard} />
+            <Route path="/">
+              <ProtectedRoute><Dashboard /></ProtectedRoute>
+            </Route>
           </>
         )}
-        <Route component={NotFound} />
+        {/* Catch-all for unauthenticated users - redirect to login */}
+        {!isAuthenticated && (
+          <Route>
+            <ProtectedRoute><Dashboard /></ProtectedRoute>
+          </Route>
+        )}
+        {/* 404 for authenticated users only */}
+        {isAuthenticated && <Route component={NotFound} />}
       </Switch>
       {isAuthenticated && !shouldHideBottomNav && <BottomNavigation />}
     </>
