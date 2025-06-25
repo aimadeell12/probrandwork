@@ -18,10 +18,12 @@ export function LanguageToggle({ className }: LanguageToggleProps) {
       variant="outline"
       size="sm"
       onClick={toggleLanguage}
-      className={className}
+      className={`border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-colors bg-white shadow-sm ${className || ''}`}
     >
-      <Languages className="h-4 w-4 mr-2" />
-      {language === "ar" ? "English" : "العربية"}
+      <Languages className="h-4 w-4 mr-2 text-gray-600" />
+      <span className="text-sm font-medium text-gray-700">
+        {language === "ar" ? "العربية" : "English"}
+      </span>
     </Button>
   );
 }

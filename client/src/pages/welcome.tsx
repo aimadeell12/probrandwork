@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { CreditCard, Phone, Smartphone } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
+import { LanguageToggle } from "@/components/language-toggle";
 import CardVisual from "@/components/card-visual";
 
 export default function Welcome() {
@@ -20,8 +21,13 @@ export default function Welcome() {
       {/* Mobile Layout - optimized for all screen sizes */}
       <div className="lg:hidden px-3 sm:px-4 md:px-6 flex flex-col justify-between min-h-screen relative z-10 max-w-sm sm:max-w-md mx-auto safe-area-inset">
         
+        {/* Language Toggle */}
+        <div className="flex justify-end mb-3 sm:mb-4 pt-4 sm:pt-6">
+          <LanguageToggle />
+        </div>
+        
         {/* Header Content - optimized for all mobile screens */}
-        <div className="pt-4 sm:pt-6 text-center">
+        <div className="text-center">
           <h1 className="text-gray-600 text-base sm:text-lg mb-1 sm:mb-2 font-light tracking-wide">
             Banking account
           </h1>

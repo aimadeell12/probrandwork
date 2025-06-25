@@ -328,17 +328,20 @@ export default function Register() {
     <div className="min-h-screen bg-white flex flex-col safe-area-inset">
       
       {/* Header */}
-      <div className="flex-none pt-8 pb-6 text-center relative px-6">
+      <div className="flex-none pt-8 pb-6 px-6">
         {/* Language Toggle */}
-        <div className="absolute top-8 right-6">
+        <div className="flex justify-end mb-4">
           <LanguageToggle />
         </div>
-        <h1 className="text-gray-600 text-base mb-2 font-medium">
-          {t('joinUs')}
-        </h1>
-        <h2 className="text-gray-900 text-xl font-bold">
-          {t('createNewAccount')}
-        </h2>
+        
+        <div className="text-center">
+          <h1 className="text-gray-600 text-base mb-2 font-medium">
+            {t('joinUs')}
+          </h1>
+          <h2 className="text-gray-900 text-xl font-bold">
+            {t('createNewAccount')}
+          </h2>
+        </div>
       </div>
 
       {/* Register Form */}
