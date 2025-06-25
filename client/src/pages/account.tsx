@@ -12,7 +12,8 @@ import {
   User,
   Gift,
   Phone,
-  Crown
+  Crown,
+  FileCheck
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -120,6 +121,21 @@ export default function Account() {
               <ChevronRight className="h-4 w-4 text-gray-400" />
             </button>
             
+            <button 
+              onClick={() => navigateTo("/kyc-verification")} 
+              className="w-full p-3 flex items-center justify-between hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors border-b border-purple-100/30 dark:border-purple-700/30"
+            >
+              <div className="flex items-center space-x-3">
+                <div className="rounded-lg p-1.5">
+                  <FileCheck className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                </div>
+                <span className="text-gray-900 dark:text-white font-medium text-sm">
+                  Identity Verification
+                </span>
+              </div>
+              <ChevronRight className="h-4 w-4 text-gray-400" />
+            </button>
+
             <button 
               onClick={() => navigateTo("/account/payment-password")} 
               className="w-full p-3 flex items-center justify-between hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors"
