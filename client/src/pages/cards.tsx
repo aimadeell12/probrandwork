@@ -7,6 +7,7 @@ import { CreditCard as CreditCardComponent } from "@/components/credit-card";
 import PullToRefresh from "@/components/pull-to-refresh";
 import type { Card } from "shared/schema";
 import { useLocation } from "wouter";
+import { CardsSkeleton } from "@/components/skeletons";
 
 export default function Cards() {
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");

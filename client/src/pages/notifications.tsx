@@ -6,11 +6,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { NotificationsSkeleton } from "@/components/skeletons";
 
 export default function Notifications() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
+
+  // Fetch user notifications settings
+  const { data: userSettings, isLoading } = useQuery({
+    queryKey: ["/api/auth/user"],
+  });
 
   const [notificationSettings, setNotificationSettings] = useState({
     // Transaction notifications

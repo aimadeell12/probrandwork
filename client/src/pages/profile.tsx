@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { useQuery } from "@tanstack/react-query";
+import { ProfileSkeleton } from "@/components/skeletons";
 
 export default function Profile() {
   const { t } = useLanguage();
@@ -16,7 +18,12 @@ export default function Profile() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Fetch user data with loading state
+  const { data: userData, isLoading } = useQuery({
+    queryKey: ["/api/auth/user"],
+  });
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -32,20 +39,20 @@ export default function Profile() {
 
   // Initialize form data with user data
   useEffect(() => {
-    if (user) {
+    if (userData) {
       setFormData({
-        firstName: (user as any)?.firstName || "",
-        lastName: (user as any)?.lastName || "",
-        email: (user as any)?.email || "",
-        phone: (user as any)?.phone || "",
-        dateOfBirth: (user as any)?.dateOfBirth || "",
-        address: (user as any)?.address || "",
-        city: (user as any)?.city || "",
-        country: (user as any)?.country || "",
-        postalCode: (user as any)?.postalCode || ""
+        firstName: (userData as any)?.firstName || "",
+        lastName: (userData as any)?.lastName || "",
+        email: (userData as any)?.email || "",
+        phone: (userData as any)?.phone || "",
+        dateOfBirth: (userData as any)?.dateOfBirth || "",
+        address: (userData as any)?.address || "",
+        city: (userData as any)?.city || "",
+        country: (userData as any)?.country || "",
+        postalCode: (userData as any)?.postalCode || ""
       });
     }
-  }, [user]);
+  }, [userData]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
