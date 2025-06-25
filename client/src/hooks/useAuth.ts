@@ -13,17 +13,7 @@ export function useAuth() {
 
   const isAuthenticated = !!user && !error;
 
-  // Prevent any welcome page display for authenticated users
-  useEffect(() => {
-    if (isAuthenticated && typeof window !== 'undefined') {
-      const currentPath = window.location.pathname;
-      if (currentPath === '/' || currentPath === '/welcome') {
-        // Immediate redirect to prevent any flash of welcome page
-        window.history.replaceState(null, '', '/dashboard');
-        window.location.reload();
-      }
-    }
-  }, [isAuthenticated]);
+  // No redirect logic here - let App.tsx handle routing to prevent reload loops
 
   return {
     user,
