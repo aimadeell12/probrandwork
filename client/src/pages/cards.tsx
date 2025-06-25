@@ -73,7 +73,7 @@ export default function Cards() {
     if (!cardsLoading && !cardsFetching && !transactionsLoading && !transactionsFetching) {
       const timer = setTimeout(() => {
         setShowSkeleton(false);
-      }, 800); // Show skeleton for at least 800ms
+      }, 1000); // Show skeleton for at least 1 second
       return () => clearTimeout(timer);
     } else {
       setShowSkeleton(true);
