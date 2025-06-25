@@ -7,7 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
-
+import { NotificationsSkeleton } from "@/components/skeletons";
 
 export default function Notifications() {
   const { t } = useLanguage();
@@ -119,7 +119,10 @@ export default function Notifications() {
     }
   ];
 
-  // Remove loading state - show page immediately
+  // Show skeleton while loading
+  if (isLoading) {
+    return <NotificationsSkeleton />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden pb-20">

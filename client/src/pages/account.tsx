@@ -24,7 +24,7 @@ import { useLocation } from "wouter";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import PullToRefresh from "@/components/pull-to-refresh";
-
+import { AccountSkeleton } from "@/components/skeletons";
 
 export default function Account() {
   const { user } = useAuth();
@@ -78,7 +78,10 @@ export default function Account() {
     return phone;
   };
 
-  // Remove loading state - show page immediately
+  // Show skeleton while loading
+  if (isLoading) {
+    return <AccountSkeleton />;
+  }
 
   return (
     <div className="app-page bg-white w-full">

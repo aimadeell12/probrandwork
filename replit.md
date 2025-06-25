@@ -141,7 +141,9 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
-- June 25, 2025: Removed all skeleton loading states per user request - pages now load immediately without loading indicators for faster UX
+- June 25, 2025: Implemented comprehensive skeleton screen loading states for all major pages (Dashboard, Cards, Transactions, Account, Notifications, Profile) with proper loading indicators and smooth UX transitions
+- June 25, 2025: Added AppLoadingSkeleton for main app initialization and enhanced existing skeleton components with realistic loading patterns
+- June 25, 2025: Enhanced skeleton screens with proper spacing, animations, and mobile-optimized layouts matching the app's design system
 - June 25, 2025: Fixed Android build errors by removing invalid ic_launcher.png files from drawable-land folders
 - June 25, 2025: Updated app icon with new PayDota purple logo for Android build
 - June 25, 2025: Made Dashboard page completely static with all content fixed and non-scrollable like Cards page
