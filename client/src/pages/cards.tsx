@@ -74,18 +74,26 @@ export default function Cards() {
 
   // Force skeleton display for minimum time on every page visit
   useEffect(() => {
+    console.log('Cards component mounted, showing skeleton');
     setShowSkeleton(true);
     
-    // Always show skeleton for at least 2.5 seconds
+    // Always show skeleton for at least 3 seconds
     const timer = setTimeout(() => {
+      console.log('Hiding skeleton after 3 seconds');
       setShowSkeleton(false);
-    }, 2500);
+    }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      console.log('Cards component unmounting');
+      clearTimeout(timer);
+    };
   }, []); // Run only once when component mounts
+
+  console.log('Cards render, showSkeleton:', showSkeleton);
 
   // Show skeleton loading screen
   if (showSkeleton) {
+    console.log('Rendering CardsSkeleton');
     return <CardsSkeleton />;
   }
 

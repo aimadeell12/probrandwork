@@ -1,6 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function CardsSkeleton() {
+  console.log('CardsSkeleton component rendering');
   return (
     <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden">
       <div className="h-full flex flex-col max-w-md mx-auto">
