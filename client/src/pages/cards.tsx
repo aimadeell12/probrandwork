@@ -89,7 +89,7 @@ export default function Cards() {
     };
   }, []); // Run only once when component mounts
 
-  console.log('Cards render, showSkeleton:', showSkeleton);
+  console.log('Cards render, showSkeleton:', showSkeleton, 'cards length:', cards?.length);
 
   // Show skeleton loading screen
   if (showSkeleton) {
@@ -152,6 +152,7 @@ export default function Cards() {
             {/* Check if there are cards */}
             {Array.isArray(cards) && cards.length > 0 ? (
               <>
+              {console.log('Showing cards:', cards.length, 'filtered:', cards.filter((card: Card) => card.type === selectedCardType).length)}
 
               {/* Cards List */}
               <div className="space-y-4 mb-6">
@@ -178,6 +179,8 @@ export default function Cards() {
               </div>
             </>
             ) : (
+              <>
+              {console.log('No cards found, showing empty state')}
               {/* No cards state */}
               <div className="flex flex-col items-center justify-center text-center py-12">
                 <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -197,6 +200,7 @@ export default function Cards() {
                   Create your first card
                 </Button>
               </div>
+              </>
             )}
           </div>
         </div>
