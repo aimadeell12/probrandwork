@@ -59,9 +59,9 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden">
+    <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden fixed">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="h-full flex flex-col max-w-md mx-auto">
+        <div className="h-full flex flex-col max-w-md mx-auto overflow-hidden">
           {/* Fixed Header Area */}
           <div className="flex-shrink-0 bg-white pt-safe-top">
             {/* User Greeting - Fixed */}
@@ -130,8 +130,8 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Fixed Content Area - No Scroll */}
-          <div className="flex-1 flex flex-col p-4 pb-20 overflow-hidden">
+          {/* Fixed Content Area - Completely Static */}
+          <div className="flex-shrink-0 p-4 overflow-hidden">
             {/* Quick Actions - Fixed */}
             <div className="mb-4">
               <div className="grid grid-cols-4 gap-4">
@@ -173,9 +173,9 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Recent Transactions Header - Fixed */}
-            <div className="mb-2">
-              <div className="flex items-center justify-between">
+            {/* Recent Transactions - Fixed */}
+            <div className="pb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent transactions</h3>
                 <Link href="/transactions">
                   <Button variant="ghost" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white flex items-center gap-1">
@@ -184,12 +184,7 @@ export default function Dashboard() {
                   </Button>
                 </Link>
               </div>
-            </div>
-          </div>
 
-          {/* Scrollable Transactions List Only */}
-          <div className="flex-1 overflow-y-auto pb-20" data-scrollable>
-            <div className="px-4">
               {transactionsLoading ? (
                 <div className="space-y-3">
                   {[1, 2].map((i) => (
