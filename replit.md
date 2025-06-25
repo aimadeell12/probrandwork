@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Optimized Bank Transfer page layout for mobile - reduced padding, improved spacing, smaller text sizes, more compact design for better mobile experience
 - June 25, 2025: Updated Bank Transfer page to use English language interface - changed all Arabic text to English to match user preference
 - June 25, 2025: Updated Deposit page to match app design - clean white background, consistent layout, responsive for all screen sizes, simplified header and payment options
 - June 25, 2025: Updated Services page to match dashboard design - circular purple icons (80% opacity) with consistent styling and clean white background
