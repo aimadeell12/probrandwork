@@ -3,14 +3,27 @@
     android:height="108dp"
     android:viewportHeight="108"
     android:viewportWidth="108">
-    <!-- PayDota P Logo -->
+    <!-- PayDota P Logo - Better positioned and sized -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M35,25 L35,83 L45,83 L45,60 L60,60 C72,60 78,52 78,43 C78,34 72,25 60,25 L35,25 Z M45,35 L58,35 C64,35 68,38 68,43 C68,48 64,50 58,50 L45,50 L45,35 Z" />
-    <!-- Dot accent -->
+        android:pathData="M30,25 L30,83 L42,83 L42,58 L58,58 C70,58 76,50 76,41 C76,32 70,25 58,25 L30,25 Z M42,35 L56,35 C62,35 66,38 66,41 C66,46 62,48 56,48 L42,48 L42,35 Z" />
+    <!-- Modern dot accent -->
     <circle
-        android:fillColor="#C084FC"
-        android:cx="73"
-        android:cy="70"
-        android:r="6" />
+        android:fillColor="#FFFFFF"
+        android:cx="70"
+        android:cy="65"
+        android:r="4" />
+    <!-- Additional small accent dots for modern look -->
+    <circle
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6"
+        android:cx="75"
+        android:cy="72"
+        android:r="2" />
+    <circle
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.4"
+        android:cx="78"
+        android:cy="76"
+        android:r="1.5" />
 </vector>
