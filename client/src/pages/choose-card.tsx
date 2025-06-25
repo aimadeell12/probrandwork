@@ -138,7 +138,13 @@ export default function ChooseCard() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setLocation("/cards")}
+            onClick={() => {
+              if (selectedCardType) {
+                setSelectedCardType(null);
+              } else {
+                setLocation("/cards");
+              }
+            }}
             className="flex items-center gap-2 text-purple-600 hover:text-purple-700 hover:bg-purple-50"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -201,14 +207,6 @@ export default function ChooseCard() {
           {selectedCardType && (
             <div className="flex-1 flex flex-col">
               <div className="text-center mb-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setSelectedCardType(null)}
-                  className="mb-3 border-purple-200 text-purple-600 hover:bg-purple-50"
-                >
-                  ← Back
-                </Button>
                 <h2 className="text-lg font-bold text-gray-900">
                   Choose Design
                 </h2>

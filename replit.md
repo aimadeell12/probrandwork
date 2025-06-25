@@ -141,6 +141,10 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Fixed duplicate Back button issue in choose-card page and improved navigation logic
+- June 25, 2025: Reduced card design options to 2 choices per card type for better mobile experience
+- June 25, 2025: Optimized choose-card page layout to fit all mobile screens without scrolling using h-screen and flex layout
+- June 25, 2025: Updated choose-card page to use white background matching dashboard design consistency
 - June 25, 2025: Completely redesigned choose-card page with beautiful purple theme - enhanced UI with gradient backgrounds, hover animations, improved card type selection, and elegant form styling
 - June 25, 2025: Updated card designs to use only purple color variations (Classic Purple, Purple Gradient, Dark Purple, Light Purple) for consistent branding
 - June 25, 2025: Fixed React Hooks ordering error in stripe-cards.tsx by moving skeleton check after all hook declarations
