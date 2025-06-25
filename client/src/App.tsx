@@ -79,8 +79,8 @@ function Router() {
     return <OfflineError onRetry={checkNetwork} />;
   }
 
-  // Show loading while checking authentication
-  if (isLoading || networkLoading) {
+  // Show loading only while checking network or initial auth check
+  if (networkLoading || isLoading) {
     return <AppLoadingSkeleton />;
   }
 

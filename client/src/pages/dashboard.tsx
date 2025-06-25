@@ -37,9 +37,6 @@ export default function Dashboard() {
     queryKey: ["/api/transactions"],
   });
 
-  // Check if any critical data is loading
-  const isLoading = !userInfo || !walletData || transactionsLoading;
-
   const balance = walletData?.balance || 0;
   const unreadCount = notificationsData?.count || 0;
 
@@ -62,10 +59,7 @@ export default function Dashboard() {
     return "USER";
   };
 
-  // Show skeleton while loading
-  if (isLoading) {
-    return <DashboardSkeleton />;
-  }
+  // Remove skeleton loading - show dashboard immediately
 
   return (
     <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden fixed">
