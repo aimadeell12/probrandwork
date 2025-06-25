@@ -8,6 +8,7 @@ import { ArrowLeft, CheckCircle2, Upload, AlertCircle, Camera, RotateCcw } from 
 import { useAuth } from "@/hooks/useAuth";
 
 interface PersonalInfo {
+  fullName: string;
   dateOfBirth: string;
   documentType: string;
   idNumber: string;
@@ -23,6 +24,7 @@ export default function KYCVerificationNew() {
   const [currentStep, setCurrentStep] = useState(1);
   const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>("not_started");
   const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({
+    fullName: "",
     dateOfBirth: "",
     documentType: "",
     idNumber: "",
@@ -72,7 +74,8 @@ export default function KYCVerificationNew() {
   };
 
   const isStep1Valid = () => {
-    return personalInfo.dateOfBirth && 
+    return personalInfo.fullName && 
+           personalInfo.dateOfBirth && 
            validateAge(personalInfo.dateOfBirth) &&
            personalInfo.documentType && 
            personalInfo.idNumber;
@@ -92,8 +95,8 @@ export default function KYCVerificationNew() {
     try {
       const formData = {
         nationality: "Saudi Arabia",
-        firstName: user?.firstName || '',
-        lastName: user?.lastName || '',
+        firstName: personalInfo.fullName.split(' ')[0] || '',
+        lastName: personalInfo.fullName.split(' ').slice(1).join(' ') || '',
         dateOfBirth: personalInfo.dateOfBirth,
         documentType: personalInfo.documentType,
         idNumber: personalInfo.idNumber,
@@ -218,6 +221,7 @@ export default function KYCVerificationNew() {
         {/* Progress Steps */}
         <div className="mb-6">
           <div className="flex items-center justify-between relative px-4">
+            <div className="absolute top-4 left-8 right-8 h-0.5 bg-gray-200"></div>
             {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex flex-col items-center bg-white">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-1 text-sm font-medium ${
@@ -249,6 +253,18 @@ export default function KYCVerificationNew() {
             {/* Step 1: Personal Information */}
             {currentStep === 1 && (
               <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    Full Name
+                  </label>
+                  <Input
+                    value={personalInfo.fullName}
+                    onChange={(e) => setPersonalInfo(prev => ({...prev, fullName: e.target.value}))}
+                    placeholder="Enter your full name"
+                    className="h-12 text-base"
+                  />
+                </div>
+
                 <div>
                   <label className="text-sm font-medium text-gray-700 mb-2 block">
                     Date of Birth
