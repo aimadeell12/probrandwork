@@ -147,28 +147,28 @@ export default function Dashboard() {
                   </div>
                 </Link>
 
-                <Link href="/pay">
+                <Link href="/deposit">
                   <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
                     <div className="w-16 h-16 bg-purple-100/80 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
-                      <CreditCard className="h-6 w-6 text-purple-600" />
+                      <ArrowDownLeft className="h-6 w-6 text-purple-600" />
                     </div>
-                    <span className="text-xs text-gray-700 font-medium block">Pay</span>
+                    <span className="text-xs text-gray-700 font-medium block">Deposit</span>
                   </div>
                 </Link>
 
-                <Link href="/bban">
+                <Link href="/withdraw">
                   <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
                     <div className="w-16 h-16 bg-purple-100/80 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
-                      <Building2 className="h-6 w-6 text-purple-600" />
+                      <Banknote className="h-6 w-6 text-purple-600" />
                     </div>
-                    <span className="text-xs text-gray-700 font-medium block">BBAN</span>
+                    <span className="text-xs text-gray-700 font-medium block">Withdraw</span>
                   </div>
                 </Link>
 
-                <Link href="/more">
+                <Link href="/services">
                   <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
                     <div className="w-16 h-16 bg-purple-100/80 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
-                      <MoreHorizontal className="h-6 w-6 text-purple-600" />
+                      <Grid3X3 className="h-6 w-6 text-purple-600" />
                     </div>
                     <span className="text-xs text-gray-700 font-medium block">More</span>
                   </div>
