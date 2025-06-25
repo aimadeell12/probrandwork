@@ -81,7 +81,7 @@ export default function Cards() {
               </h1>
               <Button
                 onClick={() => setLocation("/choose-card")}
-                className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium"
+                className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Card
