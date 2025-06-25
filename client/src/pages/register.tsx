@@ -170,7 +170,6 @@ export default function Register() {
     { code: '+227', flag: '🇳🇪', name: 'Niger' },
     { code: '+229', flag: '🇧🇯', name: 'Benin' },
     { code: '+228', flag: '🇹🇬', name: 'Togo' },
-    { code: '+233', flag: '🇬🇭', name: 'Ghana' },
     { code: '+230', flag: '🇲🇺', name: 'Mauritius' },
     { code: '+248', flag: '🇸🇨', name: 'Seychelles' },
     { code: '+261', flag: '🇲🇬', name: 'Madagascar' },

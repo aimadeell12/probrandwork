@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Fixed duplicate Ghana entry in country list for phone number selection
 - June 25, 2025: Updated register page to match login page design - consistent layout, spacing, and styling across both authentication pages
 - June 25, 2025: Enhanced register page mobile responsiveness - optimized layout for all screen sizes, improved input field heights, simplified design with clean white background, better touch targets
 - June 25, 2025: Fixed Mastercard logo display with properly overlapping circles using absolute positioning
