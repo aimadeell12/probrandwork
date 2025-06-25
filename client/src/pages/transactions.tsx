@@ -10,7 +10,7 @@ import {
   Search, 
   Filter,
   Calendar,
-  Receipt,
+  FileText,
   DollarSign
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -196,7 +196,7 @@ export default function Transactions() {
                 ))
               ) : (
                 <div className="text-center py-8 text-gray-500">
-                  <Receipt className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <FileText className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                   <p>No transactions found</p>
                 </div>
               )}

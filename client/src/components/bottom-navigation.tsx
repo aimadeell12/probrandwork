@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, CreditCard, BarChart3, Receipt, User } from "lucide-react";
+import { Home, CreditCard, BarChart3, FileText, User } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export default function BottomNavigation() {
