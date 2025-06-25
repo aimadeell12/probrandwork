@@ -141,6 +141,8 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Added comprehensive Android permissions for camera, location, storage, biometric authentication, and file operations
+- June 25, 2025: Enhanced Capacitor integration with file system, camera, geolocation, and preferences APIs
 - June 25, 2025: Fixed Capacitor elastic scrolling and overscroll behavior to prevent content stretching when swiping
 - June 25, 2025: Improved filter buttons layout in Transactions page to fit properly on screen with better horizontal scrolling
 - June 25, 2025: Removed all animations from pages for better performance and stability

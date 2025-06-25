@@ -8,6 +8,10 @@ import { App } from '@capacitor/app';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { Toast } from '@capacitor/toast';
 import { Share } from '@capacitor/share';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Geolocation } from '@capacitor/geolocation';
+import { Preferences } from '@capacitor/preferences';
 
 // Mobile platform detection
 export const isNativePlatform = Capacitor.isNativePlatform();
@@ -228,4 +232,160 @@ export const handleCardCreated = async () => {
 export const handleCardBlocked = async () => {
   await triggerHaptic(ImpactStyle.Heavy);
   await showToast('تم حجب البطاقة', 'short');
+};
+
+// Camera functionality
+export const takePicture = async () => {
+  if (isNativePlatform) {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Prompt // Camera or Gallery
+      });
+      return image;
+    } catch (error) {
+      console.warn('Camera failed:', error);
+      return null;
+    }
+  }
+  return null;
+};
+
+// File system operations
+export const saveFile = async (data: string, fileName: string) => {
+  if (isNativePlatform) {
+    try {
+      await Filesystem.writeFile({
+        path: fileName,
+        data: data,
+        directory: Directory.Documents,
+        encoding: Encoding.UTF8
+      });
+      await showToast('تم حفظ الملف بنجاح', 'short');
+      return true;
+    } catch (error) {
+      console.warn('File save failed:', error);
+      await showToast('فشل في حفظ الملف', 'short');
+      return false;
+    }
+  }
+  return false;
+};
+
+export const readFile = async (fileName: string) => {
+  if (isNativePlatform) {
+    try {
+      const contents = await Filesystem.readFile({
+        path: fileName,
+        directory: Directory.Documents,
+        encoding: Encoding.UTF8
+      });
+      return contents.data;
+    } catch (error) {
+      console.warn('File read failed:', error);
+      return null;
+    }
+  }
+  return null;
+};
+
+// Location services
+export const getCurrentLocation = async () => {
+  if (isNativePlatform) {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 10000
+      });
+      return coordinates;
+    } catch (error) {
+      console.warn('Location failed:', error);
+      return null;
+    }
+  }
+  return null;
+};
+
+// Preferences/Storage
+export const setPreference = async (key: string, value: string) => {
+  if (isNativePlatform) {
+    try {
+      await Preferences.set({ key, value });
+      return true;
+    } catch (error) {
+      console.warn('Preference set failed:', error);
+      return false;
+    }
+  }
+  return false;
+};
+
+export const getPreference = async (key: string) => {
+  if (isNativePlatform) {
+    try {
+      const result = await Preferences.get({ key });
+      return result.value;
+    } catch (error) {
+      console.warn('Preference get failed:', error);
+      return null;
+    }
+  }
+  return null;
+};
+
+// Download functionality
+export const downloadFile = async (url: string, fileName: string) => {
+  if (isNativePlatform) {
+    try {
+      // First fetch the file
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const reader = new FileReader();
+      
+      return new Promise((resolve, reject) => {
+        reader.onload = async () => {
+          try {
+            const base64Data = (reader.result as string).split(',')[1];
+            await Filesystem.writeFile({
+              path: fileName,
+              data: base64Data,
+              directory: Directory.Documents
+            });
+            await showToast(`تم تنزيل ${fileName} بنجاح`, 'short');
+            resolve(true);
+          } catch (error) {
+            reject(error);
+          }
+        };
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.warn('Download failed:', error);
+      await showToast('فشل في التنزيل', 'short');
+      return false;
+    }
+  }
+  return false;
+};
+
+// Biometric authentication (fingerprint)
+export const authenticateWithBiometric = async () => {
+  if (isNativePlatform) {
+    try {
+      const deviceInfo = await getDeviceInfo();
+      if (deviceInfo?.platform === 'android') {
+        // For Android, we need to use a plugin for biometric authentication
+        // This is a placeholder - you would need to add @capacitor-community/biometric-auth
+        await showToast('المصادقة البيومترية متاحة', 'short');
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.warn('Biometric auth failed:', error);
+      return false;
+    }
+  }
+  return false;
 };

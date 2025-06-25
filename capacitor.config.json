@@ -43,6 +43,32 @@
       "allowNavigation": [
         "https://paydota.replit.app"
       ]
+    },
+    "Camera": {
+      "permissions": [
+        "camera",
+        "photos"
+      ]
+    },
+    "Geolocation": {
+      "permissions": [
+        "location"
+      ]
+    },
+    "Filesystem": {
+      "permissions": [
+        "storage"
+      ]
+    },
+    "Device": {
+      "permissions": [
+        "biometric"
+      ]
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon_config_sample",
+      "iconColor": "#488AFF",
+      "sound": "beep.wav"
     }
   }
 }
