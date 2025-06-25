@@ -62,7 +62,7 @@ export default function Profile() {
   };
 
   const handleSave = async () => {
-    setIsLoading(true);
+    setIsSaving(true);
     try {
       console.log("🚀 [PROFILE] Saving profile data:", formData);
       
@@ -89,7 +89,7 @@ export default function Profile() {
         variant: "destructive",
       });
     } finally {
-      setIsLoading(false);
+      setIsSaving(false);
     }
   };
 
@@ -110,6 +110,11 @@ export default function Profile() {
     }
     setIsEditing(false);
   };
+
+  // Show skeleton while loading
+  if (isLoading) {
+    return <ProfileSkeleton />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden pb-20">
@@ -157,7 +162,7 @@ export default function Profile() {
                 disabled={isLoading}
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
               >
-                {isLoading ? (
+                {isSaving ? (
                   "Saving..."
                 ) : (
                   <>
