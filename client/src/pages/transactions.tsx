@@ -117,7 +117,7 @@ export default function Transactions() {
             </div>
 
             {/* Filter Buttons - Fixed */}
-            <div className="flex gap-1 px-4 pb-4 overflow-x-auto scrollbar-hide">
+            <div className="flex gap-1 px-4 pb-4 overflow-x-auto">
               {[
                 { key: "all", label: "All" },
                 { key: "send", label: "Send" },
