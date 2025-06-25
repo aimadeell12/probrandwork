@@ -9,7 +9,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
 import PullToRefresh from "@/components/pull-to-refresh";
-import { motion } from "framer-motion";
+
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -123,22 +123,12 @@ export default function Dashboard() {
             </motion.div>
 
             {/* Balance Section - Fixed */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mb-2 text-center py-2 border-b border-gray-50"
-            >
+            <div className="mb-2 text-center py-2 border-b border-gray-50">
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Balance account</p>
             <div className="flex items-center justify-center gap-2 mb-2">
-              <motion.h2 
-                key={balance}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-3xl font-bold text-gray-900 dark:text-white"
-              >
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                 {isBalanceVisible ? `${balance.toLocaleString()} USD` : '******* USD'}
-              </motion.h2>
+              </h2>
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -154,12 +144,7 @@ export default function Dashboard() {
           {/* Fixed Content Area */}
           <div className="flex-1 flex flex-col p-4 pb-24">
             {/* Quick Actions - Fixed */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mb-4"
-            >
+            <div className="mb-4">
             <div className="grid grid-cols-4 gap-4">
               <Link href="/send">
                 <motion.div 
