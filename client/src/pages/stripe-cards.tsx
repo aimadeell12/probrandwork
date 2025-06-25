@@ -271,7 +271,7 @@ export default function StripeCards() {
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="max-w-md mx-auto relative page-content">
           {/* Header */}
-          <div className="sticky top-0 z-50 bg-white border-b border-gray-200 p-4">
+          <div className="sticky top-0 z-50 bg-white border-b border-gray-200 p-4" style={{ paddingTop: 'calc(1rem + env(safe-area-inset-top, 0px))' }}>
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-bold text-gray-900">
                 {t("cards")}
