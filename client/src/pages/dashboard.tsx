@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Minus, ArrowRight, QrCode, ChevronDown, Info, Gift, Bell, Crown, Grid3X3, AlertTriangle, CreditCard, Wallet, Settings, Activity, TrendingUp, Eye, EyeOff, Copy, Send, Smartphone, DollarSign, PiggyBank, Zap, Shield, MapPin, Clock, MoreHorizontal, ArrowUpRight, ArrowDownLeft, Building2, Banknote, Heart, Receipt } from "lucide-react";
+import { Plus, Minus, ArrowRight, QrCode, ChevronDown, Info, Gift, Bell, Crown, Grid3X3, AlertTriangle, CreditCard, Wallet, Settings, Activity, TrendingUp, Eye, EyeOff, Copy, Send, Smartphone, DollarSign, PiggyBank, Zap, Shield, MapPin, Clock, MoreHorizontal, ArrowUpRight, ArrowDownLeft, Building2, Banknote, Heart, FileText } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
@@ -233,7 +233,7 @@ export default function Dashboard() {
               ) : (
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                   <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Receipt className="h-8 w-8 text-gray-400 dark:text-gray-600" />
+                    <FileText className="h-8 w-8 text-gray-400 dark:text-gray-600" />
                   </div>
                   <p className="text-sm">No recent transactions</p>
                 </div>
