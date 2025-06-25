@@ -127,10 +127,10 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mb-4 text-center py-3 border-b border-gray-50"
+              className="mb-2 text-center py-2 border-b border-gray-50"
             >
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Balance account</p>
-            <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="flex items-center justify-center gap-2 mb-2">
               <motion.h2 
                 key={balance}
                 initial={{ opacity: 0, y: 10 }}
@@ -158,7 +158,7 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="mb-6"
+              className="mb-4"
             >
             <div className="grid grid-cols-4 gap-4">
               <Link href="/send">
