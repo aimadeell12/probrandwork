@@ -213,10 +213,98 @@ html {
   }
 }
 
+/* Extra small screens (iPhone SE, older Android phones) */
+@media (max-width: 375px) {
+  .mobile-card {
+    padding: 1rem;
+  }
+  
+  .space-y-5 > * + * {
+    margin-top: 0.875rem;
+  }
+  
+  .text-xl {
+    font-size: 1.125rem;
+  }
+  
+  .text-base {
+    font-size: 0.9rem;
+  }
+  
+  .h-12 {
+    height: 2.75rem;
+  }
+  
+  /* Compact header for small screens */
+  .pt-6 {
+    padding-top: 1rem;
+  }
+  
+  .pt-2 {
+    padding-top: 0.5rem;
+  }
+}
+
+/* Very small screens (320px width) */
+@media (max-width: 320px) {
+  .mobile-card {
+    padding: 0.75rem;
+  }
+  
+  .px-4 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .space-y-5 > * + * {
+    margin-top: 0.75rem;
+  }
+  
+  .text-xl {
+    font-size: 1rem;
+  }
+  
+  .text-base {
+    font-size: 0.875rem;
+  }
+  
+  .h-12 {
+    height: 2.5rem;
+  }
+  
+  .rounded-xl {
+    border-radius: 0.5rem;
+  }
+  
+  .rounded-2xl {
+    border-radius: 0.75rem;
+  }
+}
+
 /* Safe area handling */
 .safe-area-inset {
-  padding-top: max(1rem, env(safe-area-inset-top));
-  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .safe-area-inset {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  
+  .pt-6 {
+    padding-top: 0.5rem;
+  }
+  
+  .space-y-5 > * + * {
+    margin-top: 0.5rem;
+  }
+  
+  .mobile-card {
+    padding: 0.75rem;
+  }
 }
 
 /* Fix viewport height on mobile browsers */
@@ -228,6 +316,28 @@ html, body {
 .app-container {
   min-height: 100vh;
   min-height: -webkit-fill-available;
+}
+
+/* Custom breakpoint for extra small screens */
+@media (min-width: 360px) {
+  .xs\:inline {
+    display: inline;
+  }
+  
+  .xs\:hidden {
+    display: none;
+  }
+}
+
+/* Ensure all elements are touch-friendly */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Optimize scrolling performance */
+.scroll-smooth {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Touch-friendly interactive elements */
