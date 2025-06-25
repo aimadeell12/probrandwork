@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Updated "Add Card" button to purple color (bg-purple-500) in stripe-cards.tsx to match app branding
 - June 25, 2025: Fixed reload loop issue by removing window.location.reload() from auth hook - single load cycle only
 - June 25, 2025: Completely eliminated welcome page flash for authenticated users - direct dashboard routing with history replacement
 - June 25, 2025: Fixed multiple loading screens issue - removed duplicate loading states for immediate dashboard display

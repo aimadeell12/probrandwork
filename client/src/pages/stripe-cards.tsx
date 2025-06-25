@@ -279,7 +279,7 @@ export default function StripeCards() {
               <Button
                 onClick={() => setLocation("/choose-card")}
                 size="sm"
-                className="bg-gray-900 hover:bg-gray-800 text-white shadow-lg"
+                className="bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 {t("addCard")}
