@@ -136,41 +136,41 @@ export default function Dashboard() {
           {/* Fixed Content Area - Completely Static */}
           <div className="flex-shrink-0 p-3 overflow-hidden">
             {/* Quick Actions - Fixed */}
-            <div className="mb-3">
-              <div className="grid grid-cols-4 gap-3">
+            <div className="mb-6">
+              <div className="grid grid-cols-4 gap-4">
                 <Link href="/send">
-                  <div className="text-center cursor-pointer">
-                    <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 shadow-lg border border-gray-200 dark:border-gray-700">
-                      <ArrowUpRight className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                  <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
+                    <div className="w-14 h-14 bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl flex items-center justify-center mb-3 shadow-sm border border-purple-100">
+                      <ArrowUpRight className="h-6 w-6 text-purple-600" />
                     </div>
-                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Send</span>
+                    <span className="text-sm text-gray-800 font-medium">Send</span>
                   </div>
                 </Link>
 
                 <Link href="/pay">
-                  <div className="text-center cursor-pointer">
-                    <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 shadow-lg border border-gray-200 dark:border-gray-700">
-                      <CreditCard className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                  <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
+                    <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center mb-3 shadow-sm border border-blue-100">
+                      <CreditCard className="h-6 w-6 text-blue-600" />
                     </div>
-                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">Pay</span>
+                    <span className="text-sm text-gray-800 font-medium">Pay</span>
                   </div>
                 </Link>
 
                 <Link href="/bban">
-                  <div className="text-center cursor-pointer">
-                    <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 shadow-lg border border-gray-200 dark:border-gray-700">
-                      <Building2 className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                  <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
+                    <div className="w-14 h-14 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl flex items-center justify-center mb-3 shadow-sm border border-green-100">
+                      <Building2 className="h-6 w-6 text-green-600" />
                     </div>
-                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">BBAN</span>
+                    <span className="text-sm text-gray-800 font-medium">BBAN</span>
                   </div>
                 </Link>
 
                 <Link href="/more">
-                  <div className="text-center cursor-pointer">
-                    <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-2 shadow-lg border border-gray-200 dark:border-gray-700">
-                      <MoreHorizontal className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                  <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
+                    <div className="w-14 h-14 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl flex items-center justify-center mb-3 shadow-sm border border-gray-100">
+                      <MoreHorizontal className="h-6 w-6 text-gray-600" />
                     </div>
-                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium">More</span>
+                    <span className="text-sm text-gray-800 font-medium">More</span>
                   </div>
                 </Link>
               </div>
