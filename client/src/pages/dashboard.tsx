@@ -173,9 +173,9 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Recent Transactions - Fixed */}
-            <div className="pb-4">
-              <div className="flex items-center justify-between mb-4">
+            {/* Recent Transactions Header - Fixed */}
+            <div className="mb-2">
+              <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent transactions</h3>
                 <Link href="/transactions">
                   <Button variant="ghost" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white flex items-center gap-1">
@@ -184,7 +184,12 @@ export default function Dashboard() {
                   </Button>
                 </Link>
               </div>
+            </div>
+          </div>
 
+          {/* Scrollable Transactions List Only */}
+          <div className="flex-1 overflow-y-auto pb-20" data-scrollable>
+            <div className="px-4">
               {transactionsLoading ? (
                 <div className="space-y-3">
                   {[1, 2].map((i) => (
