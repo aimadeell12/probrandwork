@@ -65,9 +65,7 @@ export default function Cards() {
     }
   };
 
-  if (cardsLoading) {
-    return <CardsSkeleton />;
-  }
+
 
   return (
     <div className="h-screen h-[100dvh] bg-white w-full">
