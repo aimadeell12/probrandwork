@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { initializeMobileApp } from "@/lib/capacitor";
 import BottomNavigation from "@/components/bottom-navigation";
 import { AppLoadingSkeleton } from "@/components/skeletons";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 import Welcome from "@/pages/welcome";
 import Login from "@/pages/login";
@@ -96,47 +97,107 @@ function Router() {
         ) : (
           <>
             {/* Admin routes - most specific first */}
-            <Route path="/admin/users" component={UserManagement} />
-            <Route path="/admin/reports" component={SystemReports} />
-            <Route path="/admin/settings" component={AdminSettings} />
-            <Route path="/admin/bank-transfers" component={AdminBankTransfers} />
-            <Route path="/admin/deposit-requests" component={DepositRequests} />
-            <Route path="/admin/referrals" component={AdminReferrals} />
-            <Route path="/admin/vouchers" component={AdminVouchers} />
-            <Route path="/admin/currency" component={AdminCurrency} />
-            <Route path="/admin/community" component={AdminCommunity} />
-            <Route path="/admin-panel" component={AdminNavigation} />
+            <Route path="/admin/users">
+              <ProtectedRoute><UserManagement /></ProtectedRoute>
+            </Route>
+            <Route path="/admin/reports">
+              <ProtectedRoute><SystemReports /></ProtectedRoute>
+            </Route>
+            <Route path="/admin/settings">
+              <ProtectedRoute><AdminSettings /></ProtectedRoute>
+            </Route>
+            <Route path="/admin/bank-transfers">
+              <ProtectedRoute><AdminBankTransfers /></ProtectedRoute>
+            </Route>
+            <Route path="/admin/deposit-requests">
+              <ProtectedRoute><DepositRequests /></ProtectedRoute>
+            </Route>
+            <Route path="/admin/referrals">
+              <ProtectedRoute><AdminReferrals /></ProtectedRoute>
+            </Route>
+            <Route path="/admin/vouchers">
+              <ProtectedRoute><AdminVouchers /></ProtectedRoute>
+            </Route>
+            <Route path="/admin/currency">
+              <ProtectedRoute><AdminCurrency /></ProtectedRoute>
+            </Route>
+            <Route path="/admin/community">
+              <ProtectedRoute><AdminCommunity /></ProtectedRoute>
+            </Route>
+            <Route path="/admin-panel">
+              <ProtectedRoute><AdminNavigation /></ProtectedRoute>
+            </Route>
 
             {/* Account routes */}
-            <Route path="/account/settings" component={AccountSettings} />
-            <Route path="/account/security" component={SecurityPrivacy} />
-            <Route path="/account/notifications" component={Notifications} />
-            <Route path="/account/language" component={LanguageSettings} />
-            <Route path="/account/payment-password" component={PaymentPassword} />
-            <Route path="/account/referral" component={Referral} />
-            <Route path="/account/vouchers" component={Vouchers} />
-            <Route path="/account/currency" component={Currency} />
-            <Route path="/account/help" component={Help} />
-            <Route path="/account/community" component={Community} />
-            <Route path="/account" component={Account} />
+            <Route path="/account/settings">
+              <ProtectedRoute><AccountSettings /></ProtectedRoute>
+            </Route>
+            <Route path="/account/security">
+              <ProtectedRoute><SecurityPrivacy /></ProtectedRoute>
+            </Route>
+            <Route path="/account/notifications">
+              <ProtectedRoute><Notifications /></ProtectedRoute>
+            </Route>
+            <Route path="/account/language">
+              <ProtectedRoute><LanguageSettings /></ProtectedRoute>
+            </Route>
+            <Route path="/account/payment-password">
+              <ProtectedRoute><PaymentPassword /></ProtectedRoute>
+            </Route>
+            <Route path="/account/referral">
+              <ProtectedRoute><Referral /></ProtectedRoute>
+            </Route>
+            <Route path="/account/vouchers">
+              <ProtectedRoute><Vouchers /></ProtectedRoute>
+            </Route>
+            <Route path="/account/currency">
+              <ProtectedRoute><Currency /></ProtectedRoute>
+            </Route>
+            <Route path="/account/help">
+              <ProtectedRoute><Help /></ProtectedRoute>
+            </Route>
+            <Route path="/account/community">
+              <ProtectedRoute><Community /></ProtectedRoute>
+            </Route>
+            <Route path="/account">
+              <ProtectedRoute><Account /></ProtectedRoute>
+            </Route>
             
             {/* Additional pages */}
-            <Route path="/security-privacy" component={SecurityPrivacy} />
+            <Route path="/security-privacy">
+              <ProtectedRoute><SecurityPrivacy /></ProtectedRoute>
+            </Route>
             <Route path="/about" component={About} />
-            <Route path="/coupons" component={Coupons} />
-            <Route path="/profile" component={Profile} />
+            <Route path="/coupons">
+              <ProtectedRoute><Coupons /></ProtectedRoute>
+            </Route>
+            <Route path="/profile">
+              <ProtectedRoute><Profile /></ProtectedRoute>
+            </Route>
 
             {/* Deposit routes */}
-            <Route path="/deposit/options" component={DepositOptions} />
-            <Route path="/deposit" component={Deposit} />
+            <Route path="/deposit/options">
+              <ProtectedRoute><DepositOptions /></ProtectedRoute>
+            </Route>
+            <Route path="/deposit">
+              <ProtectedRoute><Deposit /></ProtectedRoute>
+            </Route>
 
             {/* Cards routes */}
-            <Route path="/cards/priority" component={PriorityCards} />
-            <Route path="/choose-card" component={ChooseCard} />
-            <Route path="/cards" component={Cards} />
+            <Route path="/cards/priority">
+              <ProtectedRoute><PriorityCards /></ProtectedRoute>
+            </Route>
+            <Route path="/choose-card">
+              <ProtectedRoute><ChooseCard /></ProtectedRoute>
+            </Route>
+            <Route path="/cards">
+              <ProtectedRoute><Cards /></ProtectedRoute>
+            </Route>
 
             {/* Other specific routes */}
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard">
+              <ProtectedRoute><Dashboard /></ProtectedRoute>
+            </Route>
             <Route path="/wallet" component={Wallet} />
             <Route path="/support" component={Support} />
             <Route path="/send" component={Send} />
