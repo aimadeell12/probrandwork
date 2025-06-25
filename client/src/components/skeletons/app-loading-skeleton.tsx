@@ -1,6 +1,6 @@
 export function AppLoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 flex items-center justify-center relative overflow-hidden">
+    <div className="fixed inset-0 w-full h-full bg-gradient-to-br from-purple-50 via-white to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 flex items-center justify-center relative overflow-hidden z-50">
       {/* Background decorative elements */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-xl animate-pulse"></div>
       <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-tr from-blue-200/30 to-purple-200/30 rounded-full blur-xl animate-pulse delay-1000"></div>
