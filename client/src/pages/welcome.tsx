@@ -48,8 +48,8 @@ export default function Welcome() {
                   </div>
                   {/* Card logos */}
                   <div className="flex -space-x-0.5 sm:-space-x-1">
-                    <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-red-500 rounded-full"></div>
-                    <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-yellow-400 rounded-full"></div>
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-red-500 rounded-full"></div>
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-yellow-400 rounded-full"></div>
                   </div>
                 </div>
                 
@@ -57,7 +57,7 @@ export default function Welcome() {
                 <div className="w-7 h-4 sm:w-9 sm:h-6 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-md shadow-inner"></div>
                 
                 {/* Card number */}
-                <div className="text-white font-mono text-xs sm:text-sm font-bold tracking-wider">
+                <div className="text-white font-mono text-sm sm:text-base font-bold tracking-wider">
                   4532 1234 5678 9012
                 </div>
                 
