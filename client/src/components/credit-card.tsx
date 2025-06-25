@@ -207,19 +207,9 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
           <h2 className={`text-lg font-bold tracking-wide ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>PAYdota</h2>
         </div>
 
-        {/* Card Number Section with Toggle */}
-        <div className="mb-4 flex items-center justify-between">
-          <p className={`text-base font-mono tracking-[0.15em] font-light whitespace-nowrap overflow-hidden text-ellipsis flex-1 ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>
-            {formatCardNumber(card.lastFour)}
-          </p>
-          {onToggleVisibility && (
-            <button
-              onClick={onToggleVisibility}
-              className="p-1.5 rounded-full hover:bg-white/20 transition-colors ml-2 flex-shrink-0"
-            >
-              {showDetails ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
-          )}
+        {/* Card Number Section - Removed */}
+        <div className="mb-4">
+          {/* Card numbers removed for security */}
         </div>
         
         {/* Card Holder and Balance Section */}
