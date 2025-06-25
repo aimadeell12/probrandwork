@@ -33,43 +33,43 @@ export default function Welcome() {
         {/* Center Visual Content - responsive card design */}
         <div className="flex-1 flex items-center justify-center py-2 sm:py-4 relative">
           
-          {/* Modern Digital Card - responsive */}
-          <div className="relative mx-auto w-full max-w-xs sm:max-w-sm">
-            <div className="relative bg-gradient-to-br from-slate-800 via-blue-900 to-slate-900 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 transform rotate-3 hover:rotate-1 transition-all duration-300 border border-slate-700/50 aspect-[1.6/1]">
+          {/* Modern Digital Card - responsive with purple theme */}
+          <div className="relative mx-auto w-full max-w-[280px] sm:max-w-[320px]">
+            <div className="relative bg-gradient-to-br from-purple-800 via-purple-900 to-indigo-900 rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-5 transform rotate-3 hover:rotate-1 transition-all duration-300 border border-purple-700/50 aspect-[1.6/1]">
               {/* Card background effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/25 via-purple-600/15 to-transparent rounded-xl sm:rounded-2xl"></div>
-              <div className="absolute top-0 right-0 w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-bl from-white/15 to-transparent rounded-full blur-2xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/30 via-indigo-600/20 to-transparent rounded-xl sm:rounded-2xl"></div>
+              <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-bl from-white/20 to-transparent rounded-full blur-xl"></div>
               
               <div className="relative z-10 h-full flex flex-col justify-between">
                 {/* Card header */}
                 <div className="flex justify-between items-start">
-                  <div className="font-bold text-sm sm:text-base lg:text-lg tracking-wide">
-                    <span className="text-purple-400">PAY</span><span className="text-white">dota</span>
+                  <div className="font-bold text-sm sm:text-base tracking-wide">
+                    <span className="text-purple-300">PAY</span><span className="text-white">dota</span>
                   </div>
                   {/* Card logos */}
                   <div className="flex -space-x-0.5 sm:-space-x-1">
-                    <div className="w-4 h-4 sm:w-5 sm:h-5 bg-red-500 rounded-full"></div>
-                    <div className="w-4 h-4 sm:w-5 sm:h-5 bg-yellow-400 rounded-full"></div>
+                    <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-red-500 rounded-full"></div>
+                    <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-yellow-400 rounded-full"></div>
                   </div>
                 </div>
                 
                 {/* Smart chip */}
-                <div className="w-8 h-5 sm:w-10 sm:h-7 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-md sm:rounded-lg shadow-inner"></div>
+                <div className="w-7 h-4 sm:w-9 sm:h-6 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-md shadow-inner"></div>
                 
                 {/* Card number */}
-                <div className="text-white font-mono text-sm sm:text-base lg:text-lg font-bold tracking-wider">
+                <div className="text-white font-mono text-xs sm:text-sm font-bold tracking-wider">
                   4532 1234 5678 9012
                 </div>
                 
                 {/* Card details */}
                 <div className="flex justify-between items-end">
                   <div>
-                    <div className="text-gray-300 text-[10px] sm:text-xs uppercase tracking-wide mb-0.5">Valid Thru</div>
-                    <div className="text-white font-bold text-xs sm:text-sm">12/28</div>
+                    <div className="text-purple-200 text-[9px] sm:text-[10px] uppercase tracking-wide mb-0.5">Valid Thru</div>
+                    <div className="text-white font-bold text-[10px] sm:text-xs">12/28</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-white font-bold text-xs sm:text-sm">AIMAD</div>
-                    <div className="text-gray-300 text-[10px] sm:text-xs">Account Holder</div>
+                    <div className="text-white font-bold text-[10px] sm:text-xs">AIMAD</div>
+                    <div className="text-purple-200 text-[8px] sm:text-[9px]">Account Holder</div>
                   </div>
                 </div>
               </div>
