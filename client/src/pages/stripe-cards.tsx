@@ -261,11 +261,6 @@ export default function StripeCards() {
     }).format(amount);
   };
 
-  // Show skeleton while loading
-  if (cardsLoading || transactionsLoading) {
-    return <CardsSkeleton />;
-  }
-
   return (
     <div className="app-page bg-white">
       <PullToRefresh onRefresh={handleRefresh}>
@@ -317,7 +312,19 @@ export default function StripeCards() {
 
           {/* Content */}
           <div className="p-4">
-            {cards.filter((card: CardType) => card.type === selectedCardType).length > 0 ? (
+            {/* Show skeleton only in content area while loading */}
+            {(cardsLoading || transactionsLoading) ? (
+              <div className="space-y-4">
+                <div className="animate-pulse">
+                  <div className="bg-gray-200 h-48 rounded-2xl mb-4"></div>
+                  <div className="space-y-3">
+                    <div className="bg-gray-200 h-4 rounded w-3/4"></div>
+                    <div className="bg-gray-200 h-4 rounded w-1/2"></div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              cards.filter((card: CardType) => card.type === selectedCardType).length > 0 ? (
               <>
                 {/* Cards Carousel */}
                 <div className="relative">
@@ -463,28 +470,29 @@ export default function StripeCards() {
                 </div>
 
               </>
-            ) : (
-              /* No Cards State */
-              <div className="flex items-center justify-center min-h-[60vh]">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CreditCard className="h-10 w-10 text-purple-600 dark:text-purple-400" />
+              ) : (
+                /* No Cards State */
+                <div className="flex items-center justify-center min-h-[60vh]">
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CreditCard className="h-10 w-10 text-purple-600 dark:text-purple-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                      {t("noCardsYet")}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm">
+                      {t("noCardsDesc")}
+                    </p>
+                    <Button
+                      onClick={() => setLocation("/choose-card")}
+                      className="bg-purple-600 hover:bg-purple-700 text-white"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      {t("createFirstCard")}
+                    </Button>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                    {t("noCardsYet")}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-sm">
-                    {t("noCardsDesc")}
-                  </p>
-                  <Button
-                    onClick={() => setLocation("/choose-card")}
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    {t("createFirstCard")}
-                  </Button>
                 </div>
-              </div>
+              )
             )}
           </div>
         </div>
