@@ -11,27 +11,24 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { toast } = useToast();
   const { isAuthenticated, isLoading } = useAuth();
-  const [, setLocation] = useLocation();
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      toast({
-        title: "غير مصرح",
-        description: "يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة. جاري التوجيه...",
-        variant: "destructive",
-      });
-      setLocation("/login");
-    }
-  }, [isAuthenticated, isLoading, toast, setLocation]);
+  const [location, setLocation] = useLocation();
 
   // Show loading while checking authentication
   if (isLoading) {
     return <AppLoadingSkeleton />;
   }
 
-  // If not authenticated, redirect (useEffect will handle the redirect)
+  // If not authenticated, immediately redirect to login
   if (!isAuthenticated) {
-    return null; // Return nothing while redirecting
+    if (location !== "/login") {
+      toast({
+        title: "غير مصرح",
+        description: "يجب عليك تسجيل الدخول للوصول إلى هذه الصفحة",
+        variant: "destructive",
+      });
+      setLocation("/login");
+    }
+    return null;
   }
 
   return <>{children}</>;

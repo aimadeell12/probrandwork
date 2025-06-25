@@ -243,14 +243,8 @@ function Router() {
             </Route>
           </>
         )}
-        {/* Catch-all for unauthenticated users - redirect to login */}
-        {!isAuthenticated && (
-          <Route>
-            <ProtectedRoute><Dashboard /></ProtectedRoute>
-          </Route>
-        )}
-        {/* 404 for authenticated users only */}
-        {isAuthenticated && <Route component={NotFound} />}
+        {/* 404 page for any unmatched routes */}
+        <Route component={NotFound} />
       </Switch>
       {isAuthenticated && !shouldHideBottomNav && <BottomNavigation />}
     </>
