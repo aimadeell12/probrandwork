@@ -135,13 +135,8 @@ export default function ChooseCard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-white relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-100/20 to-purple-50/10"></div>
-      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-4xl relative z-10">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-12">
           <Button
