@@ -13,16 +13,17 @@ export function useAuth() {
 
   const isAuthenticated = !!user && !error;
 
-  // Force immediate redirect for authenticated users on welcome/root pages
+  // Prevent any welcome page display for authenticated users
   useEffect(() => {
-    if (isAuthenticated && !isLoading && typeof window !== 'undefined') {
+    if (isAuthenticated && typeof window !== 'undefined') {
       const currentPath = window.location.pathname;
       if (currentPath === '/' || currentPath === '/welcome') {
-        // Use immediate redirect without delay
-        window.location.href = '/dashboard';
+        // Immediate redirect to prevent any flash of welcome page
+        window.history.replaceState(null, '', '/dashboard');
+        window.location.reload();
       }
     }
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated]);
 
   return {
     user,

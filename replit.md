@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Completely eliminated welcome page flash for authenticated users - direct dashboard routing with history replacement
 - June 25, 2025: Fixed multiple loading screens issue - removed duplicate loading states for immediate dashboard display
 - June 25, 2025: Fixed loading screen to cover full screen with proper positioning and z-index for complete coverage
 - June 25, 2025: Enhanced loading screen with beautiful gradient design, PayDota branding, and smooth animations for better user experience

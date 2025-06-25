@@ -79,15 +79,10 @@ function Router() {
     return <OfflineError onRetry={checkNetwork} />;
   }
 
-  // Show loading only on first network check, skip auth loading to prevent multiple screens
-  if (networkLoading) {
+  // Show loading while checking authentication and network
+  if (isLoading || networkLoading) {
     return <AppLoadingSkeleton />;
   }
-  
-  // Skip loading screen for auth - let the app render immediately
-  // if (isLoading) {
-  //   return <AppLoadingSkeleton />;
-  // }
 
   // If not authenticated, show limited routes
   if (!isAuthenticated) {
@@ -169,15 +164,11 @@ function Router() {
             <Route path="/hub" component={Services} />
             <Route path="/camera-test" component={CameraTest} />
 
-            {/* Root route - always redirect authenticated users to dashboard */}
-            <Route path="/">
-              {() => <Dashboard />}
-            </Route>
+            {/* Root route - immediately show dashboard for authenticated users */}
+            <Route path="/" component={Dashboard} />
             
             {/* Welcome route - completely blocked for authenticated users */}
-            <Route path="/welcome">
-              {() => <Dashboard />}
-            </Route>
+            <Route path="/welcome" component={Dashboard} />
             
             {/* 404 for authenticated users */}
             <Route component={NotFound} />
