@@ -14,17 +14,22 @@ export default function Cards() {
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
   const [, setLocation] = useLocation();
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const [hasDataLoaded, setHasDataLoaded] = useState(false);
   
   const queryClient = useQueryClient();
 
   // Fetch cards
   const { data: cards = [], isLoading: cardsLoading, isFetching: cardsFetching } = useQuery({
     queryKey: ['/api/cards'],
+    staleTime: 0, // Always refetch to show loading
+    gcTime: 0, // Don't cache for too long
   });
 
   // Fetch transactions for each card
   const { data: transactions = [], isLoading: transactionsLoading, isFetching: transactionsFetching } = useQuery({
     queryKey: ['/api/transactions'],
+    staleTime: 0, // Always refetch to show loading
+    gcTime: 0, // Don't cache for too long
   });
 
   // Pull to refresh function
@@ -68,20 +73,35 @@ export default function Cards() {
 
 
 
-  // Add a minimum display time for skeleton screen
+  // Component mount effect to force initial loading
   useEffect(() => {
-    if (!cardsLoading && !cardsFetching && !transactionsLoading && !transactionsFetching) {
+    setShowSkeleton(true);
+    setHasDataLoaded(false);
+    
+    // Minimum display time for skeleton
+    const minTimer = setTimeout(() => {
+      if (!cardsLoading && !cardsFetching && !transactionsLoading && !transactionsFetching) {
+        setShowSkeleton(false);
+        setHasDataLoaded(true);
+      }
+    }, 2000); // Show for at least 2 seconds
+
+    return () => clearTimeout(minTimer);
+  }, []); // Only run on mount
+
+  // Handle data loading completion
+  useEffect(() => {
+    if (!cardsLoading && !cardsFetching && !transactionsLoading && !transactionsFetching && cards && transactions) {
       const timer = setTimeout(() => {
         setShowSkeleton(false);
-      }, 1000); // Show skeleton for at least 1 second
+        setHasDataLoaded(true);
+      }, 1000); // Additional delay after data loads
       return () => clearTimeout(timer);
-    } else {
-      setShowSkeleton(true);
     }
-  }, [cardsLoading, cardsFetching, transactionsLoading, transactionsFetching]);
+  }, [cardsLoading, cardsFetching, transactionsLoading, transactionsFetching, cards, transactions]);
 
-  // Show skeleton loading screen when loading or for minimum time
-  if (showSkeleton || cardsLoading || cardsFetching || transactionsLoading || transactionsFetching) {
+  // Show skeleton loading screen
+  if (showSkeleton || !hasDataLoaded) {
     return <CardsSkeleton />;
   }
 
