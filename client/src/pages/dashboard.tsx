@@ -59,9 +59,9 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="app-page bg-white w-full">
+    <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="min-h-full flex flex-col max-w-md mx-auto">
+        <div className="h-full flex flex-col max-w-md mx-auto">
           {/* Fixed Header Area */}
           <div className="flex-shrink-0 bg-white pt-safe-top">
             {/* User Greeting - Fixed */}
