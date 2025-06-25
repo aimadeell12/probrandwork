@@ -740,7 +740,7 @@ Select the country where you currently reside to start the verification process
           <div></div>
         </div>
 
-        {/* Progress Steps */}
+        {/* Progress Steps - Line Removed */}
         <div className="mb-8">
           <div className="flex items-center justify-between relative">
             {[
