@@ -65,23 +65,7 @@ export default function Cards() {
   };
 
   if (cardsLoading) {
-    return (
-      <PullToRefresh onRefresh={handleRefresh}>
-        <div className="min-h-screen bg-white relative overflow-hidden">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
-            <div className="pt-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="w-full aspect-[1.6/1] bg-gray-200 rounded-2xl max-w-sm mx-auto"></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </PullToRefresh>
-    );
+    return <CardsSkeleton />;
   }
 
   return (

@@ -9,6 +9,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
 import PullToRefresh from "@/components/pull-to-refresh";
+import { DashboardSkeleton } from "@/components/skeletons";
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -36,6 +37,9 @@ export default function Dashboard() {
     queryKey: ["/api/transactions"],
   });
 
+  // Check if any critical data is loading
+  const isLoading = !userInfo || !walletData || transactionsLoading;
+
   const balance = walletData?.balance || 0;
   const unreadCount = notificationsData?.count || 0;
 
@@ -57,6 +61,11 @@ export default function Dashboard() {
     }
     return "USER";
   };
+
+  // Show skeleton while loading
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
 
   return (
     <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden fixed">

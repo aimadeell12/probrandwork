@@ -16,6 +16,7 @@ import {
 import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import PullToRefresh from "@/components/pull-to-refresh";
+import { TransactionsSkeleton } from "@/components/skeletons";
 
 export default function Transactions() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -89,6 +90,11 @@ export default function Transactions() {
         return <Badge className="bg-gray-100 text-gray-800">Unknown</Badge>;
     }
   };
+
+  // Show skeleton while loading
+  if (isLoading) {
+    return <TransactionsSkeleton />;
+  }
 
   return (
     <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden">
