@@ -12,7 +12,7 @@ export function useAuth() {
 
   return {
     user,
-    isLoading,
+    isLoading: false, // Always return false to skip loading skeleton
     isAuthenticated: !!user && !error,
   };
 }

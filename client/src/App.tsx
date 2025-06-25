@@ -74,7 +74,7 @@ function Router() {
 
   const shouldHideBottomNav = kycPages.includes(location);
 
-  if (isLoading || networkLoading) {
+  if (networkLoading) {
     return <AppLoadingSkeleton />;
   }
 
