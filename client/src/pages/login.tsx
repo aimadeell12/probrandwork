@@ -79,18 +79,18 @@ export default function Login() {
       <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-2xl"></div>
       <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-48 sm:h-48 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 rounded-full blur-2xl"></div>
       
-      <div className="px-4 sm:px-6 flex flex-col justify-between min-h-screen relative z-10 max-w-md mx-auto">
+      <div className="px-4 sm:px-6 flex flex-col justify-between min-h-screen relative z-10 max-w-md mx-auto safe-area-inset">
         
         {/* Header */}
-        <div className="pt-4 pb-2 text-center relative">
+        <div className="pt-2 pb-2 text-center relative">
           {/* Language Toggle */}
           <div className="absolute top-0 right-0 z-20">
             <LanguageToggle className="bg-white/90 backdrop-blur-sm shadow-sm border-gray-200/30" />
           </div>
-          <h1 className="text-gray-600 text-base mb-1 font-medium tracking-wide pt-8">
+          <h1 className="text-gray-600 text-base mb-1 font-medium tracking-wide pt-6">
             {t('welcomeBack')}
           </h1>
-          <h2 className="text-gray-900 text-xl font-bold mb-2 tracking-tight">
+          <h2 className="text-gray-900 text-xl font-bold mb-1 tracking-tight">
             Sign In
           </h2>
         </div>
@@ -217,11 +217,11 @@ export default function Login() {
         </div>
 
         {/* Back to Welcome */}
-        <div className="w-full pb-2">
+        <div className="w-full pb-2 pt-2">
           <Link href="/">
             <Button 
               variant="outline" 
-              className="w-full h-12 border border-gray-200 text-gray-700 font-medium rounded-xl bg-white hover:bg-gray-50 shadow-md hover:shadow-lg transition-all duration-200"
+              className="w-full h-12 border border-gray-200 text-gray-700 font-medium rounded-xl bg-white hover:bg-gray-50 shadow-md hover:shadow-lg transition-all duration-200 text-base"
             >
               Back to Home
             </Button>

@@ -141,6 +141,9 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Enhanced mobile responsiveness for login page - optimized layout for all screen sizes, improved touch targets, prevented input zoom, added safe area handling
+- June 25, 2025: Fixed JavaScript runtime errors - resolved AppLoadingSkeleton import issue and motion undefined references
+- June 25, 2025: Improved mobile CSS with better viewport handling, form spacing optimization, and touch-friendly interface elements
 - June 25, 2025: Updated brand styling - "PAY" appears in purple and "dota" in black across all pages (about page, account menu, copyright)
 - June 25, 2025: Fixed missing arrow icon next to "About PAYdota LLC" menu item to match other menu items
 - June 25, 2025: Changed "About PayouCard" to "About PAYdota LLC" in the about page header and copyright text
