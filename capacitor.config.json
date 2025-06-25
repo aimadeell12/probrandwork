@@ -28,9 +28,10 @@
       "navigationBarColor": "#FFFFFF"
     },
     "Keyboard": {
-      "resize": "body",
+      "resize": "ionic",
       "style": "dark",
-      "resizeOnFullScreen": true
+      "resizeOnFullScreen": true,
+      "disableScroll": true
     },
     "Haptics": {
       "impact": {
