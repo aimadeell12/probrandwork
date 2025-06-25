@@ -328,7 +328,7 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-white relative safe-area-inset">
       
-      <div className="px-3 sm:px-4 md:px-6 flex flex-col h-screen relative z-10 max-w-md mx-auto"
+      <div className="px-3 sm:px-4 md:px-6 flex flex-col h-screen relative z-10 max-w-md mx-auto">
         
         {/* Header */}
         <div className="pt-4 pb-3 text-center relative">
@@ -502,6 +502,9 @@ export default function Register() {
               </form>
           </div>
         </div>
+
+      </div>
+    </div>
 
       </div>
     </div>

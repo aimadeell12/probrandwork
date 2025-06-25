@@ -323,6 +323,20 @@ html {
   .h-8 {
     height: 1.5rem;
   }
+  
+  /* Mobile register form optimizations */
+  .max-w-md {
+    max-width: 100%;
+  }
+  
+  /* Prevent zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  select {
+    font-size: 16px !important;
+  }
 
 /* Safe area handling */
 .safe-area-inset {
