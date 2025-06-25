@@ -90,7 +90,7 @@ export default function Cards() {
         <div className="h-full flex flex-col max-w-md mx-auto">
           
           {/* Fixed Header Section */}
-          <div className="flex-none p-4 bg-white border-b border-gray-100">
+          <div className="flex-none p-4 bg-white border-b border-gray-100" style={{ paddingTop: 'calc(1rem + env(safe-area-inset-top, 0px))' }}>
             {/* Header - Fixed at top */}
             <div className="flex items-center justify-between mb-4 pt-2 pb-2">
               <h1 className="text-xl font-semibold text-gray-900">
