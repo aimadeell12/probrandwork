@@ -91,28 +91,30 @@ export default function Cards() {
             {/* Card Type Selector - Fixed */}
             {Array.isArray(cards) && cards.length > 0 && (
               <div className="bg-gray-200 rounded-full p-1 flex">
-                <button
+                <Button 
                   onClick={() => setSelectedCardType("virtual")}
                   className={cn(
-                    "flex-1 rounded-full py-2 px-4 text-sm font-medium transition-colors",
+                    "flex-1 rounded-full py-2 px-4 text-sm font-medium",
                     selectedCardType === "virtual"
                       ? "bg-purple-500 text-white"
-                      : "text-gray-600 hover:bg-gray-300"
+                      : "bg-transparent text-gray-600 hover:bg-gray-300"
                   )}
+                  variant="ghost"
                 >
-                  Virtual Cards
-                </button>
-                <button
+                  VIRTUAL CARDS
+                </Button>
+                <Button 
                   onClick={() => setSelectedCardType("physical")}
                   className={cn(
-                    "flex-1 rounded-full py-2 px-4 text-sm font-medium transition-colors",
+                    "flex-1 rounded-full py-2 px-4 text-sm font-medium",
                     selectedCardType === "physical"
                       ? "bg-purple-500 text-white"
-                      : "text-gray-600 hover:bg-gray-300"
+                      : "bg-transparent text-gray-600 hover:bg-gray-300"
                   )}
+                  variant="ghost"
                 >
-                  Physical Cards
-                </button>
+                  PHYSICAL CARDS
+                </Button>
               </div>
             )}
           </div>

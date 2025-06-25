@@ -287,29 +287,31 @@ export default function StripeCards() {
             </div>
 
             {/* Card Type Toggle */}
-            <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1 mt-4">
-              <button
+            <div className="bg-gray-200 rounded-full p-1 flex mt-4">
+              <Button
                 onClick={() => setSelectedCardType("virtual")}
                 className={cn(
-                  "flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all",
+                  "flex-1 rounded-full py-2 px-4 text-sm font-medium",
                   selectedCardType === "virtual"
-                    ? "bg-white dark:bg-gray-700 text-purple-600 dark:text-purple-400 shadow-sm"
-                    : "text-gray-600 dark:text-gray-400"
+                    ? "bg-purple-500 text-white"
+                    : "bg-transparent text-gray-600 hover:bg-gray-300"
                 )}
+                variant="ghost"
               >
-                {t("virtualCards")}
-              </button>
-              <button
+                VIRTUAL CARDS
+              </Button>
+              <Button
                 onClick={() => setSelectedCardType("physical")}
                 className={cn(
-                  "flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all",
+                  "flex-1 rounded-full py-2 px-4 text-sm font-medium",
                   selectedCardType === "physical"
-                    ? "bg-white dark:bg-gray-700 text-purple-600 dark:text-purple-400 shadow-sm"
-                    : "text-gray-600 dark:text-gray-400"
+                    ? "bg-purple-500 text-white"
+                    : "bg-transparent text-gray-600 hover:bg-gray-300"
                 )}
+                variant="ghost"
               >
-                {t("physicalCards")}
-              </button>
+                PHYSICAL CARDS
+              </Button>
             </div>
           </div>
 
