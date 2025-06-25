@@ -68,7 +68,7 @@ export default function Dashboard() {
           {/* Fixed Header Area */}
           <div className="flex-shrink-0 bg-white pt-safe-top">
             {/* User Greeting - Fixed */}
-            <div className="flex items-center justify-between px-4 py-4">
+            <div className="flex items-center justify-between px-4 py-2">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-lg">
@@ -100,7 +100,7 @@ export default function Dashboard() {
             </div>
 
             {/* Account/Card Toggle - Fixed */}
-            <div className="px-4 mb-2">
+            <div className="px-4 mb-1">
               <div className="bg-gray-200 rounded-full p-1 flex">
                 <Button className="flex-1 rounded-full py-2 px-4 text-sm font-medium bg-purple-500 text-white">
                   ACCOUNT
@@ -115,7 +115,7 @@ export default function Dashboard() {
             </div>
 
             {/* Balance Section - Fixed */}
-            <div className="mb-2 text-center py-2 border-b border-gray-50">
+            <div className="mb-1 text-center py-1 border-b border-gray-50">
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Balance account</p>
               <div className="flex items-center justify-center gap-2 mb-2">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
