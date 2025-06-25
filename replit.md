@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Removed Full Name field from KYC verification personal information section per user request
 - June 25, 2025: Removed horizontal progress line from KYC verification page per user request
 - June 25, 2025: Optimized KYC verification page for mobile - improved layout, larger touch targets, better spacing, cleaner design
 - June 25, 2025: Removed initial app loading skeleton - app loads immediately without loading screen

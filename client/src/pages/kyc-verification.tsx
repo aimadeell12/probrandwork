@@ -378,18 +378,6 @@ Select the country where you currently reside to start the verification process
         <div className="grid grid-cols-1 gap-6">
           <div>
             <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              Full Name
-            </div>
-            <Input
-              id="fullName"
-              value={`${user?.firstName || 'Aimad'} ${user?.lastName || 'Eloirraki'}`}
-              readOnly
-              className="bg-white/80 dark:bg-gray-700/80"
-            />
-          </div>
-          
-          <div>
-            <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Date of Birth
             </div>
             <Input
