@@ -77,23 +77,38 @@ export default function Cards() {
     console.log('Cards component mounted, showing skeleton');
     setShowSkeleton(true);
     
-    // Always show skeleton for at least 3 seconds
-    const timer = setTimeout(() => {
-      console.log('Hiding skeleton after 3 seconds');
-      setShowSkeleton(false);
-    }, 3000);
+    // Show skeleton until data is loaded AND minimum time passed
+    const minTimer = setTimeout(() => {
+      console.log('Minimum time passed, checking if data is ready');
+      // Only hide skeleton if data is actually loaded
+      if (cards !== undefined && transactions !== undefined) {
+        console.log('Data is ready, hiding skeleton');
+        setShowSkeleton(false);
+      }
+    }, 2000); // Minimum 2 seconds
 
     return () => {
       console.log('Cards component unmounting');
-      clearTimeout(timer);
+      clearTimeout(minTimer);
     };
   }, []); // Run only once when component mounts
 
+  // Hide skeleton when data is fully loaded and minimum time has passed
+  useEffect(() => {
+    if (cards !== undefined && transactions !== undefined && !cardsLoading && !transactionsLoading) {
+      const timer = setTimeout(() => {
+        console.log('Data loaded, hiding skeleton after delay');
+        setShowSkeleton(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [cards, transactions, cardsLoading, transactionsLoading]);
+
   console.log('Cards render, showSkeleton:', showSkeleton, 'cards length:', cards?.length);
 
-  // Show skeleton loading screen
-  if (showSkeleton) {
-    console.log('Rendering CardsSkeleton');
+  // Show skeleton loading screen when loading OR when skeleton is forced to show
+  if (showSkeleton || cardsLoading || transactionsLoading || cards === undefined || transactions === undefined) {
+    console.log('Rendering CardsSkeleton - showSkeleton:', showSkeleton, 'cardsLoading:', cardsLoading, 'cards:', cards?.length);
     return <CardsSkeleton />;
   }
 
