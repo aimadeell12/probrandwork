@@ -169,6 +169,51 @@ html {
   transition: padding-bottom 0.3s ease;
 }
 
+/* Enhanced mobile responsiveness */
+@media (max-width: 640px) {
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Prevent zoom on input focus */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Better touch targets */
+  button, .cursor-pointer {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Form spacing optimization for mobile */
+  .space-y-6 > * + * {
+    margin-top: 1.25rem;
+  }
+  
+  .space-y-3 > * + * {
+    margin-top: 0.75rem;
+  }
+  
+  /* Mobile card padding */
+  .mobile-card {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+}
+
+/* Fix viewport height on mobile browsers */
+html, body {
+  height: 100%;
+  height: -webkit-fill-available;
+}
+
+.app-container {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
 /* Touch-friendly interactive elements */
 .touch-target {
   min-height: 44px;

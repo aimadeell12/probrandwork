@@ -79,7 +79,7 @@ export default function Login() {
       <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-2xl"></div>
       <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-48 sm:h-48 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 rounded-full blur-2xl"></div>
       
-      <div className="px-4 sm:px-6 flex flex-col justify-between min-h-screen relative z-10 max-w-md mx-auto"
+      <div className="px-4 sm:px-6 flex flex-col justify-between min-h-screen relative z-10 max-w-md mx-auto">
         
         {/* Header */}
         <div className="pt-4 pb-2 text-center relative">
@@ -100,8 +100,8 @@ export default function Login() {
           
           {/* Login Form Card */}
           <div className="w-full">
-            <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl p-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
+            <Card className="bg-white border border-gray-200 shadow-lg rounded-2xl p-6 mobile-card">
+              <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
                 
                 {/* Login Type Toggle */}
                 <div className="space-y-3">
@@ -144,7 +144,7 @@ export default function Login() {
                     type={loginType === 'email' ? 'email' : 'tel'}
                     value={formData.username}
                     onChange={(e) => handleInputChange('username', e.target.value)}
-                    className="w-full h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 bg-white"
+                    className="w-full h-12 sm:h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 bg-white text-base"
                     placeholder={loginType === 'email' ? t('enterEmail') : t('enterPhoneNumber')}
                     required
                   />
@@ -160,7 +160,7 @@ export default function Login() {
                     type="password"
                     value={formData.password}
                     onChange={(e) => handleInputChange('password', e.target.value)}
-                    className="w-full h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 bg-white"
+                    className="w-full h-12 sm:h-12 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 bg-white text-base"
                     placeholder={t('enterPassword')}
                     required
                   />
@@ -170,7 +170,7 @@ export default function Login() {
                 <Button
                   type="submit"
                   disabled={loginMutation.isPending}
-                  className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                  className="w-full h-12 sm:h-12 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-base"
                 >
                   {loginMutation.isPending ? t('signingIn') : t('signInTitle')}
                 </Button>
@@ -188,7 +188,7 @@ export default function Login() {
                 <Button
                   type="button"
                   onClick={() => window.location.href = '/api/auth/google'}
-                  className="w-full h-12 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-300 flex items-center justify-center space-x-3"
+                  className="w-full h-12 sm:h-12 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-300 flex items-center justify-center space-x-3 text-base"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
