@@ -140,37 +140,37 @@ export default function Dashboard() {
               <div className="grid grid-cols-4 gap-4">
                 <Link href="/send">
                   <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
-                    <div className="w-14 h-14 bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl flex items-center justify-center mb-3 shadow-sm border border-purple-100">
+                    <div className="w-16 h-16 bg-purple-100/80 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
                       <ArrowUpRight className="h-6 w-6 text-purple-600" />
                     </div>
-                    <span className="text-sm text-gray-800 font-medium">Send</span>
+                    <span className="text-xs text-gray-700 font-medium block">Send</span>
                   </div>
                 </Link>
 
                 <Link href="/pay">
                   <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
-                    <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center mb-3 shadow-sm border border-blue-100">
-                      <CreditCard className="h-6 w-6 text-blue-600" />
+                    <div className="w-16 h-16 bg-purple-100/80 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <CreditCard className="h-6 w-6 text-purple-600" />
                     </div>
-                    <span className="text-sm text-gray-800 font-medium">Pay</span>
+                    <span className="text-xs text-gray-700 font-medium block">Pay</span>
                   </div>
                 </Link>
 
                 <Link href="/bban">
                   <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
-                    <div className="w-14 h-14 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl flex items-center justify-center mb-3 shadow-sm border border-green-100">
-                      <Building2 className="h-6 w-6 text-green-600" />
+                    <div className="w-16 h-16 bg-purple-100/80 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <Building2 className="h-6 w-6 text-purple-600" />
                     </div>
-                    <span className="text-sm text-gray-800 font-medium">BBAN</span>
+                    <span className="text-xs text-gray-700 font-medium block">BBAN</span>
                   </div>
                 </Link>
 
                 <Link href="/more">
                   <div className="text-center cursor-pointer hover:opacity-80 transition-opacity">
-                    <div className="w-14 h-14 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl flex items-center justify-center mb-3 shadow-sm border border-gray-100">
-                      <MoreHorizontal className="h-6 w-6 text-gray-600" />
+                    <div className="w-16 h-16 bg-purple-100/80 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <MoreHorizontal className="h-6 w-6 text-purple-600" />
                     </div>
-                    <span className="text-sm text-gray-800 font-medium">More</span>
+                    <span className="text-xs text-gray-700 font-medium block">More</span>
                   </div>
                 </Link>
               </div>
