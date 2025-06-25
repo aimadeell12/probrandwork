@@ -79,31 +79,22 @@ export default function PullToRefresh({
   const iconRotation = isRefreshing ? 'animate-spin' : '';
 
   return (
-    <div
-      ref={containerRef}
-      className="relative overflow-hidden native-scroll"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      style={{ 
-        transform: `translateY(${pullDistance > 0 ? Math.min(pullDistance, threshold * 1.2) : 0}px)`,
-        transition: isPulling ? 'none' : 'transform 0.3s ease-out'
-      }}
-    >
-      {/* مؤشر السحب للتحديث */}
+    <div className="relative h-full">
+      {/* مؤشر التحديث المخفي في الأعلى */}
       <div 
-        className="absolute top-0 left-0 right-0 flex flex-col items-center justify-center text-center bg-white z-10"
+        className="absolute top-0 left-0 right-0 flex items-center justify-center bg-white z-50 border-b border-gray-100"
         style={{ 
-          height: `${Math.min(pullDistance, threshold * 1.2)}px`,
+          height: `${Math.min(pullDistance, 50)}px`,
           opacity: refreshOpacity,
-          transform: `translateY(-${Math.max(0, threshold * 1.2 - pullDistance)}px)`
+          transform: `translateY(-${Math.max(0, 50 - pullDistance)}px)`,
+          transition: isPulling ? 'none' : 'transform 0.3s ease-out, opacity 0.3s ease-out'
         }}
       >
-        <div className="flex flex-col items-center gap-2 py-2">
+        <div className="flex items-center gap-2 py-2">
           <RefreshCw 
-            className={`h-6 w-6 text-purple-600 ${iconRotation}`}
+            className={`h-5 w-5 text-purple-600 ${iconRotation}`}
             style={{
-              transform: isRefreshing ? 'none' : `rotate(${pullDistance * 2}deg)`
+              transform: isRefreshing ? 'none' : `rotate(${pullDistance * 3}deg)`
             }}
           />
           {pullDistance > 20 && (
@@ -114,8 +105,18 @@ export default function PullToRefresh({
         </div>
       </div>
 
-      {/* المحتوى الرئيسي */}
-      <div className="relative z-0">
+      {/* المحتوى الرئيسي - لا يختفي أبداً */}
+      <div
+        ref={containerRef}
+        className="h-full overflow-auto native-scroll"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{ 
+          transform: `translateY(${pullDistance > 0 ? Math.min(pullDistance * 0.3, 15) : 0}px)`,
+          transition: isPulling ? 'none' : 'transform 0.3s ease-out'
+        }}
+      >
         {children}
       </div>
     </div>
