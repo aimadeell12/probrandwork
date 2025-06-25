@@ -9,7 +9,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
 import PullToRefresh from "@/components/pull-to-refresh";
-import { DashboardSkeleton } from "@/components/skeletons";
+// Removed DashboardSkeleton import to prevent duplicate loading screens
 
 export default function Dashboard() {
   const { t } = useLanguage();

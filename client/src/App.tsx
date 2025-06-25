@@ -79,10 +79,15 @@ function Router() {
     return <OfflineError onRetry={checkNetwork} />;
   }
 
-  // Show loading only while checking network or initial auth check
-  if (networkLoading || isLoading) {
+  // Show loading only on first network check, skip auth loading to prevent multiple screens
+  if (networkLoading) {
     return <AppLoadingSkeleton />;
   }
+  
+  // Skip loading screen for auth - let the app render immediately
+  // if (isLoading) {
+  //   return <AppLoadingSkeleton />;
+  // }
 
   // If not authenticated, show limited routes
   if (!isAuthenticated) {
