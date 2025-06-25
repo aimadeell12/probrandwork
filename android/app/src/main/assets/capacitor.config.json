@@ -11,7 +11,7 @@
 		"SplashScreen": {
 			"launchShowDuration": 2000,
 			"launchAutoHide": true,
-			"backgroundColor": "#1a365d",
+			"backgroundColor": "#9333EA",
 			"androidSplashResourceName": "splash",
 			"androidScaleType": "CENTER_CROP",
 			"showSpinner": false,
@@ -23,6 +23,10 @@
 			"backgroundColor": "#ffffff",
 			"overlaysWebView": false
 		},
+		"NavigationBar": {
+			"backgroundColor": "#9333EA",
+			"navigationBarColor": "#9333EA"
+		},
 		"Keyboard": {
 			"resize": "body",
 			"style": "dark",
@@ -32,6 +36,43 @@
 			"impact": {
 				"style": "medium"
 			}
+		},
+		"App": {
+			"launchUrl": "",
+			"iosScheme": "https",
+			"androidScheme": "https"
+		},
+		"WebView": {
+			"allowMixedContent": true,
+			"allowNavigation": [
+				"https://paydota.replit.app"
+			]
+		},
+		"Camera": {
+			"permissions": [
+				"camera",
+				"photos"
+			]
+		},
+		"Geolocation": {
+			"permissions": [
+				"location"
+			]
+		},
+		"Filesystem": {
+			"permissions": [
+				"storage"
+			]
+		},
+		"Device": {
+			"permissions": [
+				"biometric"
+			]
+		},
+		"LocalNotifications": {
+			"smallIcon": "ic_stat_icon_config_sample",
+			"iconColor": "#488AFF",
+			"sound": "beep.wav"
 		}
 	}
 }
