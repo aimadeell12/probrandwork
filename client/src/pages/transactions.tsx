@@ -16,7 +16,7 @@ import {
 import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import PullToRefresh from "@/components/pull-to-refresh";
-import { TransactionsSkeleton } from "@/components/skeletons";
+
 
 export default function Transactions() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -91,10 +91,7 @@ export default function Transactions() {
     }
   };
 
-  // Show skeleton while loading
-  if (isLoading) {
-    return <TransactionsSkeleton />;
-  }
+  // Remove loading state - show page immediately
 
   return (
     <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden">

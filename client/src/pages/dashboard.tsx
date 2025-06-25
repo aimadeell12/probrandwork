@@ -9,7 +9,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
 import PullToRefresh from "@/components/pull-to-refresh";
-import { DashboardSkeleton } from "@/components/skeletons";
+
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -62,10 +62,7 @@ export default function Dashboard() {
     return "USER";
   };
 
-  // Show skeleton while loading
-  if (isLoading) {
-    return <DashboardSkeleton />;
-  }
+  // Remove loading state - show page immediately
 
   return (
     <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden fixed">

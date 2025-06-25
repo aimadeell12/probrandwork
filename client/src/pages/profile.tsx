@@ -10,7 +10,7 @@ import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
-import { ProfileSkeleton } from "@/components/skeletons";
+
 
 export default function Profile() {
   const { t } = useLanguage();
@@ -111,10 +111,7 @@ export default function Profile() {
     setIsEditing(false);
   };
 
-  // Show skeleton while loading
-  if (isLoading) {
-    return <ProfileSkeleton />;
-  }
+  // Remove loading state - show page immediately
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden pb-20">
