@@ -29,7 +29,6 @@ html, body {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  position: relative;
 }
 
 /* Additional scrollbar hiding for all browsers */
@@ -69,23 +68,17 @@ body::-webkit-scrollbar {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Global page container fix */
-.page-container {
-  height: 100vh;
-  height: 100dvh;
-  overflow-y: auto;
-  overflow-x: hidden;
+/* Global fix for all app pages */
+.app-page {
+  min-height: 100vh;
+  min-height: 100dvh;
   padding-bottom: 5rem;
   box-sizing: border-box;
 }
 
-/* Ensure bottom nav doesn't interfere with scroll position */
-.bottom-navigation {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 1000 !important;
+/* Ensure all content has proper spacing from bottom nav */
+.page-content {
+  padding-bottom: 1.25rem;
 }
 
 /* Prevent pull-to-refresh bounce effect */
