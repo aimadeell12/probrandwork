@@ -91,9 +91,9 @@ export default function Transactions() {
   };
 
   return (
-    <div className="app-page bg-white w-full">
+    <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="min-h-full flex flex-col max-w-md mx-auto">
+        <div className="h-full flex flex-col max-w-md mx-auto">
           
           {/* Fixed Header Area */}
           <div className="flex-shrink-0 bg-white border-b border-gray-100 pt-safe-top">
@@ -144,7 +144,7 @@ export default function Transactions() {
 
           {/* Scrollable Transactions List */}
           <div className="flex-1 p-4 page-content" data-scrollable>
-            <div className="space-y-3">
+              <div className="space-y-3">
               {isLoading ? (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
