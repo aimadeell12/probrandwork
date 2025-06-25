@@ -268,83 +268,14 @@
 
   /* Card interactions */
   .native-card {
-    @apply transition-all duration-200 ease-out;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-  }
-  
-  .native-card:active {
-    transform: scale(0.98);
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  }
-
-  /* Pull-to-refresh indicator */
-  .pull-refresh {
-    @apply transition-transform duration-300 ease-out;
   }
 
   /* Smooth scrolling */
   .native-scroll {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
-  }
-
-  /* Native-like navigation transitions */
-  .page-transition {
-    @apply transition-all duration-300 ease-out;
-  }
-
-  .slide-in-right {
-    animation: slideInRight 0.3s ease-out;
-  }
-
-  .slide-out-left {
-    animation: slideOutLeft 0.3s ease-out;
-  }
-
-  @keyframes slideInRight {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideOutLeft {
-    from {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-  }
-
-  /* Native loading states */
-  .skeleton-pulse {
-    animation: skeletonPulse 1.5s ease-in-out infinite;
-  }
-
-  @keyframes skeletonPulse {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  /* Haptic feedback simulation */
-  .haptic-light {
-    @apply transition-all duration-75;
-  }
-  
-  .haptic-light:active {
-    transform: scale(0.98);
   }
 
   .haptic-medium {

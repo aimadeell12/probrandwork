@@ -9,7 +9,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
 import PullToRefresh from "@/components/pull-to-refresh";
-import { motion, AnimatePresence } from "framer-motion";
+
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -121,22 +121,12 @@ export default function Dashboard() {
           </motion.div>
 
           {/* Balance Section - Fixed */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="dashboard-sticky mb-4 text-center top-28 py-3 border-b border-gray-50"
-          >
+          <div className="dashboard-sticky mb-4 text-center top-28 py-3 border-b border-gray-50">
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">Balance account</p>
             <div className="flex items-center justify-center gap-2 mb-6">
-              <motion.h2 
-                key={balance}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-3xl font-bold text-gray-900 dark:text-white"
-              >
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                 {isBalanceVisible ? `${balance.toLocaleString()} USD` : '******* USD'}
-              </motion.h2>
+              </h2>
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -149,19 +139,10 @@ export default function Dashboard() {
           </motion.div>
 
           {/* Quick Actions - Scrollable content starts here */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="mb-6 mt-4"
-          >
+          <div className="mb-6 mt-4">
             <div className="grid grid-cols-4 gap-4">
               <Link href="/send">
-                <motion.div 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-center cursor-pointer"
-                >
+                <div className="text-center cursor-pointer">
                   <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
                     <ArrowUpRight className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
@@ -170,11 +151,7 @@ export default function Dashboard() {
               </Link>
 
               <Link href="/pay">
-                <motion.div 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-center cursor-pointer"
-                >
+                <div className="text-center cursor-pointer">
                   <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
                     <Banknote className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
@@ -183,11 +160,7 @@ export default function Dashboard() {
               </Link>
 
               <Link href="/cards">
-                <motion.div 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-center cursor-pointer"
-                >
+                <div className="text-center cursor-pointer">
                   <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mb-3 shadow-lg border border-gray-200 dark:border-gray-700">
                     <CreditCard className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                   </div>
@@ -211,12 +184,7 @@ export default function Dashboard() {
           </motion.div>
 
           {/* Recent Transactions - Scrollable */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mb-6 flex-1"
-          >
+          <div className="mb-6 flex-1">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">Recent transactions</h3>
               <Link href="/transactions">
@@ -229,11 +197,8 @@ export default function Dashboard() {
             <div className="space-y-0 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
               {Array.isArray(transactions) && transactions.length > 0 ? (
                 transactions.slice(0, 2).map((transaction: any, index: number) => (
-                  <motion.div 
+                  <div 
                     key={transaction.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 * index }}
                     className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
                   >
                     <div className="flex items-center gap-3">
@@ -252,7 +217,7 @@ export default function Dashboard() {
                         -${(transaction.amount / 100).toFixed(2)}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))
               ) : (
                 <div className="text-center p-8">
