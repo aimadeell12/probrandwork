@@ -46,10 +46,10 @@ export default function Welcome() {
                   <div className="font-bold text-sm sm:text-base tracking-wide">
                     <span className="text-purple-300">PAY</span><span className="text-white">dota</span>
                   </div>
-                  {/* Card logos */}
-                  <div className="flex -space-x-1.5 sm:-space-x-2">
+                  {/* Card logos - Mastercard style */}
+                  <div className="flex items-center">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 bg-red-500 rounded-full"></div>
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-400 rounded-full"></div>
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-400 rounded-full -ml-3 sm:-ml-4"></div>
                   </div>
                 </div>
                 
