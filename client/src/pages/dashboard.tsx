@@ -130,8 +130,8 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Fixed Content Area */}
-          <div className="flex-1 flex flex-col p-4 pb-24">
+          {/* Fixed Content Area - No Scroll */}
+          <div className="flex-1 flex flex-col p-4 pb-20 overflow-hidden">
             {/* Quick Actions - Fixed */}
             <div className="mb-4">
               <div className="grid grid-cols-4 gap-4">

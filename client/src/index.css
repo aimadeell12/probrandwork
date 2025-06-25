@@ -22,7 +22,7 @@
   display: none;
 }
 
-/* Allow scrolling but prevent elastic behavior on mobile */
+/* Allow basic scrolling but prevent elastic behavior */
 html, body {
   overscroll-behavior: none;
   width: 100%;

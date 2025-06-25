@@ -156,7 +156,7 @@ export const shareContent = async (title: string, text: string, url?: string) =>
 // Prevent elastic scrolling behavior
 export const preventElasticScrolling = () => {
   if (isNativePlatform) {
-    // Allow scrolling but prevent elastic behavior
+    // Allow controlled scrolling
     document.body.style.overflowX = 'hidden';
     document.body.style.overflowY = 'auto';
     document.body.style.width = '100%';
