@@ -434,9 +434,6 @@ export default function Register() {
                   required
                 />
               </div>
-              <p className="text-xs text-gray-500 mt-1">
-                {selectedCountry.flag} {selectedCountry.name} ({selectedCountry.code})
-              </p>
             </div>
 
             {/* Password Field */}
