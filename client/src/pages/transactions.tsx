@@ -117,7 +117,7 @@ export default function Transactions() {
             </div>
 
             {/* Filter Buttons - Fixed */}
-            <div className="flex gap-2 px-4 pb-4 overflow-x-auto">
+            <div className="flex gap-1 px-4 pb-4 overflow-x-auto scrollbar-hide">
               {[
                 { key: "all", label: "All" },
                 { key: "send", label: "Send" },
@@ -130,10 +130,11 @@ export default function Transactions() {
                   variant={selectedFilter === filter.key ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedFilter(filter.key)}
-                  className={selectedFilter === filter.key 
-                    ? "whitespace-nowrap bg-purple-500 text-white shadow-lg"
-                    : "whitespace-nowrap bg-white border border-gray-200 hover:bg-gray-50"
-                  }
+                  className={`whitespace-nowrap text-xs px-3 py-2 min-w-0 flex-shrink-0 ${
+                    selectedFilter === filter.key 
+                      ? "bg-purple-500 text-white shadow-lg"
+                      : "bg-white border border-gray-200 hover:bg-gray-50"
+                  }`}
                 >
                   {filter.label}
                 </Button>
