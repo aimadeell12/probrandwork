@@ -85,110 +85,64 @@ export default function Cards() {
   }
 
   return (
-    <PullToRefresh onRefresh={handleRefresh}>
-      <div className="min-h-screen bg-white relative overflow-hidden">
-        {/* Clean white background */}
+    <div className="h-screen h-[100dvh] bg-white w-full">
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
         
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl relative z-10">
-        
+          {/* Header - Fixed at top */}
+          <div className="flex items-center justify-between mb-4 pt-2 pb-2 border-b border-gray-100">
+            <h1 className="text-xl font-semibold text-gray-900">
+              Cards
+            </h1>
+            <Button
+              onClick={() => setLocation("/choose-card")}
+              className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Card
+            </Button>
+          </div>
+
         {/* Check if there are cards */}
         {Array.isArray(cards) && cards.length > 0 ? (
           <>
-            {/* Header for existing cards */}
-            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 pt-12 gap-4">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center sm:text-left">
-                My Cards
-              </h1>
-              <div>
-                <Button
-                  onClick={() => setLocation("/choose-card")}
-                  className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-full p-3 shadow-lg"
-                >
-                  <Plus className="h-5 w-5" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Card Type Filter */}
-            <div className="flex bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full p-1 mb-8 max-w-xs mx-auto shadow-lg border border-white/30">
+            {/* Card Type Selector - Fixed */}
+            <div className="bg-gray-200 rounded-full p-1 mb-4 flex">
               <button
                 onClick={() => setSelectedCardType("virtual")}
                 className={cn(
-                  "flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-medium transition-all",
+                  "flex-1 rounded-full py-2 px-4 text-sm font-medium transition-colors",
                   selectedCardType === "virtual"
-                    ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                    ? "bg-purple-500 text-white"
+                    : "text-gray-600 hover:bg-gray-300"
                 )}
               >
-                Virtual Card
+                Virtual Cards
               </button>
               <button
                 onClick={() => setSelectedCardType("physical")}
                 className={cn(
-                  "flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-medium transition-all",
+                  "flex-1 rounded-full py-2 px-4 text-sm font-medium transition-colors",
                   selectedCardType === "physical"
-                    ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                    ? "bg-purple-500 text-white"
+                    : "text-gray-600 hover:bg-gray-300"
                 )}
               >
-                Physical Card
+                Physical Cards
               </button>
             </div>
 
-            {/* Cards Carousel - Horizontal Scrolling */}
-            <div className="relative">
-              <div className="flex gap-4 overflow-x-auto scrollbar-hide py-4 px-4 -mx-4 snap-x snap-mandatory">
-                {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card, index: number) => (
-                  <div 
-                    key={card.id} 
-                    className="flex-shrink-0 w-80 sm:w-96 snap-center"
-                  >
-                    <div className="relative group">
-                      {/* Card Visual */}
-                      <div className="relative w-full">
-                        <CreditCardComponent 
-                          card={card} 
-                          showDetails={showCardNumbers[card.id] || false}
-                          onToggleVisibility={() => toggleCardVisibility(card.id)}
-                        />
-                      </div>
-
-                      {/* Card info */}
-                      <div className="text-center mt-4 space-y-2">
-                        <div className={cn(
-                          "inline-flex items-center gap-2 text-sm transition-all duration-300",
-                          card.status === "blocked" 
-                            ? "text-red-600 dark:text-red-400" 
-                            : card.status === "frozen"
-                            ? "text-blue-600 dark:text-blue-400"
-                            : "text-gray-600 dark:text-gray-400"
-                        )}>
-                          <div className={cn(
-                            "w-4 h-4 rounded-full",
-                            card.status === "blocked"
-                              ? "bg-gradient-to-r from-red-500 to-red-600"
-                              : card.status === "frozen"
-                              ? "bg-gradient-to-r from-blue-500 to-cyan-500"
-                              : "bg-gradient-to-r from-purple-500 to-blue-500"
-                          )}></div>
-                          {t(card.status as any)}
-                        </div>
-
-                        <p className={cn(
-                          "text-sm transition-all duration-300",
-                          card.status === "blocked" 
-                            ? "text-red-500 dark:text-red-400" 
-                            : card.status === "frozen"
-                            ? "text-blue-500 dark:text-blue-400"
-                            : "text-gray-600 dark:text-gray-400"
-                        )}>
-                          {card.status === "blocked" 
-                            ? "Card is permanently blocked" 
-                            : card.status === "frozen"
-                            ? "Card is temporarily frozen"
-                            : "Ready to use"}
-                        </p>
-                      </div>
+            {/* Cards List - Static */}
+            <div className="space-y-4 mb-6">
+              {cards.filter((card: Card) => card.type === selectedCardType).map((card: Card) => (
+                <div key={card.id} className="w-full">
+                  <CreditCardComponent 
+                    card={card} 
+                    showDetails={showCardNumbers[card.id] || false}
+                    onToggleVisibility={() => toggleCardVisibility(card.id)}
+                  />
+                </div>
+              ))}
 
                       {/* Card Transactions */}
                       <div className="mt-6 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 border border-white/30 dark:border-gray-700/30">
