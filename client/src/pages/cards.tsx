@@ -67,6 +67,11 @@ export default function Cards() {
 
 
 
+  // Show skeleton loading screen when cards are loading
+  if (cardsLoading) {
+    return <CardsSkeleton />;
+  }
+
   return (
     <div className="h-screen h-[100dvh] bg-white w-full">
       <PullToRefresh onRefresh={handleRefresh}>
@@ -150,18 +155,21 @@ export default function Cards() {
             ) : (
               {/* No cards state */}
               <div className="flex flex-col items-center justify-center text-center py-12">
+                <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Plus className="h-10 w-10 text-purple-600" />
+                </div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  No Cards Yet
+                  No cards yet
                 </h2>
                 <p className="text-gray-600 mb-6 text-sm">
-                  Create your first card to start managing your finances
+                  You don't have any cards yet
                 </p>
                 <Button
                   onClick={() => setLocation("/choose-card")}
                   className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg font-medium"
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Create Your First Card
+                  Create your first card
                 </Button>
               </div>
             )}
