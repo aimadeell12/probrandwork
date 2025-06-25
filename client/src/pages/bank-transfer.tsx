@@ -51,16 +51,16 @@ export default function BankTransfer() {
     e.preventDefault();
     if (!amount || !selectedBank) {
       toast({
-        title: "خطأ",
-        description: "يرجى ملء جميع الحقول المطلوبة",
+        title: "Error",
+        description: "Please fill in all required fields",
         variant: "destructive",
       });
       return;
     }
 
     toast({
-      title: "تم إنشاء التحويل",
-      description: "تم إنشاء طلب التحويل البنكي بنجاح. استخدم التفاصيل أدناه لإكمال التحويل.",
+      title: "Transfer Created",
+      description: "Bank transfer request created successfully. Use the details below to complete the transfer.",
     });
     setAmount("");
     setSelectedBank("");
@@ -72,8 +72,8 @@ export default function BankTransfer() {
     setCopied(type);
     setTimeout(() => setCopied(""), 2000);
     toast({
-      title: "تم النسخ",
-      description: "تم نسخ المعلومات إلى الحافظة",
+      title: "Copied",
+      description: "Information copied to clipboard",
     });
   };
 
@@ -94,10 +94,10 @@ export default function BankTransfer() {
           <div>
             <h1 className="text-xl font-bold text-gray-900 flex items-center">
               <Building2 className="mr-3 h-6 w-6 text-purple-600" />
-              التحويل البنكي
+              Bank Transfer
             </h1>
             <p className="text-sm text-gray-600">
-              اختر البنك وأدخل المبلغ لإنشاء طلب تحويل
+              Select bank and enter amount to create transfer request
             </p>
           </div>
         </div>
@@ -106,7 +106,7 @@ export default function BankTransfer() {
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
           <div className="flex items-center gap-2 mb-6">
             <DollarSign className="h-6 w-6 text-green-600" />
-            <h2 className="text-lg font-bold text-gray-900">إنشاء طلب تحويل بنكي</h2>
+            <h2 className="text-lg font-bold text-gray-900">Create Bank Transfer Request</h2>
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -114,12 +114,12 @@ export default function BankTransfer() {
             {/* Amount Input */}
             <div className="space-y-2">
               <Label htmlFor="amount" className="text-gray-700">
-                المبلغ (ريال سعودي)
+                Amount (USD)
               </Label>
               <Input
                 id="amount"
                 type="number"
-                placeholder="أدخل المبلغ"
+                placeholder="Enter amount"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 className="text-2xl font-bold text-center border-gray-200 focus:border-purple-500 rounded-xl"
@@ -131,15 +131,15 @@ export default function BankTransfer() {
 
             {/* Bank Selection */}
             <div className="space-y-2">
-              <Label className="text-gray-700">اختر البنك</Label>
+              <Label className="text-gray-700">Select Bank</Label>
               {availableBanks.length === 0 ? (
                 <div className="p-8 text-center bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
                   <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-500 text-lg font-medium mb-2">
-                    لا توجد بنوك متاحة لدولتك حالياً
+                    No banks available for your country currently
                   </p>
                   <p className="text-gray-400 text-sm">
-                    البنوك المتاحة: المغرب (CIH, ATTIJARI, SGM)
+                    Available banks: Morocco (CIH, ATTIJARI, SGM)
                   </p>
                 </div>
               ) : (
@@ -187,11 +187,11 @@ export default function BankTransfer() {
             {/* Reference (Optional) */}
             <div className="space-y-2">
               <Label htmlFor="reference" className="text-gray-700">
-                مرجع التحويل (اختياري)
+                Transfer Reference (Optional)
               </Label>
               <Textarea
                 id="reference"
-                placeholder="أدخل مرجع أو ملاحظة للتحويل"
+                placeholder="Enter reference or note for transfer"
                 value={reference}
                 onChange={(e) => setReference(e.target.value)}
                 className="border-gray-200 focus:border-purple-500 rounded-xl"
@@ -205,7 +205,7 @@ export default function BankTransfer() {
               disabled={!amount || !selectedBank}
               className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl text-lg font-medium"
             >
-              إنشاء طلب التحويل
+              Create Transfer Request
             </Button>
           </form>
         </div>
@@ -215,7 +215,7 @@ export default function BankTransfer() {
           <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
             <div className="flex items-center gap-2 mb-4">
               <Building2 className="h-6 w-6 text-purple-600" />
-              <h2 className="text-lg font-bold text-gray-900">تفاصيل البنك المحدد</h2>
+              <h2 className="text-lg font-bold text-gray-900">Selected Bank Details</h2>
             </div>
             
             <div className="space-y-4">
@@ -244,7 +244,7 @@ export default function BankTransfer() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
-                    <span className="text-sm text-gray-600">رقم الحساب:</span>
+                    <span className="text-sm text-gray-600">Account Number:</span>
                     <div className="flex items-center gap-2">
                       <span className="font-mono text-sm">{selectedBankDetails.accountNumber}</span>
                       <Button
@@ -303,7 +303,7 @@ export default function BankTransfer() {
                   </div>
                   
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
-                    <span className="text-sm text-gray-600">العملة:</span>
+                    <span className="text-sm text-gray-600">Currency:</span>
                     <span className="font-medium">{selectedBankDetails.currency}</span>
                   </div>
                 </div>
@@ -315,24 +315,24 @@ export default function BankTransfer() {
         {/* Instructions Card */}
         <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
           <h3 className="text-lg font-bold text-purple-900 mb-4">
-            تعليمات التحويل
+            Transfer Instructions
           </h3>
           <div className="space-y-3 text-purple-800">
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">1</div>
-              <p>اختر البنك المناسب من القائمة أعلاه</p>
+              <p>Select the appropriate bank from the list above</p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">2</div>
-              <p>أدخل المبلغ المراد تحويله</p>
+              <p>Enter the amount you want to transfer</p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">3</div>
-              <p>انقر على "إنشاء طلب التحويل" للحصول على تفاصيل البنك</p>
+              <p>Click "Create Transfer Request" to get bank details</p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">4</div>
-              <p>استخدم تفاصيل البنك المعروضة لإجراء التحويل من بنكك</p>
+              <p>Use the displayed bank details to make the transfer from your bank</p>
             </div>
           </div>
         </div>
