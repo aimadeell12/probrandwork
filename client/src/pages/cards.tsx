@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus, ArrowUpRight, ArrowDownLeft, Clock } from "lucide-react";
+import { Plus, ArrowUpRight, ArrowDownLeft, Clock, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { CreditCard as CreditCardComponent } from "@/components/credit-card";
@@ -147,22 +147,19 @@ export default function Cards() {
                 </div>
               </div>
             </>
+            ) : cardsLoading ? (
+              {/* Loading state */}
+              <div className="flex flex-col items-center justify-center text-center py-12">
+                <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Loader2 className="h-10 w-10 text-purple-600 animate-spin" />
+                </div>
+              </div>
             ) : (
               {/* No cards state */}
               <div className="flex flex-col items-center justify-center text-center py-12">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  No Cards Yet
-                </h2>
-                <p className="text-gray-600 mb-6 text-sm">
-                  Create your first card to start managing your finances
-                </p>
-                <Button
-                  onClick={() => setLocation("/choose-card")}
-                  className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg font-medium"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Your First Card
-                </Button>
+                <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Loader2 className="h-10 w-10 text-purple-600 animate-spin" />
+                </div>
               </div>
             )}
           </div>
