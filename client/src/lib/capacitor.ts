@@ -149,11 +149,53 @@ export const shareContent = async (title: string, text: string, url?: string) =>
   }
 };
 
+// Prevent elastic scrolling behavior
+export const preventElasticScrolling = () => {
+  if (isNativePlatform) {
+    // Prevent document body from scrolling
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.height = '100%';
+    
+    // Prevent elastic bounce on iOS
+    document.addEventListener('touchmove', (e) => {
+      const target = e.target as HTMLElement;
+      const scrollableParent = target.closest('[data-scrollable]') || target.closest('.overflow-y-auto') || target.closest('.overflow-auto');
+      
+      if (!scrollableParent) {
+        e.preventDefault();
+      } else {
+        // Allow scrolling within designated scrollable areas
+        const { scrollTop, scrollHeight, clientHeight } = scrollableParent;
+        const reachedTop = scrollTop === 0;
+        const reachedBottom = scrollTop + clientHeight >= scrollHeight;
+        
+        if ((reachedTop && e.touches[0].clientY > e.touches[0].clientY) || 
+            (reachedBottom && e.touches[0].clientY < e.touches[0].clientY)) {
+          e.preventDefault();
+        }
+      }
+    }, { passive: false });
+    
+    // Prevent pull-to-refresh
+    document.addEventListener('touchstart', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[data-scrollable]') && !target.closest('.overflow-y-auto') && !target.closest('.overflow-auto')) {
+        if (e.touches.length > 1) {
+          e.preventDefault();
+        }
+      }
+    }, { passive: false });
+  }
+};
+
 // Initialize all mobile features
 export const initializeMobileApp = async () => {
   if (isNativePlatform) {
     await setupStatusBar();
     setupKeyboard();
+    preventElasticScrolling();
     setupAppStateListener(
       () => console.log('App resumed'),
       () => console.log('App paused')

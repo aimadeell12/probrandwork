@@ -143,7 +143,7 @@ export default function Transactions() {
           </div>
 
           {/* Scrollable Transactions List */}
-          <div className="flex-1 overflow-y-auto p-4 pb-24">
+          <div className="flex-1 overflow-y-auto p-4 pb-24" data-scrollable>
             <div className="space-y-3">
               {isLoading ? (
                 <div className="text-center py-8">

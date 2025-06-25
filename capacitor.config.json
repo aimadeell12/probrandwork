@@ -32,6 +32,17 @@
       "impact": {
         "style": "medium"
       }
+    },
+    "App": {
+      "launchUrl": "",
+      "iosScheme": "https",
+      "androidScheme": "https"
+    },
+    "WebView": {
+      "allowMixedContent": true,
+      "allowNavigation": [
+        "https://paydota.replit.app"
+      ]
     }
   }
 }
