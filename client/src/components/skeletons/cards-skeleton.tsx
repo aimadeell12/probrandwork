@@ -23,19 +23,46 @@ export function CardsSkeleton() {
 
         {/* Scrollable Content Area */}
         <div className="flex-1 overflow-y-auto p-4 pb-24">
-          {/* Show skeleton for empty state (similar to actual "No cards yet" screen) */}
-          <div className="flex flex-col items-center justify-center text-center py-12">
-            {/* Purple circle with card icon skeleton */}
-            <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Skeleton className="w-10 h-10 rounded" />
+          {/* Loading cards skeleton */}
+          <div className="space-y-6">
+            {/* Multiple card skeletons */}
+            {[1, 2].map((i) => (
+              <div key={i} className="relative">
+                {/* Card Skeleton */}
+                <div className="w-full aspect-[1.6/1] bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 relative overflow-hidden animate-pulse">
+                  {/* Card Background Pattern */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-4 right-4">
+                      <Skeleton className="w-12 h-8 rounded bg-purple-200" />
+                    </div>
+                  </div>
+                  
+                  {/* Card Content */}
+                  <div className="relative z-10 h-full flex flex-col justify-between">
+                    <div>
+                      <Skeleton className="h-4 w-24 mb-2 bg-purple-200" />
+                      <Skeleton className="h-6 w-32 bg-purple-200" />
+                    </div>
+                    
+                    <div>
+                      <Skeleton className="h-5 w-40 mb-2 bg-purple-200" />
+                      <div className="flex justify-between items-end">
+                        <div>
+                          <Skeleton className="h-3 w-16 mb-1 bg-purple-200" />
+                          <Skeleton className="h-4 w-12 bg-purple-200" />
+                        </div>
+                        <Skeleton className="w-8 h-6 rounded bg-purple-200" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Loading indicator at bottom */}
+            <div className="flex justify-center py-8">
+              <div className="animate-spin w-8 h-8 border-4 border-gray-200 border-t-purple-600 rounded-full"></div>
             </div>
-            
-            {/* Text skeletons */}
-            <Skeleton className="h-6 w-24 mb-2" />
-            <Skeleton className="h-4 w-48 mb-6" />
-            
-            {/* Button skeleton */}
-            <Skeleton className="h-10 w-40 rounded-lg" />
           </div>
         </div>
       </div>

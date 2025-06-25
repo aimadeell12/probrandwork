@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, ArrowUpRight, ArrowDownLeft, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,16 +13,17 @@ export default function Cards() {
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
   const [, setLocation] = useLocation();
+  const [showSkeleton, setShowSkeleton] = useState(true);
   
   const queryClient = useQueryClient();
 
   // Fetch cards
-  const { data: cards = [], isLoading: cardsLoading } = useQuery({
+  const { data: cards = [], isLoading: cardsLoading, isFetching: cardsFetching } = useQuery({
     queryKey: ['/api/cards'],
   });
 
   // Fetch transactions for each card
-  const { data: transactions = [], isLoading: transactionsLoading } = useQuery({
+  const { data: transactions = [], isLoading: transactionsLoading, isFetching: transactionsFetching } = useQuery({
     queryKey: ['/api/transactions'],
   });
 
@@ -67,8 +68,20 @@ export default function Cards() {
 
 
 
-  // Show skeleton loading screen when cards are loading
-  if (cardsLoading) {
+  // Add a minimum display time for skeleton screen
+  useEffect(() => {
+    if (!cardsLoading && !cardsFetching && !transactionsLoading && !transactionsFetching) {
+      const timer = setTimeout(() => {
+        setShowSkeleton(false);
+      }, 800); // Show skeleton for at least 800ms
+      return () => clearTimeout(timer);
+    } else {
+      setShowSkeleton(true);
+    }
+  }, [cardsLoading, cardsFetching, transactionsLoading, transactionsFetching]);
+
+  // Show skeleton loading screen when loading or for minimum time
+  if (showSkeleton || cardsLoading || cardsFetching || transactionsLoading || transactionsFetching) {
     return <CardsSkeleton />;
   }
 
