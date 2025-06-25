@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { Plus, ArrowUpRight, ArrowDownLeft, Clock, Eye, EyeOff, MoreVertical, Snowflake, Unlock, CreditCard, Loader2 } from "lucide-react";
+import { Plus, ArrowUpRight, ArrowDownLeft, Clock, Eye, EyeOff, MoreVertical, Snowflake, Unlock, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import PullToRefresh from "@/components/pull-to-refresh";
 import type { Card as CardType } from "shared/schema";
 import { useLocation } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
+import { CardsSkeleton } from "@/components/skeletons";
 
 // Stripe Card Component
 const StripeCard = ({ card, showDetails, onToggleVisibility }: {
@@ -459,13 +460,7 @@ export default function StripeCards() {
               </>
             ) : (
               /* Loading State */
-              <div className="flex items-center justify-center min-h-[60vh]">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Loader2 className="h-10 w-10 text-purple-600 dark:text-purple-400 animate-spin" />
-                  </div>
-                </div>
-              </div>
+              <CardsSkeleton />
             )}
           </div>
         </div>
