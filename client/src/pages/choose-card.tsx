@@ -29,14 +29,10 @@ export default function ChooseCard() {
     virtual: [
       { id: "purple", name: "Classic Purple", gradient: "from-purple-600 to-purple-700" },
       { id: "purple-pink", name: "Purple Gradient", gradient: "from-purple-500 to-pink-500" },
-      { id: "dark-purple", name: "Dark Purple", gradient: "from-purple-800 to-purple-900" },
-      { id: "light-purple", name: "Light Purple", gradient: "from-purple-400 to-purple-500" },
     ],
     physical: [
       { id: "classic-purple", name: "Classic Purple", gradient: "from-purple-600 to-purple-700" },
       { id: "premium-purple", name: "Premium Purple", gradient: "from-purple-800 to-purple-900" },
-      { id: "light-purple", name: "Light Purple", gradient: "from-purple-400 to-purple-500 text-white" },
-      { id: "gradient-purple", name: "Gradient Purple", gradient: "from-purple-500 to-pink-500" },
     ]
   };
 
