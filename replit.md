@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Removed cards.tsx file - now using only stripe-cards.tsx to eliminate conflicts and ensure consistent Cards page behavior
 - June 25, 2025: Fixed skeleton loading to show only in content area instead of full screen - header remains visible during loading
 - June 25, 2025: Made Cards header elements (Cards, Add Card, VIRTUAL CARDS, PHYSICAL CARDS) sticky at top of page using sticky positioning
 - June 25, 2025: Updated Virtual Cards/Physical Cards toggle buttons to match dashboard ACCOUNT/CARD design - rounded-full style with purple active state
