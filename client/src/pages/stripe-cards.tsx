@@ -201,6 +201,11 @@ export default function StripeCards() {
     queryKey: ['/api/transactions'],
   });
 
+  // Show skeleton while loading
+  if (cardsLoading || transactionsLoading) {
+    return <CardsSkeleton />;
+  }
+
   // Card management mutations
   const freezeCardMutation = useMutation({
     mutationFn: (cardId: string) => apiRequest('PATCH', `/api/cards/${cardId}/freeze`),
