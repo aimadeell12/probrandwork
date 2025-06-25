@@ -252,8 +252,8 @@ export default function Account() {
                   </span>
                 </div>
                 <span className="text-gray-400 text-xs mr-2">v2.0.21</span>
-                <ChevronRight className="h-4 w-4 text-gray-400" />
               </div>
+              <ChevronRight className="h-4 w-4 text-gray-400" />
             </button>
           </CardContent>
         </Card>
