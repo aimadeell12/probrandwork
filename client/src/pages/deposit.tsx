@@ -1,90 +1,47 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ArrowLeft, CreditCard, DollarSign, Plus, Building, Coins } from "lucide-react";
+import { ArrowLeft, CreditCard, Building } from "lucide-react";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import { useLanguage } from "@/hooks/useLanguage";
 import binanceIcon from "@assets/pngwing.com.png";
 
 export default function Deposit() {
-  const { t } = useLanguage();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const [amount, setAmount] = useState("");
   const [selectedMethod, setSelectedMethod] = useState("card");
 
-  const depositMutation = useMutation({
-    mutationFn: async (data: { amount: number; method: string }) => {
-      return apiRequest(`/api/wallet/deposit`, 'POST', data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] });
-      toast({
-        title: t('depositSuccess'),
-        description: `$${amount} deposited successfully`,
-      });
-      setAmount("");
-      setLocation("/dashboard");
-    },
-    onError: () => {
-      toast({
-        title: t('depositError'),
-        description: "An error occurred during deposit",
-        variant: "destructive",
-      });
-    },
-  });
-
-
-
-
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
-      
-      {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
-      
-      {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center space-x-4 space-x-reverse">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setLocation("/dashboard")}
-              className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20"
-            >
-              <ArrowLeft className="h-6 w-6" />
-            </Button>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            {t('depositMoney')}
-          </h1>
-          </div>
-        </div>
-      </div>
-
-      <div className="p-4 lg:p-8 space-y-6 relative z-10 max-w-md lg:max-w-4xl mx-auto">
+    <div className="min-h-screen bg-white">
+      <div className="px-4 py-6 pb-20">
         
-        {/* Payment Methods */}
-        <div className="max-w-md mx-auto space-y-6">
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-lg text-gray-900 dark:text-white">{t('paymentMethod')}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setLocation("/dashboard")}
+            className="p-2 hover:bg-purple-100 text-gray-700"
+          >
+            <ArrowLeft className="h-6 w-6" />
+          </Button>
+          <h1 className="text-xl font-bold text-gray-900">
+            Deposit Money
+          </h1>
+        </div>
+
+        {/* Payment Method Section */}
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
+            Payment Method
+          </h2>
+          
+          <div className="space-y-3">
+            {/* Credit Card Option */}
             <div 
-              className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+              className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
                 selectedMethod === "card" 
-                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
-                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+                  ? "border-purple-500 bg-purple-50" 
+                  : "border-gray-200 bg-white"
               }`}
               onClick={() => {
                 setSelectedMethod("card");
@@ -95,60 +52,62 @@ export default function Deposit() {
               }}
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
-                  <CreditCard className="h-5 w-5 text-blue-600" />
+                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                  <CreditCard className="h-6 w-6 text-blue-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">{t('creditCard')}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Visa, Mastercard</p>
+                  <p className="font-medium text-gray-900">Credit Card</p>
+                  <p className="text-sm text-gray-600">Visa, Mastercard</p>
                 </div>
               </div>
             </div>
 
+            {/* Bank Transfer Option */}
             <div 
-              className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+              className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
                 selectedMethod === "bank" 
-                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
-                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+                  ? "border-purple-500 bg-purple-50" 
+                  : "border-gray-200 bg-white"
               }`}
               onClick={() => setLocation("/bank-transfer")}
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-xl">
-                  <Building className="h-5 w-5 text-green-600" />
+                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                  <Building className="h-6 w-6 text-green-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">{t('bankTransfer')}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">ACH, Wire Transfer</p>
+                  <p className="font-medium text-gray-900">Bank Transfer</p>
+                  <p className="text-sm text-gray-600">ACH, Wire Transfer</p>
                 </div>
               </div>
             </div>
 
+            {/* Binance Pay Option */}
             <div 
-              className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+              className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
                 selectedMethod === "binance" 
-                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
-                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+                  ? "border-purple-500 bg-purple-50" 
+                  : "border-gray-200 bg-white"
               }`}
               onClick={() => setLocation("/binance-pay")}
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
+                <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
                   <img 
                     src={binanceIcon} 
                     alt="Binance" 
-                    className="h-5 w-5 object-contain"
+                    className="h-6 w-6 object-contain"
                   />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">Binance Pay</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Crypto payments</p>
+                  <p className="font-medium text-gray-900">Binance Pay</p>
+                  <p className="text-sm text-gray-600">Crypto payments</p>
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
         </div>
+
       </div>
     </div>
   );
