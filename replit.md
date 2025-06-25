@@ -141,6 +141,7 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Fixed Android build errors by removing invalid ic_launcher.png files from drawable-land folders
 - June 25, 2025: Updated app icon with new PayDota purple logo for Android build
 - June 25, 2025: Made Dashboard page completely static with all content fixed and non-scrollable like Cards page
 - June 25, 2025: Fixed transactions page to be completely static with only transaction list scrollable, matching dashboard design

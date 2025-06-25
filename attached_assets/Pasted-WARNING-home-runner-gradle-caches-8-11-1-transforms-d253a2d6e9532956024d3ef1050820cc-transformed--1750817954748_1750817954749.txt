@@ -1,0 +1,84 @@
+WARNING: /home/runner/.gradle/caches/8.11.1/transforms/d253a2d6e9532956024d3ef1050820cc/transformed/play-services-location-21.3.0-runtime.jar: D8: The companion object Companion could not be found in class com.google.android.gms.internal.location.zze
+/home/runner/work/Paydota22/Paydota22/android/app/src/main/res/drawable-land-hdpi/ic_launcher.png: Error: The drawable "ic_launcher" in drawable-land-hdpi has no declaration in the base drawable folder or in a drawable-densitydpi folder; this can lead to crashes when the drawable is queried in a configuration that does not match this qualifier [MissingDefaultResource]
+   Explanation for issues of type "MissingDefaultResource":
+   If a resource is only defined in folders with qualifiers like -land or -en,
+   and there is no default declaration in the base folder (layout or values
+   etc), then the app will crash if that resource is accessed on a device
+   where the device is in a configuration missing the given qualifier.
+   As a special case, drawables do not have to be specified in the base
+   folder; if there is a match in a density folder (such as drawable-mdpi)
+   that image will be used and scaled. Note however that if you  only specify
+   a drawable in a folder like drawable-en-hdpi, the app will crash in
+   non-English locales.
+   There may be scenarios where you have a resource, such as a -fr drawable,
+   which is only referenced from some other resource with the same qualifiers
+   (such as a -fr style), which itself has safe fallbacks. However, this still
+   makes it possible for somebody to accidentally reference the drawable and
+   crash, so it is safer to create a default fallback in the base folder.
+   Alternatively, you can suppress the issue by adding
+   tools:ignore="MissingDefaultResource" on the element.
+   (This scenario frequently happens with string translations, where you might
+   delete code and the corresponding resources, but forget to delete a
+   translation. There is a dedicated issue id for that scenario, with the id
+   ExtraTranslation.)
+1 errors, 0 warnings
+> Task :app:lintVitalReportRelease
+> Task :app:lintVitalRelease FAILED
+> Task :app:mergeDexRelease
+[Incubating] Problems report is available at: file:///home/runner/work/Paydota22/Paydota22/android/build/reports/problems/problems-report.html
+FAILURE: Build failed with an exception.
+591 actionable tasks: 574 executed, 17 up-to-date
+* What went wrong:
+Execution failed for task ':app:lintVitalRelease'.
+> Lint found fatal errors while assembling a release target.
+  
+  Fix the issues identified by lint, or create a baseline to see only new errors.
+  To create a baseline, run `gradlew updateLintBaseline` after adding the following to the module's build.gradle file:
+  ```
+  android {
+      lint {
+          baseline = file("lint-baseline.xml")
+      }
+  }
+  ```
+  For more details, see https://developer.android.com/studio/write/lint#snapshot
+  
+  Lint found 1 errors, 0 warnings. First failure:
+  
+  /home/runner/work/Paydota22/Paydota22/android/app/src/main/res/drawable-land-hdpi/ic_launcher.png: Error: The drawable "ic_launcher" in drawable-land-hdpi has no declaration in the base drawable folder or in a drawable-densitydpi folder; this can lead to crashes when the drawable is queried in a configuration that does not match this qualifier [MissingDefaultResource]
+  
+     Explanation for issues of type "MissingDefaultResource":
+     If a resource is only defined in folders with qualifiers like -land or -en,
+     and there is no default declaration in the base folder (layout or values
+     etc), then the app will crash if that resource is accessed on a device
+     where the device is in a configuration missing the given qualifier.
+  
+     As a special case, drawables do not have to be specified in the base
+     folder; if there is a match in a density folder (such as drawable-mdpi)
+     that image will be used and scaled. Note however that if you  only specify
+     a drawable in a folder like drawable-en-hdpi, the app will crash in
+     non-English locales.
+  
+     There may be scenarios where you have a resource, such as a -fr drawable,
+     which is only referenced from some other resource with the same qualifiers
+     (such as a -fr style), which itself has safe fallbacks. However, this still
+     makes it possible for somebody to accidentally reference the drawable and
+     crash, so it is safer to create a default fallback in the base folder.
+     Alternatively, you can suppress the issue by adding
+     tools:ignore="MissingDefaultResource" on the element.
+  
+     (This scenario frequently happens with string translations, where you might
+     delete code and the corresponding resources, but forget to delete a
+     translation. There is a dedicated issue id for that scenario, with the id
+     ExtraTranslation.)
+  
+  
+  The full lint text report is located at:
+    /home/runner/work/Paydota22/Paydota22/android/app/build/intermediates/lint_vital_intermediate_text_report/release/lintVitalReportRelease/lint-results-release.txt
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+BUILD FAILED in 1m 48s
+Error: Process completed with exit code 1.
