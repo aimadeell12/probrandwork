@@ -205,33 +205,33 @@ export default function KYCVerificationNew() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 p-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-white pt-2 px-3 pb-20">
+      <div className="max-w-md mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-4">
           <Link href="/dashboard">
-            <Button variant="ghost" size="icon" className="text-gray-600 dark:text-gray-400">
+            <Button variant="ghost" size="icon" className="text-gray-600">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Identity Verification</h1>
-          <div></div>
+          <h1 className="text-lg font-bold text-gray-900">Identity Verification</h1>
+          <div className="w-10"></div>
         </div>
 
         {/* Progress Steps */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between relative">
-            <div className="absolute top-4 left-0 right-0 h-0.5 bg-gray-200 dark:bg-gray-700 -z-10"></div>
+        <div className="mb-6">
+          <div className="flex items-center justify-between relative px-4">
+            <div className="absolute top-4 left-8 right-8 h-0.5 bg-gray-200"></div>
             {[1, 2, 3, 4].map((step) => (
-              <div key={step} className="flex flex-col items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 ${
+              <div key={step} className="flex flex-col items-center bg-white">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-1 text-sm font-medium ${
                   currentStep >= step 
                     ? "bg-purple-600 text-white" 
-                    : "bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400"
+                    : "bg-gray-300 text-gray-600"
                 }`}>
                   {step}
                 </div>
-                <span className="text-xs text-gray-600 dark:text-gray-400">
+                <span className="text-xs text-gray-600 text-center">
                   {step === 1 ? "Personal" : step === 2 ? "Address" : step === 3 ? "ID Photo" : "Review"}
                 </span>
               </div>
@@ -240,40 +240,40 @@ export default function KYCVerificationNew() {
         </div>
 
         {/* Step Content */}
-        <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">
+        <Card className="bg-white border border-gray-200 shadow-sm rounded-2xl">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-lg font-bold text-gray-900">
               {currentStep === 1 ? "Personal Information" : 
                currentStep === 2 ? "Address Information" : 
                currentStep === 3 ? "ID Document Photo" : "Review & Submit"}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-4">
             
             {/* Step 1: Personal Information */}
             {currentStep === 1 && (
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
                     Full Name
                   </label>
                   <Input
                     value={personalInfo.fullName}
                     onChange={(e) => setPersonalInfo(prev => ({...prev, fullName: e.target.value}))}
                     placeholder="Enter your full name"
-                    className="bg-white/80 dark:bg-gray-700/80"
+                    className="h-12 text-base"
                   />
                 </div>
 
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
                     Date of Birth
                   </label>
                   <Input
                     type="date"
                     value={personalInfo.dateOfBirth}
                     onChange={(e) => setPersonalInfo(prev => ({...prev, dateOfBirth: e.target.value}))}
-                    className="bg-white/80 dark:bg-gray-700/80"
+                    className="h-12 text-base"
                   />
                   {personalInfo.dateOfBirth && !validateAge(personalInfo.dateOfBirth) && (
                     <p className="text-red-500 text-sm mt-1">You must be 18 years or older</p>
@@ -281,11 +281,11 @@ export default function KYCVerificationNew() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
                     Document Type
                   </label>
                   <Select value={personalInfo.documentType} onValueChange={(value) => setPersonalInfo(prev => ({...prev, documentType: value}))}>
-                    <SelectTrigger className="bg-white/80 dark:bg-gray-700/80">
+                    <SelectTrigger className="h-12 text-base">
                       <SelectValue placeholder="Select document type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -297,24 +297,26 @@ export default function KYCVerificationNew() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
                     ID Number
                   </label>
                   <Input
                     value={personalInfo.idNumber}
                     onChange={(e) => setPersonalInfo(prev => ({...prev, idNumber: e.target.value}))}
                     placeholder="Enter your ID number"
-                    className="bg-white/80 dark:bg-gray-700/80"
+                    className="h-12 text-base"
                   />
                 </div>
 
-                <Button
-                  onClick={() => setCurrentStep(2)}
-                  disabled={!isStep1Valid()}
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                >
-                  Continue
-                </Button>
+                <div className="pt-4">
+                  <Button
+                    onClick={() => setCurrentStep(2)}
+                    disabled={!isStep1Valid()}
+                    className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-base font-medium"
+                  >
+                    Continue
+                  </Button>
+                </div>
               </div>
             )}
 
@@ -322,55 +324,55 @@ export default function KYCVerificationNew() {
             {currentStep === 2 && (
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
                     Street Address
                   </label>
                   <Input
                     value={personalInfo.address}
                     onChange={(e) => setPersonalInfo(prev => ({...prev, address: e.target.value}))}
                     placeholder="Enter street name and number"
-                    className="bg-white/80 dark:bg-gray-700/80"
+                    className="h-12 text-base"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">
                       City
                     </label>
                     <Input
                       value={personalInfo.city}
                       onChange={(e) => setPersonalInfo(prev => ({...prev, city: e.target.value}))}
                       placeholder="Enter city name"
-                      className="bg-white/80 dark:bg-gray-700/80"
+                      className="h-12 text-base"
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">
                       Postal Code
                     </label>
                     <Input
                       value={personalInfo.postalCode}
                       onChange={(e) => setPersonalInfo(prev => ({...prev, postalCode: e.target.value}))}
                       placeholder="Enter postal code"
-                      className="bg-white/80 dark:bg-gray-700/80"
+                      className="h-12 text-base"
                     />
                   </div>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex gap-3 pt-4">
                   <Button
                     onClick={() => setCurrentStep(1)}
                     variant="outline"
-                    className="flex-1"
+                    className="flex-1 h-12 text-base"
                   >
                     Back
                   </Button>
                   <Button
                     onClick={() => setCurrentStep(3)}
                     disabled={!isStep2Valid()}
-                    className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                    className="flex-1 h-12 bg-purple-600 hover:bg-purple-700 text-base font-medium"
                   >
                     Continue
                   </Button>
