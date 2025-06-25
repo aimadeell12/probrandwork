@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,11 +14,20 @@ import {
   DollarSign
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useNativeInteractions } from "@/hooks/useNativeInteractions";
+import PullToRefresh from "@/components/pull-to-refresh";
 
 export default function Transactions() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("all");
   const { t } = useLanguage();
+  const queryClient = useQueryClient();
+  const { triggerHaptic } = useNativeInteractions();
+
+  const handleRefresh = async () => {
+    triggerHaptic();
+    await queryClient.invalidateQueries();
+  };
 
   // Get transactions
   const { data: transactions = [], isLoading } = useQuery({
@@ -80,51 +89,52 @@ export default function Transactions() {
   };
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden p-4 pb-20">
-      
-      <div className="max-w-md mx-auto relative z-10">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6 pt-8">
-          <h1 className="text-2xl font-bold text-gray-900">{t("transactions")}</h1>
-          <Button variant="outline" size="icon" className="bg-white border-gray-200 hover:bg-gray-50">
-            <Filter className="h-4 w-4" />
-          </Button>
-        </div>
-
-        {/* Search */}
-        <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
-          <Input
-            placeholder={t("searchTransactions")}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 bg-white border-gray-200 focus:border-gray-400 rounded-2xl"
-          />
-        </div>
-
-        {/* Filter Buttons */}
-        <div className="flex gap-2 mb-6 overflow-x-auto">
-          {[
-            { key: "all", label: t("allTransactions") },
-            { key: "send", label: t("send") },
-            { key: "receive", label: t("scan") },
-            { key: "deposit", label: t("deposit") },
-            { key: "withdraw", label: t("withdraw") },
-          ].map((filter) => (
-            <Button
-              key={filter.key}
-              variant={selectedFilter === filter.key ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedFilter(filter.key)}
-              className={selectedFilter === filter.key 
-                ? "whitespace-nowrap bg-gray-900 text-white shadow-lg"
-                : "whitespace-nowrap bg-white border border-gray-200 hover:bg-gray-50"
-              }
-            >
-              {filter.label}
+    <div className="h-screen h-[100dvh] bg-white w-full">
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="h-full overflow-y-auto p-4 pb-24 max-w-md mx-auto">
+          
+          {/* Header - Fixed at top */}
+          <div className="flex items-center justify-between mb-4 pt-2 pb-2 border-b border-gray-100">
+            <h1 className="text-xl font-semibold text-gray-900">Transactions</h1>
+            <Button variant="outline" size="icon" className="bg-white border-gray-200 hover:bg-gray-50">
+              <Filter className="h-4 w-4" />
             </Button>
-          ))}
-        </div>
+          </div>
+
+          {/* Search - Fixed */}
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+            <Input
+              placeholder="Search transactions..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 bg-white border-gray-200 focus:border-gray-400 rounded-2xl"
+            />
+          </div>
+
+          {/* Filter Buttons - Fixed */}
+          <div className="flex gap-2 mb-4 overflow-x-auto">
+            {[
+              { key: "all", label: "All" },
+              { key: "send", label: "Send" },
+              { key: "receive", label: "Receive" },
+              { key: "deposit", label: "Deposit" },
+              { key: "withdraw", label: "Withdraw" },
+            ].map((filter) => (
+              <Button
+                key={filter.key}
+                variant={selectedFilter === filter.key ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedFilter(filter.key)}
+                className={selectedFilter === filter.key 
+                  ? "whitespace-nowrap bg-purple-500 text-white shadow-lg"
+                  : "whitespace-nowrap bg-white border border-gray-200 hover:bg-gray-50"
+                }
+              >
+                {filter.label}
+              </Button>
+            ))}
+          </div>
 
         {/* Summary Cards */}
         <div className="grid grid-cols-2 gap-4 mb-6">
