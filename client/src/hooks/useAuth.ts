@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 export function useAuth() {
   const { data: user, isLoading, error } = useQuery({
@@ -10,9 +11,22 @@ export function useAuth() {
     gcTime: 300000, // 5 minutes
   });
 
+  const isAuthenticated = !!user && !error;
+
+  // Force immediate redirect for authenticated users on welcome/root pages
+  useEffect(() => {
+    if (isAuthenticated && !isLoading && typeof window !== 'undefined') {
+      const currentPath = window.location.pathname;
+      if (currentPath === '/' || currentPath === '/welcome') {
+        // Use immediate redirect without delay
+        window.location.href = '/dashboard';
+      }
+    }
+  }, [isAuthenticated, isLoading]);
+
   return {
     user,
-    isLoading: false, // Always return false to skip loading skeleton
-    isAuthenticated: !!user && !error,
+    isLoading,
+    isAuthenticated,
   };
 }
