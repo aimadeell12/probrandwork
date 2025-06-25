@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, ArrowUpRight, ArrowDownLeft, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,22 +13,17 @@ export default function Cards() {
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
   const [, setLocation] = useLocation();
-  const [showSkeleton, setShowSkeleton] = useState(true);
   
   const queryClient = useQueryClient();
 
   // Fetch cards
-  const { data: cards = [], isLoading: cardsLoading, isFetching: cardsFetching } = useQuery({
+  const { data: cards = [], isLoading: cardsLoading } = useQuery({
     queryKey: ['/api/cards'],
-    staleTime: 0, // Always refetch to show loading
-    gcTime: 0, // Don't cache for too long
   });
 
   // Fetch transactions for each card
-  const { data: transactions = [], isLoading: transactionsLoading, isFetching: transactionsFetching } = useQuery({
+  const { data: transactions = [], isLoading: transactionsLoading } = useQuery({
     queryKey: ['/api/transactions'],
-    staleTime: 0, // Always refetch to show loading
-    gcTime: 0, // Don't cache for too long
   });
 
   // Pull to refresh function
@@ -71,46 +66,6 @@ export default function Cards() {
   };
 
 
-
-  // Force skeleton display for minimum time on every page visit
-  useEffect(() => {
-    console.log('Cards component mounted, showing skeleton');
-    setShowSkeleton(true);
-    
-    // Show skeleton until data is loaded AND minimum time passed
-    const minTimer = setTimeout(() => {
-      console.log('Minimum time passed, checking if data is ready');
-      // Only hide skeleton if data is actually loaded
-      if (cards !== undefined && transactions !== undefined) {
-        console.log('Data is ready, hiding skeleton');
-        setShowSkeleton(false);
-      }
-    }, 2000); // Minimum 2 seconds
-
-    return () => {
-      console.log('Cards component unmounting');
-      clearTimeout(minTimer);
-    };
-  }, []); // Run only once when component mounts
-
-  // Hide skeleton when data is fully loaded and minimum time has passed
-  useEffect(() => {
-    if (cards !== undefined && transactions !== undefined && !cardsLoading && !transactionsLoading) {
-      const timer = setTimeout(() => {
-        console.log('Data loaded, hiding skeleton after delay');
-        setShowSkeleton(false);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [cards, transactions, cardsLoading, transactionsLoading]);
-
-  console.log('Cards render, showSkeleton:', showSkeleton, 'cards length:', cards?.length);
-
-  // Show skeleton loading screen when loading OR when skeleton is forced to show
-  if (showSkeleton || cardsLoading || transactionsLoading || cards === undefined || transactions === undefined) {
-    console.log('Rendering CardsSkeleton - showSkeleton:', showSkeleton, 'cardsLoading:', cardsLoading, 'cards:', cards?.length);
-    return <CardsSkeleton />;
-  }
 
   return (
     <div className="h-screen h-[100dvh] bg-white w-full">
@@ -167,7 +122,6 @@ export default function Cards() {
             {/* Check if there are cards */}
             {Array.isArray(cards) && cards.length > 0 ? (
               <>
-              {console.log('Showing cards:', cards.length, 'filtered:', cards.filter((card: Card) => card.type === selectedCardType).length)}
 
               {/* Cards List */}
               <div className="space-y-4 mb-6">
@@ -194,28 +148,22 @@ export default function Cards() {
               </div>
             </>
             ) : (
-              <>
-              {console.log('No cards found, showing empty state')}
               {/* No cards state */}
               <div className="flex flex-col items-center justify-center text-center py-12">
-                <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Plus className="h-10 w-10 text-purple-600" />
-                </div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  No cards yet
+                  No Cards Yet
                 </h2>
                 <p className="text-gray-600 mb-6 text-sm">
-                  You don't have any cards yet
+                  Create your first card to start managing your finances
                 </p>
                 <Button
                   onClick={() => setLocation("/choose-card")}
                   className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg font-medium"
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Create your first card
+                  Create Your First Card
                 </Button>
               </div>
-              </>
             )}
           </div>
         </div>

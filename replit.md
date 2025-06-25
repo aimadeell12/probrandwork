@@ -141,7 +141,6 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
-- June 25, 2025: Updated Android app icon with new PayDota logo design featuring white background, purple circular accent, and clean white "P" logo for better visibility and professional appearance
 - June 25, 2025: Fixed Android system navigation bar color to white (#FFFFFF) to match app's background color for better visual consistency
 - June 25, 2025: Updated Android styles, Capacitor configuration, and splash screen to use purple brand colors
 - June 25, 2025: Added proper navigation bar styling for both light and dark themes in Android
