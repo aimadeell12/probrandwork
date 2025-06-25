@@ -9,84 +9,86 @@ export default function Welcome() {
   const { t, language } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
-      {/* Enhanced Background decorative elements for desktop */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-96 lg:h-96 xl:w-[500px] xl:h-[500px] bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-[400px] lg:h-[400px] xl:w-[600px] xl:h-[600px] bg-gradient-to-tr from-blue-200/15 to-purple-200/15 rounded-full blur-3xl"></div>
-      <div className="hidden lg:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-purple-100/10 to-pink-100/10 rounded-full blur-[100px]"></div>
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      {/* Mobile safe area for status bar */}
+      <div className="mobile-safe-area" />
       
-      {/* Mobile Layout (unchanged) */}
-      <div className="lg:hidden px-4 sm:px-6 flex flex-col justify-between h-screen relative z-10 max-w-7xl mx-auto overflow-hidden">
+      {/* Simplified background decorative elements - responsive sizing */}
+      <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 bg-gradient-to-br from-purple-200/10 to-pink-200/10 rounded-full blur-xl"></div>
+      <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-32 sm:h-32 lg:w-48 lg:h-48 bg-gradient-to-tr from-blue-200/8 to-purple-200/8 rounded-full blur-xl"></div>
+      
+      {/* Mobile Layout - optimized for all screen sizes */}
+      <div className="lg:hidden px-3 sm:px-4 md:px-6 flex flex-col justify-between min-h-screen relative z-10 max-w-sm sm:max-w-md mx-auto safe-area-inset">
         
-        {/* Header Content - محسن للهواتف */}
-        <div className="pt-6 sm:pt-8 text-center">
-          <h1 className="text-gray-600 dark:text-gray-400 text-lg sm:text-xl mb-2 font-light tracking-wide">
+        {/* Header Content - optimized for all mobile screens */}
+        <div className="pt-4 sm:pt-6 text-center">
+          <h1 className="text-gray-600 text-base sm:text-lg mb-1 sm:mb-2 font-light tracking-wide">
             Banking account
           </h1>
-          <h2 className="text-gray-900 dark:text-white text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 tracking-tight">
+          <h2 className="text-gray-900 text-xl sm:text-2xl font-bold mb-3 sm:mb-4 tracking-tight">
             fully <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">online</span>
           </h2>
         </div>
 
-        {/* Center Visual Content - تصميم محسن */}
-        <div className="flex-1 flex items-center justify-center py-4 relative">
+        {/* Center Visual Content - responsive card design */}
+        <div className="flex-1 flex items-center justify-center py-2 sm:py-4 relative">
           
-          {/* البطاقة الرقمية الحديثة */}
-          <div className="relative mx-auto max-w-sm">
-            <div className="relative bg-gradient-to-br from-slate-800 via-blue-900 to-slate-900 rounded-2xl shadow-2xl p-6 transform rotate-6 hover:rotate-3 transition-all duration-500 border border-slate-700/50 backdrop-blur-sm">
-              {/* خلفية البطاقة مع التأثيرات */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 via-purple-600/20 to-transparent rounded-2xl"></div>
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-white/20 to-transparent rounded-full blur-3xl"></div>
+          {/* Modern Digital Card - responsive */}
+          <div className="relative mx-auto w-full max-w-xs sm:max-w-sm">
+            <div className="relative bg-gradient-to-br from-slate-800 via-blue-900 to-slate-900 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 transform rotate-3 hover:rotate-1 transition-all duration-300 border border-slate-700/50 aspect-[1.6/1]">
+              {/* Card background effects */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/25 via-purple-600/15 to-transparent rounded-xl sm:rounded-2xl"></div>
+              <div className="absolute top-0 right-0 w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-bl from-white/15 to-transparent rounded-full blur-2xl"></div>
               
-              <div className="relative z-10">
-                {/* رأس البطاقة */}
-                <div className="flex justify-between items-start mb-6">
-                  <div className="font-bold text-lg tracking-wide">
+              <div className="relative z-10 h-full flex flex-col justify-between">
+                {/* Card header */}
+                <div className="flex justify-between items-start">
+                  <div className="font-bold text-sm sm:text-base lg:text-lg tracking-wide">
                     <span className="text-purple-400">PAY</span><span className="text-white">dota</span>
                   </div>
-                  {/* شعار البطاقة */}
-                  <div className="flex -space-x-1">
-                    <div className="w-6 h-6 bg-red-500 rounded-full"></div>
-                    <div className="w-6 h-6 bg-yellow-400 rounded-full"></div>
+                  {/* Card logos */}
+                  <div className="flex -space-x-0.5 sm:-space-x-1">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 bg-red-500 rounded-full"></div>
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 bg-yellow-400 rounded-full"></div>
                   </div>
                 </div>
                 
-                {/* الشريحة الذكية */}
-                <div className="w-10 h-7 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-lg mb-6 shadow-inner"></div>
+                {/* Smart chip */}
+                <div className="w-8 h-5 sm:w-10 sm:h-7 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-md sm:rounded-lg shadow-inner"></div>
                 
-                {/* رقم البطاقة */}
-                <div className="text-white font-mono text-lg font-bold tracking-wider mb-4">
+                {/* Card number */}
+                <div className="text-white font-mono text-sm sm:text-base lg:text-lg font-bold tracking-wider">
                   4532 1234 5678 9012
                 </div>
                 
-                {/* تفاصيل البطاقة */}
+                {/* Card details */}
                 <div className="flex justify-between items-end">
                   <div>
-                    <div className="text-gray-300 text-xs uppercase tracking-wide mb-1">Valid Thru</div>
-                    <div className="text-white font-bold text-sm">12/28</div>
+                    <div className="text-gray-300 text-[10px] sm:text-xs uppercase tracking-wide mb-0.5">Valid Thru</div>
+                    <div className="text-white font-bold text-xs sm:text-sm">12/28</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-white font-bold">AIMAD</div>
-                    <div className="text-gray-300 text-xs">Account Holder</div>
+                    <div className="text-white font-bold text-xs sm:text-sm">AIMAD</div>
+                    <div className="text-gray-300 text-[10px] sm:text-xs">Account Holder</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* مؤشرات الحالة التفاعلية */}
-            <div className="flex justify-center mt-8 space-x-3">
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-lg"></div>
-              <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse delay-75 shadow-lg"></div>
-              <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse delay-150 shadow-lg"></div>
+            {/* Status indicators */}
+            <div className="flex justify-center mt-4 sm:mt-6 space-x-2">
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse shadow-md"></div>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse delay-75 shadow-md"></div>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse delay-150 shadow-md"></div>
             </div>
           </div>
         </div>
 
-        {/* أزرار محسنة وحديثة */}
-        <div className="w-full max-w-sm mx-auto pb-6 space-y-8">
+        {/* Enhanced responsive buttons */}
+        <div className="w-full pb-3 sm:pb-4 space-y-4 sm:space-y-6">
           <Link href="/login">
-            <Button className="w-full h-14 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white text-base font-bold rounded-2xl shadow-2xl hover:shadow-purple-500/40 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 border border-purple-500/30 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <Button className="w-full h-12 sm:h-14 bg-purple-600 hover:bg-purple-700 text-white text-sm sm:text-base font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
               <span className="relative z-10 tracking-wide">LOG IN</span>
             </Button>
           </Link>
@@ -94,22 +96,22 @@ export default function Welcome() {
           <Link href="/register">
             <Button 
               variant="outline" 
-              className="w-full h-14 border-2 border-purple-300 hover:border-purple-400 text-purple-700 hover:text-purple-800 text-base font-bold rounded-2xl bg-white/90 hover:bg-white shadow-2xl hover:shadow-purple-500/20 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 backdrop-blur-sm relative overflow-hidden group"
+              className="w-full h-12 sm:h-14 border-2 border-purple-300 hover:border-purple-400 text-purple-700 hover:text-purple-800 text-sm sm:text-base font-bold rounded-xl sm:rounded-2xl bg-white hover:bg-purple-50 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden group"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-50/50 via-purple-100/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <span className="relative z-10 tracking-wide">OPEN A DIGITAL ACCOUNT</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+              <span className="relative z-10 tracking-wide text-center leading-tight">OPEN A DIGITAL ACCOUNT</span>
             </Button>
           </Link>
           
-          {/* مؤشر سفلي أنيق */}
-          <div className="flex justify-center pt-4">
-            <div className="w-16 h-1.5 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 rounded-full shadow-lg animate-pulse"></div>
+          {/* Bottom indicator */}
+          <div className="flex justify-center pt-2 sm:pt-3">
+            <div className="w-12 h-1 sm:w-16 sm:h-1.5 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 rounded-full shadow-md"></div>
           </div>
         </div>
       </div>
 
-      {/* Ultra-Premium Desktop Layout (lg and above) */}
-      <div className="hidden lg:flex h-screen relative z-10">
+      {/* Desktop Layout (lg and above) - simplified and responsive */}
+      <div className="hidden lg:flex min-h-screen relative z-10 bg-white">
         {/* Elegant Left Panel - Content */}
         <div className="flex-1 flex flex-col justify-center px-16 xl:px-24 2xl:px-40 relative">
           {/* Decorative Elements */}

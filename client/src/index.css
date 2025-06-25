@@ -260,6 +260,10 @@ html {
     margin-top: 0.75rem;
   }
   
+  .space-y-4 > * + * {
+    margin-top: 0.75rem;
+  }
+  
   .text-xl {
     font-size: 1rem;
   }
@@ -278,6 +282,16 @@ html {
   
   .rounded-2xl {
     border-radius: 0.75rem;
+  }
+  
+  /* Welcome page specific optimizations */
+  .aspect-\[1\.6\/1\] {
+    aspect-ratio: 1.5/1;
+  }
+  
+  /* Compact button text for very small screens */
+  .leading-tight {
+    line-height: 1.2;
   }
 }
 
@@ -298,12 +312,37 @@ html {
     padding-top: 0.5rem;
   }
   
+  .pt-4 {
+    padding-top: 0.5rem;
+  }
+  
   .space-y-5 > * + * {
     margin-top: 0.5rem;
   }
   
+  .space-y-4 > * + * {
+    margin-top: 0.5rem;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 0.75rem;
+  }
+  
   .mobile-card {
     padding: 0.75rem;
+  }
+  
+  /* Compact card for landscape */
+  .aspect-\[1\.6\/1\] {
+    aspect-ratio: 1.8/1;
+  }
+  
+  .h-12 {
+    height: 2.25rem;
+  }
+  
+  .h-14 {
+    height: 2.5rem;
   }
 }
 
