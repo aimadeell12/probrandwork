@@ -140,12 +140,12 @@ export default function Transactions() {
           <div className="space-y-3">
             {isLoading ? (
               <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+                <div className="rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
                 <p className="text-gray-600 mt-2">Loading transactions...</p>
               </div>
             ) : filteredTransactions.length > 0 ? (
               filteredTransactions.map((transaction: any) => (
-                <Card key={transaction.id} className="bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                <Card key={transaction.id} className="bg-white border border-gray-200 shadow-sm">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
