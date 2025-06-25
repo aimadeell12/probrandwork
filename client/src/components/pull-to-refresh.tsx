@@ -85,7 +85,7 @@ export default function PullToRefresh({
         <div 
           className="fixed left-0 right-0 h-8 flex items-center justify-center z-50"
           style={{ 
-            top: 'calc(env(safe-area-inset-top, 0px) + 10px)'
+            top: 'calc(env(safe-area-inset-top, 20px) + 20px)'
           }}
         >
           <div className="bg-purple-600 rounded-full p-2 shadow-lg">
