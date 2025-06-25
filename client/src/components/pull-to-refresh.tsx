@@ -37,9 +37,9 @@ export default function PullToRefresh({
     if (!isPulling || isRefreshing) return;
 
     const currentY = e.touches[0].clientY;
-    const distance = Math.max(0, (currentY - startY.current) * 0.5);
+    const distance = Math.max(0, (currentY - startY.current) * 0.3);
     
-    if (distance > 0) {
+    if (distance > 0 && distance < 100) {
       e.preventDefault();
       setPullDistance(distance);
       
@@ -80,32 +80,14 @@ export default function PullToRefresh({
 
   return (
     <div className="relative h-full">
-      {/* مؤشر التحديث المخفي في الأعلى */}
-      <div 
-        className="absolute top-0 left-0 right-0 flex items-center justify-center bg-white z-50 border-b border-gray-100"
-        style={{ 
-          height: `${Math.min(pullDistance, 50)}px`,
-          opacity: refreshOpacity,
-          transform: `translateY(-${Math.max(0, 50 - pullDistance)}px)`,
-          transition: isPulling ? 'none' : 'transform 0.3s ease-out, opacity 0.3s ease-out'
-        }}
-      >
-        <div className="flex items-center gap-2 py-2">
-          <RefreshCw 
-            className={`h-5 w-5 text-purple-600 ${iconRotation}`}
-            style={{
-              transform: isRefreshing ? 'none' : `rotate(${pullDistance * 3}deg)`
-            }}
-          />
-          {pullDistance > 20 && (
-            <span className="text-sm text-purple-600 font-medium">
-              {getRefreshText()}
-            </span>
-          )}
+      {/* مؤشر التحديث الثابت في الأعلى */}
+      {isRefreshing && (
+        <div className="fixed top-0 left-0 right-0 h-8 flex items-center justify-center bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
+          <RefreshCw className="h-4 w-4 text-purple-600 animate-spin" />
         </div>
-      </div>
+      )}
 
-      {/* المحتوى الرئيسي - لا يختفي أبداً */}
+      {/* المحتوى الرئيسي */}
       <div
         ref={containerRef}
         className="h-full overflow-auto native-scroll"
@@ -113,8 +95,8 @@ export default function PullToRefresh({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         style={{ 
-          transform: `translateY(${pullDistance > 0 ? Math.min(pullDistance * 0.3, 15) : 0}px)`,
-          transition: isPulling ? 'none' : 'transform 0.3s ease-out'
+          paddingTop: isRefreshing ? '32px' : '0px',
+          transition: 'padding-top 0.3s ease-out'
         }}
       >
         {children}

@@ -141,6 +141,8 @@ PayDota is a comprehensive digital banking platform built with modern web techno
 - **Mobile Stores**: Google Play Store and Apple App Store distribution
 
 ## Changelog
+- June 25, 2025: Fixed pull-to-refresh component to keep content visible at all times - no more disappearing content during refresh
+- June 25, 2025: Improved pull-to-refresh to show only a minimal loading indicator at the top when refreshing
 - June 25, 2025: Fixed Cards page layout - made header elements (Cards, Add Card, Virtual Cards, Physical Cards) completely fixed and non-scrollable with proper touch handling
 - June 25, 2025: Fixed motion import error in dashboard component that was causing JavaScript runtime errors
 - June 24, 2025: Fixed transactions page to be completely static with only transaction list scrollable, matching dashboard design
