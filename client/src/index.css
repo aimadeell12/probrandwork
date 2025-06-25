@@ -273,7 +273,11 @@ html {
   }
   
   .space-y-12 > * + * {
-    margin-top: 2rem;
+    margin-top: 2.5rem;
+  }
+  
+  .space-y-16 > * + * {
+    margin-top: 3rem;
   }
   
   .text-xl {
@@ -345,7 +349,11 @@ html {
   }
   
   .space-y-12 > * + * {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .space-y-16 > * + * {
+    margin-top: 2.5rem;
   }
   
   .mobile-card {
