@@ -788,6 +788,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/test/airwallex/account", requireAuth, async (req: any, res) => {
+    try {
+      // Get account info from access token
+      const token = await airwallex['authenticate']();
+      
+      // Decode JWT token to get account info
+      let accountInfo = null;
+      if (token) {
+        try {
+          const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+          accountInfo = {
+            account_id: payload.account_id,
+            sub: payload.sub,
+            iat: payload.iat,
+            exp: payload.exp,
+            api_version: payload.api_version,
+            data_center_region: payload.data_center_region,
+            padc: payload.padc,
+            dc: payload.dc
+          };
+        } catch (decodeError) {
+          console.error("Failed to decode token:", decodeError);
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: "Account information retrieved successfully",
+        account_info: accountInfo,
+        has_token: !!token,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error("❌ Airwallex account test failed:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve account information",
+        error: error.message,
+        details: error.response?.data || null
+      });
+    }
+  });
+
   // Wallet operations
   app.post("/api/wallet/deposit", requireAuth, async (req: any, res) => {
     try {

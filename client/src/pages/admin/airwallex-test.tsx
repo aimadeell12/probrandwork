@@ -66,6 +66,9 @@ export default function AirwallexTest() {
     // Test authentication
     await testEndpoint('/api/test/airwallex/auth', 'GET', 'اختبار المصادقة');
     
+    // Test account information
+    await testEndpoint('/api/test/airwallex/account', 'GET', 'اختبار معلومات الحساب');
+    
     // Test cardholder creation
     await testEndpoint('/api/test/airwallex/cardholder', 'POST', 'اختبار إنشاء cardholder');
     
@@ -120,6 +123,14 @@ export default function AirwallexTest() {
                 </Button>
                 
                 <Button 
+                  onClick={() => testEndpoint('/api/test/airwallex/account', 'GET', 'اختبار معلومات الحساب')}
+                  disabled={isLoading}
+                  className="bg-green-500 hover:bg-green-600"
+                >
+                  عرض Account ID
+                </Button>
+                
+                <Button 
                   variant="outline"
                   onClick={clearResults}
                   disabled={isLoading}
@@ -169,9 +180,22 @@ export default function AirwallexTest() {
                         <strong>الوقت:</strong> {result.timestamp}
                       </div>
                       
+                      {/* Show Account ID prominently if available */}
+                      {result.data?.account_info?.account_id && (
+                        <div className="mt-3 p-3 bg-green-50 rounded-md">
+                          <h4 className="font-semibold text-green-800 mb-2">معلومات الحساب:</h4>
+                          <div className="text-sm">
+                            <p><strong>Account ID:</strong> <code className="bg-green-100 px-2 py-1 rounded text-green-800">{result.data.account_info.account_id}</code></p>
+                            <p><strong>API Version:</strong> {result.data.account_info.api_version}</p>
+                            <p><strong>Data Center:</strong> {result.data.account_info.data_center_region}</p>
+                            <p><strong>PADC:</strong> {result.data.account_info.padc}</p>
+                          </div>
+                        </div>
+                      )}
+                      
                       <details className="mt-2">
                         <summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-800">
-                          عرض التفاصيل
+                          عرض التفاصيل الكاملة
                         </summary>
                         <pre className="mt-2 p-2 bg-gray-50 rounded text-xs overflow-x-auto">
                           {JSON.stringify(result.data, null, 2)}
