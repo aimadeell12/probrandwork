@@ -3,7 +3,7 @@
   "appName": "PayDota",
   "webDir": "dist/public",
   "server": {
-    "url": "https://paydota.replit.app",
+    "url": "https://paydota22.onrender.com",
     "cleartext": false,
     "androidScheme": "https"
   },

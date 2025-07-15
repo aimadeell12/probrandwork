@@ -13,7 +13,8 @@ import {
   Gift,
   Phone,
   Crown,
-  FileCheck
+  FileCheck,
+  MessageCircle
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";

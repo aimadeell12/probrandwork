@@ -74,8 +74,8 @@ export const cards = pgTable("cards", {
   // External provider IDs
   lithicCardId: varchar("lithic_card_id").unique(),
   reapCardId: varchar("reap_card_id").unique(),
-  stripeCardId: varchar("stripe_card_id").unique(),
-  stripeCardHolderId: varchar("stripe_cardholder_id"),
+  airwallexCardId: varchar("airwallex_card_id").unique(),
+  airwallexCardHolderId: varchar("airwallex_cardholder_id"),
   // Card details
   holderName: varchar("holder_name"),
   cardNumber: varchar("card_number"), // Full card number (encrypted in production)
@@ -110,6 +110,7 @@ export const transactions = pgTable("transactions", {
   id: uuid("id").primaryKey().defaultRandom(),
   cardId: uuid("card_id").notNull().references(() => cards.id),
   lithicTransactionId: varchar("lithic_transaction_id").unique(),
+  airwallexTransactionId: varchar("airwallex_transaction_id").unique(),
   amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
   currency: varchar("currency", { length: 3 }).notNull(),
   merchant: varchar("merchant"),
@@ -342,11 +343,18 @@ export const insertCardSchema = createInsertSchema(cards).omit({
   balance: true,
   createdAt: true,
   updatedAt: true,
+  expiryMonth: true,
+  expiryYear: true,
+  cvv: true,
+  cardNumber: true,
+  airwallexCardId: true,
+  airwallexCardHolderId: true,
 });
 
 export const insertTransactionSchema = createInsertSchema(transactions).omit({
   id: true,
   lithicTransactionId: true,
+  airwallexTransactionId: true,
   createdAt: true,
 });
 

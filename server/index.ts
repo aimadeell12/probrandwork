@@ -2,6 +2,12 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
+// Set WhatsApp environment variables directly
+process.env.WHATSAPP_ACCESS_TOKEN = "EAAQrRrLPFnMBOZCjlicG9mv99Sq4iESVFfZBc57wQtZCPGQGnSR14qCw7QNIg7i1Gfhun81GxOQo96M9ILlgr0geX5NrhD19w8BXZCCKHGSxeqzoRaTsAVJwbTrQZCx5EBgVVITAPOxdnqBZBfDUxikrCuwMCNli31nfghrEIuy6qV5ec07ZCWXhFhSUXZAc8JFLZB37BvOOTa1cr6W9uTDY6PkZCeXPmreVKzpD64qhXMZCyUOMO8KH3JkWmkmkDMfKwZDZD";
+process.env.WHATSAPP_PHONE_NUMBER_ID = "637387286132641";
+process.env.WHATSAPP_BUSINESS_ACCOUNT_ID = "576288461869738";
+process.env.WHATSAPP_VERIFY_TOKEN = "paydota_webhook_verify_token_2025";
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

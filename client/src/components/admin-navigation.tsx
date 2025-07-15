@@ -16,7 +16,8 @@ import {
   Ticket,
   DollarSign,
   MessageSquare,
-  Plus
+  Plus,
+  MessageCircle
 } from "lucide-react";
 
 export default function AdminNavigation() {
@@ -96,6 +97,14 @@ export default function AdminNavigation() {
       isActive: location === "/admin/community"
     },
     {
+      title: "WhatsApp Settings",
+      description: "Configure WhatsApp API and OTP templates",
+      href: "/admin-panel/whatsapp",
+      icon: MessageCircle,
+      color: "bg-green-500",
+      isActive: location === "/admin-panel/whatsapp"
+    },
+    {
       title: "Admin Settings",
       description: "Configure system settings and preferences",
       href: "/admin/settings", 
@@ -106,44 +115,44 @@ export default function AdminNavigation() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900">
-      <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20">
+    <div className="min-h-screen bg-white">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
+        <div className="mb-8 text-center">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-r from-purple-500/80 to-pink-500/80 rounded-xl flex items-center justify-center shadow-lg">
               <Crown className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
                 Admin Panel
               </h1>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-600 text-sm sm:text-base">
                 Administrative dashboard and management tools
               </p>
             </div>
           </div>
           
-          <Badge className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800">
+          <Badge className="bg-purple-100/80 text-purple-700 border-purple-200 px-4 py-2">
             Administrator Access
           </Badge>
         </div>
 
         {/* Quick Return to Dashboard */}
-        <div className="mb-6">
+        <div className="mb-8">
           <Link href="/dashboard">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer border-2 border-transparent hover:border-purple-200 dark:hover:border-purple-700">
+            <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/50 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer hover:border-purple-200">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                      <Home className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+                    <div className="w-10 h-10 bg-gradient-to-r from-gray-500/80 to-gray-600/80 rounded-lg flex items-center justify-center">
+                      <Home className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900 dark:text-white">
+                      <h3 className="font-medium text-gray-900">
                         Return to Dashboard
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-sm text-gray-600">
                         Go back to main user dashboard
                       </p>
                     </div>
@@ -156,61 +165,56 @@ export default function AdminNavigation() {
         </div>
 
         {/* Admin Pages Grid */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="space-y-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">
             Administrative Tools
           </h2>
           
-          {adminPages.map((page, index) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {adminPages.map((page, index) => {
             const IconComponent = page.icon;
             
             return (
               <Link key={index} href={page.href}>
-                <Card className={`hover:shadow-md transition-all duration-200 cursor-pointer border-2 ${
+                <Card className={`bg-white/80 backdrop-blur-sm border border-gray-200/50 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer ${
                   page.isActive 
-                    ? 'border-purple-300 dark:border-purple-600 bg-purple-50/50 dark:bg-purple-900/20' 
-                    : 'border-transparent hover:border-purple-200 dark:hover:border-purple-700'
-                } transform hover:scale-[1.02]`}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 ${page.color} rounded-xl flex items-center justify-center shadow-lg`}>
-                          <IconComponent className="h-6 w-6 text-white" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                            {page.title}
-                          </h3>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            {page.description}
-                          </p>
-                        </div>
+                    ? 'border-purple-300 bg-purple-50/50' 
+                    : 'hover:border-purple-200'
+                } transform hover:scale-[1.02] h-full`}>
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="flex flex-col items-center text-center gap-3">
+                      <div className={`w-12 h-12 ${page.color}/80 rounded-xl flex items-center justify-center shadow-lg`}>
+                        <IconComponent className="h-6 w-6 text-white" />
                       </div>
-                      <div className="flex items-center gap-2">
-                        {page.isActive && (
-                          <Badge className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300">
-                            Active
-                          </Badge>
-                        )}
-                        <ChevronRight className="h-5 w-5 text-gray-400" />
+                      <div>
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1">
+                          {page.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-600">{page.description}</p>
                       </div>
+                      {page.isActive && (
+                        <Badge className="bg-purple-100/80 text-purple-700 text-xs">
+                          Active
+                        </Badge>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
               </Link>
             );
           })}
+          </div>
         </div>
 
         {/* Quick Actions */}
         <div className="mt-8">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6 text-center">
             Quick Actions
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <Link href="/kyc-management">
-              <Button className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white p-4 h-auto">
+              <Button className="w-full justify-start bg-gradient-to-r from-purple-500/80 to-pink-500/80 hover:from-purple-600/80 hover:to-pink-600/80 text-white p-4 h-auto shadow-lg hover:shadow-xl transition-all duration-200">
                 <Shield className="h-5 w-5 mr-3" />
                 <div className="text-left">
                   <div className="font-medium">Review KYC Requests</div>
@@ -220,11 +224,11 @@ export default function AdminNavigation() {
             </Link>
             
             <Link href="/admin/users">
-              <Button variant="outline" className="w-full justify-start p-4 h-auto border-2">
-                <Users className="h-5 w-5 mr-3" />
+              <Button variant="outline" className="w-full justify-start p-4 h-auto border-2 border-purple-200 hover:border-purple-300 hover:bg-purple-50/50 shadow-lg hover:shadow-xl transition-all duration-200">
+                <Users className="h-5 w-5 mr-3 text-purple-600" />
                 <div className="text-left">
-                  <div className="font-medium">Manage Users</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">User administration</div>
+                  <div className="font-medium text-gray-900">Manage Users</div>
+                  <div className="text-sm text-gray-600">User administration</div>
                 </div>
               </Button>
             </Link>

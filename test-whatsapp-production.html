@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار WhatsApp - الإنتاج</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .info {
+            background: #e2e3e5;
+            color: #383d41;
+            border: 1px solid #d6d8db;
+            font-size: 14px;
+        }
+        
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 اختبار WhatsApp - الإنتاج الحقيقي</h1>
+        
+        <div class="info">
+            <strong>ملاحظة:</strong> هذا اختبار لنظام WhatsApp في وضع الإنتاج الحقيقي. سيتم إرسال رسائل WhatsApp فعلية إلى الرقم المحدد.
+        </div>
+
+        <div class="form-group">
+            <label for="phone">رقم الهاتف (مع كود البلد):</label>
+            <input type="tel" id="phone" placeholder="+212708042619" value="+212708042619">
+        </div>
+
+        <div class="form-group">
+            <label for="purpose">نوع الرسالة:</label>
+            <select id="purpose">
+                <option value="login">تسجيل الدخول</option>
+                <option value="registration">التسجيل</option>
+                <option value="phone_verification">تأكيد الهاتف</option>
+                <option value="transaction">معاملة مالية</option>
+                <option value="password_reset">إعادة تعيين كلمة المرور</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="language">اللغة:</label>
+            <select id="language">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+
+        <button onclick="sendOTP()" id="sendBtn">إرسال رمز التحقق عبر WhatsApp</button>
+        
+        <div class="form-group" style="margin-top: 30px;">
+            <label for="otpCode">رمز التحقق (للتأكيد):</label>
+            <input type="text" id="otpCode" placeholder="أدخل الرمز المرسل" maxlength="6">
+        </div>
+
+        <button onclick="verifyOTP()" id="verifyBtn">تأكيد الرمز</button>
+
+        <div id="result"></div>
+        
+        <div class="status" id="status">
+            جاهز للإرسال
+        </div>
+    </div>
+
+    <script>
+        async function sendOTP() {
+            const phone = document.getElementById('phone').value;
+            const purpose = document.getElementById('purpose').value;
+            const language = document.getElementById('language').value;
+            const resultDiv = document.getElementById('result');
+            const statusDiv = document.getElementById('status');
+            const sendBtn = document.getElementById('sendBtn');
+
+            if (!phone) {
+                resultDiv.innerHTML = '<div class="error">يرجى إدخال رقم الهاتف</div>';
+                return;
+            }
+
+            sendBtn.disabled = true;
+            statusDiv.textContent = 'جاري الإرسال...';
+            resultDiv.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/otp/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        phone: phone,
+                        purpose: purpose,
+                        language: language
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    resultDiv.innerHTML = `<div class="success">✅ ${data.message}<br>انتهاء الصلاحية خلال: ${Math.floor(data.expiresIn / 60)} دقائق</div>`;
+                    statusDiv.textContent = 'تم الإرسال بنجاح - تحقق من WhatsApp';
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ ${data.message}</div>`;
+                    statusDiv.textContent = 'فشل في الإرسال';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ خطأ في الاتصال: ${error.message}</div>`;
+                statusDiv.textContent = 'خطأ في الاتصال';
+            }
+
+            sendBtn.disabled = false;
+        }
+
+        async function verifyOTP() {
+            const phone = document.getElementById('phone').value;
+            const purpose = document.getElementById('purpose').value;
+            const code = document.getElementById('otpCode').value;
+            const resultDiv = document.getElementById('result');
+            const statusDiv = document.getElementById('status');
+            const verifyBtn = document.getElementById('verifyBtn');
+
+            if (!phone || !code) {
+                resultDiv.innerHTML = '<div class="error">يرجى إدخال رقم الهاتف والرمز</div>';
+                return;
+            }
+
+            verifyBtn.disabled = true;
+            statusDiv.textContent = 'جاري التحقق...';
+
+            try {
+                const response = await fetch('/api/otp/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        phone: phone,
+                        code: code,
+                        purpose: purpose
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    resultDiv.innerHTML = `<div class="success">✅ ${data.message}</div>`;
+                    statusDiv.textContent = 'تم التحقق بنجاح';
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ ${data.message}${data.attemptsLeft ? ` - المحاولات المتبقية: ${data.attemptsLeft}` : ''}</div>`;
+                    statusDiv.textContent = 'فشل في التحقق';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ خطأ في الاتصال: ${error.message}</div>`;
+                statusDiv.textContent = 'خطأ في الاتصال';
+            }
+
+            verifyBtn.disabled = false;
+        }
+
+        // Auto-format phone number
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d+]/g, '');
+            if (value && !value.startsWith('+')) {
+                value = '+' + value;
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

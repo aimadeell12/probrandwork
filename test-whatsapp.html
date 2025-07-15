@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>اختبار WhatsApp API</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; direction: rtl; }
+        .container { max-width: 500px; margin: 0 auto; }
+        input, textarea, button { width: 100%; padding: 10px; margin: 10px 0; font-size: 16px; }
+        button { background: #25D366; color: white; border: none; cursor: pointer; }
+        button:disabled { background: #ccc; }
+        .result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>اختبار WhatsApp API - PayDota</h1>
+        
+        <input type="tel" id="phone" placeholder="+212708042619" value="+212708042619">
+        <textarea id="message" placeholder="اكتب رسالتك هنا...">🔐 اختبار PayDota
+
+مرحباً! هذه رسالة اختبار من نظام PayDota.
+
+✅ WhatsApp API يعمل بشكل صحيح
+🚀 النظام جاهز للاستخدام
+
+PayDota - منصتك المصرفية الآمنة</textarea>
+        
+        <button onclick="sendMessage()">إرسال رسالة WhatsApp</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            const resultDiv = document.getElementById('result');
+            const button = document.querySelector('button');
+            
+            if (!phone || !message) {
+                showResult('يرجى إدخال رقم الهاتف والرسالة', 'error');
+                return;
+            }
+            
+            button.disabled = true;
+            button.textContent = 'جارٍ الإرسال...';
+            
+            try {
+                const accessToken = "EAAQrRrLPFnMBOZCjlicG9mv99Sq4iESVFfZBc57wQtZCPGQGnSR14qCw7QNIg7i1Gfhun81GxOQo96M9ILlgr0geX5NrhD19w8BXZCCKHGSxeqzoRaTsAVJwbTrQZCx5EBgVVITAPOxdnqBZBfDUxikrCuwMCNli31nfghrEIuy6qV5ec07ZCWXhFhSUXZAc8JFLZB37BvOOTa1cr6W9uTDY6PkZCeXPmreVKzpD64qhXMZCyUOMO8KH3JkWmkmkDMfKwZDZD";
+                const phoneNumberId = "637387286132641";
+                
+                const formattedPhone = phone.replace(/^\+/, '');
+                
+                const response = await fetch(`https://graph.facebook.com/v18.0/${phoneNumberId}/messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messaging_product: 'whatsapp',
+                        to: formattedPhone,
+                        type: 'text',
+                        text: {
+                            body: message
+                        }
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showResult(`✅ تم إرسال الرسالة بنجاح!
+                    
+معرف الرسالة: ${result.messages[0]?.id}
+الرقم المستلم: ${result.contacts[0]?.wa_id}
+
+إذا لم تصل الرسالة، تأكد من:
+• الرقم يملك WhatsApp
+• تم إرسال رسالة من هذا الرقم إلى +1 312-800-9268 من قبل`, 'success');
+                } else {
+                    const errorData = await response.text();
+                    console.log('Error response:', errorData);
+                    
+                    let errorMessage = 'خطأ في إرسال الرسالة';
+                    
+                    try {
+                        const errorJson = JSON.parse(errorData);
+                        if (errorJson.error?.code === 131047) {
+                            errorMessage = 'لا يمكن إرسال الرسالة - يجب أن يرسل المستلم رسالة إلى +1 312-800-9268 أولاً';
+                        } else if (errorJson.error?.message) {
+                            errorMessage = errorJson.error.message;
+                        }
+                    } catch (e) {
+                        errorMessage = `خطأ ${response.status}: ${errorData}`;
+                    }
+                    
+                    showResult(`❌ ${errorMessage}`, 'error');
+                }
+                
+            } catch (error) {
+                console.error('Network error:', error);
+                showResult(`❌ خطأ في الشبكة: ${error.message}`, 'error');
+            }
+            
+            button.disabled = false;
+            button.textContent = 'إرسال رسالة WhatsApp';
+        }
+        
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = message.replace(/\n/g, '<br>');
+        }
+    </script>
+</body>
+</html>

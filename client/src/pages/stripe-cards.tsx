@@ -15,8 +15,8 @@ import { useLocation } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
 import { CardsSkeleton } from "@/components/skeletons";
 
-// Stripe Card Component
-const StripeCard = ({ card, showDetails, onToggleVisibility }: {
+// Airwallex Card Component
+const AirwallexCard = ({ card, showDetails, onToggleVisibility }: {
   card: CardType;
   showDetails: boolean;
   onToggleVisibility: () => void;
@@ -25,14 +25,14 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
   const [cardDetails, setCardDetails] = useState<any>(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
 
-  // Fetch real card details from Stripe when showing details
+  // Fetch real card details from Airwallex when showing details
   const fetchCardDetails = async () => {
-    if (!card.stripeCardId) return;
+    if (!card.airwallexCardId) return;
     
     setLoadingDetails(true);
     try {
       const details = await apiRequest("GET", `/api/cards/${card.id}/details`);
-      console.log(`💳 [Stripe Card ${card.id}] Fetched details:`, details);
+      console.log(`💳 [Airwallex Card ${card.id}] Fetched details:`, details);
       setCardDetails(details);
     } catch (error) {
       console.error("Failed to fetch card details:", error);
@@ -43,12 +43,12 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
 
   // Fetch details when showDetails becomes true or clear when false
   useEffect(() => {
-    if (showDetails && card.stripeCardId) {
+    if (showDetails && card.airwallexCardId) {
       fetchCardDetails();
     } else if (!showDetails) {
       setCardDetails(null);
     }
-  }, [showDetails, card.stripeCardId]);
+  }, [showDetails, card.airwallexCardId]);
   
   const getCardGradient = (design: string) => {
     switch (design) {
@@ -68,9 +68,9 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
   };
 
   const formatCardNumber = (number: string) => {
-    // If we have real card details from Stripe and showing details, use them
-    if (showDetails && cardDetails?.number && !loadingDetails) {
-      const fullNumber = cardDetails.number.toString();
+    // If we have real card details from Airwallex and showing details, use them
+    if (showDetails && cardDetails?.card_number && !loadingDetails) {
+      const fullNumber = cardDetails.card_number.toString();
       return fullNumber.replace(/(.{4})/g, '$1 ').trim();
     }
     
@@ -157,8 +157,8 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
               <p className="text-sm font-mono">
                 {showDetails ? (
                   loadingDetails ? '••/••' : (
-                    cardDetails?.expMonth && cardDetails?.expYear ? 
-                      `${String(cardDetails.expMonth).padStart(2, '0')}/${String(cardDetails.expYear).slice(-2)}` :
+                    cardDetails?.expiry_month && cardDetails?.expiry_year ? 
+                      `${String(cardDetails.expiry_month).padStart(2, '0')}/${String(cardDetails.expiry_year).slice(-2)}` :
                       (card.expiryMonth && card.expiryYear ? 
                         `${String(card.expiryMonth).padStart(2, '0')}/${String(card.expiryYear).slice(-2)}` :
                         '••/••'
@@ -171,7 +171,7 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
               <div className="text-right">
                 <p className="text-xs opacity-75">CVV</p>
                 <p className="text-sm font-mono">
-                  {loadingDetails ? '•••' : (cardDetails?.cvc || '•••')}
+                  {loadingDetails ? '•••' : (cardDetails?.cvv || '•••')}
                 </p>
               </div>
             )}
@@ -182,7 +182,7 @@ const StripeCard = ({ card, showDetails, onToggleVisibility }: {
   );
 };
 
-export default function StripeCards() {
+export default function AirwallexCards() {
   const [selectedCardType, setSelectedCardType] = useState<"virtual" | "physical">("virtual");
   const [showCardNumbers, setShowCardNumbers] = useState<Record<string, boolean>>({});
   const [, setLocation] = useLocation();
@@ -337,7 +337,7 @@ export default function StripeCards() {
                         <div className="relative group">
                           {/* Card Visual */}
                           <div className="relative w-full">
-                            <StripeCard 
+                            <AirwallexCard 
                               card={card} 
                               showDetails={showCardNumbers[card.id] || false}
                               onToggleVisibility={() => toggleCardVisibility(card.id)}

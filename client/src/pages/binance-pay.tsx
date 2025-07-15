@@ -125,221 +125,217 @@ export default function BinancePay() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+    <div className="min-h-screen bg-white relative">
       
-      {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
-      
-      {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center space-x-4 space-x-reverse">
+      {/* Mobile-first safe area handling */}
+      <div className="mobile-safe-area">
+        
+        {/* Fixed Header */}
+        <div className="sticky top-0 bg-white border-b border-gray-100 p-3 sm:p-4 z-50">
+          <div className="flex items-center gap-3">
             <Link href="/deposit">
-              <Button variant="ghost" size="sm" className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20">
-                <ArrowLeft className="h-6 w-6" />
+              <Button variant="ghost" size="sm" className="p-2 hover:bg-purple-500/10 rounded-full">
+                <ArrowLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-700" />
               </Button>
             </Link>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
-                <div className="mr-3">
-                  <img 
-                    src={binanceIcon} 
-                    alt="Binance" 
-                    className="h-10 w-10 object-contain"
-                  />
-                </div>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-100 rounded-xl flex items-center justify-center">
+                <img 
+                  src={binanceIcon} 
+                  alt="Binance" 
+                  className="h-5 w-5 sm:h-6 sm:w-6 object-contain"
+                />
+              </div>
+              <h1 className="text-lg sm:text-xl font-semibold text-gray-900">
                 Binance Pay
               </h1>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="p-4 lg:p-8 space-y-6 relative z-10 max-w-md lg:max-w-4xl mx-auto">
+        {/* Main Content */}
+        <div className="px-3 sm:px-4 pb-6 space-y-4 sm:space-y-6 max-w-md mx-auto">
 
-        {!paymentOrder ? (
-          /* Payment Form */
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
-                <img 
-                  src={binanceIcon} 
-                  alt="Binance" 
-                  className="h-7 w-7 object-contain"
-                />
-                إنشاء طلب دفع
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300">المبلغ</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  placeholder="أدخل المبلغ"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-purple-200/30 focus:border-purple-500 rounded-2xl"
-                />
+          {!paymentOrder ? (
+            /* Payment Form */
+            <div className="bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm">
+              {/* Form Header */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center">
+                  <img 
+                    src={binanceIcon} 
+                    alt="Binance" 
+                    className="h-6 w-6 object-contain"
+                  />
+                </div>
+                <h2 className="text-lg font-semibold text-gray-900">إنشاء طلب دفع</h2>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="currency" className="text-gray-700 dark:text-gray-300">العملة</Label>
-                <select
-                  id="currency"
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  className="w-full px-3 py-2 border border-purple-200/30 dark:border-purple-600 rounded-2xl bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-gray-100 focus:border-purple-500"
+              <div className="space-y-6">
+                {/* Amount Input */}
+                <div className="space-y-3">
+                  <Label htmlFor="amount" className="text-sm font-medium text-gray-700">المبلغ</Label>
+                  <Input
+                    id="amount"
+                    type="number"
+                    placeholder="أدخل المبلغ"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="h-14 text-xl font-semibold text-center border-gray-200 focus:border-purple-500/80 focus:ring-purple-500/20 rounded-xl"
+                  />
+                </div>
+
+                {/* Currency Selection */}
+                <div className="space-y-3">
+                  <Label htmlFor="currency" className="text-sm font-medium text-gray-700">العملة</Label>
+                  <select
+                    id="currency"
+                    value={currency}
+                    onChange={(e) => setCurrency(e.target.value)}
+                    className="w-full h-12 px-4 border border-gray-200 rounded-xl bg-white text-gray-900 focus:border-purple-500/80 focus:ring-2 focus:ring-purple-500/20 outline-none"
+                  >
+                    <option value="USDT">USDT</option>
+                    <option value="BTC">BTC</option>
+                    <option value="ETH">ETH</option>
+                    <option value="BNB">BNB</option>
+                    <option value="BUSD">BUSD</option>
+                  </select>
+                </div>
+
+                {/* Submit Button */}
+                <Button
+                  onClick={handleCreateOrder}
+                  disabled={createOrderMutation.isPending}
+                  className="w-full h-12 bg-purple-500/80 hover:bg-purple-600/80 text-white font-medium rounded-xl transition-colors"
                 >
-                  <option value="USDT">USDT</option>
-                  <option value="BTC">BTC</option>
-                  <option value="ETH">ETH</option>
-                  <option value="BNB">BNB</option>
-                  <option value="BUSD">BUSD</option>
-                </select>
+                  {createOrderMutation.isPending ? "جاري الإنشاء..." : "إنشاء طلب الدفع"}
+                </Button>
               </div>
-
-              <Button
-                onClick={handleCreateOrder}
-                disabled={createOrderMutation.isPending}
-                className="w-full bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
-              >
-                {createOrderMutation.isPending ? "جاري الإنشاء..." : "إنشاء طلب الدفع"}
-              </Button>
-            </CardContent>
-          </Card>
-        ) : (
-          /* Payment Details */
-          <div className="space-y-6">
-            {/* Payment Info Card */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center justify-between text-gray-900 dark:text-white">
-                  <span className="flex items-center gap-2">
-                    <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                      <Check className="h-5 w-5 text-green-600" />
+            </div>
+          ) : (
+            /* Payment Details */
+            <div className="space-y-4">
+              {/* Payment Info Card */}
+              <div className="bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                      <Check className="h-6 w-6 text-green-600" />
                     </div>
-                    تم إنشاء طلب الدفع
-                  </span>
-                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 rounded-full">
-                    نشط
-                  </Badge>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
-                    <Label className="text-sm text-gray-600 dark:text-gray-400">رقم الطلب</Label>
-                    <p className="font-mono text-sm break-all text-gray-900 dark:text-white">{paymentOrder.orderId}</p>
+                    <h2 className="text-lg font-semibold text-gray-900">تم إنشاء طلب الدفع</h2>
                   </div>
-                  <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
-                    <Label className="text-sm text-gray-600 dark:text-gray-400">ينتهي في</Label>
-                    <p className="text-sm flex items-center text-gray-900 dark:text-white">
+                  <span className="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
+                    نشط
+                  </span>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="p-3 bg-purple-50/80 rounded-xl">
+                    <p className="text-sm text-gray-600 mb-1">رقم الطلب</p>
+                    <p className="font-mono text-sm break-all text-gray-900">{paymentOrder.orderId}</p>
+                  </div>
+                  <div className="p-3 bg-purple-50/80 rounded-xl">
+                    <p className="text-sm text-gray-600 mb-1">ينتهي في</p>
+                    <p className="text-sm flex items-center text-gray-900">
                       <Clock className="h-4 w-4 ml-1" />
                       {formatExpireTime(paymentOrder.expireTime)}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-2 space-x-reverse p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800">
-                  <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
-                  <p className="text-sm text-yellow-800 dark:text-yellow-300">
+                <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-xl border border-yellow-200 mt-4">
+                  <AlertCircle className="h-5 w-5 text-yellow-600 flex-shrink-0" />
+                  <p className="text-sm text-yellow-800">
                     أكمل دفعتك قبل انتهاء الوقت المحدد لتجنب إلغاء الطلب.
                   </p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* QR Code Card */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
-                  <div className="p-1 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                    <QrCode className="h-5 w-5 text-purple-600" />
+              {/* QR Code Card */}
+              <div className="bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 bg-purple-100/80 rounded-xl flex items-center justify-center">
+                    <QrCode className="h-6 w-6 text-purple-600" />
                   </div>
-                  امسح رمز QR
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-center space-y-4">
-                <div className="flex justify-center">
-                  <div className="p-6 bg-white rounded-2xl shadow-xl border border-purple-100">
-                    <img 
-                      src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentOrder.qrCode)}`}
-                      alt="Payment QR Code"
-                      className="w-48 h-48 rounded-xl"
-                    />
+                  <h2 className="text-lg font-semibold text-gray-900">امسح رمز QR</h2>
+                </div>
+
+                <div className="text-center space-y-4">
+                  <div className="flex justify-center">
+                    <div className="p-4 bg-gray-50 rounded-2xl">
+                      <img 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(paymentOrder.qrCode)}`}
+                        alt="Payment QR Code"
+                        className="w-44 h-44 rounded-xl"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-600">
+                      امسح رمز QR هذا بتطبيق Binance الخاص بك لإكمال الدفع
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleCopyQrCode}
+                      className="flex items-center gap-2 rounded-xl border-gray-200 hover:bg-purple-50/80"
+                    >
+                      {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                      <span>{copied ? "تم النسخ!" : "نسخ بيانات QR"}</span>
+                    </Button>
                   </div>
                 </div>
-                
+              </div>
+
+              {/* Payment Links Card */}
+              <div className="bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">خيارات الدفع</h2>
                 <div className="space-y-3">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    امسح رمز QR هذا بتطبيق Binance الخاص بك لإكمال الدفع
-                  </p>
                   <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleCopyQrCode}
-                    className="flex items-center gap-2 rounded-2xl border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+                    onClick={() => window.open(paymentOrder.paymentUrl, '_blank')}
+                    className="w-full h-12 bg-purple-500/80 hover:bg-purple-600/80 text-white flex items-center justify-center gap-2 rounded-xl transition-colors"
                   >
-                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                    <span>{copied ? "تم النسخ!" : "نسخ بيانات QR"}</span>
+                    <ExternalLink className="h-5 w-5" />
+                    <span>فتح صفحة دفع Binance</span>
+                  </Button>
+
+                  <Button
+                    onClick={() => window.open(paymentOrder.deeplink, '_blank')}
+                    variant="outline"
+                    className="w-full h-12 flex items-center justify-center gap-2 rounded-xl border-gray-200 hover:bg-purple-50/80"
+                  >
+                    <ExternalLink className="h-5 w-5" />
+                    <span>فتح في تطبيق Binance</span>
+                  </Button>
+
+                  <Button
+                    onClick={handleCheckStatus}
+                    disabled={queryOrderMutation.isPending}
+                    variant="secondary"
+                    className="w-full h-12 rounded-xl bg-purple-100/80 hover:bg-purple-200/80"
+                  >
+                    {queryOrderMutation.isPending ? "جاري التحقق..." : "تحقق من حالة الدفع"}
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* Payment Links Card */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
-              <CardHeader>
-                <CardTitle className="text-lg text-gray-900 dark:text-white">خيارات الدفع</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button
-                  onClick={() => window.open(paymentOrder.paymentUrl, '_blank')}
-                  className="w-full bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white flex items-center justify-center gap-2 py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
-                >
-                  <ExternalLink className="h-5 w-5" />
-                  <span>فتح صفحة دفع Binance</span>
-                </Button>
-
-                <Button
-                  onClick={() => window.open(paymentOrder.deeplink, '_blank')}
-                  variant="outline"
-                  className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/20"
-                >
-                  <ExternalLink className="h-5 w-5" />
-                  <span>فتح في تطبيق Binance</span>
-                </Button>
-
-                <Button
-                  onClick={handleCheckStatus}
-                  disabled={queryOrderMutation.isPending}
-                  variant="secondary"
-                  className="w-full py-4 rounded-2xl bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/30 dark:hover:bg-purple-900/50"
-                >
-                  {queryOrderMutation.isPending ? "جاري التحقق..." : "تحقق من حالة الدفع"}
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Instructions */}
-            <Card className="bg-blue-50/80 dark:bg-blue-900/20 border-blue-200/30 dark:border-blue-800/30 shadow-xl">
-              <CardContent className="p-6">
-                <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-3 text-lg">
+              {/* Instructions */}
+              <div className="bg-purple-50/80 border border-purple-200/50 rounded-2xl p-4 sm:p-6">
+                <h3 className="font-semibold text-purple-900 mb-3 text-lg">
                   كيفية الدفع بـ Binance Pay:
                 </h3>
-                <ol className="list-decimal list-inside space-y-2 text-sm text-blue-800 dark:text-blue-200">
+                <ol className="list-decimal list-inside space-y-2 text-sm text-purple-800">
                   <li>افتح تطبيق Binance الخاص بك</li>
                   <li>اذهب إلى قسم Pay</li>
                   <li>امسح رمز QR أعلاه أو اضغط على "فتح في تطبيق Binance"</li>
                   <li>أكد الدفعة في تطبيق Binance الخاص بك</li>
                   <li>انتظر التأكيد (عادة فوري)</li>
                 </ol>
-              </CardContent>
-            </Card>
-          </div>
-        )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
