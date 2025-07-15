@@ -6,6 +6,13 @@ import { Loader2, CheckCircle, XCircle, RefreshCw } from 'lucide-react';
 interface TestResult {
   success: boolean;
   message: string;
+  tests?: {
+    authentication: { success: boolean; message: string; details: any };
+    issuing_access: { success: boolean; message: string; details: any };
+    overall_status: string;
+  };
+  credentials_configured?: boolean;
+  api_mode?: string;
   cardholders_count?: number;
   error?: string;
   details?: any;
@@ -106,13 +113,81 @@ export default function AirwallexTest() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div>
-                    <strong className="text-gray-700">الرسالة:</strong>
-                    <p className={`mt-1 ${
-                      result.success ? 'text-green-600' : 'text-red-600'
+                    <strong className="text-gray-700">حالة النظام:</strong>
+                    <p className={`mt-1 font-semibold ${
+                      result.success ? 'text-green-600' : 'text-orange-600'
                     }`}>
                       {result.message}
                     </p>
                   </div>
+
+                  {result.api_mode && (
+                    <div>
+                      <strong className="text-gray-700">وضع API:</strong>
+                      <p className={`mt-1 ${
+                        result.api_mode === 'production' ? 'text-blue-600' : 'text-gray-600'
+                      }`}>
+                        {result.api_mode === 'production' ? 'الإنتاج (Production)' : 'المحاكاة (Mock)'}
+                      </p>
+                    </div>
+                  )}
+
+                  {result.credentials_configured !== undefined && (
+                    <div>
+                      <strong className="text-gray-700">بيانات الاعتماد:</strong>
+                      <p className={`mt-1 ${
+                        result.credentials_configured ? 'text-green-600' : 'text-red-600'
+                      }`}>
+                        {result.credentials_configured ? '✓ مُهيأة' : '✗ غير مُهيأة'}
+                      </p>
+                    </div>
+                  )}
+
+                  {result.tests && (
+                    <div className="space-y-3">
+                      <strong className="text-gray-700">تفاصيل الاختبارات:</strong>
+                      
+                      {/* Authentication Test */}
+                      <div className="bg-gray-50 p-3 rounded">
+                        <div className="flex items-center gap-2 mb-2">
+                          {result.tests.authentication.success ? (
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <XCircle className="h-4 w-4 text-red-500" />
+                          )}
+                          <strong className="text-sm">اختبار المصادقة</strong>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          {result.tests.authentication.message}
+                        </p>
+                      </div>
+
+                      {/* Issuing API Test */}
+                      <div className="bg-gray-50 p-3 rounded">
+                        <div className="flex items-center gap-2 mb-2">
+                          {result.tests.issuing_access.success ? (
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <XCircle className="h-4 w-4 text-red-500" />
+                          )}
+                          <strong className="text-sm">اختبار Issuing API</strong>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          {result.tests.issuing_access.message}
+                        </p>
+                        {result.tests.issuing_access.details && (
+                          <div className="mt-2">
+                            <details className="text-xs">
+                              <summary className="cursor-pointer text-blue-600">عرض التفاصيل</summary>
+                              <pre className="mt-1 bg-white p-2 rounded text-xs overflow-auto border">
+                                {JSON.stringify(result.tests.issuing_access.details, null, 2)}
+                              </pre>
+                            </details>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {result.cardholders_count !== undefined && (
                     <div>
@@ -123,14 +198,14 @@ export default function AirwallexTest() {
 
                   {result.error && (
                     <div>
-                      <strong className="text-gray-700">تفاصيل الخطأ:</strong>
-                      <pre className="mt-1 bg-gray-100 p-2 rounded text-sm overflow-auto">
+                      <strong className="text-gray-700">رسالة الخطأ:</strong>
+                      <pre className="mt-1 bg-red-50 p-2 rounded text-sm overflow-auto border border-red-200">
                         {result.error}
                       </pre>
                     </div>
                   )}
 
-                  {result.details && (
+                  {result.details && !result.tests && (
                     <div>
                       <strong className="text-gray-700">تفاصيل إضافية:</strong>
                       <pre className="mt-1 bg-gray-100 p-2 rounded text-sm overflow-auto">
@@ -152,19 +227,38 @@ export default function AirwallexTest() {
           <CardHeader>
             <CardTitle>معلومات حول الاختبار</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm text-gray-600">
-            <p>
-              <strong>نوع الاختبار:</strong> استعلام عن حاملي البطاقات
-            </p>
-            <p>
-              <strong>API Endpoint:</strong> /api/airwallex/test
-            </p>
-            <p>
-              <strong>طريقة الاتصال:</strong> GET Request
-            </p>
-            <p>
-              <strong>التحقق من:</strong> مصادقة API، الاتصال، واستجابة الخدمة
-            </p>
+          <CardContent className="space-y-3 text-sm text-gray-600">
+            <div>
+              <p><strong>نوع الاختبار:</strong> تشخيص شامل لـ Airwallex API</p>
+              <p><strong>API Endpoint:</strong> /api/airwallex/test</p>
+              <p><strong>التحقق من:</strong> مصادقة API، الاتصال، وتفعيل Issuing API</p>
+            </div>
+            
+            <div className="border-t pt-3">
+              <p className="font-semibold text-gray-700 mb-2">حالات النتائج المحتملة:</p>
+              <ul className="space-y-1 text-xs">
+                <li>✅ <strong>نجح كاملاً:</strong> API مفعل وجاهز للاستخدام</li>
+                <li>🔶 <strong>مصادقة OK - Issuing API معطل:</strong> بيانات الاعتماد صحيحة لكن يحتاج تفعيل Issuing</li>
+                <li>❌ <strong>باستخدام المحاكاة:</strong> لا توجد بيانات اعتماد حقيقية</li>
+              </ul>
+            </div>
+
+            {result && result.tests && !result.tests.issuing_access.success && 
+             result.tests.issuing_access.details?.code === 'access_denied_not_enabled' && (
+              <div className="bg-orange-50 border border-orange-200 p-3 rounded">
+                <p className="font-semibold text-orange-800 mb-2">📋 كيفية حل مشكلة "Issuing API معطل":</p>
+                <ol className="text-xs space-y-1 text-orange-700">
+                  <li>1. تسجيل الدخول إلى حساب Airwallex</li>
+                  <li>2. الانتقال إلى قسم Developer Console</li>
+                  <li>3. طلب تفعيل Card Issuing APIs</li>
+                  <li>4. انتظار الموافقة من فريق Airwallex</li>
+                  <li>5. التحقق من صلاحيات API Key الحالي</li>
+                </ol>
+                <p className="text-xs text-orange-600 mt-2">
+                  <strong>ملاحظة:</strong> قد يتطلب التفعيل موافقة وثائق إضافية من Airwallex.
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

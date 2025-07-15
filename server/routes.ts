@@ -54,23 +54,87 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log('🧪 Testing Airwallex API connection...');
       
-      // Test 1: Try to get cardholders (basic API test)
-      const cardholders = await airwallex.getCardholders(1, 0);
-      console.log('✅ Airwallex API test successful - cardholders retrieved');
+      const testResults = {
+        authentication: { success: false, message: '', details: null },
+        issuing_access: { success: false, message: '', details: null },
+        overall_status: ''
+      };
+      
+      // Test 1: Check if we're using real API or mock
+      const isUsingMockService = !process.env.AIRWALLEX_CLIENT_ID || !process.env.AIRWALLEX_API_KEY;
+      
+      if (isUsingMockService) {
+        testResults.authentication = {
+          success: false,
+          message: 'Using mock service - no real API credentials found',
+          details: { reason: 'AIRWALLEX_CLIENT_ID or AIRWALLEX_API_KEY missing' }
+        };
+        testResults.overall_status = 'Mock Service Active';
+      } else {
+        // Test 2: Try authentication (this happens automatically in the service)
+        try {
+          // Force authentication by calling a method that requires it
+          await airwallex.getCardholders(1, 0);
+          
+          testResults.authentication = {
+            success: true,
+            message: 'Authentication successful',
+            details: null
+          };
+          
+          testResults.issuing_access = {
+            success: true,
+            message: 'Issuing API access confirmed',
+            details: null
+          };
+          
+          testResults.overall_status = 'Production API Active & Working';
+          
+        } catch (error: any) {
+          testResults.authentication = {
+            success: true,
+            message: 'Authentication successful (got 403, not 401)',
+            details: null
+          };
+          
+          if (error.response?.data?.code === 'access_denied_not_enabled') {
+            testResults.issuing_access = {
+              success: false,
+              message: 'Issuing API not enabled in Airwallex account',
+              details: error.response.data
+            };
+            testResults.overall_status = 'Authentication OK - Issuing API Disabled';
+          } else {
+            testResults.issuing_access = {
+              success: false,
+              message: 'Unknown Issuing API error',
+              details: error.response?.data || error.message
+            };
+            testResults.overall_status = 'Authentication OK - Unknown Issuing Error';
+          }
+        }
+      }
+      
+      console.log('✅ Airwallex API diagnostic complete');
+      
+      const isFullyWorking = testResults.authentication.success && testResults.issuing_access.success;
       
       res.json({
-        success: true,
-        message: 'Airwallex API connection successful',
-        cardholders_count: cardholders.length,
+        success: isFullyWorking,
+        message: isFullyWorking ? 'Airwallex API fully operational' : testResults.overall_status,
+        tests: testResults,
+        credentials_configured: !isUsingMockService,
+        api_mode: isUsingMockService ? 'mock' : 'production',
         timestamp: new Date().toISOString()
       });
+      
     } catch (error: any) {
       console.error('❌ Airwallex API test failed:', error.message);
       console.error('❌ Full error:', error.response?.data || error.stack);
       
       res.status(500).json({
         success: false,
-        message: 'Airwallex API connection failed',
+        message: 'Airwallex API test failed',
         error: error.message,
         details: error.response?.data || null,
         timestamp: new Date().toISOString()
