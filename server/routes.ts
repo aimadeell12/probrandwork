@@ -690,10 +690,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Airwallex API Testing endpoints
-  app.get("/api/test/airwallex/auth", requireAuth, async (req: any, res) => {
+  app.get("/api/test/airwallex/auth", (req: any, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication required",
+        error: "User not authenticated"
+      });
+    }
+    next();
+  }, async (req: any, res) => {
     try {
+      console.log("🔐 Testing Airwallex authentication...");
+      
       // Test authentication by getting access token
       const token = await airwallex['authenticate']();
+      console.log("✅ Authentication successful:", !!token);
+      
       res.json({
         success: true,
         message: "Authentication successful",
@@ -711,7 +724,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/test/airwallex/cardholder", requireAuth, async (req: any, res) => {
+  app.post("/api/test/airwallex/cardholder", (req: any, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication required",
+        error: "User not authenticated"
+      });
+    }
+    next();
+  }, async (req: any, res) => {
     try {
       const testData = {
         type: 'INDIVIDUAL' as const,
@@ -766,7 +788,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/test/airwallex/cardholders", requireAuth, async (req: any, res) => {
+  app.get("/api/test/airwallex/cardholders", (req: any, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication required",
+        error: "User not authenticated"
+      });
+    }
+    next();
+  }, async (req: any, res) => {
     try {
       // Test getting cardholders list
       const cardholders = await airwallex.getCardholders();
@@ -788,10 +819,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/test/airwallex/account", requireAuth, async (req: any, res) => {
+  app.get("/api/test/airwallex/account", (req: any, res, next) => {
+    // Custom auth check that returns JSON instead of redirecting
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication required",
+        error: "User not authenticated"
+      });
+    }
+    next();
+  }, async (req: any, res) => {
     try {
+      console.log("🔐 Testing Airwallex account endpoint...");
+      
       // Get account info from access token
       const token = await airwallex['authenticate']();
+      console.log("🔑 Token received:", !!token);
       
       // Decode JWT token to get account info
       let accountInfo = null;
@@ -808,8 +852,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
             padc: payload.padc,
             dc: payload.dc
           };
+          console.log("📊 Account info decoded successfully:", accountInfo.account_id);
         } catch (decodeError) {
-          console.error("Failed to decode token:", decodeError);
+          console.error("❌ Failed to decode token:", decodeError);
         }
       }
       
