@@ -142,6 +142,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Airwallex Account Info route
+  app.get("/api/airwallex/account", async (req, res) => {
+    try {
+      console.log('🏢 Getting Airwallex account information...');
+      
+      const isUsingMockService = !process.env.AIRWALLEX_CLIENT_ID || !process.env.AIRWALLEX_API_KEY;
+      
+      if (isUsingMockService) {
+        const mockAccountInfo = await airwallex.getAccountInfo();
+        return res.json({
+          success: true,
+          message: 'Mock account info retrieved',
+          account: mockAccountInfo,
+          is_mock: true,
+          timestamp: new Date().toISOString()
+        });
+      }
+
+      // Try to get account information
+      try {
+        const accountInfo = await airwallex.getAccountInfo();
+        console.log('✅ Account info retrieved successfully');
+        
+        res.json({
+          success: true,
+          message: 'Account information retrieved successfully',
+          account: accountInfo,
+          is_mock: false,
+          timestamp: new Date().toISOString()
+        });
+      } catch (error: any) {
+        console.error('❌ Failed to get account info:', error.message);
+        console.error('❌ Error details:', error.response?.data || error.stack);
+        
+        res.status(500).json({
+          success: false,
+          message: 'Failed to retrieve account information',
+          error: error.message,
+          details: error.response?.data || null,
+          timestamp: new Date().toISOString()
+        });
+      }
+    } catch (error: any) {
+      console.error('❌ Account info endpoint error:', error.message);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+        error: error.message,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   // Banks routes
   app.get("/api/banks", async (req, res) => {
     try {

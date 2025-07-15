@@ -19,9 +19,21 @@ interface TestResult {
   timestamp: string;
 }
 
+interface AccountInfo {
+  success: boolean;
+  message: string;
+  account?: any;
+  is_mock?: boolean;
+  error?: string;
+  details?: any;
+  timestamp: string;
+}
+
 export default function AirwallexTest() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<TestResult | null>(null);
+  const [accountLoading, setAccountLoading] = useState(false);
+  const [accountInfo, setAccountInfo] = useState<AccountInfo | null>(null);
 
   const testAirwallexConnection = async () => {
     setIsLoading(true);
@@ -47,6 +59,33 @@ export default function AirwallexTest() {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const getAccountInfo = async () => {
+    setAccountLoading(true);
+    setAccountInfo(null);
+
+    try {
+      const response = await fetch('/api/airwallex/account', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+      setAccountInfo(data);
+    } catch (error: any) {
+      setAccountInfo({
+        success: false,
+        message: 'Network error',
+        error: error.message,
+        timestamp: new Date().toISOString()
+      });
+    } finally {
+      setAccountLoading(false);
     }
   };
 
@@ -78,20 +117,38 @@ export default function AirwallexTest() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button 
-              onClick={testAirwallexConnection}
-              disabled={isLoading}
-              className="w-full bg-purple-500 hover:bg-purple-600"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  جاري الاختبار...
-                </>
-              ) : (
-                'بدء الاختبار'
-              )}
-            </Button>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <Button 
+                onClick={testAirwallexConnection}
+                disabled={isLoading}
+                className="bg-purple-500 hover:bg-purple-600"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    جاري الاختبار...
+                  </>
+                ) : (
+                  'اختبار الاتصال'
+                )}
+              </Button>
+
+              <Button 
+                onClick={getAccountInfo}
+                disabled={accountLoading}
+                variant="outline"
+                className="border-purple-500 text-purple-600 hover:bg-purple-50"
+              >
+                {accountLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    جاري التحميل...
+                  </>
+                ) : (
+                  'عرض معرف الحساب'
+                )}
+              </Button>
+            </div>
 
             {result && (
               <Card className={`border-2 ${
@@ -216,6 +273,117 @@ export default function AirwallexTest() {
 
                   <div className="text-xs text-gray-500">
                     <strong>وقت الاختبار:</strong> {new Date(result.timestamp).toLocaleString('ar-EG')}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {accountInfo && (
+              <Card className={`border-2 ${
+                accountInfo.success 
+                  ? 'border-blue-200 bg-blue-50' 
+                  : 'border-red-200 bg-red-50'
+              }`}>
+                <CardHeader className="pb-3">
+                  <CardTitle className={`flex items-center gap-2 text-lg ${
+                    accountInfo.success ? 'text-blue-700' : 'text-red-700'
+                  }`}>
+                    {accountInfo.success ? (
+                      <CheckCircle className="h-5 w-5" />
+                    ) : (
+                      <XCircle className="h-5 w-5" />
+                    )}
+                    معلومات الحساب
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div>
+                    <strong className="text-gray-700">حالة:</strong>
+                    <p className={`mt-1 font-semibold ${
+                      accountInfo.success ? 'text-blue-600' : 'text-red-600'
+                    }`}>
+                      {accountInfo.message}
+                    </p>
+                  </div>
+
+                  {accountInfo.is_mock !== undefined && (
+                    <div>
+                      <strong className="text-gray-700">نوع البيانات:</strong>
+                      <p className={`mt-1 ${
+                        accountInfo.is_mock ? 'text-gray-600' : 'text-blue-600'
+                      }`}>
+                        {accountInfo.is_mock ? 'بيانات تجريبية (Mock)' : 'بيانات حقيقية (Production)'}
+                      </p>
+                    </div>
+                  )}
+
+                  {accountInfo.account && (
+                    <div className="space-y-2">
+                      <strong className="text-gray-700">تفاصيل الحساب:</strong>
+                      
+                      {accountInfo.account.id && (
+                        <div className="bg-white p-3 rounded border">
+                          <strong className="text-sm text-green-700">Account ID:</strong>
+                          <p className="mt-1 font-mono text-sm bg-gray-100 p-2 rounded break-all">
+                            {accountInfo.account.id}
+                          </p>
+                        </div>
+                      )}
+
+                      {accountInfo.account.legal_company_name && (
+                        <div className="bg-white p-2 rounded border">
+                          <strong className="text-sm text-gray-700">اسم الشركة:</strong>
+                          <p className="text-sm">{accountInfo.account.legal_company_name}</p>
+                        </div>
+                      )}
+
+                      {accountInfo.account.country && (
+                        <div className="bg-white p-2 rounded border">
+                          <strong className="text-sm text-gray-700">البلد:</strong>
+                          <p className="text-sm">{accountInfo.account.country}</p>
+                        </div>
+                      )}
+
+                      {accountInfo.account.status && (
+                        <div className="bg-white p-2 rounded border">
+                          <strong className="text-sm text-gray-700">الحالة:</strong>
+                          <p className={`text-sm ${
+                            accountInfo.account.status === 'ACTIVE' ? 'text-green-600' : 'text-orange-600'
+                          }`}>
+                            {accountInfo.account.status}
+                          </p>
+                        </div>
+                      )}
+
+                      <details className="text-xs">
+                        <summary className="cursor-pointer text-blue-600">عرض كامل البيانات</summary>
+                        <pre className="mt-2 bg-gray-100 p-2 rounded text-xs overflow-auto max-h-40">
+                          {JSON.stringify(accountInfo.account, null, 2)}
+                        </pre>
+                      </details>
+                    </div>
+                  )}
+
+                  {accountInfo.error && (
+                    <div>
+                      <strong className="text-gray-700">رسالة الخطأ:</strong>
+                      <pre className="mt-1 bg-red-50 p-2 rounded text-sm overflow-auto border border-red-200">
+                        {accountInfo.error}
+                      </pre>
+                    </div>
+                  )}
+
+                  {accountInfo.details && (
+                    <div>
+                      <strong className="text-gray-700">تفاصيل الخطأ:</strong>
+                      <pre className="mt-1 bg-gray-100 p-2 rounded text-sm overflow-auto">
+                        {JSON.stringify(accountInfo.details, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+
+                  <div className="text-xs text-gray-500">
+                    <strong>وقت الاستعلام:</strong> {new Date(accountInfo.timestamp).toLocaleString('ar-EG')}
                   </div>
                 </CardContent>
               </Card>

@@ -262,6 +262,15 @@ export class AirwallexService {
     });
   }
 
+  // Account methods
+  async getAccountInfo(): Promise<any> {
+    return await this.request('GET', '/account');
+  }
+
+  async getAccountBalance(): Promise<any> {
+    return await this.request('GET', '/balances');
+  }
+
   // Utility methods
   async getCardsByCardholder(cardholderId: string): Promise<AirwallexCard[]> {
     const response = await this.request('GET', `/issuing/cards?cardholder_id=${cardholderId}`);
@@ -456,6 +465,29 @@ class MockAirwallexService {
 
   async getCardsByCardholder(cardholderId: string): Promise<AirwallexCard[]> {
     return Array.from(this.cards.values()).filter(card => card.cardholder_id === cardholderId);
+  }
+
+  async getAccountInfo(): Promise<any> {
+    return {
+      id: 'mock_account_' + Math.random().toString(36).substr(2, 9),
+      legal_company_name: 'Mock Company Ltd',
+      registration_number: 'MOCK123456',
+      country: 'US',
+      status: 'ACTIVE',
+      created_at: '2024-01-01T00:00:00.000Z'
+    };
+  }
+
+  async getAccountBalance(): Promise<any> {
+    return {
+      available_balance: [
+        { currency: 'USD', amount: 10000.00 },
+        { currency: 'EUR', amount: 8500.00 }
+      ],
+      pending_balance: [
+        { currency: 'USD', amount: 0.00 }
+      ]
+    };
   }
 }
 
