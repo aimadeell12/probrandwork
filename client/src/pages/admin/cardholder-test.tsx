@@ -250,13 +250,32 @@ export default function CardholderTest() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-green-600">
                   <CheckCircle className="h-5 w-5" />
-                  نتيجة الاختبار - نجح
+                  نتيجة الاختبار - نجح ✅
                 </CardTitle>
+                <CardDescription>
+                  تم إنشاء Cardholder بنجاح في Airwallex
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <pre className="bg-gray-50 p-4 rounded-lg overflow-x-auto text-sm">
-                  {JSON.stringify(result, null, 2)}
-                </pre>
+                <div className="space-y-4">
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-green-800 mb-2">معلومات Cardholder:</h4>
+                    <div className="space-y-2 text-sm">
+                      <p><strong>ID:</strong> {result.cardholder?.cardholder_id || result.cardholder_id}</p>
+                      <p><strong>الحالة:</strong> {result.cardholder?.status || result.status}</p>
+                      <p><strong>النوع:</strong> {result.cardholder?.type || result.type}</p>
+                      <p><strong>البريد الإلكتروني:</strong> {result.cardholder?.email || result.email}</p>
+                    </div>
+                  </div>
+                  <details className="bg-gray-50 p-4 rounded-lg">
+                    <summary className="cursor-pointer font-semibold text-gray-700 mb-2">
+                      عرض البيانات الكاملة
+                    </summary>
+                    <pre className="text-xs overflow-x-auto">
+                      {JSON.stringify(result, null, 2)}
+                    </pre>
+                  </details>
+                </div>
               </CardContent>
             </Card>
           )}
@@ -266,12 +285,40 @@ export default function CardholderTest() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-red-600">
                   <XCircle className="h-5 w-5" />
-                  نتيجة الاختبار - فشل
+                  نتيجة الاختبار - فشل ❌
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="bg-red-50 p-4 rounded-lg">
-                  <p className="text-red-700">{error}</p>
+                <div className="space-y-4">
+                  <div className="bg-red-50 p-4 rounded-lg">
+                    <p className="text-red-700 font-semibold mb-2">خطأ:</p>
+                    <p className="text-red-600">{error}</p>
+                  </div>
+                  
+                  {error.includes('access_denied_not_enabled') && (
+                    <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                      <h4 className="font-semibold text-yellow-800 mb-2">⚠️ مشكلة في صلاحيات Airwallex API</h4>
+                      <div className="text-sm text-yellow-700 space-y-2">
+                        <p><strong>المشكلة:</strong> Issuing API غير مفعل في حساب Airwallex</p>
+                        <p><strong>الحل:</strong></p>
+                        <ol className="list-decimal list-inside space-y-1 mt-2">
+                          <li>تسجيل الدخول إلى حساب Airwallex</li>
+                          <li>التواصل مع دعم Airwallex لتفعيل Issuing API</li>
+                          <li>أو استخدام حساب Airwallex مختلف يدعم Issuing API</li>
+                        </ol>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {error.includes('Unauthorized') && (
+                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                      <h4 className="font-semibold text-blue-800 mb-2">🔐 مشكلة في المصادقة</h4>
+                      <div className="text-sm text-blue-700 space-y-2">
+                        <p><strong>المشكلة:</strong> يجب تسجيل الدخول كمدير أولاً</p>
+                        <p><strong>الحل:</strong> تسجيل الدخول باستخدام حساب إداري</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>

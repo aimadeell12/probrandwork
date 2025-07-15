@@ -451,7 +451,18 @@ export function createAirwallexService(): AirwallexService | MockAirwallexServic
     return MockAirwallexService.getInstance();
   }
 
-  // For now, always use mock service since real API requires async initialization
-  console.log('⚠️ Using mock Airwallex service for development');
-  return MockAirwallexService.getInstance();
+  console.log('🔄 Initializing Airwallex Production API...');
+  try {
+    const service = new AirwallexService({
+      clientId,
+      apiKey,
+      isDemo: false
+    });
+    console.log('✅ Airwallex Production API initialized successfully');
+    return service;
+  } catch (error: any) {
+    console.log('⚠️ Failed to initialize Airwallex Production API:', error.message);
+    console.log('⚠️ Falling back to mock service');
+    return MockAirwallexService.getInstance();
+  }
 }

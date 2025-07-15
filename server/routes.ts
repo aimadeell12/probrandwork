@@ -654,8 +654,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Cardholder created successfully"
       });
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("❌ Error creating cardholder:", error);
+      
+      // Handle specific Airwallex API errors
+      if (error.response?.data?.code === 'access_denied_not_enabled') {
+        return res.status(403).json({ 
+          message: "Airwallex Issuing API is not enabled for your account. Please contact Airwallex support to enable Issuing API access.",
+          error: "access_denied_not_enabled",
+          details: "The Airwallex account does not have permission to use the Issuing API. This requires special approval from Airwallex."
+        });
+      }
+      
+      if (error.response?.status === 401) {
+        return res.status(401).json({ 
+          message: "Airwallex API authentication failed. Please check your API credentials.",
+          error: "authentication_failed",
+          details: "The provided AIRWALLEX_CLIENT_ID or AIRWALLEX_API_KEY is invalid or expired."
+        });
+      }
+      
+      if (error.response?.data) {
+        return res.status(error.response.status || 500).json({ 
+          message: `Airwallex API error: ${error.response.data.message || 'Unknown error'}`,
+          error: error.response.data.code || 'airwallex_error',
+          details: error.response.data.details || 'Check Airwallex API documentation for more details.'
+        });
+      }
+      
       res.status(500).json({ 
         message: "Failed to create cardholder",
         error: error instanceof Error ? error.message : "Unknown error"
