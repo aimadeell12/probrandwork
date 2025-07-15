@@ -79,15 +79,19 @@ export class AirwallexService {
     }
 
     try {
-      const response = await axios.post(`${this.baseURL}/authentication/login`, {
-        x_client_id: this.config.clientId,
-        x_api_key: this.config.apiKey,
+      const response = await axios.post(`${this.baseURL}/authentication/login`, {}, {
+        headers: {
+          'x-client-id': this.config.clientId,
+          'x-api-key': this.config.apiKey,
+          'Content-Type': 'application/json',
+        }
       });
 
       this.accessToken = response.data.token;
       this.tokenExpiresAt = new Date(response.data.expires_at);
-    } catch (error) {
-      console.error('Airwallex authentication failed:', error);
+      console.log('✅ Airwallex authentication successful');
+    } catch (error: any) {
+      console.error('❌ Airwallex authentication failed:', error.response?.data || error.message);
       throw new Error('Failed to authenticate with Airwallex API');
     }
   }
@@ -242,7 +246,6 @@ export class AirwallexService {
 export function createAirwallexService(): AirwallexService {
   const clientId = process.env.AIRWALLEX_CLIENT_ID;
   const apiKey = process.env.AIRWALLEX_API_KEY;
-  const isDemo = process.env.NODE_ENV !== 'production';
 
   if (!clientId || !apiKey) {
     console.warn('Airwallex credentials not found. Card operations will be simulated.');
@@ -254,9 +257,10 @@ export function createAirwallexService(): AirwallexService {
     });
   }
 
+  console.log('✅ Airwallex Production API initialized with real credentials');
   return new AirwallexService({
     clientId,
     apiKey,
-    isDemo,
+    isDemo: false, // Force production mode when credentials are available
   });
 }
