@@ -850,9 +850,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
             api_version: payload.api_version,
             data_center_region: payload.data_center_region,
             padc: payload.padc,
-            dc: payload.dc
+            dc: payload.dc,
+            expires_at: new Date(payload.exp * 1000).toISOString()
           };
-          console.log("📊 Account info decoded successfully:", accountInfo.account_id);
+          console.log("📊 Account info decoded successfully:");
+          console.log("   Account ID:", accountInfo.account_id);
+          console.log("   Subject:", accountInfo.sub);
+          console.log("   API Version:", accountInfo.api_version);
+          console.log("   Data Center:", accountInfo.data_center_region);
+          console.log("   Expires At:", accountInfo.expires_at);
         } catch (decodeError) {
           console.error("❌ Failed to decode token:", decodeError);
         }
@@ -872,6 +878,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Failed to retrieve account information",
         error: error.message,
         details: error.response?.data || null
+      });
+    }
+  });
+
+  // Get current account information
+  app.get('/api/airwallex/account-info', async (req, res) => {
+    try {
+      const airwallex = await createAirwallexService();
+      if (!airwallex) {
+        return res.status(500).json({
+          success: false,
+          message: 'Airwallex service not available'
+        });
+      }
+      
+      // Get fresh token
+      const token = await airwallex['authenticate']();
+      
+      if (!token) {
+        return res.status(401).json({
+          success: false,
+          message: 'Failed to authenticate with Airwallex'
+        });
+      }
+      
+      // Decode JWT token
+      const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+      
+      const accountInfo = {
+        account_id: payload.account_id,
+        subject_id: payload.sub,
+        api_version: payload.api_version,
+        data_center: payload.data_center_region,
+        expires_at: new Date(payload.exp * 1000).toISOString(),
+        issued_at: new Date(payload.iat * 1000).toISOString()
+      };
+
+      res.json({
+        success: true,
+        data: accountInfo
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to get account info:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to retrieve account information',
+        error: error.message
       });
     }
   });

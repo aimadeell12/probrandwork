@@ -1,7 +1,8 @@
 # Airwallex Production API Integration Guide
 
 ## Current Status ✅
-- **Account ID**: `40bfd6db-4084-49e0-83e8-633db039ee74`
+- **Account ID**: [يتم تحديثه من API مباشرة]
+- **Subject ID**: [يتم تحديثه من API مباشرة]
 - **API Keys**: Working (authentication successful)
 - **Base URL**: `https://api.airwallex.com/api/v1/` (Production)
 - **Issue**: Issuing API not enabled (403 access_denied_not_enabled)

@@ -131,6 +131,14 @@ export default function AirwallexTest() {
                 </Button>
                 
                 <Button 
+                  onClick={() => testEndpoint('/api/airwallex/account-info', 'GET', 'معلومات الحساب المحدّثة')}
+                  disabled={isLoading}
+                  className="bg-purple-500 hover:bg-purple-600"
+                >
+                  معلومات محدّثة
+                </Button>
+                
+                <Button 
                   variant="outline"
                   onClick={clearResults}
                   disabled={isLoading}
@@ -186,9 +194,25 @@ export default function AirwallexTest() {
                           <h4 className="font-semibold text-green-800 mb-2">معلومات الحساب:</h4>
                           <div className="text-sm">
                             <p><strong>Account ID:</strong> <code className="bg-green-100 px-2 py-1 rounded text-green-800">{result.data.account_info.account_id}</code></p>
+                            <p><strong>Subject ID:</strong> <code className="bg-green-100 px-2 py-1 rounded text-green-800">{result.data.account_info.sub}</code></p>
                             <p><strong>API Version:</strong> {result.data.account_info.api_version}</p>
                             <p><strong>Data Center:</strong> {result.data.account_info.data_center_region}</p>
                             <p><strong>PADC:</strong> {result.data.account_info.padc}</p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Show updated account info from new endpoint */}
+                      {result.data?.account_id && (
+                        <div className="mt-3 p-3 bg-purple-50 rounded-md">
+                          <h4 className="font-semibold text-purple-800 mb-2">معلومات الحساب المحدّثة:</h4>
+                          <div className="text-sm">
+                            <p><strong>Account ID:</strong> <code className="bg-purple-100 px-2 py-1 rounded text-purple-800">{result.data.account_id}</code></p>
+                            <p><strong>Subject ID:</strong> <code className="bg-purple-100 px-2 py-1 rounded text-purple-800">{result.data.subject_id}</code></p>
+                            <p><strong>API Version:</strong> {result.data.api_version}</p>
+                            <p><strong>Data Center:</strong> {result.data.data_center}</p>
+                            <p><strong>Issued At:</strong> {result.data.issued_at}</p>
+                            <p><strong>Expires At:</strong> {result.data.expires_at}</p>
                           </div>
                         </div>
                       )}
