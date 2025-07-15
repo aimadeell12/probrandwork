@@ -78,6 +78,11 @@ export class AirwallexService {
       return; // Token is still valid
     }
 
+    console.log(`🔐 Authenticating with Airwallex... URL: ${this.baseURL}/authentication/login`);
+    console.log(`🔑 Client ID: ${this.config.clientId?.substring(0, 10)}...`);
+    console.log(`🔑 API Key: ${this.config.apiKey?.substring(0, 10)}...`);
+    console.log(`🏢 Mode: ${this.config.isDemo ? 'Demo' : 'Production'}`);
+
     try {
       const response = await axios.post(`${this.baseURL}/authentication/login`, {}, {
         headers: {
@@ -92,6 +97,7 @@ export class AirwallexService {
       console.log('✅ Airwallex authentication successful');
     } catch (error: any) {
       console.error('❌ Airwallex authentication failed:', error.response?.data || error.message);
+      console.error('❌ Full error:', error.response?.status, error.response?.statusText);
       throw new Error('Failed to authenticate with Airwallex API');
     }
   }
@@ -257,10 +263,10 @@ export function createAirwallexService(): AirwallexService {
     });
   }
 
-  console.log('✅ Airwallex API initialized with credentials (using Demo API for Issuing)');
+  console.log('✅ Airwallex Production API initialized with real credentials');
   return new AirwallexService({
     clientId,
     apiKey,
-    isDemo: true, // Use Demo API for Issuing until production is enabled
+    isDemo: false, // Use Production API with real credentials
   });
 }
