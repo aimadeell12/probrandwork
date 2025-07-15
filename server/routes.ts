@@ -587,6 +587,82 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create Airwallex cardholder from user info
+  app.post("/api/cardholders/create", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      console.log("📋 Session userId:", userId);
+      console.log("📋 Full session:", req.session);
+      
+      if (!userId) {
+        return res.status(401).json({ message: "No user session found" });
+      }
+      
+      const user = await storage.getUser(userId);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      console.log("📋 Creating Airwallex cardholder for user:", user.email);
+      
+      const cardholderData = {
+        type: 'INDIVIDUAL' as const,
+        email: user.email || `user${user.id}@paydota.com`,
+        mobile_number: user.phone || '+1234567890',
+        individual: {
+          name: {
+            first_name: user.firstName || user.email?.split('@')[0] || 'User',
+            last_name: user.lastName || 'User',
+            title: 'Mr' as const
+          },
+          date_of_birth: user.dateOfBirth || '1990-01-01',
+          nationality: user.nationality || 'US',
+          address: {
+            city: user.city || 'Albuquerque',
+            country: user.country?.slice(0, 2).toUpperCase() || 'US',
+            line1: user.address || '8206 Louisiana Blvd Ne',
+            line2: 'Suite A 6342',
+            postcode: user.postalCode || '87113',
+            state: 'NM'
+          },
+          cardholder_agreement_terms_consent_obtained: 'yes' as const,
+          express_consent_obtained: 'yes' as const,
+          paperless_notification_consent_obtained: 'yes' as const,
+          privacy_policy_terms_consent_obtained: 'yes' as const
+        },
+        postal_address: {
+          city: user.city || 'Albuquerque',
+          country: user.country?.slice(0, 2).toUpperCase() || 'US',
+          line1: user.address || '8206 Louisiana Blvd Ne',
+          line2: 'Suite A 6342',
+          postcode: user.postalCode || '87113',
+          state: 'NM'
+        }
+      };
+
+      console.log("📋 Cardholder data to be sent:", JSON.stringify(cardholderData, null, 2));
+      
+      const cardholder = await airwallex.createCardholder(cardholderData);
+      
+      console.log("✅ Successfully created Airwallex cardholder:", cardholder.id);
+      console.log("📋 Cardholder details:", JSON.stringify(cardholder, null, 2));
+      
+      res.json({
+        success: true,
+        cardholder: cardholder,
+        message: "Cardholder created successfully"
+      });
+
+    } catch (error) {
+      console.error("❌ Error creating cardholder:", error);
+      res.status(500).json({ 
+        message: "Failed to create cardholder",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   // Wallet operations
   app.post("/api/wallet/deposit", requireAuth, async (req: any, res) => {
     try {
