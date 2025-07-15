@@ -166,6 +166,11 @@ export class AirwallexService {
     return await this.request('GET', `/issuing/cardholders/${cardholderId}`);
   }
 
+  async getCardholders(limit: number = 10, offset: number = 0): Promise<AirwallexCardholder[]> {
+    const response = await this.request('GET', `/issuing/cardholders?limit=${limit}&offset=${offset}`);
+    return response.items || [];
+  }
+
   // Card methods
   async createCard(cardData: {
     cardholder_id: string;
@@ -310,6 +315,19 @@ class MockAirwallexService {
     this.cardholders.set(id, cardholder);
     console.log('✅ Mock Airwallex cardholder created:', id);
     return cardholder;
+  }
+
+  async getCardholder(cardholderId: string): Promise<AirwallexCardholder> {
+    const cardholder = this.cardholders.get(cardholderId);
+    if (!cardholder) {
+      throw new Error('Cardholder not found');
+    }
+    return cardholder;
+  }
+
+  async getCardholders(limit: number = 10, offset: number = 0): Promise<AirwallexCardholder[]> {
+    const allCardholders = Array.from(this.cardholders.values());
+    return allCardholders.slice(offset, offset + limit);
   }
 
   async createCard(cardData: any): Promise<AirwallexCard> {

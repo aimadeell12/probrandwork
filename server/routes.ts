@@ -689,6 +689,105 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Airwallex API Testing endpoints
+  app.get("/api/test/airwallex/auth", requireAuth, async (req: any, res) => {
+    try {
+      // Test authentication by getting access token
+      const token = await airwallex['authenticate']();
+      res.json({
+        success: true,
+        message: "Authentication successful",
+        hasToken: !!token,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error("❌ Airwallex auth test failed:", error);
+      res.status(500).json({
+        success: false,
+        message: "Authentication failed",
+        error: error.message,
+        details: error.response?.data || null
+      });
+    }
+  });
+
+  app.post("/api/test/airwallex/cardholder", requireAuth, async (req: any, res) => {
+    try {
+      const testData = {
+        type: 'INDIVIDUAL' as const,
+        email: 'test@example.com',
+        mobile_number: '+1234567890',
+        individual: {
+          name: {
+            first_name: 'Test',
+            last_name: 'User',
+            title: 'Mr' as const
+          },
+          date_of_birth: '1990-01-01',
+          nationality: 'US',
+          address: {
+            city: 'New York',
+            country: 'US',
+            line1: '123 Test Street',
+            line2: '',
+            postcode: '10001',
+            state: 'NY'
+          },
+          cardholder_agreement_terms_consent_obtained: 'yes' as const,
+          express_consent_obtained: 'yes' as const,
+          paperless_notification_consent_obtained: 'yes' as const,
+          privacy_policy_terms_consent_obtained: 'yes' as const
+        },
+        postal_address: {
+          city: 'New York',
+          country: 'US',
+          line1: '123 Test Street',
+          line2: '',
+          postcode: '10001',
+          state: 'NY'
+        }
+      };
+
+      const cardholder = await airwallex.createCardholder(testData);
+      res.json({
+        success: true,
+        message: "Test cardholder created successfully",
+        cardholder: cardholder,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error("❌ Airwallex cardholder test failed:", error);
+      res.status(500).json({
+        success: false,
+        message: "Cardholder creation failed",
+        error: error.message,
+        details: error.response?.data || null
+      });
+    }
+  });
+
+  app.get("/api/test/airwallex/cardholders", requireAuth, async (req: any, res) => {
+    try {
+      // Test getting cardholders list
+      const cardholders = await airwallex.getCardholders();
+      res.json({
+        success: true,
+        message: "Cardholders retrieved successfully",
+        count: cardholders.length,
+        cardholders: cardholders,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error("❌ Airwallex get cardholders test failed:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve cardholders",
+        error: error.message,
+        details: error.response?.data || null
+      });
+    }
+  });
+
   // Wallet operations
   app.post("/api/wallet/deposit", requireAuth, async (req: any, res) => {
     try {

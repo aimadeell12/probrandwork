@@ -59,6 +59,7 @@ import AdminCurrency from "@/pages/admin/currency";
 import AdminCommunity from "@/pages/admin/community";
 import DepositRequests from "@/pages/admin/deposit-requests";
 import CardholderTest from "@/pages/admin/cardholder-test";
+import AirwallexTest from "@/pages/admin/airwallex-test";
 import BinancePay from "@/pages/binance-pay";
 import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
@@ -120,6 +121,7 @@ function Router() {
         <Route path="/admin/currency" component={AdminCurrency} />
         <Route path="/admin/community" component={AdminCommunity} />
         <Route path="/admin/cardholder-test" component={CardholderTest} />
+        <Route path="/admin/airwallex-test" component={AirwallexTest} />
         <Route path="/admin-panel" component={AdminNavigation} />
         <Route path="/admin-panel/whatsapp" component={AdminWhatsAppSettings} />
 

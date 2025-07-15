@@ -17,7 +17,8 @@ import {
   DollarSign,
   MessageSquare,
   Plus,
-  MessageCircle
+  MessageCircle,
+  Wifi
 } from "lucide-react";
 
 export default function AdminNavigation() {
@@ -119,6 +120,14 @@ export default function AdminNavigation() {
       icon: Shield,
       color: "bg-red-500",
       isActive: location === "/admin/cardholder-test"
+    },
+    {
+      title: "Airwallex API Test",
+      description: "Test Airwallex API connection and endpoints",
+      href: "/admin/airwallex-test",
+      icon: Wifi,
+      color: "bg-blue-500",
+      isActive: location === "/admin/airwallex-test"
     }
   ];
 
