@@ -257,10 +257,10 @@ export function createAirwallexService(): AirwallexService {
     });
   }
 
-  console.log('✅ Airwallex Production API initialized with real credentials');
+  console.log('✅ Airwallex API initialized with credentials (using Demo API for Issuing)');
   return new AirwallexService({
     clientId,
     apiKey,
-    isDemo: false, // Force production mode when credentials are available
+    isDemo: true, // Use Demo API for Issuing until production is enabled
   });
 }
