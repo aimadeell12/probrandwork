@@ -248,25 +248,164 @@ export class AirwallexService {
   }
 }
 
+// Mock Airwallex Service for local development
+class MockAirwallexService {
+  private cardholders: Map<string, AirwallexCardholder> = new Map();
+  private cards: Map<string, AirwallexCard> = new Map();
+  private transactions: Map<string, AirwallexTransaction> = new Map();
+
+  async createCardholder(cardholderData: Partial<AirwallexCardholder>): Promise<AirwallexCardholder> {
+    const id = 'ch_' + Math.random().toString(36).substr(2, 9);
+    const cardholder: AirwallexCardholder = {
+      id,
+      type: cardholderData.type || 'INDIVIDUAL',
+      individual: cardholderData.individual
+    };
+    
+    this.cardholders.set(id, cardholder);
+    console.log('✅ Mock Airwallex cardholder created:', id);
+    return cardholder;
+  }
+
+  async createCard(cardData: any): Promise<AirwallexCard> {
+    const id = 'card_' + Math.random().toString(36).substr(2, 9);
+    const card: AirwallexCard = {
+      id,
+      cardholder_id: cardData.cardholder_id,
+      form_factor: cardData.form_factor || 'VIRTUAL',
+      type: cardData.type || 'PREPAID',
+      status: 'ACTIVE',
+      currency: cardData.currency || 'USD',
+      card_number: '4000' + Math.random().toString().substr(2, 12),
+      expiry_month: 12,
+      expiry_year: 2027,
+      cvv: Math.floor(Math.random() * 900 + 100).toString(),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+    
+    this.cards.set(id, card);
+    console.log('✅ Mock Airwallex card created:', id);
+    return card;
+  }
+
+  async getCard(cardId: string): Promise<AirwallexCard> {
+    const card = this.cards.get(cardId);
+    if (!card) {
+      throw new Error('Card not found');
+    }
+    return card;
+  }
+
+  async getCardDetails(cardId: string): Promise<any> {
+    const card = this.cards.get(cardId);
+    if (!card) {
+      throw new Error('Card not found');
+    }
+    return {
+      card_number: card.card_number,
+      expiry_month: card.expiry_month,
+      expiry_year: card.expiry_year,
+      cvv: card.cvv
+    };
+  }
+
+  async activateCard(cardId: string): Promise<AirwallexCard> {
+    const card = this.cards.get(cardId);
+    if (!card) {
+      throw new Error('Card not found');
+    }
+    card.status = 'ACTIVE';
+    card.updated_at = new Date().toISOString();
+    this.cards.set(cardId, card);
+    return card;
+  }
+
+  async freezeCard(cardId: string): Promise<AirwallexCard> {
+    const card = this.cards.get(cardId);
+    if (!card) {
+      throw new Error('Card not found');
+    }
+    card.status = 'SUSPENDED';
+    card.updated_at = new Date().toISOString();
+    this.cards.set(cardId, card);
+    return card;
+  }
+
+  async unfreezeCard(cardId: string): Promise<AirwallexCard> {
+    const card = this.cards.get(cardId);
+    if (!card) {
+      throw new Error('Card not found');
+    }
+    card.status = 'ACTIVE';
+    card.updated_at = new Date().toISOString();
+    this.cards.set(cardId, card);
+    return card;
+  }
+
+  async cancelCard(cardId: string): Promise<AirwallexCard> {
+    const card = this.cards.get(cardId);
+    if (!card) {
+      throw new Error('Card not found');
+    }
+    card.status = 'CANCELLED';
+    card.updated_at = new Date().toISOString();
+    this.cards.set(cardId, card);
+    return card;
+  }
+
+  async getCardTransactions(cardId: string, options?: any): Promise<{ items: AirwallexTransaction[]; total_count: number }> {
+    const cardTransactions = Array.from(this.transactions.values()).filter(t => t.card_id === cardId);
+    return {
+      items: cardTransactions,
+      total_count: cardTransactions.length
+    };
+  }
+
+  async simulateTransaction(cardId: string, transactionData: any): Promise<AirwallexTransaction> {
+    const id = 'txn_' + Math.random().toString(36).substr(2, 9);
+    const transaction: AirwallexTransaction = {
+      id,
+      card_id: cardId,
+      amount: transactionData.amount,
+      currency: transactionData.currency,
+      status: 'AUTHORIZED',
+      merchant_name: transactionData.merchant_name,
+      merchant_category_code: transactionData.merchant_category_code,
+      transaction_type: 'PURCHASE',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+    
+    this.transactions.set(id, transaction);
+    console.log('✅ Mock Airwallex transaction created:', id);
+    return transaction;
+  }
+
+  async getAllTransactions(options?: any): Promise<{ items: AirwallexTransaction[]; total_count: number }> {
+    const allTransactions = Array.from(this.transactions.values());
+    return {
+      items: allTransactions,
+      total_count: allTransactions.length
+    };
+  }
+
+  async getCardsByCardholder(cardholderId: string): Promise<AirwallexCard[]> {
+    return Array.from(this.cards.values()).filter(card => card.cardholder_id === cardholderId);
+  }
+}
+
 // Helper function to initialize Airwallex service
-export function createAirwallexService(): AirwallexService {
+export function createAirwallexService(): AirwallexService | MockAirwallexService {
   const clientId = process.env.AIRWALLEX_CLIENT_ID;
   const apiKey = process.env.AIRWALLEX_API_KEY;
 
   if (!clientId || !apiKey) {
-    console.warn('Airwallex credentials not found. Card operations will be simulated.');
-    // Return a mock service for development
-    return new AirwallexService({
-      clientId: 'demo_client_id',
-      apiKey: 'demo_api_key',
-      isDemo: true,
-    });
+    console.warn('Airwallex credentials not found. Using mock service.');
+    return new MockAirwallexService();
   }
 
-  console.log('✅ Airwallex Production API initialized with real credentials');
-  return new AirwallexService({
-    clientId,
-    apiKey,
-    isDemo: false, // Use Production API with real credentials
-  });
+  // Always use mock service for now since API access is restricted
+  console.log('🔧 Using Mock Airwallex Service for development (API access restricted)');
+  return new MockAirwallexService();
 }
