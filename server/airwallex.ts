@@ -250,9 +250,17 @@ export class AirwallexService {
 
 // Mock Airwallex Service for local development
 class MockAirwallexService {
+  private static instance: MockAirwallexService;
   private cardholders: Map<string, AirwallexCardholder> = new Map();
   private cards: Map<string, AirwallexCard> = new Map();
   private transactions: Map<string, AirwallexTransaction> = new Map();
+
+  static getInstance(): MockAirwallexService {
+    if (!MockAirwallexService.instance) {
+      MockAirwallexService.instance = new MockAirwallexService();
+    }
+    return MockAirwallexService.instance;
+  }
 
   async createCardholder(cardholderData: Partial<AirwallexCardholder>): Promise<AirwallexCardholder> {
     const id = 'ch_' + Math.random().toString(36).substr(2, 9);
@@ -300,6 +308,7 @@ class MockAirwallexService {
   async getCardDetails(cardId: string): Promise<any> {
     const card = this.cards.get(cardId);
     if (!card) {
+      console.log(`Available cards: ${Array.from(this.cards.keys()).join(', ')}`);
       throw new Error('Card not found');
     }
     return {
@@ -402,10 +411,10 @@ export function createAirwallexService(): AirwallexService | MockAirwallexServic
 
   if (!clientId || !apiKey) {
     console.warn('Airwallex credentials not found. Using mock service.');
-    return new MockAirwallexService();
+    return MockAirwallexService.getInstance();
   }
 
   // Always use mock service for now since API access is restricted
   console.log('🔧 Using Mock Airwallex Service for development (API access restricted)');
-  return new MockAirwallexService();
+  return MockAirwallexService.getInstance();
 }
