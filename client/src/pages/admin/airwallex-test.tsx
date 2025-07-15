@@ -214,28 +214,63 @@ export default function AirwallexTest() {
               <CardTitle>حالة API</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <span>مفاتيح API متوفرة</span>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <span>مفاتيح API متوفرة</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full ${
+                      results.some(r => r.success) ? 'bg-green-500' : 'bg-red-500'
+                    }`}></div>
+                    <span>الاتصال مع Airwallex: {
+                      results.length === 0 ? 'غير محدد' : 
+                      results.some(r => r.success) ? 'يعمل' : 'لا يعمل'
+                    }</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full ${
+                      results.some(r => r.description.includes('cardholder') && r.success) ? 'bg-green-500' : 'bg-red-500'
+                    }`}></div>
+                    <span>Issuing API: {
+                      results.length === 0 ? 'غير محدد' : 
+                      results.some(r => r.description.includes('cardholder') && r.success) ? 'مفعل' : 'غير مفعل'
+                    }</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className={`w-3 h-3 rounded-full ${
-                    results.some(r => r.success) ? 'bg-green-500' : 'bg-red-500'
-                  }`}></div>
-                  <span>الاتصال مع Airwallex: {
-                    results.length === 0 ? 'غير محدد' : 
-                    results.some(r => r.success) ? 'يعمل' : 'لا يعمل'
-                  }</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className={`w-3 h-3 rounded-full ${
-                    results.some(r => r.description.includes('cardholder') && r.success) ? 'bg-green-500' : 'bg-red-500'
-                  }`}></div>
-                  <span>Issuing API: {
-                    results.length === 0 ? 'غير محدد' : 
-                    results.some(r => r.description.includes('cardholder') && r.success) ? 'مفعل' : 'غير مفعل'
-                  }</span>
+                
+                {/* Account ID Display */}
+                {results.some(r => r.data?.account_info?.account_id) && (
+                  <div className="mt-4 p-3 bg-blue-50 rounded-md">
+                    <h4 className="font-semibold text-blue-800 mb-2">معلومات الحساب:</h4>
+                    <p className="text-sm">
+                      <strong>Account ID:</strong> <code className="bg-blue-100 px-2 py-1 rounded text-blue-800">
+                        {results.find(r => r.data?.account_info?.account_id)?.data.account_info.account_id}
+                      </code>
+                    </p>
+                  </div>
+                )}
+                
+                {/* Error Explanation */}
+                {results.some(r => !r.success && r.data?.error?.includes('access_denied_not_enabled')) && (
+                  <div className="mt-4 p-3 bg-yellow-50 rounded-md">
+                    <h4 className="font-semibold text-yellow-800 mb-2">⚠️ تتطلب تفعيل من Airwallex</h4>
+                    <p className="text-sm text-yellow-700">
+                      الخطأ 403 يعني أن Issuing API غير مفعل في حسابك. تحتاج للتواصل مع Account Manager في Airwallex لتفعيل Cards Product و Issuing APIs.
+                    </p>
+                  </div>
+                )}
+                
+                {/* Next Steps */}
+                <div className="mt-4 p-3 bg-gray-50 rounded-md">
+                  <h4 className="font-semibold text-gray-800 mb-2">الخطوات التالية:</h4>
+                  <ul className="text-sm text-gray-700 space-y-1">
+                    <li>• تواصل مع Airwallex Account Manager</li>
+                    <li>• اطلب تفعيل Cards Product</li>
+                    <li>• اطلب تفعيل Issuing APIs</li>
+                    <li>• تأكد من إضافة أموال في Airwallex Wallet</li>
+                  </ul>
                 </div>
               </div>
             </CardContent>
