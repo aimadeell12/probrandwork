@@ -60,6 +60,7 @@ import AdminCommunity from "@/pages/admin/community";
 import DepositRequests from "@/pages/admin/deposit-requests";
 import CardholderTest from "@/pages/admin/cardholder-test";
 import AirwallexTest from "@/pages/admin/airwallex-test";
+import AirwallexTestPage from "@/pages/AirwallexTest";
 import BinancePay from "@/pages/binance-pay";
 import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
@@ -169,6 +170,7 @@ function Router() {
         <Route path="/hub" component={Services} />
         <Route path="/whatsapp-settings" component={WhatsAppSettings} />
         <Route path="/camera-test" component={CameraTest} />
+        <Route path="/airwallex-test" component={AirwallexTestPage} />
 
         {/* Root route - immediately show dashboard for authenticated users */}
         <Route path="/" component={Dashboard} />

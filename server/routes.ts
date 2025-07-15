@@ -49,6 +49,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   setupSimpleAuth(app);
   setupGoogleAuth(app);
 
+  // Airwallex API test route
+  app.get("/api/airwallex/test", async (req, res) => {
+    try {
+      console.log('🧪 Testing Airwallex API connection...');
+      
+      // Test 1: Try to get cardholders (basic API test)
+      const cardholders = await airwallex.getCardholders(1, 0);
+      console.log('✅ Airwallex API test successful - cardholders retrieved');
+      
+      res.json({
+        success: true,
+        message: 'Airwallex API connection successful',
+        cardholders_count: cardholders.length,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error('❌ Airwallex API test failed:', error.message);
+      console.error('❌ Full error:', error.response?.data || error.stack);
+      
+      res.status(500).json({
+        success: false,
+        message: 'Airwallex API connection failed',
+        error: error.message,
+        details: error.response?.data || null,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   // Banks routes
   app.get("/api/banks", async (req, res) => {
     try {
