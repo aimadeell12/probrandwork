@@ -111,6 +111,14 @@ export default function AdminNavigation() {
       icon: Settings,
       color: "bg-orange-500",
       isActive: location === "/admin/settings"
+    },
+    {
+      title: "Cardholder Test",
+      description: "Test Airwallex cardholder creation functionality",
+      href: "/admin/cardholder-test",
+      icon: Shield,
+      color: "bg-red-500",
+      isActive: location === "/admin/cardholder-test"
     }
   ];
 

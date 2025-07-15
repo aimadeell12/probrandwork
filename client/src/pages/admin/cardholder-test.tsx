@@ -1,0 +1,283 @@
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+import { ArrowLeft, UserPlus, CheckCircle, XCircle } from 'lucide-react';
+import { Link } from 'wouter';
+
+export default function CardholderTest() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  const [formData, setFormData] = useState({
+    firstName: 'أحمد',
+    lastName: 'محمد',
+    email: 'ahmed.mohamed@example.com',
+    phone: '+966501234567',
+    dateOfBirth: '1990-01-01',
+    city: 'الرياض',
+    address: 'شارع الملك عبد العزيز، الرياض',
+    postalCode: '12345',
+    country: 'SA'
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const testCardholderCreation = async () => {
+    setIsLoading(true);
+    setError(null);
+    setResult(null);
+
+    try {
+      console.log('📋 Testing cardholder creation with data:', formData);
+      
+      const response = await fetch('/api/cardholders/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          type: 'INDIVIDUAL',
+          email: formData.email,
+          mobile_number: formData.phone,
+          individual: {
+            name: {
+              first_name: formData.firstName,
+              last_name: formData.lastName,
+              title: 'Mr'
+            },
+            date_of_birth: formData.dateOfBirth,
+            nationality: formData.country,
+            address: {
+              city: formData.city,
+              country: formData.country,
+              line1: formData.address,
+              line2: '',
+              postcode: formData.postalCode,
+              state: formData.city
+            },
+            cardholder_agreement_terms_consent_obtained: 'yes',
+            express_consent_obtained: 'yes',
+            paperless_notification_consent_obtained: 'yes',
+            privacy_policy_terms_consent_obtained: 'yes'
+          },
+          postal_address: {
+            city: formData.city,
+            country: formData.country,
+            line1: formData.address,
+            line2: '',
+            postcode: formData.postalCode,
+            state: formData.city
+          }
+        })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setResult(data);
+        toast({
+          title: "تم إنشاء Cardholder بنجاح",
+          description: `ID: ${data.cardholder?.cardholder_id || data.cardholder_id}`,
+        });
+      } else {
+        setError(data.message || 'حدث خطأ أثناء إنشاء Cardholder');
+        toast({
+          title: "فشل في إنشاء Cardholder",
+          description: data.message || 'حدث خطأ غير متوقع',
+          variant: "destructive",
+        });
+      }
+    } catch (err: any) {
+      const errorMessage = err.message || 'حدث خطأ في الاتصال';
+      setError(errorMessage);
+      toast({
+        title: "خطأ في الاتصال",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white p-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <Link href="/admin-panel">
+              <Button variant="ghost" size="sm">
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            </Link>
+            <h1 className="text-2xl font-bold text-gray-900">اختبار إنشاء Cardholder</h1>
+          </div>
+        </div>
+
+        <div className="grid gap-6">
+          {/* Test Form */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <UserPlus className="h-5 w-5 text-purple-500" />
+                بيانات Cardholder للاختبار
+              </CardTitle>
+              <CardDescription>
+                املأ البيانات التالية لاختبار إنشاء cardholder جديد
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="firstName">الاسم الأول</Label>
+                  <Input
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    placeholder="أحمد"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="lastName">الاسم الأخير</Label>
+                  <Input
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    placeholder="محمد"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email">البريد الإلكتروني</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="ahmed@example.com"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="phone">رقم الهاتف</Label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder="+966501234567"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="dateOfBirth">تاريخ الميلاد</Label>
+                  <Input
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    type="date"
+                    value={formData.dateOfBirth}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="country">الدولة</Label>
+                  <Input
+                    id="country"
+                    name="country"
+                    value={formData.country}
+                    onChange={handleInputChange}
+                    placeholder="SA"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="city">المدينة</Label>
+                  <Input
+                    id="city"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    placeholder="الرياض"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="postalCode">الرمز البريدي</Label>
+                  <Input
+                    id="postalCode"
+                    name="postalCode"
+                    value={formData.postalCode}
+                    onChange={handleInputChange}
+                    placeholder="12345"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <Label htmlFor="address">العنوان</Label>
+                  <Input
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    placeholder="شارع الملك عبد العزيز، الرياض"
+                  />
+                </div>
+              </div>
+              
+              <Button 
+                onClick={testCardholderCreation}
+                disabled={isLoading}
+                className="w-full bg-purple-500 hover:bg-purple-600"
+              >
+                {isLoading ? 'جاري الإنشاء...' : 'إنشاء Cardholder'}
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Results */}
+          {result && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-green-600">
+                  <CheckCircle className="h-5 w-5" />
+                  نتيجة الاختبار - نجح
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <pre className="bg-gray-50 p-4 rounded-lg overflow-x-auto text-sm">
+                  {JSON.stringify(result, null, 2)}
+                </pre>
+              </CardContent>
+            </Card>
+          )}
+
+          {error && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-red-600">
+                  <XCircle className="h-5 w-5" />
+                  نتيجة الاختبار - فشل
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-red-50 p-4 rounded-lg">
+                  <p className="text-red-700">{error}</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
