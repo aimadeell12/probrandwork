@@ -451,7 +451,25 @@ export function createAirwallexService(): AirwallexService | MockAirwallexServic
     return MockAirwallexService.getInstance();
   }
 
-  // Always use mock service for now since API access is restricted
-  console.log('🔧 Using Mock Airwallex Service for development (API access restricted)');
-  return MockAirwallexService.getInstance();
+  // Try real API first, fallback to mock if not enabled
+  try {
+    console.log('🔄 Testing Airwallex Production API access...');
+    const service = new AirwallexService({
+      clientId,
+      apiKey,
+      isDemo: false
+    });
+    // Test authentication by attempting to authenticate
+    await service['authenticate']();
+    console.log('✅ Airwallex Production API initialized with real credentials');
+    return service;
+  } catch (error: any) {
+    if (error.response?.data?.code === 'access_denied_not_enabled') {
+      console.log('⚠️ Airwallex Issuing API not enabled in account. Using mock service.');
+      console.log('📋 To enable real API: Contact Airwallex support to activate Issuing API');
+    } else {
+      console.log('⚠️ Airwallex API connection failed:', error.message);
+    }
+    return MockAirwallexService.getInstance();
+  }
 }
