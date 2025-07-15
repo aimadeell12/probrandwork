@@ -1,0 +1,72 @@
+import axios from 'axios';
+
+const requestBody = {
+  "email": "john@example.com",
+  "individual": {
+    "address": {
+      "city": "Melbourne",
+      "country": "AU",
+      "line1": "44 Gillespie St",
+      "line2": "Unit 2",
+      "postcode": "3121",
+      "state": "VIC"
+    },
+    "cardholder_agreement_terms_consent_obtained": "yes",
+    "date_of_birth": "1982-11-02",
+    "employers": [
+      {
+        "business_identifiers": [
+          {
+            "country_code": "US",
+            "number": "A1098762872",
+            "type": "BRN"
+          }
+        ],
+        "business_name": "string"
+      }
+    ],
+    "express_consent_obtained": "yes",
+    "identification": {
+      "country": "AU",
+      "document_back_file_id": "NzI3ZDAxM2ItZjMzMC00ZDIyLTk4YTQtMTE3ZTA0MjdhZTUyLHwsaG9uZ2tvbmcsfCxwYXNzcG9ydC5qcGdfMTYwNzY0MDI4OQ==",
+      "document_front_file_id": "NzI3ZDAxM2ItZjMzMC00ZDIyLTk4YTQtMTE3ZTA0MjdhZTUyLHwsaG9uZ2tvbmcsfCxwYXNzcG9ydC5qcGdfMTYwNzY0MDI4OQ==",
+      "expiry_date": "2028-08-28",
+      "gender": "F",
+      "number": "001238243",
+      "state": "NT",
+      "type": "DRIVERS_LICENSE"
+    },
+    "name": {
+      "first_name": "John",
+      "last_name": "Smith",
+      "middle_name": "Fitzgerald",
+      "title": "Mr"
+    },
+    "nationality": "UK",
+    "paperless_notification_consent_obtained": "yes",
+    "privacy_policy_terms_consent_obtained": "yes"
+  },
+  "mobile_number": "61432100100",
+  "postal_address": {
+    "city": "Melbourne",
+    "country": "AU",
+    "line1": "44 Gillespie St",
+    "line2": "Unit 2",
+    "postcode": "3121",
+    "state": "VIC"
+  },
+  "type": "INDIVIDUAL"
+};
+
+axios
+  .request({
+    url: 'https://api-demo.airwallex.com/api/v1/issuing/cardholders/create',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b20iLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTQ4ODQxNTI1NywiZXhwIjoxNDg4NDE1MjY3fQ.UHqau03y5kEk5lFbTp7J4a-U6LXsfxIVNEsux85hj-Q',
+    },
+    data: requestBody,
+  })
+  .then(({ data }) => { ... })
+  .catch(error => { ... });

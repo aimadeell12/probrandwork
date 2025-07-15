@@ -217,12 +217,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         const cardholder = await airwallex.createCardholder({
           type: 'INDIVIDUAL',
+          email: user.email || `user${user.id}@paydota.com`,
+          mobile_number: user.phone || '+1234567890',
           individual: {
-            first_name: user.firstName || user.email?.split('@')[0] || 'User',
-            last_name: user.lastName || 'User',
-            email: user.email || `user${user.id}@paydota.com`,
-            phone_number: user.phone || undefined,
-            date_of_birth: user.dateOfBirth || '1990-01-01'
+            name: {
+              first_name: user.firstName || user.email?.split('@')[0] || 'User',
+              last_name: user.lastName || 'User',
+              title: 'Mr'
+            },
+            date_of_birth: user.dateOfBirth || '1990-01-01',
+            nationality: 'US',
+            address: {
+              city: user.city || 'Albuquerque',
+              country: 'US',
+              line1: user.address || '8206 Louisiana Blvd Ne',
+              line2: 'Suite A 6342',
+              postcode: user.postalCode || '87113',
+              state: 'NM'
+            },
+            cardholder_agreement_terms_consent_obtained: 'yes',
+            express_consent_obtained: 'yes',
+            paperless_notification_consent_obtained: 'yes',
+            privacy_policy_terms_consent_obtained: 'yes'
+          },
+          postal_address: {
+            city: user.city || 'Albuquerque',
+            country: 'US',
+            line1: user.address || '8206 Louisiana Blvd Ne',
+            line2: 'Suite A 6342',
+            postcode: user.postalCode || '87113',
+            state: 'NM'
           }
         });
 

@@ -11,19 +11,51 @@ export interface AirwallexConfig {
 }
 
 export interface AirwallexCardholder {
-  id: string;
+  cardholder_id?: string;
+  id?: string;
   type: 'INDIVIDUAL' | 'ORGANIZATION';
+  email: string;
+  mobile_number?: string;
+  status?: 'PENDING' | 'ACTIVE' | 'SUSPENDED' | 'CANCELLED';
   individual?: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number?: string;
-    date_of_birth?: string;
+    name: {
+      first_name: string;
+      last_name: string;
+      middle_name?: string;
+      title?: string;
+    };
+    date_of_birth: string;
+    nationality?: string;
+    address?: {
+      city: string;
+      country: string;
+      line1: string;
+      line2?: string;
+      postcode: string;
+      state?: string;
+    };
+    identification?: {
+      country: string;
+      document_front_file_id?: string;
+      document_back_file_id?: string;
+      expiry_date?: string;
+      gender?: 'M' | 'F';
+      number: string;
+      state?: string;
+      type: 'DRIVERS_LICENSE' | 'PASSPORT' | 'NATIONAL_ID';
+    };
+    cardholder_agreement_terms_consent_obtained?: 'yes' | 'no';
+    express_consent_obtained?: 'yes' | 'no';
+    paperless_notification_consent_obtained?: 'yes' | 'no';
+    privacy_policy_terms_consent_obtained?: 'yes' | 'no';
   };
-  organization?: {
-    legal_name: string;
-    business_registration_number?: string;
-    email: string;
+  postal_address?: {
+    city: string;
+    country: string;
+    line1: string;
+    line2?: string;
+    postcode: string;
+    state?: string;
   };
 }
 
@@ -265,9 +297,14 @@ class MockAirwallexService {
   async createCardholder(cardholderData: Partial<AirwallexCardholder>): Promise<AirwallexCardholder> {
     const id = 'ch_' + Math.random().toString(36).substr(2, 9);
     const cardholder: AirwallexCardholder = {
+      cardholder_id: id,
       id,
       type: cardholderData.type || 'INDIVIDUAL',
-      individual: cardholderData.individual
+      email: cardholderData.email || 'user@example.com',
+      mobile_number: cardholderData.mobile_number,
+      status: 'ACTIVE',
+      individual: cardholderData.individual,
+      postal_address: cardholderData.postal_address
     };
     
     this.cardholders.set(id, cardholder);

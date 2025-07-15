@@ -68,7 +68,7 @@ app.post("/api/webhooks/airwallex", async (req, res) => {
 ```javascript
 // من:
 console.log('🔧 Using Mock Airwallex Service for development (API access restricted)');
-return new MockAirwallexService();
+return MockAirwallexService.getInstance();
 
 // إلى:
 console.log('✅ Airwallex Production API initialized with real credentials');
@@ -76,6 +76,46 @@ return new AirwallexService({
   clientId,
   apiKey,
   isDemo: false,
+});
+```
+
+### 4. تنسيق Airwallex API الصحيح
+
+النظام يستخدم الآن التنسيق الصحيح لـ Airwallex API:
+
+```javascript
+// إنشاء cardholder بالتنسيق الصحيح
+const cardholder = await airwallex.createCardholder({
+  type: 'INDIVIDUAL',
+  email: 'user@example.com',
+  mobile_number: '+1234567890',
+  individual: {
+    name: {
+      first_name: 'John',
+      last_name: 'Smith',
+      title: 'Mr'
+    },
+    date_of_birth: '1990-01-01',
+    nationality: 'US',
+    address: {
+      city: 'Albuquerque',
+      country: 'US',
+      line1: '8206 Louisiana Blvd Ne',
+      postcode: '87113',
+      state: 'NM'
+    },
+    cardholder_agreement_terms_consent_obtained: 'yes',
+    express_consent_obtained: 'yes',
+    paperless_notification_consent_obtained: 'yes',
+    privacy_policy_terms_consent_obtained: 'yes'
+  },
+  postal_address: {
+    city: 'Albuquerque',
+    country: 'US',
+    line1: '8206 Louisiana Blvd Ne',
+    postcode: '87113',
+    state: 'NM'
+  }
 });
 ```
 
