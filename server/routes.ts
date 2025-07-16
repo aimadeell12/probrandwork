@@ -49,7 +49,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   setupSimpleAuth(app);
   setupGoogleAuth(app);
 
-  // Airwallex API test route
+  // Public Airwallex API test routes (no authentication required)
   app.get("/api/airwallex/test", async (req, res) => {
     try {
       console.log('🧪 Testing Airwallex API connection...');
@@ -835,17 +835,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Airwallex API Testing endpoints
-  app.get("/api/test/airwallex/auth", (req: any, res, next) => {
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: "Authentication required",
-        error: "User not authenticated"
-      });
-    }
-    next();
-  }, async (req: any, res) => {
+  // Airwallex API Testing endpoints (Public - No authentication required)
+  app.get("/api/test/airwallex/auth", async (req: any, res) => {
     try {
       console.log("🔐 Testing Airwallex authentication...");
       
@@ -870,16 +861,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/test/airwallex/cardholder", (req: any, res, next) => {
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: "Authentication required",
-        error: "User not authenticated"
-      });
-    }
-    next();
-  }, async (req: any, res) => {
+  app.post("/api/test/airwallex/cardholder", async (req: any, res) => {
     try {
       const testData = {
         type: 'INDIVIDUAL' as const,
@@ -934,16 +916,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/test/airwallex/cardholders", (req: any, res, next) => {
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: "Authentication required",
-        error: "User not authenticated"
-      });
-    }
-    next();
-  }, async (req: any, res) => {
+  app.get("/api/test/airwallex/cardholders", async (req: any, res) => {
     try {
       // Test getting cardholders list
       const cardholders = await airwallex.getCardholders();
@@ -965,17 +938,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/test/airwallex/account", (req: any, res, next) => {
-    // Custom auth check that returns JSON instead of redirecting
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: "Authentication required",
-        error: "User not authenticated"
-      });
-    }
-    next();
-  }, async (req: any, res) => {
+  app.get("/api/test/airwallex/account", async (req: any, res) => {
     try {
       console.log("🔐 Testing Airwallex account endpoint...");
       
