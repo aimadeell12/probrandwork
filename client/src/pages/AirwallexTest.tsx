@@ -34,6 +34,8 @@ export default function AirwallexTest() {
   const [result, setResult] = useState<TestResult | null>(null);
   const [accountLoading, setAccountLoading] = useState(false);
   const [accountInfo, setAccountInfo] = useState<AccountInfo | null>(null);
+  const [cardsLoading, setCardsLoading] = useState(false);
+  const [cardsInfo, setCardsInfo] = useState<any>(null);
 
   const testAirwallexConnection = async () => {
     setIsLoading(true);
@@ -89,6 +91,33 @@ export default function AirwallexTest() {
     }
   };
 
+  const getCardsInfo = async () => {
+    setCardsLoading(true);
+    setCardsInfo(null);
+
+    try {
+      const response = await fetch('/api/test/airwallex/cards', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+      setCardsInfo(data);
+    } catch (error: any) {
+      setCardsInfo({
+        success: false,
+        message: 'Network error',
+        error: error.message,
+        timestamp: new Date().toISOString()
+      });
+    } finally {
+      setCardsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white p-4">
       <div className="max-w-2xl mx-auto space-y-6">
@@ -117,7 +146,7 @@ export default function AirwallexTest() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <Button 
                 onClick={testAirwallexConnection}
                 disabled={isLoading}
@@ -146,6 +175,22 @@ export default function AirwallexTest() {
                   </>
                 ) : (
                   'عرض معرف الحساب'
+                )}
+              </Button>
+
+              <Button 
+                onClick={getCardsInfo}
+                disabled={cardsLoading}
+                variant="outline"
+                className="border-green-500 text-green-600 hover:bg-green-50"
+              >
+                {cardsLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    جاري التحميل...
+                  </>
+                ) : (
+                  'اختبار جلب البطاقات'
                 )}
               </Button>
             </div>
@@ -384,6 +429,116 @@ export default function AirwallexTest() {
 
                   <div className="text-xs text-gray-500">
                     <strong>وقت الاستعلام:</strong> {new Date(accountInfo.timestamp).toLocaleString('ar-EG')}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {cardsInfo && (
+              <Card className={`border-2 ${
+                cardsInfo.success 
+                  ? 'border-green-200 bg-green-50' 
+                  : 'border-red-200 bg-red-50'
+              }`}>
+                <CardHeader className="pb-3">
+                  <CardTitle className={`flex items-center gap-2 text-lg ${
+                    cardsInfo.success ? 'text-green-700' : 'text-red-700'
+                  }`}>
+                    {cardsInfo.success ? (
+                      <CheckCircle className="h-5 w-5" />
+                    ) : (
+                      <XCircle className="h-5 w-5" />
+                    )}
+                    نتائج اختبار البطاقات
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div>
+                    <strong className="text-gray-700">حالة:</strong>
+                    <p className={`mt-1 font-semibold ${
+                      cardsInfo.success ? 'text-green-600' : 'text-red-600'
+                    }`}>
+                      {cardsInfo.message}
+                    </p>
+                  </div>
+
+                  {cardsInfo.count !== undefined && (
+                    <div>
+                      <strong className="text-gray-700">عدد البطاقات:</strong>
+                      <p className="mt-1 text-blue-600 font-semibold">
+                        {cardsInfo.count} بطاقة
+                      </p>
+                    </div>
+                  )}
+
+                  {cardsInfo.cards && cardsInfo.cards.length > 0 && (
+                    <div className="space-y-2">
+                      <strong className="text-gray-700">بيانات البطاقات:</strong>
+                      
+                      <div className="max-h-60 overflow-y-auto space-y-2">
+                        {cardsInfo.cards.map((card: any, index: number) => (
+                          <div key={index} className="bg-white p-3 rounded border">
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                              {card.id && (
+                                <div>
+                                  <strong className="text-gray-600">Card ID:</strong>
+                                  <p className="font-mono text-xs break-all">{card.id}</p>
+                                </div>
+                              )}
+                              {card.status && (
+                                <div>
+                                  <strong className="text-gray-600">الحالة:</strong>
+                                  <p className={`${
+                                    card.status === 'ACTIVE' ? 'text-green-600' : 'text-orange-600'
+                                  }`}>{card.status}</p>
+                                </div>
+                              )}
+                              {card.type && (
+                                <div>
+                                  <strong className="text-gray-600">النوع:</strong>
+                                  <p>{card.type}</p>
+                                </div>
+                              )}
+                              {card.cardholder_id && (
+                                <div>
+                                  <strong className="text-gray-600">Cardholder ID:</strong>
+                                  <p className="font-mono text-xs break-all">{card.cardholder_id}</p>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <details className="text-xs">
+                        <summary className="cursor-pointer text-blue-600">عرض البيانات الكاملة</summary>
+                        <pre className="mt-2 bg-gray-100 p-2 rounded text-xs overflow-auto max-h-40">
+                          {JSON.stringify(cardsInfo.cards, null, 2)}
+                        </pre>
+                      </details>
+                    </div>
+                  )}
+
+                  {cardsInfo.error && (
+                    <div>
+                      <strong className="text-gray-700">رسالة الخطأ:</strong>
+                      <pre className="mt-1 bg-red-50 p-2 rounded text-sm overflow-auto border border-red-200">
+                        {cardsInfo.error}
+                      </pre>
+                    </div>
+                  )}
+
+                  {cardsInfo.details && (
+                    <div>
+                      <strong className="text-gray-700">تفاصيل الخطأ:</strong>
+                      <pre className="mt-1 bg-gray-100 p-2 rounded text-sm overflow-auto">
+                        {JSON.stringify(cardsInfo.details, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+
+                  <div className="text-xs text-gray-500">
+                    <strong>وقت الاستعلام:</strong> {new Date(cardsInfo.timestamp).toLocaleString('ar-EG')}
                   </div>
                 </CardContent>
               </Card>

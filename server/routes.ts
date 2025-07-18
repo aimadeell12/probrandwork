@@ -991,6 +991,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/test/airwallex/cards", async (req: any, res) => {
+    try {
+      console.log("🃏 Testing Airwallex cards endpoint...");
+      
+      // Test getting cards list
+      const cards = await airwallex.getCards();
+      res.json({
+        success: true,
+        message: "Cards retrieved successfully",
+        count: cards.length,
+        cards: cards,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error("❌ Airwallex get cards test failed:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve cards",
+        error: error.message,
+        details: error.response?.data || null,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   // Get current account information
   app.get('/api/airwallex/account-info', async (req, res) => {
     try {
