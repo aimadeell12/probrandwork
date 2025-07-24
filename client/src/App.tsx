@@ -64,6 +64,7 @@ import AirwallexTestPage from "@/pages/AirwallexTest";
 import BinancePay from "@/pages/binance-pay";
 import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
+import AdminAddUser from "@/pages/admin-add-user";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -171,6 +172,7 @@ function Router() {
         <Route path="/whatsapp-settings" component={WhatsAppSettings} />
         <Route path="/camera-test" component={CameraTest} />
         <Route path="/airwallex-test" component={AirwallexTestPage} />
+        <Route path="/admin/add-user" component={AdminAddUser} />
 
         {/* Root route - immediately show dashboard for authenticated users */}
         <Route path="/" component={Dashboard} />
