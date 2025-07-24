@@ -65,6 +65,7 @@ import BinancePay from "@/pages/binance-pay";
 import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
 import AdminAddUser from "@/pages/admin-add-user";
+import PasswordDemo from "@/pages/password-demo";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -173,6 +174,7 @@ function Router() {
         <Route path="/camera-test" component={CameraTest} />
         <Route path="/airwallex-test" component={AirwallexTestPage} />
         <Route path="/admin/add-user" component={AdminAddUser} />
+        <Route path="/password-demo" component={PasswordDemo} />
 
         {/* Root route - immediately show dashboard for authenticated users */}
         <Route path="/" component={Dashboard} />
