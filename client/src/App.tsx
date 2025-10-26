@@ -66,6 +66,7 @@ import BankTransfer from "@/pages/bank-transfer";
 import CameraTest from "@/pages/camera-test";
 import AdminAddUser from "@/pages/admin-add-user";
 import PasswordDemo from "@/pages/password-demo";
+import PaymentLinks from "@/pages/payment-links";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -155,6 +156,7 @@ function Router() {
         <Route path="/cards/priority" component={PriorityCards} />
         <Route path="/choose-card" component={ChooseCard} />
         <Route path="/cards" component={Cards} />
+        <Route path="/payment-links" component={PaymentLinks} />
 
         {/* Other specific routes */}
         <Route path="/dashboard" component={Dashboard} />
