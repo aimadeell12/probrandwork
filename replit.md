@@ -1,315 +1,52 @@
 # PayDota - Digital Banking Platform
 
 ## Overview
+PayDota is a comprehensive digital banking platform designed to offer secure banking services, card management, and financial transactions. It provides a full-stack solution with both user-facing features and administrative capabilities, aiming to simplify digital finance for its users. The platform supports virtual and physical cards, various payment processing methods, and a robust notification system, all within a modern, user-friendly interface.
 
-PayDota is a comprehensive digital banking platform built with modern web technologies, offering secure banking services, card management, and financial transactions. The application provides a full-stack solution with both user-facing features and administrative capabilities.
+## User Preferences
+Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-### Frontend Architecture
+### Frontend
 - **Framework**: React 18 with TypeScript
-- **Routing**: Wouter for client-side routing
-- **State Management**: TanStack Query (React Query) for server state management
+- **Routing**: Wouter
+- **State Management**: TanStack Query (React Query)
 - **UI Framework**: Tailwind CSS with shadcn/ui components
-- **Build Tool**: Vite for fast development and optimized builds
-- **Mobile Framework**: Capacitor for native mobile app conversion
+- **Build Tool**: Vite
+- **Mobile Integration**: Capacitor for native mobile app conversion
 - **Form Handling**: React Hook Form with Zod validation
 
-### Backend Architecture
-- **Runtime**: Node.js with Express.js server
-- **Language**: TypeScript with ES modules
+### Backend
+- **Runtime**: Node.js with Express.js
+- **Language**: TypeScript (ES modules)
 - **Database**: PostgreSQL with Drizzle ORM
-- **Authentication**: Multiple auth strategies (Local, Google OAuth, Replit Auth)
+- **Authentication**: Multi-provider (Local, Google OAuth, Replit Auth)
 - **Session Management**: Express-session with PostgreSQL store
 
-### Database Architecture
-- **ORM**: Drizzle ORM with PostgreSQL dialect
-- **Migration System**: Drizzle Kit for schema migrations
-- **Connection**: Neon serverless PostgreSQL with connection pooling
+### Key Features
+- **Authentication**: Multi-provider support, secure session management, bcryptjs for password hashing, role-based access control.
+- **Card Management**: Supports virtual and physical cards, integration with Lithic and Reap for provisioning, real-time transaction tracking.
+- **Payment Processing**: Binance Pay for crypto, traditional bank transfers, internal wallet system.
+- **Admin Dashboard**: User management, KYC verification, transaction monitoring, system reports, content management.
+- **Notification System**: Real-time in-app notifications, email, SMS, and push notification support, customizable settings.
+- **UI/UX Decisions**: Consistent purple branding, clean white backgrounds, responsive design for all screen sizes, static page layouts with scrollable content areas, enhanced loading screens, sticky headers, and safe area handling for mobile.
 
-## Key Components
+### Mobile App Architecture
+- **Capacitor Integration**: Native wrapper for iOS/Android, build targets `dist/public`, includes native plugins for status bar, splash screen, keyboard, haptics, device info, network status.
+- **Mobile Features**: Touch feedback, safe area handling, native navigation, status bar management, haptic feedback, native toast notifications, and share integration.
 
-### Authentication System
-- **Multi-provider Auth**: Supports local authentication, Google OAuth, and Replit authentication
-- **Session Management**: Secure session handling with PostgreSQL storage
-- **Password Security**: bcryptjs for password hashing
-- **Authorization**: Role-based access control (user/admin)
-
-### Card Management
-- **Virtual & Physical Cards**: Support for both card types with different designs
-- **Card Providers**: Integration with Lithic and Reap for card provisioning
-- **Transaction Tracking**: Real-time transaction monitoring and notifications
-
-### Payment Processing
-- **Binance Pay Integration**: Cryptocurrency payment processing
-- **Bank Transfers**: Traditional banking integration
-- **Wallet System**: Internal balance management with transaction history
-
-### Admin Dashboard
-- **User Management**: Admin interface for managing users and KYC verification
-- **Transaction Monitoring**: Real-time transaction oversight
-- **System Reports**: Comprehensive reporting and analytics
-- **Content Management**: Bank information, currency rates, and system settings
-
-### Notification System
-- **Real-time Notifications**: In-app notification center
-- **Multiple Channels**: Email, SMS, and push notification support
-- **Customizable Settings**: User-configurable notification preferences
-
-## Data Flow
-
-### User Registration/Authentication
-1. User submits credentials through frontend form
-2. Backend validates and processes authentication
-3. Session created and stored in PostgreSQL
-4. User data cached in React Query for optimal performance
-
-### Transaction Processing
-1. User initiates transaction through UI
-2. Frontend validates input and submits to API
-3. Backend processes transaction with appropriate provider (Binance, Lithic, etc.)
-4. Database updated with transaction record
-5. Real-time notifications sent to user
-6. Frontend state updated via React Query invalidation
-
-### KYC Verification
-1. User submits personal information and documents
-2. Documents processed and stored securely
-3. Admin reviews submission through admin dashboard
-4. Status updates propagated to user interface
-5. Notifications sent based on verification outcome
+### Deployment Strategy
+- **Web Application**: Vite for frontend assets, esbuild for backend code, Drizzle Kit for database migrations, hosted on Replit with autoscale.
+- **Mobile Application**: GitHub Actions for CI/CD, APK generation for Android (Google Play), archive creation for iOS (App Store Connect), automated versioning and distribution.
+- **Environment**: Development with hot reload, production via `npm run start`, mobile development using platform-specific IDEs.
 
 ## External Dependencies
 
-### Core Dependencies
-- **Database**: @neondatabase/serverless for PostgreSQL connection
-- **ORM**: drizzle-orm and drizzle-kit for database operations
-- **Authentication**: passport with multiple strategies
-- **UI Components**: @radix-ui components with shadcn/ui styling
-- **Payment Processing**: @stripe/stripe-js, custom Binance Pay integration
-
-### Development Dependencies
-- **Build Tools**: Vite, esbuild for production builds
-- **Type Safety**: TypeScript with strict configuration
-- **Code Quality**: ESLint configuration (implicit)
-- **Styling**: PostCSS with Tailwind CSS and autoprefixer
-
-## Mobile App Architecture
-
-### Capacitor Integration
-- **Native Wrapper**: Capacitor for iOS and Android app conversion
-- **Build Target**: `dist/public` directory for web assets
-- **Native Plugins**: Status bar, splash screen, keyboard, haptics, device info, network status
-- **Mobile Features**: Touch feedback, safe area handling, native navigation
-
-### Mobile-Specific Features
-- **Status Bar Management**: Custom styling and background colors
-- **Splash Screen**: Auto-hide with customizable duration
-- **Keyboard Handling**: Automatic viewport adjustment
-- **Haptic Feedback**: Touch response for payment and card operations
-- **Native Toast**: System-level notifications
-- **Share Integration**: Native sharing capabilities
-
-### Build Configuration
-- **Mobile Build**: Separate Vite config for optimized mobile assets
-- **App Configuration**: `capacitor.config.ts` with app ID and platform settings
-- **Asset Management**: Icons and splash screens in `resources/` directory
-
-## Deployment Strategy
-
-### Web Application
-- **Frontend**: Vite builds optimized static assets to `dist/public`
-- **Backend**: esbuild bundles server code to `dist/index.js`
-- **Database**: Migrations applied via `drizzle-kit push`
-
-### Mobile Application
-- **GitHub Actions**: Automated CI/CD for Android and iOS builds
-- **Android**: APK generation with signing and Google Play upload
-- **iOS**: Archive creation with App Store Connect integration
-- **Release Management**: Automated versioning and distribution
-
-### Environment Configuration
-- **Development**: `npm run dev` runs TSX with hot reload
-- **Production**: `npm run start` serves built application
-- **Mobile Development**: Platform-specific IDEs (Android Studio/Xcode)
-- **Database**: Environment-based connection string configuration
-
-### Hosting Platform
-- **Web Platform**: Replit with autoscale deployment
-- **Port Configuration**: Internal port 5000, external port 80
-- **Static Assets**: Served from built `dist/public` directory
-- **Mobile Stores**: Google Play Store and Apple App Store distribution
-
-## Changelog
-- July 15, 2025: تم تفعيل Airwallex Production API الحقيقي - تم إصلاح createAirwallexService لاستخدام Airwallex Production API الحقيقي عند توفر AIRWALLEX_CLIENT_ID و AIRWALLEX_API_KEY. تم إنشاء صفحة اختبار شاملة لإنشاء cardholder في /admin/cardholder-test مع نموذج اختبار عربي. النظام الآن يرسل طلبات حقيقية إلى Airwallex API بدلاً من النظام الوهمي.
-- July 15, 2025: تم تحديث Airwallex API ليتوافق مع التنسيق الحقيقي - تم تحديث AirwallexCardholder interface ليطابق بالضبط تنسيق Airwallex API الحقيقي (نظام name object، حقول consent، postal_address منفصل). تم تحديث createCardholder في routes.ts لاستخدام البيانات الشخصية الحقيقية للمستخدمين مع جميع حقول consent مطلوبة. تم تحديث MockAirwallexService ليحاكي النظام الحقيقي بدقة. تم تحديث AIRWALLEX_REAL_SETUP.md مع أمثلة للتنسيق الصحيح.
-- July 15, 2025: تم إنشاء نظام Airwallex محاكاة محلي شامل - تم إنشاء MockAirwallexService في server/airwallex.ts يحاكي جميع وظائف Airwallex API (إنشاء cardholders، إنشاء بطاقات، إدارة معاملات، تفعيل/تجميد البطاقات). النظام يعمل محلياً بدون الحاجة لـ API permissions من Airwallex. تم إنشاء بيانات حقيقية المظهر لأرقام البطاقات والمعاملات.
-- July 15, 2025: تم التحويل الكامل من Stripe Issuing إلى Airwallex API - تم إنشاء خدمة Airwallex مخصصة في server/airwallex.ts مع دعم إنشاء الكروت وإدارة المعاملات. تم تحديث قاعدة البيانات لإضافة حقول airwallexCardId وairwallexCardHolderId. تم تحديث server/routes.ts بالكامل لاستخدام Airwallex API بدلاً من Stripe لإنشاء الكروت وجلب المعاملات وإدارة الكروت. تم تحديث الواجهة الأمامية في stripe-cards.tsx لعرض بيانات Airwallex بشكل صحيح.
-- June 29, 2025: Admin Panel UI enhanced - Updated admin navigation to use responsive grid layout instead of vertical list for improved desktop and mobile experience. Changed background to clean white to match dashboard design consistency. Enhanced cards with light purple color scheme (80% opacity) and improved hover effects. Updated header with centered alignment and better spacing. Quick Actions section now uses purple gradient buttons with enhanced shadows and transitions.
-- June 29, 2025: WhatsApp OTP template system enhanced - Updated WhatsApp service to support approved templates from Business Manager. Added comprehensive admin interface for WhatsApp settings management including template configuration, test OTP sending, API credentials management, and messaging statistics. Created fallback system that uses templates first, then regular text messages if template fails. Added WhatsApp Settings page to admin panel navigation with clear error handling for expired access tokens and direct links to Facebook Developer Console for token renewal.
-- June 29, 2025: Admin system completed - Created secure admin login system with database authentication, first-time setup flow, and comprehensive admin panel access. Admin user can be created via `/admin-setup` route with proper role-based access control.
-- June 29, 2025: Database integration completed - PostgreSQL database successfully provisioned and connected with Drizzle ORM. All data operations now use persistent database storage instead of in-memory storage. Schema pushed to production database with all tables created successfully.
-- June 26, 2025: Successfully deployed WhatsApp OTP system in full production mode - system now sends real WhatsApp messages instead of development placeholders. Fixed OTP service to use actual WhatsApp Business API with verified message delivery (wamid tracking). Created production test interface for real-time WhatsApp OTP testing. All WhatsApp functionality now operates in live production environment with actual message sending to user phone numbers.
-- June 26, 2025: Implemented comprehensive WhatsApp API integration with OTP system - added WhatsApp Business API service for sending notifications, OTP codes, security alerts, and transaction confirmations. Created complete OTP management system with phone verification, multi-purpose support (login, registration, password reset, phone verification, transactions), and automatic cleanup. Added admin WhatsApp settings page for managing messaging and OTP statistics. Enhanced login system with optional OTP verification and automatic security notifications.
-- June 26, 2025: Enhanced Binance Pay page with responsive design - optimized for all screen sizes using light purple color scheme (80% opacity), improved mobile layout with sticky header, clean white background, better touch targets, and consistent purple branding throughout the interface.
-- June 25, 2025: Optimized Bank Transfer page layout for mobile - reduced padding, improved spacing, smaller text sizes, more compact design for better mobile experience
-- June 25, 2025: Updated Bank Transfer page to use English language interface - changed all Arabic text to English to match user preference
-- June 25, 2025: Updated Deposit page to match app design - clean white background, consistent layout, responsive for all screen sizes, simplified header and payment options
-- June 25, 2025: Updated Services page to match dashboard design - circular purple icons (80% opacity) with consistent styling and clean white background
-- June 25, 2025: Updated dashboard quick actions with proper routing - Send, Deposit, Withdraw, More (services) with functional links and appropriate icons
-- June 25, 2025: Updated dashboard quick actions to circular purple icons (80% opacity) with text below - unified purple design for Send/Pay/BBAN/More buttons
-- June 25, 2025: Removed cards.tsx file - now using only stripe-cards.tsx to eliminate conflicts and ensure consistent Cards page behavior
-- June 25, 2025: Fixed skeleton loading to show only in content area instead of full screen - header remains visible during loading
-- June 25, 2025: Made Cards header elements (Cards, Add Card, VIRTUAL CARDS, PHYSICAL CARDS) sticky at top of page using sticky positioning
-- June 25, 2025: Updated Virtual Cards/Physical Cards toggle buttons to match dashboard ACCOUNT/CARD design - rounded-full style with purple active state
-- June 25, 2025: Updated "Add Card" button to purple color (bg-purple-500) in stripe-cards.tsx to match app branding
-- June 25, 2025: Fixed reload loop issue by removing window.location.reload() from auth hook - single load cycle only
-- June 25, 2025: Completely eliminated welcome page flash for authenticated users - direct dashboard routing with history replacement
-- June 25, 2025: Fixed multiple loading screens issue - removed duplicate loading states for immediate dashboard display
-- June 25, 2025: Fixed loading screen to cover full screen with proper positioning and z-index for complete coverage
-- June 25, 2025: Enhanced loading screen with beautiful gradient design, PayDota branding, and smooth animations for better user experience
-- June 25, 2025: Completely eliminated welcome page display for authenticated users - immediate dashboard rendering without any redirect flash
-- June 25, 2025: Resolved all JavaScript runtime errors including Receipt icon imports and database schema issues
-- June 25, 2025: Optimized KYC verification page for mobile - improved layout, larger touch targets, better spacing, cleaner design
-- June 25, 2025: Removed initial app loading skeleton - app loads immediately without loading screen
-- June 25, 2025: Fixed protected routes using window.location.href for immediate redirect to prevent 404 pages
-- June 25, 2025: Fixed protected routes to redirect unauthenticated users immediately to login instead of showing 404 page
-- June 25, 2025: Added protected routes with authentication guard - unauthorized users are redirected to login page with Arabic toast notification
-- June 25, 2025: Fixed registration issue - removed confirmPassword validation check and fixed Dashboard Receipt import error
-- June 25, 2025: Fixed keyboard plugin error - removed Capacitor dependency for web compatibility and improved mobile keyboard handling with viewport detection
-- June 25, 2025: Further reduced top spacing to minimal padding (pt-2) for maximum screen utilization
-- June 25, 2025: Improved language toggle button positioning and design - moved to top right with better icon and current language display
-- June 25, 2025: Removed country name display below phone number input field for cleaner interface
-- June 25, 2025: Fixed duplicate Ghana entry in country list for phone number selection
-- June 25, 2025: Updated register page to match login page design - consistent layout, spacing, and styling across both authentication pages
-- June 25, 2025: Enhanced register page mobile responsiveness - optimized layout for all screen sizes, improved input field heights, simplified design with clean white background, better touch targets
-- June 25, 2025: Fixed Mastercard logo display with properly overlapping circles using absolute positioning
-- June 25, 2025: Resized welcome page card to be smaller and changed color scheme to purple theme - reduced max width and updated gradient from slate/blue to purple/indigo
-- June 25, 2025: Fixed button spacing issue by using explicit div spacer instead of CSS space-y classes - now buttons have proper large visual separation
-- June 25, 2025: Increased spacing between LOG IN and OPEN A DIGITAL ACCOUNT buttons for better visual separation and user experience
-- June 25, 2025: Optimized Welcome page for all mobile screen sizes - improved card aspect ratio, responsive button layout, enhanced landscape support, simplified background design for better performance
-- June 25, 2025: Comprehensive mobile optimization for all screen sizes - added support for 320px-375px screens, landscape orientation, improved spacing and typography scaling, enhanced touch targets
-- June 25, 2025: Enhanced mobile responsiveness for login page - optimized layout for all screen sizes, improved touch targets, prevented input zoom, added safe area handling
-- June 25, 2025: Fixed JavaScript runtime errors - resolved AppLoadingSkeleton import issue and motion undefined references
-- June 25, 2025: Improved mobile CSS with better viewport handling, form spacing optimization, and touch-friendly interface elements
-- June 25, 2025: Updated brand styling - "PAY" appears in purple and "dota" in black across all pages (about page, account menu, copyright)
-- June 25, 2025: Fixed missing arrow icon next to "About PAYdota LLC" menu item to match other menu items
-- June 25, 2025: Changed "About PayouCard" to "About PAYdota LLC" in the about page header and copyright text
-- June 25, 2025: Fixed duplicate Back button issue in choose-card page and improved navigation logic
-- June 25, 2025: Reduced card design options to 2 choices per card type for better mobile experience
-- June 25, 2025: Optimized choose-card page layout to fit all mobile screens without scrolling using h-screen and flex layout
-- June 25, 2025: Updated choose-card page to use white background matching dashboard design consistency
-- June 25, 2025: Completely redesigned choose-card page with beautiful purple theme - enhanced UI with gradient backgrounds, hover animations, improved card type selection, and elegant form styling
-- June 25, 2025: Updated card designs to use only purple color variations (Classic Purple, Purple Gradient, Dark Purple, Light Purple) for consistent branding
-- June 25, 2025: Fixed React Hooks ordering error in stripe-cards.tsx by moving skeleton check after all hook declarations
-- June 25, 2025: Added comprehensive skeleton loading screen to stripe-cards.tsx for better user experience during data loading
-- June 25, 2025: Fixed Android system navigation bar color to white (#FFFFFF) to match app's background color for better visual consistency
-- June 25, 2025: Updated Android styles, Capacitor configuration, and splash screen to use purple brand colors
-- June 25, 2025: Added proper navigation bar styling for both light and dark themes in Android
-- June 25, 2025: Removed loading spinner from Cards page per user request - page now displays immediately without loading icons
-- June 25, 2025: Implemented comprehensive skeleton screen loading states for all major pages (Dashboard, Cards, Transactions, Account, Notifications, Profile) with proper loading indicators and smooth UX transitions
-- June 25, 2025: Added AppLoadingSkeleton for main app initialization and enhanced existing skeleton components with realistic loading patterns
-- June 25, 2025: Enhanced skeleton screens with proper spacing, animations, and mobile-optimized layouts matching the app's design system
-- June 25, 2025: Fixed Android build errors by removing invalid ic_launcher.png files from drawable-land folders
-- June 25, 2025: Updated app icon with new PayDota purple logo for Android build
-- June 25, 2025: Made Dashboard page completely static with all content fixed and non-scrollable like Cards page
-- June 25, 2025: Fixed transactions page to be completely static with only transaction list scrollable, matching dashboard design
-- June 25, 2025: Made Dashboard page completely static with all content fixed and non-scrollable like Cards page
-- June 25, 2025: Fixed scroll state issue that affected bottom navigation positioning across different pages
-- June 25, 2025: Fixed bottom navigation overlap issue by adding proper padding to all pages
-- June 25, 2025: Removed all scrollbars globally while maintaining scrolling functionality across all pages
-- June 25, 2025: Added comprehensive Android permissions for camera, location, storage, biometric authentication, and file operations
-- June 25, 2025: Enhanced Capacitor integration with file system, camera, geolocation, and preferences APIs
-- June 25, 2025: Fixed Capacitor elastic scrolling and overscroll behavior to prevent content stretching when swiping
-- June 25, 2025: Improved filter buttons layout in Transactions page to fit properly on screen with better horizontal scrolling
-- June 25, 2025: Removed all animations from pages for better performance and stability
-- June 25, 2025: Fixed transactions page to be completely static with only transaction list scrollable, matching dashboard design
-- June 25, 2025: Removed virtual cards counter display from Cards page for cleaner interface
-- June 25, 2025: Reduced empty space below balance section in Dashboard for better layout utilization
-- June 25, 2025: Removed card numbers display from Cards page for enhanced security
-- June 25, 2025: Made Dashboard page completely static with all content fixed and non-scrollable like Cards page
-- June 25, 2025: Adjusted pull-to-refresh icon position to provide more space for mobile status bar
-- June 25, 2025: Improved pull-to-refresh indicator to show only a small purple circular icon without background overlay
-- June 25, 2025: Added proper safe area handling for mobile status bar in pull-to-refresh and Cards page header
-- June 25, 2025: Fixed pull-to-refresh component to keep content visible at all times - no more disappearing content during refresh
-- June 25, 2025: Improved pull-to-refresh to show only a minimal loading indicator at the top when refreshing
-- June 25, 2025: Fixed Cards page layout - made header elements (Cards, Add Card, Virtual Cards, Physical Cards) completely fixed and non-scrollable with proper touch handling
-- June 25, 2025: Fixed motion import error in dashboard component that was causing JavaScript runtime errors
-- June 24, 2025: Fixed transactions page to be completely static with only transaction list scrollable, matching dashboard design
-- June 24, 2025: Fixed cards page layout to be completely static with sticky header and fixed sections like dashboard
-- June 24, 2025: Updated account page to show full user name in header, changed to white background like dashboard, and added pull-to-refresh functionality
-- June 24, 2025: Updated dashboard greeting to show actual user name and replaced ":)" with purple heart icon
-- June 24, 2025: Added purple spinning refresh icon for pull-to-refresh functionality across all pages
-- June 24, 2025: Updated dashboard design - changed green ACCOUNT button to purple, "Compte chèque" to "Balance account", and currency from DH to USD
-- June 24, 2025: Added Identity Verification (KYC) link in account page settings for all users
-- June 24, 2025: Added admin panel access button in account page - only visible to users with admin role
-- June 24, 2025: Removed /admin route from application per user request - users now access admin panel only through /admin-panel
-- June 24, 2025: Added comprehensive offline error screen with Arabic/English support for mobile app internet connectivity issues
-- June 24, 2025: Implemented network status monitoring with automatic offline detection and retry functionality
-- June 24, 2025: Created responsive offline error page matching native mobile app design patterns
-- June 24, 2025: Updated app icon with new PayDota logo for Android build
-- June 24, 2025: Changed dashboard to show only 2 recent transactions instead of 4 per user request
-- June 24, 2025: Fixed dashboard layout to be completely static with sticky header and balance sections
-- June 24, 2025: Added pin_enabled column to users table schema to fix database authentication errors
-- June 24, 2025: Removed "Refreshing..." text and purple color from pull-to-refresh component per user request
-- June 24, 2025: Changed all page backgrounds to pure white color without gradients or dark mode variants per user request
-- June 24, 2025: Fixed background display issue - ensured full screen coverage using dynamic viewport height and proper CSS styling
-- June 24, 2025: Updated transaction currency display to USD instead of SAR per user request
-- June 24, 2025: Reverted dashboard to show real Stripe transactions instead of platform features per user request
-- June 24, 2025: Created clean banking dashboard design matching user-provided image with Account/Card toggle and platform advantages
-- June 24, 2025: Added comprehensive safe area handling for mobile status bar to prevent UI overlap on all pages
-- June 24, 2025: Updated status bar configuration to light style with proper overlay settings for better mobile UX
-- June 24, 2025: Configured mobile app to connect to production server https://paydota.replit.app instead of localhost
-- June 24, 2025: Updated Capacitor configuration with secure HTTPS connection and proper server URL
-- June 24, 2025: Updated keystore configuration to use signing_1750726650743.keystore with password protection and my-key-alias
-- June 24, 2025: Modified all build scripts and GitHub Actions workflows to use new keystore with authentication
-- June 24, 2025: Created comprehensive GitHub Actions workflows for automated Android APK building and Google Play Store deployment
-- June 24, 2025: Added automated CI/CD pipeline with artifact upload, release creation, and Play Store publishing
-- June 24, 2025: Implemented bilingual (Arabic/English) release notes and metadata for app store deployment
-- June 24, 2025: Final resolution - Fixed Android platform conflicts by complete removal and clean re-initialization
-- June 24, 2025: Successfully configured capacitor.config.json (JSON format) instead of TypeScript configuration
-- June 24, 2025: Completed keystore integration and Android signing configuration for production deployment
-- June 24, 2025: Successfully resolved Capacitor configuration conflicts and completed final mobile app setup
-- June 24, 2025: Fixed "Cannot run init for a project using a non-JSON configuration file" error by complete reset and clean initialization
-- June 24, 2025: Finalized Android platform integration with all 9 Capacitor plugins working properly
-- June 24, 2025: Completed keystore integration with signing_1750723138194.keystore for production builds
-- June 24, 2025: Added comprehensive mobile app configuration with splash screen, status bar, and haptic feedback settings
-- June 24, 2025: Created final build script (build-apk.sh) and documentation (MOBILE_APP_READY.md) for deployment
-- June 23, 2025: Successfully configured Android APK signing with custom keystore (signing_1750723138194.keystore)
-- June 23, 2025: Created production-ready build configuration for signed Android release APK
-- June 23, 2025: Updated GitHub Actions workflow to use custom keystore for automated Android builds
-- June 23, 2025: Added comprehensive Android signing documentation and build scripts
-- June 23, 2025: Successfully implemented Capacitor mobile app conversion with complete GitHub Actions CI/CD pipeline
-- June 23, 2025: Added native mobile features including haptic feedback, status bar management, and keyboard handling
-- June 23, 2025: Created comprehensive mobile build scripts and automated deployment workflows for Android and iOS
-- June 23, 2025: Integrated Capacitor plugins for enhanced mobile user experience (toast, share, device info, network status)
-- June 23, 2025: Added mobile-specific CSS styles for safe areas, touch interactions, and native scrolling
-- June 18, 2025: Successfully fixed card number display issue - real Stripe card numbers (4000009990000146) now display when eye icon is clicked
-- June 18, 2025: Fixed API response handling in card details fetching logic
-- June 18, 2025: Implemented proper state management for card visibility toggle functionality
-- June 18, 2025: Enhanced card components with improved debugging and error handling
-- June 17, 2025: Implemented automatic card activation - new cards are now set to "active" status upon creation
-- June 17, 2025: Added Arabic translations for card statuses (نشطة, مجمدة, محجوبة) with proper display across all card interfaces
-- June 17, 2025: Enhanced card status management with real-time updates and Arabic language support
-- June 17, 2025: Fixed transaction display to show real merchant names from Stripe API (tttt, facebook, Rocket Rides, Apple Store)
-- June 17, 2025: Added Arabic category translations for merchant types (نقل ومواصلات, متجر إلكترونيات)
-- June 17, 2025: Updated all transaction displays across cards, stripe-cards, and transactions pages
-- June 17, 2025: Removed "Create Test Transactions" and "Accept Terms" buttons from cards interface per user request
-- June 17, 2025: Successfully implemented card creation with real user information - confirmed working with user "Aimad Aimad"
-- June 17, 2025: Fixed Stripe card creation to use real user information (name, phone, email, date of birth)
-- June 17, 2025: Fixed country code issue - now uses US address for all virtual cards (8206 Louisiana Blvd Ne, Albuquerque, NM 87113, US)
-- June 17, 2025: Updated cardholder creation with actual user data instead of hardcoded test values
-- June 17, 2025: Fixed card number display - now shows proper Stripe card numbers without random placeholders
-- June 17, 2025: Enabled real Stripe transactions display in both transactions page and cards page
-- June 17, 2025: Fixed transaction display issues - handle string/number amounts from Stripe API
-- June 17, 2025: Improved Stripe cardholder verification with better error handling
-- June 17, 2025: Added Accept Terms button for manual terms acceptance
-- June 17, 2025: Integrated Stripe Issuing with real card numbers and transactions
-- June 17, 2025: Added automatic terms acceptance for Stripe card creation
-- June 17, 2025: Implemented real-time transaction fetching from Stripe API
-- June 17, 2025: Added test transaction creation functionality
-- June 17, 2025: Initial setup
-
-## User Preferences
-
-Preferred communication style: Simple, everyday language.
+- **Database**: Neon serverless PostgreSQL, `@neondatabase/serverless`
+- **ORM**: `drizzle-orm`, `drizzle-kit`
+- **Authentication**: `passport` with various strategies
+- **UI Components**: `@radix-ui` with `shadcn/ui`
+- **Payment Processing**: `Lithic`, `Reap`, `Binance Pay` (custom integration), `@stripe/stripe-js`
+- **Security**: `bcryptjs`
+- **Mobile Development**: `Capacitor` plugins (e.g., Status Bar, Keyboard, Haptics)
