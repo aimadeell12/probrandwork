@@ -7,6 +7,8 @@ import {
   notificationSettings,
   kycVerifications,
   kycDocuments,
+  paymentLinks,
+  paymentTransactions,
   type User,
   type UpsertUser,
   type Card,
@@ -23,6 +25,10 @@ import {
   type InsertKycVerification,
   type KycDocument,
   type InsertKycDocument,
+  type PaymentLink,
+  type InsertPaymentLink,
+  type PaymentTransaction,
+  type InsertPaymentTransaction,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, count, sql } from "drizzle-orm";
@@ -82,6 +88,17 @@ export interface IStorage {
   getKycDocumentsByKycId(kycId: string): Promise<KycDocument[]>;
   getAllKycVerifications(): Promise<KycVerification[]>;
   updateKycStatus(id: string, status: string, rejectionReason?: string): Promise<KycVerification>;
+  
+  // Payment link operations
+  createPaymentLink(linkData: any): Promise<any>;
+  getPaymentLinksByUserId(userId: string): Promise<any[]>;
+  getPaymentLinkByTxRef(txRef: string): Promise<any | undefined>;
+  updatePaymentLink(id: string, updates: any): Promise<any>;
+  disablePaymentLink(id: string): Promise<void>;
+  createPaymentTransaction(transactionData: any): Promise<any>;
+  getPaymentTransactionsByLinkId(linkId: string): Promise<any[]>;
+  getPaymentTransactionByTxRef(txRef: string): Promise<any | undefined>;
+  updatePaymentTransaction(id: string, updates: any): Promise<any>;
 
 }
 
@@ -475,6 +492,71 @@ export class DatabaseStorage implements IStorage {
     await db.update(users)
       .set({ walletBalance: newBalance.toString() })
       .where(eq(users.id, userId));
+  }
+
+  // Payment link operations
+  async createPaymentLink(linkData: InsertPaymentLink): Promise<PaymentLink> {
+    const [link] = await db.insert(paymentLinks)
+      .values(linkData)
+      .returning();
+    return link;
+  }
+
+  async getPaymentLinksByUserId(userId: string): Promise<PaymentLink[]> {
+    return await db.select()
+      .from(paymentLinks)
+      .where(eq(paymentLinks.userId, userId))
+      .orderBy(desc(paymentLinks.createdAt));
+  }
+
+  async getPaymentLinkByTxRef(txRef: string): Promise<PaymentLink | undefined> {
+    const [link] = await db.select()
+      .from(paymentLinks)
+      .where(eq(paymentLinks.txRef, txRef));
+    return link;
+  }
+
+  async updatePaymentLink(id: string, updates: Partial<PaymentLink>): Promise<PaymentLink> {
+    const [link] = await db.update(paymentLinks)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(paymentLinks.id, id))
+      .returning();
+    return link;
+  }
+
+  async disablePaymentLink(id: string): Promise<void> {
+    await db.update(paymentLinks)
+      .set({ status: 'disabled', updatedAt: new Date() })
+      .where(eq(paymentLinks.id, id));
+  }
+
+  async createPaymentTransaction(transactionData: InsertPaymentTransaction): Promise<PaymentTransaction> {
+    const [transaction] = await db.insert(paymentTransactions)
+      .values(transactionData)
+      .returning();
+    return transaction;
+  }
+
+  async getPaymentTransactionsByLinkId(linkId: string): Promise<PaymentTransaction[]> {
+    return await db.select()
+      .from(paymentTransactions)
+      .where(eq(paymentTransactions.paymentLinkId, linkId))
+      .orderBy(desc(paymentTransactions.createdAt));
+  }
+
+  async getPaymentTransactionByTxRef(txRef: string): Promise<PaymentTransaction | undefined> {
+    const [transaction] = await db.select()
+      .from(paymentTransactions)
+      .where(eq(paymentTransactions.txRef, txRef));
+    return transaction;
+  }
+
+  async updatePaymentTransaction(id: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction> {
+    const [transaction] = await db.update(paymentTransactions)
+      .set(updates)
+      .where(eq(paymentTransactions.id, id))
+      .returning();
+    return transaction;
   }
 }
 
