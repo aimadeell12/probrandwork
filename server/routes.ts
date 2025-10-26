@@ -3662,6 +3662,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get('/payment/verify', async (req, res) => {
+    try {
+      const { status, tx_ref, transaction_id } = req.query;
+
+      if (status === 'cancelled') {
+        return res.redirect('/payment-links?status=cancelled');
+      }
+
+      if (!transaction_id) {
+        return res.redirect('/payment-links?status=error&message=No transaction ID provided');
+      }
+
+      const verification = await flutterwaveService.verifyTransaction(transaction_id as string);
+      
+      if (verification.status !== 'success') {
+        return res.redirect('/payment-links?status=failed');
+      }
+
+      const txData = verification.data;
+      
+      let existingTransaction = await storage.getPaymentTransactionByTxRef(txData.tx_ref);
+      
+      if (!existingTransaction) {
+        const paymentLink = await storage.getPaymentLinkByTxRef(txData.tx_ref);
+        
+        await storage.createPaymentTransaction({
+          paymentLinkId: paymentLink?.id,
+          txRef: txData.tx_ref,
+          flutterwaveRef: txData.flw_ref,
+          transactionId: txData.id.toString(),
+          amount: txData.amount.toString(),
+          currency: txData.currency,
+          chargedAmount: txData.charged_amount?.toString(),
+          customerEmail: txData.customer.email,
+          customerName: txData.customer.name,
+          customerPhone: txData.customer.phone_number,
+          paymentMethod: txData.payment_type,
+          status: txData.status === 'successful' ? 'successful' : 'failed',
+          cardNumber: txData.card ? `${txData.card.first_6digits}****${txData.card.last_4digits}` : undefined,
+          cardType: txData.card?.type,
+          cardCountry: txData.card?.country,
+          metadata: txData as any,
+          verifiedAt: new Date(),
+        });
+      } else {
+        await storage.updatePaymentTransaction(existingTransaction.id, {
+          status: txData.status === 'successful' ? 'successful' : 'failed',
+          flutterwaveRef: txData.flw_ref,
+          transactionId: txData.id.toString(),
+          verifiedAt: new Date(),
+        });
+      }
+
+      const successStatus = txData.status === 'successful' ? 'success' : 'failed';
+      res.redirect(`/payment-links?status=${successStatus}&amount=${txData.amount}&currency=${txData.currency}`);
+    } catch (error: any) {
+      console.error('Error verifying payment:', error);
+      res.redirect('/payment-links?status=error&message=Verification failed');
+    }
+  });
+
   app.post('/api/payment/verify/:transactionId', async (req, res) => {
     try {
       const { transactionId } = req.params;

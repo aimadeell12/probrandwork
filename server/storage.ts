@@ -90,15 +90,15 @@ export interface IStorage {
   updateKycStatus(id: string, status: string, rejectionReason?: string): Promise<KycVerification>;
   
   // Payment link operations
-  createPaymentLink(linkData: any): Promise<any>;
-  getPaymentLinksByUserId(userId: string): Promise<any[]>;
-  getPaymentLinkByTxRef(txRef: string): Promise<any | undefined>;
-  updatePaymentLink(id: string, updates: any): Promise<any>;
+  createPaymentLink(linkData: InsertPaymentLink): Promise<PaymentLink>;
+  getPaymentLinksByUserId(userId: string): Promise<PaymentLink[]>;
+  getPaymentLinkByTxRef(txRef: string): Promise<PaymentLink | undefined>;
+  updatePaymentLink(id: string, updates: Partial<PaymentLink>): Promise<PaymentLink>;
   disablePaymentLink(id: string): Promise<void>;
-  createPaymentTransaction(transactionData: any): Promise<any>;
-  getPaymentTransactionsByLinkId(linkId: string): Promise<any[]>;
-  getPaymentTransactionByTxRef(txRef: string): Promise<any | undefined>;
-  updatePaymentTransaction(id: string, updates: any): Promise<any>;
+  createPaymentTransaction(transactionData: InsertPaymentTransaction): Promise<PaymentTransaction>;
+  getPaymentTransactionsByLinkId(linkId: string): Promise<PaymentTransaction[]>;
+  getPaymentTransactionByTxRef(txRef: string): Promise<PaymentTransaction | undefined>;
+  updatePaymentTransaction(id: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction>;
 
 }
 

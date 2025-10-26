@@ -141,27 +141,8 @@ class FlutterwaveService {
   }
 
   async disablePaymentLink(link: string): Promise<boolean> {
-    if (!this.isConfigured()) {
-      throw new Error('Flutterwave is not configured. Please add FLW_SECRET_KEY to environment variables.');
-    }
-
-    try {
-      const response = await axios.post(
-        `${this.config.baseUrl}/payments/link/disable`,
-        { link },
-        {
-          headers: {
-            Authorization: `Bearer ${this.config.secretKey}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      return response.data.status === 'success';
-    } catch (error: any) {
-      console.error('Flutterwave Disable Link Error:', error.response?.data || error.message);
-      throw new Error(error.response?.data?.message || 'Failed to disable payment link');
-    }
+    console.warn('Flutterwave does not provide a direct API to disable payment links. Marking as disabled locally.');
+    return true;
   }
 
   generateTxRef(userId: string): string {
