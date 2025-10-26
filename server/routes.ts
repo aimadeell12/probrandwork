@@ -8,7 +8,8 @@ import { reapService } from "./reap";
 import { binancePayService } from "./binance";
 import { whatsappService } from "./whatsapp";
 import { otpService } from "./otp";
-import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema } from "@shared/schema";
+import { flutterwaveService } from "./flutterwave";
+import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema, insertPaymentLinkSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
@@ -3543,6 +3544,204 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: 'Failed to send test OTP',
         error: error.message 
       });
+    }
+  });
+
+  // Flutterwave Payment Link Routes
+  app.post('/api/payment-links', requireAuth, async (req, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const validatedData = insertPaymentLinkSchema.parse(req.body);
+      const txRef = flutterwaveService.generateTxRef(userId);
+
+      const flwResponse = await flutterwaveService.createPaymentLink({
+        txRef,
+        amount: validatedData.amount,
+        currency: validatedData.currency,
+        redirectUrl: validatedData.redirectUrl,
+        paymentOptions: validatedData.paymentOptions,
+        customer: {
+          email: validatedData.customerEmail!,
+          name: validatedData.customerName,
+          phonenumber: validatedData.customerPhone,
+        },
+        customizations: {
+          title: validatedData.title,
+          description: validatedData.description,
+          logo: validatedData.logo,
+        },
+        metadata: validatedData.metadata as Record<string, any>,
+      });
+
+      const paymentLink = await storage.createPaymentLink({
+        ...validatedData,
+        userId,
+        txRef,
+        flutterwaveLink: flwResponse.data.link,
+        status: 'active',
+      });
+
+      res.json({
+        message: 'Payment link created successfully',
+        paymentLink,
+      });
+    } catch (error: any) {
+      console.error('Error creating payment link:', error);
+      res.status(500).json({
+        message: error.message || 'Failed to create payment link',
+      });
+    }
+  });
+
+  app.get('/api/payment-links', requireAuth, async (req, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const paymentLinks = await storage.getPaymentLinksByUserId(userId);
+      res.json(paymentLinks);
+    } catch (error: any) {
+      console.error('Error fetching payment links:', error);
+      res.status(500).json({ message: 'Failed to fetch payment links' });
+    }
+  });
+
+  app.get('/api/payment-links/:txRef', requireAuth, async (req, res) => {
+    try {
+      const { txRef } = req.params;
+      const paymentLink = await storage.getPaymentLinkByTxRef(txRef);
+      
+      if (!paymentLink) {
+        return res.status(404).json({ message: 'Payment link not found' });
+      }
+
+      const transactions = await storage.getPaymentTransactionsByLinkId(paymentLink.id);
+      
+      res.json({
+        ...paymentLink,
+        transactions,
+      });
+    } catch (error: any) {
+      console.error('Error fetching payment link:', error);
+      res.status(500).json({ message: 'Failed to fetch payment link' });
+    }
+  });
+
+  app.post('/api/payment-links/:id/disable', requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const userId = req.user?.id;
+
+      const paymentLink = await storage.getPaymentLinkByTxRef(id);
+      if (!paymentLink) {
+        return res.status(404).json({ message: 'Payment link not found' });
+      }
+
+      if (paymentLink.userId !== userId) {
+        return res.status(403).json({ message: 'Forbidden' });
+      }
+
+      if (paymentLink.flutterwaveLink) {
+        await flutterwaveService.disablePaymentLink(paymentLink.flutterwaveLink);
+      }
+
+      await storage.disablePaymentLink(paymentLink.id);
+
+      res.json({ message: 'Payment link disabled successfully' });
+    } catch (error: any) {
+      console.error('Error disabling payment link:', error);
+      res.status(500).json({
+        message: error.message || 'Failed to disable payment link',
+      });
+    }
+  });
+
+  app.post('/api/payment/verify/:transactionId', async (req, res) => {
+    try {
+      const { transactionId } = req.params;
+
+      const verification = await flutterwaveService.verifyTransaction(transactionId);
+      
+      if (verification.status !== 'success') {
+        return res.status(400).json({ 
+          message: 'Transaction verification failed',
+          data: verification,
+        });
+      }
+
+      const txData = verification.data;
+      
+      let existingTransaction = await storage.getPaymentTransactionByTxRef(txData.tx_ref);
+      
+      if (!existingTransaction) {
+        const paymentLink = await storage.getPaymentLinkByTxRef(txData.tx_ref);
+        
+        existingTransaction = await storage.createPaymentTransaction({
+          paymentLinkId: paymentLink?.id,
+          txRef: txData.tx_ref,
+          flutterwaveRef: txData.flw_ref,
+          transactionId: txData.id.toString(),
+          amount: txData.amount.toString(),
+          currency: txData.currency,
+          chargedAmount: txData.charged_amount?.toString(),
+          customerEmail: txData.customer.email,
+          customerName: txData.customer.name,
+          customerPhone: txData.customer.phone_number,
+          paymentMethod: txData.payment_type,
+          status: txData.status === 'successful' ? 'successful' : 'failed',
+          cardNumber: txData.card ? `${txData.card.first_6digits}****${txData.card.last_4digits}` : undefined,
+          cardType: txData.card?.type,
+          cardCountry: txData.card?.country,
+          metadata: txData as any,
+          verifiedAt: new Date(),
+        });
+      } else {
+        existingTransaction = await storage.updatePaymentTransaction(existingTransaction.id, {
+          status: txData.status === 'successful' ? 'successful' : 'failed',
+          flutterwaveRef: txData.flw_ref,
+          transactionId: txData.id.toString(),
+          verifiedAt: new Date(),
+        });
+      }
+
+      res.json({
+        message: 'Transaction verified successfully',
+        transaction: existingTransaction,
+        verification: verification.data,
+      });
+    } catch (error: any) {
+      console.error('Error verifying transaction:', error);
+      res.status(500).json({
+        message: error.message || 'Failed to verify transaction',
+      });
+    }
+  });
+
+  app.get('/api/payment/transactions', requireAuth, async (req, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const paymentLinks = await storage.getPaymentLinksByUserId(userId);
+      const allTransactions = [];
+
+      for (const link of paymentLinks) {
+        const transactions = await storage.getPaymentTransactionsByLinkId(link.id);
+        allTransactions.push(...transactions.map(t => ({ ...t, paymentLink: link })));
+      }
+
+      res.json(allTransactions);
+    } catch (error: any) {
+      console.error('Error fetching transactions:', error);
+      res.status(500).json({ message: 'Failed to fetch transactions' });
     }
   });
 
