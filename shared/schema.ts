@@ -731,3 +731,89 @@ export const insertDepositRequestSchema = createInsertSchema(depositRequests).om
 // Types for deposit requests
 export type InsertDepositRequest = z.infer<typeof insertDepositRequestSchema>;
 export type DepositRequest = typeof depositRequests.$inferSelect;
+
+// Payment links table (Flutterwave)
+export const paymentLinks = pgTable("payment_links", {
+  id: text("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: text("user_id").notNull().references(() => users.id),
+  title: varchar("title").notNull(),
+  description: text("description"),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  currency: varchar("currency", { length: 3 }).notNull().default("NGN"),
+  paymentOptions: varchar("payment_options").notNull().default("card"),
+  customerEmail: varchar("customer_email"),
+  customerName: varchar("customer_name"),
+  customerPhone: varchar("customer_phone"),
+  txRef: varchar("tx_ref").notNull().unique(),
+  flutterwaveLink: text("flutterwave_link"),
+  status: varchar("status").notNull().default("active"), // active, disabled, expired
+  redirectUrl: text("redirect_url"),
+  logo: text("logo"),
+  expiresAt: timestamp("expires_at"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Payment transactions table (Flutterwave)
+export const paymentTransactions = pgTable("payment_transactions", {
+  id: text("id").primaryKey().default(sql`gen_random_uuid()`),
+  paymentLinkId: text("payment_link_id").references(() => paymentLinks.id),
+  userId: text("user_id").references(() => users.id),
+  txRef: varchar("tx_ref").notNull().unique(),
+  flutterwaveRef: varchar("flutterwave_ref").unique(),
+  transactionId: varchar("transaction_id").unique(),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  currency: varchar("currency", { length: 3 }).notNull(),
+  chargedAmount: decimal("charged_amount", { precision: 12, scale: 2 }),
+  customerEmail: varchar("customer_email"),
+  customerName: varchar("customer_name"),
+  customerPhone: varchar("customer_phone"),
+  paymentMethod: varchar("payment_method"), // card, bank, ussd, etc
+  status: varchar("status").notNull().default("pending"), // pending, successful, failed
+  cardNumber: varchar("card_number"),
+  cardType: varchar("card_type"),
+  cardCountry: varchar("card_country"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  verifiedAt: timestamp("verified_at"),
+});
+
+// Relations for payment links
+export const paymentLinksRelations = relations(paymentLinks, ({ one, many }) => ({
+  user: one(users, {
+    fields: [paymentLinks.userId],
+    references: [users.id],
+  }),
+  transactions: many(paymentTransactions),
+}));
+
+export const paymentTransactionsRelations = relations(paymentTransactions, ({ one }) => ({
+  paymentLink: one(paymentLinks, {
+    fields: [paymentTransactions.paymentLinkId],
+    references: [paymentLinks.id],
+  }),
+  user: one(users, {
+    fields: [paymentTransactions.userId],
+    references: [users.id],
+  }),
+}));
+
+// Insert schemas for payment links
+export const insertPaymentLinkSchema = createInsertSchema(paymentLinks).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertPaymentTransactionSchema = createInsertSchema(paymentTransactions).omit({
+  id: true,
+  createdAt: true,
+  verifiedAt: true,
+});
+
+// Types for payment links
+export type InsertPaymentLink = z.infer<typeof insertPaymentLinkSchema>;
+export type PaymentLink = typeof paymentLinks.$inferSelect;
+export type InsertPaymentTransaction = z.infer<typeof insertPaymentTransactionSchema>;
+export type PaymentTransaction = typeof paymentTransactions.$inferSelect;
