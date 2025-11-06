@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { getQueryFn } from "@/lib/queryClient";
 
 export function useAuth() {
   const { data: user, isLoading, error } = useQuery({
     queryKey: ["/api/auth/user"],
-    retry: 1,
+    queryFn: getQueryFn({ on401: "returnNull" }),
+    retry: false,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     staleTime: 60000, // 1 minute
