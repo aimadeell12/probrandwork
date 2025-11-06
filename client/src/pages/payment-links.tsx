@@ -43,10 +43,7 @@ export default function PaymentLinksPage() {
 
   const createLinkMutation = useMutation({
     mutationFn: async (data: PaymentLinkFormValues) => {
-      return await apiRequest("/api/payment-links", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
+      return await apiRequest("POST", "/api/payment-links", data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/payment-links"] });
@@ -67,9 +64,7 @@ export default function PaymentLinksPage() {
 
   const disableLinkMutation = useMutation({
     mutationFn: async (id: string) => {
-      return await apiRequest(`/api/payment-links/${id}/disable`, {
-        method: "POST",
-      });
+      return await apiRequest("POST", `/api/payment-links/${id}/disable`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/payment-links"] });
@@ -311,7 +306,7 @@ export default function PaymentLinksPage() {
             <CardContent>
               {isLoading ? (
                 <div className="text-center py-8 text-muted-foreground">Loading...</div>
-              ) : paymentLinks && paymentLinks.length > 0 ? (
+              ) : paymentLinks && Array.isArray(paymentLinks) && paymentLinks.length > 0 ? (
                 <div className="space-y-4">
                   {paymentLinks.map((link: any) => (
                     <div key={link.id} className="border rounded-lg p-4 space-y-3" data-testid={`link-item-${link.txRef}`}>
@@ -403,7 +398,7 @@ export default function PaymentLinksPage() {
               <CardDescription>Track payments made via your links</CardDescription>
             </CardHeader>
             <CardContent>
-              {transactions && transactions.length > 0 ? (
+              {transactions && Array.isArray(transactions) && transactions.length > 0 ? (
                 <div className="space-y-3">
                   {transactions.slice(0, 10).map((tx: any) => (
                     <div key={tx.id} className="flex items-center justify-between border rounded-lg p-3" data-testid={`transaction-${tx.id}`}>
