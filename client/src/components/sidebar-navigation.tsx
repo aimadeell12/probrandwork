@@ -28,7 +28,7 @@ export default function SidebarNavigation() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
               <span className="text-white font-bold text-sm">PD</span>
             </div>
-            <span className="font-bold text-lg text-gray-900 dark:text-white">PROBRANDIFY</span>
+            <span className="font-bold text-lg text-gray-900 dark:text-white">PRO BRAND WORKS</span>
           </div>
         )}
         <Button

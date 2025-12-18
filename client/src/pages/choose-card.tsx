@@ -112,7 +112,7 @@ export default function ChooseCard() {
             </div>
             <div className="flex flex-col items-end justify-between h-full">
               <Wifi className="w-3 h-3 text-white/70" />
-              <div className="text-xs font-semibold text-white/80">PROBRANDIFY</div>
+              <div className="text-xs font-semibold text-white/80">PRO BRAND WORKS</div>
             </div>
           </div>
           

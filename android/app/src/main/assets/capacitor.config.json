@@ -1,80 +1,80 @@
 {
-	"appId": "com.paydota.banking",
-	"appName": "PayDota",
-	"webDir": "dist/public",
-	"server": {
-		"url": "https://probrandify.org",
-		"cleartext": false,
-		"androidScheme": "https"
-	},
-	"plugins": {
-		"SplashScreen": {
-			"launchShowDuration": 2000,
-			"launchAutoHide": true,
-			"backgroundColor": "#9333EA",
-			"androidSplashResourceName": "splash",
-			"androidScaleType": "CENTER_CROP",
-			"showSpinner": false,
-			"splashFullScreen": true,
-			"splashImmersive": true
-		},
-		"StatusBar": {
-			"style": "dark",
-			"backgroundColor": "#ffffff",
-			"overlaysWebView": false
-		},
-		"NavigationBar": {
-			"backgroundColor": "#FFFFFF",
-			"navigationBarColor": "#FFFFFF"
-		},
-		"Keyboard": {
-			"resize": "ionic",
-			"style": "dark",
-			"resizeOnFullScreen": true,
-			"disableScroll": true
-		},
-		"Haptics": {
-			"impact": {
-				"style": "medium"
-			}
-		},
-		"App": {
-			"launchUrl": "",
-			"iosScheme": "https",
-			"androidScheme": "https"
-		},
-		"WebView": {
-			"allowMixedContent": true,
-			"allowNavigation": [
-				"https://probrandify.org",
-				"https://*.probrandify.org"
-			]
-		},
-		"Camera": {
-			"permissions": [
-				"camera",
-				"photos"
-			]
-		},
-		"Geolocation": {
-			"permissions": [
-				"location"
-			]
-		},
-		"Filesystem": {
-			"permissions": [
-				"storage"
-			]
-		},
-		"Device": {
-			"permissions": [
-				"biometric"
-			]
-		},
-		"LocalNotifications": {
-			"smallIcon": "ic_stat_icon_config_sample",
-			"iconColor": "#488AFF",
-			"sound": "beep.wav"
-		}
-	}
+        "appId": "com.paydota.banking",
+        "appName": "PRO BRAND WORKS",
+        "webDir": "dist/public",
+        "server": {
+                "url": "https://probrandify.org",
+                "cleartext": false,
+                "androidScheme": "https"
+        },
+        "plugins": {
+                "SplashScreen": {
+                        "launchShowDuration": 2000,
+                        "launchAutoHide": true,
+                        "backgroundColor": "#9333EA",
+                        "androidSplashResourceName": "splash",
+                        "androidScaleType": "CENTER_CROP",
+                        "showSpinner": false,
+                        "splashFullScreen": true,
+                        "splashImmersive": true
+                },
+                "StatusBar": {
+                        "style": "dark",
+                        "backgroundColor": "#ffffff",
+                        "overlaysWebView": false
+                },
+                "NavigationBar": {
+                        "backgroundColor": "#FFFFFF",
+                        "navigationBarColor": "#FFFFFF"
+                },
+                "Keyboard": {
+                        "resize": "ionic",
+                        "style": "dark",
+                        "resizeOnFullScreen": true,
+                        "disableScroll": true
+                },
+                "Haptics": {
+                        "impact": {
+                                "style": "medium"
+                        }
+                },
+                "App": {
+                        "launchUrl": "",
+                        "iosScheme": "https",
+                        "androidScheme": "https"
+                },
+                "WebView": {
+                        "allowMixedContent": true,
+                        "allowNavigation": [
+                                "https://probrandify.org",
+                                "https://*.probrandify.org"
+                        ]
+                },
+                "Camera": {
+                        "permissions": [
+                                "camera",
+                                "photos"
+                        ]
+                },
+                "Geolocation": {
+                        "permissions": [
+                                "location"
+                        ]
+                },
+                "Filesystem": {
+                        "permissions": [
+                                "storage"
+                        ]
+                },
+                "Device": {
+                        "permissions": [
+                                "biometric"
+                        ]
+                },
+                "LocalNotifications": {
+                        "smallIcon": "ic_stat_icon_config_sample",
+                        "iconColor": "#488AFF",
+                        "sound": "beep.wav"
+                }
+        }
 }
