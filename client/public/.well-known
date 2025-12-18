@@ -1,8 +1,0 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "com.prodigitalbrand.twa",
-        "sha256_cert_fingerprints": ["40:0D:39:A3:7E:5A:4F:1E:62:3E:0E:6E:9D:14:65:96:10:38:5E:B7:F8:43:6F:D6:FC:89:B4:43:93:12:5F:1A"]
-      }
-    }]
