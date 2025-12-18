@@ -12,7 +12,7 @@ import { apiRequest } from "@/lib/queryClient";
 export default function Currency() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const [fromCurrency, setFromCurrency] = useState("MAD");
+  const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("EUR");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState("");
@@ -53,7 +53,6 @@ export default function Currency() {
   });
 
   const currencies = [
-    { code: "MAD", name: "Moroccan Dirham", symbol: "DH" },
     { code: "USD", name: "US Dollar", symbol: "$" },
     { code: "EUR", name: "Euro", symbol: "€" },
     { code: "GBP", name: "British Pound", symbol: "£" },

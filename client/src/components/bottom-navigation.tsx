@@ -15,30 +15,25 @@ export default function BottomNavigation() {
   ];
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bottom-nav-safe">
-      <div className="premium-nav-bar">
-        <div className="flex justify-around items-end px-2 py-4">
-          {navItems.map((item, index) => {
-            const Icon = item.icon;
-            const isActive = location === item.path || (item.path === "/dashboard" && location === "/");
-            
-            return (
-              <Link key={item.path} href={item.path}>
-                <div className="nav-item-container cursor-pointer">
-                  <div className={`nav-item-content ${isActive ? 'nav-item-active' : 'nav-item-inactive'}`}>
-                    <div className="nav-icon-wrapper">
-                      <Icon className={`nav-icon ${isActive ? 'nav-icon-active' : 'nav-icon-inactive'}`} />
-                      {isActive && <div className="nav-icon-glow"></div>}
-                    </div>
-                  </div>
-                  <span className={`nav-label ${isActive ? 'nav-label-active' : 'nav-label-inactive'}`}>
-                    {item.label}
-                  </span>
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 bottom-nav-blur z-50 bottom-nav-safe">
+      <div className="flex justify-around items-center py-3 px-2 gap-1">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location === item.path || (item.path === "/dashboard" && location === "/");
+          
+          return (
+            <Link key={item.path} href={item.path}>
+              <div className="flex flex-col items-center justify-center flex-1 cursor-pointer native-button haptic-light touch-target py-2 px-1 rounded-2xl transition-all duration-300 hover:bg-white/5 dark:hover:bg-white/10">
+                <div className={`p-3 rounded-2xl nav-icon-container transition-all duration-300 ${isActive ? 'active' : 'inactive-nav'}`}>
+                  <Icon className={`w-6 h-6 transition-all duration-300 ${isActive ? 'text-white scale-110' : 'text-gray-600 dark:text-gray-400'}`} />
                 </div>
-              </Link>
-            );
-          })}
-        </div>
+                <span className={`text-[11px] font-semibold transition-all duration-300 mt-1.5 whitespace-nowrap ${isActive ? 'text-purple-600 dark:text-purple-400 scale-105' : 'text-gray-600 dark:text-gray-500'}`}>
+                  {item.label}
+                </span>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

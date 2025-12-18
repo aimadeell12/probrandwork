@@ -105,7 +105,7 @@ export default function BankTransfer() {
             {/* Amount Input */}
             <div className="space-y-2">
               <Label htmlFor="amount" className="text-gray-700 dark:text-gray-300 text-sm">
-                Amount (MAD)
+                Amount (USD)
               </Label>
               <Input
                 id="amount"
