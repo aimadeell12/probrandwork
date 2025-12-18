@@ -20,7 +20,7 @@ import { TransactionsSkeleton } from "@/components/skeletons";
 
 export default function Transactions() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [selectedFilter, setSelectedFilter] = useState("send");
   const { t } = useLanguage();
   const queryClient = useQueryClient();
   const { triggerHaptic } = useNativeInteractions();
