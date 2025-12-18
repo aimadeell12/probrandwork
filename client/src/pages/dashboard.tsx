@@ -34,10 +34,6 @@ export default function Dashboard() {
     queryKey: ["/api/notifications/unread-count"],
   });
 
-  const { data: kycStatus } = useQuery<any>({
-    queryKey: ["/api/user/kyc-status"],
-  });
-
   const { data: walletData } = useQuery<any>({
     queryKey: ["/api/wallet/balance"],
   });
@@ -226,29 +222,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Transfer Limit Alert */}
-        <div className="px-4 sm:px-6 mb-4 sm:mb-6">
-          <Link href="/kyc-verification">
-            <div 
-              className="rounded-xl sm:rounded-2xl p-3 sm:p-4 flex items-start gap-3 sm:gap-4 cursor-pointer hover:opacity-90 transition-opacity"
-              style={{ backgroundColor: '#2a1f4e', border: `1px solid ${borderColor}` }}
-              data-testid="card-verification-alert"
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-bold text-sm sm:text-base">
-                  {getFirstName().charAt(0).toUpperCase()}
-                </span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-white font-semibold text-sm sm:text-base mb-1">Increase transfer limit</h3>
-                <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                  You're currently on Tier 2. Submit required documents to access Tier 3 and send higher amounts.{' '}
-                  <span className="text-purple-400 underline">Complete Verification.</span>
-                </p>
-              </div>
-            </div>
-          </Link>
-        </div>
 
         {/* You Send Section */}
         <div className="px-4 sm:px-6 mb-3 sm:mb-4">

@@ -27,14 +27,6 @@ export default function AdminNavigation() {
 
   const adminPages = [
     {
-      title: "KYC Management",
-      description: "Review and manage identity verification requests",
-      href: "/kyc-management",
-      icon: Shield,
-      color: "bg-blue-500",
-      isActive: location === "/kyc-management"
-    },
-    {
       title: "User Management", 
       description: "Manage user accounts and permissions",
       href: "/admin/users",
@@ -240,22 +232,22 @@ export default function AdminNavigation() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            <Link href="/kyc-management">
+            <Link href="/admin/users">
               <Button className="w-full justify-start bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-4 h-auto shadow-lg hover:shadow-xl transition-all duration-200">
-                <Shield className="h-5 w-5 mr-3" />
+                <Users className="h-5 w-5 mr-3" />
                 <div className="text-left">
-                  <div className="font-medium">Review KYC Requests</div>
-                  <div className="text-sm opacity-90">Manage pending verifications</div>
+                  <div className="font-medium">Manage Users</div>
+                  <div className="text-sm opacity-90">User administration</div>
                 </div>
               </Button>
             </Link>
             
-            <Link href="/admin/users">
+            <Link href="/admin/reports">
               <Button variant="outline" className="w-full justify-start p-4 h-auto border-2 border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-600 hover:bg-purple-50/50 dark:hover:bg-purple-900/20 shadow-lg hover:shadow-xl transition-all duration-200">
-                <Users className="h-5 w-5 mr-3 text-purple-600 dark:text-purple-400" />
+                <BarChart3 className="h-5 w-5 mr-3 text-purple-600 dark:text-purple-400" />
                 <div className="text-left">
-                  <div className="font-medium text-gray-900 dark:text-white">Manage Users</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">User administration</div>
+                  <div className="font-medium text-gray-900 dark:text-white">System Reports</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">View analytics</div>
                 </div>
               </Button>
             </Link>
