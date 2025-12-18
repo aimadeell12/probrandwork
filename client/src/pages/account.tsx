@@ -26,11 +26,13 @@ import {
   Crown,
   FileCheck,
   MessageCircle,
-  Trash2
+  Trash2,
+  Clock,
+  Check,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { LanguageToggle } from "@/components/language-toggle";
 import { useLocation } from "wouter";
@@ -53,6 +55,11 @@ export default function Account() {
   // Fetch user info
   const { data: userInfo, isLoading } = useQuery({
     queryKey: ["/api/auth/user"],
+  });
+
+  // Fetch gift card purchases
+  const { data: giftCardPurchases = [] } = useQuery({
+    queryKey: ["/api/gift-cards/purchases"],
   });
 
   // Delete account mutation
@@ -273,6 +280,29 @@ export default function Account() {
                 <span className="text-white font-medium text-sm">
                   Card Purchase Record
                 </span>
+              </div>
+              <ChevronRight className="h-4 w-4 text-gray-400" />
+            </button>
+            
+            <button 
+              onClick={() => navigateTo("/cards")} 
+              className="w-full p-3 flex items-center justify-between hover:bg-purple-500/20 transition-colors"
+              style={{ borderBottom: `1px solid ${borderColor}` }}
+            >
+              <div className="flex items-center space-x-3">
+                <div className="rounded-lg p-1.5">
+                  <Gift className="h-5 w-5 text-purple-400" />
+                </div>
+                <div className="flex-1 text-left">
+                  <span className="text-white font-medium text-sm block">
+                    Gift Visa Cards
+                  </span>
+                  {giftCardPurchases?.length > 0 && (
+                    <span className="text-purple-400 text-xs">
+                      {giftCardPurchases.filter(p => p.status === 'pending').length} pending
+                    </span>
+                  )}
+                </div>
               </div>
               <ChevronRight className="h-4 w-4 text-gray-400" />
             </button>

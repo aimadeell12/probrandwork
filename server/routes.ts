@@ -4518,17 +4518,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(giftCards);
   });
 
-  app.post("/api/gift-cards/purchase", requireAuth, async (req, res) => {
+  app.post("/api/gift-cards/purchase", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user?.id;
+      const userId = req.session?.userId;
       if (!userId) {
-        return res.status(401).json({ error: "Not authenticated" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
 
       const { denomination, quantity } = req.body;
       
       if (!denomination || !quantity || quantity < 1) {
-        return res.status(400).json({ error: "Invalid denomination or quantity" });
+        return res.status(400).json({ message: "Invalid denomination or quantity" });
       }
 
       const totalAmount = denomination * quantity;
@@ -4536,7 +4536,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const balance = parseFloat(user?.walletBalance?.toString() || "0");
 
       if (balance < totalAmount) {
-        return res.status(400).json({ error: "Insufficient balance" });
+        return res.status(400).json({ message: "Insufficient balance" });
       }
 
       const purchase = await storage.createGiftCardPurchase({
@@ -4565,22 +4565,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error: any) {
       console.error("Gift card purchase error:", error);
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ message: error.message });
     }
   });
 
-  app.get("/api/gift-cards/purchases", requireAuth, async (req, res) => {
+  app.get("/api/gift-cards/purchases", requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user?.id;
+      const userId = req.session?.userId;
       if (!userId) {
-        return res.status(401).json({ error: "Not authenticated" });
+        return res.status(401).json({ message: "Not authenticated" });
       }
 
       const purchases = await storage.getGiftCardPurchasesByUserId(userId);
       res.json(purchases);
     } catch (error: any) {
       console.error("Error fetching gift card purchases:", error);
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ message: error.message });
     }
   });
 

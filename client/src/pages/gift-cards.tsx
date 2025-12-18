@@ -149,11 +149,11 @@ export default function GiftCards() {
         )}
 
         {/* Purchase History */}
-        {purchases.length > 0 && (
+        {purchases && purchases.length > 0 && (
           <div>
             <h2 className="text-white font-semibold mb-4">Your Purchases</h2>
             <div className="space-y-3">
-              {purchases.map((purchase) => (
+              {purchases.map((purchase: any) => (
                 <div key={purchase.id} className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
@@ -186,11 +186,11 @@ export default function GiftCards() {
                     <span className="text-gray-400">Total:</span>
                     <span className="text-white font-semibold">${purchase.totalAmount}</span>
                   </div>
-                  {purchase.cardNumbers && purchase.cardNumbers.length > 0 && (
+                  {purchase.cardNumbers && Array.isArray(purchase.cardNumbers) && purchase.cardNumbers.length > 0 && (
                     <div className="mt-3 pt-3 border-t border-gray-700">
                       <div className="text-gray-400 text-xs mb-2">Card Numbers:</div>
-                      {purchase.cardNumbers.map((num, idx) => (
-                        <div key={idx} className="bg-gray-900 rounded p-2 font-mono text-sm text-purple-400 mb-1">
+                      {purchase.cardNumbers.map((num: string, idx: number) => (
+                        <div key={idx} className="bg-gray-900 rounded p-2 font-mono text-sm text-purple-400 mb-1 break-all">
                           {num}
                         </div>
                       ))}
