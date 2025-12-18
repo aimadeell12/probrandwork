@@ -814,6 +814,21 @@ export const paymentTransactionsRelations = relations(paymentTransactions, ({ on
   }),
 }));
 
+// Gift Card Purchases table
+export const giftCardPurchases = pgTable("gift_card_purchases", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  denomination: decimal("denomination", { precision: 10, scale: 2 }).notNull(),
+  quantity: integer("quantity").notNull().default(1),
+  totalAmount: decimal("total_amount", { precision: 12, scale: 2 }).notNull(),
+  currency: varchar("currency", { length: 3 }).notNull().default("USD"),
+  status: varchar("status").notNull().default("pending"), // pending, completed, cancelled
+  cardNumbers: jsonb("card_numbers"), // Array of gift card numbers (manual)
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Insert schemas for payment links
 export const insertPaymentLinkSchema = createInsertSchema(paymentLinks).omit({
   id: true,
@@ -830,8 +845,19 @@ export const insertPaymentTransactionSchema = createInsertSchema(paymentTransact
   verifiedAt: true,
 });
 
+// Gift card insert schema
+export const insertGiftCardPurchaseSchema = createInsertSchema(giftCardPurchases).omit({
+  id: true,
+  userId: true,
+  cardNumbers: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types for payment links
 export type InsertPaymentLink = z.infer<typeof insertPaymentLinkSchema>;
 export type PaymentLink = typeof paymentLinks.$inferSelect;
 export type InsertPaymentTransaction = z.infer<typeof insertPaymentTransactionSchema>;
 export type PaymentTransaction = typeof paymentTransactions.$inferSelect;
+export type InsertGiftCardPurchase = z.infer<typeof insertGiftCardPurchaseSchema>;
+export type GiftCardPurchase = typeof giftCardPurchases.$inferSelect;

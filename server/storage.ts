@@ -10,6 +10,7 @@ import {
   paymentLinks,
   paymentTransactions,
   pendingBalances,
+  giftCardPurchases,
   type User,
   type UpsertUser,
   type Card,
@@ -30,6 +31,8 @@ import {
   type InsertPaymentLink,
   type PaymentTransaction,
   type InsertPaymentTransaction,
+  type GiftCardPurchase,
+  type InsertGiftCardPurchase,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, count, sql } from "drizzle-orm";
@@ -110,6 +113,11 @@ export interface IStorage {
   getPaymentTransactionByTxRef(txRef: string): Promise<PaymentTransaction | undefined>;
   updatePaymentTransaction(id: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction>;
   updatePaymentTransactionToSuccessful(id: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction | null>;
+  
+  // Gift card operations
+  createGiftCardPurchase(data: InsertGiftCardPurchase & { userId: string }): Promise<GiftCardPurchase>;
+  getGiftCardPurchasesByUserId(userId: string): Promise<GiftCardPurchase[]>;
+  updateGiftCardPurchase(id: string, updates: Partial<GiftCardPurchase>): Promise<GiftCardPurchase>;
 
 }
 
@@ -713,6 +721,28 @@ export class DatabaseStorage implements IStorage {
       ))
       .returning();
     return transaction || null;
+  }
+
+  async createGiftCardPurchase(data: InsertGiftCardPurchase & { userId: string }): Promise<GiftCardPurchase> {
+    const [purchase] = await db.insert(giftCardPurchases)
+      .values(data)
+      .returning();
+    return purchase;
+  }
+
+  async getGiftCardPurchasesByUserId(userId: string): Promise<GiftCardPurchase[]> {
+    return await db.select()
+      .from(giftCardPurchases)
+      .where(eq(giftCardPurchases.userId, userId))
+      .orderBy(desc(giftCardPurchases.createdAt));
+  }
+
+  async updateGiftCardPurchase(id: string, updates: Partial<GiftCardPurchase>): Promise<GiftCardPurchase> {
+    const [purchase] = await db.update(giftCardPurchases)
+      .set(updates)
+      .where(eq(giftCardPurchases.id, id))
+      .returning();
+    return purchase;
   }
 }
 
