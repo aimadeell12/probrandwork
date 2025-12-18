@@ -19,9 +19,9 @@ export default function SendMoney() {
   
   const urlParams = new URLSearchParams(searchString);
   const initialAmount = urlParams.get('amount') || "";
-  const fromCurrency = urlParams.get('from') || "USD";
-  const toCurrency = urlParams.get('to') || "EUR";
-  const exchangeRate = urlParams.get('rate') || "1";
+  const fromCurrency = "MAD";
+  const toCurrency = "MAD";
+  const exchangeRate = "1";
   
   const [amount, setAmount] = useState(initialAmount);
   const [recipient, setRecipient] = useState("");
@@ -47,7 +47,7 @@ export default function SendMoney() {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
       toast({
         title: "Transfer Successful!",
-        description: `$${amount} sent to ${recipient}. New balance: $${response?.newBalance?.toFixed(2) || '0.00'}`,
+        description: `${amount} MAD sent to ${recipient}. New balance: ${response?.newBalance?.toFixed(2) || '0.00'} MAD`,
       });
       setAmount("");
       setRecipient("");
@@ -78,7 +78,7 @@ export default function SendMoney() {
     if (sendAmount > walletBalance) {
       toast({
         title: "Insufficient Balance",
-        description: `Your balance is $${Number(walletBalance).toFixed(2)}. Please add funds first.`,
+        description: `Your balance is ${Number(walletBalance).toFixed(2)} MAD. Please add funds first.`,
         variant: "destructive",
       });
       return;
@@ -101,7 +101,7 @@ export default function SendMoney() {
     });
   };
 
-  const quickAmounts = [10, 25, 50, 100, 250, 500];
+  const quickAmounts = [50, 100, 200, 500, 1000, 2000];
   const walletBalance = (balance as any)?.balance || 0;
   const currentAmount = parseFloat(amount) || 0;
   const convertedAmount = currentAmount > 0 && exchangeRate ? (currentAmount * parseFloat(exchangeRate)).toFixed(2) : null;
@@ -136,7 +136,7 @@ export default function SendMoney() {
           <CardContent className="p-4 text-center">
             <p className="text-sm text-gray-400 mb-1">{t('availableBalance')}</p>
             <p className="text-2xl font-bold text-white" data-testid="text-balance">
-              ${Number(walletBalance).toFixed(2)}
+              {Number(walletBalance).toFixed(2)} MAD
             </p>
           </CardContent>
         </Card>
@@ -227,7 +227,7 @@ export default function SendMoney() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="amount" className="text-gray-300">{t('amountInDollars')}</Label>
+              <Label htmlFor="amount" className="text-gray-300">{t('amount')} (MAD)</Label>
               <Input
                 id="amount"
                 type="number"
@@ -248,7 +248,7 @@ export default function SendMoney() {
                   className="bg-[#1f1730] border-[#2a2040] text-gray-300 hover:bg-purple-500/20 hover:border-purple-500/50"
                   data-testid={`button-quick-${quickAmount}`}
                 >
-                  ${quickAmount}
+                  {quickAmount} MAD
                 </Button>
               ))}
             </div>
@@ -276,7 +276,7 @@ export default function SendMoney() {
           data-testid="button-send"
         >
           <Send className="h-5 w-5 mr-2" />
-          {sendMutation.isPending ? "Sending..." : `Send $${amount || "0.00"}`}
+          {sendMutation.isPending ? "Sending..." : `Send ${amount || "0.00"} MAD`}
         </Button>
       </div>
     </div>
