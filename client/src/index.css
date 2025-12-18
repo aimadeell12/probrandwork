@@ -1024,6 +1024,93 @@ html, body {
     color: rgba(156, 163, 175, 0.5);
   }
 
+  /* Small screens optimization */
+  @media (max-width: 375px) {
+    .premium-nav-bar {
+      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .dark .premium-nav-bar {
+      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .nav-item-container {
+      gap: 4px;
+      max-width: 70px;
+    }
+
+    .nav-item-content {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+    }
+
+    .nav-item-active {
+      transform: scale(1.05) translateY(-4px);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .nav-label {
+      font-size: 9px;
+      letter-spacing: 0.2px;
+    }
+
+    .nav-label-active {
+      transform: scale(1.02);
+    }
+
+    .flex.justify-around.items-end {
+      py: 3;
+      px: 1;
+    }
+  }
+
+  /* Very small screens */
+  @media (max-width: 320px) {
+    .premium-nav-bar {
+      box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-item-container {
+      gap: 2px;
+      max-width: 64px;
+    }
+
+    .nav-item-content {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+    }
+
+    .nav-item-active {
+      box-shadow: 0 8px 24px rgba(147, 51, 234, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: scale(1.03) translateY(-3px);
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .nav-label {
+      font-size: 8px;
+      letter-spacing: 0px;
+    }
+
+    .nav-label-active {
+      transform: scale(1);
+    }
+
+    .nav-icon-glow {
+      inset: -6px;
+      animation: navGlowPulse 2.5s ease-in-out infinite;
+    }
+  }
+
   /* Native-like focus states */
   .native-focus {
     @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2;
