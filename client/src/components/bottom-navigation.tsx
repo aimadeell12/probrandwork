@@ -16,18 +16,18 @@ export default function BottomNavigation() {
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 bottom-nav-blur z-50 bottom-nav-safe">
-      <div className="flex justify-around items-center py-3 px-2 gap-1">
+      <div className="flex justify-around py-2 px-4">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location === item.path || (item.path === "/dashboard" && location === "/");
           
           return (
             <Link key={item.path} href={item.path}>
-              <div className="flex flex-col items-center justify-center flex-1 cursor-pointer native-button haptic-light touch-target py-2 px-1 rounded-2xl transition-all duration-300 hover:bg-white/5 dark:hover:bg-white/10">
-                <div className={`p-3 rounded-2xl nav-icon-container transition-all duration-300 ${isActive ? 'active' : 'inactive-nav'}`}>
-                  <Icon className={`w-6 h-6 transition-all duration-300 ${isActive ? 'text-white scale-110' : 'text-gray-600 dark:text-gray-400'}`} />
+              <div className="flex flex-col items-center gap-1 cursor-pointer native-button haptic-light touch-target min-w-[50px]">
+                <div className={`p-2 rounded-xl nav-icon-container ${isActive ? 'active' : ''}`}>
+                  <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`} />
                 </div>
-                <span className={`text-[11px] font-semibold transition-all duration-300 mt-1.5 whitespace-nowrap ${isActive ? 'text-purple-600 dark:text-purple-400 scale-105' : 'text-gray-600 dark:text-gray-500'}`}>
+                <span className={`text-[10px] font-medium transition-all duration-300 ${isActive ? 'text-purple-600 dark:text-purple-400 font-semibold' : 'text-gray-500 dark:text-gray-400'}`}>
                   {item.label}
                 </span>
               </div>
