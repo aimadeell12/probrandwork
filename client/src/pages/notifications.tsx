@@ -229,16 +229,15 @@ export default function Notifications() {
         })}
 
         {/* Quick Actions */}
-        <Card className="border-0 shadow-sm bg-white dark:bg-gray-900">
+        <Card className="border shadow-sm" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
           <CardHeader>
-            <CardTitle className="text-base">Quick Actions</CardTitle>
+            <CardTitle className="text-base text-white">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <Button 
               variant="outline" 
-              className="w-full justify-start"
+              className="w-full justify-start border-[#2a2040] text-gray-300 hover:bg-purple-500/20"
               onClick={() => {
-                // Enable all essential notifications
                 setNotificationSettings(prev => ({
                   ...prev,
                   transactionAlerts: true,
@@ -259,9 +258,8 @@ export default function Notifications() {
             
             <Button 
               variant="outline" 
-              className="w-full justify-start"
+              className="w-full justify-start border-[#2a2040] text-gray-300 hover:bg-purple-500/20"
               onClick={() => {
-                // Disable all marketing notifications
                 setNotificationSettings(prev => ({
                   ...prev,
                   promotions: false,

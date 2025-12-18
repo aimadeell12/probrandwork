@@ -56,15 +56,15 @@ export default function Transactions() {
   const getTransactionIcon = (type: string) => {
     switch (type) {
       case "send":
-        return <ArrowUpRight className="h-4 w-4 text-red-600" />;
+        return <ArrowUpRight className="h-4 w-4 text-red-400" />;
       case "receive":
-        return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
+        return <ArrowDownLeft className="h-4 w-4 text-green-400" />;
       case "deposit":
-        return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
+        return <ArrowDownLeft className="h-4 w-4 text-green-400" />;
       case "withdraw":
-        return <ArrowUpRight className="h-4 w-4 text-red-600" />;
+        return <ArrowUpRight className="h-4 w-4 text-red-400" />;
       default:
-        return <DollarSign className="h-4 w-4 text-gray-600" />;
+        return <DollarSign className="h-4 w-4 text-gray-400" />;
     }
   };
 
@@ -81,13 +81,13 @@ export default function Transactions() {
   const getTransactionStatusBadge = (status: string) => {
     switch (status) {
       case "completed":
-        return <Badge className="bg-green-100 text-green-800">Completed</Badge>;
+        return <Badge className="bg-green-900/30 text-green-400 border-green-500/30">Completed</Badge>;
       case "pending":
-        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
+        return <Badge className="bg-yellow-900/30 text-yellow-400 border-yellow-500/30">Pending</Badge>;
       case "failed":
-        return <Badge className="bg-red-100 text-red-800">Failed</Badge>;
+        return <Badge className="bg-red-900/30 text-red-400 border-red-500/30">Failed</Badge>;
       default:
-        return <Badge className="bg-gray-100 text-gray-800">Unknown</Badge>;
+        return <Badge className="bg-gray-800/30 text-gray-400 border-gray-600/30">Unknown</Badge>;
     }
   };
 

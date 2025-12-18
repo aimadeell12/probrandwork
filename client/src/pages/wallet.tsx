@@ -33,8 +33,8 @@ export default function WalletPage() {
     queryKey: ["/api/transactions"],
   });
 
-  const balance = walletData?.balance || 0;
-  const pendingBalance = walletData?.pendingBalance || 0;
+  const balance = (walletData as any)?.balance || 0;
+  const pendingBalance = (walletData as any)?.pendingBalance || 0;
   const totalBalance = balance + pendingBalance;
 
   const handleRefresh = async () => {
@@ -51,12 +51,12 @@ export default function WalletPage() {
     switch (type) {
       case "send":
       case "withdraw":
-        return <ArrowUpRight className="h-4 w-4 text-red-600" />;
+        return <ArrowUpRight className="h-4 w-4 text-red-400" />;
       case "receive":
       case "deposit":
-        return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
+        return <ArrowDownLeft className="h-4 w-4 text-green-400" />;
       default:
-        return <DollarSign className="h-4 w-4 text-gray-600" />;
+        return <DollarSign className="h-4 w-4 text-gray-400" />;
     }
   };
 
@@ -227,7 +227,7 @@ export default function WalletPage() {
                   <div className="text-center py-8">
                     <p className="text-gray-400">No transactions yet</p>
                     <Link href="/deposit">
-                      <Button variant="link" className="text-purple-600 mt-2">
+                      <Button variant="link" className="text-purple-400 mt-2">
                         Make your first deposit
                       </Button>
                     </Link>

@@ -330,7 +330,7 @@ export default function Account() {
         </Card>
 
         {/* Admin Panel - Only show for admin users */}
-        {user && user.role === "admin" && (
+        {user && (user as any).role === "admin" && (
           <Card className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/50 shadow-lg mb-3 rounded-xl overflow-hidden">
             <CardContent className="p-0">
               <button 
