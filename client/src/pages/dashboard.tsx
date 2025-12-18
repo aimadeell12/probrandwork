@@ -160,34 +160,34 @@ export default function Dashboard() {
 
   return (
     <div 
-      className="min-h-screen overflow-y-auto"
+      className="h-screen overflow-hidden"
       style={{ backgroundColor: bgColor }}
     >
-      <div className="flex flex-col min-h-screen" style={{ backgroundColor: bgColor }}>
+      <div className="h-full flex flex-col overflow-hidden" style={{ backgroundColor: bgColor }}>
         {/* Container wrapper for desktop */}
-        <div className="flex-1 max-w-2xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div className="flex-1 max-w-2xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-6 overflow-y-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <div className="flex items-center justify-between mb-2 sm:mb-4 lg:mb-6">
             <Button 
               variant="ghost" 
               size="icon"
-              className="text-purple-400 hover:bg-purple-500/20 rounded-full w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0"
+              className="text-purple-400 hover:bg-purple-500/20 rounded-full w-9 h-9 sm:w-12 sm:h-12 flex-shrink-0"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
             </Button>
             
-            <h1 className="text-white font-bold text-xl sm:text-2xl lg:text-3xl">Send Money</h1>
+            <h1 className="text-white font-bold text-lg sm:text-2xl lg:text-3xl">Send Money</h1>
             
             <Button 
               variant="ghost" 
               size="icon"
-              className="relative text-purple-400 hover:bg-purple-500/20 rounded-full w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0"
+              className="relative text-purple-400 hover:bg-purple-500/20 rounded-full w-9 h-9 sm:w-12 sm:h-12 flex-shrink-0"
               onClick={() => setIsNotificationCenterOpen(true)}
               data-testid="button-notifications"
             >
-              <Bell className="w-6 h-6" />
+              <Bell className="w-5 h-5 sm:w-6 sm:h-6" />
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold text-[10px]">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
@@ -195,18 +195,18 @@ export default function Dashboard() {
           </div>
 
           {/* Wallet Balance */}
-          <div className="mb-5 sm:mb-6 lg:mb-7">
+          <div className="mb-2 sm:mb-4 lg:mb-6">
             <div 
-              className="rounded-2xl lg:rounded-3xl p-4 sm:p-5 lg:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0"
+              className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-5 lg:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0"
               style={{ backgroundColor: '#1a1f35', border: `1px solid ${borderColor}` }}
             >
-              <div className="flex items-center gap-4 flex-1">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Wallet className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+              <div className="flex items-center gap-2 sm:gap-4 flex-1">
+                <div className="w-9 h-9 sm:w-14 sm:h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Wallet className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-gray-400 text-xs sm:text-sm">Available Balance</p>
-                  <p className="text-white font-bold text-xl sm:text-2xl lg:text-3xl" data-testid="text-wallet-balance">
+                  <p className="text-white font-bold text-lg sm:text-2xl lg:text-3xl truncate" data-testid="text-wallet-balance">
                     ${Number(walletBalance).toFixed(2)}
                   </p>
                 </div>
@@ -214,7 +214,7 @@ export default function Dashboard() {
               <Link href="/deposit" className="w-full sm:w-auto">
                 <Button 
                   variant="outline" 
-                  className="border-purple-500 text-purple-400 hover:bg-purple-500/20 w-full sm:w-auto h-11 sm:h-12 text-sm sm:text-base"
+                  className="border-purple-500 text-purple-400 hover:bg-purple-500/20 w-full sm:w-auto h-9 sm:h-12 text-xs sm:text-base px-3 sm:px-4"
                   data-testid="button-add-funds"
                 >
                   Add Funds
@@ -225,15 +225,15 @@ export default function Dashboard() {
 
 
         {/* You Send Section */}
-        <div className="mb-5 sm:mb-6 lg:mb-7">
+        <div className="mb-2 sm:mb-4 lg:mb-6">
           <div 
-            className="rounded-2xl lg:rounded-3xl p-5 sm:p-6 lg:p-7"
+            className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-6 lg:p-7"
             style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
           >
-            <p className="text-gray-400 text-xs sm:text-sm lg:text-base font-medium mb-3 sm:mb-4 lg:mb-5">You Send</p>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2 flex-1 min-w-0">
-                <span className="text-purple-400 text-3xl sm:text-4xl lg:text-5xl font-light flex-shrink-0">{getSendCurrencyData().symbol}</span>
+            <p className="text-gray-400 text-xs sm:text-sm lg:text-base font-medium mb-1.5 sm:mb-4 lg:mb-5">You Send</p>
+            <div className="flex items-center justify-between gap-2 sm:gap-4">
+              <div className="flex items-center gap-1 flex-1 min-w-0">
+                <span className="text-purple-400 text-xl sm:text-4xl lg:text-5xl font-light flex-shrink-0">{getSendCurrencyData().symbol}</span>
                 <input
                   type="text"
                   value={sendAmount}
@@ -241,7 +241,7 @@ export default function Dashboard() {
                     const val = e.target.value.replace(/[^0-9.]/g, '');
                     setSendAmount(val);
                   }}
-                  className="bg-transparent text-white text-3xl sm:text-4xl lg:text-5xl font-semibold outline-none flex-1 min-w-0"
+                  className="bg-transparent text-white text-xl sm:text-4xl lg:text-5xl font-semibold outline-none flex-1 min-w-0"
                   placeholder="0.00"
                   data-testid="input-send-amount"
                 />
@@ -249,14 +249,14 @@ export default function Dashboard() {
               
               <div className="relative flex-shrink-0">
                 <div 
-                  className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
+                  className="flex items-center gap-1 px-2 sm:px-4 py-1.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
                   style={{ backgroundColor: inputBg, border: `1px solid ${borderColor}` }}
                   onClick={() => setShowSendCurrencyDropdown(!showSendCurrencyDropdown)}
                   data-testid="dropdown-send-currency"
                 >
-                  <span className="text-2xl sm:text-3xl">{getSendCurrencyData().flag}</span>
-                  <span className="text-white font-medium text-sm sm:text-base">{sendCurrency}</span>
-                  <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+                  <span className="text-lg sm:text-3xl">{getSendCurrencyData().flag}</span>
+                  <span className="text-white font-medium text-xs sm:text-base hidden xs:inline">{sendCurrency}</span>
+                  <ChevronDown className="w-3 h-3 sm:w-5 sm:h-5 text-gray-400" />
                 </div>
                 
                 {showSendCurrencyDropdown && (
@@ -289,50 +289,50 @@ export default function Dashboard() {
         </div>
 
         {/* Fee Details Section */}
-        <div className="mb-5 sm:mb-6 lg:mb-7">
+        <div className="mb-2 sm:mb-4 lg:mb-6">
           <div 
-            className="rounded-2xl lg:rounded-3xl p-5 sm:p-6 lg:p-7 space-y-4 sm:space-y-5 lg:space-y-6"
+            className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-6 lg:p-7 space-y-2 sm:space-y-4 lg:space-y-6"
             style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
           >
             {/* Fee */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm sm:text-base">✓</span>
+              <div className="flex items-center gap-2 sm:gap-4">
+                <div className="w-6 h-6 sm:w-10 sm:h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-white text-xs sm:text-base">✓</span>
                 </div>
-                <span className="text-gray-300 text-sm sm:text-base lg:text-lg">Fee</span>
+                <span className="text-gray-300 text-xs sm:text-base lg:text-lg">Fee</span>
               </div>
-              <span className="text-green-400 font-semibold text-sm sm:text-base lg:text-lg" data-testid="text-fee">FREE</span>
+              <span className="text-green-400 font-semibold text-xs sm:text-base lg:text-lg" data-testid="text-fee">FREE</span>
             </div>
 
             {/* Total to pay */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              <div className="flex items-center gap-2 sm:gap-4">
+                <div className="w-6 h-6 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Wallet className="w-3 h-3 sm:w-5 sm:h-5 text-white" />
                 </div>
-                <span className="text-gray-300 text-sm sm:text-base lg:text-lg">Total to pay</span>
+                <span className="text-gray-300 text-xs sm:text-base lg:text-lg">Total to pay</span>
               </div>
-              <span className="text-white font-semibold text-sm sm:text-base lg:text-lg" data-testid="text-total">
+              <span className="text-white font-semibold text-xs sm:text-base lg:text-lg" data-testid="text-total">
                 {getSendCurrencyData().symbol}{totalToPay.toFixed(2)}
               </span>
             </div>
 
             {/* Rate */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className={`w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br ${hasValidRate ? 'from-orange-400 to-orange-600' : 'from-red-400 to-red-600'} rounded-full flex items-center justify-center flex-shrink-0`}>
-                  <span className="text-white text-sm sm:text-base">{hasValidRate ? '≈' : '!'}</span>
+              <div className="flex items-center gap-2 sm:gap-4">
+                <div className={`w-6 h-6 sm:w-10 sm:h-10 bg-gradient-to-br ${hasValidRate ? 'from-orange-400 to-orange-600' : 'from-red-400 to-red-600'} rounded-full flex items-center justify-center flex-shrink-0`}>
+                  <span className="text-white text-xs sm:text-base">{hasValidRate ? '≈' : '!'}</span>
                 </div>
-                <span className="text-gray-300 text-sm sm:text-base lg:text-lg">Rate</span>
+                <span className="text-gray-300 text-xs sm:text-base lg:text-lg">Rate</span>
               </div>
               {hasValidRate || sendCurrency === receiveCurrency ? (
-                <span className="text-white font-medium text-xs sm:text-sm lg:text-base" data-testid="text-rate">
-                  {getSendCurrencyData().symbol} 1 = {getReceiveCurrencyData().symbol} {exchangeRate.toFixed(6)}
+                <span className="text-white font-medium text-[10px] sm:text-sm lg:text-base" data-testid="text-rate">
+                  1 = {exchangeRate.toFixed(4)}
                 </span>
               ) : (
-                <span className="text-red-400 font-medium text-xs sm:text-sm lg:text-base" data-testid="text-rate-error">
-                  Rate unavailable
+                <span className="text-red-400 font-medium text-[10px] sm:text-sm lg:text-base" data-testid="text-rate-error">
+                  Unavailable
                 </span>
               )}
             </div>
@@ -340,28 +340,28 @@ export default function Dashboard() {
         </div>
 
         {/* Receiver Gets Section */}
-        <div className="mb-5 sm:mb-6 lg:mb-7">
+        <div className="mb-2 sm:mb-4 lg:mb-6">
           <div 
-            className="rounded-2xl lg:rounded-3xl p-5 sm:p-6 lg:p-7"
+            className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-6 lg:p-7"
             style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
           >
-            <p className="text-gray-400 text-xs sm:text-sm lg:text-base font-medium mb-3 sm:mb-4 lg:mb-5">Receiver Gets</p>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2 flex-1 min-w-0">
-                <span className="text-purple-400 text-3xl sm:text-4xl lg:text-5xl font-light flex-shrink-0">{getReceiveCurrencyData().symbol}</span>
-                <span className="text-white text-3xl sm:text-4xl lg:text-5xl font-semibold truncate" data-testid="text-receiver-amount">{receiverGets}</span>
+            <p className="text-gray-400 text-xs sm:text-sm lg:text-base font-medium mb-1.5 sm:mb-4 lg:mb-5">Receiver Gets</p>
+            <div className="flex items-center justify-between gap-2 sm:gap-4">
+              <div className="flex items-center gap-1 flex-1 min-w-0">
+                <span className="text-purple-400 text-xl sm:text-4xl lg:text-5xl font-light flex-shrink-0">{getReceiveCurrencyData().symbol}</span>
+                <span className="text-white text-xl sm:text-4xl lg:text-5xl font-semibold truncate" data-testid="text-receiver-amount">{receiverGets}</span>
               </div>
               
               <div className="relative flex-shrink-0">
                 <div 
-                  className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
+                  className="flex items-center gap-1 px-2 sm:px-4 py-1.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
                   style={{ backgroundColor: inputBg, border: `1px solid ${borderColor}` }}
                   onClick={() => setShowReceiveCurrencyDropdown(!showReceiveCurrencyDropdown)}
                   data-testid="dropdown-receive-currency"
                 >
-                  <span className="text-2xl sm:text-3xl">{getReceiveCurrencyData().flag}</span>
-                  <span className="text-white font-medium text-sm sm:text-base">{receiveCurrency}</span>
-                  <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+                  <span className="text-lg sm:text-3xl">{getReceiveCurrencyData().flag}</span>
+                  <span className="text-white font-medium text-xs sm:text-base hidden xs:inline">{receiveCurrency}</span>
+                  <ChevronDown className="w-3 h-3 sm:w-5 sm:h-5 text-gray-400" />
                 </div>
                 
                 {showReceiveCurrencyDropdown && (
@@ -394,30 +394,30 @@ export default function Dashboard() {
         </div>
 
           {/* Delivery Method Section */}
-          <div className="mb-8 sm:mb-10 lg:mb-12">
-            <p className="text-gray-500 text-xs sm:text-sm lg:text-base font-medium mb-3 sm:mb-4 lg:mb-5 uppercase tracking-wider">Delivery Method</p>
+          <div className="mb-2 sm:mb-4 lg:mb-6">
+            <p className="text-gray-500 text-xs sm:text-sm lg:text-base font-medium mb-1.5 sm:mb-4 lg:mb-5 uppercase tracking-wider hidden sm:block">Delivery</p>
             <div 
-              className="rounded-2xl lg:rounded-3xl p-5 sm:p-6 lg:p-7 flex items-center justify-between cursor-pointer hover:opacity-90 transition-opacity"
+              className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-6 lg:p-7 flex items-center justify-between cursor-pointer hover:opacity-90 transition-opacity"
               style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
               data-testid="card-delivery-method"
             >
-              <div className="flex items-center gap-4 sm:gap-5 flex-1">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl lg:rounded-2xl flex items-center justify-center flex-shrink-0">
-                  <Building2 className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
+              <div className="flex items-center gap-2 sm:gap-5 flex-1 min-w-0">
+                <div className="w-9 h-9 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg sm:rounded-xl lg:rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <Building2 className="w-5 h-5 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                 </div>
-                <div>
-                  <h4 className="text-white font-semibold text-sm sm:text-base lg:text-lg">Bank Account</h4>
-                  <p className="text-gray-400 text-xs sm:text-sm lg:text-base">Transfers within 2 days</p>
+                <div className="min-w-0">
+                  <h4 className="text-white font-semibold text-xs sm:text-base lg:text-lg">Bank Account</h4>
+                  <p className="text-gray-400 text-[10px] sm:text-sm lg:text-base">2 days</p>
                 </div>
               </div>
-              <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7 text-gray-400 flex-shrink-0" />
+              <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7 text-gray-400 flex-shrink-0" />
             </div>
           </div>
 
           {/* Continue Button */}
-          <div className="mb-6 sm:mb-8 lg:mb-10">
+          <div className="mb-2 sm:mb-4 lg:mb-6">
             <Button
-              className="w-full h-12 sm:h-13 lg:h-14 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-semibold rounded-xl lg:rounded-2xl shadow-lg shadow-purple-500/30 text-base sm:text-lg lg:text-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-10 sm:h-12 lg:h-14 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-semibold rounded-lg sm:rounded-xl lg:rounded-2xl shadow-lg shadow-purple-500/30 text-xs sm:text-base lg:text-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               data-testid="button-continue"
               disabled={totalToPay <= 0 || (!hasValidRate && sendCurrency !== receiveCurrency)}
               onClick={handleContinue}
