@@ -110,7 +110,7 @@ export default function AdminAddUser() {
             Add New User
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Create new user accounts for the PROBRANDIFY wallet platform
+            Create new user accounts for the PRO BRAND WORKS wallet platform
           </p>
         </div>
 

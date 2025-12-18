@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CreditCard, Phone, Smartphone, Shield, Info } from "lucide-react";
+import { CreditCard, Phone, Smartphone, Shield, Info, Send, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
 
@@ -20,7 +20,7 @@ export default function Welcome() {
             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-lg">W</span>
             </div>
-            <span className="text-white font-bold text-xl tracking-wide">WALLET<span className="text-purple-400">PAY</span></span>
+            <span className="text-white font-bold text-xl tracking-wide">PRO BRAND<span className="text-purple-400"> WORKS</span></span>
           </div>
         </div>
 
@@ -30,63 +30,64 @@ export default function Welcome() {
             Wallet account
           </h1>
           <h2 className="text-white text-2xl font-bold mb-2 tracking-tight">
-            fully <span className="text-purple-400">online</span>
+            fast <span className="text-purple-400">transfers</span>
           </h2>
           <p className="text-gray-500 text-sm">
-            We support receiving payments via credit cards
+            Send money instantly to anyone, anywhere
           </p>
         </div>
 
-        {/* Center Visual Content - Card */}
+        {/* Center Visual Content - Money Transfer */}
         <div className="flex-1 flex items-center justify-center py-4" style={{ backgroundColor: bgColor }}>
           <div className="relative mx-auto w-full max-w-[300px]">
             {/* Decorative glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/10 rounded-3xl blur-2xl"></div>
             
-            {/* Credit Card */}
-            <div className="relative bg-gradient-to-br from-purple-800 via-purple-900 to-indigo-900 rounded-2xl shadow-2xl shadow-purple-500/20 p-5 transform rotate-2 border border-purple-700/50 aspect-[1.6/1]">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/30 via-indigo-600/20 to-transparent rounded-2xl"></div>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-xl"></div>
-              
-              <div className="relative z-10 h-full flex flex-col justify-between">
-                {/* Card header */}
-                <div className="flex justify-between items-start">
-                  <div className="font-bold text-sm tracking-wide">
-                    <span className="text-purple-300">PROBRANDIFY</span>
+            {/* Money Transfer Container */}
+            <div className="relative space-y-6">
+              {/* Sender Box */}
+              <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/30 rounded-2xl p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">A</span>
                   </div>
-                  <div className="relative w-12 h-8">
-                    <div className="absolute left-0 top-0 w-7 h-7 bg-red-500 rounded-full"></div>
-                    <div className="absolute left-4 top-0 w-7 h-7 bg-yellow-400 rounded-full"></div>
+                  <div className="flex-1">
+                    <p className="text-gray-300 text-xs">From</p>
+                    <p className="text-white font-semibold text-sm">Ahmed</p>
                   </div>
                 </div>
-                
-                {/* Smart chip */}
-                <div className="w-10 h-7 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-md shadow-inner"></div>
-                
-                {/* Card number */}
-                <div className="text-white font-mono text-xl font-bold tracking-wider">
-                  4532 1234 5678 9012
-                </div>
-                
-                {/* Card details */}
-                <div className="flex justify-between items-end">
-                  <div>
-                    <div className="text-purple-200 text-[10px] uppercase tracking-wide mb-0.5">Valid Thru</div>
-                    <div className="text-white font-bold text-xs">12/28</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-white font-bold text-xs">AIMAD</div>
-                    <div className="text-purple-200 text-[9px]">Account Holder</div>
+                <p className="text-cyan-400 font-bold text-lg">$500.00</p>
+              </div>
+
+              {/* Transfer Arrow Animation */}
+              <div className="flex justify-center relative">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-pulse">
+                    <ArrowRight className="w-6 h-6 text-white" />
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Status indicators */}
-            <div className="flex justify-center mt-6 space-x-2">
-              <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50"></div>
-              <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-pulse delay-75 shadow-lg shadow-blue-500/50"></div>
-              <div className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse delay-150 shadow-lg shadow-purple-500/50"></div>
+              {/* Receiver Box */}
+              <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-2xl p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">F</span>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-gray-300 text-xs">To</p>
+                    <p className="text-white font-semibold text-sm">Fatima</p>
+                  </div>
+                </div>
+                <p className="text-pink-400 font-bold text-lg">$500.00</p>
+              </div>
+
+              {/* Status indicators */}
+              <div className="flex justify-center space-x-2 pt-2">
+                <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50"></div>
+                <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-pulse delay-75 shadow-lg shadow-blue-500/50"></div>
+                <div className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse delay-150 shadow-lg shadow-purple-500/50"></div>
+              </div>
             </div>
           </div>
         </div>

@@ -156,7 +156,7 @@ export const shareContent = async (title: string, text: string, url?: string) =>
         title,
         text,
         url,
-        dialogTitle: 'مشاركة PROBRANDIFY'
+        dialogTitle: 'مشاركة PRO BRAND WORKS'
       });
     } catch (error) {
       console.warn('Share failed:', error);
