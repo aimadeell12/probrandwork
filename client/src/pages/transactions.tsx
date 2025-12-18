@@ -96,29 +96,33 @@ export default function Transactions() {
     return <TransactionsSkeleton />;
   }
 
+  const bgColor = '#0f0a19';
+  const cardBg = '#1a1230';
+  const borderColor = '#2a2040';
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-background lg:h-auto lg:overflow-auto overflow-y-auto pb-24 lg:pb-6">
+    <div className="min-h-screen lg:h-auto lg:overflow-auto overflow-y-auto pb-24 lg:pb-6" style={{ backgroundColor: bgColor }}>
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="h-full flex flex-col max-w-md lg:max-w-4xl mx-auto lg:p-6">
           
           {/* Fixed Header Area */}
-          <div className="flex-shrink-0 bg-white dark:bg-background lg:bg-transparent lg:rounded-xl lg:shadow-sm lg:p-6 border-b lg:border-0 border-gray-100 dark:border-border pt-safe-top lg:pt-0">
+          <div className="flex-shrink-0 lg:rounded-xl lg:shadow-sm lg:p-6 pt-safe-top lg:pt-0" style={{ backgroundColor: bgColor, borderBottom: `1px solid ${borderColor}` }}>
             {/* Header - Fixed */}
             <div className="flex items-center justify-between px-4 lg:px-0 py-4 lg:py-0 lg:mb-4">
-              <h1 className="text-xl lg:text-3xl font-semibold text-gray-900 dark:text-white">Transactions</h1>
-              <Button variant="outline" size="icon" className="bg-white dark:bg-background border-gray-200 dark:border-border hover:bg-gray-50 dark:hover:bg-muted">
+              <h1 className="text-xl lg:text-3xl font-semibold text-white">Transactions</h1>
+              <Button variant="ghost" size="icon" className="text-purple-400 hover:bg-purple-500/20 rounded-full">
                 <Filter className="h-4 w-4" />
               </Button>
             </div>
 
             {/* Search - Fixed */}
             <div className="relative px-4 lg:px-0 mb-4">
-              <Search className="absolute left-7 lg:left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 dark:text-gray-400" />
+              <Search className="absolute left-7 lg:left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Search transactions..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white dark:bg-background border-gray-200 dark:border-border focus:border-gray-400 dark:focus:border-purple-500 rounded-2xl"
+                className="pl-10 bg-[#1a1230] border-[#2a2040] text-white placeholder:text-gray-500 focus:border-purple-500 rounded-2xl"
               />
             </div>
 
@@ -138,8 +142,8 @@ export default function Transactions() {
                   onClick={() => setSelectedFilter(filter.key)}
                   className={`whitespace-nowrap text-xs px-3 py-2 min-w-0 flex-shrink-0 ${
                     selectedFilter === filter.key 
-                      ? "bg-purple-500 text-white shadow-lg"
-                      : "bg-white dark:bg-background border border-gray-200 dark:border-border hover:bg-gray-50 dark:hover:bg-muted"
+                      ? "bg-purple-500 text-white shadow-lg shadow-purple-500/30"
+                      : "bg-[#1a1230] border border-[#2a2040] text-gray-300 hover:bg-purple-500/20 hover:border-purple-500/50"
                   }`}
                 >
                   {filter.label}
@@ -154,27 +158,27 @@ export default function Transactions() {
               <div className="space-y-3">
               {isLoading ? (
                 <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-white mx-auto"></div>
-                  <p className="text-gray-600 dark:text-gray-400 mt-2">Loading transactions...</p>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400 mx-auto"></div>
+                  <p className="text-gray-400 mt-2">Loading transactions...</p>
                 </div>
               ) : filteredTransactions.length > 0 ? (
                 filteredTransactions.map((transaction: any) => (
-                  <Card key={transaction.id} className="bg-white dark:bg-background border border-gray-200 dark:border-border shadow-sm hover:shadow-md transition-all duration-200">
+                  <Card key={transaction.id} className="border shadow-sm hover:shadow-md transition-all duration-200" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <div className={`p-2 rounded-xl ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'bg-green-100 dark:bg-green-900/30'
-                              : 'bg-red-100 dark:bg-red-900/30'
+                              ? 'bg-green-900/30'
+                              : 'bg-red-900/30'
                           }`}>
                             {getTransactionIcon(transaction.type)}
                           </div>
                           <div>
-                            <p className="font-medium text-gray-900 dark:text-white">
+                            <p className="font-medium text-white">
                               {transaction.merchant || transaction.description || getTransactionTypeLabel(transaction.type)}
                             </p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <p className="text-sm text-gray-400">
                               {new Date(transaction.created * 1000 || transaction.createdAt).toLocaleDateString()}
                             </p>
                           </div>
@@ -182,8 +186,8 @@ export default function Transactions() {
                         <div className="text-right">
                           <p className={`font-semibold ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'text-green-600 dark:text-green-400'
-                              : 'text-red-600 dark:text-red-400'
+                              ? 'text-green-400'
+                              : 'text-red-400'
                           }`}>
                             {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}
                             ${Math.abs(Number(transaction.amount)).toFixed(2)}
@@ -195,8 +199,8 @@ export default function Transactions() {
                   </Card>
                 ))
               ) : (
-                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                  <FileText className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
+                <div className="text-center py-8 text-gray-400">
+                  <FileText className="h-12 w-12 mx-auto mb-4 text-gray-600" />
                   <p>No transactions found</p>
                 </div>
               )}

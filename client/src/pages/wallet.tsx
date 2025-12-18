@@ -60,28 +60,32 @@ export default function WalletPage() {
     }
   };
 
+  const bgColor = '#0f0a19';
+  const cardBg = '#1a1230';
+  const borderColor = '#2a2040';
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen" style={{ backgroundColor: bgColor }}>
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="max-w-md lg:max-w-6xl mx-auto lg:p-6">
+        <div className="max-w-md lg:max-w-6xl mx-auto lg:p-6 pb-24">
           
           {/* Header - Mobile & Desktop */}
-          <div className="bg-white lg:rounded-xl lg:shadow-sm p-4 lg:p-6 mb-4 lg:mb-6">
+          <div className="lg:rounded-xl lg:shadow-sm p-4 lg:p-6 mb-4 lg:mb-6" style={{ backgroundColor: bgColor, borderBottom: `1px solid ${borderColor}` }}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-purple-100 rounded-xl">
-                  <Wallet className="h-6 w-6 text-purple-600" />
+                <div className="p-3 bg-purple-500/20 rounded-xl">
+                  <Wallet className="h-6 w-6 text-purple-400" />
                 </div>
                 <div>
-                  <h1 className="text-xl lg:text-2xl font-bold text-gray-900">My Wallet</h1>
-                  <p className="text-sm text-gray-600">Manage your funds</p>
+                  <h1 className="text-xl lg:text-2xl font-bold text-white">My Wallet</h1>
+                  <p className="text-sm text-gray-400">Manage your funds</p>
                 </div>
               </div>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsBalanceVisible(!isBalanceVisible)}
-                className="rounded-full"
+                className="rounded-full text-purple-400 hover:bg-purple-500/20"
               >
                 {isBalanceVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </Button>
@@ -105,25 +109,25 @@ export default function WalletPage() {
 
               {/* Quick Actions */}
               <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
-                <Card className="bg-green-50 border-green-200">
+                <Card className="border" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <Wallet className="h-4 w-4 text-green-600" />
-                      <p className="text-xs text-green-600 font-medium">Available</p>
+                      <Wallet className="h-4 w-4 text-green-400" />
+                      <p className="text-xs text-green-400 font-medium">Available</p>
                     </div>
-                    <p className="text-lg font-bold text-green-700">
+                    <p className="text-lg font-bold text-green-400">
                       {isBalanceVisible ? `$${balance.toLocaleString()}` : '******'}
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-purple-50 border-purple-200">
+                <Card className="border" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <Clock className="h-4 w-4 text-purple-600" />
-                      <p className="text-xs text-purple-600 font-medium">Pending</p>
+                      <Clock className="h-4 w-4 text-purple-400" />
+                      <p className="text-xs text-purple-400 font-medium">Pending</p>
                     </div>
-                    <p className="text-lg font-bold text-purple-700">
+                    <p className="text-lg font-bold text-purple-400">
                       {isBalanceVisible ? `$${pendingBalance.toLocaleString()}` : '******'}
                     </p>
                   </CardContent>
@@ -132,11 +136,11 @@ export default function WalletPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 px-4 lg:px-0">
             {/* Quick Actions */}
-            <Card className="bg-white">
+            <Card className="border" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
               <CardHeader>
-                <CardTitle className="text-lg">Quick Actions</CardTitle>
+                <CardTitle className="text-lg text-white">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-3">
@@ -147,19 +151,19 @@ export default function WalletPage() {
                     </Button>
                   </Link>
                   <Link href="/deposit">
-                    <Button variant="outline" className="w-full" data-testid="button-deposit">
+                    <Button variant="outline" className="w-full border-[#2a2040] text-gray-300 hover:bg-purple-500/20" data-testid="button-deposit">
                       <ArrowDownLeft className="h-4 w-4 mr-2" />
                       Deposit
                     </Button>
                   </Link>
                   <Link href="/withdraw">
-                    <Button variant="outline" className="w-full" data-testid="button-withdraw">
+                    <Button variant="outline" className="w-full border-[#2a2040] text-gray-300 hover:bg-purple-500/20" data-testid="button-withdraw">
                       <DollarSign className="h-4 w-4 mr-2" />
                       Withdraw
                     </Button>
                   </Link>
                   <Link href="/cards">
-                    <Button variant="outline" className="w-full" data-testid="button-cards">
+                    <Button variant="outline" className="w-full border-[#2a2040] text-gray-300 hover:bg-purple-500/20" data-testid="button-cards">
                       <CreditCard className="h-4 w-4 mr-2" />
                       Cards
                     </Button>
@@ -169,11 +173,11 @@ export default function WalletPage() {
             </Card>
 
             {/* Recent Transactions */}
-            <Card className="bg-white">
+            <Card className="border" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-lg">Recent Transactions</CardTitle>
+                <CardTitle className="text-lg text-white">Recent Transactions</CardTitle>
                 <Link href="/transactions">
-                  <Button variant="link" className="text-purple-600 p-0 h-auto">
+                  <Button variant="link" className="text-purple-400 p-0 h-auto">
                     View All
                   </Button>
                 </Link>
@@ -182,20 +186,20 @@ export default function WalletPage() {
                 {recentTransactions.length > 0 ? (
                   <div className="space-y-3">
                     {recentTransactions.map((transaction: any) => (
-                      <div key={transaction.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div key={transaction.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-purple-500/10 transition-colors">
                         <div className="flex items-center gap-3">
                           <div className={`p-2 rounded-xl ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'bg-green-100'
-                              : 'bg-red-100'
+                              ? 'bg-green-900/30'
+                              : 'bg-red-900/30'
                           }`}>
                             {getTransactionIcon(transaction.type)}
                           </div>
                           <div>
-                            <p className="font-medium text-gray-900 text-sm">
+                            <p className="font-medium text-white text-sm">
                               {transaction.description || transaction.type}
                             </p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-gray-400">
                               {new Date(transaction.createdAt).toLocaleDateString()}
                             </p>
                           </div>
@@ -203,8 +207,8 @@ export default function WalletPage() {
                         <div className="text-right">
                           <p className={`font-semibold ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'text-green-600'
-                              : 'text-red-600'
+                              ? 'text-green-400'
+                              : 'text-red-400'
                           }`}>
                             {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}
                             ${Math.abs(transaction.amount).toFixed(2)}
@@ -221,7 +225,7 @@ export default function WalletPage() {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <p className="text-gray-500">No transactions yet</p>
+                    <p className="text-gray-400">No transactions yet</p>
                     <Link href="/deposit">
                       <Button variant="link" className="text-purple-600 mt-2">
                         Make your first deposit
