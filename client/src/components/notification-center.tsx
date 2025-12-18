@@ -32,21 +32,19 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
   const queryClient = useQueryClient();
 
   // Fetch notifications
-  const { data: notifications = [], isLoading } = useQuery({
+  const { data: notifications = [], isLoading } = useQuery<Notification[]>({
     queryKey: ["/api/notifications"],
     enabled: isOpen,
   });
 
   // Fetch unread count
-  const { data: unreadData } = useQuery({
+  const { data: unreadData } = useQuery<{ count: number }>({
     queryKey: ["/api/notifications/unread-count"],
   });
 
   // Mark notification as read mutation
   const markAsReadMutation = useMutation({
-    mutationFn: (id: string) => apiRequest(`/api/notifications/${id}/read`, {
-      method: "PATCH",
-    }),
+    mutationFn: (id: string) => apiRequest(`/api/notifications/${id}/read`, "PATCH"),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/notifications"] });
       queryClient.invalidateQueries({ queryKey: ["/api/notifications/unread-count"] });
@@ -55,9 +53,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
 
   // Mark all as read mutation
   const markAllAsReadMutation = useMutation({
-    mutationFn: () => apiRequest("/api/notifications/mark-all-read", {
-      method: "PATCH",
-    }),
+    mutationFn: () => apiRequest("/api/notifications/mark-all-read", "PATCH"),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/notifications"] });
       queryClient.invalidateQueries({ queryKey: ["/api/notifications/unread-count"] });
@@ -66,9 +62,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
 
   // Delete notification mutation
   const deleteNotificationMutation = useMutation({
-    mutationFn: (id: string) => apiRequest(`/api/notifications/${id}`, {
-      method: "DELETE",
-    }),
+    mutationFn: (id: string) => apiRequest(`/api/notifications/${id}`, "DELETE"),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/notifications"] });
       queryClient.invalidateQueries({ queryKey: ["/api/notifications/unread-count"] });
@@ -137,9 +131,9 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
               <CardTitle className="text-lg">
                 {t("notifications")}
               </CardTitle>
-              {unreadData?.count > 0 && (
+              {(unreadData?.count ?? 0) > 0 && (
                 <Badge variant="destructive" className="ml-2">
-                  {unreadData.count}
+                  {unreadData?.count ?? 0}
                 </Badge>
               )}
             </div>
@@ -148,7 +142,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
             </Button>
           </div>
           
-          {notifications.length > 0 && (
+          {(notifications ?? []).length > 0 && (
             <div className="flex items-center gap-2 pt-2">
               <Button
                 variant="outline"
@@ -158,7 +152,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
                 className="text-xs"
               >
                 <Check className="h-3 w-3 mr-1" />
-                {t("markAllAsRead")}
+                Mark as read
               </Button>
             </div>
           )}
@@ -168,16 +162,16 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
           <ScrollArea className="h-96">
             {isLoading ? (
               <div className="p-4 text-center text-gray-500">
-                {t("loading")}...
+                <div className="h-8 w-8 mx-auto animate-spin rounded-full border-2 border-gray-300 border-t-purple-600" />
               </div>
-            ) : notifications.length === 0 ? (
+            ) : (notifications ?? []).length === 0 ? (
               <div className="p-8 text-center">
                 <Bell className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500">{t("noNotifications")}</p>
               </div>
             ) : (
               <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                {notifications.map((notification: Notification) => (
+                {(notifications ?? []).map((notification: Notification) => (
                   <div
                     key={notification.id}
                     className={`p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${
@@ -204,7 +198,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
                                 variant="secondary"
                                 className={`text-xs ${getPriorityColor(notification.priority)}`}
                               >
-                                {t(notification.priority)}
+                                {notification.priority}
                               </Badge>
                               <span className="text-xs text-gray-500">
                                 {formatNotificationTime(notification.createdAt)}

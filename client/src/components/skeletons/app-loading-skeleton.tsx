@@ -41,20 +41,6 @@ export function AppLoadingSkeleton() {
           </div>
         </div>
 
-        {/* Loading text with gradient */}
-        <div className="space-y-2">
-          <h3 className="text-lg font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 dark:from-purple-400 dark:via-pink-400 dark:to-indigo-400 bg-clip-text text-transparent">
-            Getting ready...
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">Setting up your secure wallet experience</p>
-        </div>
-
-        {/* Progress dots */}
-        <div className="flex justify-center space-x-2 mt-6">
-          <div className="w-2 h-2 bg-purple-500 dark:bg-purple-400 rounded-full animate-pulse"></div>
-          <div className="w-2 h-2 bg-purple-400 dark:bg-purple-300 rounded-full animate-pulse delay-200"></div>
-          <div className="w-2 h-2 bg-purple-300 dark:bg-purple-200 rounded-full animate-pulse delay-400"></div>
-        </div>
       </div>
     </div>
   );
