@@ -4,12 +4,12 @@ export function AppLoadingSkeleton() {
       {/* Simple loading content without decorative elements */}
       
       <div className="text-center z-10 px-8">
-        {/* PROBRANDIFY Logo Animation */}
+        {/* AppsPay Merchant Logo Animation */}
         <div className="mb-8">
           <div className="relative">
             <h1 className="text-4xl font-bold mb-2">
-              <span className="text-purple-600 dark:text-purple-400">PRO</span>
-              <span className="text-gray-800 dark:text-white">BRANDIFY</span>
+              <span className="text-purple-600 dark:text-purple-400">Apps</span>
+              <span className="text-gray-800 dark:text-white">Pay</span>
             </h1>
             <div className="absolute -top-2 -right-2 w-3 h-3 bg-purple-500 rounded-full animate-ping"></div>
           </div>

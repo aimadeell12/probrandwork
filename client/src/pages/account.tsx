@@ -310,7 +310,7 @@ export default function Account() {
                 </div>
                 <div className="flex-1 text-left">
                   <span className="text-gray-900 dark:text-white font-medium text-sm block">
-                    About <span className="text-purple-600">PROBRANDIFY</span>
+                    About <span className="text-purple-600">AppsPay Merchant</span>
                   </span>
                 </div>
                 <span className="text-gray-400 text-xs mr-2">v2.0.21</span>
