@@ -141,17 +141,17 @@ html {
 }
 
 .dark {
-  --background: 240 40% 10%; /* #0f0f23 - Dark background */
+  --background: 0 50% 8%; /* #2a0606 - Very dark red background */
   --foreground: 210 40% 98%; /* #f8fafc - Light text */
-  --muted: 240 40% 13%; /* #1a1a35 - Slightly lighter for subtle contrast */
+  --muted: 0 40% 12%; /* #3a1010 - Slightly lighter dark red for subtle contrast */
   --muted-foreground: 215 20% 65%; /* #94a3b8 - Light gray */
-  --popover: 240 40% 10%; /* #0f0f23 - Same as background */
+  --popover: 0 50% 8%; /* #2a0606 - Same as background */
   --popover-foreground: 210 40% 98%; /* Light text */
-  --card: 240 40% 13%; /* #1a1a35 - Slightly lighter for cards */
+  --card: 0 40% 12%; /* #3a1010 - Slightly lighter dark red for cards */
   --card-foreground: 210 40% 98%; /* Light text */
-  --border: 240 30% 20%; /* #2a2a45 - Subtle border */
-  --input: 240 40% 13%; /* #1a1a35 - Slightly lighter for inputs */
-  --primary: 0 85% 50%; /* Dark red primary */
+  --border: 0 35% 18%; /* #4a1515 - Subtle dark red border */
+  --input: 0 40% 12%; /* #3a1010 - Slightly lighter for inputs */
+  --primary: 0 85% 55%; /* Red primary */
   --primary-foreground: 0 0% 100%; /* Pure white */
   --secondary: 160 84% 39%; /* Keep secondary green */
   --secondary-foreground: 0 0% 100%; /* Pure white */
@@ -159,7 +159,7 @@ html {
   --accent-foreground: 0 0% 100%; /* Pure white */
   --destructive: 0 84% 60%; /* Red */
   --destructive-foreground: 0 0% 100%; /* Pure white */
-  --ring: 0 85% 50%; /* Dark red ring */
+  --ring: 0 85% 55%; /* Dark red ring */
 }
 
 /* Mobile-specific styles for Capacitor */
