@@ -12,5 +12,17 @@
         "56:CE:3C:49:A0:3A:07:CE:C4:F2:8C:ED:DD:F6:48:BB:11:F9:5A:66:74:C2:56:0A:8E:20:2E:BE:EC:26:22:57"
       ]
     }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.appsfondation.twa",
+      "sha256_cert_fingerprints": [
+        "47:FB:14:C7:EE:89:10:5A:1F:50:04:20:EB:16:65:67:09:39:65:C1:52:1F:E0:7A:E5:19:C2:A0:32:19:BA:6D"
+      ]
+    }
   }
 ]
