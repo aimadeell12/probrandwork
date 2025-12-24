@@ -11,11 +11,11 @@ export function setupGoogleAuth(app: Express) {
   }
   
   console.log("✅ Google OAuth credentials found. Setting up Google authentication...");
-  console.log(`📍 Callback URL: ${process.env.NODE_ENV === 'production' ? 'https://probrandify.org/api/auth/google/callback' : 'http://localhost:5000/api/auth/google/callback'}`);
+  console.log(`📍 Callback URL: ${process.env.NODE_ENV === 'production' ? 'https://appsfondation.com/api/auth/google/callback' : 'http://localhost:5000/api/auth/google/callback'}`);
 
   // Configure Google OAuth strategy
   const callbackURL = process.env.NODE_ENV === 'production' 
-    ? 'https://probrandify.org/api/auth/google/callback'
+    ? 'https://appsfondation.com/api/auth/google/callback'
     : 'http://localhost:5000/api/auth/google/callback';
     
   passport.use(new GoogleStrategy({
