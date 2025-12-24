@@ -128,8 +128,8 @@ export default function About() {
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white text-sm">Contact</h4>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                Email: Support@appspay.org<br />
-                Phone: +19138024746
+                Email: support@appsfondation.com<br />
+                Phone: +19134278757
               </p>
             </div>
           </CardContent>

@@ -189,11 +189,11 @@ export default function PrivacyPolicy() {
             <div className="bg-red-50/50 dark:bg-red-900/20 border border-red-200/50 dark:border-red-700/50 rounded-lg p-4 text-sm mt-3 space-y-3">
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Email:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">Support@appspay.org</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">support@appsfondation.com</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Phone:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">+19138024746</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">+19134278757</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Address:</strong>
