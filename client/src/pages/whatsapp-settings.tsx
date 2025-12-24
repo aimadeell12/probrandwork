@@ -189,7 +189,7 @@ export default function WhatsAppSettings() {
           <div className="sticky top-0 bg-white border-b border-gray-100 p-3 sm:p-4 z-50">
             <div className="flex items-center gap-3">
               <Link href="/account">
-                <Button variant="ghost" size="sm" className="p-2 hover:bg-purple-500/10 rounded-full">
+                <Button variant="ghost" size="sm" className="p-2 hover:bg-red-500/10 rounded-full">
                   <ArrowLeft className="h-5 w-5 text-gray-700" />
                 </Button>
               </Link>
@@ -215,7 +215,7 @@ export default function WhatsAppSettings() {
         <div className="sticky top-0 bg-white border-b border-gray-100 p-3 sm:p-4 z-50">
           <div className="flex items-center gap-3">
             <Link href="/account">
-              <Button variant="ghost" size="sm" className="p-2 hover:bg-purple-500/10 rounded-full">
+              <Button variant="ghost" size="sm" className="p-2 hover:bg-red-500/10 rounded-full">
                 <ArrowLeft className="h-5 w-5 text-gray-700" />
               </Button>
             </Link>
@@ -246,11 +246,11 @@ export default function WhatsAppSettings() {
                   <div className="text-2xl font-bold text-blue-600">{otpStats.totalActive}</div>
                   <div className="text-sm text-blue-700">رموز نشطة</div>
                 </div>
-                <div className="text-center p-3 bg-purple-50/80 rounded-xl">
-                  <div className="text-2xl font-bold text-purple-600">
+                <div className="text-center p-3 bg-red-50/80 rounded-xl">
+                  <div className="text-2xl font-bold text-red-600">
                     {Object.keys(otpStats.byPurpose).length}
                   </div>
-                  <div className="text-sm text-purple-700">أنواع الأغراض</div>
+                  <div className="text-sm text-red-700">أنواع الأغراض</div>
                 </div>
               </div>
 
@@ -283,7 +283,7 @@ export default function WhatsAppSettings() {
                   placeholder="+212663381823"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="h-12 border-gray-200 focus:border-purple-500/80 focus:ring-purple-500/20 rounded-xl"
+                  className="h-12 border-gray-200 focus:border-red-500/80 focus:ring-red-500/20 rounded-xl"
                 />
               </div>
 
@@ -297,7 +297,7 @@ export default function WhatsAppSettings() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={4}
-                  className="w-full p-3 border border-gray-200 rounded-xl focus:border-purple-500/80 focus:ring-2 focus:ring-purple-500/20 outline-none resize-none"
+                  className="w-full p-3 border border-gray-200 rounded-xl focus:border-red-500/80 focus:ring-2 focus:ring-red-500/20 outline-none resize-none"
                 />
               </div>
 
@@ -314,8 +314,8 @@ export default function WhatsAppSettings() {
           {/* OTP Management */}
           <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-purple-100/80 rounded-xl flex items-center justify-center">
-                <Shield className="h-6 w-6 text-purple-600" />
+              <div className="w-10 h-10 bg-red-100/80 rounded-xl flex items-center justify-center">
+                <Shield className="h-6 w-6 text-red-600" />
               </div>
               <h2 className="text-lg font-semibold text-gray-900">إدارة OTP</h2>
             </div>
@@ -331,7 +331,7 @@ export default function WhatsAppSettings() {
                   placeholder="+212663381823"
                   value={otpPhone}
                   onChange={(e) => setOtpPhone(e.target.value)}
-                  className="h-12 border-gray-200 focus:border-purple-500/80 focus:ring-purple-500/20 rounded-xl"
+                  className="h-12 border-gray-200 focus:border-red-500/80 focus:ring-red-500/20 rounded-xl"
                 />
               </div>
 
@@ -343,7 +343,7 @@ export default function WhatsAppSettings() {
                   id="otpPurpose"
                   value={otpPurpose}
                   onChange={(e) => setOtpPurpose(e.target.value)}
-                  className="w-full h-12 px-4 border border-gray-200 rounded-xl bg-white text-gray-900 focus:border-purple-500/80 focus:ring-2 focus:ring-purple-500/20 outline-none"
+                  className="w-full h-12 px-4 border border-gray-200 rounded-xl bg-white text-gray-900 focus:border-red-500/80 focus:ring-2 focus:ring-red-500/20 outline-none"
                 >
                   <option value="login">تسجيل الدخول</option>
                   <option value="registration">التسجيل</option>
@@ -357,7 +357,7 @@ export default function WhatsAppSettings() {
                 <Button
                   onClick={handleSendOtp}
                   disabled={sendOtpMutation.isPending}
-                  className="h-12 bg-purple-500/80 hover:bg-purple-600/80 text-white rounded-xl"
+                  className="h-12 bg-red-500/80 hover:bg-red-600/80 text-white rounded-xl"
                 >
                   {sendOtpMutation.isPending ? "جاري الإرسال..." : "إرسال OTP"}
                 </Button>
@@ -376,7 +376,7 @@ export default function WhatsAppSettings() {
                     value={otpCode}
                     onChange={(e) => setOtpCode(e.target.value)}
                     maxLength={6}
-                    className="h-12 text-center text-xl font-mono border-gray-200 focus:border-purple-500/80 focus:ring-purple-500/20 rounded-xl"
+                    className="h-12 text-center text-xl font-mono border-gray-200 focus:border-red-500/80 focus:ring-red-500/20 rounded-xl"
                   />
                 </div>
 
@@ -384,7 +384,7 @@ export default function WhatsAppSettings() {
                   onClick={handleVerifyOtp}
                   disabled={verifyOtpMutation.isPending}
                   variant="outline"
-                  className="w-full h-12 mt-3 border-purple-200 hover:bg-purple-50/80 rounded-xl"
+                  className="w-full h-12 mt-3 border-red-200 hover:bg-red-50/80 rounded-xl"
                 >
                   {verifyOtpMutation.isPending ? "جاري التحقق..." : "التحقق من OTP"}
                 </Button>

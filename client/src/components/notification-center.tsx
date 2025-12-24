@@ -82,7 +82,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
       case "security":
         return <Shield className="h-5 w-5 text-red-600" />;
       case "promotion":
-        return <Gift className="h-5 w-5 text-purple-600" />;
+        return <Gift className="h-5 w-5 text-red-600" />;
       default:
         return <Bell className="h-5 w-5 text-blue-600" />;
     }

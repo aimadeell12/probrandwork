@@ -76,7 +76,7 @@ export default function Login() {
       <div className="mobile-safe-area" />
       
       {/* Background decorative elements - responsive sizing */}
-      <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-purple-200/15 to-pink-200/15 dark:from-purple-500/5 dark:to-pink-500/5 rounded-full blur-xl"></div>
+      <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-red-200/15 to-pink-200/15 dark:from-red-500/5 dark:to-pink-500/5 rounded-full blur-xl"></div>
       
       <div className="px-3 sm:px-4 md:px-6 lg:px-8 flex flex-col justify-between min-h-screen relative z-10 max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto safe-area-inset">
         
@@ -113,7 +113,7 @@ export default function Login() {
                       onClick={() => setLoginType('email')}
                       className={`flex-1 py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 text-xs sm:text-sm md:text-base font-medium rounded-md sm:rounded-lg transition-all duration-200 ${
                         loginType === 'email'
-                          ? 'bg-white dark:bg-background text-purple-600 dark:text-purple-400 shadow-sm'
+                          ? 'bg-white dark:bg-background text-red-600 dark:text-red-400 shadow-sm'
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                       }`}
                     >
@@ -124,7 +124,7 @@ export default function Login() {
                       onClick={() => setLoginType('phone')}
                       className={`flex-1 py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 text-xs sm:text-sm md:text-base font-medium rounded-md sm:rounded-lg transition-all duration-200 ${
                         loginType === 'phone'
-                          ? 'bg-white dark:bg-background text-purple-600 dark:text-purple-400 shadow-sm'
+                          ? 'bg-white dark:bg-background text-red-600 dark:text-red-400 shadow-sm'
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                       }`}
                     >
@@ -143,7 +143,7 @@ export default function Login() {
                     type={loginType === 'email' ? 'email' : 'tel'}
                     value={formData.username}
                     onChange={(e) => handleInputChange('username', e.target.value)}
-                    className="w-full h-11 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-purple-500 focus:ring-purple-500 bg-white dark:bg-background text-base md:text-lg"
+                    className="w-full h-11 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-red-500 focus:ring-red-500 bg-white dark:bg-background text-base md:text-lg"
                     placeholder={loginType === 'email' ? t('enterEmail') : t('enterPhoneNumber')}
                     required
                   />
@@ -159,7 +159,7 @@ export default function Login() {
                     type="password"
                     value={formData.password}
                     onChange={(e) => handleInputChange('password', e.target.value)}
-                    className="w-full h-11 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-purple-500 focus:ring-purple-500 bg-white dark:bg-background text-base md:text-lg"
+                    className="w-full h-11 sm:h-12 md:h-14 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-red-500 focus:ring-red-500 bg-white dark:bg-background text-base md:text-lg"
                     placeholder={t('enterPassword')}
                     required
                   />
@@ -203,7 +203,7 @@ export default function Login() {
                   <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm md:text-base">
                     {t('dontHaveAccount')}{' '}
                     <Link href="/register">
-                      <span className="text-purple-600 dark:text-purple-400 font-semibold hover:underline cursor-pointer">
+                      <span className="text-red-600 dark:text-red-400 font-semibold hover:underline cursor-pointer">
                         {t('createNewAccount')}
                       </span>
                     </Link>

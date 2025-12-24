@@ -26,10 +26,10 @@ export const OfflineError = ({ onRetry }: OfflineErrorProps) => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden px-4" data-testid="offline-error-page">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900 relative overflow-hidden px-4" data-testid="offline-error-page">
       
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-red-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-red-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-orange-200/10 to-red-200/10 rounded-full blur-3xl"></div>
       
       <Card className="w-full max-w-md bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl relative z-10">
@@ -67,7 +67,7 @@ export const OfflineError = ({ onRetry }: OfflineErrorProps) => {
             <Button 
               onClick={handleRetry}
               disabled={isRetrying}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-xl py-3 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 transition-all duration-200"
+              className="w-full bg-red-600 hover:bg-red-700 text-white rounded-xl py-3 flex items-center justify-center gap-2 shadow-lg shadow-red-500/20 transition-all duration-200"
               data-testid="button-retry"
             >
               {isRetrying ? (

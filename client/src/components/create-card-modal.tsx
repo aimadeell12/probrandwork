@@ -33,7 +33,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
   const cardDesigns = {
     virtual: [
       { id: "blue", name: "Ocean Blue", gradient: "from-blue-500 to-cyan-500" },
-      { id: "purple", name: "Royal Purple", gradient: "from-purple-500 to-pink-500" },
+      { id: "purple", name: "Royal Purple", gradient: "from-red-500 to-pink-500" },
       { id: "black", name: "Carbon Black", gradient: "from-gray-800 to-gray-900" },
       { id: "gold", name: "Luxury Gold", gradient: "from-yellow-400 to-orange-500" },
     ],
@@ -120,7 +120,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
       <div className={cn(
         "relative w-full aspect-[1.6/1] rounded-xl p-4 transition-all duration-300",
         `bg-gradient-to-br ${design.gradient}`,
-        selectedDesign === design.id ? "ring-4 ring-purple-500 ring-offset-2" : "hover:shadow-lg"
+        selectedDesign === design.id ? "ring-4 ring-red-500 ring-offset-2" : "hover:shadow-lg"
       )}>
         {/* Card Icons */}
         <div className="flex justify-between items-start h-full">
@@ -147,7 +147,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
           >
-            <Check className="w-4 h-4 text-purple-600" />
+            <Check className="w-4 h-4 text-red-600" />
           </motion.div>
         )}
       </div>
@@ -181,7 +181,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Virtual Card Option */}
                 <motion.div
-                  className="relative p-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-purple-500 transition-colors"
+                  className="relative p-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-red-500 transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedCardType("virtual")}
@@ -209,7 +209,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
 
                 {/* Physical Card Option */}
                 <motion.div
-                  className="relative p-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-purple-500 transition-colors"
+                  className="relative p-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-red-500 transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelectedCardType("physical")}
@@ -321,7 +321,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
                     <Button
                       type="submit"
                       disabled={createCardMutation.isPending}
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                      className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700"
                     >
                       {createCardMutation.isPending ? "Creating..." : "Create Card"}
                     </Button>

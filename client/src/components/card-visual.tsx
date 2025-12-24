@@ -27,7 +27,7 @@ export default function CardVisual({
       case "green":
         return "card-gradient-green";
       case "purple":
-        return "card-gradient-purple";
+        return "card-gradient-red";
       default:
         return "card-gradient-blue";
     }

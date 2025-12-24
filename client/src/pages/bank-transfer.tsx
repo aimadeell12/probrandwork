@@ -76,7 +76,7 @@ export default function BankTransfer() {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300"
+            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300"
             onClick={() => setLocation("/deposit")}
             data-testid="button-back"
           >
@@ -84,7 +84,7 @@ export default function BankTransfer() {
           </Button>
           <div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
-              <Building2 className="mr-3 h-6 w-6 text-purple-600 dark:text-purple-400" />
+              <Building2 className="mr-3 h-6 w-6 text-red-600 dark:text-red-400" />
               Bank Transfer
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -113,7 +113,7 @@ export default function BankTransfer() {
                 placeholder="Enter amount"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="text-xl font-bold text-center border-gray-200 dark:border-gray-600 dark:bg-[#252542] dark:text-white focus:border-purple-500 dark:focus:border-purple-400 rounded-lg h-12"
+                className="text-xl font-bold text-center border-gray-200 dark:border-gray-600 dark:bg-[#252542] dark:text-white focus:border-red-500 dark:focus:border-red-400 rounded-lg h-12"
                 min="1"
                 step="0.01"
                 required
@@ -141,8 +141,8 @@ export default function BankTransfer() {
                       key={bank.code}
                       className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
                         selectedBank === bank.code
-                          ? "border-purple-500 bg-purple-50 dark:bg-purple-900/30"
-                          : "border-gray-200 dark:border-gray-600 bg-white dark:bg-[#252542] hover:border-purple-300 dark:hover:border-purple-500"
+                          ? "border-red-500 bg-red-50 dark:bg-red-900/30"
+                          : "border-gray-200 dark:border-gray-600 bg-white dark:bg-[#252542] hover:border-red-300 dark:hover:border-red-500"
                       }`}
                       onClick={() => setSelectedBank(bank.code)}
                       data-testid={`button-bank-${bank.code}`}
@@ -156,7 +156,7 @@ export default function BankTransfer() {
                               className="w-8 h-8 object-contain"
                             />
                           ) : (
-                            <Building2 className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                            <Building2 className="w-6 h-6 text-red-600 dark:text-red-400" />
                           )}
                         </div>
                         <div className="flex-1">
@@ -168,7 +168,7 @@ export default function BankTransfer() {
                           </p>
                         </div>
                         {selectedBank === bank.code && (
-                          <Check className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                          <Check className="h-4 w-4 text-red-600 dark:text-red-400" />
                         )}
                       </div>
                     </div>
@@ -187,7 +187,7 @@ export default function BankTransfer() {
                 placeholder="Enter reference or note for transfer"
                 value={reference}
                 onChange={(e) => setReference(e.target.value)}
-                className="border-gray-200 dark:border-gray-600 dark:bg-[#252542] dark:text-white focus:border-purple-500 dark:focus:border-purple-400 rounded-lg text-sm"
+                className="border-gray-200 dark:border-gray-600 dark:bg-[#252542] dark:text-white focus:border-red-500 dark:focus:border-red-400 rounded-lg text-sm"
                 rows={2}
                 data-testid="input-reference"
               />
@@ -197,7 +197,7 @@ export default function BankTransfer() {
             <Button
               type="submit"
               disabled={!amount || !selectedBank}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg text-base font-medium mt-4"
+              className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg text-base font-medium mt-4"
               data-testid="button-submit"
             >
               Create Transfer Request
@@ -209,12 +209,12 @@ export default function BankTransfer() {
         {selectedBank && selectedBankDetails && (
           <div className="bg-white dark:bg-[#1a1a2e] border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-4">
             <div className="flex items-center gap-2 mb-3">
-              <Building2 className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <Building2 className="h-5 w-5 text-red-600 dark:text-red-400" />
               <h2 className="text-lg font-bold text-gray-900 dark:text-white">Selected Bank Details</h2>
             </div>
             
             <div className="space-y-3">
-              <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+              <div className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/30 rounded-lg">
                 <div className="w-10 h-10 flex items-center justify-center">
                   {selectedBankDetails.logoUrl ? (
                     <img 
@@ -223,7 +223,7 @@ export default function BankTransfer() {
                       className="w-8 h-8 object-contain"
                     />
                   ) : (
-                    <Building2 className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                    <Building2 className="w-6 h-6 text-red-600 dark:text-red-400" />
                   )}
                 </div>
                 <div>
@@ -304,25 +304,25 @@ export default function BankTransfer() {
         )}
 
         {/* Instructions Card */}
-        <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-4">
-          <h3 className="text-base font-bold text-purple-900 dark:text-purple-300 mb-3">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+          <h3 className="text-base font-bold text-red-900 dark:text-red-300 mb-3">
             Transfer Instructions
           </h3>
-          <div className="space-y-2 text-purple-800 dark:text-purple-300">
+          <div className="space-y-2 text-red-800 dark:text-red-300">
             <div className="flex items-start gap-2">
-              <div className="w-5 h-5 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">1</div>
+              <div className="w-5 h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">1</div>
               <p className="text-sm">Select the appropriate bank from the list above</p>
             </div>
             <div className="flex items-start gap-2">
-              <div className="w-5 h-5 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">2</div>
+              <div className="w-5 h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">2</div>
               <p className="text-sm">Enter the amount you want to transfer</p>
             </div>
             <div className="flex items-start gap-2">
-              <div className="w-5 h-5 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">3</div>
+              <div className="w-5 h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">3</div>
               <p className="text-sm">Click "Create Transfer Request" to get bank details</p>
             </div>
             <div className="flex items-start gap-2">
-              <div className="w-5 h-5 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">4</div>
+              <div className="w-5 h-5 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">4</div>
               <p className="text-sm">Use the displayed bank details to make the transfer from your bank</p>
             </div>
           </div>

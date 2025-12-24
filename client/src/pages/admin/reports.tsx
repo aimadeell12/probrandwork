@@ -36,7 +36,7 @@ export default function SystemReports() {
   const adminUsers = usersData?.filter((u: any) => u.role === 'admin').length || 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900">
       <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
@@ -47,7 +47,7 @@ export default function SystemReports() {
               </Button>
             </Link>
             
-            <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-violet-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-red-600 to-violet-600 rounded-xl flex items-center justify-center">
               <BarChart3 className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -61,7 +61,7 @@ export default function SystemReports() {
           </div>
 
           <div className="w-full sm:w-auto sm:ml-auto">
-            <Button className="bg-purple-600 hover:bg-purple-700 text-white w-full sm:w-auto">
+            <Button className="bg-red-600 hover:bg-red-700 text-white w-full sm:w-auto">
               <Download className="h-4 w-4 mr-2" />
               Export Reports
             </Button>

@@ -47,7 +47,7 @@ export default function AdminNavigation() {
       description: "View analytics and system reports", 
       href: "/admin/reports",
       icon: BarChart3,
-      color: "bg-purple-500",
+      color: "bg-red-500",
       isActive: location === "/admin/reports"
     },
     {
@@ -135,8 +135,8 @@ export default function AdminNavigation() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden">
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gradient-to-br from-purple-200/15 to-pink-200/15 dark:from-purple-500/10 dark:to-pink-500/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 dark:from-blue-500/10 dark:to-purple-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gradient-to-br from-red-200/15 to-pink-200/15 dark:from-red-500/10 dark:to-pink-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 bg-gradient-to-tr from-blue-200/10 to-red-200/10 dark:from-blue-500/10 dark:to-red-500/10 rounded-full blur-3xl"></div>
       
       <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 max-w-6xl mx-auto relative z-10">
         {/* Theme Toggle */}
@@ -147,7 +147,7 @@ export default function AdminNavigation() {
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
               <Crown className="h-6 w-6 text-white" />
             </div>
             <div>
@@ -160,7 +160,7 @@ export default function AdminNavigation() {
             </div>
           </div>
           
-          <Badge className="bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-700 px-4 py-2">
+          <Badge className="bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700 px-4 py-2">
             Administrator Access
           </Badge>
         </div>
@@ -168,7 +168,7 @@ export default function AdminNavigation() {
         {/* Quick Return to Dashboard */}
         <div className="mb-8">
           <Link href="/dashboard">
-            <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer hover:border-purple-200 dark:hover:border-purple-700">
+            <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer hover:border-red-200 dark:hover:border-red-700">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -205,8 +205,8 @@ export default function AdminNavigation() {
               <Link key={index} href={page.href}>
                 <Card className={`bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer ${
                   page.isActive 
-                    ? 'border-purple-300 dark:border-purple-600 bg-purple-50/50 dark:bg-purple-900/20' 
-                    : 'hover:border-purple-200 dark:hover:border-purple-700'
+                    ? 'border-red-300 dark:border-red-600 bg-red-50/50 dark:bg-red-900/20' 
+                    : 'hover:border-red-200 dark:hover:border-red-700'
                 } transform hover:scale-[1.02] h-full`}>
                   <CardContent className="p-4 sm:p-6">
                     <div className="flex flex-col items-center text-center gap-3">
@@ -220,7 +220,7 @@ export default function AdminNavigation() {
                         <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{page.description}</p>
                       </div>
                       {page.isActive && (
-                        <Badge className="bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 text-xs">
+                        <Badge className="bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 text-xs">
                           Active
                         </Badge>
                       )}
@@ -241,7 +241,7 @@ export default function AdminNavigation() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <Link href="/kyc-management">
-              <Button className="w-full justify-start bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-4 h-auto shadow-lg hover:shadow-xl transition-all duration-200">
+              <Button className="w-full justify-start bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white p-4 h-auto shadow-lg hover:shadow-xl transition-all duration-200">
                 <Shield className="h-5 w-5 mr-3" />
                 <div className="text-left">
                   <div className="font-medium">Review KYC Requests</div>
@@ -251,8 +251,8 @@ export default function AdminNavigation() {
             </Link>
             
             <Link href="/admin/users">
-              <Button variant="outline" className="w-full justify-start p-4 h-auto border-2 border-purple-200 dark:border-purple-700 hover:border-purple-300 dark:hover:border-purple-600 hover:bg-purple-50/50 dark:hover:bg-purple-900/20 shadow-lg hover:shadow-xl transition-all duration-200">
-                <Users className="h-5 w-5 mr-3 text-purple-600 dark:text-purple-400" />
+              <Button variant="outline" className="w-full justify-start p-4 h-auto border-2 border-red-200 dark:border-red-700 hover:border-red-300 dark:hover:border-red-600 hover:bg-red-50/50 dark:hover:bg-red-900/20 shadow-lg hover:shadow-xl transition-all duration-200">
+                <Users className="h-5 w-5 mr-3 text-red-600 dark:text-red-400" />
                 <div className="text-left">
                   <div className="font-medium text-gray-900 dark:text-white">Manage Users</div>
                   <div className="text-sm text-gray-600 dark:text-gray-400">User administration</div>

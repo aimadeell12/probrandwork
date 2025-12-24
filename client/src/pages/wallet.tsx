@@ -69,8 +69,8 @@ export default function WalletPage() {
           <div className="bg-white lg:rounded-xl lg:shadow-sm p-4 lg:p-6 mb-4 lg:mb-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-purple-100 rounded-xl">
-                  <Wallet className="h-6 w-6 text-purple-600" />
+                <div className="p-3 bg-red-100 rounded-xl">
+                  <Wallet className="h-6 w-6 text-red-600" />
                 </div>
                 <div>
                   <h1 className="text-xl lg:text-2xl font-bold text-gray-900">My Wallet</h1>
@@ -90,7 +90,7 @@ export default function WalletPage() {
             {/* Balance Cards */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {/* Total Balance */}
-              <Card className="bg-gradient-to-br from-purple-600 to-purple-700 border-0 text-white lg:col-span-2">
+              <Card className="bg-gradient-to-br from-red-600 to-red-700 border-0 text-white lg:col-span-2">
                 <CardContent className="p-6">
                   <p className="text-sm opacity-90 mb-2">Total Balance</p>
                   <h2 className="text-3xl lg:text-4xl font-bold mb-4">
@@ -117,13 +117,13 @@ export default function WalletPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-purple-50 border-purple-200">
+                <Card className="bg-red-50 border-red-200">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <Clock className="h-4 w-4 text-purple-600" />
-                      <p className="text-xs text-purple-600 font-medium">Pending</p>
+                      <Clock className="h-4 w-4 text-red-600" />
+                      <p className="text-xs text-red-600 font-medium">Pending</p>
                     </div>
-                    <p className="text-lg font-bold text-purple-700">
+                    <p className="text-lg font-bold text-red-700">
                       {isBalanceVisible ? `$${pendingBalance.toLocaleString()}` : '******'}
                     </p>
                   </CardContent>
@@ -141,7 +141,7 @@ export default function WalletPage() {
               <CardContent>
                 <div className="grid grid-cols-2 gap-3">
                   <Link href="/send">
-                    <Button className="w-full bg-purple-600 hover:bg-purple-700" data-testid="button-send">
+                    <Button className="w-full bg-red-600 hover:bg-red-700" data-testid="button-send">
                       <ArrowUpRight className="h-4 w-4 mr-2" />
                       Send
                     </Button>
@@ -173,7 +173,7 @@ export default function WalletPage() {
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="text-lg">Recent Transactions</CardTitle>
                 <Link href="/transactions">
-                  <Button variant="link" className="text-purple-600 p-0 h-auto">
+                  <Button variant="link" className="text-red-600 p-0 h-auto">
                     View All
                   </Button>
                 </Link>
@@ -223,7 +223,7 @@ export default function WalletPage() {
                   <div className="text-center py-8">
                     <p className="text-gray-500">No transactions yet</p>
                     <Link href="/deposit">
-                      <Button variant="link" className="text-purple-600 mt-2">
+                      <Button variant="link" className="text-red-600 mt-2">
                         Make your first deposit
                       </Button>
                     </Link>

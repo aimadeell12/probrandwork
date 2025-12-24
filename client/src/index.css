@@ -128,20 +128,20 @@ html {
   --card-foreground: 222 84% 4.9%;
   --border: 214 32% 91%; /* #E2E8F0 */
   --input: 214 32% 91%;
-  --primary: 265 85% 60%; /* Purple primary */
+  --primary: 0 85% 50%; /* Dark red primary */
   --primary-foreground: 0 0% 100%;
   --secondary: 160 84% 39%; /* Keep secondary green */
   --secondary-foreground: 0 0% 98%;
-  --accent: 265 85% 70%; /* Purple accent */
+  --accent: 0 85% 60%; /* Dark red accent */
   --accent-foreground: 0 0% 98%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 265 85% 60%; /* Purple ring */
+  --ring: 0 85% 50%; /* Dark red ring */
   --radius: 0.75rem;
 }
 
 .dark {
-  --background: 240 40% 10%; /* #0f0f23 - Dark purple background */
+  --background: 240 40% 10%; /* #0f0f23 - Dark background */
   --foreground: 210 40% 98%; /* #f8fafc - Light text */
   --muted: 240 40% 13%; /* #1a1a35 - Slightly lighter for subtle contrast */
   --muted-foreground: 215 20% 65%; /* #94a3b8 - Light gray */
@@ -151,15 +151,15 @@ html {
   --card-foreground: 210 40% 98%; /* Light text */
   --border: 240 30% 20%; /* #2a2a45 - Subtle border */
   --input: 240 40% 13%; /* #1a1a35 - Slightly lighter for inputs */
-  --primary: 265 85% 60%; /* Purple primary */
+  --primary: 0 85% 50%; /* Dark red primary */
   --primary-foreground: 0 0% 100%; /* Pure white */
   --secondary: 160 84% 39%; /* Keep secondary green */
   --secondary-foreground: 0 0% 100%; /* Pure white */
-  --accent: 265 85% 70%; /* Purple accent */
+  --accent: 0 85% 60%; /* Dark red accent */
   --accent-foreground: 0 0% 100%; /* Pure white */
   --destructive: 0 84% 60%; /* Red */
   --destructive-foreground: 0 0% 100%; /* Pure white */
-  --ring: 265 85% 60%; /* Purple ring */
+  --ring: 0 85% 50%; /* Dark red ring */
 }
 
 /* Mobile-specific styles for Capacitor */
@@ -559,7 +559,7 @@ html, body {
     background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(160 84% 50%) 100%);
   }
 
-  .card-gradient-purple {
+  .card-gradient-red {
     background: linear-gradient(135deg, hsl(271 81% 56%) 0%, hsl(271 81% 66%) 100%);
   }
 

@@ -156,8 +156,8 @@ export default function AdminUserPasswords() {
                       onClick={() => setSelectedUserId(user.id)}
                       className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
                         selectedUserId === user.id
-                          ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
-                          : "border-gray-200 dark:border-gray-700 hover:border-purple-300"
+                          ? "border-red-500 bg-red-50 dark:bg-red-900/20"
+                          : "border-gray-200 dark:border-gray-700 hover:border-red-300"
                       }`}
                     >
                       <div className="flex items-center justify-between">
@@ -199,11 +199,11 @@ export default function AdminUserPasswords() {
                 </div>
               ) : (
                 <form onSubmit={handleResetPassword} className="space-y-4">
-                  <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                    <h4 className="font-medium text-purple-900 dark:text-purple-100 mb-2">
+                  <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                    <h4 className="font-medium text-red-900 dark:text-red-100 mb-2">
                       Selected User
                     </h4>
-                    <div className="text-sm text-purple-700 dark:text-purple-300">
+                    <div className="text-sm text-red-700 dark:text-red-300">
                       <div><strong>Name:</strong> {selectedUser.firstName} {selectedUser.lastName}</div>
                       <div><strong>Username:</strong> @{selectedUser.username}</div>
                       <div><strong>Email:</strong> {selectedUser.email}</div>
@@ -247,7 +247,7 @@ export default function AdminUserPasswords() {
                   <Button
                     type="submit"
                     disabled={resetPasswordMutation.isPending}
-                    className="w-full bg-purple-600 hover:bg-purple-700"
+                    className="w-full bg-red-600 hover:bg-red-700"
                   >
                     {resetPasswordMutation.isPending ? (
                       <>Resetting...</>

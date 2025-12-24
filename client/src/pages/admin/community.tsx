@@ -108,11 +108,11 @@ export default function AdminCommunity() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900 relative overflow-hidden">
       
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 dark:bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-300 dark:bg-red-600 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-70 animate-blob"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-300 dark:bg-pink-600 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
       </div>
 
@@ -136,7 +136,7 @@ export default function AdminCommunity() {
           
           <Dialog open={isEventDialogOpen} onOpenChange={setIsEventDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800">
+              <Button className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800">
                 <Plus className="h-4 w-4 mr-2" />
                 Create Event
               </Button>
@@ -218,7 +218,7 @@ export default function AdminCommunity() {
           
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <MessageSquare className="h-6 w-6 text-purple-600 mx-auto mb-2" />
+              <MessageSquare className="h-6 w-6 text-red-600 mx-auto mb-2" />
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.totalDiscussions || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Discussions</p>
             </CardContent>
@@ -359,7 +359,7 @@ export default function AdminCommunity() {
               ) : (
                 contributors.slice(0, 6).map((contributor: any, index: number) => (
                   <div key={contributor.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                    <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                       {index + 1}
                     </div>
                     <div className="flex-1">

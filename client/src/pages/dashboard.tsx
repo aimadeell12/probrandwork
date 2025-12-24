@@ -82,7 +82,7 @@ export default function Dashboard() {
             {/* User Greeting - Fixed */}
             <div className="flex items-center justify-between px-4 lg:px-6 py-4 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-lg">
                     {getFirstName().charAt(0)}
                   </span>
@@ -92,7 +92,7 @@ export default function Dashboard() {
                     HELLO {getFirstName()}
                   </h1>
                   <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                    HAPPY TO SEE YOU <Heart className="h-4 w-4 text-purple-500 fill-purple-500" />
+                    HAPPY TO SEE YOU <Heart className="h-4 w-4 text-red-500 fill-red-500" />
                   </p>
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default function Dashboard() {
             {/* Account/Card Toggle - Fixed */}
             <div className="px-4 lg:px-6 mb-2 lg:mb-0 lg:mt-4">
               <div className="bg-gray-200 dark:bg-muted rounded-full p-1 flex lg:max-w-md lg:mx-auto">
-                <Button className="flex-1 rounded-full py-2 px-4 text-sm font-medium bg-purple-500 text-white">
+                <Button className="flex-1 rounded-full py-2 px-4 text-sm font-medium bg-red-500 text-white">
                   ACCOUNT
                 </Button>
                 <Button 
@@ -157,12 +157,12 @@ export default function Dashboard() {
                   </p>
                 </div>
                 
-                <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+                <div className="bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
-                    <Clock className="h-4 w-4 text-purple-600" />
-                    <p className="text-xs text-purple-600 font-medium">Pending</p>
+                    <Clock className="h-4 w-4 text-red-600" />
+                    <p className="text-xs text-red-600 font-medium">Pending</p>
                   </div>
-                  <p className="text-lg font-bold text-purple-700 dark:text-purple-400">
+                  <p className="text-lg font-bold text-red-700 dark:text-red-400">
                     {isBalanceVisible ? `${pendingBalance.toLocaleString()} USD` : '*******'}
                   </p>
                 </div>
@@ -185,8 +185,8 @@ export default function Dashboard() {
               <div className="grid grid-cols-4 lg:grid-cols-8 gap-4">
                 <Link href={kycStatus?.isVerified ? "/send" : "#"}>
                   <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <div className="w-16 h-16 bg-purple-100/80 dark:bg-purple-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
-                      <ArrowUpRight className="h-6 w-6 text-purple-600 dark:text-purple-300" />
+                    <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <ArrowUpRight className="h-6 w-6 text-red-600 dark:text-red-300" />
                     </div>
                     <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">Send</span>
                   </div>
@@ -194,8 +194,8 @@ export default function Dashboard() {
 
                 <Link href={kycStatus?.isVerified ? "/deposit" : "#"}>
                   <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <div className="w-16 h-16 bg-purple-100/80 dark:bg-purple-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
-                      <ArrowDownLeft className="h-6 w-6 text-purple-600 dark:text-purple-300" />
+                    <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <ArrowDownLeft className="h-6 w-6 text-red-600 dark:text-red-300" />
                     </div>
                     <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">Deposit</span>
                   </div>
@@ -203,8 +203,8 @@ export default function Dashboard() {
 
                 <Link href={kycStatus?.isVerified ? "/withdraw" : "#"}>
                   <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <div className="w-16 h-16 bg-purple-100/80 dark:bg-purple-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
-                      <Banknote className="h-6 w-6 text-purple-600 dark:text-purple-300" />
+                    <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <Banknote className="h-6 w-6 text-red-600 dark:text-red-300" />
                     </div>
                     <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">Withdraw</span>
                   </div>
@@ -212,8 +212,8 @@ export default function Dashboard() {
 
                 <Link href={kycStatus?.isVerified ? "/services" : "#"}>
                   <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <div className="w-16 h-16 bg-purple-100/80 dark:bg-purple-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
-                      <Grid3X3 className="h-6 w-6 text-purple-600 dark:text-purple-300" />
+                    <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <Grid3X3 className="h-6 w-6 text-red-600 dark:text-red-300" />
                     </div>
                     <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">More</span>
                   </div>
@@ -226,10 +226,10 @@ export default function Dashboard() {
               <div className="mb-6 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm lg:p-6 lg:mx-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-purple-600" />
+                    <Clock className="h-5 w-5 text-red-600" />
                     <h3 className="text-base lg:text-lg font-semibold text-gray-900 dark:text-white">Pending Funds</h3>
                   </div>
-                  <Badge variant="secondary" className="bg-purple-100 text-purple-700">
+                  <Badge variant="secondary" className="bg-red-100 text-red-700">
                     {pendingBalances.length} pending
                   </Badge>
                 </div>
@@ -242,7 +242,7 @@ export default function Dashboard() {
                     const isAvailableNow = daysLeft === 0;
                     
                     return (
-                      <div key={pending.id} className={`p-3 rounded-lg border ${isAvailableNow ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800' : 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800'}`}>
+                      <div key={pending.id} className={`p-3 rounded-lg border ${isAvailableNow ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800' : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800'}`}>
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <p className="font-medium text-gray-900 dark:text-white text-sm mb-1">
@@ -261,7 +261,7 @@ export default function Dashboard() {
                             </p>
                           </div>
                           <div className="text-right">
-                            <p className={`font-bold text-sm ${isAvailableNow ? 'text-green-700 dark:text-green-400' : 'text-purple-700 dark:text-purple-400'}`}>
+                            <p className={`font-bold text-sm ${isAvailableNow ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'}`}>
                               +${parseFloat(pending.amount).toLocaleString()}
                             </p>
                             <p className="text-xs text-gray-500 dark:text-gray-400">

@@ -25,7 +25,7 @@ export default function SidebarNavigation() {
       <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
         {!isCollapsed && (
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-600 to-blue-600 flex items-center justify-center">
               <span className="text-white font-bold text-sm">PD</span>
             </div>
             <span className="font-bold text-lg text-gray-900 dark:text-white">AppsPay</span>
@@ -46,7 +46,7 @@ export default function SidebarNavigation() {
       {!isCollapsed && user && (
         <div className="p-4 border-b border-gray-200 dark:border-gray-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-blue-600 flex items-center justify-center">
               <span className="text-white font-semibold">
                 {user.firstName?.[0]}{user.lastName?.[0]}
               </span>
@@ -74,7 +74,7 @@ export default function SidebarNavigation() {
               <div
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all ${
                   isActive
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
+                    ? 'bg-gradient-to-r from-red-600 to-blue-600 text-white shadow-lg'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                 }`}
                 data-testid={`nav-${item.path.slice(1)}`}

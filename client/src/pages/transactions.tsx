@@ -118,7 +118,7 @@ export default function Transactions() {
                 placeholder="Search transactions..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white dark:bg-background border-gray-200 dark:border-border focus:border-gray-400 dark:focus:border-purple-500 rounded-2xl"
+                className="pl-10 bg-white dark:bg-background border-gray-200 dark:border-border focus:border-gray-400 dark:focus:border-red-500 rounded-2xl"
               />
             </div>
 
@@ -138,7 +138,7 @@ export default function Transactions() {
                   onClick={() => setSelectedFilter(filter.key)}
                   className={`whitespace-nowrap text-xs px-3 py-2 min-w-0 flex-shrink-0 ${
                     selectedFilter === filter.key 
-                      ? "bg-purple-500 text-white shadow-lg"
+                      ? "bg-red-500 text-white shadow-lg"
                       : "bg-white dark:bg-background border border-gray-200 dark:border-border hover:bg-gray-50 dark:hover:bg-muted"
                   }`}
                 >

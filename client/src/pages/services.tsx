@@ -97,10 +97,10 @@ export default function Services() {
     return (
       <Link href={service.href}>
         <div className="text-center cursor-pointer group">
-          <div className="w-16 h-16 lg:w-24 lg:h-24 bg-purple-100/80 dark:bg-purple-900/40 rounded-full flex items-center justify-center mb-2 lg:mb-4 shadow-sm mx-auto group-hover:shadow-md group-hover:bg-purple-200/80 dark:group-hover:bg-purple-800/60 transition-all duration-300 transform group-hover:scale-110">
-            <Icon className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+          <div className="w-16 h-16 lg:w-24 lg:h-24 bg-red-100/80 dark:bg-red-900/40 rounded-full flex items-center justify-center mb-2 lg:mb-4 shadow-sm mx-auto group-hover:shadow-md group-hover:bg-red-200/80 dark:group-hover:bg-red-800/60 transition-all duration-300 transform group-hover:scale-110">
+            <Icon className="h-6 w-6 lg:h-8 lg:w-8 text-red-600 dark:text-red-400" />
           </div>
-          <span className="text-xs lg:text-sm text-gray-700 dark:text-gray-300 font-medium block group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors">
+          <span className="text-xs lg:text-sm text-gray-700 dark:text-gray-300 font-medium block group-hover:text-red-600 dark:group-hover:text-red-300 transition-colors">
             {service.title}
           </span>
         </div>
@@ -118,7 +118,7 @@ export default function Services() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300"
+            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -132,7 +132,7 @@ export default function Services() {
           <h2 className="text-lg lg:text-xl font-bold text-gray-900 dark:text-white mb-4 lg:mb-6 px-2 lg:px-0">
             Popular
           </h2>
-          <div className="bg-gradient-to-br from-purple-50/50 to-blue-50/50 dark:from-purple-900/10 dark:to-blue-900/10 rounded-2xl lg:rounded-3xl p-6 lg:p-10">
+          <div className="bg-gradient-to-br from-red-50/50 to-blue-50/50 dark:from-red-900/10 dark:to-blue-900/10 rounded-2xl lg:rounded-3xl p-6 lg:p-10">
             <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-8">
               {popularServices.map((service, index) => (
                 <ServiceCard key={index} service={service} />

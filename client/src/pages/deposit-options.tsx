@@ -106,8 +106,8 @@ export default function DepositOptions() {
               onClick={() => handleMethodSelect(method)}
               className={`w-full p-4 rounded-xl transition-all duration-200 flex items-center space-x-4 ${
                 selectedMethod === method.id
-                  ? "bg-[#1a1a35] border-2 border-purple-500 shadow-lg shadow-purple-500/20"
-                  : "bg-[#1a1a35]/80 border-2 border-[#2a2a45] hover:border-purple-400/50"
+                  ? "bg-[#1a1a35] border-2 border-red-500 shadow-lg shadow-red-500/20"
+                  : "bg-[#1a1a35]/80 border-2 border-[#2a2a45] hover:border-red-400/50"
               }`}
               data-testid={`button-method-${method.id}`}
             >
@@ -124,7 +124,7 @@ export default function DepositOptions() {
         <div className="px-4 mt-8">
           <button
             onClick={handleContinue}
-            className="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition-colors"
+            className="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl transition-colors"
             data-testid="button-continue"
           >
             Continue

@@ -94,12 +94,12 @@ export default function PublicCheckoutPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-200/15 to-pink-200/15 dark:from-purple-800/20 dark:to-pink-800/20 rounded-full blur-xl"></div>
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 dark:from-blue-800/15 dark:to-purple-800/15 rounded-full blur-xl"></div>
+        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-red-200/15 to-pink-200/15 dark:from-red-800/20 dark:to-pink-800/20 rounded-full blur-xl"></div>
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-200/10 to-red-200/10 dark:from-blue-800/15 dark:to-red-800/15 rounded-full blur-xl"></div>
         <Card className="w-full max-w-md sm:max-w-lg relative z-10 shadow-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800">
           <CardContent className="pt-8 pb-8">
             <div className="flex items-center justify-center">
-              <Loader2 className="w-8 h-8 animate-spin text-purple-600 dark:text-purple-400" />
+              <Loader2 className="w-8 h-8 animate-spin text-red-600 dark:text-red-400" />
             </div>
           </CardContent>
         </Card>
@@ -110,8 +110,8 @@ export default function PublicCheckoutPage() {
   if (error || !paymentLink) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-200/15 to-pink-200/15 dark:from-purple-800/20 dark:to-pink-800/20 rounded-full blur-xl"></div>
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 dark:from-blue-800/15 dark:to-purple-800/15 rounded-full blur-xl"></div>
+        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-red-200/15 to-pink-200/15 dark:from-red-800/20 dark:to-pink-800/20 rounded-full blur-xl"></div>
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-200/10 to-red-200/10 dark:from-blue-800/15 dark:to-red-800/15 rounded-full blur-xl"></div>
         <Card className="w-full max-w-md sm:max-w-lg border-red-200 dark:border-red-800 shadow-lg relative z-10 dark:bg-gray-800">
           <CardHeader className="text-center space-y-3 pt-8">
             <div className="flex justify-center">
@@ -132,8 +132,8 @@ export default function PublicCheckoutPage() {
   if (paymentLink.status !== 'active') {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-200/15 to-pink-200/15 dark:from-purple-800/20 dark:to-pink-800/20 rounded-full blur-xl"></div>
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 dark:from-blue-800/15 dark:to-purple-800/15 rounded-full blur-xl"></div>
+        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-red-200/15 to-pink-200/15 dark:from-red-800/20 dark:to-pink-800/20 rounded-full blur-xl"></div>
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-200/10 to-red-200/10 dark:from-blue-800/15 dark:to-red-800/15 rounded-full blur-xl"></div>
         <Card className="w-full max-w-md sm:max-w-lg border-orange-200 dark:border-orange-800 shadow-lg relative z-10 dark:bg-gray-800">
           <CardHeader className="text-center space-y-3 pt-8">
             <div className="flex justify-center">
@@ -153,8 +153,8 @@ export default function PublicCheckoutPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center p-4 sm:p-6 md:p-8 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-purple-200/15 to-pink-200/15 dark:from-purple-800/20 dark:to-pink-800/20 rounded-full blur-xl"></div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-tr from-blue-200/10 to-purple-200/10 dark:from-blue-800/15 dark:to-purple-800/15 rounded-full blur-xl"></div>
+      <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-red-200/15 to-pink-200/15 dark:from-red-800/20 dark:to-pink-800/20 rounded-full blur-xl"></div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-tr from-blue-200/10 to-red-200/10 dark:from-blue-800/15 dark:to-red-800/15 rounded-full blur-xl"></div>
       
       <Card className="w-full max-w-md sm:max-w-lg shadow-xl border border-gray-200 dark:border-gray-700 relative z-10 dark:bg-gray-800">
         <CardHeader className="text-center space-y-3 pt-8 pb-20 px-6 sm:px-8">

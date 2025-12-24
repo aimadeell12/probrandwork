@@ -331,7 +331,7 @@ export default function Register() {
       <div className="mobile-safe-area" />
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-purple-200/15 to-pink-200/15 dark:from-purple-500/5 dark:to-pink-500/5 rounded-full blur-xl"></div>
+      <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-red-200/15 to-pink-200/15 dark:from-red-500/5 dark:to-pink-500/5 rounded-full blur-xl"></div>
       
       {/* Header */}
       <div className="flex-none pt-1 pb-1 sm:pt-2 sm:pb-2 md:pt-4 md:pb-3 px-3 sm:px-4 md:px-6 lg:px-8 relative z-10">
@@ -365,7 +365,7 @@ export default function Register() {
                 type="text"
                 value={formData.firstName}
                 onChange={(e) => handleInputChange('firstName', e.target.value)}
-                className="w-full h-11 sm:h-12 md:h-14 mt-2 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-purple-500 focus:ring-purple-500 bg-white dark:bg-background text-base md:text-lg"
+                className="w-full h-11 sm:h-12 md:h-14 mt-2 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-red-500 focus:ring-red-500 bg-white dark:bg-background text-base md:text-lg"
                 placeholder={t('enterFirstName')}
                 required
               />
@@ -381,7 +381,7 @@ export default function Register() {
                 type="text"
                 value={formData.lastName}
                 onChange={(e) => handleInputChange('lastName', e.target.value)}
-                className="w-full h-11 sm:h-12 md:h-14 mt-2 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-purple-500 focus:ring-purple-500 bg-white dark:bg-background text-base md:text-lg"
+                className="w-full h-11 sm:h-12 md:h-14 mt-2 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-red-500 focus:ring-red-500 bg-white dark:bg-background text-base md:text-lg"
                 placeholder={t('enterLastName')}
                 required
               />
@@ -397,7 +397,7 @@ export default function Register() {
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className="w-full h-11 sm:h-12 md:h-14 mt-2 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-purple-500 focus:ring-purple-500 bg-white dark:bg-background text-base md:text-lg"
+                className="w-full h-11 sm:h-12 md:h-14 mt-2 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-red-500 focus:ring-red-500 bg-white dark:bg-background text-base md:text-lg"
                 placeholder={t('enterEmail')}
                 required
               />
@@ -455,7 +455,7 @@ export default function Register() {
                 type="password"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                className="w-full h-11 sm:h-12 md:h-14 mt-2 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-purple-500 focus:ring-purple-500 bg-white dark:bg-background text-base md:text-lg"
+                className="w-full h-11 sm:h-12 md:h-14 mt-2 rounded-lg sm:rounded-xl border-gray-200 dark:border-border focus:border-red-500 focus:ring-red-500 bg-white dark:bg-background text-base md:text-lg"
                 placeholder={t('enterPassword')}
                 required
               />
@@ -499,7 +499,7 @@ export default function Register() {
               <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm md:text-base">
                 {t('alreadyHaveAccount')}{' '}
                 <Link href="/login">
-                  <span className="text-purple-600 dark:text-purple-400 font-semibold hover:underline cursor-pointer">
+                  <span className="text-red-600 dark:text-red-400 font-semibold hover:underline cursor-pointer">
                     {t('signIn')}
                   </span>
                 </Link>

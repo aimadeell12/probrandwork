@@ -27,12 +27,12 @@ export default function ChooseCard() {
 
   const cardDesigns = {
     virtual: [
-      { id: "purple", name: "Classic Purple", gradient: "from-purple-600 to-purple-700" },
-      { id: "purple-pink", name: "Purple Gradient", gradient: "from-purple-500 to-pink-500" },
+      { id: "purple", name: "Classic Purple", gradient: "from-red-600 to-red-700" },
+      { id: "purple-pink", name: "Purple Gradient", gradient: "from-red-500 to-pink-500" },
     ],
     physical: [
-      { id: "classic-purple", name: "Classic Purple", gradient: "from-purple-600 to-purple-700" },
-      { id: "premium-purple", name: "Premium Purple", gradient: "from-purple-800 to-purple-900" },
+      { id: "classic-purple", name: "Classic Purple", gradient: "from-red-600 to-red-700" },
+      { id: "premium-purple", name: "Premium Purple", gradient: "from-red-800 to-red-900" },
     ]
   };
 
@@ -96,7 +96,7 @@ export default function ChooseCard() {
         <div className={cn(
           "relative w-full aspect-[1.6/1] rounded-xl p-3 transition-all duration-300 shadow-md",
           `bg-gradient-to-br ${design.gradient}`,
-          selectedDesign === design.id ? "ring-2 ring-purple-400 ring-offset-1 shadow-lg shadow-purple-200" : "hover:shadow-lg hover:shadow-purple-100"
+          selectedDesign === design.id ? "ring-2 ring-red-400 ring-offset-1 shadow-lg shadow-red-200" : "hover:shadow-lg hover:shadow-red-100"
         )}>
           {/* Card Icons */}
           <div className="flex justify-between items-start h-full">
@@ -118,8 +118,8 @@ export default function ChooseCard() {
           
           {/* Selection Indicator */}
           {selectedDesign === design.id && (
-            <div className="absolute -top-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-purple-400 transform scale-100 transition-transform duration-200">
-              <Check className="w-3 h-3 text-purple-600" />
+            <div className="absolute -top-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-red-400 transform scale-100 transition-transform duration-200">
+              <Check className="w-3 h-3 text-red-600" />
             </div>
           )}
         </div>
@@ -145,7 +145,7 @@ export default function ChooseCard() {
                 setLocation("/cards");
               }
             }}
-            className="flex items-center gap-2 text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+            className="flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
           >
             <ArrowLeft className="w-4 h-4" />
             Back
@@ -166,11 +166,11 @@ export default function ChooseCard() {
               <div className="flex-1 grid grid-cols-1 gap-4">
                 {/* Virtual Card Option */}
                 <div
-                  className="group relative p-4 bg-white rounded-2xl cursor-pointer hover:shadow-lg hover:shadow-purple-200 transition-all duration-300 border border-purple-100 hover:border-purple-300"
+                  className="group relative p-4 bg-white rounded-2xl cursor-pointer hover:shadow-lg hover:shadow-red-200 transition-all duration-300 border border-red-100 hover:border-red-300"
                   onClick={() => setSelectedCardType("virtual")}
                 >
                   <div className="relative text-center space-y-3">
-                    <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl flex items-center justify-center shadow-lg shadow-purple-200">
+                    <div className="w-16 h-16 mx-auto bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg shadow-red-200">
                       <Smartphone className="w-8 h-8 text-white" />
                     </div>
                     <div>
@@ -184,11 +184,11 @@ export default function ChooseCard() {
 
                 {/* Physical Card Option */}
                 <div
-                  className="group relative p-4 bg-white rounded-2xl cursor-pointer hover:shadow-lg hover:shadow-purple-200 transition-all duration-300 border border-purple-100 hover:border-purple-300"
+                  className="group relative p-4 bg-white rounded-2xl cursor-pointer hover:shadow-lg hover:shadow-red-200 transition-all duration-300 border border-red-100 hover:border-red-300"
                   onClick={() => setSelectedCardType("physical")}
                 >
                   <div className="relative text-center space-y-3">
-                    <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-700 to-purple-800 rounded-xl flex items-center justify-center shadow-lg shadow-purple-200">
+                    <div className="w-16 h-16 mx-auto bg-gradient-to-br from-red-700 to-red-800 rounded-xl flex items-center justify-center shadow-lg shadow-red-200">
                       <CreditCard className="w-8 h-8 text-white" />
                     </div>
                     <div>
@@ -223,7 +223,7 @@ export default function ChooseCard() {
               </div>
 
               {/* Step 3: Card Details Form */}
-              <div className="bg-white border border-purple-100 rounded-2xl p-4 flex-1">
+              <div className="bg-white border border-red-100 rounded-2xl p-4 flex-1">
                 <h3 className="text-lg font-bold mb-4 text-gray-900 text-center">Card Details</h3>
                 
                 <form onSubmit={handleSubmit} className="space-y-4 h-full flex flex-col">
@@ -234,7 +234,7 @@ export default function ChooseCard() {
                         value={formData.creditLimit} 
                         onValueChange={(value) => handleInputChange("creditLimit", value)}
                       >
-                        <SelectTrigger className="bg-white border-purple-200 focus:border-purple-500 h-10">
+                        <SelectTrigger className="bg-white border-red-200 focus:border-red-500 h-10">
                           <SelectValue placeholder="Select credit limit" />
                         </SelectTrigger>
                         <SelectContent>
@@ -253,7 +253,7 @@ export default function ChooseCard() {
                         value={formData.currency} 
                         onValueChange={(value) => handleInputChange("currency", value)}
                       >
-                        <SelectTrigger className="bg-white border-purple-200 focus:border-purple-500 h-10">
+                        <SelectTrigger className="bg-white border-red-200 focus:border-red-500 h-10">
                           <SelectValue placeholder="Select currency" />
                         </SelectTrigger>
                         <SelectContent>
@@ -271,14 +271,14 @@ export default function ChooseCard() {
                       type="button"
                       variant="outline"
                       onClick={() => setLocation("/cards")}
-                      className="flex-1 h-10 border-purple-200 text-purple-600 hover:bg-purple-50"
+                      className="flex-1 h-10 border-red-200 text-red-600 hover:bg-red-50"
                     >
                       Cancel
                     </Button>
                     <Button
                       type="submit"
                       disabled={createCardMutation.isPending}
-                      className="flex-1 h-10 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
+                      className="flex-1 h-10 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
                     >
                       {createCardMutation.isPending ? "Creating..." : "Create Card"}
                     </Button>

@@ -132,7 +132,7 @@ export default function CardholderTest() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <UserPlus className="h-5 w-5 text-purple-500" />
+                <UserPlus className="h-5 w-5 text-red-500" />
                 بيانات Cardholder للاختبار
               </CardTitle>
               <CardDescription>
@@ -237,7 +237,7 @@ export default function CardholderTest() {
               <Button 
                 onClick={testCardholderCreation}
                 disabled={isLoading}
-                className="w-full bg-purple-500 hover:bg-purple-600"
+                className="w-full bg-red-500 hover:bg-red-600"
               >
                 {isLoading ? 'جاري الإنشاء...' : 'إنشاء Cardholder'}
               </Button>

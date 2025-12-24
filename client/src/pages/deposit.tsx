@@ -16,7 +16,7 @@ export default function Deposit() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-purple-500/20 text-gray-400 hover:text-white"
+            className="p-2 hover:bg-red-500/20 text-gray-400 hover:text-white"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -34,7 +34,7 @@ export default function Deposit() {
           <div className="space-y-3 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
             {/* Credit Card Option */}
             <div 
-              className="p-4 rounded-xl border-2 cursor-pointer transition-all border-purple-500 bg-[#1a1a35] shadow-lg shadow-purple-500/20"
+              className="p-4 rounded-xl border-2 cursor-pointer transition-all border-red-500 bg-[#1a1a35] shadow-lg shadow-red-500/20"
               onClick={() => setLocation("/deposit/card")}
               data-testid="button-deposit-card"
             >
@@ -51,7 +51,7 @@ export default function Deposit() {
 
             {/* Bank Transfer Option */}
             <div 
-              className="p-4 rounded-xl border-2 cursor-pointer transition-all border-[#2a2a45] bg-[#1a1a35]/80 hover:border-purple-400/50"
+              className="p-4 rounded-xl border-2 cursor-pointer transition-all border-[#2a2a45] bg-[#1a1a35]/80 hover:border-red-400/50"
               onClick={() => setLocation("/bank-transfer")}
               data-testid="button-deposit-bank"
             >
