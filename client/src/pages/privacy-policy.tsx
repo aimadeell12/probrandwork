@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">1. Introduction</h2>
             <p className="text-sm leading-relaxed">
-              Welcome to AppsPay Merchant ("we," "us," "our," or "Company"). We are committed to protecting your privacy and ensuring you have a positive experience on our platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, mobile application, and other online services.
+              PayDota ("we," "us," "our," or "Company") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
             </p>
           </section>
 
@@ -53,20 +53,32 @@ export default function PrivacyPolicy() {
             
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-4 mb-2">A. Personal Information You Provide</h3>
             <ul className="list-disc list-inside text-sm space-y-1 ml-2">
-              <li>Name, email address, phone number</li>
-              <li>Account credentials and identification documents</li>
+              <li>Full name and email address</li>
+              <li>Phone number</li>
+              <li>Account credentials and passwords</li>
+              <li>Identification documents for verification purposes</li>
               <li>Payment card information and bank account details</li>
-              <li>Address and date of birth</li>
+              <li>Home address and date of birth</li>
               <li>Communication preferences</li>
             </ul>
 
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-4 mb-2">B. Information Collected Automatically</h3>
             <ul className="list-disc list-inside text-sm space-y-1 ml-2">
-              <li>Device information (type, operating system, unique identifiers)</li>
-              <li>Usage data (features accessed, pages visited, time spent)</li>
-              <li>Location information (with your permission)</li>
-              <li>IP address and browser information</li>
-              <li>Cookies and similar tracking technologies</li>
+              <li>Device information (type, model, operating system version, unique device identifiers)</li>
+              <li>Usage data (features accessed, pages visited, time spent, click patterns)</li>
+              <li>Location information (only with your explicit permission)</li>
+              <li>IP address and network information</li>
+              <li>Browser type and version</li>
+              <li>Crash logs and error reports</li>
+            </ul>
+
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-4 mb-2">C. Permissions We Request</h3>
+            <ul className="list-disc list-inside text-sm space-y-1 ml-2">
+              <li><strong>Location:</strong> To provide location-based services and transaction processing</li>
+              <li><strong>Camera:</strong> To capture identification documents for account verification</li>
+              <li><strong>Contacts:</strong> To help you identify and contact other users (optional)</li>
+              <li><strong>Storage:</strong> To save transaction receipts and account information locally</li>
+              <li><strong>Network:</strong> To process transactions and communicate with our servers</li>
             </ul>
           </section>
 
@@ -75,14 +87,16 @@ export default function PrivacyPolicy() {
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">3. How We Use Your Information</h2>
             <p className="text-sm leading-relaxed mb-2">We use the collected information for the following purposes:</p>
             <ul className="list-disc list-inside text-sm space-y-1 ml-2">
-              <li>Providing and maintaining our wallet and payment services</li>
-              <li>Processing transactions and payments</li>
+              <li>Providing and maintaining wallet and payment services</li>
+              <li>Processing transactions and payments securely</li>
               <li>Verifying your identity and preventing fraud</li>
-              <li>Complying with legal and regulatory requirements</li>
+              <li>Complying with legal, tax, and regulatory requirements</li>
               <li>Improving our services and user experience</li>
-              <li>Sending transactional and promotional communications</li>
+              <li>Sending transactional notifications and security alerts</li>
               <li>Responding to your inquiries and customer support requests</li>
-              <li>Analyzing usage patterns and trends</li>
+              <li>Analyzing usage patterns to detect abuse</li>
+              <li>Conducting anti-money laundering (AML) checks</li>
+              <li>Protecting against unauthorized access and cyber attacks</li>
             </ul>
           </section>
 
@@ -90,15 +104,21 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">4. Data Security</h2>
             <p className="text-sm leading-relaxed">
-              We implement comprehensive security measures to protect your personal information, including:
+              We implement industry-standard security measures to protect your personal information:
             </p>
             <ul className="list-disc list-inside text-sm space-y-1 ml-2 mt-2">
-              <li>256-bit encryption for sensitive data transmission</li>
-              <li>Secure servers and firewalls</li>
-              <li>Regular security audits and penetration testing</li>
-              <li>Restricted access to personal information</li>
-              <li>PCI DSS compliance for payment processing</li>
+              <li>256-bit AES encryption for sensitive data in transit and at rest</li>
+              <li>Secure HTTPS/TLS connections for all communications</li>
+              <li>PCI DSS Level 1 compliance for payment card processing</li>
+              <li>Secure servers with firewalls and intrusion detection</li>
+              <li>Regular security audits and vulnerability assessments</li>
+              <li>Restricted access to personal information (principle of least privilege)</li>
+              <li>Multi-factor authentication for account access</li>
+              <li>Secure password storage using industry-standard hashing</li>
             </ul>
+            <p className="text-sm leading-relaxed mt-3">
+              However, no method of transmission over the internet is 100% secure. While we strive to protect your information, we cannot guarantee absolute security.
+            </p>
           </section>
 
           {/* Sharing of Information */}
@@ -108,35 +128,40 @@ export default function PrivacyPolicy() {
               We may share your information with:
             </p>
             <ul className="list-disc list-inside text-sm space-y-1 ml-2 mt-2">
-              <li>Payment processors and financial institutions</li>
-              <li>Service providers and contractors</li>
+              <li>Payment processors and financial institutions (necessary for transactions)</li>
+              <li>Service providers and vendors who assist us in operating the app</li>
               <li>Law enforcement and regulatory authorities (when required by law)</li>
-              <li>Business partners with your consent</li>
+              <li>Banks and payment networks for transaction processing</li>
+              <li>Fraud prevention and identity verification services</li>
             </ul>
             <p className="text-sm leading-relaxed mt-3">
-              We do not sell or rent your personal information to third parties.
+              <strong>We do not sell, rent, or share your personal information with third parties for marketing purposes.</strong> We do not share your information without your consent, except where required by law.
             </p>
           </section>
 
           {/* Your Privacy Rights */}
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">6. Your Privacy Rights</h2>
-            <p className="text-sm leading-relaxed mb-2">You have the right to:</p>
+            <p className="text-sm leading-relaxed mb-2">Depending on your location, you have the following rights:</p>
             <ul className="list-disc list-inside text-sm space-y-1 ml-2">
-              <li>Access your personal information</li>
-              <li>Correct inaccurate information</li>
-              <li>Request deletion of your data</li>
-              <li>Opt-out of marketing communications</li>
-              <li>Request a copy of your information</li>
-              <li>Lodge a complaint with regulatory authorities</li>
+              <li>Right to access your personal information</li>
+              <li>Right to correct or update inaccurate information</li>
+              <li>Right to delete your account and associated data</li>
+              <li>Right to opt-out of marketing communications</li>
+              <li>Right to download your data in a portable format</li>
+              <li>Right to lodge a complaint with data protection authorities</li>
+              <li>Right to withdraw consent for data processing</li>
             </ul>
+            <p className="text-sm leading-relaxed mt-3">
+              To exercise these rights, please contact us using the information in the "Contact Us" section.
+            </p>
           </section>
 
           {/* Cookies and Tracking */}
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">7. Cookies and Tracking Technologies</h2>
             <p className="text-sm leading-relaxed">
-              We use cookies and similar technologies to enhance your experience, remember your preferences, and analyze usage patterns. You can control cookie settings through your browser preferences.
+              We use cookies and similar technologies to enhance your experience, remember your preferences, and analyze usage patterns. You can control cookie settings through your device or app settings. Some features may not function properly if you disable cookies.
             </p>
           </section>
 
@@ -144,15 +169,15 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">8. Children's Privacy</h2>
             <p className="text-sm leading-relaxed">
-              Our services are not intended for individuals under 18 years of age. We do not knowingly collect personal information from children. If we become aware of such collection, we will promptly delete the information.
+              Our services are not intended for individuals under 18 years of age. We do not knowingly collect personal information from children. If we become aware of personal information collected from a child, we will immediately delete such information and take appropriate actions.
             </p>
           </section>
 
-          {/* International Data Transfer */}
+          {/* Third-Party Services */}
           <section>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">9. International Data Transfer</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">9. Third-Party Services</h2>
             <p className="text-sm leading-relaxed">
-              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws that differ from your home country. By using AppsPay Merchant, you consent to such transfers.
+              Our app may contain links to third-party websites and services. We are not responsible for the privacy practices of these third parties. We encourage you to review their privacy policies before providing personal information.
             </p>
           </section>
 
@@ -160,15 +185,15 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">10. Data Retention</h2>
             <p className="text-sm leading-relaxed">
-              We retain your personal information for as long as necessary to provide our services, comply with legal obligations, and resolve disputes. The retention period may vary depending on the type of information and its purpose.
+              We retain your personal information for as long as necessary to provide our services and comply with legal obligations. Transaction records are retained according to financial regulations. You may request deletion of your data at any time, subject to legal and regulatory requirements.
             </p>
           </section>
 
-          {/* Third-Party Links */}
+          {/* International Data Transfer */}
           <section>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">11. Third-Party Links</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">11. International Data Transfer</h2>
             <p className="text-sm leading-relaxed">
-              Our platform may contain links to third-party websites. We are not responsible for their privacy practices. We encourage you to review their privacy policies before providing personal information.
+              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws different from your home country. By using PayDota, you consent to such transfers. We ensure appropriate safeguards are in place for all international transfers.
             </p>
           </section>
 
@@ -176,7 +201,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">12. Changes to This Privacy Policy</h2>
             <p className="text-sm leading-relaxed">
-              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our platform. Your continued use of AppsPay Merchant following the posting of revised Privacy Policy means that you accept and agree to the changes.
+              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our app. Your continued use of PayDota following the posting of changes means you accept the updated policy.
             </p>
           </section>
 
@@ -184,29 +209,29 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">13. Contact Us</h2>
             <p className="text-sm leading-relaxed mb-4">
-              If you have questions about this Privacy Policy or our privacy practices, please contact us at:
+              If you have questions about this Privacy Policy, our privacy practices, or wish to exercise your privacy rights, please contact us:
             </p>
             <div className="bg-red-50/50 dark:bg-red-900/20 border border-red-200/50 dark:border-red-700/50 rounded-lg p-4 text-sm mt-3 space-y-3">
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Email:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">support@appsfondation.com</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">privacy@paydota.com</p>
               </div>
               <div className="flex flex-col gap-1">
-                <strong className="text-gray-900 dark:text-white">Phone:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">+19134278757</p>
+                <strong className="text-gray-900 dark:text-white">Support:</strong>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">support@paydota.com</p>
               </div>
               <div className="flex flex-col gap-1">
-                <strong className="text-gray-900 dark:text-white">Address:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">AppsPay Merchant</p>
+                <strong className="text-gray-900 dark:text-white">Response Time:</strong>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">We will respond to privacy inquiries within 30 days</p>
               </div>
             </div>
           </section>
 
-          {/* Compliance Notice */}
+          {/* Legal Compliance */}
           <section className="bg-yellow-50/50 dark:bg-yellow-900/20 border border-yellow-200/50 dark:border-yellow-700/50 rounded-lg p-4 mt-6">
-            <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-300 mb-2">Compliance Notice</h3>
+            <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-300 mb-2">Legal Compliance</h3>
             <p className="text-sm text-yellow-900 dark:text-yellow-200">
-              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, and other international privacy laws. By using AppsPay Merchant, you acknowledge that you have read and agree to this Privacy Policy.
+              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, HIPAA, and other international privacy laws. PayDota operates in compliance with app store privacy requirements and financial services regulations. By using PayDota, you acknowledge that you have read and agree to this Privacy Policy.
             </p>
           </section>
 
