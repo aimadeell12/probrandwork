@@ -245,7 +245,7 @@ export default function Support() {
                   <Mail className="text-primary h-5 w-5" />
                   <div>
                     <p className="font-medium text-foreground">{t('emailLabel')}</p>
-                    <p className="text-sm text-muted-foreground">support@probrandify.org</p>
+                    <p className="text-sm text-muted-foreground">support@appspay.org</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 space-x-reverse">

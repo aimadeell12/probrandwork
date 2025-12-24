@@ -253,7 +253,7 @@ export default function WhatsAppSettings() {
                     id="verifyToken"
                     value={formData.verifyToken}
                     onChange={(e) => setFormData(prev => ({ ...prev, verifyToken: e.target.value }))}
-                    placeholder="probrandify_webhook_verify_token_2025"
+                    placeholder="appspay_webhook_verify_token_2025"
                   />
                 </div>
 

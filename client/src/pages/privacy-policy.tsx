@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">1. Introduction</h2>
             <p className="text-sm leading-relaxed">
-              Welcome to PROBRANDIFY ("we," "us," "our," or "Company"). We are committed to protecting your privacy and ensuring you have a positive experience on our platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, mobile application, and other online services.
+              Welcome to AppsPay Merchant ("we," "us," "our," or "Company"). We are committed to protecting your privacy and ensuring you have a positive experience on our platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, mobile application, and other online services.
             </p>
           </section>
 
@@ -152,7 +152,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">9. International Data Transfer</h2>
             <p className="text-sm leading-relaxed">
-              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws that differ from your home country. By using PROBRANDIFY, you consent to such transfers.
+              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws that differ from your home country. By using AppsPay Merchant, you consent to such transfers.
             </p>
           </section>
 
@@ -176,7 +176,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">12. Changes to This Privacy Policy</h2>
             <p className="text-sm leading-relaxed">
-              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our platform. Your continued use of PROBRANDIFY following the posting of revised Privacy Policy means that you accept and agree to the changes.
+              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our platform. Your continued use of AppsPay Merchant following the posting of revised Privacy Policy means that you accept and agree to the changes.
             </p>
           </section>
 
@@ -189,7 +189,7 @@ export default function PrivacyPolicy() {
             <div className="bg-red-50/50 dark:bg-red-900/20 border border-red-200/50 dark:border-red-700/50 rounded-lg p-4 text-sm mt-3 space-y-3">
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Email:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">Support@probrandify.org</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">Support@appspay.org</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Phone:</strong>
@@ -197,7 +197,7 @@ export default function PrivacyPolicy() {
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Address:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">PROBRANDIFY LLC</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">AppsPay Merchant</p>
               </div>
             </div>
           </section>
@@ -206,7 +206,7 @@ export default function PrivacyPolicy() {
           <section className="bg-yellow-50/50 dark:bg-yellow-900/20 border border-yellow-200/50 dark:border-yellow-700/50 rounded-lg p-4 mt-6">
             <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-300 mb-2">Compliance Notice</h3>
             <p className="text-sm text-yellow-900 dark:text-yellow-200">
-              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, and other international privacy laws. By using PROBRANDIFY, you acknowledge that you have read and agree to this Privacy Policy.
+              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, and other international privacy laws. By using AppsPay Merchant, you acknowledge that you have read and agree to this Privacy Policy.
             </p>
           </section>
 

@@ -128,7 +128,7 @@ export default function About() {
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white text-sm">Contact</h4>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                Email: Support@probrandify.org<br />
+                Email: Support@appspay.org<br />
                 Phone: +19138024746
               </p>
             </div>

@@ -126,7 +126,7 @@ export default function AdminUserPasswords() {
             User Password Management
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Reset and manage user passwords for the PROBRANDIFY platform
+            Reset and manage user passwords for the AppsPay Merchant platform
           </p>
         </div>
 
