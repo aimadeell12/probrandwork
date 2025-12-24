@@ -47,6 +47,8 @@ import PriorityCards from "@/pages/cards/priority";
 import ChooseCard from "@/pages/choose-card";
 import WhatsAppSettings from "@/pages/whatsapp-settings";
 
+import KYCVerification from "@/pages/kyc-verification-new";
+import KycManagement from "@/pages/kyc-management";
 import AdminNavigation from "@/components/admin-navigation";
 import UserManagement from "@/pages/admin/users";
 import SystemReports from "@/pages/admin/reports";
@@ -85,12 +87,13 @@ function Router() {
   }, [location]);
 
   // صفحات التي يجب إخفاء الشريط السفلي منها
-  const hiddenNavPages = [
+  const kycPages = [
+    '/kyc-verification',
     '/choose-card'
   ];
 
-  // إخفاء الشريط السفلي في صفحات روابط الدفع
-  const shouldHideBottomNav = hiddenNavPages.includes(location) || 
+  // إخفاء الشريط السفلي في صفحات روابط الدفع وصفحات KYC
+  const shouldHideBottomNav = kycPages.includes(location) || 
                                location.startsWith('/pay/') || 
                                location.startsWith('/checkout/');
 
@@ -188,6 +191,8 @@ function Router() {
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/transactions" component={Transactions} />
             <Route path="/edit-profile" component={EditProfile} />
+            <Route path="/kyc-verification" component={KYCVerification} />
+            <Route path="/kyc-management" component={KycManagement} />
             <Route path="/bank-transfer" component={BankTransfer} />
             <Route path="/binance-pay" component={BinancePay} />
             <Route path="/services" component={Services} />

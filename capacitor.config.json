@@ -1,6 +1,6 @@
 {
   "appId": "com.paydota.banking",
-  "appName": "PRO BRAND WORKS",
+  "appName": "PayDota",
   "webDir": "dist/public",
   "server": {
     "url": "https://probrandify.org",
@@ -11,7 +11,7 @@
     "SplashScreen": {
       "launchShowDuration": 2000,
       "launchAutoHide": true,
-      "backgroundColor": "#0f0a19",
+      "backgroundColor": "#9333EA",
       "androidSplashResourceName": "splash",
       "androidScaleType": "CENTER_CROP",
       "showSpinner": false,
@@ -19,13 +19,13 @@
       "splashImmersive": true
     },
     "StatusBar": {
-      "style": "light",
-      "backgroundColor": "#0f0a19",
+      "style": "dark",
+      "backgroundColor": "#ffffff",
       "overlaysWebView": false
     },
     "NavigationBar": {
-      "backgroundColor": "#0f0a19",
-      "navigationBarColor": "#0f0a19"
+      "backgroundColor": "#FFFFFF",
+      "navigationBarColor": "#FFFFFF"
     },
     "Keyboard": {
       "resize": "ionic",

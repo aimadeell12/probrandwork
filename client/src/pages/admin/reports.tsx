@@ -17,14 +17,23 @@ import {
 import { Link } from "wouter";
 
 export default function SystemReports() {
+  // Fetch KYC stats
+  const { data: kycStats } = useQuery({
+    queryKey: ["/api/admin/kyc"],
+  });
+
   // Fetch users data
   const { data: usersData } = useQuery({
     queryKey: ["/api/admin/users"],
   });
 
+  const totalKyc = kycStats?.length || 0;
+  const pendingKyc = kycStats?.filter((k: any) => k.status === 'pending').length || 0;
+  const approvedKyc = kycStats?.filter((k: any) => k.status === 'approved').length || 0;
+  const rejectedKyc = kycStats?.filter((k: any) => k.status === 'rejected').length || 0;
+  
   const totalUsers = usersData?.length || 0;
   const adminUsers = usersData?.filter((u: any) => u.role === 'admin').length || 0;
-  const activeUsers = usersData?.filter((u: any) => u.isActive !== false).length || 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900">
@@ -82,8 +91,8 @@ export default function SystemReports() {
                   <Shield className="h-4 w-4 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Active Users</p>
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">{activeUsers}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">KYC Approved</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">{approvedKyc}</p>
                 </div>
               </div>
             </CardContent>
@@ -96,8 +105,8 @@ export default function SystemReports() {
                   <Activity className="h-4 w-4 text-orange-600 dark:text-orange-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Admin Users</p>
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">{adminUsers}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Pending</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">{pendingKyc}</p>
                 </div>
               </div>
             </CardContent>
@@ -106,20 +115,71 @@ export default function SystemReports() {
           <Card>
             <CardContent className="p-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
-                  <CreditCard className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                  <CreditCard className="h-4 w-4 text-red-600 dark:text-red-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Transactions</p>
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">0</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Rejected</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">{rejectedKyc}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* System Activity */}
+        {/* KYC Status Overview */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                KYC Verification Status
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <span className="font-medium text-gray-900 dark:text-white">Approved</span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{approvedKyc}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {totalKyc > 0 ? Math.round((approvedKyc / totalKyc) * 100) : 0}% of total
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                    <span className="font-medium text-gray-900 dark:text-white">Pending</span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{pendingKyc}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {totalKyc > 0 ? Math.round((pendingKyc / totalKyc) * 100) : 0}% of total
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <span className="font-medium text-gray-900 dark:text-white">Rejected</span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{rejectedKyc}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {totalKyc > 0 ? Math.round((rejectedKyc / totalKyc) * 100) : 0}% of total
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -134,12 +194,18 @@ export default function SystemReports() {
                   <Badge variant="secondary">{totalUsers}</Badge>
                 </div>
                 <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Active Users</span>
-                  <Badge variant="secondary">{activeUsers}</Badge>
-                </div>
-                <div className="flex items-center justify-between py-2">
                   <span className="text-sm text-gray-600 dark:text-gray-400">Admin Users</span>
                   <Badge variant="secondary">{adminUsers}</Badge>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Total KYC</span>
+                  <Badge variant="secondary">{totalKyc}</Badge>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Approval Rate</span>
+                  <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                    {totalKyc > 0 ? Math.round((approvedKyc / totalKyc) * 100) : 0}%
+                  </Badge>
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-sm text-gray-600 dark:text-gray-400">System Status</span>

@@ -84,12 +84,12 @@ export default function PriorityCards() {
     });
   };
 
-  const bgColor = '#0f0a19';
-  const cardBg = '#1a1230';
-  const borderColor = '#2a2040';
-
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: bgColor }}>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
       
       <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10">
         
@@ -99,11 +99,11 @@ export default function PriorityCards() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 text-purple-400 hover:bg-purple-500/20"
+            className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
             Priority Cards
           </h1>
         </div>
@@ -124,8 +124,9 @@ export default function PriorityCards() {
             return (
               <Card 
                 key={plan.id} 
-                className={`border relative ${plan.popular ? 'ring-2 ring-purple-500' : ''}`}
-                style={{ backgroundColor: cardBg, borderColor: borderColor }}
+                className={`bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 relative ${
+                  plan.popular ? 'ring-2 ring-purple-500' : ''
+                }`}
               >
                 {plan.popular && (
                   <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-purple-600">
@@ -136,19 +137,19 @@ export default function PriorityCards() {
                   <div className={`w-16 h-16 bg-gradient-to-r ${plan.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
                     <Icon className="h-8 w-8 text-white" />
                   </div>
-                  <CardTitle className="text-white">{plan.name}</CardTitle>
-                  <div className="text-3xl font-bold text-white">
+                  <CardTitle className="text-gray-900 dark:text-white">{plan.name}</CardTitle>
+                  <div className="text-3xl font-bold text-gray-900 dark:text-white">
                     ${plan.price}
-                    <span className="text-sm font-normal text-gray-400">/month</span>
+                    <span className="text-sm font-normal text-gray-600 dark:text-gray-400">/month</span>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-white">Features:</h4>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">Features:</h4>
                     <ul className="space-y-1">
                       {plan.features.map((feature, index) => (
-                        <li key={index} className="flex items-center gap-2 text-sm text-gray-400">
-                          <Check className="h-4 w-4 text-green-400" />
+                        <li key={index} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                          <Check className="h-4 w-4 text-green-500" />
                           {feature}
                         </li>
                       ))}
@@ -156,8 +157,8 @@ export default function PriorityCards() {
                   </div>
                   
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-white">Limits:</h4>
-                    <div className="text-sm text-gray-400 space-y-1">
+                    <h4 className="font-semibold text-gray-900 dark:text-white">Limits:</h4>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                       <p>Daily: {plan.limits.dailyLimit}</p>
                       <p>Monthly: {plan.limits.monthlyLimit}</p>
                       <p>Transfer Fee: {plan.limits.transferFee}</p>
@@ -169,8 +170,8 @@ export default function PriorityCards() {
                     disabled={selectedPlan === plan.id}
                     className={`w-full ${
                       plan.popular 
-                        ? 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 shadow-lg shadow-purple-500/30'
-                        : 'bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-500 hover:to-gray-600'
+                        ? 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'
+                        : 'bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800'
                     }`}
                   >
                     {selectedPlan === plan.id ? 'Application Submitted' : 'Apply Now'}
@@ -182,67 +183,65 @@ export default function PriorityCards() {
         </div>
 
         {/* Benefits Overview */}
-        <Card className="border mb-6" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
+        <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 mb-6">
           <CardHeader>
-            <CardTitle className="text-white">Priority Benefits</CardTitle>
+            <CardTitle className="text-gray-900 dark:text-white">Priority Benefits</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
-                <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Phone className="h-6 w-6 text-blue-400" />
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Phone className="h-6 w-6 text-blue-600" />
                 </div>
-                <h3 className="font-semibold text-white text-sm">24/7 Support</h3>
-                <p className="text-xs text-gray-400">Priority phone & chat</p>
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm">24/7 Support</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Priority phone & chat</p>
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Zap className="h-6 w-6 text-green-400" />
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Zap className="h-6 w-6 text-green-600" />
                 </div>
-                <h3 className="font-semibold text-white text-sm">Fast Processing</h3>
-                <p className="text-xs text-gray-400">Instant transfers</p>
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Fast Processing</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Instant transfers</p>
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Globe className="h-6 w-6 text-purple-400" />
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Globe className="h-6 w-6 text-purple-600" />
                 </div>
-                <h3 className="font-semibold text-white text-sm">Global Access</h3>
-                <p className="text-xs text-gray-400">Worldwide benefits</p>
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Global Access</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Worldwide benefits</p>
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <CreditCard className="h-6 w-6 text-yellow-400" />
+                <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <CreditCard className="h-6 w-6 text-yellow-600" />
                 </div>
-                <h3 className="font-semibold text-white text-sm">Premium Cards</h3>
-                <p className="text-xs text-gray-400">Exclusive designs</p>
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Premium Cards</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Exclusive designs</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Contact Information */}
-        <Card className="border" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
+        <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
           <CardHeader>
-            <CardTitle className="text-white">Need Help Choosing?</CardTitle>
+            <CardTitle className="text-gray-900 dark:text-white">Need Help Choosing?</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-400 mb-4">
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               Our priority specialists are available to help you select the perfect plan for your needs.
             </p>
             <div className="flex gap-4">
               <Button 
                 variant="outline"
                 onClick={() => setLocation("/support")}
-                className="border-[#2a2040] text-gray-300 hover:bg-purple-500/20"
               >
                 Contact Specialist
               </Button>
               <Button 
                 variant="outline"
-                className="border-[#2a2040] text-gray-300 hover:bg-purple-500/20"
               >
                 Schedule Consultation
               </Button>

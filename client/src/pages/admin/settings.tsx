@@ -157,6 +157,40 @@ export default function AdminSettings() {
             </CardContent>
           </Card>
 
+          {/* KYC Settings */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Database className="h-5 w-5" />
+                KYC Settings
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label className="text-sm font-medium">Auto-Approve KYC</Label>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Automatically approve simple verifications</p>
+                </div>
+                <Switch
+                  checked={settings.autoApproveKyc}
+                  onCheckedChange={(checked) => handleSettingChange('autoApproveKyc', checked)}
+                />
+              </div>
+
+              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Warning</p>
+                    <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                      Auto-approval reduces security. Use with caution.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Notification Settings */}
           <Card>
             <CardHeader>

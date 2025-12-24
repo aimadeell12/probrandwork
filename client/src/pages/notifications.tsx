@@ -124,25 +124,25 @@ export default function Notifications() {
     return <NotificationsSkeleton />;
   }
 
-  const bgColor = '#0f0a19';
-  const cardBg = '#1a1230';
-  const borderColor = '#2a2040';
-
   return (
-    <div className="min-h-screen relative overflow-hidden pb-20" style={{ backgroundColor: bgColor }}>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden pb-20">
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="p-4 relative z-10" style={{ backgroundColor: bgColor, borderBottom: `1px solid ${borderColor}` }}>
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
         <div className="flex items-center space-x-4 space-x-reverse">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/account")}
-            className="p-2 text-purple-400 hover:bg-purple-500/20"
+            className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
             الإشعارات
           </h1>
         </div>
@@ -150,17 +150,17 @@ export default function Notifications() {
 
       <div className="p-4 space-y-6 relative z-10">
         {/* Delivery Preferences */}
-        <Card className="border shadow-xl" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-base text-white">Delivery Preferences</CardTitle>
+            <CardTitle className="text-base">Delivery Preferences</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3 space-x-reverse">
-                <Mail className="h-5 w-5 text-purple-400" />
+                <Mail className="h-5 w-5 text-gray-400" />
                 <div>
-                  <p className="font-medium text-white">Email Notifications</p>
-                  <p className="text-sm text-gray-400">Receive notifications via email</p>
+                  <p className="font-medium">Email Notifications</p>
+                  <p className="text-sm text-gray-500">Receive notifications via email</p>
                 </div>
               </div>
               <Switch
@@ -171,10 +171,10 @@ export default function Notifications() {
             
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3 space-x-reverse">
-                <Bell className="h-5 w-5 text-purple-400" />
+                <Bell className="h-5 w-5 text-gray-400" />
                 <div>
-                  <p className="font-medium text-white">Push Notifications</p>
-                  <p className="text-sm text-gray-400">Browser and app notifications</p>
+                  <p className="font-medium">Push Notifications</p>
+                  <p className="text-sm text-gray-500">Browser and app notifications</p>
                 </div>
               </div>
               <Switch
@@ -185,10 +185,10 @@ export default function Notifications() {
             
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3 space-x-reverse">
-                <MessageSquare className="h-5 w-5 text-purple-400" />
+                <MessageSquare className="h-5 w-5 text-gray-400" />
                 <div>
-                  <p className="font-medium text-white">SMS Notifications</p>
-                  <p className="text-sm text-gray-400">Text message alerts</p>
+                  <p className="font-medium">SMS Notifications</p>
+                  <p className="text-sm text-gray-500">Text message alerts</p>
                 </div>
               </div>
               <Switch
@@ -203,10 +203,10 @@ export default function Notifications() {
         {notificationGroups.map((group) => {
           const Icon = group.icon;
           return (
-            <Card key={group.title} className="border shadow-sm" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
+            <Card key={group.title} className="border-0 shadow-sm bg-white dark:bg-gray-900">
               <CardHeader>
-                <CardTitle className="text-base flex items-center space-x-2 space-x-reverse text-white">
-                  <Icon className="h-5 w-5 text-purple-400" />
+                <CardTitle className="text-base flex items-center space-x-2 space-x-reverse">
+                  <Icon className="h-5 w-5" />
                   <span>{group.title}</span>
                 </CardTitle>
               </CardHeader>
@@ -214,8 +214,8 @@ export default function Notifications() {
                 {group.settings.map((setting) => (
                   <div key={setting.key} className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-white">{setting.title}</p>
-                      <p className="text-sm text-gray-400">{setting.description}</p>
+                      <p className="font-medium">{setting.title}</p>
+                      <p className="text-sm text-gray-500">{setting.description}</p>
                     </div>
                     <Switch
                       checked={notificationSettings[setting.key]}
@@ -229,15 +229,16 @@ export default function Notifications() {
         })}
 
         {/* Quick Actions */}
-        <Card className="border shadow-sm" style={{ backgroundColor: cardBg, borderColor: borderColor }}>
+        <Card className="border-0 shadow-sm bg-white dark:bg-gray-900">
           <CardHeader>
-            <CardTitle className="text-base text-white">Quick Actions</CardTitle>
+            <CardTitle className="text-base">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <Button 
               variant="outline" 
-              className="w-full justify-start border-[#2a2040] text-gray-300 hover:bg-purple-500/20"
+              className="w-full justify-start"
               onClick={() => {
+                // Enable all essential notifications
                 setNotificationSettings(prev => ({
                   ...prev,
                   transactionAlerts: true,
@@ -258,8 +259,9 @@ export default function Notifications() {
             
             <Button 
               variant="outline" 
-              className="w-full justify-start border-[#2a2040] text-gray-300 hover:bg-purple-500/20"
+              className="w-full justify-start"
               onClick={() => {
+                // Disable all marketing notifications
                 setNotificationSettings(prev => ({
                   ...prev,
                   promotions: false,

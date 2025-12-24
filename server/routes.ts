@@ -9,7 +9,7 @@ import { binancePayService } from "./binance";
 import { whatsappService } from "./whatsapp";
 import { otpService } from "./otp";
 import { flutterwaveService } from "./flutterwave";
-import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema, insertPaymentLinkSchema, insertGiftCardPurchaseSchema } from "@shared/schema";
+import { insertCardSchema, insertSupportTicketSchema, insertNotificationSchema, insertNotificationSettingsSchema, kycVerificationFormSchema, insertKycVerificationSchema, insertPaymentLinkSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
@@ -1486,10 +1486,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/wallet/send", requireAuth, async (req: any, res) => {
     try {
       const userId = req.session?.userId;
-      if (!userId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-      
       const { amount, recipient, type, note } = req.body;
       
       if (!amount || amount <= 0) {
@@ -1500,58 +1496,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Recipient is required" });
       }
 
-      // Check wallet balance first
-      const currentBalance = await storage.getWalletBalance(userId);
-      if (currentBalance < amount) {
-        return res.status(400).json({ 
-          message: "Insufficient balance",
-          currentBalance,
-          requiredAmount: amount
-        });
+      // Get user's primary card
+      const cards = await storage.getCardsByUserId(userId);
+      if (cards.length === 0) {
+        return res.status(400).json({ message: "No card found for sending" });
       }
 
-      // Deduct from wallet balance
-      const newBalance = currentBalance - amount;
-      await storage.updateWalletBalance(userId, newBalance);
-      
-      console.log(`💸 Transfer: User ${userId} sent ${amount}. Balance: ${currentBalance} -> ${newBalance}`);
-
-      // Get user's primary card for transaction record (create virtual card if none exists)
-      let cards = await storage.getCardsByUserId(userId);
-      let primaryCard = cards[0];
-      
-      if (!primaryCard) {
-        // Create a virtual internal card for transaction tracking
-        primaryCard = await storage.createCard({
-          userId,
-          type: "virtual",
-          holderName: "Internal Wallet",
-          brand: "visa",
-          status: "active",
-          currency: "USD",
-          design: "default",
-          expiryMonth: 12,
-          expiryYear: new Date().getFullYear() + 5
-        });
-      }
+      const primaryCard = cards[0];
 
       // Create transaction record
       await storage.createTransaction({
         cardId: primaryCard.id,
-        amount: (-amount).toString(),
-        currency: "USD",
+        amount: -amount, // Negative for sending
         type: "transfer",
         description: `Transfer to ${recipient}${note ? `: ${note}` : ''}`,
         status: "completed",
-        merchant: "Transfer System",
+        merchantName: "Transfer System",
       });
 
       res.json({
         success: true,
         message: "Transfer sent successfully",
         amount: amount,
-        recipient: recipient,
-        newBalance: newBalance
+        recipient: recipient
       });
     } catch (error) {
       console.error("Error processing transfer:", error);
@@ -4502,85 +4469,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         message: error.message || 'Failed to verify deposit',
       });
-    }
-  });
-
-  // Gift Card endpoints
-  app.get("/api/gift-cards", (req, res) => {
-    const giftCards = [
-      { id: 1, denomination: 10, name: "$10 Visa Gift Card" },
-      { id: 2, denomination: 25, name: "$25 Visa Gift Card" },
-      { id: 3, denomination: 50, name: "$50 Visa Gift Card" },
-      { id: 4, denomination: 100, name: "$100 Visa Gift Card" },
-      { id: 5, denomination: 250, name: "$250 Visa Gift Card" },
-      { id: 6, denomination: 500, name: "$500 Visa Gift Card" },
-    ];
-    res.json(giftCards);
-  });
-
-  app.post("/api/gift-cards/purchase", requireAuth, async (req: any, res) => {
-    try {
-      const userId = req.session?.userId;
-      if (!userId) {
-        return res.status(401).json({ message: "Not authenticated" });
-      }
-
-      const { denomination, quantity } = req.body;
-      
-      if (!denomination || !quantity || quantity < 1) {
-        return res.status(400).json({ message: "Invalid denomination or quantity" });
-      }
-
-      const totalAmount = denomination * quantity;
-      const user = await storage.getUser(userId);
-      const balance = parseFloat(user?.walletBalance?.toString() || "0");
-
-      if (balance < totalAmount) {
-        return res.status(400).json({ message: "Insufficient balance" });
-      }
-
-      const purchase = await storage.createGiftCardPurchase({
-        userId,
-        denomination: denomination.toString(),
-        quantity,
-        totalAmount: totalAmount.toString(),
-        currency: "USD",
-        status: "pending",
-        notes: `${quantity}x $${denomination} Visa Gift Cards`
-      });
-
-      await storage.updateWalletBalance(userId, balance - totalAmount);
-      await storage.createNotification({
-        userId,
-        title: "Gift Card Purchase",
-        message: `Your ${quantity}x $${denomination} gift card purchase is pending admin confirmation.`,
-        type: "purchase",
-        status: "unread"
-      });
-
-      res.json({
-        success: true,
-        purchase,
-        message: "Gift card purchase submitted. Please wait for admin to provide card numbers."
-      });
-    } catch (error: any) {
-      console.error("Gift card purchase error:", error);
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  app.get("/api/gift-cards/purchases", requireAuth, async (req: any, res) => {
-    try {
-      const userId = req.session?.userId;
-      if (!userId) {
-        return res.status(401).json({ message: "Not authenticated" });
-      }
-
-      const purchases = await storage.getGiftCardPurchasesByUserId(userId);
-      res.json(purchases);
-    } catch (error: any) {
-      console.error("Error fetching gift card purchases:", error);
-      res.status(500).json({ message: error.message });
     }
   });
 

@@ -202,7 +202,7 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       <div className={`relative z-10 pt-4 px-6 pb-4 h-full flex flex-col ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>
         {/* Top Section - Brand Name */}
         <div className="mb-4">
-          <h2 className={`text-lg font-bold tracking-wide ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>PRO BRAND WORKS</h2>
+          <h2 className={`text-lg font-bold tracking-wide ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>PROBRANDIFY</h2>
         </div>
 
         {/* Card Number Section with Toggle */}

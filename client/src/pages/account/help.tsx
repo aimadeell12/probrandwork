@@ -72,7 +72,7 @@ export default function Help() {
     },
     {
       question: "How can I contact customer support?",
-      answer: "You can reach us through live chat, email (Support@prodigitalbrand.com), or phone (+17198864637) 24/7."
+      answer: "You can reach us through live chat, email (support@bankapp.com), or phone (+1-800-BANK-HELP) 24/7."
     }
   ];
 

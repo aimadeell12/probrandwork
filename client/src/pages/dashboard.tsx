@@ -1,443 +1,350 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Bell, Menu, ChevronDown, ChevronRight, Building2, Wallet, Check } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Minus, ArrowRight, QrCode, ChevronDown, Info, Gift, Bell, Crown, Grid3X3, AlertTriangle, CreditCard, Wallet, Settings, Activity, TrendingUp, Eye, EyeOff, Copy, Send, Smartphone, DollarSign, PiggyBank, Zap, Shield, MapPin, Clock, MoreHorizontal, ArrowUpRight, ArrowDownLeft, Building2, Banknote, Heart, FileText } from "lucide-react";
+import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useNativeInteractions } from "@/hooks/useNativeInteractions";
 import NotificationCenter from "@/components/notification-center";
-import { useLocation, Link } from "wouter";
-import { useToast } from "@/hooks/use-toast";
-
-interface ExchangeRate {
-  id: string;
-  fromCurrency: string;
-  toCurrency: string;
-  rate: string;
-  lastUpdated: string;
-}
+import PullToRefresh from "@/components/pull-to-refresh";
+import KycWarning from "@/components/kyc-warning";
 
 export default function Dashboard() {
   const { t } = useLanguage();
-  const [, setLocation] = useLocation();
-  const { toast } = useToast();
   const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState(false);
-  const [sendAmount, setSendAmount] = useState("0.00");
-  const [sendCurrency, setSendCurrency] = useState("USD");
-  const [receiveCurrency, setReceiveCurrency] = useState("EUR");
-  const [showSendCurrencyDropdown, setShowSendCurrencyDropdown] = useState(false);
-  const [showReceiveCurrencyDropdown, setShowReceiveCurrencyDropdown] = useState(false);
+  const [isBalanceVisible, setIsBalanceVisible] = useState(true);
+  const queryClient = useQueryClient();
+  const { triggerHaptic } = useNativeInteractions();
   
-  const { data: userInfo } = useQuery<any>({
+  // Fetch user info
+  const { data: userInfo } = useQuery({
     queryKey: ["/api/auth/user"],
   });
-
-  const { data: notificationsData } = useQuery<any>({
-    queryKey: ["/api/notifications/unread-count"],
-  });
-
-  const { data: walletData } = useQuery<any>({
+  
+  const { data: walletData } = useQuery({
     queryKey: ["/api/wallet/balance"],
   });
 
-  const { data: exchangeRates } = useQuery<ExchangeRate[]>({
-    queryKey: ["/api/currency/rates"],
+  // Fetch pending balances
+  const { data: pendingBalances = [], isLoading: pendingLoading } = useQuery({
+    queryKey: ["/api/wallet/pending-balances"],
   });
 
-  const unreadCount = notificationsData?.count || 0;
-  const walletBalance = walletData?.balance || 0;
+  // Fetch unread notifications count
+  const { data: notificationsData } = useQuery({
+    queryKey: ["/api/notifications/unread-count"],
+  });
 
+  // Fetch recent transactions
+  const { data: transactions = [], isLoading: transactionsLoading } = useQuery({
+    queryKey: ["/api/transactions"],
+  });
+
+  // Fetch KYC status
+  const { data: kycStatus } = useQuery({
+    queryKey: ["/api/user/kyc-status"],
+  });
+
+  const balance = walletData?.balance || 0;
+  const pendingBalance = walletData?.pendingBalance || 0;
+  const unreadCount = notificationsData?.count || 0;
+
+  // Pull to refresh function
+  const handleRefresh = async () => {
+    triggerHaptic();
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] }),
+      queryClient.invalidateQueries({ queryKey: ["/api/wallet/balance"] }),
+      queryClient.invalidateQueries({ queryKey: ["/api/wallet/pending-balances"] }),
+      queryClient.invalidateQueries({ queryKey: ["/api/notifications/unread-count"] }),
+      queryClient.invalidateQueries({ queryKey: ["/api/transactions"] }),
+    ]);
+  };
+
+  // Get the first name from user info
   const getFirstName = () => {
     if (userInfo?.firstName) {
-      return userInfo.firstName;
+      return userInfo.firstName.toUpperCase();
     }
-    return "User";
+    return "USER";
   };
 
-  const currencies = [
-    { code: "USD", flag: "🇺🇸", symbol: "$", name: "US Dollar" },
-    { code: "EUR", flag: "🇪🇺", symbol: "€", name: "Euro" },
-    { code: "GBP", flag: "🇬🇧", symbol: "£", name: "British Pound" },
-    { code: "MAD", flag: "🇲🇦", symbol: "د.م", name: "Moroccan Dirham" },
-    { code: "AED", flag: "🇦🇪", symbol: "د.إ", name: "UAE Dirham" },
-    { code: "SAR", flag: "🇸🇦", symbol: "﷼", name: "Saudi Riyal" },
-  ];
-
-  const getSendCurrencyData = () => currencies.find(c => c.code === sendCurrency) || currencies[0];
-  const getReceiveCurrencyData = () => currencies.find(c => c.code === receiveCurrency) || currencies[1];
-
-  const getExchangeRate = (): { rate: number; found: boolean } => {
-    if (!exchangeRates || exchangeRates.length === 0) {
-      return { rate: 1.0, found: false };
-    }
-    
-    // Try direct rate first
-    const directRate = exchangeRates.find(
-      r => r.fromCurrency === sendCurrency && r.toCurrency === receiveCurrency
-    );
-    
-    if (directRate) {
-      return { rate: parseFloat(directRate.rate), found: true };
-    }
-    
-    // Try inverse rate
-    const inverseRate = exchangeRates.find(
-      r => r.fromCurrency === receiveCurrency && r.toCurrency === sendCurrency
-    );
-    
-    if (inverseRate) {
-      return { rate: 1 / parseFloat(inverseRate.rate), found: true };
-    }
-    
-    // Same currency
-    if (sendCurrency === receiveCurrency) {
-      return { rate: 1.0, found: true };
-    }
-    
-    return { rate: 1.0, found: false };
-  };
-
-  const rateInfo = getExchangeRate();
-  const exchangeRate = rateInfo.rate;
-  const hasValidRate = rateInfo.found;
-  const fee = 0;
-  const totalToPay = parseFloat(sendAmount) || 0;
-  const receiverGets = (totalToPay * exchangeRate).toFixed(2);
-
-  const handleContinue = () => {
-    const amount = parseFloat(sendAmount);
-    if (amount <= 0) {
-      toast({
-        title: "Invalid Amount",
-        description: "Please enter an amount greater than 0.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (amount > walletBalance) {
-      toast({
-        title: "Insufficient Balance",
-        description: `Your wallet balance is $${Number(walletBalance).toFixed(2)}. Please add funds.`,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!hasValidRate && sendCurrency !== receiveCurrency) {
-      toast({
-        title: "Exchange Rate Unavailable",
-        description: `Cannot find exchange rate for ${sendCurrency} to ${receiveCurrency}. Please try a different currency pair.`,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Navigate to send page with the amount pre-filled
-    setLocation(`/send?amount=${amount}&from=${sendCurrency}&to=${receiveCurrency}&rate=${exchangeRate}`);
-  };
-
-  const bgColor = '#0f0a19';
-  const cardBg = '#1a1230';
-  const inputBg = '#1f1730';
-  const borderColor = '#2a2040';
-
-  const handleSelectSendCurrency = (code: string) => {
-    setSendCurrency(code);
-    setShowSendCurrencyDropdown(false);
-    if (code === receiveCurrency) {
-      const other = currencies.find(c => c.code !== code);
-      if (other) setReceiveCurrency(other.code);
-    }
-  };
-
-  const handleSelectReceiveCurrency = (code: string) => {
-    setReceiveCurrency(code);
-    setShowReceiveCurrencyDropdown(false);
-    if (code === sendCurrency) {
-      const other = currencies.find(c => c.code !== code);
-      if (other) setSendCurrency(other.code);
-    }
-  };
+  // Remove skeleton loading - show dashboard immediately
 
   return (
-    <div 
-      className="h-screen overflow-hidden"
-      style={{ backgroundColor: bgColor }}
-    >
-      <div className="h-full flex flex-col overflow-hidden" style={{ backgroundColor: bgColor }}>
-        {/* Container wrapper for desktop */}
-        <div className="flex-1 max-w-2xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-6 overflow-y-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-2 sm:mb-4 lg:mb-6">
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="text-purple-400 hover:bg-purple-500/20 rounded-full w-9 h-9 sm:w-12 sm:h-12 flex-shrink-0"
-            >
-              <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
-            </Button>
-            
-            <h1 className="text-white font-bold text-lg sm:text-2xl lg:text-3xl">Send Money</h1>
-            
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="relative text-purple-400 hover:bg-purple-500/20 rounded-full w-9 h-9 sm:w-12 sm:h-12 flex-shrink-0"
-              onClick={() => setIsNotificationCenterOpen(true)}
-              data-testid="button-notifications"
-            >
-              <Bell className="w-5 h-5 sm:w-6 sm:h-6" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold text-[10px]">
-                  {unreadCount > 9 ? '9+' : unreadCount}
-                </span>
-              )}
-            </Button>
-          </div>
-
-          {/* Wallet Balance */}
-          <div className="mb-2 sm:mb-4 lg:mb-6">
-            <div 
-              className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-5 lg:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0"
-              style={{ backgroundColor: '#1a1f35', border: `1px solid ${borderColor}` }}
-            >
-              <div className="flex items-center gap-2 sm:gap-4 flex-1">
-                <div className="w-9 h-9 sm:w-14 sm:h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Wallet className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
+    <div className="h-screen bg-gray-50 dark:bg-background lg:h-auto lg:overflow-auto overflow-hidden pb-24 lg:pb-6">
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="h-full flex flex-col max-w-md lg:max-w-none mx-auto lg:p-6 overflow-hidden">
+          {/* Fixed Header Area */}
+          <div className="flex-shrink-0 bg-white dark:bg-background lg:bg-transparent lg:rounded-xl lg:p-4">
+            {/* User Greeting - Fixed */}
+            <div className="flex items-center justify-between px-4 lg:px-6 py-4 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">
+                    {getFirstName().charAt(0)}
+                  </span>
                 </div>
-                <div className="min-w-0">
-                  <p className="text-gray-400 text-xs sm:text-sm">Available Balance</p>
-                  <p className="text-white font-bold text-lg sm:text-2xl lg:text-3xl truncate" data-testid="text-wallet-balance">
-                    ${Number(walletBalance).toFixed(2)}
+                <div>
+                  <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    HELLO {getFirstName()}
+                  </h1>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                    HAPPY TO SEE YOU <Heart className="h-4 w-4 text-purple-500 fill-purple-500" />
                   </p>
                 </div>
               </div>
-              <Link href="/deposit" className="w-full sm:w-auto">
-                <Button 
-                  variant="outline" 
-                  className="border-purple-500 text-purple-400 hover:bg-purple-500/20 w-full sm:w-auto h-9 sm:h-12 text-xs sm:text-base px-3 sm:px-4"
-                  data-testid="button-add-funds"
-                >
-                  Add Funds
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-muted rounded-full"
+                onClick={() => setIsNotificationCenterOpen(true)}
+              >
+                <Bell className="h-5 w-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
+              </Button>
             </div>
-          </div>
 
+            {/* Account/Card Toggle - Fixed */}
+            <div className="px-4 lg:px-6 mb-2 lg:mb-0 lg:mt-4">
+              <div className="bg-gray-200 dark:bg-muted rounded-full p-1 flex lg:max-w-md lg:mx-auto">
+                <Button className="flex-1 rounded-full py-2 px-4 text-sm font-medium bg-purple-500 text-white">
+                  ACCOUNT
+                </Button>
+                <Button 
+                  variant="ghost"
+                  className="flex-1 rounded-full py-2 px-4 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-border"
+                >
+                  CARD
+                </Button>
+              </div>
+            </div>
 
-        {/* You Send Section */}
-        <div className="mb-2 sm:mb-4 lg:mb-6">
-          <div 
-            className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-6 lg:p-7"
-            style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
-          >
-            <p className="text-gray-400 text-xs sm:text-sm lg:text-base font-medium mb-1.5 sm:mb-4 lg:mb-5">You Send</p>
-            <div className="flex items-center justify-between gap-2 sm:gap-4">
-              <div className="flex items-center gap-1 flex-1 min-w-0">
-                <span className="text-purple-400 text-xl sm:text-4xl lg:text-5xl font-light flex-shrink-0">{getSendCurrencyData().symbol}</span>
-                <input
-                  type="text"
-                  value={sendAmount}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/[^0-9.]/g, '');
-                    setSendAmount(val);
-                  }}
-                  className="bg-transparent text-white text-xl sm:text-4xl lg:text-5xl font-semibold outline-none flex-1 min-w-0"
-                  placeholder="0.00"
-                  data-testid="input-send-amount"
-                />
+            {/* Balance Section - Fixed */}
+            <div className="mb-2 py-4 border-b border-gray-50 dark:border-border lg:border-0 lg:py-6 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm lg:mt-4 lg:mx-4">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <p className="text-gray-600 dark:text-gray-400 text-sm">Total Balance</p>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-muted rounded-full h-6 w-6"
+                  onClick={() => setIsBalanceVisible(!isBalanceVisible)}
+                >
+                  {isBalanceVisible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                </Button>
               </div>
               
-              <div className="relative flex-shrink-0">
-                <div 
-                  className="flex items-center gap-1 px-2 sm:px-4 py-1.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
-                  style={{ backgroundColor: inputBg, border: `1px solid ${borderColor}` }}
-                  onClick={() => setShowSendCurrencyDropdown(!showSendCurrencyDropdown)}
-                  data-testid="dropdown-send-currency"
-                >
-                  <span className="text-lg sm:text-3xl">{getSendCurrencyData().flag}</span>
-                  <span className="text-white font-medium text-xs sm:text-base hidden xs:inline">{sendCurrency}</span>
-                  <ChevronDown className="w-3 h-3 sm:w-5 sm:h-5 text-gray-400" />
+              <div className="text-center mb-3">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {isBalanceVisible ? `${(balance + pendingBalance).toLocaleString()} USD` : '******* USD'}
+                </h2>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3 px-4 mt-4">
+                <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Wallet className="h-4 w-4 text-green-600" />
+                    <p className="text-xs text-green-600 font-medium">Available</p>
+                  </div>
+                  <p className="text-lg font-bold text-green-700 dark:text-green-400">
+                    {isBalanceVisible ? `${balance.toLocaleString()} USD` : '*******'}
+                  </p>
                 </div>
                 
-                {showSendCurrencyDropdown && (
-                  <div 
-                    className="absolute right-0 top-full mt-2 z-50 rounded-xl overflow-hidden shadow-xl min-w-[180px]"
-                    style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
-                  >
-                    {currencies.map((c) => (
-                      <div
-                        key={c.code}
-                        className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-purple-500/20 transition-colors"
-                        onClick={() => handleSelectSendCurrency(c.code)}
-                        data-testid={`option-send-${c.code}`}
-                      >
-                        <span className="text-xl">{c.flag}</span>
-                        <div>
-                          <p className="text-white font-medium text-sm">{c.code}</p>
-                          <p className="text-gray-400 text-xs">{c.name}</p>
-                        </div>
-                        {c.code === sendCurrency && (
-                          <Check className="w-4 h-4 text-green-400 ml-auto" />
-                        )}
-                      </div>
-                    ))}
+                <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Clock className="h-4 w-4 text-purple-600" />
+                    <p className="text-xs text-purple-600 font-medium">Pending</p>
                   </div>
-                )}
+                  <p className="text-lg font-bold text-purple-700 dark:text-purple-400">
+                    {isBalanceVisible ? `${pendingBalance.toLocaleString()} USD` : '*******'}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Fee Details Section */}
-        <div className="mb-2 sm:mb-4 lg:mb-6">
-          <div 
-            className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-6 lg:p-7 space-y-2 sm:space-y-4 lg:space-y-6"
-            style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
-          >
-            {/* Fee */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 sm:gap-4">
-                <div className="w-6 h-6 sm:w-10 sm:h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-xs sm:text-base">✓</span>
-                </div>
-                <span className="text-gray-300 text-xs sm:text-base lg:text-lg">Fee</span>
+          {/* Fixed Content Area - Completely Static */}
+          <div className="flex-shrink-0 p-3 lg:p-0 lg:mt-6 overflow-hidden">
+            {/* KYC Warning */}
+            {kycStatus && !kycStatus.isVerified && (
+              <div className="mb-6 lg:mx-4">
+                <KycWarning status={kycStatus.status} message={kycStatus.message} />
               </div>
-              <span className="text-green-400 font-semibold text-xs sm:text-base lg:text-lg" data-testid="text-fee">FREE</span>
+            )}
+
+            {/* Quick Actions - Fixed */}
+            <div className="mb-6 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm lg:p-6 lg:mx-4">
+              <h3 className="hidden lg:block text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+              <div className="grid grid-cols-4 lg:grid-cols-8 gap-4">
+                <Link href={kycStatus?.isVerified ? "/send" : "#"}>
+                  <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    <div className="w-16 h-16 bg-purple-100/80 dark:bg-purple-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <ArrowUpRight className="h-6 w-6 text-purple-600 dark:text-purple-300" />
+                    </div>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">Send</span>
+                  </div>
+                </Link>
+
+                <Link href={kycStatus?.isVerified ? "/deposit" : "#"}>
+                  <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    <div className="w-16 h-16 bg-purple-100/80 dark:bg-purple-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <ArrowDownLeft className="h-6 w-6 text-purple-600 dark:text-purple-300" />
+                    </div>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">Deposit</span>
+                  </div>
+                </Link>
+
+                <Link href={kycStatus?.isVerified ? "/withdraw" : "#"}>
+                  <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    <div className="w-16 h-16 bg-purple-100/80 dark:bg-purple-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <Banknote className="h-6 w-6 text-purple-600 dark:text-purple-300" />
+                    </div>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">Withdraw</span>
+                  </div>
+                </Link>
+
+                <Link href={kycStatus?.isVerified ? "/services" : "#"}>
+                  <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    <div className="w-16 h-16 bg-purple-100/80 dark:bg-purple-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                      <Grid3X3 className="h-6 w-6 text-purple-600 dark:text-purple-300" />
+                    </div>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">More</span>
+                  </div>
+                </Link>
+              </div>
             </div>
 
-            {/* Total to pay */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 sm:gap-4">
-                <div className="w-6 h-6 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Wallet className="w-3 h-3 sm:w-5 sm:h-5 text-white" />
+            {/* Pending Balances Section */}
+            {pendingBalances.length > 0 && (
+              <div className="mb-6 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm lg:p-6 lg:mx-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-5 w-5 text-purple-600" />
+                    <h3 className="text-base lg:text-lg font-semibold text-gray-900 dark:text-white">Pending Funds</h3>
+                  </div>
+                  <Badge variant="secondary" className="bg-purple-100 text-purple-700">
+                    {pendingBalances.length} pending
+                  </Badge>
                 </div>
-                <span className="text-gray-300 text-xs sm:text-base lg:text-lg">Total to pay</span>
+                
+                <div className="space-y-3">
+                  {pendingBalances.map((pending: any) => {
+                    const releaseDate = new Date(pending.releaseDate);
+                    const now = new Date();
+                    const daysLeft = Math.max(0, Math.ceil((releaseDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+                    const isAvailableNow = daysLeft === 0;
+                    
+                    return (
+                      <div key={pending.id} className={`p-3 rounded-lg border ${isAvailableNow ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800' : 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800'}`}>
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <p className="font-medium text-gray-900 dark:text-white text-sm mb-1">
+                              {pending.description || 'Payment Link Transaction'}
+                            </p>
+                            <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                              <Clock className="h-3 w-3" />
+                              <span className={isAvailableNow ? 'text-green-600 dark:text-green-400 font-semibold' : ''}>
+                                {isAvailableNow
+                                  ? 'Releasing now...'
+                                  : `Available in ${daysLeft} day${daysLeft > 1 ? 's' : ''}`}
+                              </span>
+                            </div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              Release: {releaseDate.toLocaleDateString()}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className={`font-bold text-sm ${isAvailableNow ? 'text-green-700 dark:text-green-400' : 'text-purple-700 dark:text-purple-400'}`}>
+                              +${parseFloat(pending.amount).toLocaleString()}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              {pending.currency}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                
+                <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <div className="flex items-start gap-2">
+                    <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+                    <p className="text-xs text-blue-700 dark:text-blue-300">
+                      For your security, funds from payment links are held for 7 days before being released to your wallet.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <span className="text-white font-semibold text-xs sm:text-base lg:text-lg" data-testid="text-total">
-                {getSendCurrencyData().symbol}{totalToPay.toFixed(2)}
-              </span>
-            </div>
+            )}
 
-            {/* Rate */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 sm:gap-4">
-                <div className={`w-6 h-6 sm:w-10 sm:h-10 bg-gradient-to-br ${hasValidRate ? 'from-orange-400 to-orange-600' : 'from-red-400 to-red-600'} rounded-full flex items-center justify-center flex-shrink-0`}>
-                  <span className="text-white text-xs sm:text-base">{hasValidRate ? '≈' : '!'}</span>
-                </div>
-                <span className="text-gray-300 text-xs sm:text-base lg:text-lg">Rate</span>
+            {/* Recent Transactions - Fixed */}
+            <div className="pb-3 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm lg:p-6 lg:mx-4">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-base lg:text-lg font-semibold text-gray-900 dark:text-white">Recent transactions</h3>
+                <Link href="/transactions">
+                  <Button variant="ghost" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white flex items-center gap-1">
+                    See more
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
               </div>
-              {hasValidRate || sendCurrency === receiveCurrency ? (
-                <span className="text-white font-medium text-[10px] sm:text-sm lg:text-base" data-testid="text-rate">
-                  1 = {exchangeRate.toFixed(4)}
-                </span>
+
+              {transactionsLoading ? (
+                <div className="space-y-3">
+                  {[1, 2].map((i) => (
+                    <div key={i} className="animate-pulse flex items-center gap-3 p-3 bg-gray-50 dark:bg-muted rounded-lg">
+                      <div className="w-10 h-10 bg-gray-200 dark:bg-border rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="h-4 bg-gray-200 dark:bg-border rounded w-3/4 mb-2"></div>
+                        <div className="h-3 bg-gray-200 dark:bg-border rounded w-1/2"></div>
+                      </div>
+                      <div className="h-4 bg-gray-200 dark:bg-border rounded w-16"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : transactions.length > 0 ? (
+                <div className="space-y-3">
+                  {transactions.slice(0, 2).map((transaction: any) => (
+                    <div key={transaction.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-muted rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
+                          <Building2 className="h-5 w-5 text-red-600 dark:text-red-400" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900 dark:text-white text-sm">
+                            {transaction.merchant || transaction.description || 'معاملة مالية'}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            Invalid Date
+                          </p>
+                        </div>
+                      </div>
+                      <span className="font-semibold text-red-600 dark:text-red-400 text-sm">
+                        -${typeof transaction.amount === 'string' ? transaction.amount : (transaction.amount / 100)?.toFixed(2) || '0.00'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               ) : (
-                <span className="text-red-400 font-medium text-[10px] sm:text-sm lg:text-base" data-testid="text-rate-error">
-                  Unavailable
-                </span>
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                  <div className="w-16 h-16 bg-gray-100 dark:bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                    <FileText className="h-8 w-8 text-gray-400 dark:text-gray-600" />
+                  </div>
+                  <p className="text-sm">No recent transactions</p>
+                </div>
               )}
             </div>
           </div>
         </div>
-
-        {/* Receiver Gets Section */}
-        <div className="mb-2 sm:mb-4 lg:mb-6">
-          <div 
-            className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-6 lg:p-7"
-            style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
-          >
-            <p className="text-gray-400 text-xs sm:text-sm lg:text-base font-medium mb-1.5 sm:mb-4 lg:mb-5">Receiver Gets</p>
-            <div className="flex items-center justify-between gap-2 sm:gap-4">
-              <div className="flex items-center gap-1 flex-1 min-w-0">
-                <span className="text-purple-400 text-xl sm:text-4xl lg:text-5xl font-light flex-shrink-0">{getReceiveCurrencyData().symbol}</span>
-                <span className="text-white text-xl sm:text-4xl lg:text-5xl font-semibold truncate" data-testid="text-receiver-amount">{receiverGets}</span>
-              </div>
-              
-              <div className="relative flex-shrink-0">
-                <div 
-                  className="flex items-center gap-1 px-2 sm:px-4 py-1.5 sm:py-3 rounded-lg sm:rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
-                  style={{ backgroundColor: inputBg, border: `1px solid ${borderColor}` }}
-                  onClick={() => setShowReceiveCurrencyDropdown(!showReceiveCurrencyDropdown)}
-                  data-testid="dropdown-receive-currency"
-                >
-                  <span className="text-lg sm:text-3xl">{getReceiveCurrencyData().flag}</span>
-                  <span className="text-white font-medium text-xs sm:text-base hidden xs:inline">{receiveCurrency}</span>
-                  <ChevronDown className="w-3 h-3 sm:w-5 sm:h-5 text-gray-400" />
-                </div>
-                
-                {showReceiveCurrencyDropdown && (
-                  <div 
-                    className="absolute right-0 top-full mt-2 z-50 rounded-xl overflow-hidden shadow-xl min-w-[180px]"
-                    style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
-                  >
-                    {currencies.filter(c => c.code !== sendCurrency).map((c) => (
-                      <div
-                        key={c.code}
-                        className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-purple-500/20 transition-colors"
-                        onClick={() => handleSelectReceiveCurrency(c.code)}
-                        data-testid={`option-receive-${c.code}`}
-                      >
-                        <span className="text-xl">{c.flag}</span>
-                        <div>
-                          <p className="text-white font-medium text-sm">{c.code}</p>
-                          <p className="text-gray-400 text-xs">{c.name}</p>
-                        </div>
-                        {c.code === receiveCurrency && (
-                          <Check className="w-4 h-4 text-green-400 ml-auto" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-          {/* Delivery Method Section */}
-          <div className="mb-2 sm:mb-4 lg:mb-6">
-            <p className="text-gray-500 text-xs sm:text-sm lg:text-base font-medium mb-1.5 sm:mb-4 lg:mb-5 uppercase tracking-wider hidden sm:block">Delivery</p>
-            <div 
-              className="rounded-lg sm:rounded-2xl lg:rounded-3xl p-2.5 sm:p-6 lg:p-7 flex items-center justify-between cursor-pointer hover:opacity-90 transition-opacity"
-              style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}
-              data-testid="card-delivery-method"
-            >
-              <div className="flex items-center gap-2 sm:gap-5 flex-1 min-w-0">
-                <div className="w-9 h-9 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg sm:rounded-xl lg:rounded-2xl flex items-center justify-center flex-shrink-0">
-                  <Building2 className="w-5 h-5 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
-                </div>
-                <div className="min-w-0">
-                  <h4 className="text-white font-semibold text-xs sm:text-base lg:text-lg">Bank Account</h4>
-                  <p className="text-gray-400 text-[10px] sm:text-sm lg:text-base">2 days</p>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7 text-gray-400 flex-shrink-0" />
-            </div>
-          </div>
-
-          {/* Continue Button */}
-          <div className="mb-2 sm:mb-4 lg:mb-6">
-            <Button
-              className="w-full h-10 sm:h-12 lg:h-14 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-semibold rounded-lg sm:rounded-xl lg:rounded-2xl shadow-lg shadow-purple-500/30 text-xs sm:text-base lg:text-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              data-testid="button-continue"
-              disabled={totalToPay <= 0 || (!hasValidRate && sendCurrency !== receiveCurrency)}
-              onClick={handleContinue}
-            >
-              {!hasValidRate && sendCurrency !== receiveCurrency ? "Rate Unavailable" : "Continue"}
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Click outside to close dropdowns */}
-      {(showSendCurrencyDropdown || showReceiveCurrencyDropdown) && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={() => {
-            setShowSendCurrencyDropdown(false);
-            setShowReceiveCurrencyDropdown(false);
-          }}
-        />
-      )}
+      </PullToRefresh>
 
       {/* Notification Center */}
       <NotificationCenter 

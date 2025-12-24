@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Link2, Copy, CheckCircle2, XCircle, Clock, ExternalLink, CreditCard, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import KycWarning from "@/components/kyc-warning";
 
 const paymentLinkFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -41,6 +42,10 @@ export default function PaymentLinksPage() {
 
   const { data: transactions } = useQuery({
     queryKey: ["/api/payment/transactions"],
+  });
+
+  const { data: kycStatus } = useQuery({
+    queryKey: ["/api/user/kyc-status"],
   });
 
   const createLinkMutation = useMutation({
