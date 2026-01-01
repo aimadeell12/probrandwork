@@ -31,6 +31,7 @@ import LanguageSettings from "@/pages/account/language";
 import PaymentPassword from "@/pages/account/payment-password";
 import About from "@/pages/about";
 import PrivacyPolicy from "@/pages/privacy-policy";
+import AMLPolicy from "@/pages/aml-policy";
 import Coupons from "@/pages/coupons";
 import Profile from "@/pages/profile";
 import Send from "@/pages/send";
@@ -169,6 +170,7 @@ function Router() {
             <Route path="/security-privacy" component={SecurityPrivacy} />
             <Route path="/about" component={About} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
+            <Route path="/aml-policy" component={AMLPolicy} />
             <Route path="/coupons" component={Coupons} />
             <Route path="/profile" component={Profile} />
 

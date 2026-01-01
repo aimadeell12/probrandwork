@@ -320,7 +320,7 @@ export default function Account() {
 
             <button 
               onClick={() => navigateTo("/privacy-policy")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors"
+              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30 last:border-b-0"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -328,6 +328,21 @@ export default function Account() {
                 </div>
                 <span className="text-gray-900 dark:text-white font-medium text-sm">
                   Privacy Policy
+                </span>
+              </div>
+              <ChevronRight className="h-4 w-4 text-gray-400" />
+            </button>
+
+            <button 
+              onClick={() => navigateTo("/aml-policy")} 
+              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors"
+            >
+              <div className="flex items-center space-x-3">
+                <div className="rounded-lg p-1.5">
+                  <FileCheck className="h-5 w-5 text-red-600 dark:text-red-400" />
+                </div>
+                <span className="text-gray-900 dark:text-white font-medium text-sm">
+                  AML Policy
                 </span>
               </div>
               <ChevronRight className="h-4 w-4 text-gray-400" />
