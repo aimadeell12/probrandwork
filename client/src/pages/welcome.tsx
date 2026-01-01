@@ -130,6 +130,11 @@ export default function Welcome() {
               <Shield className="w-3 h-3" />
               Privacy
             </Link>
+            <span className="text-red-400 dark:text-red-500">•</span>
+            <Link href="/aml-policy" className="hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-1">
+              <Shield className="w-3 h-3" />
+              AML
+            </Link>
           </div>
         </div>
       </div>
@@ -288,6 +293,11 @@ export default function Welcome() {
               <Link href="/privacy-policy" className="text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-2 group">
                 <Shield className="w-4 h-4 group-hover:scale-110 transition-transform" />
                 <span>Privacy Policy</span>
+              </Link>
+              <div className="w-1 h-1 rounded-full bg-red-400 dark:bg-red-500"></div>
+              <Link href="/aml-policy" className="text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-2 group">
+                <Shield className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <span>AML Policy</span>
               </Link>
             </div>
 

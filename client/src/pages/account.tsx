@@ -41,7 +41,7 @@ import { AccountSkeleton } from "@/components/skeletons";
 import { Input } from "@/components/ui/input";
 
 export default function Account() {
-  const { user } = useAuth();
+  const { user } = useAuth() as { user: any };
   const { t } = useLanguage();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
