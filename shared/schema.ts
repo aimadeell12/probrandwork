@@ -62,7 +62,7 @@ export const users = pgTable("users", {
   transactionAlerts: boolean("transaction_alerts").default(true),
   marketingEmails: boolean("marketing_emails").default(false),
   // Wallet
-  walletBalance: decimal("wallet_balance", { precision: 10, scale: 2 }).default("100.00"),
+  walletBalance: decimal("wallet_balance", { precision: 10, scale: 2 }).default("0.00"),
   pendingBalance: decimal("pending_balance", { precision: 10, scale: 2 }).default("0.00"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

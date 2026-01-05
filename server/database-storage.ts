@@ -158,6 +158,7 @@ export class DatabaseStorage implements IStorage {
       lastName: userData.lastName,
       authType: 'local',
       role: 'user',
+      walletBalance: "0.00",
       createdAt: new Date(),
       updatedAt: new Date()
     }).returning();
@@ -174,6 +175,7 @@ export class DatabaseStorage implements IStorage {
       profileImageUrl: userData.profileImageUrl,
       authType: 'google',
       role: 'user',
+      walletBalance: "0.00",
       createdAt: new Date(),
       updatedAt: new Date()
     }).returning();
