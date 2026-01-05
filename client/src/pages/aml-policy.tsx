@@ -1,4 +1,4 @@
-import { ArrowLeft, ShieldCheck, FileText, Search, UserCheck, Activity, BarChart, AlertTriangle, CreditCard } from "lucide-react";
+import { ArrowLeft, ShieldCheck, FileText, Search, UserCheck, Activity, BarChart, AlertTriangle, CreditCard, Lock, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 
@@ -36,98 +36,117 @@ export default function AMLPolicy() {
           <div className="bg-red-50/50 dark:bg-red-900/20 border border-red-200/50 dark:border-red-700/50 rounded-lg p-5">
             <div className="flex items-center gap-3 mb-3">
               <ShieldCheck className="h-6 w-6 text-red-600 dark:text-red-400" />
-              <h2 className="text-lg font-bold text-red-900 dark:text-red-100 m-0">Anti-Money Laundering Policy</h2>
+              <h2 className="text-lg font-bold text-red-900 dark:text-red-100 m-0">Anti-Money Laundering (AML) Policy</h2>
             </div>
-            <p className="text-sm text-red-900/80 dark:text-red-200/80 leading-relaxed m-0">
-              PROBRANDIFY LIMITED has implemented and maintains a comprehensive Anti-Money Laundering (AML) and Counter-Terrorist Financing (CTF) policy in accordance with applicable regulations and internationally recognized standards, including FATF recommendations.
+            <p className="text-sm text-red-900/80 dark:text-red-200/80 leading-relaxed m-0 font-medium">
+              PROBRANDIFY LIMITED
+            </p>
+            <p className="text-sm text-red-900/80 dark:text-red-200/80 leading-relaxed mt-2 m-0">
+              PROBRANDIFY LIMITED is committed to preventing money laundering, terrorist financing, and other financial crimes. This policy outlines our commitment to compliance with applicable laws, regulations, and international best practices.
             </p>
           </div>
 
           <div className="grid gap-6">
-            {/* 1. KYC */}
+            {/* 1. Scope */}
+            <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
+              <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
+                <Globe className="h-5 w-5" />
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">1. Scope of Application</h3>
+              </div>
+              <p className="text-sm leading-relaxed">
+                This policy applies to all users, customers, partners, and activities conducted through the PROBRANDIFY LIMITED platform, including card issuing services (virtual and physical cards) and issuing API services.
+              </p>
+            </section>
+
+            {/* 2. Regulatory Commitment */}
+            <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
+              <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
+                <ShieldCheck className="h-5 w-5" />
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">2. Regulatory Commitment</h3>
+              </div>
+              <p className="text-sm leading-relaxed">
+                PROBRANDIFY LIMITED operates in accordance with applicable AML, Counter-Terrorist Financing (CTF), and sanctions regulations, as well as international standards such as the Financial Action Task Force (FATF) recommendations.
+              </p>
+            </section>
+
+            {/* 3. KYC */}
             <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
               <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
                 <UserCheck className="h-5 w-5" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">1. KYC & Customer Due Diligence</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">3. Customer Due Diligence (KYC)</h3>
               </div>
               <p className="text-sm leading-relaxed">
-                All customers are subject to Know Your Customer (KYC) and Customer Due Diligence (CDD) procedures prior to onboarding. This includes identity verification using government-issued identification documents, proof of address verification, and beneficial ownership verification for corporate customers.
+                We apply Know Your Customer (KYC) procedures to verify identity prior to onboarding:
               </p>
+              <ul className="list-disc list-inside text-sm space-y-1 ml-2 mt-2">
+                <li>Identity verification</li>
+                <li>Verification of beneficial ownership</li>
+                <li>Risk-based customer assessment</li>
+                <li>Enhanced Due Diligence (EDD) for high-risk customers</li>
+              </ul>
             </section>
 
-            {/* 2. EDD */}
+            {/* 4. Screening */}
             <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
               <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
                 <Search className="h-5 w-5" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">2. Enhanced Due Diligence (EDD)</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">4. Sanctions & PEP Screening</h3>
               </div>
               <p className="text-sm leading-relaxed">
-                Enhanced Due Diligence is applied to higher-risk customers, jurisdictions, or activities. EDD measures may include additional documentation, source of funds information, senior management approval, and increased monitoring.
+                Customers are screened against applicable sanctions lists, politically exposed persons (PEP) databases, and other relevant watchlists at onboarding and on an ongoing basis.
               </p>
             </section>
 
-            {/* 3. Screening */}
-            <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
-              <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
-                <FileText className="h-5 w-5" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">3. Sanctions & PEP Screening</h3>
-              </div>
-              <p className="text-sm leading-relaxed">
-                All customers are screened against applicable sanctions lists, including OFAC SDN and United Nations Security Council lists. Politically Exposed Persons (PEPs) and adverse media are identified and subject to enhanced review.
-              </p>
-            </section>
-
-            {/* 4. Monitoring */}
+            {/* 5. Monitoring */}
             <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
               <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
                 <Activity className="h-5 w-5" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">4. Transaction Monitoring</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">5. Transaction Monitoring</h3>
               </div>
               <p className="text-sm leading-relaxed">
-                Transactions are monitored on an ongoing basis using rule-based controls to identify suspicious or unusual activity, including volume velocity anomalies and geographic risk indicators.
+                We apply risk-based transaction monitoring controls designed to identify unusual or suspicious card transaction activity. Appropriate action is taken where potential risks are identified.
               </p>
             </section>
 
-            {/* 5. Periodic Review */}
+            {/* 6. Prohibited Activities */}
             <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
               <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
-                <BarChart className="h-5 w-5" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">5. Ongoing Monitoring</h3>
+                <Lock className="h-5 w-5" />
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">6. Prohibited Activities</h3>
               </div>
               <p className="text-sm leading-relaxed">
-                Customer relationships are subject to periodic review based on a risk-based approach. Customer information is updated periodically and upon the occurrence of trigger events.
+                The platform must not be used for unlawful purposes, including money laundering, terrorist financing, or activities involving sanctioned jurisdictions or individuals.
               </p>
             </section>
 
-            {/* 6. Reporting */}
+            {/* 7. Record Keeping */}
+            <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
+              <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
+                <FileText className="h-5 w-5" />
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">7. Record Keeping</h3>
+              </div>
+              <p className="text-sm leading-relaxed">
+                Customer and transaction records are maintained in accordance with applicable legal and regulatory requirements.
+              </p>
+            </section>
+
+            {/* 8. Reporting */}
             <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
               <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
                 <AlertTriangle className="h-5 w-5" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">6. Reporting & Escalation</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">8. Reporting & Cooperation</h3>
               </div>
               <p className="text-sm leading-relaxed">
-                Suspicious activities are escalated internally and, where required, reported to the relevant authorities in accordance with applicable laws and regulations.
-              </p>
-            </section>
-
-            {/* 7. Scope */}
-            <section className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
-              <div className="flex items-center gap-3 mb-3 text-red-600 dark:text-red-400">
-                <CreditCard className="h-5 w-5" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">7. Scope of Services</h3>
-              </div>
-              <p className="text-sm leading-relaxed">
-                PROBRANDIFY LIMITED provides virtual and physical card issuing services. The company does not support cryptocurrency or blockchain-based transactions.
+                PROBRANDIFY LIMITED cooperates with competent authorities and relevant financial partners when required by law.
               </p>
             </section>
           </div>
 
-          {/* Compliance Notice */}
-          <section className="bg-yellow-50/50 dark:bg-yellow-900/20 border border-yellow-200/50 dark:border-yellow-700/50 rounded-lg p-4 mt-6">
-            <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-300 mb-2 m-0">Compliance Acknowledgement</h3>
-            <p className="text-sm text-yellow-900 dark:text-yellow-200 m-0">
-              By using our services, you acknowledge that you are subject to the AML/CTF framework described above. Failure to comply with documentation requests may result in account suspension or termination.
-            </p>
+          {/* Footer Info */}
+          <section className="bg-gray-100/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mt-6 text-xs space-y-2">
+            <p><strong>Last Updated:</strong> 2025</p>
+            <p><strong>Company:</strong> PROBRANDIFY LIMITED</p>
+            <p><strong>Jurisdiction:</strong> Hong Kong</p>
           </section>
 
         </div>
