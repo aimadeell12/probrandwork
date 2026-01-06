@@ -83,6 +83,7 @@ interface DirectCardChargeParams {
     pin?: string;
     otp?: string;
   };
+  usesecureauth?: boolean;
   metadata?: Record<string, any>;
 }
 
@@ -255,6 +256,10 @@ class FlutterwaveService {
 
       if (params.authorization) {
         payloadData.authorization = params.authorization;
+      }
+
+      if (params.usesecureauth !== undefined) {
+        payloadData.usesecureauth = params.usesecureauth;
       }
 
       if (params.metadata) {
