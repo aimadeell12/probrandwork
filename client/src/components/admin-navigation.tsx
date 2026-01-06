@@ -133,7 +133,7 @@ export default function AdminNavigation() {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-[#0f0f23] relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 right-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gradient-to-br from-red-200/15 to-pink-200/15 dark:from-red-500/10 dark:to-pink-500/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 bg-gradient-to-tr from-blue-200/10 to-red-200/10 dark:from-blue-500/10 dark:to-red-500/10 rounded-full blur-3xl"></div>

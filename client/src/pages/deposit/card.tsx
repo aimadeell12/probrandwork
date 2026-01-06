@@ -253,7 +253,7 @@ export default function CardDeposit() {
           <h1 className="text-xl font-bold text-white">Card Deposit</h1>
         </div>
 
-        <div className="bg-[#1a1a35] rounded-2xl p-6 mb-6">
+        <div className="bg-[#2a0606] rounded-2xl p-6 mb-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
               <CreditCard className="h-6 w-6 text-blue-400" />
@@ -297,7 +297,7 @@ export default function CardDeposit() {
           </div>
         </div>
 
-        <div className="bg-[#1a1a35]/60 rounded-xl p-4 mb-6">
+        <div className="bg-[#2a0606]/60 rounded-xl p-4 mb-6">
           <div className="flex justify-between items-center text-sm">
             <span className="text-gray-400">Processing Fee</span>
             <span className="text-gray-300">$0.00</span>

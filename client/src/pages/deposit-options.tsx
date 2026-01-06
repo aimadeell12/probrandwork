@@ -106,8 +106,8 @@ export default function DepositOptions() {
               onClick={() => handleMethodSelect(method)}
               className={`w-full p-4 rounded-xl transition-all duration-200 flex items-center space-x-4 ${
                 selectedMethod === method.id
-                  ? "bg-[#1a1a35] border-2 border-red-500 shadow-lg shadow-red-500/20"
-                  : "bg-[#1a1a35]/80 border-2 border-[#2a2a45] hover:border-red-400/50"
+                  ? "bg-[#2a0606] border-2 border-red-500 shadow-lg shadow-red-500/20"
+                  : "bg-[#2a0606]/80 border-2 border-[#2a2a45] hover:border-red-400/50"
               }`}
               data-testid={`button-method-${method.id}`}
             >
