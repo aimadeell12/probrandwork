@@ -34,7 +34,7 @@ export default function Deposit() {
           <div className="space-y-3 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
             {/* Credit Card Option */}
             <div 
-              className="p-4 rounded-xl border-2 cursor-pointer transition-all border-red-500 bg-[#2a0606] shadow-lg shadow-red-500/20"
+              className="p-4 rounded-xl border-2 cursor-pointer transition-all border-red-500 bg-[#3a1010] shadow-lg shadow-red-500/20"
               onClick={() => setLocation("/deposit/card")}
               data-testid="button-deposit-card"
             >
@@ -51,7 +51,7 @@ export default function Deposit() {
 
             {/* Bank Transfer Option */}
             <div 
-              className="p-4 rounded-xl border-2 cursor-pointer transition-all border-[#2a2a45] bg-[#2a0606]/80 hover:border-red-400/50"
+              className="p-4 rounded-xl border-2 cursor-pointer transition-all border-[#4a1515] bg-[#3a1010]/80 hover:border-red-400/50"
               onClick={() => setLocation("/bank-transfer")}
               data-testid="button-deposit-bank"
             >
@@ -68,7 +68,7 @@ export default function Deposit() {
 
             {/* Binance Pay Option - Coming Soon */}
             <div 
-              className="p-4 rounded-xl border-2 transition-all border-[#2a2a45] bg-[#2a0606]/50 opacity-70 cursor-not-allowed relative"
+              className="p-4 rounded-xl border-2 transition-all border-[#4a1515] bg-[#3a1010]/50 opacity-70 cursor-not-allowed relative"
               data-testid="button-deposit-binance"
             >
               <div className="absolute top-2 right-2 flex items-center gap-1 bg-yellow-500/20 text-yellow-400 text-xs px-2 py-1 rounded-full">

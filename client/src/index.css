@@ -885,7 +885,7 @@ html, body {
   }
 
   .dark .nav-icon-container:hover:not(.active) {
-    background: rgba(42, 42, 69, 0.9);
+    background: rgba(58, 16, 16, 0.9);
   }
 
   /* Native-like focus states */

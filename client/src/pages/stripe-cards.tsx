@@ -14,7 +14,7 @@ export default function AirwallexCards() {
               <CreditCard className="h-16 w-16 text-white" />
             </div>
             {/* Animated clock icon */}
-            <div className="absolute bottom-0 right-0 w-10 h-10 bg-[#2a0606] rounded-full flex items-center justify-center shadow-lg border-2 border-[#0f0f23]">
+            <div className="absolute bottom-0 right-0 w-10 h-10 bg-[#3a1010] rounded-full flex items-center justify-center shadow-lg border-2 border-[#0f0f23]">
               <Clock className="h-5 w-5 text-red-400" />
             </div>
           </div>
