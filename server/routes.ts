@@ -1913,7 +1913,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.json({
           isVerified: false,
           status: null,
-          message: "لم يتم تقديم طلب التحقق من الهوية بعد"
+          message: "Identity verification hasn't been submitted yet."
         });
       }
       
@@ -1923,12 +1923,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         isVerified: latestKyc.status === 'approved' || latestKyc.status === 'verified',
         status: latestKyc.status,
         message: latestKyc.status === 'approved' || latestKyc.status === 'verified'
-          ? "تم التحقق من الهوية بنجاح"
+          ? "Identity verified successfully"
           : latestKyc.status === 'pending'
-          ? "طلب التحقق قيد المراجعة"
+          ? "Verification request is under review"
           : latestKyc.status === 'under_review'
-          ? "طلب التحقق قيد المعالجة"
-          : "تم رفض طلب التحقق"
+          ? "Verification request is being processed"
+          : "Verification request was rejected"
       });
     } catch (error) {
       console.error("Error fetching KYC status:", error);

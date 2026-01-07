@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Link2, Copy, CheckCircle2, XCircle, Clock, ExternalLink, CreditCard, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/hooks/useLanguage";
 import KycWarning from "@/components/kyc-warning";
 
 const paymentLinkFormSchema = z.object({
@@ -32,6 +33,7 @@ const paymentLinkFormSchema = z.object({
 type PaymentLinkFormValues = z.infer<typeof paymentLinkFormSchema>;
 
 export default function PaymentLinksPage() {
+  const { language } = useLanguage();
   const { toast } = useToast();
   const [copied, setCopied] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);

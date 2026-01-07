@@ -89,10 +89,10 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    HELLO {getFirstName()}
+                    {language === 'ar' ? 'مرحباً' : 'HELLO'} {getFirstName()}
                   </h1>
                   <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                    HAPPY TO SEE YOU <Heart className="h-4 w-4 text-red-500 fill-red-500" />
+                    {language === 'ar' ? 'يسعدنا رؤيتك' : 'HAPPY TO SEE YOU'} <Heart className="h-4 w-4 text-red-500 fill-red-500" />
                   </p>
                 </div>
               </div>
@@ -115,13 +115,13 @@ export default function Dashboard() {
             <div className="px-4 lg:px-6 mb-2 lg:mb-0 lg:mt-4">
               <div className="bg-gray-200 dark:bg-muted rounded-full p-1 flex lg:max-w-md lg:mx-auto">
                 <Button className="flex-1 rounded-full py-2 px-4 text-sm font-medium bg-red-500 text-white">
-                  ACCOUNT
+                  {language === 'ar' ? 'الحساب' : 'ACCOUNT'}
                 </Button>
                 <Button 
                   variant="ghost"
                   className="flex-1 rounded-full py-2 px-4 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-border"
                 >
-                  CARD
+                  {language === 'ar' ? 'البطاقة' : 'CARD'}
                 </Button>
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function Dashboard() {
             {/* Balance Section - Fixed */}
             <div className="mb-2 py-4 border-b border-gray-50 dark:border-border lg:border-0 lg:py-6 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm lg:mt-4 lg:mx-4">
               <div className="flex items-center justify-center gap-2 mb-4">
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Total Balance</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{language === 'ar' ? 'إجمالي الرصيد' : 'Total Balance'}</p>
                 <Button 
                   variant="ghost" 
                   size="icon" 
@@ -150,7 +150,7 @@ export default function Dashboard() {
                 <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
                     <Wallet className="h-4 w-4 text-green-600" />
-                    <p className="text-xs text-green-600 font-medium">Available</p>
+                    <p className="text-xs text-green-600 font-medium">{language === 'ar' ? 'متاح' : 'Available'}</p>
                   </div>
                   <p className="text-lg font-bold text-green-700 dark:text-green-400">
                     {isBalanceVisible ? `${balance.toLocaleString()} USD` : '*******'}
@@ -160,7 +160,7 @@ export default function Dashboard() {
                 <div className="bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
                     <Clock className="h-4 w-4 text-red-600" />
-                    <p className="text-xs text-red-600 font-medium">Pending</p>
+                    <p className="text-xs text-red-600 font-medium">{language === 'ar' ? 'قيد الانتظار' : 'Pending'}</p>
                   </div>
                   <p className="text-lg font-bold text-red-700 dark:text-red-400">
                     {isBalanceVisible ? `${pendingBalance.toLocaleString()} USD` : '*******'}
@@ -181,14 +181,14 @@ export default function Dashboard() {
 
             {/* Quick Actions - Fixed */}
             <div className="mb-6 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm lg:p-6 lg:mx-4">
-              <h3 className="hidden lg:block text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+              <h3 className="hidden lg:block text-lg font-semibold text-gray-900 dark:text-white mb-4">{language === 'ar' ? 'إجراءات سريعة' : 'Quick Actions'}</h3>
               <div className="grid grid-cols-4 lg:grid-cols-8 gap-4">
                 <Link href={kycStatus?.isVerified ? "/send" : "#"}>
                   <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
                     <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
                       <ArrowUpRight className="h-6 w-6 text-red-600 dark:text-red-300" />
                     </div>
-                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">Send</span>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">{language === 'ar' ? 'إرسال' : 'Send'}</span>
                   </div>
                 </Link>
 
@@ -197,7 +197,7 @@ export default function Dashboard() {
                     <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
                       <ArrowDownLeft className="h-6 w-6 text-red-600 dark:text-red-300" />
                     </div>
-                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">Deposit</span>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">{language === 'ar' ? 'إيداع' : 'Deposit'}</span>
                   </div>
                 </Link>
 
@@ -206,7 +206,7 @@ export default function Dashboard() {
                     <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
                       <Banknote className="h-6 w-6 text-red-600 dark:text-red-300" />
                     </div>
-                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">Withdraw</span>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">{language === 'ar' ? 'سحب' : 'Withdraw'}</span>
                   </div>
                 </Link>
 
@@ -215,7 +215,7 @@ export default function Dashboard() {
                     <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
                       <Grid3X3 className="h-6 w-6 text-red-600 dark:text-red-300" />
                     </div>
-                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">More</span>
+                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">{language === 'ar' ? 'المزيد' : 'More'}</span>
                   </div>
                 </Link>
               </div>
@@ -288,10 +288,10 @@ export default function Dashboard() {
             {/* Recent Transactions - Fixed */}
             <div className="pb-3 lg:bg-white lg:dark:bg-background lg:rounded-xl lg:shadow-sm lg:p-6 lg:mx-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base lg:text-lg font-semibold text-gray-900 dark:text-white">Recent transactions</h3>
+                <h3 className="text-base lg:text-lg font-semibold text-gray-900 dark:text-white">{language === 'ar' ? 'المعاملات الأخيرة' : 'Recent transactions'}</h3>
                 <Link href="/transactions">
                   <Button variant="ghost" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white flex items-center gap-1">
-                    See more
+                    {language === 'ar' ? 'عرض الكل' : 'See more'}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
@@ -320,10 +320,10 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white text-sm">
-                            {transaction.merchant || transaction.description || 'معاملة مالية'}
+                            {transaction.merchant || transaction.description || (language === 'ar' ? 'معاملة مالية' : 'Transaction')}
                           </p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">
-                            Invalid Date
+                            {transaction.createdAt ? new Date(transaction.createdAt).toLocaleDateString() : (language === 'ar' ? 'تاريخ غير صالح' : 'Invalid Date')}
                           </p>
                         </div>
                       </div>

@@ -2,6 +2,7 @@ import { AlertTriangle } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface KycWarningProps {
   status: string | null;
@@ -9,6 +10,8 @@ interface KycWarningProps {
 }
 
 export default function KycWarning({ status, message }: KycWarningProps) {
+  const { language } = useLanguage();
+
   const getStatusColor = () => {
     if (status === "pending" || status === "under_review") {
       return "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800";
@@ -32,13 +35,15 @@ export default function KycWarning({ status, message }: KycWarningProps) {
   return (
     <Alert className={`${getStatusColor()} mb-4 lg:mb-6`} data-testid="alert-kyc-warning">
       <AlertTriangle className={`h-4 w-4 ${getTextColor()}`} />
-      <AlertTitle className={getTextColor()}>تحقق من الهوية مطلوب</AlertTitle>
+      <AlertTitle className={getTextColor()}>
+        {language === 'ar' ? 'تحقق من الهوية مطلوب' : 'Identity Verification Required'}
+      </AlertTitle>
       <AlertDescription className={`${getTextColor()} space-y-2`}>
         <p>{message}</p>
         {(!status || status === "rejected") && (
-          <Link href="/kyc">
+          <Link href="/kyc-verification">
             <Button size="sm" variant="default" className="mt-2" data-testid="button-verify-now">
-              تحقق الآن
+              {language === 'ar' ? 'تحقق الآن' : 'Verify Now'}
             </Button>
           </Link>
         )}
