@@ -110,8 +110,8 @@ export default function PaymentLinksPage() {
     setCopied(id);
     setTimeout(() => setCopied(null), 2000);
     toast({
-      title: "Copied!",
-      description: "Payment link copied to clipboard",
+      title: language === 'ar' ? "تم النسخ!" : "Copied!",
+      description: language === 'ar' ? "تم نسخ رابط الدفع إلى الحافظة" : "Payment link copied to clipboard",
     });
   };
 
