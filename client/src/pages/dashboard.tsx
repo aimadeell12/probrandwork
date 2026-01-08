@@ -12,7 +12,7 @@ import PullToRefresh from "@/components/pull-to-refresh";
 import KycWarning from "@/components/kyc-warning";
 
 export default function Dashboard() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState(false);
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const queryClient = useQueryClient();
