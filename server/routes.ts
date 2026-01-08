@@ -383,7 +383,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         const cardholder = await airwallex.createCardholder({
           type: 'INDIVIDUAL',
-          email: user.email || `user${user.id}@paydota.com`,
+          email: user.email || `user${user.id}@appsfondation.com`,
           mobile_number: user.phone || '+1234567890',
           individual: {
             name: {
@@ -434,7 +434,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           primary_contact_details: {
             first_name: user.firstName || user.email?.split('@')[0] || 'User',
             last_name: user.lastName || 'User',
-            email: user.email || `user${user.id}@paydota.com`
+            email: user.email || `user${user.id}@appsfondation.com`
           },
           postal_address: cardData.type === 'physical' ? {
             line1: user.address || '8206 Louisiana Blvd Ne, Ste A 6342',
@@ -774,7 +774,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const cardholderData = {
         type: 'INDIVIDUAL' as const,
-        email: user.email || `user${user.id}@paydota.com`,
+        email: user.email || `user${user.id}@appsfondation.com`,
         mobile_number: user.phone || '+1234567890',
         individual: {
           name: {
