@@ -10,7 +10,7 @@ interface KycWarningProps {
 }
 
 export default function KycWarning({ status, message }: KycWarningProps) {
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
 
   const getStatusColor = () => {
     if (status === "pending" || status === "under_review") {

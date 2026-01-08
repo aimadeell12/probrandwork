@@ -19,31 +19,31 @@ export default function Dashboard() {
   const { triggerHaptic } = useNativeInteractions();
   
   // Fetch user info
-  const { data: userInfo } = useQuery({
+  const { data: userInfo } = useQuery<any>({
     queryKey: ["/api/auth/user"],
   });
   
-  const { data: walletData } = useQuery({
+  const { data: walletData } = useQuery<any>({
     queryKey: ["/api/wallet/balance"],
   });
 
   // Fetch pending balances
-  const { data: pendingBalances = [], isLoading: pendingLoading } = useQuery({
+  const { data: pendingBalances = [], isLoading: pendingLoading } = useQuery<any[]>({
     queryKey: ["/api/wallet/pending-balances"],
   });
 
   // Fetch unread notifications count
-  const { data: notificationsData } = useQuery({
+  const { data: notificationsData } = useQuery<any>({
     queryKey: ["/api/notifications/unread-count"],
   });
 
   // Fetch recent transactions
-  const { data: transactions = [], isLoading: transactionsLoading } = useQuery({
+  const { data: transactions = [], isLoading: transactionsLoading } = useQuery<any[]>({
     queryKey: ["/api/transactions"],
   });
 
   // Fetch KYC status
-  const { data: kycStatus } = useQuery({
+  const { data: kycStatus } = useQuery<any>({
     queryKey: ["/api/user/kyc-status"],
   });
 
