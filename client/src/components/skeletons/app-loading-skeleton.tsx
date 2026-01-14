@@ -4,7 +4,7 @@ export function AppLoadingSkeleton() {
       {/* Simple loading content without decorative elements */}
       
       <div className="text-center z-10 px-8">
-        {/* AppsPay Merchant Logo Animation */}
+        {/* AppsPay Logo Animation */}
         <div className="mb-8">
           <div className="relative">
             <h1 className="text-4xl font-bold mb-2">

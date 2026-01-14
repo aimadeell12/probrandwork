@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">1. Introduction</h2>
             <p className="text-sm leading-relaxed">
-              AppsPay Merchant, developed by APPS PAY TECHNOLOGY FOUNDATION ("we," "us," "our," or "Company"), is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
+              AppsPay, developed by APPS PAY TECHNOLOGY FOUNDATION ("we," "us," "our," or "Company"), is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
             </p>
           </section>
 
@@ -193,7 +193,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">11. International Data Transfer</h2>
             <p className="text-sm leading-relaxed">
-              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws different from your home country. By using AppsPay Merchant, you consent to such transfers. We ensure appropriate safeguards are in place for all international transfers.
+              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws different from your home country. By using AppsPay, you consent to such transfers. We ensure appropriate safeguards are in place for all international transfers.
             </p>
           </section>
 
@@ -201,7 +201,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">12. Changes to This Privacy Policy</h2>
             <p className="text-sm leading-relaxed">
-              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our app. Your continued use of AppsPay Merchant following the posting of changes means you accept the updated policy.
+              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our app. Your continued use of AppsPay following the posting of changes means you accept the updated policy.
             </p>
           </section>
 
@@ -233,6 +233,10 @@ export default function PrivacyPolicy() {
                 </address>
               </div>
               <div className="flex flex-col gap-1">
+                <strong className="text-gray-900 dark:text-white">App Name:</strong>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">AppsPay</p>
+              </div>
+              <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Response Time:</strong>
                 <p className="text-gray-700 dark:text-gray-300 ml-2">We will respond to privacy inquiries within 30 days</p>
               </div>
@@ -243,7 +247,7 @@ export default function PrivacyPolicy() {
           <section className="bg-yellow-50/50 dark:bg-yellow-900/20 border border-yellow-200/50 dark:border-yellow-700/50 rounded-lg p-4 mt-6">
             <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-300 mb-2">Legal Compliance</h3>
             <p className="text-sm text-yellow-900 dark:text-yellow-200">
-              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, HIPAA, and other international privacy laws. AppsPay Merchant operates in compliance with app store privacy requirements and financial services regulations. By using AppsPay Merchant, you acknowledge that you have read and agree to this Privacy Policy.
+              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, HIPAA, and other international privacy laws. AppsPay operates in compliance with app store privacy requirements and financial services regulations. By using AppsPay, you acknowledge that you have read and agree to this Privacy Policy.
             </p>
           </section>
 

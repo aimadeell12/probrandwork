@@ -55,7 +55,7 @@ export default function About() {
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            About <span className="text-red-600">AppsPay Merchant</span>
+            About <span className="text-red-600">AppsPay</span>
           </h1>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function About() {
               <Heart className="h-8 w-8 text-white" />
             </div>
             <CardTitle className="text-gray-900 dark:text-white">
-              AppsPay Merchant v2.0.21
+              AppsPay v2.0.21
             </CardTitle>
             <p className="text-gray-600 dark:text-gray-400 text-sm">
               Your trusted digital wallet companion
@@ -171,7 +171,7 @@ export default function About() {
 
         {/* Copyright */}
         <div className="text-center text-xs text-gray-500 dark:text-gray-400">
-          © 2024 <span className="text-red-600">AppsPay</span> Merchant. All rights reserved.
+          © 2024 <span className="text-red-600">AppsPay</span>. All rights reserved.
         </div>
       </div>
     </div>
