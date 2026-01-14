@@ -114,6 +114,12 @@ export default function About() {
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
+              <h4 className="font-medium text-gray-900 dark:text-white text-sm">Developer</h4>
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                APPS PAY TECHNOLOGY FOUNDATION
+              </p>
+            </div>
+            <div>
               <h4 className="font-medium text-gray-900 dark:text-white text-sm">Mission</h4>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 To provide secure, fast, and accessible digital wallet services for everyone.
@@ -128,8 +134,9 @@ export default function About() {
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white text-sm">Contact</h4>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                Email: support@appsfondation.com<br />
-                Phone: +19134278757
+                Email: sohaybmercury@gmail.com<br />
+                Phone: +19134278758<br />
+                Address: 920 N Tyler Rd Ste 304, Wichita, KS 67212, US
               </p>
             </div>
           </CardContent>

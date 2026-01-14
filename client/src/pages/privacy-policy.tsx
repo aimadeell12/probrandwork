@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">1. Introduction</h2>
             <p className="text-sm leading-relaxed">
-              AppsPay Merchant ("we," "us," "our," or "Company") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
+              AppsPay Merchant, developed by APPS PAY TECHNOLOGY FOUNDATION ("we," "us," "our," or "Company"), is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
             </p>
           </section>
 
@@ -213,12 +213,24 @@ export default function PrivacyPolicy() {
             </p>
             <div className="bg-red-50/50 dark:bg-red-900/20 border border-red-200/50 dark:border-red-700/50 rounded-lg p-4 text-sm mt-3 space-y-3">
               <div className="flex flex-col gap-1">
-                <strong className="text-gray-900 dark:text-white">Email:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">privacy@appsfondation.com</p>
+                <strong className="text-gray-900 dark:text-white">Developer:</strong>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">APPS PAY TECHNOLOGY FOUNDATION</p>
               </div>
               <div className="flex flex-col gap-1">
-                <strong className="text-gray-900 dark:text-white">Support:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">support@appsfondation.com</p>
+                <strong className="text-gray-900 dark:text-white">Email:</strong>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">sohaybmercury@gmail.com</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <strong className="text-gray-900 dark:text-white">Phone:</strong>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">+19134278758</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <strong className="text-gray-900 dark:text-white">Address:</strong>
+                <address className="text-gray-700 dark:text-gray-300 ml-2 not-italic">
+                  920 N Tyler Rd Ste 304<br />
+                  Wichita - 67212-3267<br />
+                  United States (US)
+                </address>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Response Time:</strong>
