@@ -319,7 +319,7 @@ export default function Account() {
             </button>
 
             <button 
-              onClick={() => navigateTo("/privacy-policy")} 
+              onClick={() => navigateTo("/legal/privacy")} 
               className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30 last:border-b-0"
             >
               <div className="flex items-center space-x-3">

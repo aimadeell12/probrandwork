@@ -148,7 +148,7 @@ export default function About() {
             <Button
               variant="ghost"
               className="w-full justify-start text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400"
-              onClick={() => setLocation("/privacy-policy")}
+              onClick={() => setLocation("/legal/privacy")}
             >
               Privacy Policy
             </Button>
