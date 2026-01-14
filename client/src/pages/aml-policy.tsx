@@ -39,10 +39,10 @@ export default function AMLPolicy() {
               <h2 className="text-lg font-bold text-red-900 dark:text-red-100 m-0">Anti-Money Laundering (AML) Policy</h2>
             </div>
             <p className="text-sm text-red-900/80 dark:text-red-200/80 leading-relaxed m-0 font-medium">
-              PROBRANDIFY LIMITED
+              APPS PAY TECHNOLOGY FOUNDATION
             </p>
             <p className="text-sm text-red-900/80 dark:text-red-200/80 leading-relaxed mt-2 m-0">
-              PROBRANDIFY LIMITED is committed to preventing money laundering, terrorist financing, and other financial crimes. This policy outlines our commitment to compliance with applicable laws, regulations, and international best practices.
+              APPS PAY TECHNOLOGY FOUNDATION is committed to preventing money laundering, terrorist financing, and other financial crimes. This policy outlines our commitment to compliance with applicable laws, regulations, and international best practices.
             </p>
           </div>
 
@@ -54,7 +54,7 @@ export default function AMLPolicy() {
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">1. Scope of Application</h3>
               </div>
               <p className="text-sm leading-relaxed">
-                This policy applies to all users, customers, partners, and activities conducted through the PROBRANDIFY LIMITED platform, including card issuing services (virtual and physical cards) and issuing API services.
+                This policy applies to all users, customers, partners, and activities conducted through the APPS PAY TECHNOLOGY FOUNDATION platform, including card issuing services (virtual and physical cards) and issuing API services.
               </p>
             </section>
 
@@ -65,7 +65,7 @@ export default function AMLPolicy() {
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">2. Regulatory Commitment</h3>
               </div>
               <p className="text-sm leading-relaxed">
-                PROBRANDIFY LIMITED operates in accordance with applicable AML, Counter-Terrorist Financing (CTF), and sanctions regulations, as well as international standards such as the Financial Action Task Force (FATF) recommendations.
+                APPS PAY TECHNOLOGY FOUNDATION operates in accordance with applicable AML, Counter-Terrorist Financing (CTF), and sanctions regulations, as well as international standards such as the Financial Action Task Force (FATF) recommendations.
               </p>
             </section>
 
@@ -137,7 +137,7 @@ export default function AMLPolicy() {
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white m-0">8. Reporting & Cooperation</h3>
               </div>
               <p className="text-sm leading-relaxed">
-                PROBRANDIFY LIMITED cooperates with competent authorities and relevant financial partners when required by law.
+                APPS PAY TECHNOLOGY FOUNDATION cooperates with competent authorities and relevant financial partners when required by law.
               </p>
             </section>
           </div>
@@ -145,7 +145,7 @@ export default function AMLPolicy() {
           {/* Footer Info */}
           <section className="bg-gray-100/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mt-6 text-xs space-y-2">
             <p><strong>Last Updated:</strong> 2025</p>
-            <p><strong>Company:</strong> PROBRANDIFY LIMITED</p>
+            <p><strong>Company:</strong> APPS PAY TECHNOLOGY FOUNDATION</p>
             <p><strong>Jurisdiction:</strong> Hong Kong</p>
           </section>
 
