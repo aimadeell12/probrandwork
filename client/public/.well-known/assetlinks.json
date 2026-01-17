@@ -22,7 +22,8 @@
       "namespace": "android_app",
       "package_name": "com.appsfondation.twa",
       "sha256_cert_fingerprints": [
-        "47:FB:14:C7:EE:89:10:5A:1F:50:04:20:EB:16:65:67:09:39:65:C1:52:1F:E0:7A:E5:19:C2:A0:32:19:BA:6D"
+        "47:FB:14:C7:EE:89:10:5A:1F:50:04:20:EB:16:65:67:09:39:65:C1:52:1F:E0:7A:E5:19:C2:A0:32:19:BA:6D",
+        "26:31:1E:9E:3C:1B:40:CC:CF:17:BF:EE:FE:67:AF:B1:44:82:0C:26:A5:79:6F:FB:57:F0:4D:0F:6A:7E:A5:9D"
       ]
     }
   }
