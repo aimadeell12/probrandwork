@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">1. Introduction</h2>
             <p className="text-sm leading-relaxed">
-              BrandSoft Pay, developed by BRAND APPS SOFTWARE COMPANY ("we," "us," "our," or "Company"), is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
+              LM WORK MA, developed by LMWORK MA LIMITED ("we," "us," "our," or "Company"), is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
             </p>
           </section>
 
@@ -193,7 +193,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">11. International Data Transfer</h2>
             <p className="text-sm leading-relaxed">
-              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws different from your home country. By using BrandSoft Pay, you consent to such transfers. We ensure appropriate safeguards are in place for all international transfers.
+              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws different from your home country. By using LM WORK MA, you consent to such transfers. We ensure appropriate safeguards are in place for all international transfers.
             </p>
           </section>
 
@@ -201,7 +201,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">12. Changes to This Privacy Policy</h2>
             <p className="text-sm leading-relaxed">
-              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our app. Your continued use of BrandSoft Pay following the posting of changes means you accept the updated policy.
+              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our app. Your continued use of LM WORK MA following the posting of changes means you accept the updated policy.
             </p>
           </section>
 
@@ -214,7 +214,7 @@ export default function PrivacyPolicy() {
             <div className="bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-lg p-4 text-sm mt-3 space-y-3">
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Developer:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">BRAND APPS SOFTWARE COMPANY</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">LMWORK MA LIMITED</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Email:</strong>
@@ -227,14 +227,14 @@ export default function PrivacyPolicy() {
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Address:</strong>
                 <address className="text-gray-700 dark:text-gray-300 ml-2 not-italic">
-                  920 N. TYLER RD STE 304 #584<br />
-                  WICHITA, KS 67212<br />
-                  USA
+                  2 Frederick Street, Kings Cross<br />
+                  LONDON - WC1X 0ND<br />
+                  United Kingdom (GB)
                 </address>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">App Name:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">BrandSoft Pay</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">LM WORK MA</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Response Time:</strong>
@@ -247,7 +247,7 @@ export default function PrivacyPolicy() {
           <section className="bg-yellow-50/50 dark:bg-yellow-900/20 border border-yellow-200/50 dark:border-yellow-700/50 rounded-lg p-4 mt-6">
             <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-300 mb-2">Legal Compliance</h3>
             <p className="text-sm text-yellow-900 dark:text-yellow-200">
-              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, HIPAA, and other international privacy laws. BrandSoft Pay operates in compliance with app store privacy requirements and financial services regulations. By using BrandSoft Pay, you acknowledge that you have read and agree to this Privacy Policy.
+              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, HIPAA, and other international privacy laws. LM WORK MA operates in compliance with app store privacy requirements and financial services regulations. By using LM WORK MA, you acknowledge that you have read and agree to this Privacy Policy.
             </p>
           </section>
 

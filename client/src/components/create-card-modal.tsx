@@ -136,7 +136,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
           </div>
           <div className="flex flex-col items-end justify-between h-full">
             <Wifi className="w-5 h-5 text-white/60" />
-            <div className="text-white/70 text-xs">BrandSoft Pay</div>
+            <div className="text-white/70 text-xs">LM WORK MA</div>
           </div>
         </div>
         

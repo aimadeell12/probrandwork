@@ -1,6 +1,6 @@
 {
-  "appId": "com.brandsoft-pay.banking",
-  "appName": "BrandSoft Pay",
+  "appId": "com.lmwork-ma.banking",
+  "appName": "LM WORK MA",
   "webDir": "dist/public",
   "server": {
     "url": "https://probrandify.org",

@@ -4,12 +4,12 @@ export function AppLoadingSkeleton() {
       {/* Simple loading content without decorative elements */}
       
       <div className="text-center z-10 px-8">
-        {/* BrandSoft Pay Logo Animation */}
+        {/* LM WORK MA Logo Animation */}
         <div className="mb-8">
           <div className="relative">
             <h1 className="text-4xl font-bold mb-2">
-              <span className="text-primary">BrandSoft</span>
-              <span className="text-gray-800 dark:text-white"> Pay</span>
+              <span className="text-primary">LM WORK</span>
+              <span className="text-gray-800 dark:text-white"> MA</span>
             </h1>
             <div className="absolute -top-2 -right-2 w-3 h-3 bg-primary rounded-full animate-ping"></div>
           </div>
