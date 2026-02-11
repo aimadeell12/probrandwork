@@ -136,7 +136,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
           </div>
           <div className="flex flex-col items-end justify-between h-full">
             <Wifi className="w-5 h-5 text-white/60" />
-            <div className="text-white/70 text-xs">LM WORK MA</div>
+            <div className="text-white/70 text-xs">AppsPay</div>
           </div>
         </div>
         
@@ -147,7 +147,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
           >
-            <Check className="w-4 h-4 text-primary" />
+            <Check className="w-4 h-4 text-red-600" />
           </motion.div>
         )}
       </div>
@@ -321,7 +321,7 @@ export default function CreateCardModal({ open, onOpenChange }: CreateCardModalP
                     <Button
                       type="submit"
                       disabled={createCardMutation.isPending}
-                      className="bg-gradient-to-r from-primary to-pink-600 hover:from-red-700 hover:to-pink-700"
+                      className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700"
                     >
                       {createCardMutation.isPending ? "Creating..." : "Create Card"}
                     </Button>

@@ -99,11 +99,11 @@ export default function Support() {
           <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl hover:shadow-2xl transition-all text-center">
             <CardContent className="p-8">
               <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/40 dark:to-red-800/40 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="h-8 w-8 text-primary dark:text-red-300" />
+                <MessageCircle className="h-8 w-8 text-red-600 dark:text-red-300" />
               </div>
               <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{t('liveChat')}</h3>
               <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{t('liveChatDesc')}</p>
-              <Button className="w-full bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-2xl">
+              <Button className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-2xl">
                 {t('startChat')}
               </Button>
             </CardContent>

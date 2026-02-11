@@ -1,14 +1,10 @@
-# LM WORK PAY - Digital Banking Platform
+# PayDota - Digital Banking Platform
 
 ## Overview
-LM WORK PAY is a comprehensive digital banking platform designed to offer secure banking services, card management, and financial transactions. It provides a full-stack solution with both user-facing features and administrative capabilities, aiming to simplify digital finance for its users. The platform supports virtual and physical cards, various payment processing methods, and a robust notification system, all within a modern, user-friendly interface.
+PayDota is a comprehensive digital banking platform designed to offer secure banking services, card management, and financial transactions. It provides a full-stack solution with both user-facing features and administrative capabilities, aiming to simplify digital finance for its users. The platform supports virtual and physical cards, various payment processing methods, and a robust notification system, all within a modern, user-friendly interface.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
-Company Email: info@lmworkpay.site
-Developer: LMWORK MA LIMITED
-Address: 2 Frederick Street, Kings Cross, LONDON - WC1X 0ND, United Kingdom (GB)
-Website: https://lmworkpay.site
 
 ## System Architecture
 

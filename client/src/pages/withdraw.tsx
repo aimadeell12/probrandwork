@@ -90,13 +90,13 @@ export default function Withdraw() {
       <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-yellow-200/30 dark:border-red-700/30 p-4 lg:p-6 relative z-10">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-red-200/30 dark:border-red-700/30 p-4 lg:p-6 relative z-10">
         <div className="max-w-4xl mx-auto flex items-center space-x-4 space-x-reverse">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-yellow-50 dark:hover:bg-red-900/20"
+            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -109,7 +109,7 @@ export default function Withdraw() {
       <div className="p-4 lg:p-6 space-y-6 relative z-10 max-w-md lg:max-w-4xl mx-auto">
         
         {/* Balance Display */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
           <CardContent className="p-4 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">{t("totalBalance")}</p>
             <p className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -119,11 +119,11 @@ export default function Withdraw() {
         </Card>
 
         {/* Amount Input */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
-              <div className="p-1 bg-yellow-100 dark:bg-red-900/30 rounded-lg">
-                <DollarSign className="h-5 w-5 text-primary" />
+              <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                <DollarSign className="h-5 w-5 text-red-600" />
               </div>
               {t("withdrawAmount")}
             </CardTitle>
@@ -138,7 +138,7 @@ export default function Withdraw() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 max={balance?.balance || 0}
-                className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-yellow-200/30 focus:border-red-500 rounded-2xl"
+                className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-red-200/30 focus:border-red-500 rounded-2xl"
               />
             </div>
 
@@ -150,7 +150,7 @@ export default function Withdraw() {
                     key={quickAmount}
                     variant="outline"
                     onClick={() => setAmount(quickAmount.toString())}
-                    className="bg-white/80 dark:bg-gray-700/80 border-yellow-200/30 hover:bg-yellow-50 hover:border-red-400"
+                    className="bg-white/80 dark:bg-gray-700/80 border-red-200/30 hover:bg-red-50 hover:border-red-400"
                   >
                     ${quickAmount}
                   </Button>
@@ -161,7 +161,7 @@ export default function Withdraw() {
         </Card>
 
         {/* Withdrawal Methods */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
           <CardHeader>
             <CardTitle className="text-lg text-gray-900 dark:text-white">{t("withdrawMethod")}</CardTitle>
           </CardHeader>
@@ -169,8 +169,8 @@ export default function Withdraw() {
             <div 
               className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                 selectedMethod === "card" 
-                  ? "border-red-500 bg-yellow-50 dark:bg-red-900/20" 
-                  : "border-yellow-200/30 bg-white/50 dark:bg-gray-700/50"
+                  ? "border-red-500 bg-red-50 dark:bg-red-900/20" 
+                  : "border-red-200/30 bg-white/50 dark:bg-gray-700/50"
               }`}
               onClick={() => setSelectedMethod("card")}
             >
@@ -188,14 +188,14 @@ export default function Withdraw() {
             <div 
               className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                 selectedMethod === "bank" 
-                  ? "border-red-500 bg-yellow-50 dark:bg-red-900/20" 
-                  : "border-yellow-200/30 bg-white/50 dark:bg-gray-700/50"
+                  ? "border-red-500 bg-red-50 dark:bg-red-900/20" 
+                  : "border-red-200/30 bg-white/50 dark:bg-gray-700/50"
               }`}
               onClick={() => setSelectedMethod("bank")}
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-yellow-100 dark:bg-green-900/30 rounded-xl">
-                  <Building className="h-5 w-5 text-primary" />
+                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-xl">
+                  <Building className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">{t("bankTransfer")}</p>
@@ -210,7 +210,7 @@ export default function Withdraw() {
         <Button
           onClick={handleWithdraw}
           disabled={withdrawMutation.isPending || !amount || parseFloat(amount) > (balance?.balance || 0)}
-          className="w-full bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
+          className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
         >
           <Minus className="h-5 w-5 mr-2" />
           {withdrawMutation.isPending ? t("processingWithdraw") : `${t("withdrawButton")} $${amount || "0.00"}`}

@@ -48,7 +48,7 @@ export class WhatsAppService {
     this.config = {
       phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID || '637387286132641',
       accessToken: process.env.WHATSAPP_ACCESS_TOKEN || 'EAAQrRrLPFnMBOZCjlicG9mv99Sq4iESVFfZBc57wQtZCPGQGnSR14qCw7QNIg7i1Gfhun81GxOQo96M9ILlgr0geX5NrhD19w8BXZCCKHGSxeqzoRaTsAVJwbTrQZCx5EBgVVITAPOxdnqBZBfDUxikrCuwMCNli31nfghrEIuy6qV5ec07ZCWXhFhSUXZAc8JFLZB37BvOOTa1cr6W9uTDY6PkZCeXPmreVKzpD64qhXMZCyUOMO8KH3JkWmkmkDMfKwZDZD',
-      verifyToken: process.env.WHATSAPP_VERIFY_TOKEN || 'brandsoft-pay_webhook_verify_token_2025',
+      verifyToken: process.env.WHATSAPP_VERIFY_TOKEN || 'paydota_webhook_verify_token_2025',
       businessAccountId: process.env.WHATSAPP_BUSINESS_ACCOUNT_ID || '576288461869738',
       baseUrl: 'https://graph.facebook.com/v18.0'
     };
@@ -98,8 +98,8 @@ export class WhatsAppService {
       console.log('⚠️ Template OTP failed, falling back to text message:', error);
       // في حالة فشل القالب، استخدم الرسالة النصية
       const messages = {
-        ar: `رمز التحقق الخاص بك في BrandSoft Pay هو: ${otpCode}\n\nلا تشارك هذا الرمز مع أي شخص آخر.\nصالح لمدة 5 دقائق.`,
-        en: `Your BrandSoft Pay verification code is: ${otpCode}\n\nDo not share this code with anyone.\nValid for 5 minutes.`
+        ar: `رمز التحقق الخاص بك في PayDota هو: ${otpCode}\n\nلا تشارك هذا الرمز مع أي شخص آخر.\nصالح لمدة 5 دقائق.`,
+        en: `Your PayDota verification code is: ${otpCode}\n\nDo not share this code with anyone.\nValid for 5 minutes.`
       };
       return await this.sendTextMessage(to, messages[language]);
     }
@@ -174,8 +174,8 @@ export class WhatsAppService {
     };
 
     const messages = {
-      ar: `✅ تم تأكيد عملية ${transactionTypeNames.ar[transactionType]} بمبلغ ${amount} ${currency} في حسابك BrandSoft Pay.\n\nالوقت: ${new Date().toLocaleString('ar-SA')}\n\nشكراً لاستخدام BrandSoft Pay!`,
-      en: `✅ Your ${transactionTypeNames.en[transactionType]} of ${amount} ${currency} has been confirmed in your BrandSoft Pay account.\n\nTime: ${new Date().toLocaleString('en-US')}\n\nThank you for using BrandSoft Pay!`
+      ar: `✅ تم تأكيد عملية ${transactionTypeNames.ar[transactionType]} بمبلغ ${amount} ${currency} في حسابك PayDota.\n\nالوقت: ${new Date().toLocaleString('ar-SA')}\n\nشكراً لاستخدام PayDota!`,
+      en: `✅ Your ${transactionTypeNames.en[transactionType]} of ${amount} ${currency} has been confirmed in your PayDota account.\n\nTime: ${new Date().toLocaleString('en-US')}\n\nThank you for using PayDota!`
     };
 
     return await this.sendTextMessage(to, messages[language]);
@@ -189,14 +189,14 @@ export class WhatsAppService {
   ): Promise<SendMessageResponse> {
     const alertMessages = {
       ar: {
-        login: '🔐 تم تسجيل دخول جديد إلى حسابك BrandSoft Pay.\n\nإذا لم تكن أنت، يرجى تغيير كلمة المرور فوراً.',
-        password_change: '🔑 تم تغيير كلمة مرور حسابك BrandSoft Pay بنجاح.\n\nإذا لم تقم بهذا التغيير، يرجى الاتصال بالدعم فوراً.',
-        suspicious_activity: '⚠️ تم اكتشاف نشاط مشبوه في حسابك BrandSoft Pay.\n\nيرجى مراجعة حسابك وتغيير كلمة المرور إذا لزم الأمر.'
+        login: '🔐 تم تسجيل دخول جديد إلى حسابك PayDota.\n\nإذا لم تكن أنت، يرجى تغيير كلمة المرور فوراً.',
+        password_change: '🔑 تم تغيير كلمة مرور حسابك PayDota بنجاح.\n\nإذا لم تقم بهذا التغيير، يرجى الاتصال بالدعم فوراً.',
+        suspicious_activity: '⚠️ تم اكتشاف نشاط مشبوه في حسابك PayDota.\n\nيرجى مراجعة حسابك وتغيير كلمة المرور إذا لزم الأمر.'
       },
       en: {
-        login: '🔐 New login detected on your BrandSoft Pay account.\n\nIf this wasn\'t you, please change your password immediately.',
-        password_change: '🔑 Your BrandSoft Pay account password has been successfully changed.\n\nIf you didn\'t make this change, please contact support immediately.',
-        suspicious_activity: '⚠️ Suspicious activity detected on your BrandSoft Pay account.\n\nPlease review your account and change your password if necessary.'
+        login: '🔐 New login detected on your PayDota account.\n\nIf this wasn\'t you, please change your password immediately.',
+        password_change: '🔑 Your PayDota account password has been successfully changed.\n\nIf you didn\'t make this change, please contact support immediately.',
+        suspicious_activity: '⚠️ Suspicious activity detected on your PayDota account.\n\nPlease review your account and change your password if necessary.'
       }
     };
 

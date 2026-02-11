@@ -1,4 +1,4 @@
-# GitHub Actions للبناء التلقائي - BrandSoft Pay
+# GitHub Actions للبناء التلقائي - PayDota
 
 ## الإعداد
 

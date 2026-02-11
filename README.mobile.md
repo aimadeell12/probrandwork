@@ -1,6 +1,6 @@
-# BrandSoft Pay Mobile App Setup
+# PayDota Mobile App Setup
 
-هذا الدليل يوضح كيفية تحويل تطبيق BrandSoft Pay إلى تطبيق جوال باستخدام Capacitor وإعداد النشر التلقائي عبر GitHub Actions.
+هذا الدليل يوضح كيفية تحويل تطبيق PayDota إلى تطبيق جوال باستخدام Capacitor وإعداد النشر التلقائي عبر GitHub Actions.
 
 ## متطلبات النظام
 
@@ -85,7 +85,7 @@ npm run build
 ## بنية المشروع
 
 ```
-BrandSoft Pay/
+PayDota/
 ├── capacitor.config.ts        # إعدادات Capacitor
 ├── mobile-build.sh           # سكريبت بناء التطبيق
 ├── vite.mobile.config.ts     # إعدادات Vite للجوال

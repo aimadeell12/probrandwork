@@ -99,7 +99,7 @@ export default function PriorityCards() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30"
+            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -109,7 +109,7 @@ export default function PriorityCards() {
         </div>
 
         {/* Hero Section */}
-        <Card className="bg-gradient-to-r from-primary to-indigo-600 text-white mb-8 border-0">
+        <Card className="bg-gradient-to-r from-red-600 to-indigo-600 text-white mb-8 border-0">
           <CardContent className="p-6 text-center">
             <Crown className="h-12 w-12 mx-auto mb-4 text-yellow-300" />
             <h2 className="text-2xl font-bold mb-2">Unlock Premium wallet</h2>
@@ -129,7 +129,7 @@ export default function PriorityCards() {
                 }`}
               >
                 {plan.popular && (
-                  <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary">
+                  <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-red-600">
                     Most Popular
                   </Badge>
                 )}
@@ -170,7 +170,7 @@ export default function PriorityCards() {
                     disabled={selectedPlan === plan.id}
                     className={`w-full ${
                       plan.popular 
-                        ? 'bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800'
+                        ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
                         : 'bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800'
                     }`}
                   >
@@ -198,16 +198,16 @@ export default function PriorityCards() {
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-yellow-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Zap className="h-6 w-6 text-primary" />
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Zap className="h-6 w-6 text-green-600" />
                 </div>
                 <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Fast Processing</h3>
                 <p className="text-xs text-gray-600 dark:text-gray-400">Instant transfers</p>
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-yellow-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Globe className="h-6 w-6 text-primary" />
+                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Globe className="h-6 w-6 text-red-600" />
                 </div>
                 <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Global Access</h3>
                 <p className="text-xs text-gray-600 dark:text-gray-400">Worldwide benefits</p>

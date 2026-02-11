@@ -27,7 +27,7 @@ export default function BottomNavigation() {
                 <div className={`p-2 rounded-xl nav-icon-container ${isActive ? 'active' : ''}`}>
                   <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`} />
                 </div>
-                <span className={`text-[10px] font-medium transition-all duration-300 ${isActive ? 'text-primary dark:text-red-400 font-semibold' : 'text-gray-500 dark:text-gray-400'}`}>
+                <span className={`text-[10px] font-medium transition-all duration-300 ${isActive ? 'text-red-600 dark:text-red-400 font-semibold' : 'text-gray-500 dark:text-gray-400'}`}>
                   {item.label}
                 </span>
               </div>

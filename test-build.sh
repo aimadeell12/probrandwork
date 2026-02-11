@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🧪 اختبار بناء BrandSoft Pay محلياً (محاكاة GitHub Actions)"
+echo "🧪 اختبار بناء PayDota محلياً (محاكاة GitHub Actions)"
 echo "================================================"
 
 # التحقق من المتطلبات
@@ -72,8 +72,8 @@ echo ""
 echo "✅ جاهز للبناء!"
 echo ""
 echo "📱 المعلومات:"
-echo "   - التطبيق: BrandSoft Pay"
-echo "   - المعرف: com.brandsoft-pay.banking"
+echo "   - التطبيق: PayDota"
+echo "   - المعرف: com.paydota.banking"
 echo "   - keystore: مُكوّن ✓"
 echo "   - Capacitor: مُزامن ✓"
 echo ""

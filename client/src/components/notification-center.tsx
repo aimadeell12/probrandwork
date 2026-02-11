@@ -78,11 +78,11 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case "transaction":
-        return <DollarSign className="h-5 w-5 text-primary" />;
+        return <DollarSign className="h-5 w-5 text-green-600" />;
       case "security":
-        return <Shield className="h-5 w-5 text-primary" />;
+        return <Shield className="h-5 w-5 text-red-600" />;
       case "promotion":
-        return <Gift className="h-5 w-5 text-primary" />;
+        return <Gift className="h-5 w-5 text-red-600" />;
       default:
         return <Bell className="h-5 w-5 text-blue-600" />;
     }
@@ -91,7 +91,7 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "urgent":
-        return "bg-yellow-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
       case "high":
         return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
       case "normal":

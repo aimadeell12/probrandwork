@@ -65,10 +65,10 @@ export default function DepositOptions() {
         );
       case "bank":
         return (
-          <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center">
+          <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
             <div className="grid grid-cols-3 gap-0.5">
               {[...Array(9)].map((_, i) => (
-                <div key={i} className="w-2 h-2 bg-primary rounded-sm"></div>
+                <div key={i} className="w-2 h-2 bg-green-500 rounded-sm"></div>
               ))}
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function DepositOptions() {
         <div className="px-4 mt-8">
           <button
             onClick={handleContinue}
-            className="w-full py-4 bg-primary hover:bg-red-700 text-white font-semibold rounded-xl transition-colors"
+            className="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl transition-colors"
             data-testid="button-continue"
           >
             Continue

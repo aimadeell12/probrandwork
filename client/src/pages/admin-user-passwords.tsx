@@ -126,7 +126,7 @@ export default function AdminUserPasswords() {
             User Password Management
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Reset and manage user passwords for the LM WORK MA platform
+            Reset and manage user passwords for the AppsPay platform
           </p>
         </div>
 
@@ -156,7 +156,7 @@ export default function AdminUserPasswords() {
                       onClick={() => setSelectedUserId(user.id)}
                       className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
                         selectedUserId === user.id
-                          ? "border-red-500 bg-yellow-50 dark:bg-red-900/20"
+                          ? "border-red-500 bg-red-50 dark:bg-red-900/20"
                           : "border-gray-200 dark:border-gray-700 hover:border-red-300"
                       }`}
                     >
@@ -199,7 +199,7 @@ export default function AdminUserPasswords() {
                 </div>
               ) : (
                 <form onSubmit={handleResetPassword} className="space-y-4">
-                  <div className="p-4 bg-yellow-50 dark:bg-red-900/20 rounded-lg">
+                  <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
                     <h4 className="font-medium text-red-900 dark:text-red-100 mb-2">
                       Selected User
                     </h4>
@@ -247,7 +247,7 @@ export default function AdminUserPasswords() {
                   <Button
                     type="submit"
                     disabled={resetPasswordMutation.isPending}
-                    className="w-full bg-primary hover:bg-red-700"
+                    className="w-full bg-red-600 hover:bg-red-700"
                   >
                     {resetPasswordMutation.isPending ? (
                       <>Resetting...</>

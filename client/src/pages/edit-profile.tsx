@@ -167,7 +167,7 @@ export default function EditProfile() {
             <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <User className="h-5 w-5 text-primary" />
+                  <User className="h-5 w-5 text-red-600" />
                   <span>المعلومات الشخصية</span>
                 </CardTitle>
               </CardHeader>
@@ -486,7 +486,7 @@ export default function EditProfile() {
               console.log("No data to save");
             }
           }}
-          className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-red-700 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+          className="w-full bg-gradient-to-r from-red-600 to-blue-600 hover:from-red-700 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
           disabled={updateProfileMutation.isPending}
         >
           <Save className="h-5 w-5 mr-2" />

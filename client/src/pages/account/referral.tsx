@@ -74,7 +74,7 @@ export default function Referral() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30"
+            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -95,7 +95,7 @@ export default function Referral() {
           
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <DollarSign className="h-8 w-8 text-primary mx-auto mb-2" />
+              <DollarSign className="h-8 w-8 text-green-600 mx-auto mb-2" />
               <p className="text-2xl font-bold text-gray-900 dark:text-white">${stats?.totalEarnings || 0}</p>
               <p className="text-sm text-gray-600 dark:text-gray-400">Earned</p>
             </CardContent>
@@ -124,7 +124,7 @@ export default function Referral() {
             
             <Button 
               onClick={shareReferral}
-              className="w-full bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800"
+              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
             >
               <Share className="h-4 w-4 mr-2" />
               Share with Friends
@@ -139,8 +139,8 @@ export default function Referral() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-yellow-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-primary font-bold text-sm">1</span>
+              <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-red-600 font-bold text-sm">1</span>
               </div>
               <div>
                 <p className="font-medium text-gray-900 dark:text-white">Share your code</p>
@@ -149,8 +149,8 @@ export default function Referral() {
             </div>
             
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-yellow-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-primary font-bold text-sm">2</span>
+              <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-red-600 font-bold text-sm">2</span>
               </div>
               <div>
                 <p className="font-medium text-gray-900 dark:text-white">They sign up</p>
@@ -159,8 +159,8 @@ export default function Referral() {
             </div>
             
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-yellow-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-primary font-bold text-sm">3</span>
+              <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-red-600 font-bold text-sm">3</span>
               </div>
               <div>
                 <p className="font-medium text-gray-900 dark:text-white">Earn rewards</p>

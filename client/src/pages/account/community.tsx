@@ -87,7 +87,7 @@ export default function Community() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30"
+            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -108,7 +108,7 @@ export default function Community() {
           
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <div className="w-2 h-2 bg-primary rounded-full mx-auto mb-2"></div>
+              <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mb-2"></div>
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.onlineNow || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Online Now</p>
             </CardContent>
@@ -116,7 +116,7 @@ export default function Community() {
           
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <MessageSquare className="h-6 w-6 text-primary mx-auto mb-2" />
+              <MessageSquare className="h-6 w-6 text-red-600 mx-auto mb-2" />
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.postsToday || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Posts Today</p>
             </CardContent>
@@ -124,7 +124,7 @@ export default function Community() {
           
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <Heart className="h-6 w-6 text-primary mx-auto mb-2" />
+              <Heart className="h-6 w-6 text-red-600 mx-auto mb-2" />
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.helpfulAnswers || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Helpful Answers</p>
             </CardContent>
@@ -169,7 +169,7 @@ export default function Community() {
                         <div className="flex items-center gap-4 mt-3">
                           <button 
                             onClick={() => likePost(discussion.id)}
-                            className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-primary"
+                            className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-red-600"
                           >
                             <Heart className="h-4 w-4" />
                             {discussion.likes || 0}
@@ -181,7 +181,7 @@ export default function Community() {
                             <MessageSquare className="h-4 w-4" />
                             {discussion.replies || 0}
                           </button>
-                          <button className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-primary">
+                          <button className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-green-600">
                             <Share2 className="h-4 w-4" />
                             Share
                           </button>
@@ -192,7 +192,7 @@ export default function Community() {
                 ))
               )}
             </div>
-            <Button className="w-full mt-4 bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800">
+            <Button className="w-full mt-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800">
               View All Discussions
             </Button>
           </CardContent>
@@ -259,7 +259,7 @@ export default function Community() {
                 contributors.map((contributor: any, index: number) => (
                 <div key={contributor.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-r from-primary to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                       {index + 1}
                     </div>
                     <div>
@@ -271,7 +271,7 @@ export default function Community() {
                       </Badge>
                     </div>
                   </div>
-                  <span className="text-sm font-bold text-primary">
+                  <span className="text-sm font-bold text-red-600">
                     {contributor.points || 0} pts
                   </span>
                 </div>

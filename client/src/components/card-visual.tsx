@@ -86,7 +86,7 @@ export default function CardVisual({
 
       {/* Card type indicator */}
       <div className="absolute bottom-4 left-6">
-        <div className="bg-primary/80 text-white text-xs px-2 py-1 rounded-full">
+        <div className="bg-green-500/80 text-white text-xs px-2 py-1 rounded-full">
           {card?.type === "virtual" ? "افتراضية" : "فيزيائية"}
         </div>
       </div>

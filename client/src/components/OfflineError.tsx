@@ -57,7 +57,7 @@ export const OfflineError = ({ onRetry }: OfflineErrorProps) => {
           </div>
 
           <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
             <span className="text-sm text-gray-500 dark:text-gray-400" data-testid="text-connection-status">
               Connection unavailable
             </span>
@@ -67,7 +67,7 @@ export const OfflineError = ({ onRetry }: OfflineErrorProps) => {
             <Button 
               onClick={handleRetry}
               disabled={isRetrying}
-              className="w-full bg-primary hover:bg-red-700 text-white rounded-xl py-3 flex items-center justify-center gap-2 shadow-lg shadow-red-500/20 transition-all duration-200"
+              className="w-full bg-red-600 hover:bg-red-700 text-white rounded-xl py-3 flex items-center justify-center gap-2 shadow-lg shadow-red-500/20 transition-all duration-200"
               data-testid="button-retry"
             >
               {isRetrying ? (

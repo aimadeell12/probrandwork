@@ -119,7 +119,7 @@ export default function Cards() {
               >
                 <Button
                   onClick={() => setLocation("/choose-card")}
-                  className="bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-full p-3 shadow-lg"
+                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-full p-3 shadow-lg"
                 >
                   <Plus className="h-5 w-5" />
                 </Button>
@@ -138,7 +138,7 @@ export default function Cards() {
                 className={cn(
                   "flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-medium transition-all",
                   selectedCardType === "virtual"
-                    ? "bg-gradient-to-r from-primary to-red-700 text-white shadow-lg"
+                    ? "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg"
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                 )}
                 whileHover={{ scale: 1.02 }}
@@ -151,7 +151,7 @@ export default function Cards() {
                 className={cn(
                   "flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-medium transition-all",
                   selectedCardType === "physical"
-                    ? "bg-gradient-to-r from-primary to-red-700 text-white shadow-lg"
+                    ? "bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg"
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                 )}
                 whileHover={{ scale: 1.02 }}
@@ -208,7 +208,7 @@ export default function Cards() {
                         <div className={cn(
                           "inline-flex items-center gap-2 text-sm transition-all duration-300",
                           card.status === "blocked" 
-                            ? "text-primary dark:text-red-400" 
+                            ? "text-red-600 dark:text-red-400" 
                             : card.status === "frozen"
                             ? "text-blue-600 dark:text-blue-400"
                             : "text-gray-600 dark:text-gray-400"
@@ -282,7 +282,7 @@ export default function Cards() {
                                         "text-sm font-semibold",
                                         transaction.type === 'deposit' || transaction.type === 'refund'
                                           ? "text-green-600 dark:text-green-400"
-                                          : "text-primary dark:text-red-400"
+                                          : "text-red-600 dark:text-red-400"
                                       )}>
                                         {transaction.type === 'deposit' || transaction.type === 'refund' ? '+' : '-'}
                                         {formatAmount(Math.abs(transaction.amount || 0), transaction.currency || card.currency)}
@@ -371,7 +371,7 @@ export default function Cards() {
               >
                 <Button
                   onClick={() => setLocation("/choose-card")}
-                  className="bg-gradient-to-r from-primary to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-8 py-3 rounded-full shadow-lg font-medium"
+                  className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-8 py-3 rounded-full shadow-lg font-medium"
                 >
                   <Plus className="w-5 h-5 mr-2" />
                   Create Your First Card

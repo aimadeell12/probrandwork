@@ -23,64 +23,33 @@
 }
 
 /* Allow basic scrolling but prevent elastic behavior */
-html {
-  overscroll-behavior: none;
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* Prevent html from scrolling, let body handle it */
-  margin: 0;
-  padding: 0;
-}
-
-body {
+html, body {
   overscroll-behavior: none;
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  overflow-y: auto !important; /* Force body to be the scroll container */
+  overflow-y: auto;
   margin: 0;
   padding: 0;
-  -webkit-overflow-scrolling: touch;
 }
 
-/* Scrollbar visibility for desktop/mouse users */
-@media (pointer: fine) {
-  body {
-    scrollbar-width: thin;
-    -ms-overflow-style: auto;
-  }
-
-  ::-webkit-scrollbar {
-    display: block !important;
-    width: 10px;
-    height: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--primary) / 0.4);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary) / 0.6);
-    background-clip: padding-box;
-  }
+/* Additional scrollbar hiding for all browsers */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
-/* For touch devices, we keep the native behavior which is usually hidden bars until scroll */
-@media (pointer: coarse) {
-  body {
-    scrollbar-width: none;
-  }
-  body::-webkit-scrollbar {
-    display: none;
-  }
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 /* Main app container */
@@ -159,38 +128,38 @@ html {
   --card-foreground: 222 84% 4.9%;
   --border: 214 32% 91%; /* #E2E8F0 */
   --input: 214 32% 91%;
-  --primary: 45 93% 47%; /* Yellow primary */
+  --primary: 0 85% 50%; /* Dark red primary */
   --primary-foreground: 0 0% 100%;
-  --secondary: 45 93% 30%; /* Dark yellow secondary */
+  --secondary: 160 84% 39%; /* Keep secondary green */
   --secondary-foreground: 0 0% 98%;
-  --accent: 45 93% 63%; /* Lighter yellow accent */
+  --accent: 0 85% 60%; /* Dark red accent */
   --accent-foreground: 0 0% 98%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 45 93% 47%; /* Yellow ring */
+  --ring: 0 85% 50%; /* Dark red ring */
   --radius: 0.75rem;
 }
 
 .dark {
-  --background: 88 50% 5%; /* Very dark green background */
+  --background: 0 50% 8%; /* #2a0606 - Very dark red background */
   --foreground: 210 40% 98%; /* #f8fafc - Light text */
-  --muted: 88 40% 10%; /* Slightly lighter dark green */
+  --muted: 0 40% 12%; /* #3a1010 - Slightly lighter dark red for subtle contrast */
   --muted-foreground: 215 20% 65%; /* #94a3b8 - Light gray */
-  --popover: 88 50% 5%;
-  --popover-foreground: 210 40% 98%;
-  --card: 88 40% 10%;
-  --card-foreground: 210 40% 98%;
-  --border: 88 35% 15%;
-  --input: 88 40% 10%;
-  --primary: 45 93% 47%; /* Yellow primary */
+  --popover: 0 50% 8%; /* #2a0606 - Same as background */
+  --popover-foreground: 210 40% 98%; /* Light text */
+  --card: 0 40% 12%; /* #3a1010 - Slightly lighter dark red for cards */
+  --card-foreground: 210 40% 98%; /* Light text */
+  --border: 0 35% 18%; /* #4a1515 - Subtle dark red border */
+  --input: 0 40% 12%; /* #3a1010 - Slightly lighter for inputs */
+  --primary: 0 85% 55%; /* Red primary */
   --primary-foreground: 0 0% 100%; /* Pure white */
-  --secondary: 45 93% 30%; /* Dark yellow secondary */
+  --secondary: 160 84% 39%; /* Keep secondary green */
   --secondary-foreground: 0 0% 100%; /* Pure white */
-  --accent: 45 93% 63%; /* Yellow accent */
+  --accent: 0 85% 60%; /* Dark red accent */
   --accent-foreground: 0 0% 100%; /* Pure white */
   --destructive: 0 84% 60%; /* Red */
   --destructive-foreground: 0 0% 100%; /* Pure white */
-  --ring: 45 93% 47%; /* Yellow ring */
+  --ring: 0 85% 55%; /* Dark red ring */
 }
 
 /* Mobile-specific styles for Capacitor */
@@ -579,19 +548,19 @@ html, body {
 
   /* Banking specific styles */
   .banking-gradient {
-    background: hsl(45 93% 47%);
+    background: hsl(271 81% 66%);
   }
 
   .card-gradient-blue {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(45 93% 70%) 100%);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(217 91% 70%) 100%);
   }
 
   .card-gradient-green {
-    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(45 93% 50%) 100%);
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(160 84% 50%) 100%);
   }
 
   .card-gradient-red {
-    background: linear-gradient(135deg, hsl(45 93% 30%) 0%, hsl(45 93% 47%) 100%);
+    background: linear-gradient(135deg, hsl(271 81% 56%) 0%, hsl(271 81% 66%) 100%);
   }
 
   /* Enhanced shadows for banking UI */
@@ -605,7 +574,7 @@ html, body {
 
   /* Status indicators */
   .status-active {
-    @apply bg-primary/10 text-primary;
+    @apply bg-secondary/10 text-secondary;
   }
 
   .status-pending {
@@ -613,7 +582,7 @@ html, body {
   }
 
   .status-suspended {
-    @apply bg-yellow-900/20 text-yellow-600;
+    @apply bg-red-100 text-red-700;
   }
 
   /* Animation classes */
@@ -903,9 +872,9 @@ html, body {
   }
 
   .nav-icon-container.active {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(45 93% 30%) 100%);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(0 85% 45%) 100%);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
     transform: translateY(-2px) scale(1.05);
   }
 

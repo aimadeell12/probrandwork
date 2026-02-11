@@ -17,7 +17,7 @@ export default function KycWarning({ status, message }: KycWarningProps) {
       return "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800";
     }
     if (status === "rejected") {
-      return "bg-yellow-50 dark:bg-red-900/20 border-yellow-200 dark:border-red-800";
+      return "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800";
     }
     return "bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800";
   };

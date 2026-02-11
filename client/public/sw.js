@@ -1,4 +1,4 @@
-const CACHE_NAME = 'brandsoft-pay-v1';
+const CACHE_NAME = 'paydota-v1';
 const APP_SHELL = '/';
 
 self.addEventListener('install', (event) => {

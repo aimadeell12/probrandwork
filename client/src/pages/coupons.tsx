@@ -73,13 +73,13 @@ export default function Coupons() {
       <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-yellow-200/30 dark:border-red-700/30 p-4 relative z-10">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-red-200/30 dark:border-red-700/30 p-4 relative z-10">
         <div className="flex items-center space-x-4 space-x-reverse">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/account")}
-            className="p-2 hover:bg-yellow-50 dark:hover:bg-red-900/20"
+            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -99,11 +99,11 @@ export default function Coupons() {
           </h2>
           
           {coupons.filter(coupon => coupon.isActive && !isExpired(coupon.expiryDate)).map((coupon) => (
-            <Card key={coupon.id} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 dark:border-red-700/30 shadow-lg overflow-hidden">
+            <Card key={coupon.id} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 dark:border-red-700/30 shadow-lg overflow-hidden">
               <CardContent className="p-0">
                 <div className="relative">
                   {/* Coupon Header */}
-                  <div className="bg-gradient-to-r from-primary to-pink-600 p-4 text-white">
+                  <div className="bg-gradient-to-r from-red-600 to-pink-600 p-4 text-white">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="rounded-full p-2 bg-white/20">
@@ -132,7 +132,7 @@ export default function Coupons() {
                         size="sm"
                         variant="ghost"
                         onClick={() => handleCopyCode(coupon.code)}
-                        className="h-8 px-2 text-primary hover:text-red-700 hover:bg-yellow-50 dark:hover:bg-red-900/30"
+                        className="h-8 px-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/30"
                       >
                         {copiedCode === coupon.code ? (
                           <Check className="h-4 w-4" />
@@ -156,7 +156,7 @@ export default function Coupons() {
                     
                     {/* Apply Button */}
                     <Button
-                      className="w-full bg-gradient-to-r from-primary to-pink-600 hover:from-red-700 hover:to-pink-700 text-white text-sm"
+                      className="w-full bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white text-sm"
                       onClick={() => {
                         toast({
                           title: "Coupon Applied!",
@@ -206,7 +206,7 @@ export default function Coupons() {
         )}
 
         {/* How to Use */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 dark:border-red-700/30 shadow-lg">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 dark:border-red-700/30 shadow-lg">
           <CardHeader>
             <CardTitle className="text-gray-900 dark:text-white text-base">
               How to Use Coupons
@@ -214,15 +214,15 @@ export default function Coupons() {
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
             <div className="flex items-start space-x-2">
-              <span className="font-semibold text-primary">1.</span>
+              <span className="font-semibold text-red-600">1.</span>
               <span>Copy the coupon code by tapping the copy button</span>
             </div>
             <div className="flex items-start space-x-2">
-              <span className="font-semibold text-primary">2.</span>
+              <span className="font-semibold text-red-600">2.</span>
               <span>Apply the coupon during checkout or transaction</span>
             </div>
             <div className="flex items-start space-x-2">
-              <span className="font-semibold text-primary">3.</span>
+              <span className="font-semibold text-red-600">3.</span>
               <span>Enjoy your discount on eligible transactions</span>
             </div>
           </CardContent>

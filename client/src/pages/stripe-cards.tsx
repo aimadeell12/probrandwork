@@ -37,9 +37,9 @@ export default function AirwallexCards() {
 
         {/* Decorative elements */}
         <div className="flex justify-center gap-2 mt-8">
-          <div className="w-2.5 h-2.5 bg-primary rounded-full opacity-100"></div>
-          <div className="w-2.5 h-2.5 bg-primary rounded-full opacity-60"></div>
-          <div className="w-2.5 h-2.5 bg-primary rounded-full opacity-30"></div>
+          <div className="w-2.5 h-2.5 bg-red-500 rounded-full opacity-100"></div>
+          <div className="w-2.5 h-2.5 bg-red-500 rounded-full opacity-60"></div>
+          <div className="w-2.5 h-2.5 bg-red-500 rounded-full opacity-30"></div>
         </div>
       </div>
     </div>

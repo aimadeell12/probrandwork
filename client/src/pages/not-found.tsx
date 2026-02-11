@@ -19,14 +19,14 @@ export default function NotFound() {
         <CardContent className="pt-8 pb-20 px-6 text-center">
           
           {/* 404 Number */}
-          <div className="text-8xl font-bold text-primary dark:text-red-400 mb-4 opacity-20">
+          <div className="text-8xl font-bold text-red-600 dark:text-red-400 mb-4 opacity-20">
             404
           </div>
           
           {/* Icon and Title */}
           <div className="flex flex-col items-center mb-6">
-            <div className="w-16 h-16 bg-yellow-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-4">
-              <Search className="h-8 w-8 text-primary dark:text-red-400" />
+            <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-4">
+              <Search className="h-8 w-8 text-red-600 dark:text-red-400" />
             </div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
               {t("pageNotFound") || "الصفحة غير موجودة"}
@@ -39,7 +39,7 @@ export default function NotFound() {
           {/* Action Buttons */}
           <div className="space-y-3">
             <Link href="/dashboard">
-              <Button className="w-full bg-primary hover:bg-red-700 text-white rounded-xl py-3 flex items-center justify-center gap-2">
+              <Button className="w-full bg-red-600 hover:bg-red-700 text-white rounded-xl py-3 flex items-center justify-center gap-2">
                 <Home className="h-4 w-4" />
                 {t("goHome") || "العودة للرئيسية"}
               </Button>
@@ -48,7 +48,7 @@ export default function NotFound() {
             <Button 
               variant="outline" 
               onClick={() => window.history.back()}
-              className="w-full border-yellow-200 dark:border-red-700 text-primary dark:text-red-400 hover:bg-yellow-50 dark:hover:bg-red-900/20 rounded-xl py-3 flex items-center justify-center gap-2"
+              className="w-full border-red-200 dark:border-red-700 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl py-3 flex items-center justify-center gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
               {t("goBack") || "العودة للخلف"}

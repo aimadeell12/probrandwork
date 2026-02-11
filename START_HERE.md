@@ -1,4 +1,4 @@
-# 🚀 ابدأ هنا - بناء تطبيق BrandSoft Pay على GitHub
+# 🚀 ابدأ هنا - بناء تطبيق PayDota على GitHub
 
 ## ✅ الإعداد جاهز!
 
@@ -53,7 +53,7 @@ git push origin main
 1. في تبويب Actions
 2. اضغط على الـ workflow الأخضر ✅
 3. انزل لـ **Artifacts**
-4. حمل `brandsoft-pay-release-apk`
+4. حمل `paydota-release-apk`
 
 **الطريقة 2: من Releases**
 1. اذهب لتبويب **Releases**

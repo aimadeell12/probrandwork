@@ -1,7 +1,7 @@
-# دليل نشر تطبيق BrandSoft Pay المحمول
+# دليل نشر تطبيق PayDota المحمول
 
 ## نظرة عامة
-تم تحويل تطبيق BrandSoft Pay بنجاح إلى تطبيق محمول باستخدام Capacitor مع إعداد نشر تلقائي عبر GitHub Actions.
+تم تحويل تطبيق PayDota بنجاح إلى تطبيق محمول باستخدام Capacitor مع إعداد نشر تلقائي عبر GitHub Actions.
 
 ## الميزات المُنفذة
 
@@ -27,7 +27,7 @@
 
 ### الملفات الرئيسية
 ```
-BrandSoft Pay/
+PayDota/
 ├── capacitor.config.ts        # إعدادات التطبيق
 ├── build-android.sh          # بناء أندرويد
 ├── build-ios.sh              # بناء iOS
@@ -128,7 +128,7 @@ await triggerHaptic(ImpactStyle.Heavy);
 await showToast('رسالة للمستخدم', 'short');
 
 // مشاركة
-await shareContent('BrandSoft Pay', 'تطبيق البنك الرقمي', 'https://brandsoft-pay.com');
+await shareContent('PayDota', 'تطبيق البنك الرقمي', 'https://paydota.com');
 ```
 
 ## الخطوات التالية

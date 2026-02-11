@@ -121,8 +121,8 @@ export default function DepositRequests() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
-      case 'approved': return 'bg-yellow-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-      case 'rejected': return 'bg-yellow-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+      case 'approved': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+      case 'rejected': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
     }
   };
@@ -162,14 +162,14 @@ export default function DepositRequests() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link href="/admin-panel">
-              <Button variant="ghost" size="sm" className="text-primary hover:text-red-700 dark:text-red-400">
+              <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 dark:text-red-400">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Admin
               </Button>
             </Link>
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
-                <DollarSign className="h-8 w-8 text-primary mr-3" />
+                <DollarSign className="h-8 w-8 text-red-600 mr-3" />
                 Deposit Requests
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -181,12 +181,12 @@ export default function DepositRequests() {
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200 dark:border-red-800">
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200 dark:border-red-800">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Total Requests</p>
-                  <p className="text-2xl font-bold text-primary dark:text-red-400">{stats.total}</p>
+                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.total}</p>
                 </div>
                 <DollarSign className="h-8 w-8 text-red-500" />
               </div>
@@ -205,24 +205,24 @@ export default function DepositRequests() {
             </CardContent>
           </Card>
           
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200 dark:border-green-800">
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-green-200 dark:border-green-800">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Approved</p>
-                  <p className="text-2xl font-bold text-primary dark:text-green-400">{stats.approved}</p>
+                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.approved}</p>
                 </div>
                 <Check className="h-8 w-8 text-green-500" />
               </div>
             </CardContent>
           </Card>
           
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200 dark:border-red-800">
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200 dark:border-red-800">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Rejected</p>
-                  <p className="text-2xl font-bold text-primary dark:text-red-400">{stats.rejected}</p>
+                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.rejected}</p>
                 </div>
                 <X className="h-8 w-8 text-red-500" />
               </div>
@@ -231,7 +231,7 @@ export default function DepositRequests() {
         </div>
 
         {/* Filters */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200 dark:border-red-800">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200 dark:border-red-800">
           <CardContent className="p-4">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
@@ -261,7 +261,7 @@ export default function DepositRequests() {
         </Card>
 
         {/* Requests List */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200 dark:border-red-800">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200 dark:border-red-800">
           <CardHeader>
             <CardTitle className="text-gray-900 dark:text-white">
               Deposit Requests ({filteredRequests.length})
@@ -280,7 +280,7 @@ export default function DepositRequests() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className="flex-shrink-0">
-                          <div className="h-10 w-10 bg-yellow-100 dark:bg-red-900 rounded-full flex items-center justify-center">
+                          <div className="h-10 w-10 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center">
                             {getMethodIcon(request.method)}
                           </div>
                         </div>
@@ -316,7 +316,7 @@ export default function DepositRequests() {
                             size="sm"
                             variant="outline"
                             onClick={() => handleReject(request)}
-                            className="text-primary border-red-300 hover:bg-yellow-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
+                            className="text-red-600 border-red-300 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
                             disabled={rejectMutation.isPending}
                           >
                             <X className="h-4 w-4 mr-1" />
@@ -325,7 +325,7 @@ export default function DepositRequests() {
                           <Button
                             size="sm"
                             onClick={() => handleApprove(request.id)}
-                            className="bg-primary hover:bg-green-700 text-white"
+                            className="bg-green-600 hover:bg-green-700 text-white"
                             disabled={approveMutation.isPending}
                           >
                             <Check className="h-4 w-4 mr-1" />
@@ -373,7 +373,7 @@ export default function DepositRequests() {
                   <Button
                     onClick={confirmReject}
                     disabled={rejectMutation.isPending}
-                    className="bg-primary hover:bg-red-700 text-white"
+                    className="bg-red-600 hover:bg-red-700 text-white"
                   >
                     {rejectMutation.isPending ? "Rejecting..." : "Reject Request"}
                   </Button>

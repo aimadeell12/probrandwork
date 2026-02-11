@@ -1,6 +1,6 @@
 {
-	"appId": "com.brandsoft-pay.banking",
-	"appName": "BrandSoft Pay",
+	"appId": "com.paydota.banking",
+	"appName": "PayDota",
 	"webDir": "dist/public",
 	"server": {
 		"url": "https://probrandify.org",

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# BrandSoft Pay Mobile Build Script
+# PayDota Mobile Build Script
 # This script helps build and manage the mobile app using Capacitor
 
 set -e
 
-echo "📱 BrandSoft Pay Mobile Build Script"
+echo "📱 PayDota Mobile Build Script"
 echo "==============================="
 
 # Function to display help
@@ -27,7 +27,7 @@ show_help() {
 case "$1" in
     "init")
         echo "🔧 Initializing Capacitor..."
-        npx cap init BrandSoft Pay com.brandsoft-pay.banking --web-dir=dist/public
+        npx cap init PayDota com.paydota.banking --web-dir=dist/public
         ;;
     "android")
         echo "🤖 Adding Android platform..."

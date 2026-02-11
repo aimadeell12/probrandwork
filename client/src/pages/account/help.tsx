@@ -95,7 +95,7 @@ export default function Help() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30"
+            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -135,7 +135,7 @@ export default function Help() {
                   <ul className="space-y-2">
                     {category.articles.map((article, articleIndex) => (
                       <li key={articleIndex}>
-                        <button className="text-left w-full p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-red-400 hover:bg-yellow-50 dark:hover:bg-red-900/20 rounded transition-colors">
+                        <button className="text-left w-full p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors">
                           {article}
                         </button>
                       </li>
@@ -194,7 +194,7 @@ export default function Help() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Button 
                 onClick={() => setLocation("/support")}
-                className="bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800"
+                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
               >
                 Contact Support
               </Button>

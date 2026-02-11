@@ -6,19 +6,19 @@ export default function PrivacyPolicy() {
   const [, setLocation] = useLocation();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/10 dark:from-primary/10 dark:via-background dark:to-primary/5 relative pb-20 overflow-y-visible">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-red-900 dark:to-blue-900 relative overflow-hidden pb-20">
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-primary/10 to-primary/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-red-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-primary/20 dark:border-primary/30 p-4 relative z-10 sticky top-0">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-red-200/30 dark:border-red-700/30 p-4 relative z-10 sticky top-0">
         <div className="flex items-center space-x-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/account")}
-            className="p-2 hover:bg-primary/10 dark:hover:bg-primary/20"
+            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -33,8 +33,8 @@ export default function PrivacyPolicy() {
         <div className="space-y-6 text-gray-700 dark:text-gray-300">
           
           {/* Last Updated */}
-          <div className="bg-primary/10 dark:bg-primary/20 border border-primary/20 dark:border-primary/30 rounded-lg p-4">
-            <p className="text-sm text-primary dark:text-primary">
+          <div className="bg-blue-50/50 dark:bg-blue-900/20 border border-blue-200/50 dark:border-blue-700/50 rounded-lg p-4">
+            <p className="text-sm text-blue-900 dark:text-blue-300">
               <strong>Last Updated:</strong> December 2024
             </p>
           </div>
@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">1. Introduction</h2>
             <p className="text-sm leading-relaxed">
-              LM WORK MA, developed by LMWORK MA LIMITED ("we," "us," "our," or "Company"), is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
+              AppsPay, developed by APPS PAY TECHNOLOGY FOUNDATION ("we," "us," "our," or "Company"), is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.
             </p>
           </section>
 
@@ -193,7 +193,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">11. International Data Transfer</h2>
             <p className="text-sm leading-relaxed">
-              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws different from your home country. By using LM WORK MA, you consent to such transfers. We ensure appropriate safeguards are in place for all international transfers.
+              Your information may be transferred to, stored in, and processed in countries other than your country of residence. These countries may have data protection laws different from your home country. By using AppsPay, you consent to such transfers. We ensure appropriate safeguards are in place for all international transfers.
             </p>
           </section>
 
@@ -201,7 +201,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">12. Changes to This Privacy Policy</h2>
             <p className="text-sm leading-relaxed">
-              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our app. Your continued use of LM WORK MA following the posting of changes means you accept the updated policy.
+              We may update this Privacy Policy from time to time. We will notify you of significant changes by updating the "Last Updated" date and posting the revised policy on our app. Your continued use of AppsPay following the posting of changes means you accept the updated policy.
             </p>
           </section>
 
@@ -211,34 +211,30 @@ export default function PrivacyPolicy() {
             <p className="text-sm leading-relaxed mb-4">
               If you have questions about this Privacy Policy, our privacy practices, or wish to exercise your privacy rights, please contact us:
             </p>
-            <div className="bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-lg p-4 text-sm mt-3 space-y-3">
+            <div className="bg-red-50/50 dark:bg-red-900/20 border border-red-200/50 dark:border-red-700/50 rounded-lg p-4 text-sm mt-3 space-y-3">
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Developer:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">LMWORK MA LIMITED</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">APPS PAY TECHNOLOGY FOUNDATION</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Email:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">info@lmworkpay.site</p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <strong className="text-gray-900 dark:text-white">Website:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">https://lmworkpay.site</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">sohaybmercury@gmail.com</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Phone:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">+(785) 915 9048</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">+19134278758</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Address:</strong>
                 <address className="text-gray-700 dark:text-gray-300 ml-2 not-italic">
-                  2 Frederick Street, Kings Cross<br />
-                  LONDON - WC1X 0ND<br />
-                  United Kingdom (GB)
+                  920 N Tyler Rd Ste 304<br />
+                  Wichita - 67212-3267<br />
+                  United States (US)
                 </address>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">App Name:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">LM WORK PAY</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">AppsPay</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Response Time:</strong>
@@ -251,7 +247,7 @@ export default function PrivacyPolicy() {
           <section className="bg-yellow-50/50 dark:bg-yellow-900/20 border border-yellow-200/50 dark:border-yellow-700/50 rounded-lg p-4 mt-6">
             <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-300 mb-2">Legal Compliance</h3>
             <p className="text-sm text-yellow-900 dark:text-yellow-200">
-              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, HIPAA, and other international privacy laws. LM WORK MA operates in compliance with app store privacy requirements and financial services regulations. By using LM WORK MA, you acknowledge that you have read and agree to this Privacy Policy.
+              This Privacy Policy complies with applicable data protection regulations including GDPR, CCPA, HIPAA, and other international privacy laws. AppsPay operates in compliance with app store privacy requirements and financial services regulations. By using AppsPay, you acknowledge that you have read and agree to this Privacy Policy.
             </p>
           </section>
 

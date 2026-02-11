@@ -499,7 +499,7 @@ export default function Register() {
               <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm md:text-base">
                 {t('alreadyHaveAccount')}{' '}
                 <Link href="/login">
-                  <span className="text-primary dark:text-red-400 font-semibold hover:underline cursor-pointer">
+                  <span className="text-red-600 dark:text-red-400 font-semibold hover:underline cursor-pointer">
                     {t('signIn')}
                   </span>
                 </Link>

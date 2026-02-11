@@ -113,7 +113,7 @@ export default function Login() {
                       onClick={() => setLoginType('email')}
                       className={`flex-1 py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 text-xs sm:text-sm md:text-base font-medium rounded-md sm:rounded-lg transition-all duration-200 ${
                         loginType === 'email'
-                          ? 'bg-white dark:bg-background text-primary dark:text-red-400 shadow-sm'
+                          ? 'bg-white dark:bg-background text-red-600 dark:text-red-400 shadow-sm'
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                       }`}
                     >
@@ -124,7 +124,7 @@ export default function Login() {
                       onClick={() => setLoginType('phone')}
                       className={`flex-1 py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 text-xs sm:text-sm md:text-base font-medium rounded-md sm:rounded-lg transition-all duration-200 ${
                         loginType === 'phone'
-                          ? 'bg-white dark:bg-background text-primary dark:text-red-400 shadow-sm'
+                          ? 'bg-white dark:bg-background text-red-600 dark:text-red-400 shadow-sm'
                           : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                       }`}
                     >
@@ -203,7 +203,7 @@ export default function Login() {
                   <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm md:text-base">
                     {t('dontHaveAccount')}{' '}
                     <Link href="/register">
-                      <span className="text-primary dark:text-red-400 font-semibold hover:underline cursor-pointer">
+                      <span className="text-red-600 dark:text-red-400 font-semibold hover:underline cursor-pointer">
                         {t('createNewAccount')}
                       </span>
                     </Link>

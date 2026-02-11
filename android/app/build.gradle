@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.brandsoft-pay.banking"
+    namespace "com.paydota.banking"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.brandsoft-pay.banking"
+        applicationId "com.paydota.banking"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -27,11 +27,11 @@ export default function ChooseCard() {
 
   const cardDesigns = {
     virtual: [
-      { id: "purple", name: "Classic Purple", gradient: "from-primary to-red-700" },
+      { id: "purple", name: "Classic Purple", gradient: "from-red-600 to-red-700" },
       { id: "purple-pink", name: "Purple Gradient", gradient: "from-red-500 to-pink-500" },
     ],
     physical: [
-      { id: "classic-purple", name: "Classic Purple", gradient: "from-primary to-red-700" },
+      { id: "classic-purple", name: "Classic Purple", gradient: "from-red-600 to-red-700" },
       { id: "premium-purple", name: "Premium Purple", gradient: "from-red-800 to-red-900" },
     ]
   };
@@ -112,14 +112,14 @@ export default function ChooseCard() {
             </div>
             <div className="flex flex-col items-end justify-between h-full">
               <Wifi className="w-3 h-3 text-white/70" />
-              <div className="text-xs font-semibold text-white/80">LM WORK MA</div>
+              <div className="text-xs font-semibold text-white/80">AppsPay</div>
             </div>
           </div>
           
           {/* Selection Indicator */}
           {selectedDesign === design.id && (
             <div className="absolute -top-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-red-400 transform scale-100 transition-transform duration-200">
-              <Check className="w-3 h-3 text-primary" />
+              <Check className="w-3 h-3 text-red-600" />
             </div>
           )}
         </div>
@@ -145,7 +145,7 @@ export default function ChooseCard() {
                 setLocation("/cards");
               }
             }}
-            className="flex items-center gap-2 text-primary hover:text-red-700 hover:bg-yellow-50"
+            className="flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
           >
             <ArrowLeft className="w-4 h-4" />
             Back
@@ -170,7 +170,7 @@ export default function ChooseCard() {
                   onClick={() => setSelectedCardType("virtual")}
                 >
                   <div className="relative text-center space-y-3">
-                    <div className="w-16 h-16 mx-auto bg-gradient-to-br from-primary to-red-700 rounded-xl flex items-center justify-center shadow-lg shadow-red-200">
+                    <div className="w-16 h-16 mx-auto bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg shadow-red-200">
                       <Smartphone className="w-8 h-8 text-white" />
                     </div>
                     <div>
@@ -234,7 +234,7 @@ export default function ChooseCard() {
                         value={formData.creditLimit} 
                         onValueChange={(value) => handleInputChange("creditLimit", value)}
                       >
-                        <SelectTrigger className="bg-white border-yellow-200 focus:border-red-500 h-10">
+                        <SelectTrigger className="bg-white border-red-200 focus:border-red-500 h-10">
                           <SelectValue placeholder="Select credit limit" />
                         </SelectTrigger>
                         <SelectContent>
@@ -253,7 +253,7 @@ export default function ChooseCard() {
                         value={formData.currency} 
                         onValueChange={(value) => handleInputChange("currency", value)}
                       >
-                        <SelectTrigger className="bg-white border-yellow-200 focus:border-red-500 h-10">
+                        <SelectTrigger className="bg-white border-red-200 focus:border-red-500 h-10">
                           <SelectValue placeholder="Select currency" />
                         </SelectTrigger>
                         <SelectContent>
@@ -271,14 +271,14 @@ export default function ChooseCard() {
                       type="button"
                       variant="outline"
                       onClick={() => setLocation("/cards")}
-                      className="flex-1 h-10 border-yellow-200 text-primary hover:bg-yellow-50"
+                      className="flex-1 h-10 border-red-200 text-red-600 hover:bg-red-50"
                     >
                       Cancel
                     </Button>
                     <Button
                       type="submit"
                       disabled={createCardMutation.isPending}
-                      className="flex-1 h-10 bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800"
+                      className="flex-1 h-10 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
                     >
                       {createCardMutation.isPending ? "Creating..." : "Create Card"}
                     </Button>

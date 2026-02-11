@@ -1,4 +1,4 @@
-# Password Management Guide - BrandSoft Pay Platform
+# Password Management Guide - PayDota Platform
 
 ## Current Password Status
 
