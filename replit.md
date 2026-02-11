@@ -5,9 +5,10 @@ LM WORK PAY is a comprehensive digital banking platform designed to offer secure
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
-Company Email: Contact@brandsoftapps.com
+Company Email: info@lmworkpay.site
 Developer: LMWORK MA LIMITED
 Address: 2 Frederick Street, Kings Cross, LONDON - WC1X 0ND, United Kingdom (GB)
+Website: https://lmworkpay.site
 
 ## System Architecture
 

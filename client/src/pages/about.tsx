@@ -134,7 +134,8 @@ export default function About() {
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white text-sm">Contact</h4>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                Email: Contact@brandsoftapps.com<br />
+                Email: info@lmworkpay.site<br />
+                Website: https://lmworkpay.site<br />
                 Phone: +(785) 915 9048<br />
                 Address: 2 Frederick Street, Kings Cross, LONDON - WC1X 0ND, United Kingdom (GB)
               </p>

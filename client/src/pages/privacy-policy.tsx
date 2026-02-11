@@ -218,7 +218,11 @@ export default function PrivacyPolicy() {
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Email:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">Contact@brandsoftapps.com</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">info@lmworkpay.site</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <strong className="text-gray-900 dark:text-white">Website:</strong>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">https://lmworkpay.site</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Phone:</strong>
@@ -234,7 +238,7 @@ export default function PrivacyPolicy() {
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">App Name:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">LM WORK MA</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">LM WORK PAY</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Response Time:</strong>
