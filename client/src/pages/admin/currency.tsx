@@ -104,7 +104,7 @@ export default function AdminCurrency() {
       
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-300 dark:bg-green-600 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-300 dark:bg-primary rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-70 animate-blob"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-300 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
       </div>
 
@@ -193,7 +193,7 @@ export default function AdminCurrency() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <DollarSign className="h-6 w-6 text-green-600 mx-auto mb-2" />
+              <DollarSign className="h-6 w-6 text-primary mx-auto mb-2" />
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.totalRates || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Exchange Rates</p>
             </CardContent>

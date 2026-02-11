@@ -87,8 +87,8 @@ export default function SystemReports() {
           <Card>
             <CardContent className="p-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                  <Shield className="h-4 w-4 text-green-600 dark:text-green-400" />
+                <div className="w-8 h-8 bg-yellow-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                  <Shield className="h-4 w-4 text-primary dark:text-green-400" />
                 </div>
                 <div>
                   <p className="text-xs text-gray-600 dark:text-gray-400">KYC Approved</p>
@@ -115,7 +115,7 @@ export default function SystemReports() {
           <Card>
             <CardContent className="p-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-yellow-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
                   <CreditCard className="h-4 w-4 text-primary dark:text-red-400" />
                 </div>
                 <div>
@@ -138,9 +138,9 @@ export default function SystemReports() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-yellow-50 dark:bg-green-900/20 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-primary rounded-full"></div>
                     <span className="font-medium text-gray-900 dark:text-white">Approved</span>
                   </div>
                   <div className="text-right">
@@ -164,9 +164,9 @@ export default function SystemReports() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-yellow-50 dark:bg-red-900/20 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-primary rounded-full"></div>
                     <span className="font-medium text-gray-900 dark:text-white">Rejected</span>
                   </div>
                   <div className="text-right">
@@ -203,13 +203,13 @@ export default function SystemReports() {
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-sm text-gray-600 dark:text-gray-400">Approval Rate</span>
-                  <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                  <Badge className="bg-yellow-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
                     {totalKyc > 0 ? Math.round((approvedKyc / totalKyc) * 100) : 0}%
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-sm text-gray-600 dark:text-gray-400">System Status</span>
-                  <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">Online</Badge>
+                  <Badge className="bg-yellow-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">Online</Badge>
                 </div>
               </div>
             </CardContent>
@@ -236,14 +236,14 @@ export default function SystemReports() {
                   <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
                       kyc.status === 'approved' 
-                        ? 'bg-green-100 dark:bg-green-900/30' 
+                        ? 'bg-yellow-100 dark:bg-green-900/30' 
                         : kyc.status === 'pending'
                         ? 'bg-orange-100 dark:bg-orange-900/30'
-                        : 'bg-red-100 dark:bg-red-900/30'
+                        : 'bg-yellow-100 dark:bg-red-900/30'
                     }`}>
                       <Shield className={`h-4 w-4 ${
                         kyc.status === 'approved' 
-                          ? 'text-green-600 dark:text-green-400' 
+                          ? 'text-primary dark:text-green-400' 
                           : kyc.status === 'pending'
                           ? 'text-orange-600 dark:text-orange-400'
                           : 'text-primary dark:text-red-400'

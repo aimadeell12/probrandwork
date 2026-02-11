@@ -58,9 +58,9 @@ export default function Transactions() {
       case "send":
         return <ArrowUpRight className="h-4 w-4 text-primary" />;
       case "receive":
-        return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
+        return <ArrowDownLeft className="h-4 w-4 text-primary" />;
       case "deposit":
-        return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
+        return <ArrowDownLeft className="h-4 w-4 text-primary" />;
       case "withdraw":
         return <ArrowUpRight className="h-4 w-4 text-primary" />;
       default:
@@ -81,11 +81,11 @@ export default function Transactions() {
   const getTransactionStatusBadge = (status: string) => {
     switch (status) {
       case "completed":
-        return <Badge className="bg-green-100 text-green-800">Completed</Badge>;
+        return <Badge className="bg-yellow-100 text-green-800">Completed</Badge>;
       case "pending":
         return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
       case "failed":
-        return <Badge className="bg-red-100 text-red-800">Failed</Badge>;
+        return <Badge className="bg-yellow-100 text-red-800">Failed</Badge>;
       default:
         return <Badge className="bg-gray-100 text-gray-800">Unknown</Badge>;
     }
@@ -138,7 +138,7 @@ export default function Transactions() {
                   onClick={() => setSelectedFilter(filter.key)}
                   className={`whitespace-nowrap text-xs px-3 py-2 min-w-0 flex-shrink-0 ${
                     selectedFilter === filter.key 
-                      ? "bg-red-500 text-white shadow-lg"
+                      ? "bg-primary text-white shadow-lg"
                       : "bg-white dark:bg-background border border-gray-200 dark:border-border hover:bg-gray-50 dark:hover:bg-muted"
                   }`}
                 >
@@ -165,8 +165,8 @@ export default function Transactions() {
                         <div className="flex items-center gap-3">
                           <div className={`p-2 rounded-xl ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'bg-green-100 dark:bg-green-900/30'
-                              : 'bg-red-100 dark:bg-red-900/30'
+                              ? 'bg-yellow-100 dark:bg-green-900/30'
+                              : 'bg-yellow-100 dark:bg-red-900/30'
                           }`}>
                             {getTransactionIcon(transaction.type)}
                           </div>
@@ -182,7 +182,7 @@ export default function Transactions() {
                         <div className="text-right">
                           <p className={`font-semibold ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'text-green-600 dark:text-green-400'
+                              ? 'text-primary dark:text-green-400'
                               : 'text-primary dark:text-red-400'
                           }`}>
                             {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}

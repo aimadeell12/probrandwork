@@ -183,11 +183,11 @@ export default function Account() {
 
         {/* Menu Items */}
         {/* Settings Group */}
-        <Card className="bg-white/80 dark:bg-background backdrop-blur-sm border-red-200/30 dark:border-border shadow-lg mb-3 rounded-xl overflow-hidden">
+        <Card className="bg-white/80 dark:bg-background backdrop-blur-sm border-yellow-200/30 dark:border-border shadow-lg mb-3 rounded-xl overflow-hidden">
           <CardContent className="p-0">
             <button 
               onClick={() => navigateTo("/account/language")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30 last:border-b-0"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30 last:border-b-0"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -202,7 +202,7 @@ export default function Account() {
             
             <button 
               onClick={() => navigateTo("/kyc-verification")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -217,7 +217,7 @@ export default function Account() {
 
             <button 
               onClick={() => navigateTo("/account/payment-password")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -233,11 +233,11 @@ export default function Account() {
         </Card>
 
         {/* Support Group */}
-        <Card className="bg-white/80 dark:bg-background backdrop-blur-sm border-red-200/30 dark:border-border shadow-lg mb-3 rounded-xl overflow-hidden">
+        <Card className="bg-white/80 dark:bg-background backdrop-blur-sm border-yellow-200/30 dark:border-border shadow-lg mb-3 rounded-xl overflow-hidden">
           <CardContent className="p-0">
             <button 
               onClick={() => navigateTo("/customer-service")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -252,7 +252,7 @@ export default function Account() {
             
             <button 
               onClick={() => navigateTo("/security-privacy")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -268,11 +268,11 @@ export default function Account() {
         </Card>
 
         {/* Cards & Services Group */}
-        <Card className="bg-white/80 dark:bg-background backdrop-blur-sm border-red-200/30 dark:border-border shadow-lg mb-3 rounded-xl overflow-hidden">
+        <Card className="bg-white/80 dark:bg-background backdrop-blur-sm border-yellow-200/30 dark:border-border shadow-lg mb-3 rounded-xl overflow-hidden">
           <CardContent className="p-0">
             <button 
               onClick={() => navigateTo("/card-purchase-record")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -287,7 +287,7 @@ export default function Account() {
             
             <button 
               onClick={() => navigateTo("/coupons")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -302,7 +302,7 @@ export default function Account() {
             
             <button 
               onClick={() => navigateTo("/about")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -320,7 +320,7 @@ export default function Account() {
 
             <button 
               onClick={() => navigateTo("/legal/privacy")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30 last:border-b-0"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30 last:border-b-0"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -335,7 +335,7 @@ export default function Account() {
 
             <button 
               onClick={() => navigateTo("/aml-policy")} 
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors"
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
@@ -356,7 +356,7 @@ export default function Account() {
             <CardContent className="p-0">
               <button 
                 onClick={() => navigateTo("/admin-panel")}
-                className="w-full p-3 flex items-center justify-between hover:bg-red-50/70 dark:hover:bg-red-900/30 transition-colors"
+                className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/70 dark:hover:bg-red-900/30 transition-colors"
               >
                 <div className="flex items-center space-x-3">
                   <div className="rounded-lg p-1.5 bg-gradient-to-r from-primary to-pink-600">
@@ -378,11 +378,11 @@ export default function Account() {
         )}
 
         {/* Logout & Delete Account */}
-        <Card className="bg-white/80 dark:bg-background backdrop-blur-sm border-red-200/30 dark:border-border shadow-lg rounded-xl overflow-hidden mb-24 lg:mb-6">
+        <Card className="bg-white/80 dark:bg-background backdrop-blur-sm border-yellow-200/30 dark:border-border shadow-lg rounded-xl overflow-hidden mb-24 lg:mb-6">
           <CardContent className="p-0">
             <button 
               onClick={handleLogout}
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors border-b border-red-100/30 dark:border-red-700/30"
               data-testid="button-logout"
             >
               <div className="flex items-center space-x-3">
@@ -398,7 +398,7 @@ export default function Account() {
             
             <button 
               onClick={() => setShowDeleteDialog(true)}
-              className="w-full p-3 flex items-center justify-between hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors"
+              className="w-full p-3 flex items-center justify-between hover:bg-yellow-50/50 dark:hover:bg-red-900/20 transition-colors"
               data-testid="button-delete-account"
             >
               <div className="flex items-center space-x-3">

@@ -289,10 +289,10 @@ export default function CustomCheckoutPage() {
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
-              <Check className="h-8 w-8 text-green-600 dark:text-green-400" />
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100 dark:bg-green-900">
+              <Check className="h-8 w-8 text-primary dark:text-green-400" />
             </div>
-            <CardTitle className="text-green-600 dark:text-green-400">Payment Successful!</CardTitle>
+            <CardTitle className="text-primary dark:text-green-400">Payment Successful!</CardTitle>
             <CardDescription>
               Your payment of {paymentLink.currency} {paymentLink.amount} has been processed successfully.
             </CardDescription>
@@ -310,7 +310,7 @@ export default function CustomCheckoutPage() {
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-rose-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100 dark:bg-red-900">
               <AlertCircle className="h-8 w-8 text-primary dark:text-red-400" />
             </div>
             <CardTitle className="text-primary dark:text-red-400">Payment Failed</CardTitle>

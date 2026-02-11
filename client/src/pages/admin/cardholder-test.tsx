@@ -237,7 +237,7 @@ export default function CardholderTest() {
               <Button 
                 onClick={testCardholderCreation}
                 disabled={isLoading}
-                className="w-full bg-red-500 hover:bg-primary"
+                className="w-full bg-primary hover:bg-primary"
               >
                 {isLoading ? 'جاري الإنشاء...' : 'إنشاء Cardholder'}
               </Button>
@@ -248,7 +248,7 @@ export default function CardholderTest() {
           {result && (
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-green-600">
+                <CardTitle className="flex items-center gap-2 text-primary">
                   <CheckCircle className="h-5 w-5" />
                   نتيجة الاختبار - نجح ✅
                 </CardTitle>
@@ -258,7 +258,7 @@ export default function CardholderTest() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="bg-yellow-50 p-4 rounded-lg">
                     <h4 className="font-semibold text-green-800 mb-2">معلومات Cardholder:</h4>
                     <div className="space-y-2 text-sm">
                       <p><strong>ID:</strong> {result.cardholder?.cardholder_id || result.cardholder_id}</p>
@@ -290,7 +290,7 @@ export default function CardholderTest() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="bg-red-50 p-4 rounded-lg">
+                  <div className="bg-yellow-50 p-4 rounded-lg">
                     <p className="text-red-700 font-semibold mb-2">خطأ:</p>
                     <p className="text-primary">{error}</p>
                   </div>

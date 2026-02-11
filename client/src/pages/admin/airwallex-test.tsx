@@ -125,7 +125,7 @@ export default function AirwallexTest() {
                 <Button 
                   onClick={() => testEndpoint('/api/test/airwallex/account', 'GET', 'اختبار معلومات الحساب')}
                   disabled={isLoading}
-                  className="bg-green-500 hover:bg-green-600"
+                  className="bg-primary hover:bg-primary"
                 >
                   عرض Account ID
                 </Button>
@@ -133,7 +133,7 @@ export default function AirwallexTest() {
                 <Button 
                   onClick={() => testEndpoint('/api/airwallex/account-info', 'GET', 'معلومات الحساب المحدّثة')}
                   disabled={isLoading}
-                  className="bg-red-500 hover:bg-primary"
+                  className="bg-primary hover:bg-primary"
                 >
                   معلومات محدّثة
                 </Button>
@@ -173,8 +173,8 @@ export default function AirwallexTest() {
                         </div>
                         <span className={`px-2 py-1 rounded text-xs ${
                           result.success 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-red-100 text-red-800'
+                            ? 'bg-yellow-100 text-green-800' 
+                            : 'bg-yellow-100 text-red-800'
                         }`}>
                           {result.status}
                         </span>
@@ -190,11 +190,11 @@ export default function AirwallexTest() {
                       
                       {/* Show Account ID prominently if available */}
                       {result.data?.account_info?.account_id && (
-                        <div className="mt-3 p-3 bg-green-50 rounded-md">
+                        <div className="mt-3 p-3 bg-yellow-50 rounded-md">
                           <h4 className="font-semibold text-green-800 mb-2">معلومات الحساب:</h4>
                           <div className="text-sm">
-                            <p><strong>Account ID:</strong> <code className="bg-green-100 px-2 py-1 rounded text-green-800">{result.data.account_info.account_id}</code></p>
-                            <p><strong>Subject ID:</strong> <code className="bg-green-100 px-2 py-1 rounded text-green-800">{result.data.account_info.sub}</code></p>
+                            <p><strong>Account ID:</strong> <code className="bg-yellow-100 px-2 py-1 rounded text-green-800">{result.data.account_info.account_id}</code></p>
+                            <p><strong>Subject ID:</strong> <code className="bg-yellow-100 px-2 py-1 rounded text-green-800">{result.data.account_info.sub}</code></p>
                             <p><strong>API Version:</strong> {result.data.account_info.api_version}</p>
                             <p><strong>Data Center:</strong> {result.data.account_info.data_center_region}</p>
                             <p><strong>PADC:</strong> {result.data.account_info.padc}</p>
@@ -204,11 +204,11 @@ export default function AirwallexTest() {
                       
                       {/* Show updated account info from new endpoint */}
                       {result.data?.account_id && (
-                        <div className="mt-3 p-3 bg-red-50 rounded-md">
+                        <div className="mt-3 p-3 bg-yellow-50 rounded-md">
                           <h4 className="font-semibold text-red-800 mb-2">معلومات الحساب المحدّثة:</h4>
                           <div className="text-sm">
-                            <p><strong>Account ID:</strong> <code className="bg-red-100 px-2 py-1 rounded text-red-800">{result.data.account_id}</code></p>
-                            <p><strong>Subject ID:</strong> <code className="bg-red-100 px-2 py-1 rounded text-red-800">{result.data.subject_id}</code></p>
+                            <p><strong>Account ID:</strong> <code className="bg-yellow-100 px-2 py-1 rounded text-red-800">{result.data.account_id}</code></p>
+                            <p><strong>Subject ID:</strong> <code className="bg-yellow-100 px-2 py-1 rounded text-red-800">{result.data.subject_id}</code></p>
                             <p><strong>API Version:</strong> {result.data.api_version}</p>
                             <p><strong>Data Center:</strong> {result.data.data_center}</p>
                             <p><strong>Issued At:</strong> {result.data.issued_at}</p>
@@ -246,7 +246,7 @@ export default function AirwallexTest() {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className={`w-3 h-3 rounded-full ${
-                      results.some(r => r.success) ? 'bg-green-500' : 'bg-red-500'
+                      results.some(r => r.success) ? 'bg-primary' : 'bg-primary'
                     }`}></div>
                     <span>الاتصال مع Airwallex: {
                       results.length === 0 ? 'غير محدد' : 
@@ -255,7 +255,7 @@ export default function AirwallexTest() {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className={`w-3 h-3 rounded-full ${
-                      results.some(r => r.description.includes('cardholder') && r.success) ? 'bg-green-500' : 'bg-red-500'
+                      results.some(r => r.description.includes('cardholder') && r.success) ? 'bg-primary' : 'bg-primary'
                     }`}></div>
                     <span>Issuing API: {
                       results.length === 0 ? 'غير محدد' : 

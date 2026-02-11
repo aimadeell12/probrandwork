@@ -66,7 +66,7 @@ export default function Vouchers() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "active":
-        return <CheckCircle className="h-5 w-5 text-green-600" />;
+        return <CheckCircle className="h-5 w-5 text-primary" />;
       case "used":
         return <CheckCircle className="h-5 w-5 text-blue-600" />;
       case "expired":
@@ -79,11 +79,11 @@ export default function Vouchers() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "text-green-600 bg-green-50 dark:bg-green-900/20";
+        return "text-primary bg-yellow-50 dark:bg-green-900/20";
       case "used":
         return "text-blue-600 bg-blue-50 dark:bg-blue-900/20";
       case "expired":
-        return "text-primary bg-red-50 dark:bg-red-900/20";
+        return "text-primary bg-yellow-50 dark:bg-red-900/20";
       default:
         return "text-yellow-600 bg-yellow-50 dark:bg-yellow-900/20";
     }
@@ -104,7 +104,7 @@ export default function Vouchers() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
+            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -158,7 +158,7 @@ export default function Vouchers() {
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3">
-                      <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                      <div className="p-2 bg-yellow-100 dark:bg-red-900/30 rounded-lg">
                         <Ticket className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex-1">
@@ -212,7 +212,7 @@ export default function Vouchers() {
                 </p>
               ) : (
                 availableVouchers.map((voucher: any) => (
-                  <div key={voucher.id} className="p-3 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-lg border border-red-200/30">
+                  <div key={voucher.id} className="p-3 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-lg border border-yellow-200/30">
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white">{voucher.code}</p>

@@ -267,7 +267,7 @@ export default function AdminAddUser() {
                       <div className="flex items-center gap-2">
                         <span className={`px-2 py-1 text-xs rounded-full ${
                           user.role === 'admin' 
-                            ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+                            ? 'bg-yellow-100 text-red-700 dark:bg-red-900 dark:text-red-300'
                             : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
                         }`}>
                           {user.role}

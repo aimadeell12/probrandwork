@@ -87,7 +87,7 @@ export default function Community() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
+            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -108,7 +108,7 @@ export default function Community() {
           
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mb-2"></div>
+              <div className="w-2 h-2 bg-primary rounded-full mx-auto mb-2"></div>
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.onlineNow || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Online Now</p>
             </CardContent>
@@ -181,7 +181,7 @@ export default function Community() {
                             <MessageSquare className="h-4 w-4" />
                             {discussion.replies || 0}
                           </button>
-                          <button className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-green-600">
+                          <button className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-primary">
                             <Share2 className="h-4 w-4" />
                             Share
                           </button>

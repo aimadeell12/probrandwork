@@ -18,7 +18,7 @@ export default function Deposit() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-red-500/20 text-gray-400 hover:text-white"
+            className="p-2 hover:bg-primary/20 text-gray-400 hover:text-white"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -58,7 +58,7 @@ export default function Deposit() {
               data-testid="button-deposit-bank"
             >
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center">
                   <Building className="h-6 w-6 text-green-400" />
                 </div>
                 <div>

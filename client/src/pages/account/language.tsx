@@ -31,13 +31,13 @@ export default function LanguageSettings() {
       <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-red-200/30 dark:border-red-700/30 p-4 relative z-10">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-yellow-200/30 dark:border-red-700/30 p-4 relative z-10">
         <div className="flex items-center space-x-4 space-x-reverse">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/account")}
-            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20"
+            className="p-2 hover:bg-yellow-50 dark:hover:bg-red-900/20"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -50,7 +50,7 @@ export default function LanguageSettings() {
       {/* Content */}
       <div className="container mx-auto px-4 py-6 relative z-10 max-w-md">
         
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 dark:border-red-700/30 shadow-lg">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 dark:border-red-700/30 shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center space-x-3 space-x-reverse text-gray-900 dark:text-white">
               <Globe className="h-5 w-5 text-primary dark:text-red-400" />
@@ -64,7 +64,7 @@ export default function LanguageSettings() {
                 onClick={() => handleLanguageChange(lang.code)}
                 className={`w-full p-4 rounded-xl border-2 transition-all duration-200 flex items-center justify-between ${
                   language === lang.code
-                    ? 'border-red-500 bg-red-50 dark:bg-red-900/30'
+                    ? 'border-red-500 bg-yellow-50 dark:bg-red-900/30'
                     : 'border-gray-200 dark:border-gray-700 hover:border-red-300 dark:hover:border-red-600'
                 }`}
               >

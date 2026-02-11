@@ -133,7 +133,7 @@ export default function UserManagement() {
           <Card>
             <CardContent className="p-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-yellow-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
                   <Shield className="h-4 w-4 text-primary dark:text-red-400" />
                 </div>
                 <div>
@@ -149,8 +149,8 @@ export default function UserManagement() {
           <Card>
             <CardContent className="p-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                  <User className="h-4 w-4 text-green-600 dark:text-green-400" />
+                <div className="w-8 h-8 bg-yellow-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                  <User className="h-4 w-4 text-primary dark:text-green-400" />
                 </div>
                 <div>
                   <p className="text-xs text-gray-600 dark:text-gray-400">Regular Users</p>
@@ -208,7 +208,7 @@ export default function UserManagement() {
                             {user.firstName} {user.lastName}
                           </h3>
                           {user.role === 'admin' && (
-                            <Badge className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs">
+                            <Badge className="bg-yellow-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs">
                               <Shield className="h-2 w-2 mr-1" />
                               Admin
                             </Badge>

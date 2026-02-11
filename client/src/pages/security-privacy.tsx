@@ -137,13 +137,13 @@ export default function SecurityPrivacy() {
       <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-red-200/30 dark:border-red-700/30 p-4 relative z-10">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-yellow-200/30 dark:border-red-700/30 p-4 relative z-10">
         <div className="flex items-center space-x-4 space-x-reverse">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/account")}
-            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20"
+            className="p-2 hover:bg-yellow-50 dark:hover:bg-red-900/20"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -325,7 +325,7 @@ export default function SecurityPrivacy() {
             <Button variant="destructive" className="w-full">
               Logout All Devices
             </Button>
-            <Button variant="outline" className="w-full border-red-200 text-primary hover:bg-red-50">
+            <Button variant="outline" className="w-full border-yellow-200 text-primary hover:bg-yellow-50">
               Temporarily Freeze Account
             </Button>
           </CardContent>

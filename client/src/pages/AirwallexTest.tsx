@@ -150,7 +150,7 @@ export default function AirwallexTest() {
               <Button 
                 onClick={testAirwallexConnection}
                 disabled={isLoading}
-                className="bg-red-500 hover:bg-primary"
+                className="bg-primary hover:bg-primary"
               >
                 {isLoading ? (
                   <>
@@ -166,7 +166,7 @@ export default function AirwallexTest() {
                 onClick={getAccountInfo}
                 disabled={accountLoading}
                 variant="outline"
-                className="border-red-500 text-primary hover:bg-red-50"
+                className="border-red-500 text-primary hover:bg-yellow-50"
               >
                 {accountLoading ? (
                   <>
@@ -182,7 +182,7 @@ export default function AirwallexTest() {
                 onClick={getCardsInfo}
                 disabled={cardsLoading}
                 variant="outline"
-                className="border-green-500 text-green-600 hover:bg-green-50"
+                className="border-green-500 text-primary hover:bg-yellow-50"
               >
                 {cardsLoading ? (
                   <>
@@ -198,8 +198,8 @@ export default function AirwallexTest() {
             {result && (
               <Card className={`border-2 ${
                 result.success 
-                  ? 'border-green-200 bg-green-50' 
-                  : 'border-red-200 bg-red-50'
+                  ? 'border-yellow-200 bg-yellow-50' 
+                  : 'border-yellow-200 bg-yellow-50'
               }`}>
                 <CardHeader className="pb-3">
                   <CardTitle className={`flex items-center gap-2 text-lg ${
@@ -217,7 +217,7 @@ export default function AirwallexTest() {
                   <div>
                     <strong className="text-gray-700">حالة النظام:</strong>
                     <p className={`mt-1 font-semibold ${
-                      result.success ? 'text-green-600' : 'text-orange-600'
+                      result.success ? 'text-primary' : 'text-orange-600'
                     }`}>
                       {result.message}
                     </p>
@@ -238,7 +238,7 @@ export default function AirwallexTest() {
                     <div>
                       <strong className="text-gray-700">بيانات الاعتماد:</strong>
                       <p className={`mt-1 ${
-                        result.credentials_configured ? 'text-green-600' : 'text-primary'
+                        result.credentials_configured ? 'text-primary' : 'text-primary'
                       }`}>
                         {result.credentials_configured ? '✓ مُهيأة' : '✗ غير مُهيأة'}
                       </p>
@@ -301,7 +301,7 @@ export default function AirwallexTest() {
                   {result.error && (
                     <div>
                       <strong className="text-gray-700">رسالة الخطأ:</strong>
-                      <pre className="mt-1 bg-red-50 p-2 rounded text-sm overflow-auto border border-red-200">
+                      <pre className="mt-1 bg-yellow-50 p-2 rounded text-sm overflow-auto border border-yellow-200">
                         {result.error}
                       </pre>
                     </div>
@@ -327,7 +327,7 @@ export default function AirwallexTest() {
               <Card className={`border-2 ${
                 accountInfo.success 
                   ? 'border-blue-200 bg-blue-50' 
-                  : 'border-red-200 bg-red-50'
+                  : 'border-yellow-200 bg-yellow-50'
               }`}>
                 <CardHeader className="pb-3">
                   <CardTitle className={`flex items-center gap-2 text-lg ${
@@ -393,7 +393,7 @@ export default function AirwallexTest() {
                         <div className="bg-white p-2 rounded border">
                           <strong className="text-sm text-gray-700">الحالة:</strong>
                           <p className={`text-sm ${
-                            accountInfo.account.status === 'ACTIVE' ? 'text-green-600' : 'text-orange-600'
+                            accountInfo.account.status === 'ACTIVE' ? 'text-primary' : 'text-orange-600'
                           }`}>
                             {accountInfo.account.status}
                           </p>
@@ -412,7 +412,7 @@ export default function AirwallexTest() {
                   {accountInfo.error && (
                     <div>
                       <strong className="text-gray-700">رسالة الخطأ:</strong>
-                      <pre className="mt-1 bg-red-50 p-2 rounded text-sm overflow-auto border border-red-200">
+                      <pre className="mt-1 bg-yellow-50 p-2 rounded text-sm overflow-auto border border-yellow-200">
                         {accountInfo.error}
                       </pre>
                     </div>
@@ -437,8 +437,8 @@ export default function AirwallexTest() {
             {cardsInfo && (
               <Card className={`border-2 ${
                 cardsInfo.success 
-                  ? 'border-green-200 bg-green-50' 
-                  : 'border-red-200 bg-red-50'
+                  ? 'border-yellow-200 bg-yellow-50' 
+                  : 'border-yellow-200 bg-yellow-50'
               }`}>
                 <CardHeader className="pb-3">
                   <CardTitle className={`flex items-center gap-2 text-lg ${
@@ -456,7 +456,7 @@ export default function AirwallexTest() {
                   <div>
                     <strong className="text-gray-700">حالة:</strong>
                     <p className={`mt-1 font-semibold ${
-                      cardsInfo.success ? 'text-green-600' : 'text-primary'
+                      cardsInfo.success ? 'text-primary' : 'text-primary'
                     }`}>
                       {cardsInfo.message}
                     </p>
@@ -489,7 +489,7 @@ export default function AirwallexTest() {
                                 <div>
                                   <strong className="text-gray-600">الحالة:</strong>
                                   <p className={`${
-                                    card.status === 'ACTIVE' ? 'text-green-600' : 'text-orange-600'
+                                    card.status === 'ACTIVE' ? 'text-primary' : 'text-orange-600'
                                   }`}>{card.status}</p>
                                 </div>
                               )}
@@ -522,7 +522,7 @@ export default function AirwallexTest() {
                   {cardsInfo.error && (
                     <div>
                       <strong className="text-gray-700">رسالة الخطأ:</strong>
-                      <pre className="mt-1 bg-red-50 p-2 rounded text-sm overflow-auto border border-red-200">
+                      <pre className="mt-1 bg-yellow-50 p-2 rounded text-sm overflow-auto border border-yellow-200">
                         {cardsInfo.error}
                       </pre>
                     </div>

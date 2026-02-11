@@ -99,7 +99,7 @@ export default function PriorityCards() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
+            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -198,15 +198,15 @@ export default function PriorityCards() {
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Zap className="h-6 w-6 text-green-600" />
+                <div className="w-12 h-12 bg-yellow-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Zap className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Fast Processing</h3>
                 <p className="text-xs text-gray-600 dark:text-gray-400">Instant transfers</p>
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                <div className="w-12 h-12 bg-yellow-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
                   <Globe className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Global Access</h3>

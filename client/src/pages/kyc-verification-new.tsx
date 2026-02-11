@@ -539,7 +539,7 @@ export default function KYCVerificationNew() {
 
                 {isStep3Valid() && (
                   <div className="text-center mt-6">
-                    <p className="text-green-600 dark:text-green-400 mb-4 font-semibold">
+                    <p className="text-primary dark:text-green-400 mb-4 font-semibold">
                       ✅ All photos uploaded successfully!
                     </p>
                   </div>
@@ -618,7 +618,7 @@ export default function KYCVerificationNew() {
                           alt="ID Front"
                           className="w-24 h-16 object-cover mx-auto rounded-lg shadow-md border"
                         />
-                        <p className="text-green-600 dark:text-green-400 text-sm mt-2">
+                        <p className="text-primary dark:text-green-400 text-sm mt-2">
                           ✅ ID Front Side
                         </p>
                       </div>
@@ -632,7 +632,7 @@ export default function KYCVerificationNew() {
                           alt="ID Back"
                           className="w-24 h-16 object-cover mx-auto rounded-lg shadow-md border"
                         />
-                        <p className="text-green-600 dark:text-green-400 text-sm mt-2">
+                        <p className="text-primary dark:text-green-400 text-sm mt-2">
                           ✅ ID Back Side
                         </p>
                       </div>
@@ -646,7 +646,7 @@ export default function KYCVerificationNew() {
                           alt="Selfie with ID"
                           className="w-24 h-16 object-cover mx-auto rounded-lg shadow-md border"
                         />
-                        <p className="text-green-600 dark:text-green-400 text-sm mt-2">
+                        <p className="text-primary dark:text-green-400 text-sm mt-2">
                           ✅ Selfie with ID
                         </p>
                       </div>

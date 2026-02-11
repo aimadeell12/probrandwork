@@ -54,7 +54,7 @@ export default function WalletPage() {
         return <ArrowUpRight className="h-4 w-4 text-primary" />;
       case "receive":
       case "deposit":
-        return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
+        return <ArrowDownLeft className="h-4 w-4 text-primary" />;
       default:
         return <DollarSign className="h-4 w-4 text-gray-600" />;
     }
@@ -69,7 +69,7 @@ export default function WalletPage() {
           <div className="bg-white lg:rounded-xl lg:shadow-sm p-4 lg:p-6 mb-4 lg:mb-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-red-100 rounded-xl">
+                <div className="p-3 bg-yellow-100 rounded-xl">
                   <Wallet className="h-6 w-6 text-primary" />
                 </div>
                 <div>
@@ -105,11 +105,11 @@ export default function WalletPage() {
 
               {/* Quick Actions */}
               <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
-                <Card className="bg-green-50 border-green-200">
+                <Card className="bg-yellow-50 border-yellow-200">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <Wallet className="h-4 w-4 text-green-600" />
-                      <p className="text-xs text-green-600 font-medium">Available</p>
+                      <Wallet className="h-4 w-4 text-primary" />
+                      <p className="text-xs text-primary font-medium">Available</p>
                     </div>
                     <p className="text-lg font-bold text-green-700">
                       {isBalanceVisible ? `$${balance.toLocaleString()}` : '******'}
@@ -117,7 +117,7 @@ export default function WalletPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-red-50 border-red-200">
+                <Card className="bg-yellow-50 border-yellow-200">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-1">
                       <Clock className="h-4 w-4 text-primary" />
@@ -186,8 +186,8 @@ export default function WalletPage() {
                         <div className="flex items-center gap-3">
                           <div className={`p-2 rounded-xl ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'bg-green-100'
-                              : 'bg-red-100'
+                              ? 'bg-yellow-100'
+                              : 'bg-yellow-100'
                           }`}>
                             {getTransactionIcon(transaction.type)}
                           </div>
@@ -203,7 +203,7 @@ export default function WalletPage() {
                         <div className="text-right">
                           <p className={`font-semibold ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'text-green-600'
+                              ? 'text-primary'
                               : 'text-primary'
                           }`}>
                             {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}

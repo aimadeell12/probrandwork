@@ -104,7 +104,7 @@ export default function Dashboard() {
               >
                 <Bell className="h-5 w-5" />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-white text-xs rounded-full flex items-center justify-center">
                     {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 )}
@@ -114,7 +114,7 @@ export default function Dashboard() {
             {/* Account/Card Toggle - Fixed */}
             <div className="px-4 lg:px-6 mb-2 lg:mb-0 lg:mt-4">
               <div className="bg-gray-200 dark:bg-muted rounded-full p-1 flex lg:max-w-md lg:mx-auto">
-                <Button className="flex-1 rounded-full py-2 px-4 text-sm font-medium bg-red-500 text-white">
+                <Button className="flex-1 rounded-full py-2 px-4 text-sm font-medium bg-primary text-white">
                   {language === 'ar' ? 'الحساب' : 'ACCOUNT'}
                 </Button>
                 <Button 
@@ -147,17 +147,17 @@ export default function Dashboard() {
               </div>
               
               <div className="grid grid-cols-2 gap-3 px-4 mt-4">
-                <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                <div className="bg-yellow-50 dark:bg-green-900/20 p-3 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
-                    <Wallet className="h-4 w-4 text-green-600" />
-                    <p className="text-xs text-green-600 font-medium">{language === 'ar' ? 'متاح' : 'Available'}</p>
+                    <Wallet className="h-4 w-4 text-primary" />
+                    <p className="text-xs text-primary font-medium">{language === 'ar' ? 'متاح' : 'Available'}</p>
                   </div>
                   <p className="text-lg font-bold text-green-700 dark:text-green-400">
                     {isBalanceVisible ? `${balance.toLocaleString()} USD` : '*******'}
                   </p>
                 </div>
                 
-                <div className="bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
+                <div className="bg-yellow-50 dark:bg-red-900/20 p-3 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
                     <Clock className="h-4 w-4 text-primary" />
                     <p className="text-xs text-primary font-medium">{language === 'ar' ? 'قيد الانتظار' : 'Pending'}</p>
@@ -185,7 +185,7 @@ export default function Dashboard() {
               <div className="grid grid-cols-4 lg:grid-cols-8 gap-4">
                 <Link href={kycStatus?.isVerified ? "/send" : "#"}>
                   <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                    <div className="w-16 h-16 bg-yellow-100/80 dark:bg-primary/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
                       <ArrowUpRight className="h-6 w-6 text-primary dark:text-red-300" />
                     </div>
                     <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">{language === 'ar' ? 'إرسال' : 'Send'}</span>
@@ -194,7 +194,7 @@ export default function Dashboard() {
 
                 <Link href={kycStatus?.isVerified ? "/deposit" : "#"}>
                   <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                    <div className="w-16 h-16 bg-yellow-100/80 dark:bg-primary/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
                       <ArrowDownLeft className="h-6 w-6 text-primary dark:text-red-300" />
                     </div>
                     <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">{language === 'ar' ? 'إيداع' : 'Deposit'}</span>
@@ -203,7 +203,7 @@ export default function Dashboard() {
 
                 <Link href={kycStatus?.isVerified ? "/withdraw" : "#"}>
                   <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                    <div className="w-16 h-16 bg-yellow-100/80 dark:bg-primary/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
                       <Banknote className="h-6 w-6 text-primary dark:text-red-300" />
                     </div>
                     <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">{language === 'ar' ? 'سحب' : 'Withdraw'}</span>
@@ -212,7 +212,7 @@ export default function Dashboard() {
 
                 <Link href={kycStatus?.isVerified ? "/services" : "#"}>
                   <div className={`text-center cursor-pointer hover:opacity-80 transition-opacity ${!kycStatus?.isVerified ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                    <div className="w-16 h-16 bg-red-100/80 dark:bg-red-500/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
+                    <div className="w-16 h-16 bg-yellow-100/80 dark:bg-primary/20 rounded-full flex items-center justify-center mb-2 shadow-sm mx-auto">
                       <Grid3X3 className="h-6 w-6 text-primary dark:text-red-300" />
                     </div>
                     <span className="text-xs text-gray-700 dark:text-gray-300 font-medium block">{language === 'ar' ? 'المزيد' : 'More'}</span>
@@ -229,7 +229,7 @@ export default function Dashboard() {
                     <Clock className="h-5 w-5 text-primary" />
                     <h3 className="text-base lg:text-lg font-semibold text-gray-900 dark:text-white">Pending Funds</h3>
                   </div>
-                  <Badge variant="secondary" className="bg-red-100 text-red-700">
+                  <Badge variant="secondary" className="bg-yellow-100 text-red-700">
                     {pendingBalances.length} pending
                   </Badge>
                 </div>
@@ -242,7 +242,7 @@ export default function Dashboard() {
                     const isAvailableNow = daysLeft === 0;
                     
                     return (
-                      <div key={pending.id} className={`p-3 rounded-lg border ${isAvailableNow ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800' : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800'}`}>
+                      <div key={pending.id} className={`p-3 rounded-lg border ${isAvailableNow ? 'bg-yellow-50 dark:bg-green-900/20 border-yellow-200 dark:border-green-800' : 'bg-yellow-50 dark:bg-red-900/20 border-yellow-200 dark:border-red-800'}`}>
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <p className="font-medium text-gray-900 dark:text-white text-sm mb-1">
@@ -250,7 +250,7 @@ export default function Dashboard() {
                             </p>
                             <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
                               <Clock className="h-3 w-3" />
-                              <span className={isAvailableNow ? 'text-green-600 dark:text-green-400 font-semibold' : ''}>
+                              <span className={isAvailableNow ? 'text-primary dark:text-green-400 font-semibold' : ''}>
                                 {isAvailableNow
                                   ? 'Releasing now...'
                                   : `Available in ${daysLeft} day${daysLeft > 1 ? 's' : ''}`}
@@ -315,7 +315,7 @@ export default function Dashboard() {
                   {transactions.slice(0, 2).map((transaction: any) => (
                     <div key={transaction.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-muted rounded-lg">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
+                        <div className="w-10 h-10 bg-yellow-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
                           <Building2 className="h-5 w-5 text-primary dark:text-red-400" />
                         </div>
                         <div>

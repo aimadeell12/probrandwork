@@ -199,7 +199,7 @@ export default function CardDeposit() {
     return (
       <div className="min-h-screen bg-[#0f0f23] text-white flex items-center justify-center">
         <div className="text-center space-y-4 p-8">
-          <div className="w-20 h-20 mx-auto bg-green-500/20 rounded-full flex items-center justify-center">
+          <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
             <CheckCircle className="w-12 h-12 text-green-400" />
           </div>
           <h2 className="text-2xl font-bold">Deposit Successful!</h2>
@@ -220,7 +220,7 @@ export default function CardDeposit() {
     return (
       <div className="min-h-screen bg-[#0f0f23] text-white flex items-center justify-center">
         <div className="text-center space-y-4 p-8">
-          <div className="w-20 h-20 mx-auto bg-red-500/20 rounded-full flex items-center justify-center">
+          <div className="w-20 h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
             <XCircle className="w-12 h-12 text-red-400" />
           </div>
           <h2 className="text-2xl font-bold">Deposit Failed</h2>
@@ -245,7 +245,7 @@ export default function CardDeposit() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/deposit")}
-            className="p-2 hover:bg-red-500/20 text-gray-400 hover:text-white"
+            className="p-2 hover:bg-primary/20 text-gray-400 hover:text-white"
             data-testid="button-back"
           >
             <ArrowLeft className="h-6 w-6" />
@@ -283,9 +283,9 @@ export default function CardDeposit() {
                   key={quickAmount}
                   variant="outline"
                   onClick={() => setAmount(quickAmount.toString())}
-                  className={`border-[#4a1515] hover:border-red-500 hover:bg-red-500/10 ${
+                  className={`border-[#4a1515] hover:border-red-500 hover:bg-primary/10 ${
                     amount === quickAmount.toString() 
-                      ? 'border-red-500 bg-red-500/10 text-red-400' 
+                      ? 'border-red-500 bg-primary/10 text-red-400' 
                       : 'text-gray-300'
                   }`}
                   data-testid={`button-amount-${quickAmount}`}

@@ -117,8 +117,8 @@ export default function PaymentLinksPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "active": return "bg-green-500";
-      case "disabled": return "bg-red-500";
+      case "active": return "bg-primary";
+      case "disabled": return "bg-primary";
       case "expired": return "bg-gray-500";
       default: return "bg-blue-500";
     }
@@ -127,7 +127,7 @@ export default function PaymentLinksPage() {
   const getTransactionStatusBadge = (status: string) => {
     switch (status) {
       case "successful":
-        return <Badge className="bg-green-600 text-xs" data-testid="badge-successful"><CheckCircle2 className="w-2.5 h-2.5 lg:w-3 lg:h-3 mr-1" /> Successful</Badge>;
+        return <Badge className="bg-primary text-xs" data-testid="badge-successful"><CheckCircle2 className="w-2.5 h-2.5 lg:w-3 lg:h-3 mr-1" /> Successful</Badge>;
       case "failed":
         return <Badge className="bg-primary text-xs" data-testid="badge-failed"><XCircle className="w-2.5 h-2.5 lg:w-3 lg:h-3 mr-1" /> Failed</Badge>;
       case "pending":
@@ -141,7 +141,7 @@ export default function PaymentLinksPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-background pb-24 lg:pb-6">
       <div className="container mx-auto px-3 pt-0 pb-3 lg:p-6 max-w-7xl">
         {/* Info Banner */}
-        <div className="mb-4 lg:mb-6 bg-gradient-to-r from-red-50 to-blue-50 dark:from-red-900/20 dark:to-blue-900/20 border border-red-200 dark:border-red-700/50 rounded-lg p-3 lg:p-4">
+        <div className="mb-4 lg:mb-6 bg-gradient-to-r from-red-50 to-blue-50 dark:from-red-900/20 dark:to-blue-900/20 border border-yellow-200 dark:border-red-700/50 rounded-lg p-3 lg:p-4">
           <div className="flex items-start gap-3">
             <CreditCard className="w-5 h-5 text-primary dark:text-red-400 flex-shrink-0 mt-0.5" />
             <div className="flex-1 min-w-0">
@@ -376,7 +376,7 @@ export default function PaymentLinksPage() {
                             data-testid={`button-copy-${link.txRef}`}
                           >
                             {copied === link.id ? (
-                              <CheckCircle2 className="w-4 h-4 text-green-600" />
+                              <CheckCircle2 className="w-4 h-4 text-primary" />
                             ) : (
                               <Copy className="w-4 h-4" />
                             )}

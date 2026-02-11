@@ -57,7 +57,7 @@ export const OfflineError = ({ onRetry }: OfflineErrorProps) => {
           </div>
 
           <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+            <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
             <span className="text-sm text-gray-500 dark:text-gray-400" data-testid="text-connection-status">
               Connection unavailable
             </span>

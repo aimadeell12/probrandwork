@@ -238,8 +238,8 @@ export default function PasswordDemo() {
               {loginResult && (
                 <div className={`p-4 rounded-lg ${
                   loginResult.success 
-                    ? 'bg-green-50 dark:bg-green-900/20 border border-green-200'
-                    : 'bg-red-50 dark:bg-red-900/20 border border-red-200'
+                    ? 'bg-yellow-50 dark:bg-green-900/20 border border-yellow-200'
+                    : 'bg-yellow-50 dark:bg-red-900/20 border border-yellow-200'
                 }`}>
                   <div className="flex items-center gap-2 mb-2">
                     {loginResult.success ? (
@@ -361,8 +361,8 @@ export default function PasswordDemo() {
               {registerResult && (
                 <div className={`mt-4 p-4 rounded-lg ${
                   registerResult.success 
-                    ? 'bg-green-50 dark:bg-green-900/20 border border-green-200'
-                    : 'bg-red-50 dark:bg-red-900/20 border border-red-200'
+                    ? 'bg-yellow-50 dark:bg-green-900/20 border border-yellow-200'
+                    : 'bg-yellow-50 dark:bg-red-900/20 border border-yellow-200'
                 }`}>
                   <div className="flex items-center gap-2 mb-2">
                     {registerResult.success ? (
@@ -401,8 +401,8 @@ export default function PasswordDemo() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <CheckCircle className="w-8 h-8 text-green-600" />
+                <div className="w-16 h-16 bg-yellow-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="font-medium mb-2">Secure Hashing</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -421,7 +421,7 @@ export default function PasswordDemo() {
               </div>
               
               <div className="text-center">
-                <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <div className="w-16 h-16 bg-yellow-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
                   <Key className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="font-medium mb-2">Password Validation</h3>

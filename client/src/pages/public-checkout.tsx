@@ -112,10 +112,10 @@ export default function PublicCheckoutPage() {
       <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-red-200/15 to-pink-200/15 dark:from-red-800/20 dark:to-pink-800/20 rounded-full blur-xl"></div>
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-200/10 to-red-200/10 dark:from-blue-800/15 dark:to-red-800/15 rounded-full blur-xl"></div>
-        <Card className="w-full max-w-md sm:max-w-lg border-red-200 dark:border-red-800 shadow-lg relative z-10 dark:bg-gray-800">
+        <Card className="w-full max-w-md sm:max-w-lg border-yellow-200 dark:border-red-800 shadow-lg relative z-10 dark:bg-gray-800">
           <CardHeader className="text-center space-y-3 pt-8">
             <div className="flex justify-center">
-              <div className="p-3 bg-red-50 dark:bg-red-900/30 rounded-full">
+              <div className="p-3 bg-yellow-50 dark:bg-red-900/30 rounded-full">
                 <XCircle className="w-8 h-8 text-primary dark:text-red-400" />
               </div>
             </div>
@@ -204,9 +204,9 @@ export default function PublicCheckoutPage() {
 
           {/* Payment Status Messages */}
           {paymentStatus === 'success' && (
-            <div className="bg-green-50 dark:bg-green-900/30 border-2 border-green-200 dark:border-green-700 rounded-xl p-5 sm:p-6">
+            <div className="bg-yellow-50 dark:bg-green-900/30 border-2 border-yellow-200 dark:border-green-700 rounded-xl p-5 sm:p-6">
               <div className="flex items-center gap-3 text-green-800 dark:text-green-300 mb-3">
-                <div className="p-2 bg-green-100 dark:bg-green-900/50 rounded-full">
+                <div className="p-2 bg-yellow-100 dark:bg-green-900/50 rounded-full">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <p className="text-lg font-bold">Payment Successful!</p>
@@ -218,9 +218,9 @@ export default function PublicCheckoutPage() {
           )}
 
           {paymentStatus === 'failed' && (
-            <div className="bg-red-50 dark:bg-red-900/30 border-2 border-red-200 dark:border-red-700 rounded-xl p-5 sm:p-6">
+            <div className="bg-yellow-50 dark:bg-red-900/30 border-2 border-yellow-200 dark:border-red-700 rounded-xl p-5 sm:p-6">
               <div className="flex items-center gap-3 text-red-800 dark:text-red-300 mb-3">
-                <div className="p-2 bg-red-100 dark:bg-red-900/50 rounded-full">
+                <div className="p-2 bg-yellow-100 dark:bg-red-900/50 rounded-full">
                   <XCircle className="w-6 h-6" />
                 </div>
                 <p className="text-lg font-bold">Payment Failed</p>

@@ -110,9 +110,9 @@ export default function KycManagement() {
       case "pending":
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300";
       case "verified":
-        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300";
+        return "bg-yellow-100 text-green-800 dark:bg-green-900/30 dark:text-green-300";
       case "rejected":
-        return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300";
+        return "bg-yellow-100 text-red-800 dark:bg-red-900/30 dark:text-red-300";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300";
     }
@@ -283,7 +283,7 @@ export default function KycManagement() {
                       </div>
 
                       {request.rejectionReason && (
-                        <div className="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                        <div className="mt-3 p-3 bg-yellow-50 dark:bg-red-900/20 border border-yellow-200 dark:border-red-800 rounded-lg">
                           <p className="text-sm text-red-800 dark:text-red-200">
                             <span className="font-medium">Rejection Reason:</span> {request.rejectionReason}
                           </p>
@@ -296,7 +296,7 @@ export default function KycManagement() {
                         <Button
                           onClick={() => handleApprove(request)}
                           disabled={updateStatusMutation.isPending}
-                          className="bg-green-600 hover:bg-green-700 text-white"
+                          className="bg-primary hover:bg-green-700 text-white"
                         >
                           <CheckCircle className="h-4 w-4 mr-2" />
                           Approve

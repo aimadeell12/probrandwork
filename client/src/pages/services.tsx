@@ -97,7 +97,7 @@ export default function Services() {
     return (
       <Link href={service.href}>
         <div className="text-center cursor-pointer group">
-          <div className="w-16 h-16 lg:w-24 lg:h-24 bg-red-100/80 dark:bg-red-900/40 rounded-full flex items-center justify-center mb-2 lg:mb-4 shadow-sm mx-auto group-hover:shadow-md group-hover:bg-red-200/80 dark:group-hover:bg-red-800/60 transition-all duration-300 transform group-hover:scale-110">
+          <div className="w-16 h-16 lg:w-24 lg:h-24 bg-yellow-100/80 dark:bg-red-900/40 rounded-full flex items-center justify-center mb-2 lg:mb-4 shadow-sm mx-auto group-hover:shadow-md group-hover:bg-red-200/80 dark:group-hover:bg-red-800/60 transition-all duration-300 transform group-hover:scale-110">
             <Icon className="h-6 w-6 lg:h-8 lg:w-8 text-primary dark:text-red-400" />
           </div>
           <span className="text-xs lg:text-sm text-gray-700 dark:text-gray-300 font-medium block group-hover:text-primary dark:group-hover:text-red-300 transition-colors">
@@ -118,7 +118,7 @@ export default function Services() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300"
+            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>

@@ -100,7 +100,7 @@ export default function Dashboard() {
               
               {/* Currency Selector */}
               <div className="mb-6">
-                <Button variant="outline" className="bg-red-100 dark:bg-red-900/30 border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 rounded-2xl px-4 py-2">
+                <Button variant="outline" className="bg-yellow-100 dark:bg-red-900/30 border-yellow-200 dark:border-red-700 text-red-700 dark:text-red-300 rounded-2xl px-4 py-2">
                   <span className="text-primary mr-2">$</span>
                   {t("usd")}
                   <ChevronDown className="h-4 w-4 ml-2" />
@@ -136,8 +136,8 @@ export default function Dashboard() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-green-200/30 dark:border-green-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <Plus className="h-6 w-6 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
+                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-yellow-200/30 dark:border-green-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <Plus className="h-6 w-6 lg:h-8 lg:w-8 text-primary dark:text-green-400" />
                       </div>
                       <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t("deposit")}</span>
                     </motion.div>
@@ -149,7 +149,7 @@ export default function Dashboard() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-red-200/30 dark:border-red-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
+                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-yellow-200/30 dark:border-red-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                         <Minus className="h-6 w-6 lg:h-8 lg:w-8 text-primary dark:text-red-400" />
                       </div>
                       <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t("withdraw")}</span>
@@ -175,7 +175,7 @@ export default function Dashboard() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-red-200/30 dark:border-red-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
+                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-yellow-200/30 dark:border-red-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                         <Grid3X3 className="h-6 w-6 lg:h-8 lg:w-8 text-primary dark:text-red-400" />
                       </div>
                       <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">Hub</span>

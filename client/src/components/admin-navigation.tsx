@@ -39,7 +39,7 @@ export default function AdminNavigation() {
       description: "Manage user accounts and permissions",
       href: "/admin/users",
       icon: Users,
-      color: "bg-green-500",
+      color: "bg-primary",
       isActive: location === "/admin/users"
     },
     {
@@ -47,7 +47,7 @@ export default function AdminNavigation() {
       description: "View analytics and system reports", 
       href: "/admin/reports",
       icon: BarChart3,
-      color: "bg-red-500",
+      color: "bg-primary",
       isActive: location === "/admin/reports"
     },
     {
@@ -87,7 +87,7 @@ export default function AdminNavigation() {
       description: "Manage exchange rates and conversions",
       href: "/admin/currency",
       icon: DollarSign,
-      color: "bg-green-500",
+      color: "bg-primary",
       isActive: location === "/admin/currency"
     },
     {
@@ -103,7 +103,7 @@ export default function AdminNavigation() {
       description: "Configure WhatsApp API and OTP templates",
       href: "/admin-panel/whatsapp",
       icon: MessageCircle,
-      color: "bg-green-500",
+      color: "bg-primary",
       isActive: location === "/admin-panel/whatsapp"
     },
     {
@@ -119,7 +119,7 @@ export default function AdminNavigation() {
       description: "Test Airwallex cardholder creation functionality",
       href: "/admin/cardholder-test",
       icon: Shield,
-      color: "bg-red-500",
+      color: "bg-primary",
       isActive: location === "/admin/cardholder-test"
     },
     {
@@ -160,7 +160,7 @@ export default function AdminNavigation() {
             </div>
           </div>
           
-          <Badge className="bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700 px-4 py-2">
+          <Badge className="bg-yellow-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 border-yellow-200 dark:border-red-700 px-4 py-2">
             Administrator Access
           </Badge>
         </div>
@@ -168,7 +168,7 @@ export default function AdminNavigation() {
         {/* Quick Return to Dashboard */}
         <div className="mb-8">
           <Link href="/dashboard">
-            <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer hover:border-red-200 dark:hover:border-red-700">
+            <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer hover:border-yellow-200 dark:hover:border-red-700">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -205,8 +205,8 @@ export default function AdminNavigation() {
               <Link key={index} href={page.href}>
                 <Card className={`bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer ${
                   page.isActive 
-                    ? 'border-red-300 dark:border-red-600 bg-red-50/50 dark:bg-red-900/20' 
-                    : 'hover:border-red-200 dark:hover:border-red-700'
+                    ? 'border-red-300 dark:border-red-600 bg-yellow-50/50 dark:bg-red-900/20' 
+                    : 'hover:border-yellow-200 dark:hover:border-red-700'
                 } transform hover:scale-[1.02] h-full`}>
                   <CardContent className="p-4 sm:p-6">
                     <div className="flex flex-col items-center text-center gap-3">
@@ -220,7 +220,7 @@ export default function AdminNavigation() {
                         <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{page.description}</p>
                       </div>
                       {page.isActive && (
-                        <Badge className="bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 text-xs">
+                        <Badge className="bg-yellow-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 text-xs">
                           Active
                         </Badge>
                       )}
@@ -251,7 +251,7 @@ export default function AdminNavigation() {
             </Link>
             
             <Link href="/admin/users">
-              <Button variant="outline" className="w-full justify-start p-4 h-auto border-2 border-red-200 dark:border-red-700 hover:border-red-300 dark:hover:border-red-600 hover:bg-red-50/50 dark:hover:bg-red-900/20 shadow-lg hover:shadow-xl transition-all duration-200">
+              <Button variant="outline" className="w-full justify-start p-4 h-auto border-2 border-yellow-200 dark:border-red-700 hover:border-red-300 dark:hover:border-red-600 hover:bg-yellow-50/50 dark:hover:bg-red-900/20 shadow-lg hover:shadow-xl transition-all duration-200">
                 <Users className="h-5 w-5 mr-3 text-primary dark:text-red-400" />
                 <div className="text-left">
                   <div className="font-medium text-gray-900 dark:text-white">Manage Users</div>

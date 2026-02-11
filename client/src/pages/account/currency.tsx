@@ -107,7 +107,7 @@ export default function Currency() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
+            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>

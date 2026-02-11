@@ -100,13 +100,13 @@ export default function SendMoney() {
       <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-red-200/30 dark:border-red-700/30 p-4 lg:p-6 relative z-10">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-yellow-200/30 dark:border-red-700/30 p-4 lg:p-6 relative z-10">
         <div className="max-w-4xl mx-auto flex items-center space-x-4 space-x-reverse">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20"
+            className="p-2 hover:bg-yellow-50 dark:hover:bg-red-900/20"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -119,7 +119,7 @@ export default function SendMoney() {
       <div className="p-4 lg:p-6 space-y-6 relative z-10 max-w-md lg:max-w-4xl mx-auto">
         
         {/* Balance Display */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 shadow-xl">
           <CardContent className="p-4 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">{t('availableBalance')}</p>
             <p className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -129,7 +129,7 @@ export default function SendMoney() {
         </Card>
 
         {/* Recipient Input */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 shadow-xl">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
               <div className="p-1 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
@@ -175,18 +175,18 @@ export default function SendMoney() {
                 placeholder={recipientType === "email" ? "example@email.com" : "+1234567890"}
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
-                className="bg-white/80 dark:bg-gray-700/80 border-red-200/30 focus:border-red-500 rounded-2xl"
+                className="bg-white/80 dark:bg-gray-700/80 border-yellow-200/30 focus:border-red-500 rounded-2xl"
               />
             </div>
           </CardContent>
         </Card>
 
         {/* Amount Input */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 shadow-xl">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
-              <div className="p-1 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                <DollarSign className="h-5 w-5 text-green-600" />
+              <div className="p-1 bg-yellow-100 dark:bg-green-900/30 rounded-lg">
+                <DollarSign className="h-5 w-5 text-primary" />
               </div>
               {t('amount')}
             </CardTitle>
@@ -200,7 +200,7 @@ export default function SendMoney() {
                 placeholder="0.00"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-red-200/30 focus:border-red-500 rounded-2xl"
+                className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-yellow-200/30 focus:border-red-500 rounded-2xl"
               />
             </div>
 
@@ -211,7 +211,7 @@ export default function SendMoney() {
                   key={quickAmount}
                   variant="outline"
                   onClick={() => setAmount(quickAmount.toString())}
-                  className="bg-white/80 dark:bg-gray-700/80 border-red-200/30 hover:bg-red-50 hover:border-red-400"
+                  className="bg-white/80 dark:bg-gray-700/80 border-yellow-200/30 hover:bg-yellow-50 hover:border-red-400"
                 >
                   ${quickAmount}
                 </Button>
@@ -221,7 +221,7 @@ export default function SendMoney() {
         </Card>
 
         {/* Note (Optional) */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-yellow-200/30 shadow-xl">
           <CardContent className="p-4">
             <Label htmlFor="note" className="text-gray-700 dark:text-gray-300">{t('optionalNote')}</Label>
             <Input
@@ -229,7 +229,7 @@ export default function SendMoney() {
               placeholder={t('addNote')}
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              className="mt-2 bg-white/80 dark:bg-gray-700/80 border-red-200/30 focus:border-red-500 rounded-2xl"
+              className="mt-2 bg-white/80 dark:bg-gray-700/80 border-yellow-200/30 focus:border-red-500 rounded-2xl"
             />
           </CardContent>
         </Card>

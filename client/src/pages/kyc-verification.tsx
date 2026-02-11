@@ -338,7 +338,7 @@ Select the country where you currently reside to start the verification process
                 }}
                 className={`p-4 border rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${
                   personalInfo.country === country.code
-                    ? "border-red-500 bg-red-50 dark:bg-red-900/20"
+                    ? "border-red-500 bg-yellow-50 dark:bg-red-900/20"
                     : "border-gray-200 dark:border-gray-700 hover:border-red-300"
                 }`}
               >
@@ -562,7 +562,7 @@ Select the country where you currently reside to start the verification process
                     </div>
                   </div>
                   {document?.captured && (
-                    <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    <Badge className="bg-yellow-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                       <CheckCircle2 className="h-4 w-4 mr-1" />
                       {t("captured")}
                     </Badge>
@@ -709,7 +709,7 @@ Select the country where you currently reside to start the verification process
         
         {verificationStatus === "verified" && (
           <div className="text-center">
-            <p className="text-lg font-semibold text-green-600 dark:text-green-400 mb-4">
+            <p className="text-lg font-semibold text-primary dark:text-green-400 mb-4">
               ✅ Verification Completed
             </p>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
@@ -755,7 +755,7 @@ Select the country where you currently reside to start the verification process
                 <div key={step} className="flex flex-col items-center">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 ${
                     status === "completed" 
-                      ? "bg-green-500 text-white" 
+                      ? "bg-primary text-white" 
                       : status === "active"
                       ? "bg-primary text-white"
                       : "bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400"

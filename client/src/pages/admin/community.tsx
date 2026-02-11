@@ -226,7 +226,7 @@ export default function AdminCommunity() {
           
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <Calendar className="h-6 w-6 text-green-600 mx-auto mb-2" />
+              <Calendar className="h-6 w-6 text-primary mx-auto mb-2" />
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.totalEvents || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Events</p>
             </CardContent>

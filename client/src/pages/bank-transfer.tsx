@@ -76,7 +76,7 @@ export default function BankTransfer() {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300"
+            className="p-2 hover:bg-yellow-100 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300"
             onClick={() => setLocation("/deposit")}
             data-testid="button-back"
           >
@@ -96,7 +96,7 @@ export default function BankTransfer() {
         {/* Transfer Form */}
         <div className="bg-white dark:bg-[#1a1a2e] border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-4">
           <div className="flex items-center gap-2 mb-4">
-            <DollarSign className="h-5 w-5 text-green-600 dark:text-green-400" />
+            <DollarSign className="h-5 w-5 text-primary dark:text-green-400" />
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">Create Bank Transfer Request</h2>
           </div>
           
@@ -141,7 +141,7 @@ export default function BankTransfer() {
                       key={bank.code}
                       className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
                         selectedBank === bank.code
-                          ? "border-red-500 bg-red-50 dark:bg-red-900/30"
+                          ? "border-red-500 bg-yellow-50 dark:bg-red-900/30"
                           : "border-gray-200 dark:border-gray-600 bg-white dark:bg-[#252542] hover:border-red-300 dark:hover:border-red-500"
                       }`}
                       onClick={() => setSelectedBank(bank.code)}
@@ -214,7 +214,7 @@ export default function BankTransfer() {
             </div>
             
             <div className="space-y-3">
-              <div className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/30 rounded-lg">
+              <div className="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-red-900/30 rounded-lg">
                 <div className="w-10 h-10 flex items-center justify-center">
                   {selectedBankDetails.logoUrl ? (
                     <img 
@@ -248,7 +248,7 @@ export default function BankTransfer() {
                       onClick={() => copyToClipboard(selectedBankDetails.accountNumber, 'account')}
                     >
                       {copied === 'account' ? (
-                        <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                        <Check className="h-3 w-3 text-primary dark:text-green-400" />
                       ) : (
                         <Copy className="h-3 w-3 text-gray-500 dark:text-gray-400" />
                       )}
@@ -267,7 +267,7 @@ export default function BankTransfer() {
                       onClick={() => copyToClipboard(selectedBankDetails.iban, 'iban')}
                     >
                       {copied === 'iban' ? (
-                        <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                        <Check className="h-3 w-3 text-primary dark:text-green-400" />
                       ) : (
                         <Copy className="h-3 w-3 text-gray-500 dark:text-gray-400" />
                       )}
@@ -286,7 +286,7 @@ export default function BankTransfer() {
                       onClick={() => copyToClipboard(selectedBankDetails.swiftCode, 'swift')}
                     >
                       {copied === 'swift' ? (
-                        <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                        <Check className="h-3 w-3 text-primary dark:text-green-400" />
                       ) : (
                         <Copy className="h-3 w-3 text-gray-500 dark:text-gray-400" />
                       )}
@@ -304,7 +304,7 @@ export default function BankTransfer() {
         )}
 
         {/* Instructions Card */}
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+        <div className="bg-yellow-50 dark:bg-red-900/20 border border-yellow-200 dark:border-red-800 rounded-xl p-4">
           <h3 className="text-base font-bold text-red-900 dark:text-red-300 mb-3">
             Transfer Instructions
           </h3>

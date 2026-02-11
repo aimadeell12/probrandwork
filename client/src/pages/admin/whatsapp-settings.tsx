@@ -164,16 +164,16 @@ export default function WhatsAppSettings() {
         </div>
 
         <Tabs defaultValue="settings" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-0 h-auto sm:h-10 bg-white/60 backdrop-blur-sm border border-red-200/50">
-            <TabsTrigger value="settings" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-red-500/80 data-[state=active]:text-white">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-0 h-auto sm:h-10 bg-white/60 backdrop-blur-sm border border-yellow-200/50">
+            <TabsTrigger value="settings" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-primary/80 data-[state=active]:text-white">
               <Settings className="h-4 w-4 mr-2" />
               الإعدادات
             </TabsTrigger>
-            <TabsTrigger value="test" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-red-500/80 data-[state=active]:text-white">
+            <TabsTrigger value="test" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-primary/80 data-[state=active]:text-white">
               <Send className="h-4 w-4 mr-2" />
               اختبار الإرسال
             </TabsTrigger>
-            <TabsTrigger value="stats" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-red-500/80 data-[state=active]:text-white">
+            <TabsTrigger value="stats" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-primary/80 data-[state=active]:text-white">
               <BarChart3 className="h-4 w-4 mr-2" />
               الإحصائيات
             </TabsTrigger>
@@ -181,7 +181,7 @@ export default function WhatsAppSettings() {
 
           {/* Settings Tab */}
           <TabsContent value="settings">
-            <Card className="bg-white/60 backdrop-blur-sm border border-red-200/50 shadow-lg">
+            <Card className="bg-white/60 backdrop-blur-sm border border-yellow-200/50 shadow-lg">
               <CardHeader className="bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-t-lg">
                 <CardTitle className="text-lg sm:text-xl text-gray-900 flex items-center gap-2">
                   <Settings className="h-5 w-5 text-primary" />
@@ -201,7 +201,7 @@ export default function WhatsAppSettings() {
                         value={formData.phoneNumberId}
                         onChange={(e) => setFormData(prev => ({ ...prev, phoneNumberId: e.target.value }))}
                         placeholder="637387286132641"
-                        className="h-11 border-red-200 focus:border-red-400 focus:ring-red-400/20"
+                        className="h-11 border-yellow-200 focus:border-red-400 focus:ring-red-400/20"
                       />
                     </div>
                     <div className="space-y-2">
@@ -211,7 +211,7 @@ export default function WhatsAppSettings() {
                         value={formData.businessAccountId}
                         onChange={(e) => setFormData(prev => ({ ...prev, businessAccountId: e.target.value }))}
                         placeholder="576288461869738"
-                        className="h-11 border-red-200 focus:border-red-400 focus:ring-red-400/20"
+                        className="h-11 border-yellow-200 focus:border-red-400 focus:ring-red-400/20"
                       />
                     </div>
                   </div>
@@ -223,7 +223,7 @@ export default function WhatsAppSettings() {
                       value={formData.accessToken}
                       onChange={(e) => setFormData(prev => ({ ...prev, accessToken: e.target.value }))}
                       placeholder="يرجى إدخال رمز الوصول من Facebook Developer Console"
-                      className="min-h-[100px] border-red-200 focus:border-red-400 focus:ring-red-400/20"
+                      className="min-h-[100px] border-yellow-200 focus:border-red-400 focus:ring-red-400/20"
                     />
                     <div className="bg-yellow-50/80 border border-yellow-200 rounded-lg p-3">
                       <p className="text-sm text-yellow-800 flex items-center gap-2">
@@ -250,7 +250,7 @@ export default function WhatsAppSettings() {
                         value={formData.templateName}
                         onChange={(e) => setFormData(prev => ({ ...prev, templateName: e.target.value }))}
                         placeholder="otp_verification"
-                        className="h-11 border-red-200 focus:border-red-400 focus:ring-red-400/20"
+                        className="h-11 border-yellow-200 focus:border-red-400 focus:ring-red-400/20"
                       />
                     </div>
                     <div className="space-y-2">
@@ -259,7 +259,7 @@ export default function WhatsAppSettings() {
                         value={formData.language} 
                         onValueChange={(value: 'ar' | 'en') => setFormData(prev => ({ ...prev, language: value }))}
                       >
-                        <SelectTrigger className="h-11 border-red-200 focus:border-red-400 focus:ring-red-400/20">
+                        <SelectTrigger className="h-11 border-yellow-200 focus:border-red-400 focus:ring-red-400/20">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -277,7 +277,7 @@ export default function WhatsAppSettings() {
                       value={formData.verifyToken}
                       onChange={(e) => setFormData(prev => ({ ...prev, verifyToken: e.target.value }))}
                       placeholder="verify_token"
-                      className="h-11 border-red-200 focus:border-red-400 focus:ring-red-400/20"
+                      className="h-11 border-yellow-200 focus:border-red-400 focus:ring-red-400/20"
                     />
                   </div>
 
@@ -295,7 +295,7 @@ export default function WhatsAppSettings() {
 
           {/* Test Tab */}
           <TabsContent value="test">
-            <Card className="bg-white/60 backdrop-blur-sm border border-red-200/50 shadow-lg">
+            <Card className="bg-white/60 backdrop-blur-sm border border-yellow-200/50 shadow-lg">
               <CardHeader className="bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-t-lg">
                 <CardTitle className="text-lg sm:text-xl text-gray-900 flex items-center gap-2">
                   <Send className="h-5 w-5 text-primary" />
@@ -315,7 +315,7 @@ export default function WhatsAppSettings() {
                         value={testPhone}
                         onChange={(e) => setTestPhone(e.target.value)}
                         placeholder="+966501234567"
-                        className="h-11 border-red-200 focus:border-red-400 focus:ring-red-400/20"
+                        className="h-11 border-yellow-200 focus:border-red-400 focus:ring-red-400/20"
                       />
                     </div>
                     <div className="space-y-2">
@@ -325,7 +325,7 @@ export default function WhatsAppSettings() {
                         value={testOTP}
                         onChange={(e) => setTestOTP(e.target.value)}
                         placeholder="123456"
-                        className="h-11 border-red-200 focus:border-red-400 focus:ring-red-400/20"
+                        className="h-11 border-yellow-200 focus:border-red-400 focus:ring-red-400/20"
                       />
                     </div>
                   </div>
@@ -345,7 +345,7 @@ export default function WhatsAppSettings() {
           {/* Stats Tab */}
           <TabsContent value="stats">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              <Card className="bg-white/60 backdrop-blur-sm border border-red-200/50 shadow-lg">
+              <Card className="bg-white/60 backdrop-blur-sm border border-yellow-200/50 shadow-lg">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
@@ -357,19 +357,19 @@ export default function WhatsAppSettings() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/60 backdrop-blur-sm border border-red-200/50 shadow-lg">
+              <Card className="bg-white/60 backdrop-blur-sm border border-yellow-200/50 shadow-lg">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-gray-600">الرسائل المُسلمة</p>
-                      <p className="text-2xl font-bold text-green-600">{stats?.messagesDelivered || 0}</p>
+                      <p className="text-2xl font-bold text-primary">{stats?.messagesDelivered || 0}</p>
                     </div>
                     <CheckCircle className="h-8 w-8 text-green-500" />
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/60 backdrop-blur-sm border border-red-200/50 shadow-lg">
+              <Card className="bg-white/60 backdrop-blur-sm border border-yellow-200/50 shadow-lg">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
@@ -381,7 +381,7 @@ export default function WhatsAppSettings() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/60 backdrop-blur-sm border border-red-200/50 shadow-lg">
+              <Card className="bg-white/60 backdrop-blur-sm border border-yellow-200/50 shadow-lg">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center justify-between">
                     <div>
@@ -395,7 +395,7 @@ export default function WhatsAppSettings() {
             </div>
 
             {/* Status Card */}
-            <Card className="bg-white/60 backdrop-blur-sm border border-red-200/50 shadow-lg mt-6">
+            <Card className="bg-white/60 backdrop-blur-sm border border-yellow-200/50 shadow-lg mt-6">
               <CardHeader className="bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-t-lg">
                 <CardTitle className="text-lg sm:text-xl text-gray-900 flex items-center gap-2">
                   <BarChart3 className="h-5 w-5 text-primary" />
@@ -405,7 +405,7 @@ export default function WhatsAppSettings() {
               <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${settings?.phoneNumberId ? 'bg-green-500' : 'bg-red-500'}`} />
+                    <div className={`w-3 h-3 rounded-full ${settings?.phoneNumberId ? 'bg-primary' : 'bg-primary'}`} />
                     <span className="text-sm font-medium text-gray-700">
                       {settings?.phoneNumberId ? "WhatsApp API جاهز للاستخدام" : "يرجى تكوين إعدادات API"}
                     </span>

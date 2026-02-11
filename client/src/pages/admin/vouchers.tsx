@@ -255,7 +255,7 @@ export default function AdminVouchers() {
           
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <Calendar className="h-6 w-6 text-green-600 mx-auto mb-2" />
+              <Calendar className="h-6 w-6 text-primary mx-auto mb-2" />
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.activeVouchers || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Active</p>
             </CardContent>
@@ -309,7 +309,7 @@ export default function AdminVouchers() {
                   <div key={voucher.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                     <div className="flex-1">
                       <div className="flex items-start gap-4">
-                        <div className="bg-red-100 dark:bg-red-900/20 p-3 rounded-lg">
+                        <div className="bg-yellow-100 dark:bg-red-900/20 p-3 rounded-lg">
                           <Ticket className="h-6 w-6 text-primary" />
                         </div>
                         <div>

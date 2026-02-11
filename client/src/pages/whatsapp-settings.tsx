@@ -189,7 +189,7 @@ export default function WhatsAppSettings() {
           <div className="sticky top-0 bg-white border-b border-gray-100 p-3 sm:p-4 z-50">
             <div className="flex items-center gap-3">
               <Link href="/account">
-                <Button variant="ghost" size="sm" className="p-2 hover:bg-red-500/10 rounded-full">
+                <Button variant="ghost" size="sm" className="p-2 hover:bg-primary/10 rounded-full">
                   <ArrowLeft className="h-5 w-5 text-gray-700" />
                 </Button>
               </Link>
@@ -215,13 +215,13 @@ export default function WhatsAppSettings() {
         <div className="sticky top-0 bg-white border-b border-gray-100 p-3 sm:p-4 z-50">
           <div className="flex items-center gap-3">
             <Link href="/account">
-              <Button variant="ghost" size="sm" className="p-2 hover:bg-red-500/10 rounded-full">
+              <Button variant="ghost" size="sm" className="p-2 hover:bg-primary/10 rounded-full">
                 <ArrowLeft className="h-5 w-5 text-gray-700" />
               </Button>
             </Link>
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-green-100 rounded-xl flex items-center justify-center">
-                <MessageCircle className="h-5 w-5 text-green-600" />
+              <div className="w-8 h-8 bg-yellow-100 rounded-xl flex items-center justify-center">
+                <MessageCircle className="h-5 w-5 text-primary" />
               </div>
               <h1 className="text-lg font-semibold text-gray-900">إعدادات WhatsApp</h1>
             </div>
@@ -246,7 +246,7 @@ export default function WhatsAppSettings() {
                   <div className="text-2xl font-bold text-blue-600">{otpStats.totalActive}</div>
                   <div className="text-sm text-blue-700">رموز نشطة</div>
                 </div>
-                <div className="text-center p-3 bg-red-50/80 rounded-xl">
+                <div className="text-center p-3 bg-yellow-50/80 rounded-xl">
                   <div className="text-2xl font-bold text-primary">
                     {Object.keys(otpStats.byPurpose).length}
                   </div>
@@ -266,8 +266,8 @@ export default function WhatsAppSettings() {
           {/* Send WhatsApp Message */}
           <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-                <Send className="h-6 w-6 text-green-600" />
+              <div className="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center">
+                <Send className="h-6 w-6 text-primary" />
               </div>
               <h2 className="text-lg font-semibold text-gray-900">إرسال رسالة WhatsApp</h2>
             </div>
@@ -304,7 +304,7 @@ export default function WhatsAppSettings() {
               <Button
                 onClick={handleSendMessage}
                 disabled={sendMessageMutation.isPending}
-                className="w-full h-12 bg-green-500 hover:bg-green-600 text-white rounded-xl"
+                className="w-full h-12 bg-primary hover:bg-primary text-white rounded-xl"
               >
                 {sendMessageMutation.isPending ? "جاري الإرسال..." : "إرسال الرسالة"}
               </Button>
@@ -314,7 +314,7 @@ export default function WhatsAppSettings() {
           {/* OTP Management */}
           <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-red-100/80 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-yellow-100/80 rounded-xl flex items-center justify-center">
                 <Shield className="h-6 w-6 text-primary" />
               </div>
               <h2 className="text-lg font-semibold text-gray-900">إدارة OTP</h2>
@@ -357,7 +357,7 @@ export default function WhatsAppSettings() {
                 <Button
                   onClick={handleSendOtp}
                   disabled={sendOtpMutation.isPending}
-                  className="h-12 bg-red-500/80 hover:bg-primary/80 text-white rounded-xl"
+                  className="h-12 bg-primary/80 hover:bg-primary/80 text-white rounded-xl"
                 >
                   {sendOtpMutation.isPending ? "جاري الإرسال..." : "إرسال OTP"}
                 </Button>
@@ -384,7 +384,7 @@ export default function WhatsAppSettings() {
                   onClick={handleVerifyOtp}
                   disabled={verifyOtpMutation.isPending}
                   variant="outline"
-                  className="w-full h-12 mt-3 border-red-200 hover:bg-red-50/80 rounded-xl"
+                  className="w-full h-12 mt-3 border-yellow-200 hover:bg-yellow-50/80 rounded-xl"
                 >
                   {verifyOtpMutation.isPending ? "جاري التحقق..." : "التحقق من OTP"}
                 </Button>
@@ -436,15 +436,15 @@ export default function WhatsAppSettings() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-gray-700">خدمة WhatsApp</span>
-                <Badge className="bg-green-100 text-green-700">متصلة</Badge>
+                <Badge className="bg-yellow-100 text-green-700">متصلة</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-700">خدمة OTP</span>
-                <Badge className="bg-green-100 text-green-700">نشطة</Badge>
+                <Badge className="bg-yellow-100 text-green-700">نشطة</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-700">الإشعارات</span>
-                <Badge className={notificationsEnabled ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"}>
+                <Badge className={notificationsEnabled ? "bg-yellow-100 text-green-700" : "bg-gray-100 text-gray-700"}>
                   {notificationsEnabled ? "مُفعلة" : "مُعطلة"}
                 </Badge>
               </div>

@@ -94,7 +94,7 @@ export default function AdminSettings() {
           </div>
 
           <div className="w-full sm:w-auto sm:ml-auto">
-            <Button className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto">
+            <Button className="bg-primary hover:bg-green-700 text-white w-full sm:w-auto">
               <Save className="h-4 w-4 mr-2" />
               Save Changes
             </Button>
@@ -269,7 +269,7 @@ export default function AdminSettings() {
               </div>
 
               {settings.maintenanceMode && (
-                <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
+                <div className="p-4 bg-yellow-50 dark:bg-red-900/20 rounded-lg border border-yellow-200 dark:border-red-800">
                   <div className="flex items-start gap-3">
                     <Lock className="h-5 w-5 text-primary dark:text-red-400 mt-0.5" />
                     <div>
@@ -305,7 +305,7 @@ export default function AdminSettings() {
                   </div>
                   <div className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                     <span className="text-xs text-gray-600 dark:text-gray-400">System Status</span>
-                    <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs">
+                    <Badge className="bg-yellow-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs">
                       Online
                     </Badge>
                   </div>
@@ -321,7 +321,7 @@ export default function AdminSettings() {
             Reset to Defaults
           </Button>
           <Button 
-            className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"
+            className="bg-primary hover:bg-green-700 text-white w-full sm:w-auto"
             onClick={() => saveSettings.mutate(settings)}
             disabled={saveSettings.isPending}
           >
