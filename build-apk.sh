@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🏗️ بناء تطبيق PayDota APK"
+echo "🏗️ بناء تطبيق BrandSoft Pay APK"
 echo "========================"
 
 # التحقق من وجود dist/public
@@ -16,9 +16,9 @@ npx cap copy android
 echo "✅ جاهز للبناء!"
 echo ""
 echo "📱 معلومات التطبيق:"
-echo "   - الاسم: PayDota"
-echo "   - المعرف: com.paydota.banking"
-echo "   - الخادم: https://paydota.replit.app"
+echo "   - الاسم: BrandSoft Pay"
+echo "   - المعرف: com.brandsoft-pay.banking"
+echo "   - الخادم: https://brandsoft-pay.replit.app"
 echo "   - keystore: signing.keystore (مع كلمة مرور) ✓"
 echo "   - الإضافات: 9 إضافات ✓"
 echo ""

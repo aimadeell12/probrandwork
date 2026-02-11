@@ -1,4 +1,4 @@
-# تحديث Keystore - PayDota
+# تحديث Keystore - BrandSoft Pay
 
 ## المعلومات الجديدة
 

@@ -17,7 +17,7 @@
 ```json
 {
   "type": "INDIVIDUAL",
-  "email": "admin@paydota.com",
+  "email": "admin@brandsoft-pay.com",
   "mobile_number": "+212663381823",
   "individual": {
     "name": {

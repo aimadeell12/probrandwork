@@ -111,11 +111,11 @@ export default function AdminVouchers() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900 relative overflow-hidden">
       
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 dark:bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-300 dark:bg-primary rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-70 animate-blob"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-300 dark:bg-pink-600 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
       </div>
 
@@ -139,7 +139,7 @@ export default function AdminVouchers() {
           
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800">
+              <Button className="bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800">
                 <Plus className="h-4 w-4 mr-2" />
                 Create Voucher
               </Button>
@@ -247,7 +247,7 @@ export default function AdminVouchers() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <Ticket className="h-6 w-6 text-purple-600 mx-auto mb-2" />
+              <Ticket className="h-6 w-6 text-primary mx-auto mb-2" />
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.totalVouchers || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Total Vouchers</p>
             </CardContent>
@@ -309,8 +309,8 @@ export default function AdminVouchers() {
                   <div key={voucher.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                     <div className="flex-1">
                       <div className="flex items-start gap-4">
-                        <div className="bg-purple-100 dark:bg-purple-900/20 p-3 rounded-lg">
-                          <Ticket className="h-6 w-6 text-purple-600" />
+                        <div className="bg-red-100 dark:bg-red-900/20 p-3 rounded-lg">
+                          <Ticket className="h-6 w-6 text-primary" />
                         </div>
                         <div>
                           <h3 className="font-semibold text-gray-900 dark:text-white">

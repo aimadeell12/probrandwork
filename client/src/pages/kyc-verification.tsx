@@ -306,7 +306,7 @@ export default function KYCVerification() {
       <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
         <CardHeader>
           <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <svg className="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
 Select Country of Residence
@@ -338,8 +338,8 @@ Select the country where you currently reside to start the verification process
                 }}
                 className={`p-4 border rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${
                   personalInfo.country === country.code
-                    ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
-                    : "border-gray-200 dark:border-gray-700 hover:border-purple-300"
+                    ? "border-red-500 bg-red-50 dark:bg-red-900/20"
+                    : "border-gray-200 dark:border-gray-700 hover:border-red-300"
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -352,7 +352,7 @@ Select the country where you currently reside to start the verification process
                     </span>
                   </div>
                   {personalInfo.country === country.code && (
-                    <CheckCircle2 className="h-5 w-5 text-purple-600" />
+                    <CheckCircle2 className="h-5 w-5 text-primary" />
                   )}
                 </div>
               </div>
@@ -367,7 +367,7 @@ Select the country where you currently reside to start the verification process
     <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <User className="h-6 w-6 text-purple-600" />
+          <User className="h-6 w-6 text-primary" />
           Personal Information
         </CardTitle>
         <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
@@ -488,7 +488,7 @@ Select the country where you currently reside to start the verification process
         
         <Button 
           onClick={() => setCurrentStep("documents")} 
-          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+          className="w-full bg-gradient-to-r from-primary to-pink-600 hover:from-red-700 hover:to-pink-700"
           disabled={!personalInfo.fullName || !personalInfo.idNumber || !personalInfo.documentType || !personalInfo.dateOfBirth || !personalInfo.address || !personalInfo.city || !personalInfo.postalCode || !!ageError}
         >
           متابعة
@@ -501,7 +501,7 @@ Select the country where you currently reside to start the verification process
     <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <CreditCard className="h-6 w-6 text-purple-600" />
+          <CreditCard className="h-6 w-6 text-primary" />
           Upload Required Documents
         </CardTitle>
         <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
@@ -524,7 +524,7 @@ Select the country where you currently reside to start the verification process
               </div>
               
               <div className="flex gap-4 justify-center">
-                <Button onClick={capturePhoto} className="bg-purple-600 hover:bg-purple-700">
+                <Button onClick={capturePhoto} className="bg-primary hover:bg-red-700">
                   <Camera className="h-5 w-5 mr-2" />
                   {t("capture")}
                 </Button>
@@ -551,7 +551,7 @@ Select the country where you currently reside to start the verification process
               <div key={type} className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <Icon className="h-6 w-6 text-purple-600" />
+                    <Icon className="h-6 w-6 text-primary" />
                     <div className="flex flex-col">
                       <span className="font-semibold text-gray-900 dark:text-white text-base">
                         {displayTitle}
@@ -599,7 +599,7 @@ Select the country where you currently reside to start the verification process
                         }}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       />
-                      <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                      <Button className="w-full bg-primary hover:bg-red-700">
                         <Upload className="h-4 w-4 mr-2" />
                         Upload File
                       </Button>
@@ -613,7 +613,7 @@ Select the country where you currently reside to start the verification process
         
         <Button 
           onClick={() => setCurrentStep("review")} 
-          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+          className="w-full bg-gradient-to-r from-primary to-pink-600 hover:from-red-700 hover:to-pink-700"
           disabled={!documents.every(doc => doc.captured)}
         >
           Continue
@@ -626,13 +626,13 @@ Select the country where you currently reside to start the verification process
     <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 shadow-xl rounded-3xl">
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <CheckCircle2 className="h-6 w-6 text-purple-600" />
+          <CheckCircle2 className="h-6 w-6 text-primary" />
           {t("reviewInformation")}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Verification Status */}
-        <div className="text-center p-6 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl">
+        <div className="text-center p-6 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl">
           {verificationStatus === "pending" && (
             <div className="flex flex-col items-center gap-3">
               <Clock className="h-12 w-12 text-yellow-500" />
@@ -713,7 +713,7 @@ Select the country where you currently reside to start the verification process
               ✅ Verification Completed
             </p>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Your identity has been successfully verified! You now have full access to all banking features.
+              Your identity has been successfully verified! You now have full access to all wallet features.
             </p>
             <Link href="/dashboard">
               <Button className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800">
@@ -727,7 +727,7 @@ Select the country where you currently reside to start the verification process
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-indigo-50 dark:from-gray-900 dark:via-red-900/20 dark:to-gray-900 p-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -757,7 +757,7 @@ Select the country where you currently reside to start the verification process
                     status === "completed" 
                       ? "bg-green-500 text-white" 
                       : status === "active"
-                      ? "bg-purple-600 text-white"
+                      ? "bg-primary text-white"
                       : "bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400"
                   }`}>
                     <Icon className="h-4 w-4" />

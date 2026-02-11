@@ -1,0 +1,70 @@
+Anti-Money Laundering (AML) Policy
+
+PROBRANDIFY LIMITED
+
+PROBRANDIFY LIMITED is committed to preventing money laundering, terrorist financing, and other financial crimes. This Anti-Money Laundering (AML) Policy outlines our commitment to compliance with applicable laws, regulations, and international best practices.
+
+⸻
+
+1. Scope of Application
+
+This policy applies to all users, customers, partners, and activities conducted through the PROBRANDIFY LIMITED platform, including card issuing services (virtual and physical cards) and issuing API services.
+
+⸻
+
+2. Regulatory Commitment
+
+PROBRANDIFY LIMITED operates in accordance with applicable AML, Counter-Terrorist Financing (CTF), and sanctions regulations, as well as international standards such as the Financial Action Task Force (FATF) recommendations.
+
+⸻
+
+3. Customer Due Diligence (KYC)
+
+We apply Know Your Customer (KYC) procedures to verify the identity of our customers prior to onboarding. This includes:
+	•	Identity verification
+	•	Verification of beneficial ownership (where applicable)
+	•	Risk-based customer assessment
+
+Enhanced Due Diligence (EDD) may be applied to higher-risk customers.
+
+⸻
+
+4. Sanctions & PEP Screening
+
+Customers are screened against applicable sanctions lists, politically exposed persons (PEP) databases, and other relevant watchlists at onboarding and on an ongoing basis.
+
+⸻
+
+5. Transaction Monitoring
+
+We apply risk-based transaction monitoring controls designed to identify unusual or suspicious card transaction activity. Appropriate action is taken where potential risks are identified.
+
+⸻
+
+6. Prohibited Activities
+
+The platform must not be used for unlawful purposes, including money laundering, terrorist financing, or activities involving sanctioned jurisdictions or individuals.
+
+⸻
+
+7. Record Keeping
+
+Customer and transaction records are maintained in accordance with applicable legal and regulatory requirements.
+
+⸻
+
+8. Reporting & Cooperation
+
+PROBRANDIFY LIMITED cooperates with competent authorities and relevant financial partners when required by law.
+
+⸻
+
+9. Policy Review
+
+This policy is reviewed periodically and updated as necessary to reflect changes in regulations, business activities, or risk exposure.
+
+⸻
+
+Last Updated: 2025
+Company: PROBRANDIFY LIMITED
+Jurisdiction: Hong Kong

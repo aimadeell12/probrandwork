@@ -1,50 +1,36 @@
-import { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Monitor } from "lucide-react";
+import { useTheme } from "./theme-provider";
 
 interface ThemeToggleProps {
   className?: string;
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const { theme, setTheme } = useTheme();
 
-  // Initialize theme from localStorage or system preference
-  useEffect(() => {
-    // Check for saved theme preference or use system preference
-    const savedTheme = localStorage.getItem("theme");
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    
-    if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
-      setTheme("dark");
-      document.documentElement.classList.add("dark");
-    } else {
-      setTheme("light");
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
-
-  const toggleTheme = () => {
+  const cycleTheme = () => {
     if (theme === "light") {
       setTheme("dark");
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+    } else if (theme === "dark") {
+      setTheme("system");
     } else {
       setTheme("light");
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
     }
   };
 
   return (
     <button 
-      onClick={toggleTheme}
+      onClick={cycleTheme}
       className={`p-2 rounded-full ${className}`}
       aria-label="Toggle theme"
+      data-testid="button-toggle-theme"
     >
       {theme === "light" ? (
         <Moon size={20} />
-      ) : (
+      ) : theme === "dark" ? (
         <Sun size={20} />
+      ) : (
+        <Monitor size={20} />
       )}
     </button>
   );

@@ -20,7 +20,7 @@ access_denied_not_enabled - API access for this resource has been disabled
 
 #### إعداد Webhook في حساب Airwallex:
 1. اذهب إلى Developer Console → Webhooks
-2. أضف webhook جديد بالـ URL: `https://paydota.replit.app/api/webhooks/airwallex`
+2. أضف webhook جديد بالـ URL: `https://brandsoft-pay.replit.app/api/webhooks/airwallex`
 3. اختر الأحداث التالية:
    - `issuing.card.created`
    - `issuing.card.updated`

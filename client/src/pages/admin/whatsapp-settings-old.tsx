@@ -148,7 +148,7 @@ export default function WhatsAppSettings() {
       <div className="p-6">
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
-            <div className="w-8 h-8 border-2 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <div className="w-8 h-8 border-2 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-gray-600">جاري تحميل الإعدادات...</p>
           </div>
         </div>
@@ -157,11 +157,11 @@ export default function WhatsAppSettings() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50/80 via-pink-50/80 to-purple-100/80">
+    <div className="min-h-screen bg-gradient-to-br from-red-50/80 via-pink-50/80 to-red-100/80">
       <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 max-w-6xl mx-auto">
         <div className="mb-6 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500/80 to-pink-500/80 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-r from-red-500/80 to-pink-500/80 rounded-xl flex items-center justify-center shadow-lg">
               <MessageCircle className="h-6 w-6 text-white" />
             </div>
             <div>
@@ -172,17 +172,17 @@ export default function WhatsAppSettings() {
         </div>
 
         <Tabs defaultValue="settings" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-0 h-auto sm:h-10 bg-white/60 backdrop-blur-sm border border-purple-200/50">
-            <TabsTrigger value="settings" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-purple-500/80 data-[state=active]:text-white">الإعدادات</TabsTrigger>
-            <TabsTrigger value="templates" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-purple-500/80 data-[state=active]:text-white">القوالب</TabsTrigger>
-            <TabsTrigger value="stats" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-purple-500/80 data-[state=active]:text-white">الإحصائيات</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-0 h-auto sm:h-10 bg-white/60 backdrop-blur-sm border border-red-200/50">
+            <TabsTrigger value="settings" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-red-500/80 data-[state=active]:text-white">الإعدادات</TabsTrigger>
+            <TabsTrigger value="templates" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-red-500/80 data-[state=active]:text-white">القوالب</TabsTrigger>
+            <TabsTrigger value="stats" className="text-xs sm:text-sm py-3 sm:py-2 data-[state=active]:bg-red-500/80 data-[state=active]:text-white">الإحصائيات</TabsTrigger>
           </TabsList>
 
           <TabsContent value="settings">
-            <Card className="bg-white/60 backdrop-blur-sm border border-purple-200/50 shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-t-lg">
+            <Card className="bg-white/60 backdrop-blur-sm border border-red-200/50 shadow-lg">
+              <CardHeader className="bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-t-lg">
                 <CardTitle className="text-lg sm:text-xl text-gray-900 flex items-center gap-2">
-                  <Settings className="h-5 w-5 text-purple-600" />
+                  <Settings className="h-5 w-5 text-primary" />
                   إعدادات API
                 </CardTitle>
                 <CardDescription className="text-sm sm:text-base text-gray-600">
@@ -223,10 +223,10 @@ export default function WhatsAppSettings() {
                   />
                   <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-md">
                     <p className="text-sm text-red-800 font-medium">⚠️ تحذير: انتهت صلاحية رمز الوصول</p>
-                    <p className="text-xs text-red-600 mt-1">
+                    <p className="text-xs text-primary mt-1">
                       انتهت صلاحية الرمز في 25 يونيو. تحتاج إلى الحصول على رمز جديد من Facebook Developer Console.
                     </p>
-                    <div className="mt-2 text-xs text-red-600">
+                    <div className="mt-2 text-xs text-primary">
                       <p><strong>خطوات الحصول على رمز جديد:</strong></p>
                       <ol className="list-decimal list-inside mt-1 space-y-1">
                         <li>اذهب إلى Facebook Developers Console</li>
@@ -253,7 +253,7 @@ export default function WhatsAppSettings() {
                     id="verifyToken"
                     value={formData.verifyToken}
                     onChange={(e) => setFormData(prev => ({ ...prev, verifyToken: e.target.value }))}
-                    placeholder="paydota_webhook_verify_token_2025"
+                    placeholder="appspay_webhook_verify_token_2025"
                   />
                 </div>
 
@@ -397,9 +397,9 @@ export default function WhatsAppSettings() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600">فشل الإرسال</p>
-                    <p className="text-2xl font-bold text-red-600">{stats?.messagesFailed || 0}</p>
+                    <p className="text-2xl font-bold text-primary">{stats?.messagesFailed || 0}</p>
                   </div>
-                  <XCircle className="h-8 w-8 text-red-600" />
+                  <XCircle className="h-8 w-8 text-primary" />
                 </div>
               </CardContent>
             </Card>
@@ -409,9 +409,9 @@ export default function WhatsAppSettings() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600">القوالب المستخدمة</p>
-                    <p className="text-2xl font-bold text-purple-600">{stats?.templatesUsed || 0}</p>
+                    <p className="text-2xl font-bold text-primary">{stats?.templatesUsed || 0}</p>
                   </div>
-                  <MessageCircle className="h-8 w-8 text-purple-600" />
+                  <MessageCircle className="h-8 w-8 text-primary" />
                 </div>
               </CardContent>
             </Card>

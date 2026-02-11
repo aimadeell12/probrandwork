@@ -1,12 +1,12 @@
-# إعداد توقيع تطبيق PayDota للأندرويد
+# إعداد توقيع تطبيق BrandSoft Pay للأندرويد
 
 ## نظرة عامة
-تم تكوين تطبيق PayDota بنجاح لاستخدام keystore مخصص للتوقيع الرقمي وإنتاج APK جاهز للنشر.
+تم تكوين تطبيق BrandSoft Pay بنجاح لاستخدام keystore مخصص للتوقيع الرقمي وإنتاج APK جاهز للنشر.
 
 ## إعداد Keystore
 - **ملف Keystore**: `signing_1750723138194.keystore`
 - **موقع الملف**: `android/app/signing_1750723138194.keystore`
-- **Key Alias**: `paydota`
+- **Key Alias**: `brandsoft-pay`
 - **كلمات المرور**: غير مطلوبة (keystore بدون حماية)
 
 ## ملفات التكوين
@@ -17,7 +17,7 @@
 signingConfigs {
     release {
         storeFile file('signing_1750723138194.keystore')
-        keyAlias 'paydota'
+        keyAlias 'brandsoft-pay'
         storePassword ''
         keyPassword ''
     }
@@ -28,7 +28,7 @@ signingConfigs {
 الملف: `android/gradle.properties`
 ```properties
 PAYDOTA_KEYSTORE_FILE=signing_1750723138194.keystore
-PAYDOTA_KEY_ALIAS=paydota
+PAYDOTA_KEY_ALIAS=brandsoft-pay
 PAYDOTA_STORE_PASSWORD=
 PAYDOTA_KEY_PASSWORD=
 ```
@@ -36,7 +36,7 @@ PAYDOTA_KEY_PASSWORD=
 ### 3. ProGuard Rules
 الملف: `android/app/proguard-rules.pro`
 - حماية classes الخاصة بـ Capacitor
-- حماية classes الخاصة بـ PayDota
+- حماية classes الخاصة بـ BrandSoft Pay
 
 ## أوامر البناء
 
@@ -70,7 +70,7 @@ git push origin v1.0.0
 
 ### معلومات التطبيق
 ```
-Package ID: com.paydota.banking
+Package ID: com.brandsoft-pay.banking
 Version Name: 1.0.0
 Version Code: 1
 Min SDK: 24 (Android 7.0)

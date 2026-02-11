@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.paydota.banking"
+    namespace "com.brandsoft-pay.banking"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.paydota.banking"
+        applicationId "com.brandsoft-pay.banking"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -16,22 +16,8 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-
-    signingConfigs {
-        release {
-            storeFile file('signing.keystore')
-            keyAlias 'my-key-alias'
-            storePassword '_qvpL88F8qhe'
-            keyPassword '_qvpL88F8qhe'
-        }
-    }
-
     buildTypes {
-        debug {
-            signingConfig signingConfigs.release
-        }
         release {
-            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

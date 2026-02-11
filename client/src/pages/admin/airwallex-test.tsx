@@ -133,7 +133,7 @@ export default function AirwallexTest() {
                 <Button 
                   onClick={() => testEndpoint('/api/airwallex/account-info', 'GET', 'معلومات الحساب المحدّثة')}
                   disabled={isLoading}
-                  className="bg-purple-500 hover:bg-purple-600"
+                  className="bg-red-500 hover:bg-primary"
                 >
                   معلومات محدّثة
                 </Button>
@@ -204,11 +204,11 @@ export default function AirwallexTest() {
                       
                       {/* Show updated account info from new endpoint */}
                       {result.data?.account_id && (
-                        <div className="mt-3 p-3 bg-purple-50 rounded-md">
-                          <h4 className="font-semibold text-purple-800 mb-2">معلومات الحساب المحدّثة:</h4>
+                        <div className="mt-3 p-3 bg-red-50 rounded-md">
+                          <h4 className="font-semibold text-red-800 mb-2">معلومات الحساب المحدّثة:</h4>
                           <div className="text-sm">
-                            <p><strong>Account ID:</strong> <code className="bg-purple-100 px-2 py-1 rounded text-purple-800">{result.data.account_id}</code></p>
-                            <p><strong>Subject ID:</strong> <code className="bg-purple-100 px-2 py-1 rounded text-purple-800">{result.data.subject_id}</code></p>
+                            <p><strong>Account ID:</strong> <code className="bg-red-100 px-2 py-1 rounded text-red-800">{result.data.account_id}</code></p>
+                            <p><strong>Subject ID:</strong> <code className="bg-red-100 px-2 py-1 rounded text-red-800">{result.data.subject_id}</code></p>
                             <p><strong>API Version:</strong> {result.data.api_version}</p>
                             <p><strong>Data Center:</strong> {result.data.data_center}</p>
                             <p><strong>Issued At:</strong> {result.data.issued_at}</p>

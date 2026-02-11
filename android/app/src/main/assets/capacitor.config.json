@@ -1,9 +1,9 @@
 {
-	"appId": "com.paydota.banking",
-	"appName": "PayDota",
+	"appId": "com.brandsoft-pay.banking",
+	"appName": "BrandSoft Pay",
 	"webDir": "dist/public",
 	"server": {
-		"url": "https://paydota.replit.app",
+		"url": "https://probrandify.org",
 		"cleartext": false,
 		"androidScheme": "https"
 	},
@@ -19,7 +19,7 @@
 			"splashImmersive": true
 		},
 		"StatusBar": {
-			"style": "light",
+			"style": "dark",
 			"backgroundColor": "#ffffff",
 			"overlaysWebView": false
 		},
@@ -28,9 +28,10 @@
 			"navigationBarColor": "#FFFFFF"
 		},
 		"Keyboard": {
-			"resize": "body",
+			"resize": "ionic",
 			"style": "dark",
-			"resizeOnFullScreen": true
+			"resizeOnFullScreen": true,
+			"disableScroll": true
 		},
 		"Haptics": {
 			"impact": {
@@ -45,7 +46,8 @@
 		"WebView": {
 			"allowMixedContent": true,
 			"allowNavigation": [
-				"https://paydota.replit.app"
+				"https://probrandify.org",
+				"https://*.probrandify.org"
 			]
 		},
 		"Camera": {

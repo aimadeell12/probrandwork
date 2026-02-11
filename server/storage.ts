@@ -9,6 +9,7 @@ import {
   kycDocuments,
   paymentLinks,
   paymentTransactions,
+  pendingBalances,
   type User,
   type UpsertUser,
   type Card,
@@ -47,6 +48,7 @@ export interface IStorage {
   createGoogleUser(user: any): Promise<User>;
   linkGoogleAccount(userId: string, googleId: string): Promise<void>;
   updateUserProfile(userId: string, updates: Partial<User>): Promise<User>;
+  deleteUser(userId: string): Promise<void>;
   
   // Card operations
   getCardsByUserId(userId: string): Promise<Card[]>;
@@ -79,6 +81,14 @@ export interface IStorage {
   // Wallet operations
   getWalletBalance(userId: string): Promise<number>;
   updateWalletBalance(userId: string, newBalance: number): Promise<void>;
+  getPendingBalance(userId: string): Promise<number>;
+  updatePendingBalance(userId: string, newPendingBalance: number): Promise<void>;
+  
+  // Pending Balance operations
+  createPendingBalance(data: { userId: string; transactionId: string; amount: string; currency: string; releaseDate: Date; description?: string }): Promise<any>;
+  getPendingBalancesByUserId(userId: string): Promise<any[]>;
+  releasePendingBalance(id: string): Promise<void>;
+  getTotalPendingBalance(userId: string): Promise<number>;
   
   // KYC operations
   getKycVerificationByUserId(userId: string): Promise<KycVerification | undefined>;
@@ -99,6 +109,7 @@ export interface IStorage {
   getPaymentTransactionsByLinkId(linkId: string): Promise<PaymentTransaction[]>;
   getPaymentTransactionByTxRef(txRef: string): Promise<PaymentTransaction | undefined>;
   updatePaymentTransaction(id: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction>;
+  updatePaymentTransactionToSuccessful(id: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction | null>;
 
 }
 
@@ -194,6 +205,47 @@ export class DatabaseStorage implements IStorage {
         stack: dbError?.stack
       });
       throw new Error(`Database update failed: ${dbError?.message || 'Unknown error'}`);
+    }
+  }
+
+  async deleteUser(userId: string): Promise<void> {
+    console.log("🗑️ [STORAGE] deleteUser called for:", userId);
+    
+    try {
+      // Delete all related data first (in order of dependencies)
+      await db.delete(notifications).where(eq(notifications.userId, userId));
+      await db.delete(notificationSettings).where(eq(notificationSettings.userId, userId));
+      await db.delete(supportTickets).where(eq(supportTickets.userId, userId));
+      await db.delete(pendingBalances).where(eq(pendingBalances.userId, userId));
+      
+      // Delete KYC documents and verifications
+      const kycVerification = await this.getKycVerificationByUserId(userId);
+      if (kycVerification) {
+        await db.delete(kycDocuments).where(eq(kycDocuments.kycVerificationId, kycVerification.id));
+        await db.delete(kycVerifications).where(eq(kycVerifications.userId, userId));
+      }
+      
+      // Delete payment links and transactions
+      const userPaymentLinks = await this.getPaymentLinksByUserId(userId);
+      for (const link of userPaymentLinks) {
+        await db.delete(paymentTransactions).where(eq(paymentTransactions.paymentLinkId, link.id));
+      }
+      await db.delete(paymentLinks).where(eq(paymentLinks.userId, userId));
+      
+      // Delete cards and their transactions
+      const userCards = await this.getCardsByUserId(userId);
+      for (const card of userCards) {
+        await db.delete(transactions).where(eq(transactions.cardId, card.id));
+      }
+      await db.delete(cards).where(eq(cards.userId, userId));
+      
+      // Finally delete the user
+      await db.delete(users).where(eq(users.id, userId));
+      
+      console.log("✅ [STORAGE] User and all related data deleted successfully:", userId);
+    } catch (error: any) {
+      console.error("❌ [STORAGE] Error deleting user:", error);
+      throw new Error(`Failed to delete user: ${error?.message || 'Unknown error'}`);
     }
   }
 
@@ -494,6 +546,99 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId));
   }
 
+  async getPendingBalance(userId: string): Promise<number> {
+    const user = await db.select()
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    
+    return parseFloat(user[0]?.pendingBalance || "0");
+  }
+
+  async updatePendingBalance(userId: string, newPendingBalance: number): Promise<void> {
+    await db.update(users)
+      .set({ pendingBalance: newPendingBalance.toString() })
+      .where(eq(users.id, userId));
+  }
+
+  // Pending Balance operations
+  async createPendingBalance(data: { userId: string; transactionId: string; amount: string; currency: string; releaseDate: Date; description?: string }): Promise<any> {
+    const [pendingBalance] = await db.insert(pendingBalances)
+      .values({
+        userId: data.userId,
+        transactionId: data.transactionId,
+        amount: data.amount,
+        currency: data.currency,
+        status: 'pending',
+        releaseDate: data.releaseDate,
+        description: data.description,
+      })
+      .returning();
+    
+    // Update user's pending balance
+    const currentPending = await this.getPendingBalance(data.userId);
+    const newPending = currentPending + parseFloat(data.amount);
+    await this.updatePendingBalance(data.userId, newPending);
+    
+    return pendingBalance;
+  }
+
+  async getPendingBalancesByUserId(userId: string): Promise<any[]> {
+    return await db.select()
+      .from(pendingBalances)
+      .where(and(
+        eq(pendingBalances.userId, userId),
+        eq(pendingBalances.status, 'pending')
+      ))
+      .orderBy(desc(pendingBalances.createdAt));
+  }
+
+  async releasePendingBalance(id: string): Promise<void> {
+    const [pendingBalance] = await db.select()
+      .from(pendingBalances)
+      .where(eq(pendingBalances.id, id))
+      .limit(1);
+    
+    if (!pendingBalance) {
+      throw new Error('Pending balance not found');
+    }
+
+    if (pendingBalance.status !== 'pending') {
+      throw new Error('Pending balance already processed');
+    }
+
+    // Update pending balance status
+    await db.update(pendingBalances)
+      .set({ 
+        status: 'released',
+        releasedAt: new Date()
+      })
+      .where(eq(pendingBalances.id, id));
+    
+    // Update user's balances
+    const currentWallet = await this.getWalletBalance(pendingBalance.userId);
+    const currentPending = await this.getPendingBalance(pendingBalance.userId);
+    const amount = parseFloat(pendingBalance.amount);
+    
+    await this.updateWalletBalance(pendingBalance.userId, currentWallet + amount);
+    await this.updatePendingBalance(pendingBalance.userId, Math.max(0, currentPending - amount));
+    
+    console.log(`✅ Released ${amount} ${pendingBalance.currency} to user ${pendingBalance.userId} wallet`);
+  }
+
+  async getTotalPendingBalance(userId: string): Promise<number> {
+    const result = await db.select({
+      total: sql<string>`COALESCE(SUM(${pendingBalances.amount}::numeric), 0)`
+    })
+      .from(pendingBalances)
+      .where(and(
+        eq(pendingBalances.userId, userId),
+        eq(pendingBalances.status, 'pending')
+      ));
+    
+    return parseFloat(result[0]?.total || "0");
+  }
+
   // Payment link operations
   async createPaymentLink(linkData: InsertPaymentLink): Promise<PaymentLink> {
     const [link] = await db.insert(paymentLinks)
@@ -557,6 +702,17 @@ export class DatabaseStorage implements IStorage {
       .where(eq(paymentTransactions.id, id))
       .returning();
     return transaction;
+  }
+
+  async updatePaymentTransactionToSuccessful(id: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction | null> {
+    const [transaction] = await db.update(paymentTransactions)
+      .set(updates)
+      .where(and(
+        eq(paymentTransactions.id, id),
+        sql`${paymentTransactions.status} != 'successful'`
+      ))
+      .returning();
+    return transaction || null;
   }
 }
 

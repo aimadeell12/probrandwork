@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.brandsoftapps.app",
+      "sha256_cert_fingerprints": [
+        "D0:B3:DE:96:61:51:4D:0C:DC:DA:CB:14:56:B8:45:40:B9:69:86:30:97:11:E5:ED:33:0C:EE:61:6A:92:A0:4F",
+        "FC:30:25:12:10:17:0D:31:F6:FB:52:04:4F:55:CE:64:0C:88:0A:42:A1:05:19:F4:84:67:CB:75:95:85:37:E3"
+      ]
+    }
+  }
+]

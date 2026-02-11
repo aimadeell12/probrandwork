@@ -1,9 +1,9 @@
 {
-  "appId": "com.paydota.banking",
-  "appName": "PayDota",
+  "appId": "com.brandsoft-pay.banking",
+  "appName": "BrandSoft Pay",
   "webDir": "dist/public",
   "server": {
-    "url": "https://paydota22.onrender.com",
+    "url": "https://probrandify.org",
     "cleartext": false,
     "androidScheme": "https"
   },
@@ -19,7 +19,7 @@
       "splashImmersive": true
     },
     "StatusBar": {
-      "style": "light",
+      "style": "dark",
       "backgroundColor": "#ffffff",
       "overlaysWebView": false
     },
@@ -46,7 +46,8 @@
     "WebView": {
       "allowMixedContent": true,
       "allowNavigation": [
-        "https://paydota.replit.app"
+        "https://probrandify.org",
+        "https://*.probrandify.org"
       ]
     },
     "Camera": {

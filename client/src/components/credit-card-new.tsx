@@ -131,7 +131,7 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
         case 'blue':
           return 'bg-gradient-to-br from-blue-500 to-cyan-500';
         case 'purple':
-          return 'bg-gradient-to-br from-purple-500 to-pink-500';
+          return 'bg-gradient-to-br from-red-500 to-pink-500';
         case 'black':
           return 'bg-gradient-to-br from-gray-800 to-gray-900';
         case 'gold':
@@ -202,7 +202,7 @@ export function CreditCard({ card, showDetails = false, onToggleVisibility }: Cr
       <div className={`relative z-10 pt-4 px-6 pb-4 h-full flex flex-col ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>
         {/* Top Section - Brand Name */}
         <div className="mb-4">
-          <h2 className={`text-lg font-bold tracking-wide ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>PAYdota</h2>
+          <h2 className={`text-lg font-bold tracking-wide ${isLightDesign() ? 'text-gray-800' : 'text-white'}`}>BrandSoft Pay</h2>
         </div>
 
         {/* Card Number Section with Toggle */}

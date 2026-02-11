@@ -23,31 +23,64 @@
 }
 
 /* Allow basic scrolling but prevent elastic behavior */
-html, body {
+html {
   overscroll-behavior: none;
   width: 100%;
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-/* Additional scrollbar hiding for all browsers */
-html {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-}
-
-html::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  height: 100%;
+  overflow: hidden; /* Prevent html from scrolling, let body handle it */
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  overscroll-behavior: none;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto !important; /* Force body to be the scroll container */
+  margin: 0;
+  padding: 0;
+  -webkit-overflow-scrolling: touch;
 }
 
-body::-webkit-scrollbar {
-  display: none;
+/* Scrollbar visibility for desktop/mouse users */
+@media (pointer: fine) {
+  body {
+    scrollbar-width: thin;
+    -ms-overflow-style: auto;
+  }
+
+  ::-webkit-scrollbar {
+    display: block !important;
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.4);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.6);
+    background-clip: padding-box;
+  }
+}
+
+/* For touch devices, we keep the native behavior which is usually hidden bars until scroll */
+@media (pointer: coarse) {
+  body {
+    scrollbar-width: none;
+  }
+  body::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Main app container */
@@ -56,6 +89,8 @@ body::-webkit-scrollbar {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+  margin: 0;
+  padding: 0;
 }
 
 /* Bottom navigation spacing */
@@ -74,6 +109,19 @@ body::-webkit-scrollbar {
   min-height: 100dvh;
   padding-bottom: 6rem;
   box-sizing: border-box;
+}
+
+/* Global bottom padding for all pages - ensures content is not hidden behind bottom navigation */
+/* Applied on mobile only (lg:pb-6 equivalent handled by media query) */
+#root > div:first-child {
+  padding-bottom: 6rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  #root > div:first-child {
+    padding-bottom: 1.5rem;
+  }
 }
 
 /* Ensure all content has proper spacing from bottom nav */
@@ -111,38 +159,38 @@ html {
   --card-foreground: 222 84% 4.9%;
   --border: 214 32% 91%; /* #E2E8F0 */
   --input: 214 32% 91%;
-  --primary: 265 85% 60%; /* Purple primary */
+  --primary: 45 93% 47%; /* Yellow primary */
   --primary-foreground: 0 0% 100%;
-  --secondary: 160 84% 39%; /* Keep secondary green */
+  --secondary: 45 93% 30%; /* Dark yellow secondary */
   --secondary-foreground: 0 0% 98%;
-  --accent: 265 85% 70%; /* Purple accent */
+  --accent: 45 93% 63%; /* Lighter yellow accent */
   --accent-foreground: 0 0% 98%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 265 85% 60%; /* Purple ring */
+  --ring: 45 93% 47%; /* Yellow ring */
   --radius: 0.75rem;
 }
 
 .dark {
-  --background: 0 0% 100%; /* Pure white for dark mode too */
-  --foreground: 222 84% 4.9%; /* Dark text */
-  --muted: 210 40% 96%; /* Light muted */
-  --muted-foreground: 215 16% 46.9%; /* Medium gray */
-  --popover: 0 0% 100%; /* White popover */
-  --popover-foreground: 222 84% 4.9%; /* Dark text */
-  --card: 0 0% 100%; /* White cards */
-  --card-foreground: 222 84% 4.9%; /* Dark text */
-  --border: 214 32% 91%; /* Light border */
-  --input: 0 0% 100%; /* White inputs */
-  --primary: 265 85% 60%; /* Purple primary */
+  --background: 88 50% 5%; /* Very dark green background */
+  --foreground: 210 40% 98%; /* #f8fafc - Light text */
+  --muted: 88 40% 10%; /* Slightly lighter dark green */
+  --muted-foreground: 215 20% 65%; /* #94a3b8 - Light gray */
+  --popover: 88 50% 5%;
+  --popover-foreground: 210 40% 98%;
+  --card: 88 40% 10%;
+  --card-foreground: 210 40% 98%;
+  --border: 88 35% 15%;
+  --input: 88 40% 10%;
+  --primary: 45 93% 47%; /* Yellow primary */
   --primary-foreground: 0 0% 100%; /* Pure white */
-  --secondary: 160 84% 39%; /* Keep secondary green */
+  --secondary: 45 93% 30%; /* Dark yellow secondary */
   --secondary-foreground: 0 0% 100%; /* Pure white */
-  --accent: 265 85% 70%; /* Purple accent */
+  --accent: 45 93% 63%; /* Yellow accent */
   --accent-foreground: 0 0% 100%; /* Pure white */
-  --destructive: 0 62.8% 30.6%; /* Keep destructive red */
+  --destructive: 0 84% 60%; /* Red */
   --destructive-foreground: 0 0% 100%; /* Pure white */
-  --ring: 265 85% 60%; /* Purple ring */
+  --ring: 45 93% 47%; /* Yellow ring */
 }
 
 /* Mobile-specific styles for Capacitor */
@@ -379,15 +427,15 @@ html {
 
 /* Safe area handling */
 .safe-area-inset {
-  padding-top: max(0.5rem, env(safe-area-inset-top));
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Landscape orientation adjustments */
 @media (max-height: 500px) and (orientation: landscape) {
   .safe-area-inset {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
   
   .pt-6 {
@@ -531,19 +579,19 @@ html, body {
 
   /* Banking specific styles */
   .banking-gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(217 91% 70%) 100%);
+    background: hsl(45 93% 47%);
   }
 
   .card-gradient-blue {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(217 91% 70%) 100%);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(45 93% 70%) 100%);
   }
 
   .card-gradient-green {
-    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(160 84% 50%) 100%);
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(45 93% 50%) 100%);
   }
 
-  .card-gradient-purple {
-    background: linear-gradient(135deg, hsl(271 81% 56%) 0%, hsl(271 81% 66%) 100%);
+  .card-gradient-red {
+    background: linear-gradient(135deg, hsl(45 93% 30%) 0%, hsl(45 93% 47%) 100%);
   }
 
   /* Enhanced shadows for banking UI */
@@ -776,36 +824,47 @@ html, body {
 
   /* Status bar compatibility */
   .status-bar-safe {
-    padding-top: max(env(safe-area-inset-top), 44px);
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
   /* Global safe area for all pages */
   .app-container {
-    padding-top: max(env(safe-area-inset-top), 50px);
-    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     min-height: 100vh;
     min-height: 100dvh; /* Dynamic viewport height for mobile */
   }
 
+  /* Remove top padding on large screens */
+  @media (min-width: 1024px) {
+    .app-container {
+      padding-top: 0;
+    }
+    
+    .page-content {
+      padding-top: 0;
+    }
+  }
+
   /* Page content safe area */
   .page-content {
-    padding-top: max(env(safe-area-inset-top), 44px);
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
   /* Header safe area for fixed headers */
   .header-safe {
-    padding-top: max(env(safe-area-inset-top), 44px);
-    margin-top: calc(-1 * max(env(safe-area-inset-top), 44px));
+    padding-top: env(safe-area-inset-top, 0px);
+    margin-top: calc(-1 * env(safe-area-inset-top, 0px));
   }
 
   /* Alternative approach for fixed headers */
   .fixed-header-safe {
-    top: max(env(safe-area-inset-top), 44px);
+    top: env(safe-area-inset-top, 0px);
   }
 
   /* Bottom navigation safe area */
   .bottom-nav-safe {
-    padding-bottom: max(env(safe-area-inset-bottom), 8px);
+    padding-bottom: env(safe-area-inset-bottom, 8px);
   }
 
   /* iOS-style blur effects */
@@ -824,7 +883,7 @@ html, body {
   }
 
   .dark .bottom-nav-blur {
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(42, 12, 12, 0.95);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
   }
@@ -839,14 +898,14 @@ html, body {
   }
 
   .dark .nav-icon-container {
-    background: rgba(51, 65, 85, 0.6);
+    background: rgba(60, 20, 20, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .nav-icon-container.active {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(271 81% 66%) 100%);
-    border: 1px solid rgba(147, 51, 234, 0.3);
-    box-shadow: 0 4px 20px rgba(147, 51, 234, 0.3);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(45 93% 30%) 100%);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
     transform: translateY(-2px) scale(1.05);
   }
 
@@ -857,7 +916,7 @@ html, body {
   }
 
   .dark .nav-icon-container:hover:not(.active) {
-    background: rgba(71, 85, 105, 0.8);
+    background: rgba(58, 16, 16, 0.9);
   }
 
   /* Native-like focus states */

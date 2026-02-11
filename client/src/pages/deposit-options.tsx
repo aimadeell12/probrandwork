@@ -1,196 +1,134 @@
-
 import { useState } from "react";
-import { ArrowLeft, ExternalLink, CreditCard, Building2, Zap } from "lucide-react";
-import { useLanguage } from "@/hooks/useLanguage";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
-import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { SiVisa, SiMastercard, SiBinance } from "react-icons/si";
 
-interface DepositOption {
+interface PaymentMethod {
   id: string;
   title: string;
-  description: string;
-  fee: string;
-  processingTime: string;
-  icon: any;
-  available: boolean;
-  minAmount?: string;
-  maxAmount?: string;
+  subtitle: string;
+  icon: "card" | "bank" | "binance";
+  route: string;
 }
 
 export default function DepositOptions() {
-  const { t } = useLanguage();
   const [, setLocation] = useLocation();
-  
-  // Get currency from localStorage
-  const [selectedCurrency, setSelectedCurrency] = useState(() => {
-    const stored = localStorage.getItem("selectedCurrency");
-    if (stored) {
-      const currency = JSON.parse(stored);
-      return currency;
-    }
-    return { symbol: "USDT", name: "Tether USD", icon: "💎", color: "bg-teal-500" };
-  });
+  const [selectedMethod, setSelectedMethod] = useState<string>("card");
 
-  const depositOptions: DepositOption[] = [
+  const paymentMethods: PaymentMethod[] = [
     {
-      id: "bank_transfer",
+      id: "card",
+      title: "Credit Card",
+      subtitle: "Visa, Mastercard",
+      icon: "card",
+      route: "/deposit/card"
+    },
+    {
+      id: "bank",
       title: "Bank Transfer",
-      description: "Transfer from your bank account",
-      fee: "Free",
-      processingTime: "1-3 business days",
-      icon: Building2,
-      available: true,
-      minAmount: "$10",
-      maxAmount: "$50,000"
+      subtitle: "ACH, Wire Transfer",
+      icon: "bank",
+      route: "/bank-transfer"
     },
     {
-      id: "debit_card",
-      title: "Debit Card",
-      description: "Instant deposit with your debit card",
-      fee: "2.9%",
-      processingTime: "Instant",
-      icon: CreditCard,
-      available: true,
-      minAmount: "$1",
-      maxAmount: "$2,500"
-    },
-    {
-      id: "crypto_network",
-      title: "Crypto Network",
-      description: "Deposit from external wallet",
-      fee: "Network fees apply",
-      processingTime: "10-30 minutes",
-      icon: Zap,
-      available: true,
-      minAmount: "0.1 USDT",
-      maxAmount: "Unlimited"
+      id: "binance",
+      title: "Binance Pay",
+      subtitle: "Crypto payments",
+      icon: "binance",
+      route: "/binance-pay"
     }
   ];
 
-  const handleOptionSelect = (option: DepositOption) => {
-    console.log("Selected deposit option:", option);
-    // Navigate to specific deposit flow based on option
-    if (option.id === "crypto_network") {
-      setLocation("/deposit/crypto");
-    } else if (option.id === "bank_transfer") {
-      setLocation("/deposit/bank");
-    } else if (option.id === "debit_card") {
-      setLocation("/deposit/card");
+  const handleMethodSelect = (method: PaymentMethod) => {
+    setSelectedMethod(method.id);
+  };
+
+  const handleContinue = () => {
+    const selected = paymentMethods.find(m => m.id === selectedMethod);
+    if (selected) {
+      setLocation(selected.route);
+    }
+  };
+
+  const renderIcon = (iconType: string) => {
+    switch (iconType) {
+      case "card":
+        return (
+          <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
+              <div className="w-6 h-4 bg-blue-500 rounded-sm flex items-center justify-center">
+                <div className="w-4 h-0.5 bg-blue-300 rounded"></div>
+              </div>
+              <div className="w-5 h-0.5 bg-blue-400 rounded mt-0.5"></div>
+            </div>
+          </div>
+        );
+      case "bank":
+        return (
+          <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+            <div className="grid grid-cols-3 gap-0.5">
+              {[...Array(9)].map((_, i) => (
+                <div key={i} className="w-2 h-2 bg-green-500 rounded-sm"></div>
+              ))}
+            </div>
+          </div>
+        );
+      case "binance":
+        return (
+          <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
+            <SiBinance className="w-6 h-6 text-yellow-500" />
+          </div>
+        );
+      default:
+        return null;
     }
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-background text-black dark:text-foreground">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-border">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setLocation("/deposit")}
-          className="p-2"
-        >
-          <ArrowLeft className="h-6 w-6" />
-        </Button>
-        
-        <div className="text-center">
-          <h1 className="text-xl font-semibold">Deposit {selectedCurrency.symbol}</h1>
-          <p className="text-sm text-gray-500 dark:text-muted-foreground">Choose deposit method</p>
+    <div className="min-h-screen bg-[#0f0f23] text-white pb-24">
+      <div className="max-w-md mx-auto">
+        {/* Header */}
+        <div className="p-4 pt-12">
+          <button
+            onClick={() => setLocation("/deposit")}
+            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white transition-colors"
+            data-testid="button-back"
+          >
+            <ArrowLeft className="h-6 w-6" />
+          </button>
         </div>
-        
-        <ThemeToggle className="text-black dark:text-foreground" />
-      </div>
 
-      {/* Currency Info */}
-      <div className="p-4 border-b border-gray-200 dark:border-border">
-        <div className="flex items-center space-x-3">
-          <div className={`w-12 h-12 ${selectedCurrency.color} rounded-full flex items-center justify-center text-white font-bold text-lg`}>
-            {selectedCurrency.icon}
-          </div>
-          <div>
-            <h2 className="font-semibold text-lg">{selectedCurrency.symbol}</h2>
-            <p className="text-gray-500 dark:text-muted-foreground text-sm">{selectedCurrency.name}</p>
-          </div>
-          <div className="ml-auto">
-            <Badge variant="secondary" className="bg-green-600 text-white">
-              Available
-            </Badge>
-          </div>
-        </div>
-      </div>
-
-      {/* Deposit Options */}
-      <div className="p-4 space-y-3">
-        <h3 className="font-semibold mb-4">Available Deposit Methods</h3>
-        
-        {depositOptions.map((option) => {
-          const Icon = option.icon;
-          return (
-            <Card 
-              key={option.id}
-              className={`border-gray-200 dark:border-border transition-colors cursor-pointer ${
-                option.available 
-                  ? 'bg-white dark:bg-card hover:bg-gray-50 dark:hover:bg-muted' 
-                  : 'bg-gray-100 dark:bg-muted opacity-50 cursor-not-allowed'
+        {/* Payment Methods */}
+        <div className="px-4 mt-8 space-y-3">
+          {paymentMethods.map((method) => (
+            <button
+              key={method.id}
+              onClick={() => handleMethodSelect(method)}
+              className={`w-full p-4 rounded-xl transition-all duration-200 flex items-center space-x-4 ${
+                selectedMethod === method.id
+                  ? "bg-[#3a1010] border-2 border-red-500 shadow-lg shadow-red-500/20"
+                  : "bg-[#3a1010]/80 border-2 border-[#4a1515] hover:border-red-400/50"
               }`}
-              onClick={() => option.available && handleOptionSelect(option)}
+              data-testid={`button-method-${method.id}`}
             >
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                    <Icon className="h-6 w-6 text-white" />
-                  </div>
-                  
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-1">
-                      <h4 className="font-semibold text-black dark:text-white">{option.title}</h4>
-                      <div className="text-right">
-                        <p className="text-green-600 dark:text-green-400 text-sm font-semibold">{option.fee}</p>
-                      </div>
-                    </div>
-                    
-                    <p className="text-gray-500 dark:text-muted-foreground text-sm mb-2">{option.description}</p>
-                    
-                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-muted-foreground">
-                      <span>⏱️ {option.processingTime}</span>
-                      <span>{option.minAmount} - {option.maxAmount}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <ExternalLink className="h-4 w-4 text-gray-400 dark:text-muted-foreground" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {/* Security Info */}
-      <div className="p-4 mt-6">
-        <div className="bg-gray-50 dark:bg-card rounded-lg p-4 border border-gray-200 dark:border-border">
-          <h3 className="font-semibold mb-2 flex items-center text-black dark:text-white">
-            🔒 Security Information
-          </h3>
-          <div className="space-y-2 text-sm text-gray-600 dark:text-muted-foreground">
-            <p>• All deposits are secured with bank-level encryption</p>
-            <p>• Your funds are protected by insurance coverage</p>
-            <p>• We never store your banking credentials</p>
-            <p>• 24/7 monitoring for suspicious activity</p>
-          </div>
+              {renderIcon(method.icon)}
+              <div className="text-left">
+                <h3 className="font-semibold text-white text-base">{method.title}</h3>
+                <p className="text-gray-400 text-sm">{method.subtitle}</p>
+              </div>
+            </button>
+          ))}
         </div>
-      </div>
 
-      {/* Support */}
-      <div className="p-4">
-        <div className="text-center">
-          <p className="text-gray-500 dark:text-muted-foreground text-sm mb-2">Need help with deposits?</p>
-          <Button variant="outline" size="sm">
-            Contact Support
-          </Button>
+        {/* Continue Button */}
+        <div className="px-4 mt-8">
+          <button
+            onClick={handleContinue}
+            className="w-full py-4 bg-primary hover:bg-red-700 text-white font-semibold rounded-xl transition-colors"
+            data-testid="button-continue"
+          >
+            Continue
+          </button>
         </div>
       </div>
     </div>

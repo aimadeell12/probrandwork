@@ -88,7 +88,7 @@ export default function PullToRefresh({
             top: 'calc(env(safe-area-inset-top, 20px) + 20px)'
           }}
         >
-          <div className="bg-purple-600 rounded-full p-2 shadow-lg">
+          <div className="bg-primary rounded-full p-2 shadow-lg">
             <RefreshCw className="h-4 w-4 text-white animate-spin" />
           </div>
         </div>

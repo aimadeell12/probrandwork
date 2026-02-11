@@ -21,23 +21,34 @@ export const getPlatform = () => Capacitor.getPlatform();
 export const setupStatusBar = async () => {
   if (isNativePlatform) {
     try {
-      await StatusBar.setStyle({ style: Style.Light });
-      await StatusBar.setBackgroundColor({ color: '#ffffff' });
+      const isDark = document.documentElement.classList.contains('dark');
+      
+      if (isDark) {
+        await StatusBar.setStyle({ style: Style.Light });
+        await StatusBar.setBackgroundColor({ color: '#0f172a' });
+      } else {
+        await StatusBar.setStyle({ style: Style.Dark });
+        await StatusBar.setBackgroundColor({ color: '#ffffff' });
+      }
+      
       await StatusBar.setOverlaysWebView({ overlay: false });
       
       // Set navigation bar color to match app theme
       if (getPlatform() === 'android') {
-        // Add navigation bar styling for Android
-        const style = document.createElement('style');
-        style.textContent = `
-          :root {
-            --ion-safe-area-bottom: env(safe-area-inset-bottom);
-          }
-          body {
-            --ion-color-primary: #9333EA;
-          }
-        `;
-        document.head.appendChild(style);
+        const existingStyle = document.getElementById('android-nav-style');
+        if (!existingStyle) {
+          const style = document.createElement('style');
+          style.id = 'android-nav-style';
+          style.textContent = `
+            :root {
+              --ion-safe-area-bottom: env(safe-area-inset-bottom);
+            }
+            body {
+              --ion-color-primary: #9333EA;
+            }
+          `;
+          document.head.appendChild(style);
+        }
       }
     } catch (error) {
       console.warn('Status bar setup failed:', error);
@@ -145,7 +156,7 @@ export const shareContent = async (title: string, text: string, url?: string) =>
         title,
         text,
         url,
-        dialogTitle: 'مشاركة PayDota'
+        dialogTitle: 'مشاركة BrandSoft Pay'
       });
     } catch (error) {
       console.warn('Share failed:', error);

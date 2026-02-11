@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🔨 Building Signed PayDota Android APK"
+echo "🔨 Building Signed BrandSoft Pay Android APK"
 echo "====================================="
 
 # Step 1: Build web assets
@@ -32,7 +32,7 @@ chmod +x gradlew
 
 if [ $? -eq 0 ]; then
     echo ""
-    echo "🎉 SUCCESS! PayDota APK built successfully!"
+    echo "🎉 SUCCESS! BrandSoft Pay APK built successfully!"
     echo "📱 APK Location: android/app/build/outputs/apk/release/app-release.apk"
     echo ""
     echo "Next steps:"

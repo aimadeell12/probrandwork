@@ -56,13 +56,13 @@ export default function Transactions() {
   const getTransactionIcon = (type: string) => {
     switch (type) {
       case "send":
-        return <ArrowUpRight className="h-4 w-4 text-red-600" />;
+        return <ArrowUpRight className="h-4 w-4 text-primary" />;
       case "receive":
         return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
       case "deposit":
         return <ArrowDownLeft className="h-4 w-4 text-green-600" />;
       case "withdraw":
-        return <ArrowUpRight className="h-4 w-4 text-red-600" />;
+        return <ArrowUpRight className="h-4 w-4 text-primary" />;
       default:
         return <DollarSign className="h-4 w-4 text-gray-600" />;
     }
@@ -97,28 +97,28 @@ export default function Transactions() {
   }
 
   return (
-    <div className="h-screen h-[100dvh] bg-white w-full overflow-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-background lg:h-auto lg:overflow-auto overflow-y-auto pb-24 lg:pb-6">
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="h-full flex flex-col max-w-md mx-auto">
+        <div className="h-full flex flex-col max-w-md lg:max-w-4xl mx-auto lg:p-6">
           
           {/* Fixed Header Area */}
-          <div className="flex-shrink-0 bg-white border-b border-gray-100 pt-safe-top">
+          <div className="flex-shrink-0 bg-white dark:bg-background lg:bg-transparent lg:rounded-xl lg:shadow-sm lg:p-6 border-b lg:border-0 border-gray-100 dark:border-border pt-safe-top lg:pt-0">
             {/* Header - Fixed */}
-            <div className="flex items-center justify-between px-4 py-4">
-              <h1 className="text-xl font-semibold text-gray-900">Transactions</h1>
-              <Button variant="outline" size="icon" className="bg-white border-gray-200 hover:bg-gray-50">
+            <div className="flex items-center justify-between px-4 lg:px-0 py-4 lg:py-0 lg:mb-4">
+              <h1 className="text-xl lg:text-3xl font-semibold text-gray-900 dark:text-white">Transactions</h1>
+              <Button variant="outline" size="icon" className="bg-white dark:bg-background border-gray-200 dark:border-border hover:bg-gray-50 dark:hover:bg-muted">
                 <Filter className="h-4 w-4" />
               </Button>
             </div>
 
             {/* Search - Fixed */}
-            <div className="relative px-4 mb-4">
-              <Search className="absolute left-7 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+            <div className="relative px-4 lg:px-0 mb-4">
+              <Search className="absolute left-7 lg:left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 dark:text-gray-400" />
               <Input
                 placeholder="Search transactions..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white border-gray-200 focus:border-gray-400 rounded-2xl"
+                className="pl-10 bg-white dark:bg-background border-gray-200 dark:border-border focus:border-gray-400 dark:focus:border-red-500 rounded-2xl"
               />
             </div>
 
@@ -138,8 +138,8 @@ export default function Transactions() {
                   onClick={() => setSelectedFilter(filter.key)}
                   className={`whitespace-nowrap text-xs px-3 py-2 min-w-0 flex-shrink-0 ${
                     selectedFilter === filter.key 
-                      ? "bg-purple-500 text-white shadow-lg"
-                      : "bg-white border border-gray-200 hover:bg-gray-50"
+                      ? "bg-red-500 text-white shadow-lg"
+                      : "bg-white dark:bg-background border border-gray-200 dark:border-border hover:bg-gray-50 dark:hover:bg-muted"
                   }`}
                 >
                   {filter.label}
@@ -154,27 +154,27 @@ export default function Transactions() {
               <div className="space-y-3">
               {isLoading ? (
                 <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-                  <p className="text-gray-600 mt-2">Loading transactions...</p>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-white mx-auto"></div>
+                  <p className="text-gray-600 dark:text-gray-400 mt-2">Loading transactions...</p>
                 </div>
               ) : filteredTransactions.length > 0 ? (
                 filteredTransactions.map((transaction: any) => (
-                  <Card key={transaction.id} className="bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                  <Card key={transaction.id} className="bg-white dark:bg-background border border-gray-200 dark:border-border shadow-sm hover:shadow-md transition-all duration-200">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <div className={`p-2 rounded-xl ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'bg-green-100'
-                              : 'bg-red-100'
+                              ? 'bg-green-100 dark:bg-green-900/30'
+                              : 'bg-red-100 dark:bg-red-900/30'
                           }`}>
                             {getTransactionIcon(transaction.type)}
                           </div>
                           <div>
-                            <p className="font-medium text-gray-900">
+                            <p className="font-medium text-gray-900 dark:text-white">
                               {transaction.merchant || transaction.description || getTransactionTypeLabel(transaction.type)}
                             </p>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                               {new Date(transaction.created * 1000 || transaction.createdAt).toLocaleDateString()}
                             </p>
                           </div>
@@ -182,11 +182,11 @@ export default function Transactions() {
                         <div className="text-right">
                           <p className={`font-semibold ${
                             transaction.type === 'deposit' || transaction.type === 'receive'
-                              ? 'text-green-600'
-                              : 'text-red-600'
+                              ? 'text-green-600 dark:text-green-400'
+                              : 'text-primary dark:text-red-400'
                           }`}>
                             {transaction.type === 'deposit' || transaction.type === 'receive' ? '+' : '-'}
-                            ${Math.abs(transaction.amount / 100).toFixed(2)}
+                            ${Math.abs(Number(transaction.amount)).toFixed(2)}
                           </p>
                           {getTransactionStatusBadge(transaction.status)}
                         </div>
@@ -195,8 +195,8 @@ export default function Transactions() {
                   </Card>
                 ))
               ) : (
-                <div className="text-center py-8 text-gray-500">
-                  <FileText className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                  <FileText className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
                   <p>No transactions found</p>
                 </div>
               )}

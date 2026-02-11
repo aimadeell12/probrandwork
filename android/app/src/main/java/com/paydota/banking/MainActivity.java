@@ -1,4 +1,4 @@
-package com.paydota.banking;
+package com.brandsoft-pay.banking;
 
 import com.getcapacitor.BridgeActivity;
 

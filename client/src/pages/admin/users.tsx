@@ -42,9 +42,9 @@ export default function UserManagement() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
           <p className="text-gray-600 dark:text-gray-400">Loading users...</p>
         </div>
       </div>
@@ -52,7 +52,7 @@ export default function UserManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900">
       <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
@@ -133,8 +133,8 @@ export default function UserManagement() {
           <Card>
             <CardContent className="p-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
-                  <Shield className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                  <Shield className="h-4 w-4 text-primary dark:text-red-400" />
                 </div>
                 <div>
                   <p className="text-xs text-gray-600 dark:text-gray-400">Administrators</p>
@@ -196,7 +196,7 @@ export default function UserManagement() {
                 filteredUsers.map((user: any, index: number) => (
                   <div key={index} className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 bg-gradient-to-r from-primary to-pink-600 rounded-full flex items-center justify-center flex-shrink-0">
                         <span className="text-white font-semibold text-xs">
                           {user.firstName?.[0]}{user.lastName?.[0]}
                         </span>
@@ -208,7 +208,7 @@ export default function UserManagement() {
                             {user.firstName} {user.lastName}
                           </h3>
                           {user.role === 'admin' && (
-                            <Badge className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs">
+                            <Badge className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs">
                               <Shield className="h-2 w-2 mr-1" />
                               Admin
                             </Badge>

@@ -110,7 +110,7 @@ export default function AdminAddUser() {
             Add New User
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Create new user accounts for the PayDota banking platform
+            Create new user accounts for the BrandSoft Pay wallet platform
           </p>
         </div>
 
@@ -210,7 +210,7 @@ export default function AdminAddUser() {
                   <Button
                     type="submit"
                     disabled={createUserMutation.isPending}
-                    className="flex-1 bg-purple-600 hover:bg-purple-700"
+                    className="flex-1 bg-primary hover:bg-red-700"
                   >
                     {createUserMutation.isPending ? (
                       <>Creating...</>
@@ -267,7 +267,7 @@ export default function AdminAddUser() {
                       <div className="flex items-center gap-2">
                         <span className={`px-2 py-1 text-xs rounded-full ${
                           user.role === 'admin' 
-                            ? 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
+                            ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
                             : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
                         }`}>
                           {user.role}

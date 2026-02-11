@@ -265,11 +265,11 @@ export default function AdminBankTransfers() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">فاشلة</p>
-                <p className="text-2xl font-bold text-red-600">
+                <p className="text-2xl font-bold text-primary">
                   {transfers.filter(t => t.status === 'failed').length}
                 </p>
               </div>
-              <XCircle className="h-8 w-8 text-red-600" />
+              <XCircle className="h-8 w-8 text-primary" />
             </div>
           </CardContent>
         </Card>

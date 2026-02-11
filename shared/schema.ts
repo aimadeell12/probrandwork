@@ -62,7 +62,8 @@ export const users = pgTable("users", {
   transactionAlerts: boolean("transaction_alerts").default(true),
   marketingEmails: boolean("marketing_emails").default(false),
   // Wallet
-  walletBalance: decimal("wallet_balance", { precision: 10, scale: 2 }).default("100.00"),
+  walletBalance: decimal("wallet_balance", { precision: 10, scale: 2 }).default("0.00"),
+  pendingBalance: decimal("pending_balance", { precision: 10, scale: 2 }).default("0.00"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -779,6 +780,20 @@ export const paymentTransactions = pgTable("payment_transactions", {
   verifiedAt: timestamp("verified_at"),
 });
 
+// Pending balances table (for holding funds for 7 business days)
+export const pendingBalances = pgTable("pending_balances", {
+  id: text("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: text("user_id").notNull().references(() => users.id),
+  transactionId: text("transaction_id").references(() => paymentTransactions.id),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  currency: varchar("currency", { length: 3 }).notNull(),
+  status: varchar("status").notNull().default("pending"), // pending, released, cancelled
+  releaseDate: timestamp("release_date").notNull(),
+  releasedAt: timestamp("released_at"),
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Relations for payment links
 export const paymentLinksRelations = relations(paymentLinks, ({ one, many }) => ({
   user: one(users, {
@@ -802,6 +817,9 @@ export const paymentTransactionsRelations = relations(paymentTransactions, ({ on
 // Insert schemas for payment links
 export const insertPaymentLinkSchema = createInsertSchema(paymentLinks).omit({
   id: true,
+  userId: true,
+  txRef: true,
+  flutterwaveLink: true,
   createdAt: true,
   updatedAt: true,
 });

@@ -13,24 +13,10 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
-        <!-- Status Bar -->
-        <item name="android:statusBarColor">@color/statusBarColor</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <!-- Navigation Bar -->
-        <item name="android:navigationBarColor">@color/navigationBarColor</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <!-- Full screen immersive -->
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
 
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="android:background">@drawable/splash</item>
-        <!-- Navigation Bar for Splash -->
-        <item name="android:navigationBarColor">@color/navigationBarColor</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 </resources>

@@ -24,20 +24,20 @@ export default function LanguageSettings() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-red-900 dark:to-blue-900 relative overflow-hidden pb-20">
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-red-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-red-200/30 dark:border-red-700/30 p-4 relative z-10">
         <div className="flex items-center space-x-4 space-x-reverse">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/account")}
-            className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -50,10 +50,10 @@ export default function LanguageSettings() {
       {/* Content */}
       <div className="container mx-auto px-4 py-6 relative z-10 max-w-md">
         
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 dark:border-purple-700/30 shadow-lg">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 dark:border-red-700/30 shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center space-x-3 space-x-reverse text-gray-900 dark:text-white">
-              <Globe className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <Globe className="h-5 w-5 text-primary dark:text-red-400" />
               <span>{t('selectAppLanguage')}</span>
             </CardTitle>
           </CardHeader>
@@ -64,8 +64,8 @@ export default function LanguageSettings() {
                 onClick={() => handleLanguageChange(lang.code)}
                 className={`w-full p-4 rounded-xl border-2 transition-all duration-200 flex items-center justify-between ${
                   language === lang.code
-                    ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30'
-                    : 'border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600'
+                    ? 'border-red-500 bg-red-50 dark:bg-red-900/30'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-red-300 dark:hover:border-red-600'
                 }`}
               >
                 <div className="text-right">
@@ -77,7 +77,7 @@ export default function LanguageSettings() {
                   </p>
                 </div>
                 {language === lang.code && (
-                  <Check className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                  <Check className="h-5 w-5 text-primary dark:text-red-400" />
                 )}
               </button>
             ))}

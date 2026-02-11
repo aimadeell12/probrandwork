@@ -146,9 +146,9 @@ export default function DepositRequests() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
           <p className="text-gray-600 dark:text-gray-400">Loading deposit requests...</p>
         </div>
       </div>
@@ -156,20 +156,20 @@ export default function DepositRequests() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900">
       <div className="container mx-auto p-4 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link href="/admin-panel">
-              <Button variant="ghost" size="sm" className="text-purple-600 hover:text-purple-700 dark:text-purple-400">
+              <Button variant="ghost" size="sm" className="text-primary hover:text-red-700 dark:text-red-400">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Admin
               </Button>
             </Link>
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
-                <DollarSign className="h-8 w-8 text-purple-600 mr-3" />
+                <DollarSign className="h-8 w-8 text-primary mr-3" />
                 Deposit Requests
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -181,14 +181,14 @@ export default function DepositRequests() {
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200 dark:border-purple-800">
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200 dark:border-red-800">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Total Requests</p>
-                  <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.total}</p>
+                  <p className="text-2xl font-bold text-primary dark:text-red-400">{stats.total}</p>
                 </div>
-                <DollarSign className="h-8 w-8 text-purple-500" />
+                <DollarSign className="h-8 w-8 text-red-500" />
               </div>
             </CardContent>
           </Card>
@@ -222,7 +222,7 @@ export default function DepositRequests() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Rejected</p>
-                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.rejected}</p>
+                  <p className="text-2xl font-bold text-primary dark:text-red-400">{stats.rejected}</p>
                 </div>
                 <X className="h-8 w-8 text-red-500" />
               </div>
@@ -231,7 +231,7 @@ export default function DepositRequests() {
         </div>
 
         {/* Filters */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200 dark:border-purple-800">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200 dark:border-red-800">
           <CardContent className="p-4">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
@@ -261,7 +261,7 @@ export default function DepositRequests() {
         </Card>
 
         {/* Requests List */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200 dark:border-purple-800">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200 dark:border-red-800">
           <CardHeader>
             <CardTitle className="text-gray-900 dark:text-white">
               Deposit Requests ({filteredRequests.length})
@@ -280,7 +280,7 @@ export default function DepositRequests() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className="flex-shrink-0">
-                          <div className="h-10 w-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
+                          <div className="h-10 w-10 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center">
                             {getMethodIcon(request.method)}
                           </div>
                         </div>
@@ -316,7 +316,7 @@ export default function DepositRequests() {
                             size="sm"
                             variant="outline"
                             onClick={() => handleReject(request)}
-                            className="text-red-600 border-red-300 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
+                            className="text-primary border-red-300 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
                             disabled={rejectMutation.isPending}
                           >
                             <X className="h-4 w-4 mr-1" />
@@ -373,7 +373,7 @@ export default function DepositRequests() {
                   <Button
                     onClick={confirmReject}
                     disabled={rejectMutation.isPending}
-                    className="bg-red-600 hover:bg-red-700 text-white"
+                    className="bg-primary hover:bg-red-700 text-white"
                   >
                     {rejectMutation.isPending ? "Rejecting..." : "Reject Request"}
                   </Button>

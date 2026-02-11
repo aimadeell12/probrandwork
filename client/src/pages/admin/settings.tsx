@@ -69,7 +69,7 @@ export default function AdminSettings() {
   const totalUsers = usersData?.length || 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900">
       <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
@@ -271,7 +271,7 @@ export default function AdminSettings() {
               {settings.maintenanceMode && (
                 <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
                   <div className="flex items-start gap-3">
-                    <Lock className="h-5 w-5 text-red-600 dark:text-red-400 mt-0.5" />
+                    <Lock className="h-5 w-5 text-primary dark:text-red-400 mt-0.5" />
                     <div>
                       <p className="text-sm font-medium text-red-800 dark:text-red-200">Maintenance Mode Active</p>
                       <p className="text-sm text-red-700 dark:text-red-300">

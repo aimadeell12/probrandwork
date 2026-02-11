@@ -1,0 +1,26 @@
+AML Policy – PROBRANDIFY LIMITED
+
+PROBRANDIFY LIMITED has implemented and maintains a comprehensive Anti-Money Laundering (AML) and Counter-Terrorist Financing (CTF) policy in accordance with applicable Hong Kong regulations and internationally recognized standards, including FATF recommendations.
+
+The AML framework covers, but is not limited to, the following components:
+
+1. Know Your Customer (KYC) & Customer Due Diligence (CDD)
+All customers are subject to KYC and CDD procedures prior to onboarding. This includes identity verification using government-issued identification documents, proof of address verification, and beneficial ownership verification for corporate customers. Ultimate Beneficial Owners (UBOs) are identified and verified in line with applicable regulations.
+
+2. Enhanced Due Diligence (EDD)
+Enhanced Due Diligence is applied to higher-risk customers, jurisdictions, or activities. EDD measures may include additional documentation, source of funds information, senior management approval, and increased monitoring.
+
+3. Sanctions, PEP & Watchlist Screening
+All customers are screened prior to onboarding and on an ongoing basis against applicable sanctions lists, including OFAC SDN, United Nations Security Council Consolidated List, and other relevant international and local watchlists. Politically Exposed Persons (PEPs) and adverse media are identified and subject to enhanced review and approval procedures.
+
+4. Transaction Monitoring
+Card transactions are monitored on an ongoing basis using rule-based and behavioral monitoring controls designed to identify suspicious or unusual activity, including abnormal transaction volumes, velocity anomalies, high-risk merchant categories, and geographic risk indicators. Alerts are reviewed and escalated where necessary.
+
+5. Ongoing Monitoring & Periodic Review
+Customer relationships are subject to ongoing monitoring and periodic review based on a risk-based approach. Customer information is updated periodically and upon the occurrence of trigger events.
+
+6. Reporting & Escalation
+Suspicious activities are escalated internally and, where required, reported to the relevant authorities in accordance with applicable laws and regulations.
+
+7. Scope of Services
+PROBRANDIFY LIMITED provides virtual and physical card issuing services, including Issuing API solutions. The company does not support cryptocurrency or blockchain-based transactions.

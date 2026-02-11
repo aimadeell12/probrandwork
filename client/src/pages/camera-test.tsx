@@ -123,7 +123,7 @@ export default function CameraTest() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-red-900 via-blue-900 to-indigo-900 flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between p-4 text-white">
         <h1 className="text-xl font-bold">
@@ -173,7 +173,7 @@ export default function CameraTest() {
           {/* Current Step */}
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-600/50">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
                 {currentStepInfo?.icon && <currentStepInfo.icon className="h-6 w-6 text-white" />}
               </div>
               <div>

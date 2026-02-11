@@ -209,7 +209,7 @@ export default function AdminCurrency() {
           
           <Card className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30">
             <CardContent className="p-4 text-center">
-              <RefreshCw className="h-6 w-6 text-purple-600 mx-auto mb-2" />
+              <RefreshCw className="h-6 w-6 text-primary mx-auto mb-2" />
               <p className="text-lg font-bold text-gray-900 dark:text-white">{stats?.todayConversions || 0}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Today</p>
             </CardContent>

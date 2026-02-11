@@ -2,15 +2,15 @@
 
 ## التكوين الحالي
 
-التطبيق المحمول PayDota مُكوّن للاتصال بـ:
-**https://paydota.replit.app**
+التطبيق المحمول BrandSoft Pay مُكوّن للاتصال بـ:
+**https://brandsoft-pay.replit.app**
 
 ## الإعدادات في capacitor.config.json
 
 ```json
 {
   "server": {
-    "url": "https://paydota.replit.app",
+    "url": "https://brandsoft-pay.replit.app",
     "cleartext": false,
     "androidScheme": "https"
   }
@@ -51,4 +51,4 @@ npx cap sync android
 
 ## البناء
 
-التطبيق سيتصل تلقائياً بـ https://paydota.replit.app بعد البناء والتثبيت على الجهاز.
+التطبيق سيتصل تلقائياً بـ https://brandsoft-pay.replit.app بعد البناء والتثبيت على الجهاز.

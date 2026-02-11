@@ -1,10 +1,11 @@
-# PayDota - Digital Banking Platform
+# BrandSoft Pay - Digital Banking Platform
 
 ## Overview
-PayDota is a comprehensive digital banking platform designed to offer secure banking services, card management, and financial transactions. It provides a full-stack solution with both user-facing features and administrative capabilities, aiming to simplify digital finance for its users. The platform supports virtual and physical cards, various payment processing methods, and a robust notification system, all within a modern, user-friendly interface.
+BrandSoft Pay is a comprehensive digital banking platform designed to offer secure banking services, card management, and financial transactions. It provides a full-stack solution with both user-facing features and administrative capabilities, aiming to simplify digital finance for its users. The platform supports virtual and physical cards, various payment processing methods, and a robust notification system, all within a modern, user-friendly interface.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
+Company Email: Contact@brandsoftapps.com
 
 ## System Architecture
 

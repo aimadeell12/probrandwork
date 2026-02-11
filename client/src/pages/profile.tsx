@@ -117,21 +117,21 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-red-900 dark:to-blue-900 relative overflow-hidden pb-20">
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-red-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-red-200/30 dark:border-red-700/30 p-4 relative z-10">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4 space-x-reverse">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setLocation("/account")}
-              className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+              className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20"
             >
               <ArrowLeft className="h-6 w-6" />
             </Button>
@@ -143,7 +143,7 @@ export default function Profile() {
           {!isEditing ? (
             <Button
               onClick={() => setIsEditing(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+              className="bg-gradient-to-r from-primary to-pink-600 hover:from-red-700 hover:to-pink-700 text-white"
             >
               <Edit className="h-4 w-4 mr-2" />
               Edit
@@ -160,7 +160,7 @@ export default function Profile() {
               <Button
                 onClick={handleSave}
                 disabled={isLoading}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                className="bg-gradient-to-r from-primary to-pink-600 hover:from-red-700 hover:to-pink-700 text-white"
               >
                 {isSaving ? (
                   <>
@@ -183,14 +183,14 @@ export default function Profile() {
       <div className="container mx-auto px-4 py-6 relative z-10 max-w-md space-y-6">
         
         {/* Profile Picture */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 dark:border-purple-700/30 shadow-lg">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 dark:border-red-700/30 shadow-lg">
           <CardContent className="p-6 text-center">
             <div className="relative inline-block">
-              <div className="w-24 h-24 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-24 h-24 bg-gradient-to-br from-primary to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <User className="h-12 w-12 text-white" />
               </div>
               {isEditing && (
-                <button className="absolute bottom-2 right-2 w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white hover:bg-purple-700 transition-colors">
+                <button className="absolute bottom-2 right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white hover:bg-red-700 transition-colors">
                   <Camera className="h-4 w-4" />
                 </button>
               )}
@@ -205,10 +205,10 @@ export default function Profile() {
         </Card>
 
         {/* Personal Information */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 dark:border-purple-700/30 shadow-lg">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 dark:border-red-700/30 shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center space-x-3 space-x-reverse text-gray-900 dark:text-white">
-              <User className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <User className="h-5 w-5 text-primary dark:text-red-400" />
               <span>Personal Information</span>
             </CardTitle>
           </CardHeader>
@@ -316,10 +316,10 @@ export default function Profile() {
         </Card>
 
         {/* Address Information */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 dark:border-purple-700/30 shadow-lg">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 dark:border-red-700/30 shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center space-x-3 space-x-reverse text-gray-900 dark:text-white">
-              <MapPin className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <MapPin className="h-5 w-5 text-primary dark:text-red-400" />
               <span>Address Information</span>
             </CardTitle>
           </CardHeader>

@@ -45,7 +45,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-purple-100 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-blue-50 to-red-100 dark:from-gray-900 dark:via-gray-800 dark:to-red-900">
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20">
           
@@ -55,7 +55,7 @@ export default function Dashboard() {
             <div className="flex items-center space-x-3">
               {kycStatus && (kycStatus as any).status === 'verified' ? (
                 <div>
-                  <Badge className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0">
+                  <Badge className="bg-gradient-to-r from-red-500 to-blue-500 text-white border-0">
                     <Crown className="h-3 w-3 mr-1" />
                     Verified
                   </Badge>
@@ -100,8 +100,8 @@ export default function Dashboard() {
               
               {/* Currency Selector */}
               <div className="mb-6">
-                <Button variant="outline" className="bg-purple-100 dark:bg-purple-900/30 border-purple-200 dark:border-purple-700 text-purple-700 dark:text-purple-300 rounded-2xl px-4 py-2">
-                  <span className="text-purple-600 mr-2">$</span>
+                <Button variant="outline" className="bg-red-100 dark:bg-red-900/30 border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 rounded-2xl px-4 py-2">
+                  <span className="text-primary mr-2">$</span>
                   {t("usd")}
                   <ChevronDown className="h-4 w-4 ml-2" />
                 </Button>
@@ -150,7 +150,7 @@ export default function Dashboard() {
                       whileTap={{ scale: 0.95 }}
                     >
                       <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-red-200/30 dark:border-red-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <Minus className="h-6 w-6 lg:h-8 lg:w-8 text-red-600 dark:text-red-400" />
+                        <Minus className="h-6 w-6 lg:h-8 lg:w-8 text-primary dark:text-red-400" />
                       </div>
                       <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">{t("withdraw")}</span>
                     </motion.div>
@@ -175,8 +175,8 @@ export default function Dashboard() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-purple-200/30 dark:border-purple-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <Grid3X3 className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+                      <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/90 dark:bg-gray-800/90 ios-blur border border-red-200/30 dark:border-red-700/30 rounded-full flex items-center justify-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <Grid3X3 className="h-6 w-6 lg:h-8 lg:w-8 text-primary dark:text-red-400" />
                       </div>
                       <span className="text-sm lg:text-base text-gray-700 dark:text-gray-300 font-medium">Hub</span>
                     </motion.div>

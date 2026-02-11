@@ -351,7 +351,7 @@ export default function PasswordDemo() {
                 <Button
                   type="submit"
                   disabled={registerMutation.isPending}
-                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  className="w-full bg-primary hover:bg-red-700"
                 >
                   {registerMutation.isPending ? 'Creating Account...' : 'Create Account'}
                 </Button>
@@ -421,8 +421,8 @@ export default function PasswordDemo() {
               </div>
               
               <div className="text-center">
-                <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Key className="w-8 h-8 text-purple-600" />
+                <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Key className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="font-medium mb-2">Password Validation</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">

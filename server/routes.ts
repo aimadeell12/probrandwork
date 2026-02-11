@@ -21,6 +21,25 @@ import { createAirwallexService } from "./airwallex";
 // Initialize Airwallex service
 const airwallex = createAirwallexService();
 
+// Helper function to automatically release pending balances that have passed their release date
+async function autoReleasePendingBalances(userId: string): Promise<void> {
+  try {
+    const pendingBalances = await storage.getPendingBalancesByUserId(userId);
+    const now = new Date();
+    
+    for (const pending of pendingBalances) {
+      const releaseDate = new Date(pending.releaseDate);
+      
+      if (releaseDate <= now && pending.status === 'pending') {
+        await storage.releasePendingBalance(pending.id);
+        console.log(`🎉 Auto-released pending balance ${pending.id} for user ${userId}`);
+      }
+    }
+  } catch (error) {
+    console.error('Error auto-releasing pending balances:', error);
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup session middleware first
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
@@ -364,7 +383,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         const cardholder = await airwallex.createCardholder({
           type: 'INDIVIDUAL',
-          email: user.email || `user${user.id}@paydota.com`,
+          email: user.email || `user${user.id}@appsfondation.com`,
           mobile_number: user.phone || '+1234567890',
           individual: {
             name: {
@@ -415,7 +434,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           primary_contact_details: {
             first_name: user.firstName || user.email?.split('@')[0] || 'User',
             last_name: user.lastName || 'User',
-            email: user.email || `user${user.id}@paydota.com`
+            email: user.email || `user${user.id}@appsfondation.com`
           },
           postal_address: cardData.type === 'physical' ? {
             line1: user.address || '8206 Louisiana Blvd Ne, Ste A 6342',
@@ -755,7 +774,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const cardholderData = {
         type: 'INDIVIDUAL' as const,
-        email: user.email || `user${user.id}@paydota.com`,
+        email: user.email || `user${user.id}@appsfondation.com`,
         mobile_number: user.phone || '+1234567890',
         individual: {
           name: {
@@ -1346,17 +1365,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
+      // Auto-release any pending balances that have passed their release date
+      await autoReleasePendingBalances(userId);
+
       const balance = await storage.getWalletBalance(userId);
+      const pendingBalance = await storage.getPendingBalance(userId);
       
       // Prevent caching
       res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
       res.set('Pragma', 'no-cache');
       res.set('Expires', '0');
       
-      res.json({ balance });
+      res.json({ balance, pendingBalance });
     } catch (error) {
       console.error("Error fetching wallet balance:", error);
       res.status(500).json({ message: "Failed to fetch balance" });
+    }
+  });
+
+  app.get("/api/wallet/pending-balances", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      // Auto-release any pending balances that have passed their release date
+      await autoReleasePendingBalances(userId);
+
+      const pendingBalances = await storage.getPendingBalancesByUserId(userId);
+      
+      // Prevent caching
+      res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+      res.set('Pragma', 'no-cache');
+      res.set('Expires', '0');
+      
+      res.json(pendingBalances);
+    } catch (error) {
+      console.error("Error fetching pending balances:", error);
+      res.status(500).json({ message: "Failed to fetch pending balances" });
     }
   });
 
@@ -1663,10 +1710,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
+      // Also fetch payment transactions (deposits from Flutterwave)
+      try {
+        const paymentTxns = await db
+          .select()
+          .from(schema.paymentTransactions)
+          .where(eq(schema.paymentTransactions.userId, userId))
+          .orderBy(desc(schema.paymentTransactions.createdAt));
+        
+        for (const ptxn of paymentTxns) {
+          allTransactions.push({
+            id: ptxn.id,
+            cardId: null,
+            type: 'deposit',
+            status: ptxn.status,
+            amount: ptxn.amount?.toString() || '0',
+            currency: ptxn.currency || 'USD',
+            merchant: 'Flutterwave',
+            description: `Deposit via ${ptxn.paymentMethod || 'card'}`,
+            createdAt: ptxn.createdAt?.toISOString() || new Date().toISOString(),
+          });
+        }
+      } catch (paymentTxnError) {
+        console.log('No payment transactions found or error fetching:', paymentTxnError);
+      }
+
+      // Also fetch bank transfers (deposits)
+      try {
+        const bankTransfers = await db
+          .select()
+          .from(schema.bankTransfers)
+          .where(eq(schema.bankTransfers.userId, userId))
+          .orderBy(desc(schema.bankTransfers.createdAt));
+        
+        for (const btxn of bankTransfers) {
+          allTransactions.push({
+            id: btxn.id,
+            cardId: null,
+            type: 'deposit',
+            status: btxn.status === 'approved' ? 'successful' : btxn.status,
+            amount: btxn.amount?.toString() || '0',
+            currency: 'USD',
+            merchant: 'Bank Transfer',
+            description: `Bank transfer deposit`,
+            createdAt: btxn.createdAt?.toISOString() || new Date().toISOString(),
+          });
+        }
+      } catch (bankTxnError) {
+        console.log('No bank transfers found or error fetching:', bankTxnError);
+      }
+
       // Sort by date (newest first)
       allTransactions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-      console.log(`📊 Returning ${allTransactions.length} transactions (real Airwallex data) for user ${userId}`);
+      console.log(`📊 Returning ${allTransactions.length} transactions for user ${userId}`);
       res.json(allTransactions);
     } catch (error) {
       console.error("Error fetching transactions:", error);
@@ -1767,6 +1864,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating notification settings:", error);
       res.status(500).json({ message: "Failed to update notification settings" });
+    }
+  });
+
+  // Delete account endpoint
+  app.delete("/api/user/account", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      console.log(`🗑️ User ${userId} requested account deletion`);
+      
+      // Delete the user and all associated data
+      await storage.deleteUser(userId);
+      
+      // Destroy the session
+      req.session.destroy((err: any) => {
+        if (err) {
+          console.error("Error destroying session:", err);
+        }
+      });
+      
+      console.log(`✅ Account deleted successfully for user ${userId}`);
+      res.json({ message: "Account deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      res.status(500).json({ message: "Failed to delete account" });
+    }
+  });
+
+  // KYC verification status endpoint
+  app.get("/api/user/kyc-status", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      
+      // Get the latest KYC verification for the user
+      const kycVerifications = await db
+        .select()
+        .from(schema.kycVerifications)
+        .where(eq(schema.kycVerifications.userId, userId))
+        .orderBy(desc(schema.kycVerifications.createdAt))
+        .limit(1);
+      
+      if (kycVerifications.length === 0) {
+        return res.json({
+          isVerified: false,
+          status: null,
+          message: "Identity verification hasn't been submitted yet."
+        });
+      }
+      
+      const latestKyc = kycVerifications[0];
+      
+      res.json({
+        isVerified: latestKyc.status === 'approved' || latestKyc.status === 'verified',
+        status: latestKyc.status,
+        message: latestKyc.status === 'approved' || latestKyc.status === 'verified'
+          ? "Identity verified successfully"
+          : latestKyc.status === 'pending'
+          ? "Verification request is under review"
+          : latestKyc.status === 'under_review'
+          ? "Verification request is being processed"
+          : "Verification request was rejected"
+      });
+    } catch (error) {
+      console.error("Error fetching KYC status:", error);
+      res.status(500).json({ message: "Failed to fetch KYC status" });
     }
   });
 
@@ -2778,12 +2944,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Add amount to user's wallet
       await db
-        .update(schema.wallets)
+        .update(schema.users)
         .set({
-          balance: sql`${schema.wallets.balance} + ${request.amount}`,
+          walletBalance: sql`${schema.users.walletBalance} + ${request.amount}`,
           updatedAt: new Date(),
         })
-        .where(eq(schema.wallets.userId, request.userId));
+        .where(eq(schema.users.id, request.userId));
 
       // Create transaction record
       await db.insert(schema.transactions).values({
@@ -3548,9 +3714,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Flutterwave Payment Link Routes
-  app.post('/api/payment-links', requireAuth, async (req, res) => {
+  app.post('/api/payment-links', requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user?.id;
+      const userId = req.session?.userId;
       if (!userId) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
@@ -3558,30 +3724,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertPaymentLinkSchema.parse(req.body);
       const txRef = flutterwaveService.generateTxRef(userId);
 
-      const flwResponse = await flutterwaveService.createPaymentLink({
-        txRef,
-        amount: validatedData.amount,
-        currency: validatedData.currency,
-        redirectUrl: validatedData.redirectUrl,
-        paymentOptions: validatedData.paymentOptions,
-        customer: {
-          email: validatedData.customerEmail!,
-          name: validatedData.customerName,
-          phonenumber: validatedData.customerPhone,
-        },
-        customizations: {
-          title: validatedData.title,
-          description: validatedData.description,
-          logo: validatedData.logo,
-        },
-        metadata: validatedData.metadata as Record<string, any>,
-      });
+      // Clean up empty string values
+      const cleanEmail = validatedData.customerEmail?.trim();
+      const cleanName = validatedData.customerName?.trim() || undefined;
+      const cleanPhone = validatedData.customerPhone?.trim() || undefined;
+      const cleanRedirectUrl = validatedData.redirectUrl?.trim() || undefined;
+      const cleanLogo = validatedData.logo?.trim() || undefined;
+      const cleanDescription = validatedData.description?.trim() || undefined;
+
+      // Validate that customer email is not empty (required for payment)
+      if (!cleanEmail) {
+        return res.status(400).json({ 
+          message: 'Customer email is required for payment links' 
+        });
+      }
+
+      // Generate internal payment link (our own checkout page)
+      // Use the actual domain from the request to ensure it works with any deployment
+      const host = req.headers.host || 'localhost:5000';
+      const protocol = req.headers['x-forwarded-proto'] || (host.includes('localhost') ? 'http' : 'https');
+      const fullDomain = `${protocol}://${host}`;
+      const internalPaymentLink = `${fullDomain}/pay/${txRef}`;
+      
+      console.log(`📝 Creating payment link with domain: ${fullDomain}`);
 
       const paymentLink = await storage.createPaymentLink({
         ...validatedData,
         userId,
         txRef,
-        flutterwaveLink: flwResponse.data.link,
+        flutterwaveLink: internalPaymentLink,
         status: 'active',
       });
 
@@ -3597,9 +3768,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/payment-links', requireAuth, async (req, res) => {
+  app.get('/api/payment-links', requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user?.id;
+      const userId = req.session?.userId;
       if (!userId) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
@@ -3612,7 +3783,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/payment-links/:txRef', requireAuth, async (req, res) => {
+  app.get('/api/payment-links/:txRef', requireAuth, async (req: any, res) => {
     try {
       const { txRef } = req.params;
       const paymentLink = await storage.getPaymentLinkByTxRef(txRef);
@@ -3633,10 +3804,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/payment-links/:id/disable', requireAuth, async (req, res) => {
+  app.post('/api/payment-links/:id/disable', requireAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
-      const userId = req.user?.id;
+      const userId = req.session?.userId;
 
       const paymentLink = await storage.getPaymentLinkByTxRef(id);
       if (!paymentLink) {
@@ -3662,6 +3833,143 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Public API endpoint to get Flutterwave public key (for checkout)
+  app.get('/api/public/flutterwave-config', async (req, res) => {
+    try {
+      const publicKey = flutterwaveService.getPublicKey();
+      if (!publicKey) {
+        return res.status(500).json({ message: 'Flutterwave public key not configured' });
+      }
+      res.json({ publicKey });
+    } catch (error: any) {
+      console.error('Error getting Flutterwave config:', error);
+      res.status(500).json({ message: 'Failed to get Flutterwave config' });
+    }
+  });
+
+  // Public API endpoint to get payment link details (no auth required)
+  app.get('/api/public/payment-link/:txRef', async (req, res) => {
+    try {
+      const { txRef } = req.params;
+      const paymentLink = await storage.getPaymentLinkByTxRef(txRef);
+      
+      if (!paymentLink) {
+        return res.status(404).json({ message: 'Payment link not found' });
+      }
+
+      // Return only necessary public information
+      res.json({
+        id: paymentLink.id,
+        title: paymentLink.title,
+        description: paymentLink.description,
+        amount: paymentLink.amount,
+        currency: paymentLink.currency,
+        paymentOptions: paymentLink.paymentOptions,
+        customerEmail: paymentLink.customerEmail,
+        customerName: paymentLink.customerName,
+        customerPhone: paymentLink.customerPhone,
+        txRef: paymentLink.txRef,
+        status: paymentLink.status,
+        redirectUrl: paymentLink.redirectUrl,
+        logo: paymentLink.logo,
+      });
+    } catch (error: any) {
+      console.error('Error fetching public payment link:', error);
+      res.status(500).json({ message: 'Failed to fetch payment link' });
+    }
+  });
+
+  // Public API endpoint to verify payment (no auth required)
+  app.post('/api/public/payment-verify/:transactionId', async (req, res) => {
+    try {
+      const { transactionId } = req.params;
+
+      const verification = await flutterwaveService.verifyTransaction(transactionId);
+      
+      if (verification.status !== 'success') {
+        return res.status(400).json({ 
+          message: 'Transaction verification failed',
+          data: verification,
+        });
+      }
+
+      const txData = verification.data;
+      
+      let existingTransaction = await storage.getPaymentTransactionByTxRef(txData.tx_ref);
+      const paymentLink = await storage.getPaymentLinkByTxRef(txData.tx_ref);
+      
+      if (!existingTransaction) {
+        existingTransaction = await storage.createPaymentTransaction({
+          paymentLinkId: paymentLink?.id,
+          userId: paymentLink?.userId,
+          txRef: txData.tx_ref,
+          flutterwaveRef: txData.flw_ref,
+          transactionId: txData.id.toString(),
+          amount: txData.amount.toString(),
+          currency: txData.currency,
+          chargedAmount: txData.charged_amount?.toString(),
+          customerEmail: txData.customer.email,
+          customerName: txData.customer.name,
+          customerPhone: txData.customer.phone_number,
+          paymentMethod: txData.payment_type,
+          status: txData.status === 'successful' ? 'successful' : 'failed',
+          cardNumber: txData.card ? `${txData.card.first_6digits}****${txData.card.last_4digits}` : undefined,
+          cardType: txData.card?.type,
+          cardCountry: txData.card?.country,
+          metadata: txData as any,
+        });
+
+        if (txData.status === 'successful' && paymentLink?.userId) {
+          // Create pending balance (hold for 7 days)
+          const releaseDate = new Date();
+          releaseDate.setDate(releaseDate.getDate() + 7);
+          
+          await storage.createPendingBalance({
+            userId: paymentLink.userId,
+            transactionId: existingTransaction.id,
+            amount: txData.amount.toString(),
+            currency: txData.currency,
+            releaseDate: releaseDate,
+            description: `Payment from ${txData.customer.name || txData.customer.email} - ${paymentLink.title}`
+          });
+          
+          console.log(`💰 Created pending balance of ${txData.amount} ${txData.currency} for user ${paymentLink.userId}. Will be released on ${releaseDate.toISOString()}`);
+        }
+      } else {
+        if (txData.status === 'successful') {
+          const updatedTransaction = await storage.updatePaymentTransactionToSuccessful(existingTransaction.id, {
+            status: 'successful',
+            flutterwaveRef: txData.flw_ref,
+            transactionId: txData.id.toString(),
+          });
+
+          if (updatedTransaction && paymentLink?.userId) {
+            const currentBalance = await storage.getWalletBalance(paymentLink.userId);
+            const newBalance = currentBalance + parseFloat(txData.amount.toString());
+            await storage.updateWalletBalance(paymentLink.userId, newBalance);
+            console.log(`✅ Added ${txData.amount} ${txData.currency} to user ${paymentLink.userId} wallet (on status update). New balance: ${newBalance}`);
+          }
+          
+          existingTransaction = updatedTransaction || existingTransaction;
+        } else {
+          existingTransaction = await storage.updatePaymentTransaction(existingTransaction.id, {
+            status: 'failed',
+            flutterwaveRef: txData.flw_ref,
+            transactionId: txData.id.toString(),
+          });
+        }
+      }
+
+      res.json({
+        message: 'Payment verified successfully',
+        transaction: existingTransaction,
+      });
+    } catch (error: any) {
+      console.error('Error verifying public payment:', error);
+      res.status(500).json({ message: 'Failed to verify payment' });
+    }
+  });
+
   app.get('/payment/verify', async (req, res) => {
     try {
       const { status, tx_ref, transaction_id } = req.query;
@@ -3682,13 +3990,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const txData = verification.data;
       
+      const paymentLink = await storage.getPaymentLinkByTxRef(txData.tx_ref);
       let existingTransaction = await storage.getPaymentTransactionByTxRef(txData.tx_ref);
       
       if (!existingTransaction) {
-        const paymentLink = await storage.getPaymentLinkByTxRef(txData.tx_ref);
-        
         await storage.createPaymentTransaction({
           paymentLinkId: paymentLink?.id,
+          userId: paymentLink?.userId,
           txRef: txData.tx_ref,
           flutterwaveRef: txData.flw_ref,
           transactionId: txData.id.toString(),
@@ -3706,16 +4014,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
           metadata: txData as any,
           verifiedAt: new Date(),
         });
+
+        if (txData.status === 'successful' && paymentLink?.userId) {
+          // Create pending balance (hold for 7 days)
+          const releaseDate = new Date();
+          releaseDate.setDate(releaseDate.getDate() + 7);
+          
+          await storage.createPendingBalance({
+            userId: paymentLink.userId,
+            transactionId: existingTransaction.id,
+            amount: txData.amount.toString(),
+            currency: txData.currency,
+            releaseDate: releaseDate,
+            description: `Payment from ${txData.customer.name || txData.customer.email} - ${paymentLink.title}`
+          });
+          
+          console.log(`💰 Created pending balance of ${txData.amount} ${txData.currency} for user ${paymentLink.userId}. Will be released on ${releaseDate.toISOString()}`);
+        }
       } else {
-        await storage.updatePaymentTransaction(existingTransaction.id, {
-          status: txData.status === 'successful' ? 'successful' : 'failed',
-          flutterwaveRef: txData.flw_ref,
-          transactionId: txData.id.toString(),
-          verifiedAt: new Date(),
-        });
+        if (txData.status === 'successful') {
+          const updatedTransaction = await storage.updatePaymentTransactionToSuccessful(existingTransaction.id, {
+            status: 'successful',
+            flutterwaveRef: txData.flw_ref,
+            transactionId: txData.id.toString(),
+            verifiedAt: new Date(),
+          });
+
+          if (updatedTransaction && paymentLink?.userId) {
+            const currentBalance = await storage.getWalletBalance(paymentLink.userId);
+            const newBalance = currentBalance + parseFloat(txData.amount.toString());
+            await storage.updateWalletBalance(paymentLink.userId, newBalance);
+            console.log(`✅ Added ${txData.amount} ${txData.currency} to user ${paymentLink.userId} wallet (on status update). New balance: ${newBalance}`);
+          }
+        } else {
+          await storage.updatePaymentTransaction(existingTransaction.id, {
+            status: 'failed',
+            flutterwaveRef: txData.flw_ref,
+            transactionId: txData.id.toString(),
+            verifiedAt: new Date(),
+          });
+        }
       }
 
       const successStatus = txData.status === 'successful' ? 'success' : 'failed';
+      
+      if (paymentLink?.redirectUrl && paymentLink.redirectUrl.trim() !== '') {
+        const redirectUrl = paymentLink.redirectUrl;
+        const separator = redirectUrl.includes('?') ? '&' : '?';
+        return res.redirect(`${redirectUrl}${separator}status=${successStatus}&amount=${txData.amount}&currency=${txData.currency}&tx_ref=${txData.tx_ref}`);
+      }
+      
       res.redirect(`/payment-links?status=${successStatus}&amount=${txData.amount}&currency=${txData.currency}`);
     } catch (error: any) {
       console.error('Error verifying payment:', error);
@@ -3762,13 +4110,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
           metadata: txData as any,
           verifiedAt: new Date(),
         });
+
+        if (txData.status === 'successful' && paymentLink?.userId) {
+          // Create pending balance (hold for 7 days)
+          const releaseDate = new Date();
+          releaseDate.setDate(releaseDate.getDate() + 7);
+          
+          await storage.createPendingBalance({
+            userId: paymentLink.userId,
+            transactionId: existingTransaction.id,
+            amount: txData.amount.toString(),
+            currency: txData.currency,
+            releaseDate: releaseDate,
+            description: `Payment from ${txData.customer.name || txData.customer.email} - ${paymentLink.title}`
+          });
+          
+          console.log(`💰 Created pending balance of ${txData.amount} ${txData.currency} for user ${paymentLink.userId}. Will be released on ${releaseDate.toISOString()}`);
+        }
       } else {
-        existingTransaction = await storage.updatePaymentTransaction(existingTransaction.id, {
-          status: txData.status === 'successful' ? 'successful' : 'failed',
-          flutterwaveRef: txData.flw_ref,
-          transactionId: txData.id.toString(),
-          verifiedAt: new Date(),
-        });
+        const paymentLink = await storage.getPaymentLinkByTxRef(txData.tx_ref);
+        
+        if (txData.status === 'successful') {
+          const updatedTransaction = await storage.updatePaymentTransactionToSuccessful(existingTransaction.id, {
+            status: 'successful',
+            flutterwaveRef: txData.flw_ref,
+            transactionId: txData.id.toString(),
+            verifiedAt: new Date(),
+          });
+
+          if (updatedTransaction && paymentLink?.userId) {
+            const currentBalance = await storage.getWalletBalance(paymentLink.userId);
+            const newBalance = currentBalance + parseFloat(txData.amount.toString());
+            await storage.updateWalletBalance(paymentLink.userId, newBalance);
+            console.log(`✅ Added ${txData.amount} ${txData.currency} to user ${paymentLink.userId} wallet (on status update). New balance: ${newBalance}`);
+          }
+          
+          existingTransaction = updatedTransaction || existingTransaction;
+        } else {
+          existingTransaction = await storage.updatePaymentTransaction(existingTransaction.id, {
+            status: 'failed',
+            flutterwaveRef: txData.flw_ref,
+            transactionId: txData.id.toString(),
+            verifiedAt: new Date(),
+          });
+        }
       }
 
       res.json({
@@ -3784,25 +4169,306 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/payment/transactions', requireAuth, async (req, res) => {
+  app.get('/api/payment/transactions', requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user?.id;
+      const userId = req.session?.userId;
       if (!userId) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 
       const paymentLinks = await storage.getPaymentLinksByUserId(userId);
-      const allTransactions = [];
+      const allTransactions: any[] = [];
 
       for (const link of paymentLinks) {
         const transactions = await storage.getPaymentTransactionsByLinkId(link.id);
-        allTransactions.push(...transactions.map(t => ({ ...t, paymentLink: link })));
+        allTransactions.push(...transactions.map((t: any) => ({ ...t, paymentLink: link })));
       }
 
       res.json(allTransactions);
     } catch (error: any) {
       console.error('Error fetching transactions:', error);
       res.status(500).json({ message: 'Failed to fetch transactions' });
+    }
+  });
+
+  app.post('/api/payment/charge-card', async (req: any, res) => {
+    try {
+      const {
+        txRef,
+        amount,
+        currency,
+        cardNumber,
+        cvv,
+        expiryMonth,
+        expiryYear,
+        customerEmail,
+        customerName,
+        customerPhone,
+        pin,
+      } = req.body;
+
+      if (!txRef || !amount || !currency || !cardNumber || !cvv || !expiryMonth || !expiryYear || !customerEmail || !customerName) {
+        return res.status(400).json({ message: 'Missing required fields' });
+      }
+
+      const chargeData: any = {
+        txRef,
+        amount: amount.toString(),
+        currency,
+        cardNumber,
+        cvv,
+        expiryMonth,
+        expiryYear,
+        customer: {
+          email: customerEmail,
+          name: customerName,
+          phonenumber: customerPhone,
+        },
+      };
+
+      if (pin) {
+        chargeData.authorization = {
+          mode: 'pin',
+          pin,
+        };
+      }
+
+      const result = await flutterwaveService.chargeCard(chargeData);
+
+      const transactionStatus = result.data.status === 'successful' ? 'successful' : 'pending';
+      
+      const existingTransaction = await storage.getPaymentTransactionByTxRef(txRef);
+      
+      if (!existingTransaction) {
+        await storage.createPaymentTransaction({
+          txRef,
+          flutterwaveRef: result.data.flw_ref,
+          transactionId: result.data.id.toString(),
+          amount: result.data.amount.toString(),
+          currency: result.data.currency,
+          chargedAmount: result.data.charged_amount?.toString() || result.data.amount.toString(),
+          customerEmail: result.data.customer.email,
+          customerName: result.data.customer.name,
+          customerPhone: result.data.customer.phone_number,
+          paymentMethod: 'card',
+          status: transactionStatus,
+          cardNumber: result.data.card?.last_4digits,
+          cardType: result.data.card?.type,
+          cardCountry: result.data.card?.country,
+          metadata: result.data as any,
+          verifiedAt: transactionStatus === 'successful' ? new Date() : undefined,
+        });
+      } else if (result.data.status === 'successful') {
+        await storage.updatePaymentTransaction(existingTransaction.id, {
+          status: 'successful',
+          flutterwaveRef: result.data.flw_ref,
+          transactionId: result.data.id.toString(),
+          verifiedAt: new Date(),
+        });
+      }
+
+      res.json(result);
+    } catch (error: any) {
+      console.error('Error charging card:', error);
+      res.status(500).json({
+        message: error.message || 'Failed to charge card',
+      });
+    }
+  });
+
+  app.post('/api/payment/validate-charge', async (req, res) => {
+    try {
+      const { flwRef, otp } = req.body;
+
+      if (!flwRef || !otp) {
+        return res.status(400).json({ message: 'Missing flwRef or otp' });
+      }
+
+      const result = await flutterwaveService.validateCharge(flwRef, otp);
+
+      if (result.data.status === 'successful') {
+        const existingTransaction = await storage.getPaymentTransactionByTxRef(result.data.tx_ref);
+        
+        if (existingTransaction) {
+          await storage.updatePaymentTransaction(existingTransaction.id, {
+            status: 'successful',
+            flutterwaveRef: result.data.flw_ref,
+            transactionId: result.data.id.toString(),
+            verifiedAt: new Date(),
+          });
+        }
+      }
+
+      res.json(result);
+    } catch (error: any) {
+      console.error('Error validating charge:', error);
+      res.status(500).json({
+        message: error.message || 'Failed to validate charge',
+      });
+    }
+  });
+
+  app.get('/api/public/payment-link/:txRef', async (req, res) => {
+    try {
+      const { txRef } = req.params;
+      
+      if (!txRef) {
+        return res.status(400).json({ message: 'Missing txRef' });
+      }
+
+      const paymentLink = await storage.getPaymentLinkByTxRef(txRef);
+
+      if (!paymentLink) {
+        return res.status(404).json({ message: 'Payment link not found' });
+      }
+
+      res.json(paymentLink);
+    } catch (error: any) {
+      console.error('Error fetching payment link:', error);
+      res.status(500).json({
+        message: error.message || 'Failed to fetch payment link',
+      });
+    }
+  });
+
+  app.post('/api/deposit/card/init', requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const { amount } = req.body;
+      
+      if (!amount || parseFloat(amount) < 1) {
+        return res.status(400).json({ message: 'Invalid amount. Minimum is $1' });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      const txRef = flutterwaveService.generateTxRef(userId);
+
+      await storage.createPaymentTransaction({
+        userId,
+        txRef,
+        amount: amount.toString(),
+        currency: 'USD',
+        customerEmail: user.email || '',
+        customerName: `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email || '',
+        paymentMethod: 'card',
+        status: 'pending',
+      });
+
+      console.log(`💳 Card deposit initiated: txRef=${txRef}, amount=$${amount}, userId=${userId}`);
+
+      res.json({ txRef, amount });
+    } catch (error: any) {
+      console.error('Error initializing card deposit:', error);
+      res.status(500).json({ message: error.message || 'Failed to initialize deposit' });
+    }
+  });
+
+  app.post('/api/deposit/card/verify/:transactionId', requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const { transactionId } = req.params;
+      const { txRef, amount } = req.body;
+
+      const existingTransaction = await storage.getPaymentTransactionByTxRef(txRef);
+      
+      if (!existingTransaction) {
+        return res.status(400).json({ message: 'Transaction not found. Please initiate deposit first.' });
+      }
+
+      if (existingTransaction.userId !== userId) {
+        console.warn(`⚠️ Security: User ${userId} tried to verify transaction belonging to ${existingTransaction.userId}`);
+        return res.status(403).json({ message: 'Transaction does not belong to this user' });
+      }
+
+      if (existingTransaction.status === 'successful') {
+        console.log(`ℹ️ Transaction ${txRef} already verified and credited`);
+        return res.json({
+          message: 'Deposit already processed',
+          amount: parseFloat(existingTransaction.amount),
+          alreadyProcessed: true,
+        });
+      }
+
+      const verification = await flutterwaveService.verifyTransaction(transactionId);
+
+      if (verification.status !== 'success') {
+        await storage.updatePaymentTransaction(existingTransaction.id, {
+          status: 'failed',
+          transactionId: transactionId,
+        });
+        return res.status(400).json({
+          message: 'Transaction verification failed',
+          data: verification,
+        });
+      }
+
+      const txData = verification.data;
+
+      if (txData.tx_ref !== txRef) {
+        console.warn(`⚠️ Security: txRef mismatch. Expected: ${txRef}, Got: ${txData.tx_ref}`);
+        return res.status(400).json({ message: 'Transaction reference mismatch' });
+      }
+
+      if (txData.status !== 'successful') {
+        await storage.updatePaymentTransaction(existingTransaction.id, {
+          status: 'failed',
+          flutterwaveRef: txData.flw_ref,
+          transactionId: txData.id.toString(),
+        });
+        return res.status(400).json({
+          message: 'Payment was not successful',
+          status: txData.status,
+        });
+      }
+
+      if (parseFloat(txData.amount.toString()) !== parseFloat(amount)) {
+        return res.status(400).json({ message: 'Amount mismatch' });
+      }
+
+      await storage.updatePaymentTransaction(existingTransaction.id, {
+        status: 'successful',
+        flutterwaveRef: txData.flw_ref,
+        transactionId: txData.id.toString(),
+        cardNumber: txData.card ? `${txData.card.first_6digits}****${txData.card.last_4digits}` : undefined,
+        cardType: txData.card?.type,
+        cardCountry: txData.card?.country,
+        chargedAmount: txData.charged_amount?.toString(),
+        metadata: txData as any,
+        verifiedAt: new Date(),
+      });
+
+      const currentBalance = await storage.getWalletBalance(userId);
+      const depositAmount = parseFloat(txData.amount.toString());
+      const newBalance = currentBalance + depositAmount;
+      
+      await storage.updateWalletBalance(userId, newBalance);
+
+      console.log(`💳 Card deposit verified: Added $${depositAmount} to user ${userId} wallet. New balance: $${newBalance}`);
+
+      res.json({
+        message: 'Deposit successful',
+        amount: depositAmount,
+        newBalance: newBalance,
+        transactionId: txData.id,
+        flwRef: txData.flw_ref,
+      });
+    } catch (error: any) {
+      console.error('Error verifying card deposit:', error);
+      res.status(500).json({
+        message: error.message || 'Failed to verify deposit',
+      });
     }
   });
 

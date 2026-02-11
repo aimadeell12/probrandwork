@@ -135,14 +135,14 @@ export default function EditProfile() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
         <div className="text-center">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="container mx-auto px-4 py-6 max-w-2xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -164,10 +164,10 @@ export default function EditProfile() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 pb-32">
             {/* Personal Information */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <User className="h-5 w-5 text-purple-600" />
+                  <User className="h-5 w-5 text-primary" />
                   <span>المعلومات الشخصية</span>
                 </CardTitle>
               </CardHeader>
@@ -269,7 +269,7 @@ export default function EditProfile() {
             </Card>
 
             {/* Contact Information */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Phone className="h-5 w-5 text-green-600" />
@@ -314,7 +314,7 @@ export default function EditProfile() {
             </Card>
 
             {/* Address Information */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <MapPin className="h-5 w-5 text-blue-600" />
@@ -399,7 +399,7 @@ export default function EditProfile() {
             </Card>
 
             {/* Document Information */}
-            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <FileText className="h-5 w-5 text-orange-600" />
@@ -486,7 +486,7 @@ export default function EditProfile() {
               console.log("No data to save");
             }
           }}
-          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+          className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-red-700 hover:to-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
           disabled={updateProfileMutation.isPending}
         >
           <Save className="h-5 w-5 mr-2" />

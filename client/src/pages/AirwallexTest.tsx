@@ -150,7 +150,7 @@ export default function AirwallexTest() {
               <Button 
                 onClick={testAirwallexConnection}
                 disabled={isLoading}
-                className="bg-purple-500 hover:bg-purple-600"
+                className="bg-red-500 hover:bg-primary"
               >
                 {isLoading ? (
                   <>
@@ -166,7 +166,7 @@ export default function AirwallexTest() {
                 onClick={getAccountInfo}
                 disabled={accountLoading}
                 variant="outline"
-                className="border-purple-500 text-purple-600 hover:bg-purple-50"
+                className="border-red-500 text-primary hover:bg-red-50"
               >
                 {accountLoading ? (
                   <>
@@ -238,7 +238,7 @@ export default function AirwallexTest() {
                     <div>
                       <strong className="text-gray-700">بيانات الاعتماد:</strong>
                       <p className={`mt-1 ${
-                        result.credentials_configured ? 'text-green-600' : 'text-red-600'
+                        result.credentials_configured ? 'text-green-600' : 'text-primary'
                       }`}>
                         {result.credentials_configured ? '✓ مُهيأة' : '✗ غير مُهيأة'}
                       </p>
@@ -345,7 +345,7 @@ export default function AirwallexTest() {
                   <div>
                     <strong className="text-gray-700">حالة:</strong>
                     <p className={`mt-1 font-semibold ${
-                      accountInfo.success ? 'text-blue-600' : 'text-red-600'
+                      accountInfo.success ? 'text-blue-600' : 'text-primary'
                     }`}>
                       {accountInfo.message}
                     </p>
@@ -456,7 +456,7 @@ export default function AirwallexTest() {
                   <div>
                     <strong className="text-gray-700">حالة:</strong>
                     <p className={`mt-1 font-semibold ${
-                      cardsInfo.success ? 'text-green-600' : 'text-red-600'
+                      cardsInfo.success ? 'text-green-600' : 'text-primary'
                     }`}>
                       {cardsInfo.message}
                     </p>

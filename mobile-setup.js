@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-console.log('📱 PayDota Mobile Setup Script');
+console.log('📱 BrandSoft Pay Mobile Setup Script');
 console.log('==============================\n');
 
 // Check if running in correct directory
@@ -45,7 +45,7 @@ async function setupMobileApp() {
     console.log('⚠️  Capacitor config not found, creating default...');
   }
   
-  runCommand('npx cap init PayDota com.paydota.banking --web-dir=dist/public', 'Initializing Capacitor');
+  runCommand('npx cap init BrandSoft Pay com.brandsoft-pay.banking --web-dir=dist/public', 'Initializing Capacitor');
 
   // Step 3: Create resources directory
   ensureDir('resources');
@@ -54,9 +54,9 @@ async function setupMobileApp() {
   if (!fs.existsSync('resources/icon.png')) {
     console.log('📝 Creating icon placeholder...');
     const iconPlaceholder = `
-<!-- PayDota App Icon Placeholder -->
+<!-- BrandSoft Pay App Icon Placeholder -->
 <!-- Replace this file with a 1024x1024 PNG icon -->
-<!-- The icon should represent your PayDota banking brand -->
+<!-- The icon should represent your BrandSoft Pay banking brand -->
     `.trim();
     
     // Create a simple HTML file as placeholder since we can't create actual PNG

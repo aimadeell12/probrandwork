@@ -42,7 +42,7 @@ export default function Help() {
       ]
     },
     {
-      title: "Cards & Banking",
+      title: "Cards & wallet",
       icon: Book,
       articles: [
         "Applying for a card",
@@ -81,11 +81,11 @@ export default function Help() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900 relative overflow-hidden">
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-red-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-red-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
       
       <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10">
         
@@ -95,7 +95,7 @@ export default function Help() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30"
+            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -135,7 +135,7 @@ export default function Help() {
                   <ul className="space-y-2">
                     {category.articles.map((article, articleIndex) => (
                       <li key={articleIndex}>
-                        <button className="text-left w-full p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded transition-colors">
+                        <button className="text-left w-full p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors">
                           {article}
                         </button>
                       </li>
@@ -194,7 +194,7 @@ export default function Help() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Button 
                 onClick={() => setLocation("/support")}
-                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
+                className="bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800"
               >
                 Contact Support
               </Button>

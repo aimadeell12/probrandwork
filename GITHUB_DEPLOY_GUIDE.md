@@ -1,0 +1,308 @@
+# 🚀 دليل البناء التلقائي عبر GitHub Actions
+
+## نظرة عامة
+مشروع BrandSoft Pay مُعد بالكامل للبناء التلقائي على GitHub Actions. يمكنك بناء تطبيقات Android و iOS تلقائياً بمجرد رفع الكود إلى GitHub!
+
+---
+
+## 📱 الميزات المتوفرة
+
+### ✅ البناء التلقائي للأندرويد
+- بناء APK موقع جاهز للتثبيت
+- رفع تلقائي كـ Artifacts
+- إنشاء Release تلقائي مع ملف APK
+- دعم نسخ Debug و Release
+
+### ✅ البناء التلقائي لـ iOS
+- بناء على macOS مع Xcode
+- دعم المحاكي والأجهزة الحقيقية
+- جاهز للنشر على App Store (يحتاج شهادات)
+
+### ✅ النشر التلقائي للمتاجر
+- Google Play Store (مع Service Account)
+- Apple App Store (مع شهادات Developer)
+
+---
+
+## 🏁 البدء السريع
+
+### الخطوة 1️⃣: رفع المشروع إلى GitHub
+
+إذا لم يكن المشروع على GitHub بعد:
+
+```bash
+# تهيئة Git (إذا لم يكن مُهيأ)
+git init
+
+# إضافة جميع الملفات
+git add .
+
+# إنشاء commit
+git commit -m "إعداد البناء التلقائي للتطبيق المحمول"
+
+# ربط المشروع بـ GitHub (استبدل USERNAME و REPO)
+git remote add origin https://github.com/USERNAME/REPO.git
+
+# رفع الكود
+git push -u origin main
+```
+
+### الخطوة 2️⃣: تشغيل البناء التلقائي
+
+بمجرد رفع الكود إلى GitHub، سيبدأ البناء تلقائياً! 🎉
+
+لمتابعة البناء:
+1. اذهب إلى مستودع GitHub الخاص بك
+2. اضغط على تبويب **Actions**
+3. شاهد البناء وهو يعمل مباشرة!
+
+---
+
+## 📦 ملفات GitHub Actions المتوفرة
+
+### 1. `build-android.yml` (موصى به للمبتدئين)
+
+**الاستخدام:** بناء تلقائي للأندرويد فقط
+
+**متى يعمل:**
+- عند كل push للفرع `main` أو `master`
+- عند فتح Pull Request
+- يمكن تشغيله يدوياً من GitHub
+
+**ما ينتجه:**
+- ملف `app-debug.apk` (للاختبار)
+- ملف `app-release.apk` (للنشر)
+- Release تلقائي مع APK جاهز للتحميل
+
+**كيفية تحميل APK:**
+1. اذهب إلى تبويب **Actions**
+2. اضغط على آخر workflow ناجح
+3. انزل تحت **Artifacts** وحمل `brandsoft-pay-release-apk`
+
+أو:
+1. اذهب إلى تبويب **Releases**
+2. حمل APK من آخر إصدار
+
+---
+
+### 2. `build-mobile.yml` (للمطورين المتقدمين)
+
+**الاستخدام:** بناء Android و iOS معاً
+
+**متى يعمل:**
+- عند كل push للفرع `main` أو `master`
+- عند فتح Pull Request
+- يمكن تشغيله يدوياً
+
+**ما ينتجه:**
+- APK للأندرويد
+- Build لـ iOS
+
+**ملاحظة:** بناء iOS يتطلب **GitHub Pro** أو **GitHub Team** (لأنه يستخدم macOS runner)
+
+---
+
+### 3. `release-mobile.yml` (للنشر على المتاجر)
+
+**الاستخدام:** نشر تلقائي على Google Play و App Store
+
+**متى يعمل:**
+- عند إنشاء Release جديد
+- عند التشغيل اليدوي
+
+**المتطلبات:**
+- إعداد Secrets في GitHub (انظر القسم التالي)
+- حساب Google Play Console
+- حساب Apple Developer
+
+---
+
+## 🔐 إعداد Secrets للنشر على المتاجر
+
+إذا كنت تريد النشر التلقائي على Google Play:
+
+### خطوات إعداد Google Play:
+
+1. **إنشاء Service Account:**
+   - اذهب إلى [Google Cloud Console](https://console.cloud.google.com/)
+   - أنشئ Service Account جديد
+   - حمل ملف JSON للمفاتيح
+
+2. **إضافة Secrets في GitHub:**
+   - اذهب إلى Settings > Secrets and variables > Actions
+   - أضف Secret جديد:
+     - الاسم: `GOOGLE_PLAY_SERVICE_ACCOUNT`
+     - القيمة: انسخ محتوى ملف JSON كاملاً
+
+3. **إعداد متجر Google Play:**
+   - في Google Play Console، أضف Service Account
+   - امنحه صلاحيات "Release manager"
+
+---
+
+## 🎯 سيناريوهات الاستخدام
+
+### السيناريو 1: تطوير يومي (استخدم build-android.yml)
+
+```bash
+# قم بتعديل الكود
+# ثم:
+git add .
+git commit -m "إضافة ميزة جديدة"
+git push origin main
+
+# انتظر 5-10 دقائق
+# ستجد APK جاهز في Artifacts!
+```
+
+### السيناريو 2: إصدار جديد للمستخدمين
+
+```bash
+# 1. تأكد أن الكود جاهز
+git add .
+git commit -m "الإصدار 1.0.0"
+git push origin main
+
+# 2. انتظر اكتمال البناء
+
+# 3. اذهب إلى Releases في GitHub
+# 4. حمل APK وشاركه مع المستخدمين
+```
+
+### السيناريو 3: النشر على Google Play (متقدم)
+
+```bash
+# 1. أضف Secrets كما شرحنا أعلاه
+
+# 2. أنشئ tag جديد:
+git tag v1.0.0
+git push origin v1.0.0
+
+# 3. سيتم رفع APK تلقائياً لمتجر Google Play!
+```
+
+---
+
+## 🛠️ التشغيل اليدوي
+
+يمكنك تشغيل أي workflow يدوياً:
+
+1. اذهب إلى تبويب **Actions**
+2. اختر الـ workflow المطلوب من القائمة اليسرى
+3. اضغط **Run workflow**
+4. اختر الفرع (عادةً `main`)
+5. اضغط الزر الأخضر **Run workflow**
+
+---
+
+## 📊 فهم حالات البناء
+
+| الحالة | المعنى | ماذا تفعل؟ |
+|--------|---------|------------|
+| ✅ Success | البناء نجح | حمل APK من Artifacts أو Releases |
+| ❌ Failed | فشل البناء | افتح الـ workflow وشاهد السجلات (logs) |
+| 🟡 In Progress | البناء قيد التنفيذ | انتظر 5-10 دقائق |
+| ⏸️ Queued | في قائمة الانتظار | انتظر قليلاً |
+
+---
+
+## 🐛 حل المشاكل الشائعة
+
+### المشكلة: فشل البناء بسبب keystore
+
+**الحل:**
+تأكد أن ملف keystore موجود في:
+```
+attached_assets/signing_1750726650743.keystore
+```
+
+### المشكلة: "npm ci" فشل
+
+**الحل:**
+احذف `package-lock.json` وجرب مرة أخرى:
+```bash
+rm package-lock.json
+npm install
+git add package-lock.json
+git commit -m "تحديث package-lock.json"
+git push
+```
+
+### المشكلة: Build لـ iOS فشل
+
+**الحل:**
+بناء iOS يتطلب:
+- حساب GitHub مدفوع (Pro/Team/Enterprise)
+- شهادات Apple Developer
+
+إذا كنت لا تحتاج iOS، استخدم `build-android.yml` فقط.
+
+### المشكلة: لا أجد APK
+
+**الحل:**
+بعد نجاح البناء، ستجد APK في:
+1. **Artifacts**: اذهب للـ workflow > انزل لـ Artifacts
+2. **Releases**: اذهب لتبويب Releases في المستودع
+
+---
+
+## 📱 تثبيت APK على جهاز Android
+
+### الطريقة 1: التثبيت المباشر
+1. حمل ملف `app-release.apk`
+2. انقله إلى هاتف Android
+3. افتح الملف واضغط "تثبيت"
+4. قد تحتاج لتفعيل "السماح بالتثبيت من مصادر غير معروفة"
+
+### الطريقة 2: عبر ADB
+```bash
+adb install app-release.apk
+```
+
+---
+
+## ⚡ نصائح للأداء الأفضل
+
+### 1. استخدم cache للتثبيتات
+الـ workflows تستخدم cache بالفعل:
+```yaml
+cache: 'npm'
+```
+
+### 2. ابنِ فقط عند الحاجة
+إذا كنت تعمل على فرع feature، لا تبني تلقائياً. بل شغل البناء يدوياً عند الانتهاء.
+
+### 3. استخدم الـ workflow المناسب
+- **تطوير يومي:** `build-android.yml`
+- **تطوير Android + iOS:** `build-mobile.yml`
+- **نشر للمتاجر:** `release-mobile.yml`
+
+---
+
+## 📚 موارد إضافية
+
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [Capacitor Android Documentation](https://capacitorjs.com/docs/android)
+- [Capacitor iOS Documentation](https://capacitorjs.com/docs/ios)
+- [Google Play Console](https://play.google.com/console)
+- [Apple Developer](https://developer.apple.com/)
+
+---
+
+## 🎉 الخلاصة
+
+مشروع BrandSoft Pay جاهز تماماً للبناء التلقائي! كل ما عليك:
+
+1. ✅ رفع الكود إلى GitHub
+2. ✅ انتظر 5-10 دقائق
+3. ✅ حمل APK من Artifacts
+4. ✅ ثبته على هاتفك واستمتع!
+
+**البدء الآن:**
+```bash
+git add .
+git commit -m "جاهز للبناء التلقائي 🚀"
+git push origin main
+```
+
+ثم اذهب إلى GitHub وراقب السحر يحدث! ✨

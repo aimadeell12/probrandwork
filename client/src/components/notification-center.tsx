@@ -80,9 +80,9 @@ export default function NotificationCenter({ isOpen, onClose }: NotificationCent
       case "transaction":
         return <DollarSign className="h-5 w-5 text-green-600" />;
       case "security":
-        return <Shield className="h-5 w-5 text-red-600" />;
+        return <Shield className="h-5 w-5 text-primary" />;
       case "promotion":
-        return <Gift className="h-5 w-5 text-purple-600" />;
+        return <Gift className="h-5 w-5 text-primary" />;
       default:
         return <Bell className="h-5 w-5 text-blue-600" />;
     }

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CreditCard, Phone, Smartphone } from "lucide-react";
+import { CreditCard, Phone, Smartphone, Shield, Info } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/hooks/useLanguage";
 import { LanguageToggle } from "@/components/language-toggle";
@@ -10,13 +10,12 @@ export default function Welcome() {
   const { t, language } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-white dark:bg-background relative overflow-hidden">
       {/* Mobile safe area for status bar */}
       <div className="mobile-safe-area" />
       
       {/* Simplified background decorative elements - responsive sizing */}
-      <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 bg-gradient-to-br from-purple-200/10 to-pink-200/10 rounded-full blur-xl"></div>
-      <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-32 sm:h-32 lg:w-48 lg:h-48 bg-gradient-to-tr from-blue-200/8 to-purple-200/8 rounded-full blur-xl"></div>
+      <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 bg-gradient-to-br from-red-200/10 to-pink-200/10 dark:from-red-500/5 dark:to-pink-500/5 rounded-full blur-xl"></div>
       
       {/* Mobile Layout - optimized for all screen sizes */}
       <div className="lg:hidden px-3 sm:px-4 md:px-6 flex flex-col justify-between min-h-screen relative z-10 max-w-sm sm:max-w-md mx-auto safe-area-inset">
@@ -28,12 +27,15 @@ export default function Welcome() {
         
         {/* Header Content - optimized for all mobile screens */}
         <div className="text-center">
-          <h1 className="text-gray-600 text-base sm:text-lg mb-1 font-light tracking-wide">
-            Banking account
+          <h1 className="text-gray-600 dark:text-gray-400 text-base sm:text-lg mb-1 font-light tracking-wide">
+            Wallet account
           </h1>
-          <h2 className="text-gray-900 text-xl sm:text-2xl font-bold mb-1 sm:mb-2 tracking-tight">
-            fully <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">online</span>
+          <h2 className="text-gray-900 dark:text-white text-xl sm:text-2xl font-bold mb-1 sm:mb-2 tracking-tight">
+            fully <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">online</span>
           </h2>
+          <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-1">
+            We support receiving payments via credit cards
+          </p>
         </div>
 
         {/* Center Visual Content - responsive card design */}
@@ -41,16 +43,16 @@ export default function Welcome() {
           
           {/* Modern Digital Card - responsive with purple theme */}
           <div className="relative mx-auto w-full max-w-[280px] sm:max-w-[320px]">
-            <div className="relative bg-gradient-to-br from-purple-800 via-purple-900 to-indigo-900 rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-5 transform rotate-3 hover:rotate-1 transition-all duration-300 border border-purple-700/50 aspect-[1.6/1]">
+            <div className="relative bg-gradient-to-br from-red-800 via-red-900 to-indigo-900 rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-5 transform rotate-3 hover:rotate-1 transition-all duration-300 border border-red-700/50 aspect-[1.6/1]">
               {/* Card background effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/30 via-indigo-600/20 to-transparent rounded-xl sm:rounded-2xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-indigo-600/20 to-transparent rounded-xl sm:rounded-2xl"></div>
               <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-bl from-white/20 to-transparent rounded-full blur-xl"></div>
               
               <div className="relative z-10 h-full flex flex-col justify-between">
                 {/* Card header */}
                 <div className="flex justify-between items-start">
                   <div className="font-bold text-sm sm:text-base tracking-wide">
-                    <span className="text-purple-300">PAY</span><span className="text-white">dota</span>
+                    <span className="text-red-300">BrandSoft Pay</span>
                   </div>
                   {/* Card logos - Mastercard style */}
                   <div className="relative w-10 h-6 sm:w-12 sm:h-8">
@@ -70,12 +72,12 @@ export default function Welcome() {
                 {/* Card details */}
                 <div className="flex justify-between items-end">
                   <div>
-                    <div className="text-purple-200 text-[9px] sm:text-[10px] uppercase tracking-wide mb-0.5">Valid Thru</div>
+                    <div className="text-red-200 text-[9px] sm:text-[10px] uppercase tracking-wide mb-0.5">Valid Thru</div>
                     <div className="text-white font-bold text-[10px] sm:text-xs">12/28</div>
                   </div>
                   <div className="text-right">
                     <div className="text-white font-bold text-[10px] sm:text-xs">AIMAD</div>
-                    <div className="text-purple-200 text-[8px] sm:text-[9px]">Account Holder</div>
+                    <div className="text-red-200 text-[8px] sm:text-[9px]">Account Holder</div>
                   </div>
                 </div>
               </div>
@@ -85,7 +87,7 @@ export default function Welcome() {
             <div className="flex justify-center mt-4 sm:mt-6 space-x-2">
               <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse shadow-md"></div>
               <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse delay-75 shadow-md"></div>
-              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse delay-150 shadow-md"></div>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full animate-pulse delay-150 shadow-md"></div>
             </div>
           </div>
         </div>
@@ -93,7 +95,7 @@ export default function Welcome() {
         {/* Enhanced responsive buttons with explicit spacing */}
         <div className="w-full pb-3 sm:pb-4">
           <Link href="/login">
-            <Button className="w-full h-12 sm:h-14 bg-purple-600 hover:bg-purple-700 text-white text-sm sm:text-base font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden group">
+            <Button className="w-full h-12 sm:h-14 bg-primary hover:bg-red-700 text-white text-sm sm:text-base font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
               <span className="relative z-10 tracking-wide">LOG IN</span>
             </Button>
@@ -105,34 +107,52 @@ export default function Welcome() {
           <Link href="/register">
             <Button 
               variant="outline" 
-              className="w-full h-12 sm:h-14 border-2 border-purple-300 hover:border-purple-400 text-purple-700 hover:text-purple-800 text-sm sm:text-base font-bold rounded-xl sm:rounded-2xl bg-white hover:bg-purple-50 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden group"
+              className="w-full h-12 sm:h-14 border-2 border-red-400 dark:border-red-500 hover:border-red-500 dark:hover:border-red-400 text-red-700 dark:text-red-300 hover:text-red-800 dark:hover:text-red-200 text-sm sm:text-base font-bold rounded-xl sm:rounded-2xl bg-white dark:bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden group"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-50/30 to-transparent dark:from-red-500/10 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
               <span className="relative z-10 tracking-wide text-center leading-tight">OPEN A DIGITAL ACCOUNT</span>
             </Button>
           </Link>
           
           {/* Bottom indicator */}
           <div className="flex justify-center pt-2 sm:pt-3">
-            <div className="w-12 h-1 sm:w-16 sm:h-1.5 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 rounded-full shadow-md"></div>
+            <div className="w-12 h-1 sm:w-16 sm:h-1.5 bg-gradient-to-r from-red-500 via-pink-500 to-blue-500 rounded-full shadow-md"></div>
+          </div>
+
+          {/* Legal Links */}
+          <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap text-xs sm:text-sm text-primary dark:text-red-400 pt-3">
+            <Link href="/about" className="hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-1">
+              <Info className="w-3 h-3" />
+              About
+            </Link>
+            <span className="text-red-400 dark:text-red-500">•</span>
+            <Link href="/legal/privacy" className="hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-1">
+              <Shield className="w-3 h-3" />
+              Privacy
+            </Link>
+            <span className="text-red-400 dark:text-red-500">•</span>
+            <Link href="/aml-policy" className="hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-1">
+              <Shield className="w-3 h-3" />
+              AML
+            </Link>
           </div>
         </div>
       </div>
 
       {/* Desktop Layout (lg and above) - simplified and responsive */}
-      <div className="hidden lg:flex min-h-screen relative z-10 bg-white">
+      <div className="hidden lg:flex min-h-screen relative z-10 bg-white dark:bg-background">
         {/* Elegant Left Panel - Content */}
         <div className="flex-1 flex flex-col justify-center px-16 xl:px-24 2xl:px-40 relative">
           {/* Decorative Elements */}
-          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-2xl"></div>
-          <div className="absolute bottom-32 left-20 w-24 h-24 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 rounded-full blur-xl"></div>
+          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-red-500/10 to-pink-500/10 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-32 left-20 w-24 h-24 bg-gradient-to-tr from-blue-500/10 to-red-500/10 rounded-full blur-xl"></div>
           
           <div className="max-w-2xl relative z-10">
             {/* Optimized Typography */}
             <div className="mb-12">
               <div className="mb-4">
-                <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-300 text-xs font-semibold rounded-full border border-purple-200/50 dark:border-purple-400/30 backdrop-blur-sm">
-                  ✨ Next Generation Banking
+                <span className="inline-block px-4 py-1 bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30 text-red-700 dark:text-red-300 text-xs font-semibold rounded-full border border-red-200/50 dark:border-red-400/30 backdrop-blur-sm">
+                  ✨ Next Generation Wallet
                 </span>
               </div>
               
@@ -140,18 +160,21 @@ export default function Welcome() {
                 Digital account
               </h1>
               <h2 className="text-gray-900 dark:text-white text-3xl xl:text-4xl 2xl:text-5xl font-black mb-6 leading-tight tracking-tight">
-                fully <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">online</span>
+                fully <span className="bg-gradient-to-r from-primary via-pink-500 to-blue-500 bg-clip-text text-transparent">online</span>
               </h2>
               <p className="text-gray-600 dark:text-gray-300 text-sm xl:text-base leading-relaxed font-medium max-w-md">
-                Experience the <span className="font-semibold text-purple-600 dark:text-purple-400">future of banking</span> with our cutting-edge digital platform. 
+                Experience the <span className="font-semibold text-primary dark:text-red-400">future of wallet</span> with our cutting-edge digital platform. 
                 Manage your finances with complete <span className="font-semibold text-blue-600 dark:text-blue-400">freedom</span> and <span className="font-semibold text-green-600 dark:text-green-400">security</span>.
+              </p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mt-3">
+                We support receiving payments via credit cards
               </p>
             </div>
 
             {/* Compact Action Buttons */}
             <div className="space-y-12 mb-12">
               <Link href="/login">
-                <Button className="group w-full max-w-xs h-11 bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white text-sm font-semibold rounded-xl shadow-lg hover:shadow-purple-500/30 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 border border-purple-500/30 backdrop-blur-sm relative overflow-hidden">
+                <Button className="group w-full max-w-xs h-11 bg-gradient-to-r from-primary via-red-700 to-red-800 hover:from-red-700 hover:via-red-800 hover:to-red-900 text-white text-sm font-semibold rounded-xl shadow-lg hover:shadow-red-500/30 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 border border-red-500/30 backdrop-blur-sm relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="flex items-center justify-center space-x-2 relative z-10">
                     <span className="tracking-wide">LOG IN</span>
@@ -163,9 +186,9 @@ export default function Welcome() {
               <Link href="/register">
                 <Button 
                   variant="outline" 
-                  className="group w-full max-w-xs h-11 border-2 border-purple-300/70 dark:border-purple-400/70 text-purple-700 dark:text-purple-300 text-sm font-semibold rounded-xl bg-white/95 dark:bg-gray-800/95 hover:bg-gradient-to-r hover:from-white hover:to-purple-50 dark:hover:from-gray-700 dark:hover:to-purple-900/50 shadow-lg hover:shadow-purple-500/20 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 backdrop-blur-sm relative overflow-hidden"
+                  className="group w-full max-w-xs h-11 border-2 border-red-400 dark:border-red-500 text-red-700 dark:text-red-300 text-sm font-semibold rounded-xl bg-white/95 dark:bg-transparent hover:bg-gradient-to-r hover:from-white hover:to-red-50 dark:hover:from-red-900/20 dark:hover:to-red-800/20 shadow-lg hover:shadow-red-500/20 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 backdrop-blur-sm relative overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-100/20 via-pink-100/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-100/20 via-pink-100/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative z-10 tracking-wide">OPEN A DIGITAL ACCOUNT</span>
                 </Button>
               </Link>
@@ -174,13 +197,13 @@ export default function Welcome() {
             {/* Compact Features Grid */}
             <div className="grid grid-cols-3 gap-6">
               <div className="group text-center transform hover:scale-105 transition-all duration-300">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center mx-auto mb-3 backdrop-blur-sm border border-purple-200/40 group-hover:border-purple-300/60 group-hover:shadow-md group-hover:shadow-purple-500/20 transition-all duration-300">
-                  <CreditCard className="w-6 h-6 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
+                <div className="w-12 h-12 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-xl flex items-center justify-center mx-auto mb-3 backdrop-blur-sm border border-red-200/40 group-hover:border-red-300/60 group-hover:shadow-md group-hover:shadow-red-500/20 transition-all duration-300">
+                  <CreditCard className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <div className="text-xs font-semibold text-gray-700 dark:text-gray-300 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">Instant Cards</div>
+                <div className="text-xs font-semibold text-gray-700 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-red-400 transition-colors duration-300">Instant Cards</div>
               </div>
               <div className="group text-center transform hover:scale-105 transition-all duration-300">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-3 backdrop-blur-sm border border-blue-200/40 group-hover:border-blue-300/60 group-hover:shadow-md group-hover:shadow-blue-500/20 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-red-500/20 rounded-xl flex items-center justify-center mx-auto mb-3 backdrop-blur-sm border border-blue-200/40 group-hover:border-blue-300/60 group-hover:shadow-md group-hover:shadow-blue-500/20 transition-all duration-300">
                   <Smartphone className="w-6 h-6 text-blue-600 group-hover:scale-110 transition-transform duration-300" />
                 </div>
                 <div className="text-xs font-semibold text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Mobile First</div>
@@ -204,7 +227,7 @@ export default function Welcome() {
                 <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Fast</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                 <span className="text-xs font-medium text-gray-600 dark:text-gray-400">Global</span>
               </div>
             </div>
@@ -214,8 +237,8 @@ export default function Welcome() {
         {/* Ultra-Premium Right Panel - Visual Showcase */}
         <div className="flex-1 flex items-center justify-center relative overflow-hidden">
           {/* Floating Elements Background */}
-          <div className="absolute top-10 right-10 w-40 h-40 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute top-10 right-10 w-40 h-40 bg-gradient-to-br from-red-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-br from-blue-400/10 to-red-400/10 rounded-full blur-2xl animate-pulse"></div>
           
           {/* Showcase Container */}
           <div className="relative transform hover:scale-[1.02] transition-all duration-700">
@@ -224,9 +247,9 @@ export default function Welcome() {
             <div className="absolute -top-12 -left-24 lg:-left-28 xl:-left-32 transform rotate-12 z-40 hover:rotate-6 hover:scale-105 transition-all duration-500 group">
               <div className="w-64 h-40 lg:w-72 lg:h-44 xl:w-80 xl:h-48 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 rounded-2xl shadow-2xl p-4 lg:p-5 xl:p-6 backdrop-blur-sm border border-slate-600/50 relative overflow-hidden">
                 {/* Card background effects */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/15 to-slate-900/90 rounded-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-red-600/15 to-slate-900/90 rounded-2xl"></div>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-white/10 to-transparent rounded-full blur-2xl"></div>
-                <div className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-full blur-xl"></div>
+                <div className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-tr from-red-500/10 to-transparent rounded-full blur-xl"></div>
                 
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   {/* Card header */}
@@ -260,10 +283,28 @@ export default function Welcome() {
               </div>
             </div>
 
+            {/* Footer with Legal Links */}
+            <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-6 z-20">
+              <Link href="/about" className="text-sm text-primary dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-2 group">
+                <Info className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <span>About</span>
+              </Link>
+              <div className="w-1 h-1 rounded-full bg-red-400 dark:bg-red-500"></div>
+              <Link href="/legal/privacy" className="text-sm text-primary dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-2 group">
+                <Shield className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <span>Privacy Policy</span>
+              </Link>
+              <div className="w-1 h-1 rounded-full bg-red-400 dark:bg-red-500"></div>
+              <Link href="/aml-policy" className="text-sm text-primary dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-2 group">
+                <Shield className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <span>AML Policy</span>
+              </Link>
+            </div>
+
             {/* Compact Secondary Card */}
             <div className="absolute -bottom-12 -right-20 transform -rotate-6 z-30 opacity-40 hover:opacity-70 transition-all duration-500">
               <div className="w-56 h-36 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-xl shadow-xl p-4 backdrop-blur-sm border border-blue-600/30 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-blue-900/80 rounded-xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-red-500/10 to-blue-900/80 rounded-xl"></div>
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   <div className="text-white/80 font-bold text-sm">VIRTUAL</div>
                   <div className="w-8 h-5 bg-gradient-to-br from-blue-200 to-blue-400 rounded-sm"></div>
@@ -279,14 +320,14 @@ export default function Welcome() {
               <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-24 h-4 bg-gray-900 dark:bg-gray-300 rounded-full z-50"></div>
               
               {/* Phone Screen Content */}
-              <div className="p-6 lg:p-8 h-full bg-gradient-to-br from-purple-50/95 via-pink-50/95 to-blue-50/95 dark:from-gray-700/95 dark:via-purple-800/95 dark:to-blue-800/95 mt-6">
+              <div className="p-6 lg:p-8 h-full bg-gradient-to-br from-red-50/95 via-pink-50/95 to-blue-50/95 dark:from-gray-700/95 dark:via-red-800/95 dark:to-blue-800/95 mt-6">
                 <div className="space-y-6 lg:space-y-8 flex flex-col items-center justify-center h-full">
                   
                   {/* Optimized Avatar */}
                   <div className="relative group-hover:scale-110 transition-transform duration-500">
-                    <div className="w-24 h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-full shadow-2xl flex items-center justify-center border-3 border-white/50 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-400/50 to-purple-500/50 rounded-full animate-pulse"></div>
-                      <div className="w-20 h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center relative z-10">
+                    <div className="w-24 h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 bg-gradient-to-br from-blue-500 via-red-500 to-pink-500 rounded-full shadow-2xl flex items-center justify-center border-3 border-white/50 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-400/50 to-red-500/50 rounded-full animate-pulse"></div>
+                      <div className="w-20 h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 bg-gradient-to-br from-blue-400 to-red-500 rounded-full flex items-center justify-center relative z-10">
                         <span className="text-2xl lg:text-3xl xl:text-4xl font-black text-white">M</span>
                       </div>
                     </div>
@@ -316,7 +357,7 @@ export default function Welcome() {
                       <div className="w-4 h-4 lg:w-5 lg:h-5 bg-blue-500 rounded-full animate-pulse group-hover/indicator:animate-bounce shadow-lg"></div>
                     </div>
                     <div className="bg-white/80 dark:bg-gray-700/80 rounded-xl p-3 lg:p-4 shadow-xl border border-white/60 dark:border-gray-600/60 transform hover:scale-110 transition-all duration-300 group/indicator">
-                      <div className="w-4 h-4 lg:w-5 lg:h-5 bg-purple-500 rounded-full animate-pulse group-hover/indicator:animate-bounce shadow-lg"></div>
+                      <div className="w-4 h-4 lg:w-5 lg:h-5 bg-red-500 rounded-full animate-pulse group-hover/indicator:animate-bounce shadow-lg"></div>
                     </div>
                   </div>
                 </div>

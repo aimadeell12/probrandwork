@@ -9,12 +9,19 @@ export function setupGoogleAuth(app: Express) {
     console.warn("Google OAuth credentials not configured. Google authentication will be disabled.");
     return;
   }
+  
+  console.log("✅ Google OAuth credentials found. Setting up Google authentication...");
+  console.log(`📍 Callback URL: ${process.env.NODE_ENV === 'production' ? 'https://brandsoftapps.com/api/auth/google/callback' : 'http://localhost:5000/api/auth/google/callback'}`);
 
   // Configure Google OAuth strategy
+  const callbackURL = process.env.NODE_ENV === 'production' 
+    ? 'https://brandsoftapps.com/api/auth/google/callback'
+    : 'http://localhost:5000/api/auth/google/callback';
+    
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://paydota.replit.app/api/auth/google/callback"
+    callbackURL: callbackURL
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       // Check if user already exists with this Google ID

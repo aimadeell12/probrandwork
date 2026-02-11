@@ -83,20 +83,20 @@ export default function Withdraw() {
   const quickAmounts = [10, 25, 50, 100, 250, Math.min(500, balance?.balance || 0)].filter(amount => amount <= (balance?.balance || 0));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-red-900 dark:to-blue-900 relative overflow-hidden">
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-red-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
       
       {/* Header */}
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-purple-200/30 dark:border-purple-700/30 p-4 relative z-10">
-        <div className="flex items-center space-x-4 space-x-reverse">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-red-200/30 dark:border-red-700/30 p-4 lg:p-6 relative z-10">
+        <div className="max-w-4xl mx-auto flex items-center space-x-4 space-x-reverse">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/dashboard")}
-            className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20"
+            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -106,10 +106,10 @@ export default function Withdraw() {
         </div>
       </div>
 
-      <div className="p-4 space-y-6 relative z-10 max-w-md mx-auto">
+      <div className="p-4 lg:p-6 space-y-6 relative z-10 max-w-md lg:max-w-4xl mx-auto">
         
         {/* Balance Display */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
           <CardContent className="p-4 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">{t("totalBalance")}</p>
             <p className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -119,11 +119,11 @@ export default function Withdraw() {
         </Card>
 
         {/* Amount Input */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
               <div className="p-1 bg-red-100 dark:bg-red-900/30 rounded-lg">
-                <DollarSign className="h-5 w-5 text-red-600" />
+                <DollarSign className="h-5 w-5 text-primary" />
               </div>
               {t("withdrawAmount")}
             </CardTitle>
@@ -138,7 +138,7 @@ export default function Withdraw() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 max={balance?.balance || 0}
-                className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-purple-200/30 focus:border-purple-500 rounded-2xl"
+                className="text-2xl font-bold text-center bg-white/80 dark:bg-gray-700/80 border-red-200/30 focus:border-red-500 rounded-2xl"
               />
             </div>
 
@@ -150,7 +150,7 @@ export default function Withdraw() {
                     key={quickAmount}
                     variant="outline"
                     onClick={() => setAmount(quickAmount.toString())}
-                    className="bg-white/80 dark:bg-gray-700/80 border-purple-200/30 hover:bg-purple-50 hover:border-purple-400"
+                    className="bg-white/80 dark:bg-gray-700/80 border-red-200/30 hover:bg-red-50 hover:border-red-400"
                   >
                     ${quickAmount}
                   </Button>
@@ -161,7 +161,7 @@ export default function Withdraw() {
         </Card>
 
         {/* Withdrawal Methods */}
-        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl">
+        <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl">
           <CardHeader>
             <CardTitle className="text-lg text-gray-900 dark:text-white">{t("withdrawMethod")}</CardTitle>
           </CardHeader>
@@ -169,8 +169,8 @@ export default function Withdraw() {
             <div 
               className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                 selectedMethod === "card" 
-                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
-                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+                  ? "border-red-500 bg-red-50 dark:bg-red-900/20" 
+                  : "border-red-200/30 bg-white/50 dark:bg-gray-700/50"
               }`}
               onClick={() => setSelectedMethod("card")}
             >
@@ -188,8 +188,8 @@ export default function Withdraw() {
             <div 
               className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                 selectedMethod === "bank" 
-                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20" 
-                  : "border-purple-200/30 bg-white/50 dark:bg-gray-700/50"
+                  ? "border-red-500 bg-red-50 dark:bg-red-900/20" 
+                  : "border-red-200/30 bg-white/50 dark:bg-gray-700/50"
               }`}
               onClick={() => setSelectedMethod("bank")}
             >
@@ -210,7 +210,7 @@ export default function Withdraw() {
         <Button
           onClick={handleWithdraw}
           disabled={withdrawMutation.isPending || !amount || parseFloat(amount) > (balance?.balance || 0)}
-          className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
+          className="w-full bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
         >
           <Minus className="h-5 w-5 mr-2" />
           {withdrawMutation.isPending ? t("processingWithdraw") : `${t("withdrawButton")} $${amount || "0.00"}`}

@@ -57,11 +57,11 @@ export default function PriorityCards() {
       id: "diamond",
       name: "Diamond VIP",
       price: 99,
-      color: "from-blue-400 to-purple-600",
+      color: "from-blue-400 to-red-600",
       icon: Shield,
       features: [
         "Everything in Platinum",
-        "Private Banking Services",
+        "Private wallet Services",
         "Custom Card Design",
         "Personal Finance Advisor",
         "Exclusive Events Access",
@@ -85,11 +85,11 @@ export default function PriorityCards() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-gray-900 dark:via-purple-900 dark:to-purple-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-red-100 dark:from-gray-900 dark:via-red-900 dark:to-red-900 relative overflow-hidden">
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-red-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-red-200/20 to-pink-200/20 rounded-full blur-3xl"></div>
       
       <div className="px-4 sm:px-6 lg:px-8 py-6 pb-20 relative z-10">
         
@@ -99,7 +99,7 @@ export default function PriorityCards() {
             variant="ghost"
             size="sm"
             onClick={() => setLocation("/services")}
-            className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/30"
+            className="p-2 hover:bg-red-100 dark:hover:bg-red-900/30"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
@@ -109,11 +109,11 @@ export default function PriorityCards() {
         </div>
 
         {/* Hero Section */}
-        <Card className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white mb-8 border-0">
+        <Card className="bg-gradient-to-r from-primary to-indigo-600 text-white mb-8 border-0">
           <CardContent className="p-6 text-center">
             <Crown className="h-12 w-12 mx-auto mb-4 text-yellow-300" />
-            <h2 className="text-2xl font-bold mb-2">Unlock Premium Banking</h2>
-            <p className="text-purple-100">Experience elevated banking with priority support, exclusive benefits, and enhanced limits.</p>
+            <h2 className="text-2xl font-bold mb-2">Unlock Premium wallet</h2>
+            <p className="text-red-100">Experience elevated wallet with priority support, exclusive benefits, and enhanced limits.</p>
           </CardContent>
         </Card>
 
@@ -125,11 +125,11 @@ export default function PriorityCards() {
               <Card 
                 key={plan.id} 
                 className={`bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-white/30 relative ${
-                  plan.popular ? 'ring-2 ring-purple-500' : ''
+                  plan.popular ? 'ring-2 ring-red-500' : ''
                 }`}
               >
                 {plan.popular && (
-                  <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-purple-600">
+                  <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-primary">
                     Most Popular
                   </Badge>
                 )}
@@ -170,7 +170,7 @@ export default function PriorityCards() {
                     disabled={selectedPlan === plan.id}
                     className={`w-full ${
                       plan.popular 
-                        ? 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'
+                        ? 'bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800'
                         : 'bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800'
                     }`}
                   >
@@ -206,8 +206,8 @@ export default function PriorityCards() {
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Globe className="h-6 w-6 text-purple-600" />
+                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Globe className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Global Access</h3>
                 <p className="text-xs text-gray-600 dark:text-gray-400">Worldwide benefits</p>

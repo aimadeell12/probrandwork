@@ -9,6 +9,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { supportApi } from "@/lib/api";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/hooks/useLanguage";
 import { 
   MessageCircle, 
   Phone, 
@@ -27,6 +28,7 @@ import {
 } from "lucide-react";
 
 export default function Support() {
+  const { t } = useLanguage();
   const [showTicketForm, setShowTicketForm] = useState(false);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -43,8 +45,8 @@ export default function Support() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/support/tickets"] });
       toast({
-        title: "تم إنشاء التذكرة",
-        description: "سيتم الرد عليك في أقرب وقت ممكن",
+        title: t('ticketCreated'),
+        description: t('ticketCreatedDesc'),
       });
       setSubject("");
       setMessage("");
@@ -52,8 +54,8 @@ export default function Support() {
     },
     onError: () => {
       toast({
-        title: "خطأ",
-        description: "فشل في إنشاء تذكرة الدعم",
+        title: t('ticketError'),
+        description: t('ticketErrorDesc'),
         variant: "destructive",
       });
     },
@@ -70,87 +72,69 @@ export default function Support() {
   };
 
   const faqItems = [
-    {
-      question: "كيف يمكنني إنشاء بطاقة جديدة؟",
-      answer: "يمكنك إنشاء بطاقة جديدة من خلال لوحة التحكم بالضغط على زر \"إنشاء بطاقة جديدة\" واتباع الخطوات البسيطة."
-    },
-    {
-      question: "ما هي حدود الإنفاق اليومية؟",
-      answer: "الحد الافتراضي للإنفاق اليومي هو $5,000 ويمكن تعديله حسب احتياجاتك من إعدادات البطاقة."
-    },
-    {
-      question: "كيف يمكنني تجميد بطاقتي؟",
-      answer: "اذهب إلى صفحة البطاقات، اختر البطاقة المطلوبة، ثم اضغط على \"تجميد\" لإيقاف جميع المعاملات فوراً."
-    },
-    {
-      question: "هل يمكنني استخدام البطاقة دولياً؟",
-      answer: "نعم، جميع البطاقات مفعلة للاستخدام الدولي افتراضياً مع إمكانية تقييد الاستخدام حسب المنطقة من الإعدادات."
-    },
-    {
-      question: "ما هي رسوم المعاملات؟",
-      answer: "لا توجد رسوم على المعاملات المحلية، ورسوم 1.5% على المعاملات الدولية، مع إعفاء أول 10 معاملات شهرياً."
-    },
-    {
-      question: "كيف يمكنني إضافة رصيد للبطاقة؟",
-      answer: "يمكنك إضافة رصيد من خلال التحويل البنكي، بطاقة ائتمان أخرى، أو من خلال خدمات الدفع الإلكتروني المتاحة."
-    }
+    { question: t('faqQuestion1'), answer: t('faqAnswer1') },
+    { question: t('faqQuestion2'), answer: t('faqAnswer2') },
+    { question: t('faqQuestion3'), answer: t('faqAnswer3') },
+    { question: t('faqQuestion4'), answer: t('faqAnswer4') },
+    { question: t('faqQuestion5'), answer: t('faqAnswer5') },
+    { question: t('faqQuestion6'), answer: t('faqAnswer6') }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-red-900 dark:to-blue-900 relative overflow-hidden">
       
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-red-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-72 sm:h-72 lg:w-96 lg:h-96 bg-gradient-to-tr from-blue-200/20 to-red-200/20 rounded-full blur-3xl"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">مركز الدعم</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">نحن هنا لمساعدتك في أي وقت</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t('supportCenter')}</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300">{t('supportSubtitle')}</p>
         </div>
 
         {/* Support Options */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl hover:shadow-2xl transition-all text-center">
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl hover:shadow-2xl transition-all text-center">
             <CardContent className="p-8">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900/40 dark:to-purple-800/40 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="h-8 w-8 text-purple-600 dark:text-purple-300" />
+              <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/40 dark:to-red-800/40 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <MessageCircle className="h-8 w-8 text-primary dark:text-red-300" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">محادثة مباشرة</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">تحدث مع فريق الدعم فوراً</p>
-              <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-2xl">
-                بدء المحادثة
+              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{t('liveChat')}</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{t('liveChatDesc')}</p>
+              <Button className="w-full bg-gradient-to-r from-primary to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-2xl">
+                {t('startChat')}
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-purple-200/30 shadow-xl hover:shadow-2xl transition-all text-center">
+          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-red-200/30 shadow-xl hover:shadow-2xl transition-all text-center">
             <CardContent className="p-8">
               <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/40 dark:to-green-800/40 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Phone className="h-8 w-8 text-green-600 dark:text-green-300" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">اتصال هاتفي</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">متاح 24/7 لحالات الطوارئ</p>
+              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{t('phoneCall')}</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{t('phoneCallDesc')}</p>
               <Button variant="outline" className="w-full">
-                اتصل بنا
+                {t('callUs')}
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="banking-shadow hover:banking-shadow-lg transition-all text-center">
+          <Card className="wallet-shadow hover:wallet-shadow-lg transition-all text-center">
             <CardContent className="p-8">
               <div className="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Mail className="h-8 w-8 text-accent" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">تذكرة دعم</h3>
-              <p className="text-muted-foreground text-sm mb-4">للاستفسارات المفصلة</p>
+              <h3 className="text-lg font-semibold mb-2">{t('supportTicket')}</h3>
+              <p className="text-muted-foreground text-sm mb-4">{t('supportTicketDesc')}</p>
               <Button 
                 variant="outline" 
                 className="w-full"
                 onClick={() => setShowTicketForm(!showTicketForm)}
               >
-                إنشاء تذكرة
+                {t('createTicket')}
               </Button>
             </CardContent>
           </Card>
@@ -158,27 +142,27 @@ export default function Support() {
 
         {/* Ticket Form */}
         {showTicketForm && (
-          <Card className="banking-shadow mb-8">
+          <Card className="wallet-shadow mb-8">
             <CardHeader>
-              <CardTitle>إنشاء تذكرة دعم جديدة</CardTitle>
+              <CardTitle>{t('newSupportTicket')}</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmitTicket} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">موضوع التذكرة</label>
+                  <label className="block text-sm font-medium text-foreground mb-2">{t('ticketSubject')}</label>
                   <Input
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    placeholder="اكتب موضوع استفسارك"
+                    placeholder={t('ticketSubjectPlaceholder')}
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">تفاصيل المشكلة</label>
+                  <label className="block text-sm font-medium text-foreground mb-2">{t('problemDetails')}</label>
                   <Textarea
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="اشرح مشكلتك بالتفصيل..."
+                    placeholder={t('problemDetailsPlaceholder')}
                     rows={5}
                     required
                   />
@@ -188,14 +172,14 @@ export default function Support() {
                     type="submit" 
                     disabled={createTicketMutation.isPending}
                   >
-                    {createTicketMutation.isPending ? "جاري الإرسال..." : "إرسال التذكرة"}
+                    {createTicketMutation.isPending ? t('sendingTicket') : t('sendTicket')}
                   </Button>
                   <Button 
                     type="button" 
                     variant="outline"
                     onClick={() => setShowTicketForm(false)}
                   >
-                    إلغاء
+                    {t('cancel')}
                   </Button>
                 </div>
               </form>
@@ -206,9 +190,9 @@ export default function Support() {
         {/* Main Content */}
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <Card className="banking-shadow">
+            <Card className="wallet-shadow">
               <CardHeader>
-                <CardTitle>الأسئلة الشائعة</CardTitle>
+                <CardTitle>{t('faq')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -245,47 +229,47 @@ export default function Support() {
 
           <div className="space-y-6">
             {/* Contact Info */}
-            <Card className="banking-shadow">
+            <Card className="wallet-shadow">
               <CardHeader>
-                <CardTitle>معلومات الاتصال</CardTitle>
+                <CardTitle>{t('contactInfo')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3 space-x-reverse">
                   <Phone className="text-primary h-5 w-5" />
                   <div>
-                    <p className="font-medium text-foreground">الهاتف</p>
-                    <p className="text-sm text-muted-foreground">+966 11 123 4567</p>
+                    <p className="font-medium text-foreground">{t('phoneLabel')}</p>
+                    <p className="text-sm text-muted-foreground">+19134278757</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 space-x-reverse">
                   <Mail className="text-primary h-5 w-5" />
                   <div>
-                    <p className="font-medium text-foreground">البريد الإلكتروني</p>
-                    <p className="text-sm text-muted-foreground">support@cardplatform.com</p>
+                    <p className="font-medium text-foreground">{t('emailLabel')}</p>
+                    <p className="text-sm text-muted-foreground">support@appsfondation.com</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 space-x-reverse">
                   <Clock className="text-primary h-5 w-5" />
                   <div>
-                    <p className="font-medium text-foreground">ساعات العمل</p>
-                    <p className="text-sm text-muted-foreground">24/7 طوال أيام الأسبوع</p>
+                    <p className="font-medium text-foreground">{t('workingHours')}</p>
+                    <p className="text-sm text-muted-foreground">{t('workingHoursValue')}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* Resources */}
-            <Card className="banking-shadow">
+            <Card className="wallet-shadow">
               <CardHeader>
-                <CardTitle>مصادر مفيدة</CardTitle>
+                <CardTitle>{t('usefulResources')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <a href="#" className="block p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
                   <div className="flex items-center space-x-3 space-x-reverse">
                     <Book className="text-primary h-5 w-5" />
                     <div>
-                      <p className="font-medium text-foreground">دليل المستخدم</p>
-                      <p className="text-xs text-muted-foreground">تعلم كيفية استخدام المنصة</p>
+                      <p className="font-medium text-foreground">{t('userGuide')}</p>
+                      <p className="text-xs text-muted-foreground">{t('userGuideDesc')}</p>
                     </div>
                   </div>
                 </a>
@@ -294,8 +278,8 @@ export default function Support() {
                   <div className="flex items-center space-x-3 space-x-reverse">
                     <Video className="text-primary h-5 w-5" />
                     <div>
-                      <p className="font-medium text-foreground">فيديوهات تعليمية</p>
-                      <p className="text-xs text-muted-foreground">شروحات مرئية شاملة</p>
+                      <p className="font-medium text-foreground">{t('videoTutorials')}</p>
+                      <p className="text-xs text-muted-foreground">{t('videoTutorialsDesc')}</p>
                     </div>
                   </div>
                 </a>
@@ -304,8 +288,8 @@ export default function Support() {
                   <div className="flex items-center space-x-3 space-x-reverse">
                     <Shield className="text-primary h-5 w-5" />
                     <div>
-                      <p className="font-medium text-foreground">الأمان والخصوصية</p>
-                      <p className="text-xs text-muted-foreground">معلومات حماية البيانات</p>
+                      <p className="font-medium text-foreground">{t('securityPrivacy')}</p>
+                      <p className="text-xs text-muted-foreground">{t('securityPrivacyDesc')}</p>
                     </div>
                   </div>
                 </a>
@@ -313,30 +297,30 @@ export default function Support() {
             </Card>
 
             {/* System Status */}
-            <Card className="banking-shadow">
+            <Card className="wallet-shadow">
               <CardHeader>
-                <CardTitle>حالة النظام</CardTitle>
+                <CardTitle>{t('systemStatus')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">منصة البطاقات</span>
+                  <span className="text-sm text-muted-foreground">{t('cardPlatform')}</span>
                   <Badge className="status-active">
                     <CheckCircle className="h-3 w-3 ml-1" />
-                    تعمل بشكل طبيعي
+                    {t('workingNormally')}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">معالجة المدفوعات</span>
+                  <span className="text-sm text-muted-foreground">{t('paymentProcessing')}</span>
                   <Badge className="status-active">
                     <CheckCircle className="h-3 w-3 ml-1" />
-                    تعمل بشكل طبيعي
+                    {t('workingNormally')}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">API Lithic</span>
+                  <span className="text-sm text-muted-foreground">{t('apiLithic')}</span>
                   <Badge className="status-active">
                     <CheckCircle className="h-3 w-3 ml-1" />
-                    متاح
+                    {t('available')}
                   </Badge>
                 </div>
               </CardContent>

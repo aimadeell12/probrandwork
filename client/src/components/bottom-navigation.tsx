@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, CreditCard, BarChart3, FileText, User } from "lucide-react";
+import { Home, CreditCard, BarChart3, FileText, User, Link2 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export default function BottomNavigation() {
@@ -9,12 +9,13 @@ export default function BottomNavigation() {
   const navItems = [
     { path: "/dashboard", label: t("home"), icon: Home },
     { path: "/cards", label: t("cards"), icon: CreditCard },
+    { path: "/payment-links", label: t("payments"), icon: Link2 },
     { path: "/transactions", label: t("transactions"), icon: BarChart3 },
     { path: "/account", label: t("account"), icon: User },
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bottom-nav-blur z-50 bottom-nav-safe">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 bottom-nav-blur z-50 bottom-nav-safe">
       <div className="flex justify-around py-2 px-4">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -26,7 +27,7 @@ export default function BottomNavigation() {
                 <div className={`p-2 rounded-xl nav-icon-container ${isActive ? 'active' : ''}`}>
                   <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`} />
                 </div>
-                <span className={`text-[10px] font-medium transition-all duration-300 ${isActive ? 'text-purple-600 dark:text-purple-400 font-semibold' : 'text-gray-500 dark:text-gray-400'}`}>
+                <span className={`text-[10px] font-medium transition-all duration-300 ${isActive ? 'text-primary dark:text-red-400 font-semibold' : 'text-gray-500 dark:text-gray-400'}`}>
                   {item.label}
                 </span>
               </div>
