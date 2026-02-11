@@ -1,7 +1,7 @@
-# LM WORK MA - Digital Banking Platform
+# LM WORK PAY - Digital Banking Platform
 
 ## Overview
-LM WORK MA is a comprehensive digital banking platform designed to offer secure banking services, card management, and financial transactions. It provides a full-stack solution with both user-facing features and administrative capabilities, aiming to simplify digital finance for its users. The platform supports virtual and physical cards, various payment processing methods, and a robust notification system, all within a modern, user-friendly interface.
+LM WORK PAY is a comprehensive digital banking platform designed to offer secure banking services, card management, and financial transactions. It provides a full-stack solution with both user-facing features and administrative capabilities, aiming to simplify digital finance for its users. The platform supports virtual and physical cards, various payment processing methods, and a robust notification system, all within a modern, user-friendly interface.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.

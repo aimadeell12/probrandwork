@@ -9,7 +9,7 @@ export function AppLoadingSkeleton() {
           <div className="relative">
             <h1 className="text-4xl font-bold mb-2">
               <span className="text-primary">LM WORK</span>
-              <span className="text-gray-800 dark:text-white"> MA</span>
+              <span className="text-gray-800 dark:text-white"> PAY</span>
             </h1>
             <div className="absolute -top-2 -right-2 w-3 h-3 bg-primary rounded-full animate-ping"></div>
           </div>

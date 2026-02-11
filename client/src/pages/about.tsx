@@ -55,7 +55,7 @@ export default function About() {
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            About <span className="text-primary">LM WORK MA</span>
+            About <span className="text-primary">LM WORK PAY</span>
           </h1>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function About() {
               <Heart className="h-8 w-8 text-white" />
             </div>
             <CardTitle className="text-gray-900 dark:text-white">
-              LM WORK MA v2.0.21
+              LM WORK PAY v2.0.21
             </CardTitle>
             <p className="text-gray-600 dark:text-gray-400 text-sm">
               Your trusted digital wallet companion

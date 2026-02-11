@@ -1,6 +1,6 @@
 {
-  "appId": "com.lmwork-ma.banking",
-  "appName": "LM WORK MA",
+  "appId": "com.lmwork-pay.banking",
+  "appName": "LM WORK PAY",
   "webDir": "dist/public",
   "server": {
     "url": "https://probrandify.org",
