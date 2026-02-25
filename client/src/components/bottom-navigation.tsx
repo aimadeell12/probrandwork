@@ -1,14 +1,14 @@
 import { Link, useLocation } from "wouter";
-import { Home, CreditCard, BarChart3, FileText, User, Link2 } from "lucide-react";
+import { Home, TrendingUp, BarChart3, FileText, User, Link2 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export default function BottomNavigation() {
   const [location] = useLocation();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const navItems = [
     { path: "/dashboard", label: t("home"), icon: Home },
-    { path: "/cards", label: t("cards"), icon: CreditCard },
+    { path: "/cards", label: language === 'ar' ? 'استثمار' : 'Invest', icon: TrendingUp },
     { path: "/payment-links", label: t("payments"), icon: Link2 },
     { path: "/transactions", label: t("transactions"), icon: BarChart3 },
     { path: "/account", label: t("account"), icon: User },

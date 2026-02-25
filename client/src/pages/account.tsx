@@ -26,7 +26,8 @@ import {
   Crown,
   FileCheck,
   MessageCircle,
-  Trash2
+  Trash2,
+  TrendingUp
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -42,7 +43,7 @@ import { Input } from "@/components/ui/input";
 
 export default function Account() {
   const { user } = useAuth() as { user: any };
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
@@ -276,10 +277,10 @@ export default function Account() {
             >
               <div className="flex items-center space-x-3">
                 <div className="rounded-lg p-1.5">
-                  <CreditCard className="h-5 w-5 text-red-600 dark:text-red-400" />
+                  <TrendingUp className="h-5 w-5 text-red-600 dark:text-red-400" />
                 </div>
                 <span className="text-gray-900 dark:text-white font-medium text-sm">
-                  Card Purchase Record
+                  {language === 'ar' ? 'نظام الاستثمار' : 'Investment System'}
                 </span>
               </div>
               <ChevronRight className="h-4 w-4 text-gray-400" />
