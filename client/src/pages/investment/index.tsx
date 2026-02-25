@@ -1,14 +1,61 @@
-import { TrendingUp, Clock, ArrowRight, Wallet, History, Info } from "lucide-react";
+import { TrendingUp, Clock, ArrowRight, Wallet, History, Info, Loader2 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
+import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 export default function InvestmentSystem() {
   const { t, language } = useLanguage();
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [isInvesting, setIsInvesting] = useState(false);
 
   const isArabic = language === 'ar';
+  const MIN_INVESTMENT = 100;
+
+  const handleInvest = async () => {
+    if (!user) {
+      setLocation("/login");
+      return;
+    }
+
+    const balance = parseFloat(user.walletBalance || "0");
+    if (balance < MIN_INVESTMENT) {
+      toast({
+        title: isArabic ? "رصيد غير كافٍ" : "Insufficient Balance",
+        description: isArabic 
+          ? `تحتاج إلى $${MIN_INVESTMENT} على الأقل لبدء الاستثمار.`
+          : `You need at least $${MIN_INVESTMENT} to start investing.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsInvesting(true);
+    try {
+      await apiRequest("POST", "/api/invest", { amount: MIN_INVESTMENT });
+      toast({
+        title: isArabic ? "تم بنجاح" : "Success",
+        description: isArabic 
+          ? "تم بدء الاستثمار بنجاح، سيتم إضافة الأرباح خلال 24 ساعة."
+          : "Investment started successfully. Profits will be added in 24 hours.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+    } catch (error: any) {
+      toast({
+        title: isArabic ? "خطأ" : "Error",
+        description: error.message || (isArabic ? "حدث خطأ أثناء بدء الاستثمار" : "An error occurred while starting investment"),
+        variant: "destructive",
+      });
+    } finally {
+      setIsInvesting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f23] pb-24">
@@ -50,7 +97,7 @@ export default function InvestmentSystem() {
               <div className="grid grid-cols-2 gap-4 pt-4">
                 <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
                   <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'الحد الأدنى' : 'Min Deposit'}</p>
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">$10.00</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">$100.00</p>
                 </div>
                 <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
                   <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'المدة' : 'Duration'}</p>
@@ -59,11 +106,18 @@ export default function InvestmentSystem() {
               </div>
 
               <Button 
-                onClick={() => setLocation("/deposit")}
+                onClick={handleInvest}
+                disabled={isInvesting}
                 className="w-full h-14 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-lg font-bold rounded-2xl shadow-lg shadow-red-500/30 transition-all active:scale-95"
               >
-                {isArabic ? 'ابدأ الاستثمار الآن' : 'Start Investing Now'}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                {isInvesting ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <>
+                    {isArabic ? 'ابدأ الاستثمار الآن' : 'Start Investing Now'}
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </>
+                )}
               </Button>
             </div>
           </CardContent>
@@ -76,8 +130,8 @@ export default function InvestmentSystem() {
               <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-3">
                 <Wallet className="h-5 w-5 text-blue-600" />
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'رصيد الاستثمار' : 'Invest Balance'}</p>
-              <p className="text-sm font-bold">$0.00</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'رصيد المحفظة' : 'Wallet Balance'}</p>
+              <p className="text-sm font-bold">${user?.walletBalance || "0.00"}</p>
             </CardContent>
           </Card>
           <Card className="border-0 shadow-md rounded-2xl bg-white dark:bg-gray-800/50">

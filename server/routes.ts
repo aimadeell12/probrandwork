@@ -4472,6 +4472,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Investment routes
+  app.post("/api/invest", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const { amount } = req.body;
+
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      if (!amount || amount < 100) {
+        return res.status(400).json({ message: "Minimum investment is $100" });
+      }
+
+      const currentBalance = await storage.getWalletBalance(userId);
+      if (currentBalance < amount) {
+        return res.status(400).json({ message: "Insufficient balance" });
+      }
+
+      // Deduct from wallet balance
+      await storage.updateWalletBalance(userId, currentBalance - amount);
+
+      // Create a system notification
+      await storage.createNotification({
+        userId,
+        type: "system",
+        title: "Investment Started",
+        message: `Your investment of $${amount} has been started successfully. You will receive 10% daily profit.`,
+        priority: "normal",
+        isRead: false
+      });
+
+      res.json({ success: true, message: "Investment started" });
+    } catch (error) {
+      console.error("Error in investment:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
