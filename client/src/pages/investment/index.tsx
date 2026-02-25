@@ -1,4 +1,4 @@
-import { TrendingUp, Clock, ArrowRight, Wallet, History, Info, Loader2 } from "lucide-react";
+import { TrendingUp, Clock, ArrowRight, Wallet, History, Info, Loader2, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,6 +7,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useQuery } from "@tanstack/react-query";
+import { Investment } from "@shared/schema";
 
 export default function InvestmentSystem() {
   const { t, language } = useLanguage();
@@ -18,9 +20,27 @@ export default function InvestmentSystem() {
   const isArabic = language === 'ar';
   const MIN_INVESTMENT = 100;
 
+  const { data: investments, isLoading: loadingInvestments } = useQuery<Investment[]>({
+    queryKey: ["/api/investments"],
+    enabled: !!user
+  });
+
+  const activeInvestment = investments?.find(inv => inv.status === 'active');
+
   const handleInvest = async () => {
     if (!user) {
       setLocation("/login");
+      return;
+    }
+
+    if (activeInvestment) {
+      toast({
+        title: isArabic ? "لديك استثمار نشط بالفعل" : "Already have an active investment",
+        description: isArabic 
+          ? "يجب انتظار انتهاء الاستثمار الحالي أو إضافة رصيد جديد."
+          : "You must wait for the current investment or add new balance.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -46,6 +66,7 @@ export default function InvestmentSystem() {
           : "Investment started successfully. Profits will be added in 24 hours.",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/investments"] });
     } catch (error: any) {
       toast({
         title: isArabic ? "خطأ" : "Error",
@@ -76,6 +97,22 @@ export default function InvestmentSystem() {
       </div>
 
       <div className="container mx-auto px-4 mt-6 max-w-md space-y-6">
+        {activeInvestment && (
+          <Card className="border-0 shadow-lg bg-green-500 text-white rounded-2xl overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-4">
+              <CheckCircle2 className="h-10 w-10 shrink-0" />
+              <div>
+                <h3 className="font-bold text-lg">
+                  {isArabic ? 'لديك استثمار نشط' : 'You have an active investment'}
+                </h3>
+                <p className="text-white/90 text-sm">
+                  {isArabic ? `المبلغ المستثمر: $${activeInvestment.amount}` : `Invested amount: $${activeInvestment.amount}`}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Main Investment Card */}
         <Card className="border-0 shadow-xl rounded-[2rem] overflow-hidden bg-white dark:bg-gray-800/50 backdrop-blur-sm">
           <CardContent className="p-8">
@@ -107,14 +144,17 @@ export default function InvestmentSystem() {
 
               <Button 
                 onClick={handleInvest}
-                disabled={isInvesting}
+                disabled={isInvesting || !!activeInvestment}
                 className="w-full h-14 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-lg font-bold rounded-2xl shadow-lg shadow-red-500/30 transition-all active:scale-95"
               >
                 {isInvesting ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
                   <>
-                    {isArabic ? 'ابدأ الاستثمار الآن' : 'Start Investing Now'}
+                    {activeInvestment 
+                      ? (isArabic ? 'استثمارك قيد العمل' : 'Investment Working')
+                      : (isArabic ? 'ابدأ الاستثمار الآن' : 'Start Investing Now')
+                    }
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </>
                 )}

@@ -4482,24 +4482,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      if (!amount || amount < 100) {
+      const numericAmount = parseFloat(amount);
+      if (isNaN(numericAmount) || numericAmount < 100) {
         return res.status(400).json({ message: "Minimum investment is $100" });
       }
 
       const currentBalance = await storage.getWalletBalance(userId);
-      if (currentBalance < amount) {
+      if (currentBalance < numericAmount) {
         return res.status(400).json({ message: "Insufficient balance" });
       }
 
       // Deduct from wallet balance
-      await storage.updateWalletBalance(userId, currentBalance - amount);
+      await storage.updateWalletBalance(userId, currentBalance - numericAmount);
+
+      // Create investment record
+      await storage.createInvestment({
+        userId,
+        amount: numericAmount.toString(),
+        dailyProfitRate: "10.00",
+        status: "active"
+      });
 
       // Create a system notification
       await storage.createNotification({
         userId,
         type: "system",
         title: "Investment Started",
-        message: `Your investment of $${amount} has been started successfully. You will receive 10% daily profit.`,
+        message: `Your investment of $${numericAmount} has been started successfully. You will receive 10% daily profit.`,
         priority: "normal",
         isRead: false
       });
@@ -4510,6 +4519,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Internal server error" });
     }
   });
+
+  app.get("/api/investments", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) return res.status(401).json({ message: "Unauthorized" });
+      const userInvestments = await storage.getInvestmentsByUserId(userId);
+      res.json(userInvestments);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching investments" });
+    }
+  });
+
+  // Background task to process investment profits
+  setInterval(async () => {
+    try {
+      const activeInvestments = await storage.getActiveInvestments();
+      const now = new Date();
+
+      for (const investment of activeInvestments) {
+        const lastProfitAt = new Date(investment.lastProfitAt!);
+        const diffInMs = now.getTime() - lastProfitAt.getTime();
+        const diffInHours = diffInMs / (1000 * 60 * 60);
+
+        if (diffInHours >= 24) {
+          const amount = parseFloat(investment.amount);
+          const profitRate = parseFloat(investment.dailyProfitRate || "10.00") / 100;
+          const dailyProfit = amount * profitRate;
+
+          // Update user balance
+          const currentBalance = await storage.getWalletBalance(investment.userId);
+          await storage.updateWalletBalance(investment.userId, currentBalance + dailyProfit);
+
+          // Update investment last profit time
+          await storage.updateInvestmentLastProfit(investment.id);
+
+          // Create notification
+          await storage.createNotification({
+            userId: investment.userId,
+            type: "transaction",
+            title: "Investment Profit Added",
+            message: `You have received $${dailyProfit.toFixed(2)} as 10% daily profit from your investment of $${amount}.`,
+            priority: "normal",
+            isRead: false
+          });
+
+          console.log(`💰 Added $${dailyProfit} profit to user ${investment.userId}`);
+        }
+      }
+    } catch (error) {
+      console.error("Error processing investment profits:", error);
+    }
+  }, 10 * 60 * 1000); // Check every 10 minutes
 
   const httpServer = createServer(app);
   return httpServer;

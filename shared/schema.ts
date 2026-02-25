@@ -165,7 +165,25 @@ export const kycDocuments = pgTable("kyc_documents", {
   uploadedAt: timestamp("uploaded_at").defaultNow(),
 });
 
-// Relations
+// Investments table
+export const investments = pgTable("investments", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  dailyProfitRate: decimal("daily_profit_rate", { precision: 5, scale: 2 }).default("10.00"),
+  status: varchar("status").notNull().default("active"), // active, completed
+  lastProfitAt: timestamp("last_profit_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const investmentsRelations = relations(investments, ({ one }) => ({
+  user: one(users, {
+    fields: [investments.userId],
+    references: [users.id],
+  }),
+}));
+
+// Add to usersRelations
 export const usersRelations = relations(users, ({ many }) => ({
   cards: many(cards),
   supportTickets: many(supportTickets),
@@ -177,7 +195,17 @@ export const usersRelations = relations(users, ({ many }) => ({
   discussionReplies: many(discussionReplies),
   eventAttendees: many(eventAttendees),
   currencyConversions: many(currencyConversions),
+  investments: many(investments),
 }));
+
+export const insertInvestmentSchema = createInsertSchema(investments).omit({
+  id: true,
+  createdAt: true,
+  lastProfitAt: true,
+});
+
+export type InsertInvestment = z.infer<typeof insertInvestmentSchema>;
+export type Investment = typeof investments.$inferSelect;
 
 export const cardsRelations = relations(cards, ({ one, many }) => ({
   user: one(users, {

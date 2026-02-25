@@ -10,6 +10,7 @@ import {
   paymentLinks,
   paymentTransactions,
   pendingBalances,
+  investments,
   type User,
   type UpsertUser,
   type Card,
@@ -30,6 +31,8 @@ import {
   type InsertPaymentLink,
   type PaymentTransaction,
   type InsertPaymentTransaction,
+  type Investment,
+  type InsertInvestment,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, count, sql } from "drizzle-orm";
@@ -111,6 +114,11 @@ export interface IStorage {
   updatePaymentTransaction(id: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction>;
   updatePaymentTransactionToSuccessful(id: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction | null>;
 
+  // Investment operations
+  createInvestment(investment: InsertInvestment): Promise<Investment>;
+  getInvestmentsByUserId(userId: string): Promise<Investment[]>;
+  getActiveInvestments(): Promise<Investment[]>;
+  updateInvestmentLastProfit(id: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -713,6 +721,23 @@ export class DatabaseStorage implements IStorage {
       ))
       .returning();
     return transaction || null;
+  }
+
+  async createInvestment(investment: InsertInvestment): Promise<Investment> {
+    const [newInvestment] = await db.insert(investments).values(investment).returning();
+    return newInvestment;
+  }
+
+  async getInvestmentsByUserId(userId: string): Promise<Investment[]> {
+    return await db.select().from(investments).where(eq(investments.userId, userId));
+  }
+
+  async getActiveInvestments(): Promise<Investment[]> {
+    return await db.select().from(investments).where(eq(investments.status, 'active'));
+  }
+
+  async updateInvestmentLastProfit(id: string): Promise<void> {
+    await db.update(investments).set({ lastProfitAt: new Date() }).where(eq(investments.id, id));
   }
 }
 
