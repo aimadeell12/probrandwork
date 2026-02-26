@@ -20,10 +20,16 @@ export default function InvestmentSystem() {
   const isArabic = language === 'ar';
   const MIN_INVESTMENT = 100;
 
-  const { data: investments, isLoading: loadingInvestments } = useQuery<Investment[]>({
+  const { data: investments, isLoading: loadingInvestments, error } = useQuery<Investment[]>({
     queryKey: ["/api/investments"],
-    enabled: !!user
+    enabled: !!user,
+    retry: 3,
+    refetchOnWindowFocus: true
   });
+
+  if (error) {
+    console.error("Failed to fetch investments:", error);
+  }
 
   const activeInvestment = investments?.find(inv => inv.status === 'active');
 

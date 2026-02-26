@@ -4523,11 +4523,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/investments", requireAuth, async (req: any, res) => {
     try {
       const userId = req.session?.userId;
-      if (!userId) return res.status(401).json({ message: "Unauthorized" });
+      console.log(`🔍 [GET /api/investments] Fetching investments for user: ${userId}`);
+      
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
       const userInvestments = await storage.getInvestmentsByUserId(userId);
+      console.log(`✅ [GET /api/investments] Found ${userInvestments.length} investments`);
       res.json(userInvestments);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching investments" });
+    } catch (error: any) {
+      console.error(`❌ [GET /api/investments] Error:`, error);
+      res.status(500).json({ 
+        message: "Error fetching investments",
+        details: error.message 
+      });
     }
   });
 
