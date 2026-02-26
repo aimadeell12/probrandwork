@@ -103,114 +103,163 @@ export default function InvestmentSystem() {
       </div>
 
       <div className="container mx-auto px-4 mt-6 max-w-md space-y-6">
-        {activeInvestment && (
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-2xl overflow-hidden">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <CheckCircle2 className="h-10 w-10 shrink-0" />
-                <div>
-                  <h3 className="font-bold text-lg leading-tight">
-                    {isArabic ? 'لديك استثمار نشط حالياً' : 'You have an active investment'}
-                  </h3>
-                  <p className="text-white/80 text-sm">
-                    {isArabic ? 'خطة الربح اليومي 10%' : '10% Daily Profit Plan'}
-                  </p>
+        {activeInvestment ? (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <Card className="border-0 shadow-2xl bg-gradient-to-br from-green-500 to-emerald-700 text-white rounded-[2.5rem] overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+              <CardContent className="p-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                      <CheckCircle2 className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-xl leading-tight">
+                        {isArabic ? 'الخطة النشطة' : 'Active Plan'}
+                      </h3>
+                      <p className="text-white/70 text-sm">
+                        {isArabic ? 'ربح 10% يومياً' : '10% Daily Profit'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-widest animate-pulse">
+                    {isArabic ? 'يعمل الآن' : 'Running'}
+                  </div>
                 </div>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 space-y-3">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/70">{isArabic ? 'المبلغ المستثمر:' : 'Invested amount:'}</span>
-                  <span className="font-bold">${activeInvestment.amount}</span>
+                
+                <div className="text-center py-6 border-y border-white/10 my-6">
+                  <p className="text-white/60 text-sm mb-2">{isArabic ? 'المبلغ المستثمر' : 'Invested Amount'}</p>
+                  <div className="text-5xl font-black tracking-tighter">
+                    ${parseFloat(activeInvestment.amount).toLocaleString()}
+                  </div>
                 </div>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/70">{isArabic ? 'تاريخ البدء:' : 'Start Date:'}</span>
-                  <span className="font-medium">
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/10 rounded-2xl p-4">
+                    <p className="text-white/60 text-[10px] uppercase font-bold tracking-wider mb-1">
+                      {isArabic ? 'الربح المتوقع' : 'Expected Profit'}
+                    </p>
+                    <p className="text-xl font-bold">
+                      +${(parseFloat(activeInvestment.amount) * 0.1).toFixed(2)}
+                    </p>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-4">
+                    <p className="text-white/60 text-[10px] uppercase font-bold tracking-wider mb-1">
+                      {isArabic ? 'الدورة القادمة' : 'Next Cycle'}
+                    </p>
+                    <p className="text-xl font-bold flex items-center gap-2">
+                      <Clock className="w-4 h-4" />
+                      24h
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Stats Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              <Card className="border-0 shadow-md rounded-2xl bg-white dark:bg-gray-800/50">
+                <CardContent className="p-4 flex flex-col items-center text-center">
+                  <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-3">
+                    <Wallet className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'رصيد المحفظة' : 'Wallet Balance'}</p>
+                  <p className="text-sm font-bold">${user?.walletBalance || "0.00"}</p>
+                </CardContent>
+              </Card>
+              <Card className="border-0 shadow-md rounded-2xl bg-white dark:bg-gray-800/50">
+                <CardContent className="p-4 flex flex-col items-center text-center">
+                  <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-3">
+                    <History className="h-5 w-5 text-green-600" />
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'تاريخ البدء' : 'Start Date'}</p>
+                  <p className="text-sm font-bold">
                     {new Date(activeInvestment.createdAt!).toLocaleDateString(isArabic ? 'ar-EG' : 'en-US')}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-white/70">{isArabic ? 'الخطة الحالية:' : 'Current Plan:'}</span>
-                  <span className="bg-white/20 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">
-                    {isArabic ? 'خطة 10% يومياً' : '10% DAILY PLAN'}
-                  </span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Main Investment Card */}
-        <Card className="border-0 shadow-xl rounded-[2rem] overflow-hidden bg-white dark:bg-gray-800/50 backdrop-blur-sm">
-          <CardContent className="p-8">
-            <div className="text-center space-y-4">
-              <div className="inline-flex items-center px-4 py-1.5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-sm font-bold border border-red-200 dark:border-red-800">
-                <Clock className="w-4 h-4 mr-2" />
-                {isArabic ? 'ربح يومي ثابت' : 'Fixed Daily Profit'}
-              </div>
-              
-              <div className="py-4">
-                <span className="text-6xl font-black bg-gradient-to-r from-red-600 to-pink-500 bg-clip-text text-transparent">
-                  10%
-                </span>
-                <p className="text-gray-500 dark:text-gray-400 font-medium mt-2">
-                  {isArabic ? 'من قيمة إيداعك كل 24 ساعة' : 'Of your deposit every 24 hours'}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 pt-4">
-                <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'الحد الأدنى' : 'Min Deposit'}</p>
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">$100.00</p>
-                </div>
-                <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'المدة' : 'Duration'}</p>
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">{isArabic ? 'مفتوحة' : 'Open'}</p>
-                </div>
-              </div>
-
-              <Button 
-                onClick={handleInvest}
-                disabled={isInvesting || !!activeInvestment}
-                className="w-full h-14 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-lg font-bold rounded-2xl shadow-lg shadow-red-500/30 transition-all active:scale-95"
-              >
-                {isInvesting ? (
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                ) : (
-                  <>
-                    {activeInvestment 
-                      ? (isArabic ? 'استثمارك قيد العمل' : 'Investment Working')
-                      : (isArabic ? 'ابدأ الاستثمار الآن' : 'Start Investing Now')
-                    }
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </>
-                )}
-              </Button>
+                  </p>
+                </CardContent>
+              </Card>
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Info Grid */}
-        <div className="grid grid-cols-2 gap-4">
-          <Card className="border-0 shadow-md rounded-2xl bg-white dark:bg-gray-800/50">
-            <CardContent className="p-4 flex flex-col items-center text-center">
-              <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-3">
-                <Wallet className="h-5 w-5 text-blue-600" />
-              </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'رصيد المحفظة' : 'Wallet Balance'}</p>
-              <p className="text-sm font-bold">${user?.walletBalance || "0.00"}</p>
-            </CardContent>
-          </Card>
-          <Card className="border-0 shadow-md rounded-2xl bg-white dark:bg-gray-800/50">
-            <CardContent className="p-4 flex flex-col items-center text-center">
-              <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-3">
-                <History className="h-5 w-5 text-green-600" />
-              </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'إجمالي الأرباح' : 'Total Profits'}</p>
-              <p className="text-sm font-bold">$0.00</p>
-            </CardContent>
-          </Card>
-        </div>
+            <Button 
+              variant="outline"
+              onClick={() => setLocation("/transactions")}
+              className="w-full h-12 border-2 border-green-500 text-green-600 hover:bg-green-50 rounded-2xl font-bold transition-all"
+            >
+              {isArabic ? 'عرض سجل الأرباح' : 'View Profit History'}
+            </Button>
+          </div>
+        ) : (
+          <>
+            {/* Original Investment Card for when NO active investment */}
+            <Card className="border-0 shadow-xl rounded-[2rem] overflow-hidden bg-white dark:bg-gray-800/50 backdrop-blur-sm">
+              <CardContent className="p-8">
+                <div className="text-center space-y-4">
+                  <div className="inline-flex items-center px-4 py-1.5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-sm font-bold border border-red-200 dark:border-red-800">
+                    <Clock className="w-4 h-4 mr-2" />
+                    {isArabic ? 'ربح يومي ثابت' : 'Fixed Daily Profit'}
+                  </div>
+                  
+                  <div className="py-4">
+                    <span className="text-6xl font-black bg-gradient-to-r from-red-600 to-pink-500 bg-clip-text text-transparent">
+                      10%
+                    </span>
+                    <p className="text-gray-500 dark:text-gray-400 font-medium mt-2">
+                      {isArabic ? 'من قيمة إيداعك كل 24 ساعة' : 'Of your deposit every 24 hours'}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 pt-4">
+                    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'الحد الأدنى' : 'Min Deposit'}</p>
+                      <p className="text-lg font-bold text-gray-900 dark:text-white">$100.00</p>
+                    </div>
+                    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-700">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'المدة' : 'Duration'}</p>
+                      <p className="text-lg font-bold text-gray-900 dark:text-white">{isArabic ? 'مفتوحة' : 'Open'}</p>
+                    </div>
+                  </div>
+
+                  <Button 
+                    onClick={handleInvest}
+                    disabled={isInvesting}
+                    className="w-full h-14 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-lg font-bold rounded-2xl shadow-lg shadow-red-500/30 transition-all active:scale-95"
+                  >
+                    {isInvesting ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <>
+                        {isArabic ? 'ابدأ الاستثمار الآن' : 'Start Investing Now'}
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Info Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              <Card className="border-0 shadow-md rounded-2xl bg-white dark:bg-gray-800/50">
+                <CardContent className="p-4 flex flex-col items-center text-center">
+                  <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-3">
+                    <Wallet className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'رصيد المحفظة' : 'Wallet Balance'}</p>
+                  <p className="text-sm font-bold">${user?.walletBalance || "0.00"}</p>
+                </CardContent>
+              </Card>
+              <Card className="border-0 shadow-md rounded-2xl bg-white dark:bg-gray-800/50">
+                <CardContent className="p-4 flex flex-col items-center text-center">
+                  <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-3">
+                    <History className="h-5 w-5 text-green-600" />
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{isArabic ? 'إجمالي الأرباح' : 'Total Profits'}</p>
+                  <p className="text-sm font-bold">$0.00</p>
+                </CardContent>
+              </Card>
+            </div>
+          </>
+        )}
 
         {/* How it works */}
         <div className="bg-white dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
