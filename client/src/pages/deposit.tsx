@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, CreditCard, Building, Clock } from "lucide-react";
 import { useLocation } from "wouter";
 import binanceIcon from "@assets/pngwing.com.png";
+import { SiBinance } from "react-icons/si";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export default function Deposit() {
@@ -88,6 +89,23 @@ export default function Deposit() {
                 <div>
                   <p className="font-medium text-white">{language === 'ar' ? 'بينانس باي' : 'Binance Pay'}</p>
                   <p className="text-sm text-gray-400">{language === 'ar' ? 'مدفوعات العملات الرقمية' : 'Crypto payments'}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* USDT BEP20 Option */}
+            <div 
+              className="p-4 rounded-xl border-2 cursor-pointer transition-all border-[#4a1515] bg-[#3a1010]/80 hover:border-red-400/50"
+              onClick={() => setLocation("/deposit/usdt")}
+              data-testid="button-deposit-usdt"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
+                  <SiBinance className="h-6 w-6 text-yellow-500" />
+                </div>
+                <div>
+                  <p className="font-medium text-white">{language === 'ar' ? 'USDT (BEP20)' : 'USDT (BEP20)'}</p>
+                  <p className="text-sm text-gray-400">{language === 'ar' ? 'إيداع عبر شبكة BSC' : 'Deposit via BSC Network'}</p>
                 </div>
               </div>
             </div>
