@@ -4558,8 +4558,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await storage.createNotification({
             userId: investment.userId,
             type: "transaction",
-            title: "Investment Profit Added",
-            message: `You have received $${dailyProfit.toFixed(2)} as 10% daily profit from your investment of $${amount}.`,
+            title: isArabic ? "تم إضافة أرباح الاستثمار" : "Investment Profit Added",
+            message: isArabic 
+              ? `لقد حصلت على $${dailyProfit.toFixed(2)} كأرباح يومية (10%) من خطة الاستثمار النشطة الخاصة بك.`
+              : `You have received $${dailyProfit.toFixed(2)} as 10% daily profit from your active investment plan.`,
             priority: "normal",
             isRead: false
           });

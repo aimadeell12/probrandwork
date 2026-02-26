@@ -98,16 +98,37 @@ export default function InvestmentSystem() {
 
       <div className="container mx-auto px-4 mt-6 max-w-md space-y-6">
         {activeInvestment && (
-          <Card className="border-0 shadow-lg bg-green-500 text-white rounded-2xl overflow-hidden">
-            <CardContent className="p-4 flex items-center gap-4">
-              <CheckCircle2 className="h-10 w-10 shrink-0" />
-              <div>
-                <h3 className="font-bold text-lg">
-                  {isArabic ? 'لديك استثمار نشط' : 'You have an active investment'}
-                </h3>
-                <p className="text-white/90 text-sm">
-                  {isArabic ? `المبلغ المستثمر: $${activeInvestment.amount}` : `Invested amount: $${activeInvestment.amount}`}
-                </p>
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-2xl overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-4 mb-4">
+                <CheckCircle2 className="h-10 w-10 shrink-0" />
+                <div>
+                  <h3 className="font-bold text-lg leading-tight">
+                    {isArabic ? 'لديك استثمار نشط حالياً' : 'You have an active investment'}
+                  </h3>
+                  <p className="text-white/80 text-sm">
+                    {isArabic ? 'خطة الربح اليومي 10%' : '10% Daily Profit Plan'}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 space-y-3">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-white/70">{isArabic ? 'المبلغ المستثمر:' : 'Invested amount:'}</span>
+                  <span className="font-bold">${activeInvestment.amount}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-white/70">{isArabic ? 'تاريخ البدء:' : 'Start Date:'}</span>
+                  <span className="font-medium">
+                    {new Date(activeInvestment.createdAt!).toLocaleDateString(isArabic ? 'ar-EG' : 'en-US')}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-white/70">{isArabic ? 'الخطة الحالية:' : 'Current Plan:'}</span>
+                  <span className="bg-white/20 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">
+                    {isArabic ? 'خطة 10% يومياً' : '10% DAILY PLAN'}
+                  </span>
+                </div>
               </div>
             </CardContent>
           </Card>
