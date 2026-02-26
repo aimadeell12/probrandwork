@@ -1726,7 +1726,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             status: ptxn.status,
             amount: ptxn.amount?.toString() || '0',
             currency: ptxn.currency || 'USD',
-            merchant: 'Flutterwave',
+            merchant: 'Deposit Card',
             description: `Deposit via ${ptxn.paymentMethod || 'card'}`,
             createdAt: ptxn.createdAt?.toISOString() || new Date().toISOString(),
           });
