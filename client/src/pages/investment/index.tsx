@@ -115,14 +115,15 @@ export default function InvestmentSystem() {
                     </div>
                     <div>
                       <h3 className="font-bold text-xl leading-tight">
-                        {isArabic ? 'الخطة النشطة' : 'Active Plan'}
+                        {isArabic ? 'الاستثمار قيد التنفيذ' : 'Investment in Progress'}
                       </h3>
                       <p className="text-white/70 text-sm">
-                        {isArabic ? 'ربح 10% يومياً' : '10% Daily Profit'}
+                        {isArabic ? 'يتم الاستثمار في أسهم الشركات الكبيرة' : 'Investing in blue-chip company stocks'}
                       </p>
                     </div>
                   </div>
-                  <div className="px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-widest animate-pulse">
+                  <div className="px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold uppercase tracking-widest animate-pulse flex items-center gap-1">
+                    <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                     {isArabic ? 'يعمل الآن' : 'Running'}
                   </div>
                 </div>
@@ -131,6 +132,10 @@ export default function InvestmentSystem() {
                   <p className="text-white/60 text-sm mb-2">{isArabic ? 'المبلغ المستثمر' : 'Invested Amount'}</p>
                   <div className="text-5xl font-black tracking-tighter">
                     ${parseFloat(activeInvestment.amount).toLocaleString()}
+                  </div>
+                  <div className="mt-4 flex items-center justify-center gap-2 text-xs text-white/80">
+                    <TrendingUp className="w-3 h-3" />
+                    <span>{isArabic ? 'يتم استثمار أموالك في أسهم موثوقة' : 'Your funds are invested in trusted stocks'}</span>
                   </div>
                 </div>
 
@@ -204,7 +209,7 @@ export default function InvestmentSystem() {
                       10%
                     </span>
                     <p className="text-gray-500 dark:text-gray-400 font-medium mt-2">
-                      {isArabic ? 'من قيمة إيداعك كل 24 ساعة' : 'Of your deposit every 24 hours'}
+                      {isArabic ? 'استثمار في أسهم الشركات الكبيرة والموثوقة' : 'Investment in blue-chip and trusted company stocks'}
                     </p>
                   </div>
 
@@ -265,17 +270,17 @@ export default function InvestmentSystem() {
         <div className="bg-white dark:bg-gray-800/50 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm">
           <div className="flex items-center gap-3 mb-4">
             <Info className="w-5 h-5 text-red-600" />
-            <h3 className="font-bold">{isArabic ? 'كيف يعمل النظام؟' : 'How it works?'}</h3>
+            <h3 className="font-bold">{isArabic ? 'عن نظام الاستثمار' : 'About the Investment System'}</h3>
           </div>
           <ul className="space-y-3">
             {[
-              isArabic ? 'قم بإيداع المبلغ الذي ترغب باستثماره' : 'Deposit the amount you want to invest',
-              isArabic ? 'يتم احتساب الربح تلقائياً كل 24 ساعة' : 'Profit is automatically calculated every 24 hours',
-              isArabic ? 'يمكنك سحب أرباحك في أي وقت' : 'You can withdraw your profits at any time'
+              isArabic ? 'يتم استثمار أموالك في أسهم الشركات العالمية الكبرى لضمان العوائد' : 'Your funds are invested in major global stocks to ensure returns',
+              isArabic ? 'نظام آمن وموثوق يضمن لك ربحاً يومياً بنسبة 10%' : 'A secure and trusted system that guarantees you a 10% daily profit',
+              isArabic ? 'يمكنك متابعة استثماراتك وسحب الأرباح بسهولة' : 'You can track your investments and withdraw profits easily'
             ].map((text, i) => (
               <li key={i} className="flex items-start gap-3 text-sm text-gray-600 dark:text-gray-400">
                 <div className="w-5 h-5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
-                  {i + 1}
+                  <CheckCircle2 className="w-3 h-3" />
                 </div>
                 {text}
               </li>
