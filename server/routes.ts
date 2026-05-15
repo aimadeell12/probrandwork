@@ -4482,9 +4482,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
+      const { planName, dailyProfitRate } = req.body;
       const numericAmount = parseFloat(amount);
-      if (isNaN(numericAmount) || numericAmount < 100) {
-        return res.status(400).json({ message: "Minimum investment is $100" });
+      const numericRate = parseFloat(dailyProfitRate) || 10;
+      const minAmount = numericRate >= 20 ? 1000 : numericRate >= 15 ? 500 : 100;
+
+      if (isNaN(numericAmount) || numericAmount < minAmount) {
+        return res.status(400).json({ message: `Minimum investment for this plan is $${minAmount}` });
       }
 
       const currentBalance = await storage.getWalletBalance(userId);
@@ -4499,7 +4503,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.createInvestment({
         userId,
         amount: numericAmount.toString(),
-        dailyProfitRate: "10.00",
+        dailyProfitRate: numericRate.toFixed(2),
+        planName: planName || "Standard",
         status: "active"
       });
 
@@ -4541,6 +4546,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Withdraw investment
+  app.post("/api/investments/:id/withdraw", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      const { id } = req.params;
+      if (!userId) return res.status(401).json({ message: "Unauthorized" });
+
+      const result = await storage.withdrawInvestment(id, userId);
+      if (!result) return res.status(400).json({ message: "Investment not found or already withdrawn" });
+
+      await storage.createNotification({
+        userId,
+        type: "transaction",
+        title: "Investment Withdrawn",
+        message: `Your investment of $${parseFloat(result.amount).toFixed(2)} plus profits has been returned to your wallet.`,
+        priority: "normal",
+        isRead: false
+      });
+
+      res.json({ success: true, investment: result });
+    } catch (error: any) {
+      console.error("Error withdrawing investment:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Get investment profit history
+  app.get("/api/investment-profits", requireAuth, async (req: any, res) => {
+    try {
+      const userId = req.session?.userId;
+      if (!userId) return res.status(401).json({ message: "Unauthorized" });
+      const profits = await storage.getInvestmentProfitsByUserId(userId);
+      res.json(profits);
+    } catch (error: any) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   // Background task to process investment profits
   setInterval(async () => {
     try {
@@ -4561,17 +4604,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const currentBalance = await storage.getWalletBalance(investment.userId);
           await storage.updateWalletBalance(investment.userId, currentBalance + dailyProfit);
 
-          // Update investment last profit time
-          await storage.updateInvestmentLastProfit(investment.id);
+          // Update investment last profit time & total profit
+          await storage.updateInvestmentLastProfit(investment.id, dailyProfit);
+
+          // Record profit entry
+          await storage.createInvestmentProfit({
+            investmentId: investment.id,
+            userId: investment.userId,
+            amount: dailyProfit.toFixed(2),
+          });
 
           // Create notification
           await storage.createNotification({
             userId: investment.userId,
             type: "transaction",
-            title: isArabic ? "تم إضافة أرباح الاستثمار" : "Investment Profit Added",
-            message: isArabic 
-              ? `لقد حصلت على $${dailyProfit.toFixed(2)} كأرباح يومية (10%) من خطة الاستثمار النشطة الخاصة بك.`
-              : `You have received $${dailyProfit.toFixed(2)} as 10% daily profit from your active investment plan.`,
+            title: "Investment Profit Added",
+            message: `You received $${dailyProfit.toFixed(2)} as 10% daily profit from your active investment.`,
             priority: "normal",
             isRead: false
           });

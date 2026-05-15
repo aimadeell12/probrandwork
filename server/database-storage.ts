@@ -10,6 +10,8 @@ import {
   paymentLinks,
   paymentTransactions,
   pendingBalances,
+  investments,
+  investmentProfits,
   type User,
   type UpsertUser,
   type Card,
@@ -30,6 +32,8 @@ import {
   type InsertPaymentLink,
   type PaymentTransaction,
   type InsertPaymentTransaction,
+  type Investment,
+  type InsertInvestment,
 } from "../shared/schema";
 import { db } from "./db";
 import { eq, desc, and, count, sql } from "drizzle-orm";
@@ -116,6 +120,15 @@ export interface IStorage {
   deleteNotification(id: string): Promise<void>;
   createNotificationSettings(settings: InsertNotificationSettings): Promise<NotificationSettings>;
   updateNotificationSettings(userId: string, settings: Partial<NotificationSettings>): Promise<NotificationSettings>;
+
+  // Investment operations
+  createInvestment(investment: InsertInvestment): Promise<Investment>;
+  getInvestmentsByUserId(userId: string): Promise<Investment[]>;
+  getActiveInvestments(): Promise<Investment[]>;
+  updateInvestmentLastProfit(id: string, profitAmount: number): Promise<void>;
+  withdrawInvestment(id: string, userId: string): Promise<Investment | null>;
+  createInvestmentProfit(data: { investmentId: string; userId: string; amount: string }): Promise<void>;
+  getInvestmentProfitsByUserId(userId: string): Promise<any[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -643,6 +656,65 @@ export class DatabaseStorage implements IStorage {
       .where(eq(notificationSettings.userId, userId))
       .returning();
     return updatedSettings;
+  }
+
+  // ─── Investment operations ───────────────────────────────────────────────────
+
+  async createInvestment(investment: InsertInvestment): Promise<Investment> {
+    const [newInvestment] = await db.insert(investments).values(investment).returning();
+    return newInvestment;
+  }
+
+  async getInvestmentsByUserId(userId: string): Promise<Investment[]> {
+    return await db.select().from(investments)
+      .where(eq(investments.userId, userId))
+      .orderBy(desc(investments.createdAt));
+  }
+
+  async getActiveInvestments(): Promise<Investment[]> {
+    return await db.select().from(investments).where(eq(investments.status, 'active'));
+  }
+
+  async updateInvestmentLastProfit(id: string, profitAmount: number): Promise<void> {
+    await db.update(investments)
+      .set({
+        lastProfitAt: new Date(),
+        totalProfit: sql`total_profit + ${profitAmount}`,
+      })
+      .where(eq(investments.id, id));
+  }
+
+  async withdrawInvestment(id: string, userId: string): Promise<Investment | null> {
+    const [inv] = await db.select().from(investments)
+      .where(and(eq(investments.id, id), eq(investments.userId, userId)));
+    if (!inv || inv.status !== 'active') return null;
+
+    const totalReturn = parseFloat(inv.amount) + parseFloat(inv.totalProfit || '0');
+    const [currentUser] = await db.select().from(users).where(eq(users.id, userId));
+    const currentBalance = parseFloat(currentUser?.walletBalance || '0');
+    await db.update(users)
+      .set({ walletBalance: (currentBalance + totalReturn).toFixed(2) })
+      .where(eq(users.id, userId));
+
+    const [updated] = await db.update(investments)
+      .set({ status: 'withdrawn' })
+      .where(eq(investments.id, id))
+      .returning();
+    return updated;
+  }
+
+  async createInvestmentProfit(data: { investmentId: string; userId: string; amount: string }): Promise<void> {
+    await db.insert(investmentProfits).values({
+      investmentId: data.investmentId,
+      userId: data.userId,
+      amount: data.amount,
+    });
+  }
+
+  async getInvestmentProfitsByUserId(userId: string): Promise<any[]> {
+    return await db.select().from(investmentProfits)
+      .where(eq(investmentProfits.userId, userId))
+      .orderBy(desc(investmentProfits.createdAt));
   }
 }
 

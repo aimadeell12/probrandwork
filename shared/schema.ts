@@ -171,8 +171,18 @@ export const investments = pgTable("investments", {
   userId: varchar("user_id").notNull().references(() => users.id),
   amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
   dailyProfitRate: decimal("daily_profit_rate", { precision: 5, scale: 2 }).default("10.00"),
-  status: varchar("status").notNull().default("active"), // active, completed
+  status: varchar("status").notNull().default("active"), // active, completed, withdrawn
+  totalProfit: decimal("total_profit", { precision: 12, scale: 2 }).default("0.00"),
+  planName: varchar("plan_name").default("Standard"),
   lastProfitAt: timestamp("last_profit_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const investmentProfits = pgTable("investment_profits", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  investmentId: uuid("investment_id").notNull().references(() => investments.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -202,10 +212,18 @@ export const insertInvestmentSchema = createInsertSchema(investments).omit({
   id: true,
   createdAt: true,
   lastProfitAt: true,
+  totalProfit: true,
 });
 
 export type InsertInvestment = z.infer<typeof insertInvestmentSchema>;
 export type Investment = typeof investments.$inferSelect;
+
+export const insertInvestmentProfitSchema = createInsertSchema(investmentProfits).omit({
+  id: true,
+  createdAt: true,
+});
+export type InsertInvestmentProfit = z.infer<typeof insertInvestmentProfitSchema>;
+export type InvestmentProfit = typeof investmentProfits.$inferSelect;
 
 export const cardsRelations = relations(cards, ({ one, many }) => ({
   user: one(users, {

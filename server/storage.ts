@@ -11,6 +11,7 @@ import {
   paymentTransactions,
   pendingBalances,
   investments,
+  investmentProfits,
   type User,
   type UpsertUser,
   type Card,
@@ -118,7 +119,10 @@ export interface IStorage {
   createInvestment(investment: InsertInvestment): Promise<Investment>;
   getInvestmentsByUserId(userId: string): Promise<Investment[]>;
   getActiveInvestments(): Promise<Investment[]>;
-  updateInvestmentLastProfit(id: string): Promise<void>;
+  updateInvestmentLastProfit(id: string, profitAmount: number): Promise<void>;
+  withdrawInvestment(id: string, userId: string): Promise<Investment | null>;
+  createInvestmentProfit(data: { investmentId: string; userId: string; amount: string }): Promise<void>;
+  getInvestmentProfitsByUserId(userId: string): Promise<any[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -729,16 +733,52 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getInvestmentsByUserId(userId: string): Promise<Investment[]> {
-    return await db.select().from(investments).where(eq(investments.userId, userId));
+    return await db.select().from(investments).where(eq(investments.userId, userId)).orderBy(desc(investments.createdAt));
   }
 
   async getActiveInvestments(): Promise<Investment[]> {
     return await db.select().from(investments).where(eq(investments.status, 'active'));
   }
 
-  async updateInvestmentLastProfit(id: string): Promise<void> {
-    await db.update(investments).set({ lastProfitAt: new Date() }).where(eq(investments.id, id));
+  async updateInvestmentLastProfit(id: string, profitAmount: number): Promise<void> {
+    await db.update(investments)
+      .set({ 
+        lastProfitAt: new Date(),
+        totalProfit: sql`total_profit + ${profitAmount}`
+      })
+      .where(eq(investments.id, id));
+  }
+
+  async withdrawInvestment(id: string, userId: string): Promise<Investment | null> {
+    const [inv] = await db.select().from(investments)
+      .where(and(eq(investments.id, id), eq(investments.userId, userId)));
+    if (!inv || inv.status !== 'active') return null;
+
+    const totalReturn = parseFloat(inv.amount) + parseFloat(inv.totalProfit || '0');
+    const currentBalance = await this.getWalletBalance(userId);
+    await this.updateWalletBalance(userId, currentBalance + totalReturn);
+
+    const [updated] = await db.update(investments)
+      .set({ status: 'withdrawn' })
+      .where(eq(investments.id, id))
+      .returning();
+    return updated;
+  }
+
+  async createInvestmentProfit(data: { investmentId: string; userId: string; amount: string }): Promise<void> {
+    await db.insert(investmentProfits).values({
+      investmentId: data.investmentId,
+      userId: data.userId,
+      amount: data.amount,
+    });
+  }
+
+  async getInvestmentProfitsByUserId(userId: string): Promise<any[]> {
+    return await db.select().from(investmentProfits)
+      .where(eq(investmentProfits.userId, userId))
+      .orderBy(desc(investmentProfits.createdAt));
   }
 }
+
 
 export const storage = new DatabaseStorage();
