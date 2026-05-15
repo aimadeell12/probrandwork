@@ -76,8 +76,6 @@ export default function Welcome() {
                     <div className="text-white font-bold text-[10px] sm:text-xs">12/28</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-white font-bold text-[10px] sm:text-xs">AIMAD</div>
-                    <div className="text-red-200 text-[8px] sm:text-[9px]">Account Holder</div>
                   </div>
                 </div>
               </div>
