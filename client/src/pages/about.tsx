@@ -134,7 +134,7 @@ export default function About() {
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white text-sm">Contact</h4>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                Email: sohaybmercury@gmail.com<br />
+                Email: support@appsfondations.com<br />
                 Phone: +19134278758<br />
                 Address: 920 N Tyler Rd Ste 304, Wichita, KS 67212, US
               </p>

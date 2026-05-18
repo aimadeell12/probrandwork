@@ -218,7 +218,7 @@ export default function PrivacyPolicy() {
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Email:</strong>
-                <p className="text-gray-700 dark:text-gray-300 ml-2">sohaybmercury@gmail.com</p>
+                <p className="text-gray-700 dark:text-gray-300 ml-2">support@appsfondations.com</p>
               </div>
               <div className="flex flex-col gap-1">
                 <strong className="text-gray-900 dark:text-white">Phone:</strong>
