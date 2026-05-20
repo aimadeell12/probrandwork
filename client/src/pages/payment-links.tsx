@@ -21,7 +21,7 @@ const paymentLinkFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().optional(),
   amount: z.string().min(1, "Amount is required"),
-  currency: z.string().default("NGN"),
+  currency: z.string().default("EUR"),
   paymentOptions: z.string().default("card"),
   customerEmail: z.string().min(1, "Customer email is required").email("Invalid email address"),
   customerName: z.string().optional(),
@@ -91,7 +91,7 @@ export default function PaymentLinksPage() {
       title: "",
       description: "",
       amount: "",
-      currency: "NGN",
+      currency: "EUR",
       paymentOptions: "card",
       customerEmail: "",
       customerName: "",
@@ -232,13 +232,8 @@ export default function PaymentLinksPage() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="NGN">NGN (Nigerian Naira)</SelectItem>
-                              <SelectItem value="USD">USD (US Dollar)</SelectItem>
-                              <SelectItem value="GBP">GBP (British Pound)</SelectItem>
                               <SelectItem value="EUR">EUR (Euro)</SelectItem>
-                              <SelectItem value="KES">KES (Kenyan Shilling)</SelectItem>
-                              <SelectItem value="GHS">GHS (Ghana Cedi)</SelectItem>
-                              <SelectItem value="ZAR">ZAR (South African Rand)</SelectItem>
+                              <SelectItem value="GBP">GBP (British Pound)</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
